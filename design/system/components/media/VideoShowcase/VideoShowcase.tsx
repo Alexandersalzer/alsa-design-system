@@ -3,7 +3,7 @@
 // VIDEO SHOWCASE PRIMITIVE COMPONENT
 // ===============================================
 
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useRef, useState, useId, useEffect, useCallback } from 'react';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import { Video } from '../Video/Video';
@@ -11,17 +11,26 @@ import { FadeIn } from '../../animations/FadeIn/FadeIn';
 import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
 import { Scale } from '../../animations/Scale/Scale';
-import { AnimationConfig } from '../../../core/animations/types';
+import { AnimationConfig } from '../../animations/types';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { getVideoThumbnailUrl } from '../../../core/utils/media';
 import './VideoShowcase.css';
 import './PlayButton.css';
 import './DeviceFrames.css';
 
+// Custom event for pausing other videos when one starts playing
+const VIDEO_PLAY_EVENT = 'videoShowcase:play';
+
+interface VideoPlayEventDetail {
+  instanceId: string;
+}
+
 export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
   variant?: 'default' | 'rounded' | 'elevated';
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  aspectRatio?: '16-9' | '4-3' | '1-1' | '2-3' | 'auto';
+  aspectRatio?: '16-9' | '9-16' | '4-3' | '4-5' | '1-1' | '2-3' | 'auto';
+  /** Object fit behavior - 'cover' crops to fill, 'contain' fits within bounds */
+  objectFit?: 'contain' | 'cover' | 'fill' | 'none';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showPlayButton?: boolean;
   componentKey?: string;
@@ -42,6 +51,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   variant = 'elevated',
   size = 'lg',
   aspectRatio = '16-9',
+  objectFit = 'contain',
   radius = 'lg',
   autoPlay = false,
   muted: initialMuted = true,
@@ -65,6 +75,46 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const volumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const instanceId = useId();
+
+  // Listen for other videos starting to play and pause this one
+  const handleOtherVideoPlay = useCallback((event: Event) => {
+    const customEvent = event as CustomEvent<VideoPlayEventDetail>;
+    if (customEvent.detail.instanceId !== instanceId && videoRef.current && !videoRef.current.paused) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [instanceId]);
+
+  useEffect(() => {
+    window.addEventListener(VIDEO_PLAY_EVENT, handleOtherVideoPlay);
+    return () => {
+      window.removeEventListener(VIDEO_PLAY_EVENT, handleOtherVideoPlay);
+    };
+  }, [handleOtherVideoPlay]);
+
+  // Pause video when it scrolls out of view
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && videoRef.current && !videoRef.current.paused) {
+            videoRef.current.pause();
+            setIsPlaying(false);
+          }
+        });
+      },
+      { threshold: 0.2 } // Pause when less than 20% visible
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const videoClasses = cn(
     'video-showcase',
@@ -89,18 +139,51 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   }
 
   // Find the video element inside the container and control it
-  React.useEffect(() => {
+  // Also listen to native play/pause events to keep state in sync
+  useEffect(() => {
     if (containerRef.current) {
       const videoElement = containerRef.current.querySelector('video');
       if (videoElement) {
         videoRef.current = videoElement;
+        
+        // Handle native play event (from browser controls)
+        const handleNativePlay = () => {
+          // Dispatch event to pause all other videos
+          window.dispatchEvent(new CustomEvent<VideoPlayEventDetail>(VIDEO_PLAY_EVENT, {
+            detail: { instanceId }
+          }));
+          setIsPlaying(true);
+          // Unmute when starting to play
+          if (videoElement.muted) {
+            videoElement.muted = false;
+            setIsMuted(false);
+          }
+        };
+        
+        // Handle native pause event (from browser controls)
+        const handleNativePause = () => {
+          setIsPlaying(false);
+        };
+        
+        videoElement.addEventListener('play', handleNativePlay);
+        videoElement.addEventListener('pause', handleNativePause);
+        
+        return () => {
+          videoElement.removeEventListener('play', handleNativePlay);
+          videoElement.removeEventListener('pause', handleNativePause);
+        };
       }
     }
-  }, []);
+  }, [instanceId]);
 
   const handlePlayClick = () => {
     if (videoRef.current) {
       if (videoRef.current.paused) {
+        // Dispatch event to pause all other videos
+        window.dispatchEvent(new CustomEvent<VideoPlayEventDetail>(VIDEO_PLAY_EVENT, {
+          detail: { instanceId }
+        }));
+        
         videoRef.current.play();
         setIsPlaying(true);
         // Unmute when starting to play
@@ -156,29 +239,44 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       ref={containerRef}
       className={cn(
         "video-container",
+        "video-container--clickable",
         `video-container--radius-${radius}`
       )}
-      onClick={handlePlayClick}
     >
       <Video
         src={videoUrl}
         poster={derivedPosterUrl}
         width="100%"
         maxHeight={maxHeight}
-        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
+        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
+        objectFit={objectFit}
         radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
         loading="eager"
         priority={true}
         autoPlay={autoPlay}
         muted={isMuted}
         loop={loop}
-        controls={isPlaying && controls}
+        controls={false}
         playsInline={playsInline}
         preload="metadata"
         className={videoClasses}
       />
+      {/* Clickable overlay for play/pause - covers entire video */}
+      <div 
+        className="video-container__click-overlay"
+        onClick={handlePlayClick}
+        aria-label={isPlaying ? "Pause video" : "Play video"}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handlePlayClick();
+          }
+        }}
+      />
       {showPlayButton && !isPlaying && (
-        <button className="play-button" aria-label="Play video">
+        <button className="play-button" aria-label="Play video" onClick={handlePlayClick}>
           <span className="play-button-icon" />
         </button>
       )}

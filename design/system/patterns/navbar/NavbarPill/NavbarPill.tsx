@@ -11,7 +11,7 @@ import { CDN_BASE_URL } from '../../../core/utils/env';
 import { alignMap } from '../utils';
 import './NavbarPill.css';
 import { PatternNode } from '../../../core/types/nodes';
-import { AnimationConfig } from '../../../core/animations/types';
+import { AnimationConfig } from '../../../components/animations/types';
 import { cn } from '../../../utils/cn';
 
 interface NavbarPillProps extends PatternNode {

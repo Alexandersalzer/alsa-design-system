@@ -12,7 +12,7 @@ import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 import { useAction } from '../../../core/actions/useAction';
 import { ActionConfig } from '../../../core/actions/types';
-import { AnimationConfig } from '../../../core/animations/types';
+import { AnimationConfig } from '../../../components/animations/types';
 
 interface SpinningBannerProps extends PatternNode {
   sectionKey?: string;

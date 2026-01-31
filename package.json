@@ -1,6 +1,10 @@
 {
   "name": "@blimpify-im/ui",
+<<<<<<< HEAD
   "version": "3.4.44",
+=======
+  "version": "3.2.808",
+>>>>>>> alex
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -10,11 +14,6 @@
       "import": "./dist/index.js",
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    },
-    "./config": {
-      "import": "./dist/design/system/core/config/index.js",
-      "require": "./dist/design/system/core/config/index.js",
-      "types": "./dist/design/system/core/config/index.d.ts"
     },
     "./apps": {
       "import": "./dist/design/system/core/ApplicationComponent/index.js",
@@ -26,10 +25,15 @@
       "require": "./dist/design/system/core/applications/index.js",
       "types": "./dist/design/system/core/applications/index.d.ts"
     },
+    "./utils": {
+      "import": "./dist/design/system/core/utils/index.js",
+      "require": "./dist/design/system/core/utils/index.js",
+      "types": "./dist/design/system/core/utils/index.d.ts"
+    },
     "./content": {
-      "import": "./dist/design/system/core/content/index.js",
-      "require": "./dist/design/system/core/content/index.js",
-      "types": "./dist/design/system/core/content/index.d.ts"
+      "import": "./dist/design/system/core/utils/index.js",
+      "require": "./dist/design/system/core/utils/index.js",
+      "types": "./dist/design/system/core/utils/index.d.ts"
     },
     "./shells": {
       "import": "./dist/design/system/shells/index.js",

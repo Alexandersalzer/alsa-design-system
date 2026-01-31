@@ -6,7 +6,7 @@
 import React, { ReactNode, ElementType, forwardRef } from 'react';
 import { cn } from '../../utils/cn';
 import { Component } from '../frames/component/Component';
-import { AnimationConfig } from '../../core/animations';
+import { AnimationConfig } from '../animations/types';
 import { CountUp } from '../animations/CountUp/CountUp';
 import { FadeIn } from '../animations/FadeIn/FadeIn';
 

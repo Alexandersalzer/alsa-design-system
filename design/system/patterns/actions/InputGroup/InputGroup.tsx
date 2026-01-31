@@ -18,7 +18,7 @@ import { useAction } from '../../../core/actions/useAction';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
-import { AnimationConfig } from '../../../core/animations/types';
+import { AnimationConfig } from '../../../components/animations/types';
 
 export interface InputGroupProps extends PatternNode {
   type: 'InputGroup';

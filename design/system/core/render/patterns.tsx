@@ -5,7 +5,7 @@ import { PatternNode } from '../types/nodes';
 import { renderLayoutWithTemplate } from './layouts';
 import { animationComponents } from '../../components/animations/registry';
 
-import { AnimationConfig } from '../animations/types';
+import { AnimationConfig } from '../../components/animations/types';
 import React from 'react';
 
 /**
@@ -126,17 +126,35 @@ export const renderPattern = (
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop (on pattern level, not in props)
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
+    
+    // Determine animation config: pattern.animation OR pattern.props.animation, then section-level
+    const patternAnimation = pattern.animation || patternProps.animation;
+    const animationConfig = patternAnimation || layoutContext?.sectionAnimation;
+    
+    // Animations that should wrap each item individually (with stagger support)
+    const perItemAnimations = ['fadeIn', 'opacity', 'scale', 'slideIn'];
+    
+    // Animations that should wrap the entire layout content
+    const layoutWrapAnimations = ['carousel'];
+    
+    const animationType = animationConfig?.type;
+    const isPerItemAnimation = animationType && perItemAnimations.includes(animationType);
+    const isLayoutWrapAnimation = animationType && layoutWrapAnimations.includes(animationType);
+    
     const layoutContent = renderLayoutWithTemplate(
       layoutConfig, 
       pattern.components, 
       sectionKey, 
       patternKey,
-      patternProps // Pass pattern props for align, etc
+      patternProps, // Pass pattern props for align, etc
+      isPerItemAnimation ? animationConfig : undefined // Pass per-item animations to layout renderer
     );
 
-    // Wrap with animation if pattern has animation config
+    // Wrap with animation if pattern has layout-wrap animation config (carousel, etc)
     // Pass layout config so animation can extract children and apply proper spacing
-    const animatedContent = wrapWithAnimation(layoutContent, pattern.animation, layoutConfig);
+    const animatedContent = isLayoutWrapAnimation 
+      ? wrapWithAnimation(layoutContent, animationConfig, layoutConfig)
+      : layoutContent;
 
     return (
       <Container

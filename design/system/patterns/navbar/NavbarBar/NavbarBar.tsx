@@ -13,7 +13,7 @@ import { CDN_BASE_URL } from '../../../core/utils/env';
 import { alignMap } from '../utils';
 import './NavbarBar.css';
 import { PatternNode } from '../../../core/types/nodes';
-import { AnimationConfig } from '../../../core/animations/types';
+import { AnimationConfig } from '../../../components/animations/types';
 
 interface NavbarBarProps extends PatternNode {
   sectionKey?: string;

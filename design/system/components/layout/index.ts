@@ -3,6 +3,7 @@ export * from './hStack';
 export * from './rhythm';
 export * from './grid';
 export * from './box'
+export * from './bleed';
 export * from './divider'
 export * from './Card';
 export * from './ResizeHandle';
@@ -11,4 +12,5 @@ export * from './Sticky';
 export * from './AnimatedBox';
 export * from './OverflowContainer';
 export * from './Spacer';
+export * from './MasonryGrid';
 export * from './BentoGrid';

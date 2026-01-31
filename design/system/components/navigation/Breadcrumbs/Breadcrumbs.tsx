@@ -6,7 +6,7 @@
 import React, { createContext, useContext } from 'react';
 import { cn } from '../../../utils/cn';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
-import { Icon } from '../../..';
+import { Icon } from '../../media/Icon/Icon';
 
 // Breadcrumbs context for sharing props with BreadcrumbItem
 interface BreadcrumbsContextValue {
@@ -202,3 +202,5 @@ export const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
 );
 
 Breadcrumbs.displayName = 'Breadcrumbs';
+
+export default Breadcrumbs;

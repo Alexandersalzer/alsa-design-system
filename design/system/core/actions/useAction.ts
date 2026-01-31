@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useConsent } from '../../patterns/cookieConsent/ConsentProvider';
 import { useHref } from '../../hooks/useHref';
-import { executeAction } from './actionHandlers';
+import { executeAction } from './api';
 import { ActionType, ActionConfig, PixelEvent, NavigationActionConfig } from './types';
 import { mapUniversalEvents } from './pixelEventMapping';
 

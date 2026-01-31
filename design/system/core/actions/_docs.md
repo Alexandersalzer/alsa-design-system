@@ -1,0 +1,1 @@
+Här hittar vi vårt centrala actions trigger system, detta kan kopplas till alla components/action varianter

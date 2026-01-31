@@ -1,6 +1,8 @@
 import React from 'react';
 import { ComponentNode } from '../types/nodes';
 import { componentRegistry } from '../../components/registry';
+import { animationComponents } from '../../components/animations/registry';
+import { AnimationConfig } from '../../components/animations/types';
 import { 
   parseLayoutNode, 
   isLayoutNode, 
@@ -19,6 +21,7 @@ import {
  * @param sectionKey - Section context
  * @param patternKey - Pattern context
  * @param patternProps - Pattern-level props (align, etc) to merge with layout config
+ * @param animationConfig - Optional animation config for items (fadeIn with stagger)
  * @returns Rendered React element tree
  */
 export const renderLayoutWithTemplate = (
@@ -26,13 +29,11 @@ export const renderLayoutWithTemplate = (
   components: Record<string, ComponentNode>,
   sectionKey?: string,
   patternKey?: string,
-  patternProps?: Record<string, any>
+  patternProps?: Record<string, any>,
+  animationConfig?: AnimationConfig
 ): React.ReactElement | null => {
-  console.log('[renderLayoutWithTemplate] layout:', layout);
-  console.log('[renderLayoutWithTemplate] components:', components);
-  console.log('[renderLayoutWithTemplate] patternProps:', patternProps);
   
-  const { type: parentType, template, order, ...parentLayoutProps } = layout;
+  const { type: parentType, template, order, defaults, ...parentLayoutProps } = layout;
 
   // Merge pattern props (like align) with layout props
   // Pattern props take precedence
@@ -47,27 +48,26 @@ export const renderLayoutWithTemplate = (
     console.warn(`Layout type "${parentType}" not found in registry`);
     return null;
   }
-  
-  console.log('[renderLayoutWithTemplate] ParentLayout found:', parentType);
-
-  console.log('[renderLayoutWithTemplate] ParentLayout found:', parentType);
 
   // If no template, render simple layout (fallback to old system)
   if (!template) {
-    console.log('[renderLayoutWithTemplate] No template, using simple layout');
     return renderSimpleLayout(layout, components, order, sectionKey, patternKey);
   }
   
-  console.log('[renderLayoutWithTemplate] Template found:', template);
 
   // Get items to render
   const itemOrder = getLayoutItemOrder(layout);
-  console.log('[renderLayoutWithTemplate] itemOrder:', itemOrder);
+  
+  // Extract animation settings if applicable
+  const animationType = animationConfig?.type;
+  const animationSettings = (animationConfig?.settings || {}) as Record<string, any>;
+  
+  // Get animation component from registry (e.g., "fadeIn" -> animationComponents["fadeIn"])
+  const AnimationComponent = animationType ? animationComponents[animationType] : null;
   
   // Render template for each item
   const renderedItems = itemOrder.map((itemId, itemIndex) => {
     const item = findLayoutItem(layout, itemId);
-    console.log(`[renderLayoutWithTemplate] Rendering item "${itemId}":`, item);
     if (!item) {
       console.warn(`Item "${itemId}" not found in layout items`);
       return null;
@@ -83,18 +83,38 @@ export const renderLayoutWithTemplate = (
 
     // Render each child in template.children array
     const templateChildren = template.children || [];
-    return (
+    const itemContent = (
       <React.Fragment key={itemId}>
         {templateChildren.map((child: any, index: number) => (
           <React.Fragment key={index}>
-            {renderTemplateNode(child, item.components, itemContext, sectionKey, patternKey)}
+            {renderTemplateNode(child, item.components, itemContext, sectionKey, patternKey, defaults)}
           </React.Fragment>
         ))}
       </React.Fragment>
     );
+    
+    // Wrap with animation component if configured (dynamic from registry)
+    if (AnimationComponent && animationType) {
+      // Calculate stagger delay if stagger is set
+      const staggerDelay = (animationSettings.stagger || 0) * itemIndex;
+      const baseDelay = animationSettings.delay || 0;
+      
+      // Merge animation settings with calculated delay
+      const itemAnimationProps = {
+        ...animationSettings,
+        delay: baseDelay + staggerDelay,
+      };
+      
+      return (
+        <AnimationComponent key={itemId} {...itemAnimationProps}>
+          {itemContent}
+        </AnimationComponent>
+      );
+    }
+    
+    return itemContent;
   }).filter(Boolean);
   
-  console.log('[renderLayoutWithTemplate] renderedItems count:', renderedItems.length);
 
   return (
     <ParentLayout {...mergedLayoutProps}>
@@ -153,19 +173,17 @@ const renderTemplateNode = (
   itemComponents: Record<string, ComponentNode>,
   itemContext: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  defaults?: Record<string, any>
 ): React.ReactElement | null => {
-  console.log('[renderTemplateNode] node:', node);
   
   // Check what kind of node this is
   if (isComponentReference(node)) {
-    console.log('[renderTemplateNode] Is component reference');
-    return renderComponentReference(node, itemComponents, sectionKey, patternKey);
+    return renderComponentReference(node, itemComponents, sectionKey, patternKey, defaults);
   }
 
   if (isLayoutNode(node)) {
-    console.log('[renderTemplateNode] Is layout node');
-    return renderLayoutNodeGeneric(node, itemComponents, itemContext, sectionKey, patternKey);
+    return renderLayoutNodeGeneric(node, itemComponents, itemContext, sectionKey, patternKey, defaults);
   }
 
   console.warn('Invalid template node:', node);
@@ -181,13 +199,46 @@ const renderLayoutNodeGeneric = (
   itemComponents: Record<string, ComponentNode>,
   itemContext: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  defaults?: Record<string, any>
 ): React.ReactElement | null => {
   let { layoutType, layoutProps, children } = parseLayoutNode(node);
 
   // Apply item-level overrides for specific layout types
   if (layoutType === 'hstack' && itemContext?.reverse) {
     layoutProps = { ...layoutProps, direction: 'row-reverse' };
+  }
+
+  // Handle action prop - convert to onCardClick for components that use it
+  if (layoutProps.action) {
+    const action = layoutProps.action;
+
+    // Only handle navigation actions
+    if (action.type === 'navigation' && action.settings?.href) {
+      // Resolve template placeholders in href (e.g., ${link} -> actual link from itemContext)
+      let resolvedHref = action.settings.href;
+
+      // Replace all ${variable} placeholders with actual values from itemContext
+      Object.keys(itemContext).forEach(key => {
+        const placeholder = `\${${key}}`;
+        if (resolvedHref.includes(placeholder)) {
+          resolvedHref = resolvedHref.replace(placeholder, itemContext[key]);
+        }
+      });
+
+      // Create onCardClick handler
+      const onCardClick = () => {
+        if (action.settings.openInNewTab) {
+          window.open(resolvedHref, '_blank', 'noopener,noreferrer');
+        } else {
+          window.location.href = resolvedHref;
+        }
+      };
+
+      // Add onCardClick to layoutProps and remove action
+      layoutProps = { ...layoutProps, onCardClick };
+      delete layoutProps.action;
+    }
   }
 
   // Get layout component from registry
@@ -206,7 +257,7 @@ const renderLayoutNodeGeneric = (
   // Recursively render children for components that support them
   const renderedChildren = children.map((child: any, index: number) => (
     <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, itemContext, sectionKey, patternKey)}
+      {renderTemplateNode(child, itemComponents, itemContext, sectionKey, patternKey, defaults)}
     </React.Fragment>
   ));
 
@@ -222,33 +273,72 @@ const renderLayoutNodeGeneric = (
  * Renders component reference: { component: "${slotName}" }
  * Completely generic - just resolves slot and renders component
  * Extra props in the reference override component props (for template-level styling)
+ * 
+ * Supports defaults merging:
+ * - defaults: { video: { type: "videoShowcase", props: { ... }, animation: { type: "slideIn", settings: {...} } } }
+ * - item.components: { video: { props: { src: "..." } } }
+ * - Result: type from defaults, props merged (item props override default props), wrapped with animation
  */
 const renderComponentReference = (
   reference: Record<string, any>,
   itemComponents: Record<string, ComponentNode>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  defaults?: Record<string, any>
 ): React.ReactElement | null => {
   const { component: componentRef, ...extraProps } = reference;
 
   const slotName = extractSlotName(componentRef);
-  const componentNode = itemComponents[slotName];
+  const itemComponent = itemComponents[slotName];
+  const defaultComponent = defaults?.[slotName];
 
-  if (!componentNode) {
-    console.warn(`Component slot "${slotName}" not found in item components`);
+  // If no item component and no default, warn and return null
+  if (!itemComponent && !defaultComponent) {
+    console.warn(`Component slot "${slotName}" not found in item components or defaults`);
     return null;
   }
 
-  const Component = componentRegistry[componentNode.type];
-  if (!Component) {
-    console.warn(`Component type "${componentNode.type}" not found in registry`);
-    return null;
-  }
-
-  // Merge component props with template-level overrides (extraProps takes precedence)
-  const mergedProps = { ...componentNode.props, ...extraProps };
+  // Resolve component type: item.type takes precedence, fallback to defaults.type
+  const componentType = itemComponent?.type || defaultComponent?.type;
   
-  return <Component {...mergedProps} />;
+  if (!componentType) {
+    console.warn(`No type found for component slot "${slotName}" - check item or defaults`);
+    return null;
+  }
+
+  const Component = componentRegistry[componentType];
+  if (!Component) {
+    console.warn(`Component type "${componentType}" not found in registry`);
+    return null;
+  }
+
+  // Merge props: defaults.props < item.props < template extraProps
+  // Each layer overrides the previous
+  const mergedProps = {
+    ...(defaultComponent?.props || {}),
+    ...(itemComponent?.props || {}),
+    ...extraProps
+  };
+  
+  // Render the component
+  const renderedComponent = <Component {...mergedProps} />;
+  
+  // Check for component-level animation (item.animation takes precedence over defaults.animation)
+  const animationConfig = itemComponent?.animation || defaultComponent?.animation;
+  
+  if (animationConfig && animationConfig.type && animationConfig.type !== 'none') {
+    const AnimationComponent = animationComponents[animationConfig.type];
+    if (AnimationComponent) {
+      return (
+        <AnimationComponent {...(animationConfig.settings || {})}>
+          {renderedComponent}
+        </AnimationComponent>
+      );
+    }
+    console.warn(`Animation component for type "${animationConfig.type}" not found in registry`);
+  }
+  
+  return renderedComponent;
 };
 
 // ===== LEGACY EXPORT (kept for backward compatibility) =====

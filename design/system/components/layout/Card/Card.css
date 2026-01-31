@@ -94,6 +94,11 @@
   box-shadow: var(--foundation-shadow-sm);
 }
 
+/* ===== CARD HEIGHT VARIANTS ===== */
+.card--height-full {
+  height: 100%;
+}
+
 /* ===== INTERACTIVE CARD STATES ===== */
 
 /* Base interactive styling */

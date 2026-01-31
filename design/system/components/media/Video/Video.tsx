@@ -25,6 +25,8 @@ export interface VideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElem
   aspectRatio?: string;
   /** Border radius */
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  /** Object fit behavior */
+  objectFit?: 'contain' | 'cover' | 'fill' | 'none';
   /** Loading strategy */
   loading?: 'lazy' | 'eager';
   /** Priority loading (disables lazy loading) */
@@ -48,6 +50,7 @@ export const Video: React.FC<VideoProps> = ({
   maxHeight,
   aspectRatio = '16/9',
   radius = 'md',
+  objectFit = 'contain',
   loading = 'lazy',
   priority = false,
   loadingType = 'skeleton',
@@ -127,7 +130,8 @@ export const Video: React.FC<VideoProps> = ({
 
   const videoClasses = cn(
     'video-element',
-    `video-element--radius-${radius}`
+    `video-element--radius-${radius}`,
+    `video-element--object-fit-${objectFit}`
   );
 
   // Container styles - explicit dimensions take priority over aspect ratio

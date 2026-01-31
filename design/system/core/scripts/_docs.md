@@ -1,0 +1,1 @@
+I den här mappen hittar vi scripts som exempelvis kan generera temporära config filer i build för deploy och som kan läsa igenom json filer för validering.

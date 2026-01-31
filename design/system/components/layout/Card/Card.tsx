@@ -3,6 +3,8 @@
 // ENHANCED WITH INTERACTIVE STATES AND HOVER EFFECTS
 // ===============================================
 
+'use client';
+
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
 
@@ -13,6 +15,8 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   radius?: 'sm' | 'md' | 'lg';
   // ✅ NEW: Width constraint options
   width?: 'auto' | 'constrained' | 'compact' | 'spacious';
+  // ✅ NEW: Height options
+  height?: 'auto' | 'full';
   // ✅ Interactive properties
   interactive?: boolean;
   disabled?: boolean;
@@ -28,6 +32,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     padding = 'md', 
     radius = 'md',
     width = 'auto', // Default: no width constraints
+    height = 'auto', // Default: no height constraints
     interactive = false,
     disabled = false,
     selected = false,
@@ -66,6 +71,9 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       width === 'constrained' && 'card--constrained',
       width === 'compact' && 'card--compact',
       width === 'spacious' && 'card--spacious',
+
+      // ✅ NEW: Height classes
+      height === 'full' && 'card--height-full',
 
       // Interactive state classes
       interactive && 'card--interactive',

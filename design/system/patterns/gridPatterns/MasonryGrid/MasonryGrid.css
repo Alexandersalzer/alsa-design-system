@@ -90,7 +90,7 @@
 
 @media (max-width: 768px) {
   .masonry-grid-container {
-    padding: 0 var(--foundation-space-3);
+    padding: 0 var(--foundation-space-0);
   }
 
   .masonry-grid--columns-3,

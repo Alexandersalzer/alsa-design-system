@@ -1,5 +1,5 @@
 // ===============================================
-// Layout Renderer
+// Section Layout Renderer
 // Orchestrates section layout based on LayoutConfig
 // ===============================================
 
@@ -9,14 +9,13 @@ import React from 'react';
 import { VStack } from '../../components/layout/vStack/VStack';
 import { Box } from '../../components/layout/box/Box';
 import { Container } from '../../components/frames/container/Container';
-import { LayoutConfig } from './types';
+import { LayoutConfig } from '../types/layout';
 import { PatternNode } from '../types/nodes';
-import { renderPattern, renderPatternDirect } from '../render/patterns';
+import { renderPattern, renderPatternDirect } from './patterns';
 import { actionsRegistry } from '../../patterns/actions/registry';
+import { AnimationConfig } from '../../components/animations/types';
 
-import { AnimationConfig } from '../animations/types';
-
-interface LayoutRendererProps {
+interface SectionLayoutProps {
   layout?: LayoutConfig;
   patterns: Record<string, PatternNode>;
   order: string[];
@@ -25,7 +24,7 @@ interface LayoutRendererProps {
 }
 
 /**
- * LayoutRenderer - Renders section patterns according to layout rules
+ * renderSectionLayout - Renders section patterns according to layout rules
  * 
  * Layout Logic:
  * 1. alignSectionHeader = 'center' (default):
@@ -41,13 +40,13 @@ interface LayoutRendererProps {
  * 3. distanceAction = true:
  *    - ButtonGroup moved to bottom of section (after all patterns)
  */
-export function LayoutRenderer({ 
+export function renderSectionLayout({ 
   layout, 
   patterns, 
   order,
   sectionKey,
   sectionAnimation
-}: LayoutRendererProps) {
+}: SectionLayoutProps) {
   
   const {
     alignSectionHeader = 'center',
@@ -237,9 +236,11 @@ export function LayoutRenderer({
         {renderPatterns(otherPatternKeys)}
         {renderPatterns(actionPatternsInSecondColumn)}
         {distancedActionPatterns.length > 0 && (
-          <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-            {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
-          </Box>
+          <Container height="auto">
+            <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
+              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+            </Box>
+          </Container>
         )}
       </VStack>
     );
@@ -272,9 +273,11 @@ export function LayoutRenderer({
         )}
         {renderPatterns(remainingPatterns)}
         {distancedActionPatterns.length > 0 && (
-          <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-            {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
-          </Box>
+          <Container height="auto">
+            <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
+              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+            </Box>
+          </Container>
         )}
       </VStack>
     );
@@ -441,12 +444,15 @@ export function LayoutRenderer({
         
         {/* Action patterns at bottom (if distanced) with width-container - Only on desktop */}
         {distancedActionPatterns.length > 0 && (
-          <Box className="desktop-only" style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-            {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+          <Box className="desktop-only">
+            <Container height="auto">
+              <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
+                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+              </Box>
+            </Container>
           </Box>
         )}
       </Box>
     </>
   );
 }
-

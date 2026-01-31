@@ -550,3 +550,5 @@ export const TabPanel: React.FC<TabPanelProps> = ({
 Tab.displayName = 'Tab';
 TabGroup.displayName = 'TabGroup';
 TabPanel.displayName = 'TabPanel';
+
+export default Tab;
