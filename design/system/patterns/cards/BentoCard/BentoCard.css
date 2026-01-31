@@ -151,18 +151,19 @@
   margin: auto;
 }
 
-/* Footer area - consistent height using semantic token */
+/* Footer area - FIXED height for consistency across all cards */
 .bento-card__footer {
   --bento-footer-height: var(--foundation-space-24, 6rem); /* 96px semantic */
   padding: var(--foundation-space-6, 24px);
-  padding-top: var(--foundation-space-8, 32px);
   flex-shrink: 0;
-  min-height: var(--bento-footer-height);
+  height: var(--bento-footer-height);
+  max-height: var(--bento-footer-height);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   z-index: 2;
-  margin-top: auto; /* Push footer to bottom of card */
+  margin-top: auto;
+  overflow: hidden;
 }
 
 /* Solid footer (default) */
@@ -240,6 +241,23 @@
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-2, 8px);
+  overflow: hidden;
+}
+
+/* Title - single line with ellipsis */
+.bento-card__footer-content h4 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Description - max 2 lines with ellipsis */
+.bento-card__footer-content p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .bento-card__footer-row {
@@ -247,6 +265,7 @@
   justify-content: space-between;
   align-items: center;
   gap: var(--foundation-space-4, 16px);
+  min-width: 0; /* Allow children to shrink */
 }
 
 /* Description row - for bottom-right link position */
@@ -255,6 +274,7 @@
   justify-content: space-between;
   align-items: flex-end;
   gap: var(--foundation-space-4, 16px);
+  min-width: 0;
 }
 
 /* Link styling */
@@ -271,10 +291,14 @@
   .bento-card__footer {
     --bento-footer-height: var(--foundation-space-20, 5rem); /* 80px on mobile */
     padding: var(--foundation-space-4, 16px);
-    padding-top: var(--foundation-space-6, 24px);
   }
   
   .bento-card__image-container {
     min-height: 160px;
+  }
+  
+  /* Single line description on mobile */
+  .bento-card__footer-content p {
+    -webkit-line-clamp: 1;
   }
 }
