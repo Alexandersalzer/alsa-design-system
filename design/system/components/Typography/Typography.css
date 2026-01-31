@@ -88,6 +88,14 @@ p, .text-body {
 }
 
 /* ===== DISPLAY TYPOGRAPHY ===== */
+.text-display-2xl {
+  font-family: var(--font-heading-family);
+  font-size: var(--font-display-2xl-size, var(--foundation-size-7xl));
+  font-weight: var(--font-heading-weight);
+  line-height: var(--font-display-2xl-leading, 1.1);
+  letter-spacing: -0.03em;
+}
+
 .text-display-xl {
   font-family: var(--font-heading-family);
   font-size: var(--font-display-xl-size);

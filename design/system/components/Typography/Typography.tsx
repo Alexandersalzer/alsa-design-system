@@ -12,7 +12,7 @@ import { FadeIn } from '../animations/FadeIn/FadeIn';
 
 // ===== TYPE DEFINITIONS =====
 export type TypographyVariant =
-  | 'display-xl' | 'display-lg' | 'display-md' | 'display-sm'
+  | 'display-2xl' | 'display-xl' | 'display-lg' | 'display-md' | 'display-sm'
   | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   | 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs'
   | 'label-lg' | 'label-md' | 'label-sm' | 'label-xs'
@@ -271,7 +271,7 @@ const getColorValue = (color: TypographyColor): string => {
 // ===== UTILITY FUNCTIONS =====
 const getDefaultElement = (variant: TypographyVariant): ElementType => {
   const variantElementMap: Record<TypographyVariant, ElementType> = {
-    'display-xl': 'h1', 'display-lg': 'h1', 'display-md': 'h2', 'display-sm': 'h3',
+    'display-2xl': 'h1', 'display-xl': 'h1', 'display-lg': 'h1', 'display-md': 'h2', 'display-sm': 'h3',
     'h1': 'h1', 'h2': 'h2', 'h3': 'h3', 'h4': 'h4', 'h5': 'h5', 'h6': 'h6',
     'body-xl': 'p', 'body-lg': 'p', 'body-md': 'p', 'body-sm': 'p', 'body-xs': 'p',
     'label-lg': 'span', 'label-md': 'span', 'label-sm': 'span', 'label-xs': 'span',

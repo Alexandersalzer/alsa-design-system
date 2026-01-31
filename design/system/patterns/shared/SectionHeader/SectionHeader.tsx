@@ -140,7 +140,10 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
     );
   };
 
-  return (
+  // Apply maxWidth styling if specified in props
+  const containerStyle = props?.maxWidth ? { maxWidth: props.maxWidth, width: '100%' } : undefined;
+
+  const content = (
     <>
       {isHero && (
         <style>{`
@@ -206,6 +209,13 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
       )}
     </>
   );
+
+  // If maxWidth specified, wrap in a div with the constraint
+  if (containerStyle) {
+    return <div style={containerStyle}>{content}</div>;
+  }
+
+  return content;
 };
 
 SectionHeader.displayName = 'SectionHeader';
