@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Typography } from '../../../components';
 import { TextLink } from '../../../components/actions/TextLink/TextLink';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
@@ -98,6 +99,9 @@ export const BentoCard: React.FC<BentoCardProps> = ({
     ? (accentHover ? 'accent' : 'none') 
     : hoverEffect;
 
+  // Card is clickable if it has href
+  const isClickable = !!href;
+
   const classes = [
     'bento-card',
     `bento-card--radius-${radius}`,
@@ -106,6 +110,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
     !showImage && 'bento-card--no-image',
     effectiveBorderStyle !== 'none' && `bento-card--border-${effectiveBorderStyle}`,
     isOverlayFooter && 'bento-card--overlay-footer',
+    isClickable && 'bento-card--clickable',
   ].filter(Boolean).join(' ');
 
   const gridStyle: React.CSSProperties = {
@@ -124,12 +129,16 @@ export const BentoCard: React.FC<BentoCardProps> = ({
     footerElevated && 'bento-card__footer--elevated',
   ].filter(Boolean).join(' ');
 
-  return (
-    <div
-      className={classes}
-      data-component-key={componentKey}
-      style={gridStyle}
-    >
+  // Render link indicator (visual only, not a real link when card is clickable)
+  const renderLinkIndicator = () => (
+    <span className={`bento-card__link-indicator textlink textlink-${isOverlayFooter ? 'inverse' : 'brand'}`}>
+      {linkText}
+      <ArrowRightIcon width={16} height={16} />
+    </span>
+  );
+
+  const cardContent = (
+    <>
       {/* Image area */}
       {showImage && imageSrc && (
         <div 
@@ -156,14 +165,16 @@ export const BentoCard: React.FC<BentoCardProps> = ({
                 </Typography>
               )}
               {href && linkPosition === 'inline' && (
-                <TextLink 
-                  href={href} 
-                  variant={isOverlayFooter ? 'inverse' : 'brand'}
-                  rightIcon={<ArrowRightIcon width={16} height={16} />}
-                  className="bento-card__link"
-                >
-                  {linkText}
-                </TextLink>
+                isClickable ? renderLinkIndicator() : (
+                  <TextLink 
+                    href={href} 
+                    variant={isOverlayFooter ? 'inverse' : 'brand'}
+                    rightIcon={<ArrowRightIcon width={16} height={16} />}
+                    className="bento-card__link"
+                  >
+                    {linkText}
+                  </TextLink>
+                )
               )}
             </div>
             {/* Description with optional bottom-right link */}
@@ -175,14 +186,16 @@ export const BentoCard: React.FC<BentoCardProps> = ({
                   </Typography>
                 )}
                 {href && (
-                  <TextLink 
-                    href={href} 
-                    variant={isOverlayFooter ? 'inverse' : 'brand'}
-                    rightIcon={<ArrowRightIcon width={16} height={16} />}
-                    className="bento-card__link"
-                  >
-                    {linkText}
-                  </TextLink>
+                  isClickable ? renderLinkIndicator() : (
+                    <TextLink 
+                      href={href} 
+                      variant={isOverlayFooter ? 'inverse' : 'brand'}
+                      rightIcon={<ArrowRightIcon width={16} height={16} />}
+                      className="bento-card__link"
+                    >
+                      {linkText}
+                    </TextLink>
+                  )
                 )}
               </div>
             ) : (
@@ -193,20 +206,46 @@ export const BentoCard: React.FC<BentoCardProps> = ({
                   </Typography>
                 )}
                 {href && linkPosition === 'bottom' && (
-                  <TextLink 
-                    href={href} 
-                    variant={isOverlayFooter ? 'inverse' : 'brand'}
-                    rightIcon={<ArrowRightIcon width={16} height={16} />}
-                    className="bento-card__link"
-                  >
-                    {linkText}
-                  </TextLink>
+                  isClickable ? renderLinkIndicator() : (
+                    <TextLink 
+                      href={href} 
+                      variant={isOverlayFooter ? 'inverse' : 'brand'}
+                      rightIcon={<ArrowRightIcon width={16} height={16} />}
+                      className="bento-card__link"
+                    >
+                      {linkText}
+                    </TextLink>
+                  )
                 )}
               </>
             )}
           </div>
         </div>
       )}
+    </>
+  );
+
+  // If clickable, wrap in Link
+  if (isClickable) {
+    return (
+      <Link
+        href={href}
+        className={classes}
+        data-component-key={componentKey}
+        style={gridStyle}
+      >
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return (
+    <div
+      className={classes}
+      data-component-key={componentKey}
+      style={gridStyle}
+    >
+      {cardContent}
     </div>
   );
 };

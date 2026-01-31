@@ -43,6 +43,28 @@
 }
 
 /* ===============================================
+   CLICKABLE CARD
+   =============================================== */
+
+.bento-card--clickable {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Link indicator (visual element, not actual link) */
+.bento-card__link-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--foundation-space-1, 4px);
+  font-size: var(--typography-body-sm-size, 14px);
+  font-weight: var(--typography-weight-medium, 500);
+  flex-shrink: 0;
+}
+
+/* ===============================================
    HOVER EFFECTS
    =============================================== */
 
