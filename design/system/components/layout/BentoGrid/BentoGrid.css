@@ -64,6 +64,9 @@
     grid-template-columns: repeat(2, 1fr);
   }
   
+  /* Default: all cards take half width on tablet */
+  .bento-grid--cols-12 > * { grid-column: span 1 !important; }
+  
   /* Large spans (>50% of original) become full width */
   .bento-grid--cols-12 > *[style*="span 12"] { grid-column: span 2 !important; }
   .bento-grid--cols-12 > *[style*="span 11"] { grid-column: span 2 !important; }
@@ -72,17 +75,14 @@
   .bento-grid--cols-12 > *[style*="span 8"] { grid-column: span 2 !important; }
   .bento-grid--cols-12 > *[style*="span 7"] { grid-column: span 2 !important; }
   
-  /* Smaller spans become half width */
-  .bento-grid--cols-12 > *[style*="span 6"] { grid-column: span 1 !important; }
-  .bento-grid--cols-12 > *[style*="span 5"] { grid-column: span 1 !important; }
-  .bento-grid--cols-12 > *[style*="span 4"] { grid-column: span 1 !important; }
-  .bento-grid--cols-12 > *[style*="span 3"] { grid-column: span 1 !important; }
-  .bento-grid--cols-12 > *[style*="span 2"] { grid-column: span 1 !important; }
-  .bento-grid--cols-12 > *[style*="span 1"] { grid-column: span 1 !important; }
-  
-  /* 3-col grid: all become half */
-  .bento-grid--cols-3 > *[style*="span 2"] { grid-column: span 1 !important; }
+  /* 3-col grid: default to half */
+  .bento-grid--cols-3 > * { grid-column: span 1 !important; }
   .bento-grid--cols-3 > *[style*="span 3"] { grid-column: span 2 !important; }
+  
+  /* IMPORTANT: If last card would be alone (odd position), make it full width */
+  .bento-grid > *:last-child:nth-child(odd) {
+    grid-column: span 2 !important;
+  }
 }
 
 /* Mobile: Everything stacks vertically */
