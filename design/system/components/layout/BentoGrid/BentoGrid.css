@@ -100,14 +100,11 @@
   .bento-grid--gap-xl { gap: var(--foundation-space-4, 16px); }
   .bento-grid--gap-2xl { gap: var(--foundation-space-6, 24px); }
   
-  /* Reset all spans on mobile */
+  /* Force ALL cards to take full width on mobile - override any inline styles */
   .bento-grid > * {
-    grid-column: span 1 !important;
-    grid-row: span 1 !important;
-  }
-  
-  /* Ensure cards fill full width */
-  .bento-grid > * {
-    width: 100%;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
