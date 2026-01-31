@@ -3,7 +3,7 @@
 import { Section } from '../../components/frames/section/Section';
 import { SectionNode } from '../types/nodes';
 import { renderPattern } from './patterns';
-import { LayoutRenderer } from '../layout/LayoutRenderer';
+import { renderSectionLayout } from './section-layout';
 import { Container } from '../../components/frames/container/Container';
 import { VStack } from '../../components/layout/vStack/VStack';
 
@@ -50,13 +50,13 @@ export function renderSection(
         applyNavbarVoid={isHero}
         {...props}
       >
-        <LayoutRenderer
-          layout={layout}
-          patterns={patterns}
-          order={patternOrder}
-          sectionKey={sectionKey}
-          sectionAnimation={props?.animation}
-        />
+        {renderSectionLayout({
+          layout,
+          patterns,
+          order: patternOrder,
+          sectionKey,
+          sectionAnimation: props?.animation,
+        })}
       </Section>
     );
   }

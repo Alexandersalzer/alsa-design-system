@@ -64,6 +64,13 @@
   border-color: var(--border-subtle);
 }
 
+/* Glass-transparent becomes more solid when drawer is expanded */
+.navbar-pill__unified-wrapper--glass-transparent.navbar-pill__unified-wrapper--expanded {
+  background: color-mix(in srgb, var(--surface-page) 92%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
 .navbar-pill__unified-wrapper--no-border {
   border-color: transparent;
 }

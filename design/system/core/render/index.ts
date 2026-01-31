@@ -8,3 +8,9 @@ export {
   renderLayoutWithTemplate,
   renderLayoutWithCards,
 } from './layouts';
+export {
+  renderBackgroundComponent,
+} from './background';
+export {
+  renderSectionLayout,
+} from './section-layout';

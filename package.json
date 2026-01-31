@@ -11,11 +11,6 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./config": {
-      "import": "./dist/design/system/core/config/index.js",
-      "require": "./dist/design/system/core/config/index.js",
-      "types": "./dist/design/system/core/config/index.d.ts"
-    },
     "./apps": {
       "import": "./dist/design/system/core/ApplicationComponent/index.js",
       "require": "./dist/design/system/core/ApplicationComponent/index.js",
