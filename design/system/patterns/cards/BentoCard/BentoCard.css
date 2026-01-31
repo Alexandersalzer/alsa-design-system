@@ -171,15 +171,11 @@
   border-top: 1px solid var(--border-subtle);
 }
 
-/* Raised footer - solid with strong elevation */
+/* Raised footer - same as Card elevated variant */
 .bento-card__footer--raised {
-  background: var(--surface-card, var(--surface-primary));
-  box-shadow: 
-    0 -8px 24px rgba(0, 0, 0, 0.15),
-    0 -2px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--surface-elevated);
+  box-shadow: var(--foundation-shadow-md);
   border-top: none;
-  position: relative;
-  z-index: 3;
 }
 
 /* Elevated modifier (can be added to any footer style) */
