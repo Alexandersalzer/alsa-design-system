@@ -101,9 +101,12 @@
   left: 100%;
 }
 
-/* Elevated hover - becomes more elevated */
+/* Elevated hover - becomes more elevated with lift */
 .bento-card--hover-elevated:hover {
-  box-shadow: var(--foundation-shadow-xl);
+  transform: translateY(-4px);
+  box-shadow: 
+    var(--foundation-shadow-xl),
+    0 20px 40px rgba(0, 0, 0, 0.12);
   background-color: var(--surface-elevated);
 }
 
