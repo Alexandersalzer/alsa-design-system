@@ -49,6 +49,22 @@
    RESPONSIVE BEHAVIOR
    =============================================== */
 
+/* Large screens: 12-col grid becomes 6-col (max 3 cards per row for colSpan 3) */
+@media (max-width: 1280px) {
+  .bento-grid--cols-12 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
+  /* Scale spans: 12→6, 8→4, 6→3, 4→2, 3→2, 2→1, 1→1 */
+  .bento-grid--cols-12 > *[style*="span 12"] { grid-column: span 6 !important; }
+  .bento-grid--cols-12 > *[style*="span 8"] { grid-column: span 4 !important; }
+  .bento-grid--cols-12 > *[style*="span 6"] { grid-column: span 3 !important; }
+  .bento-grid--cols-12 > *[style*="span 4"] { grid-column: span 2 !important; }
+  .bento-grid--cols-12 > *[style*="span 3"] { grid-column: span 2 !important; }
+  .bento-grid--cols-12 > *[style*="span 2"] { grid-column: span 1 !important; }
+  .bento-grid--cols-12 > *[style*="span 1"] { grid-column: span 1 !important; }
+}
+
 /* Tablet: Simplify to 2 columns - all cards take 1 (half) or 2 (full) */
 @media (max-width: 1024px) {
   .bento-grid--cols-3,
