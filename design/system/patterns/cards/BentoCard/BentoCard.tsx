@@ -101,7 +101,6 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   const classes = [
     'bento-card',
     `bento-card--radius-${radius}`,
-    colSpan && `bento-card--col-${colSpan}`,
     effectiveHoverEffect !== 'none' && `bento-card--hover-${effectiveHoverEffect}`,
     !showFooter && 'bento-card--no-footer',
     !showImage && 'bento-card--no-image',
