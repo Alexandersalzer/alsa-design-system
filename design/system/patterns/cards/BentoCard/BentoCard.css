@@ -110,16 +110,19 @@
   background-color: var(--surface-elevated);
 }
 
-/* Interactive hover - subtle background change (matches Card component) */
+/* Interactive hover - noticeable background change with slight lift */
 .bento-card--hover-interactive:hover {
   background-color: var(--surface-hover);
-  box-shadow: var(--foundation-shadow-sm);
+  box-shadow: var(--foundation-shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--border-default);
 }
 
-/* Subtle hover - very minimal effect (matches TestimonialCard) */
+/* Subtle hover - soft lift with shadow (lighter than others) */
 .bento-card--hover-subtle:hover {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: var(--surface-raised);
+  transform: translateY(-2px);
 }
 
 /* No footer variant - image gets all radius (including bottom) */
