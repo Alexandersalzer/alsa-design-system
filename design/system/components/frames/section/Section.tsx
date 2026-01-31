@@ -7,6 +7,7 @@ type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
+type ContentPosition = 'top' | 'center' | 'bottom';
 
 interface SectionProps extends BackgroundProps {
   children: ReactNode;
@@ -14,6 +15,8 @@ interface SectionProps extends BackgroundProps {
   id?: string;
   as?: React.ElementType;
   height?: Height;
+  /** Vertical position of content when height is full/screen */
+  contentPosition?: ContentPosition;
   position?: Position;
   sticky?: boolean;
   top?: string | number;
@@ -73,6 +76,7 @@ export const Section = ({
   id,
   as: Component = 'section',
   height = 'auto',
+  contentPosition = 'center',
   position = 'relative',
   sticky = false,
   top,
@@ -154,6 +158,16 @@ export const Section = ({
   if (zIndex !== undefined) inlineStyles.zIndex = zIndex;
   if (overflowX !== undefined) inlineStyles.overflowX = overflowX;
   if (overflowY !== undefined) inlineStyles.overflowY = overflowY;
+  
+  // Content position for full/screen height sections
+  if (height === 'full' || height === 'screen') {
+    const positionMap: Record<ContentPosition, string> = {
+      top: 'flex-start',
+      center: 'center',
+      bottom: 'flex-end',
+    };
+    inlineStyles.justifyContent = positionMap[contentPosition];
+  }
 
   // Apply navbar void compensation for hero sections
   // This overrides default section padding to compensate for fixed navbar
