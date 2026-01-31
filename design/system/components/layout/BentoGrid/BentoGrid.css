@@ -49,44 +49,40 @@
    RESPONSIVE BEHAVIOR
    =============================================== */
 
-/* Tablet: 12-col grid becomes 6-col, scale spans proportionally */
+/* Tablet: Simplify to 2 columns - all cards take 1 (half) or 2 (full) */
 @media (max-width: 1024px) {
-  .bento-grid--cols-12 {
-    grid-template-columns: repeat(6, 1fr);
-  }
-  
-  /* Scale 12-col spans to 6-col (divide by 2, round to nearest) */
-  /* 12 -> 6, 8 -> 4, 6 -> 3, 4 -> 2, 3 -> 2, 2 -> 1, 1 -> 1 */
-  .bento-grid--cols-12 > *[style*="span 12"] { grid-column: span 6 !important; }
-  .bento-grid--cols-12 > *[style*="span 11"] { grid-column: span 6 !important; }
-  .bento-grid--cols-12 > *[style*="span 10"] { grid-column: span 5 !important; }
-  .bento-grid--cols-12 > *[style*="span 9"] { grid-column: span 5 !important; }
-  .bento-grid--cols-12 > *[style*="span 8"] { grid-column: span 4 !important; }
-  .bento-grid--cols-12 > *[style*="span 7"] { grid-column: span 4 !important; }
-  .bento-grid--cols-12 > *[style*="span 6"] { grid-column: span 3 !important; }
-  .bento-grid--cols-12 > *[style*="span 5"] { grid-column: span 3 !important; }
-  .bento-grid--cols-12 > *[style*="span 4"] { grid-column: span 2 !important; }
-  .bento-grid--cols-12 > *[style*="span 3"] { grid-column: span 2 !important; }
-  .bento-grid--cols-12 > *[style*="span 2"] { grid-column: span 1 !important; }
-  
-  /* Other grids scale down */
+  .bento-grid--cols-3,
+  .bento-grid--cols-4,
+  .bento-grid--cols-5,
+  .bento-grid--cols-6,
   .bento-grid--cols-7,
   .bento-grid--cols-8,
   .bento-grid--cols-9,
   .bento-grid--cols-10,
-  .bento-grid--cols-11 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  
-  .bento-grid--cols-4,
-  .bento-grid--cols-5,
-  .bento-grid--cols-6 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  .bento-grid--cols-3 {
+  .bento-grid--cols-11,
+  .bento-grid--cols-12 {
     grid-template-columns: repeat(2, 1fr);
   }
+  
+  /* Large spans (>50% of original) become full width */
+  .bento-grid--cols-12 > *[style*="span 12"] { grid-column: span 2 !important; }
+  .bento-grid--cols-12 > *[style*="span 11"] { grid-column: span 2 !important; }
+  .bento-grid--cols-12 > *[style*="span 10"] { grid-column: span 2 !important; }
+  .bento-grid--cols-12 > *[style*="span 9"] { grid-column: span 2 !important; }
+  .bento-grid--cols-12 > *[style*="span 8"] { grid-column: span 2 !important; }
+  .bento-grid--cols-12 > *[style*="span 7"] { grid-column: span 2 !important; }
+  
+  /* Smaller spans become half width */
+  .bento-grid--cols-12 > *[style*="span 6"] { grid-column: span 1 !important; }
+  .bento-grid--cols-12 > *[style*="span 5"] { grid-column: span 1 !important; }
+  .bento-grid--cols-12 > *[style*="span 4"] { grid-column: span 1 !important; }
+  .bento-grid--cols-12 > *[style*="span 3"] { grid-column: span 1 !important; }
+  .bento-grid--cols-12 > *[style*="span 2"] { grid-column: span 1 !important; }
+  .bento-grid--cols-12 > *[style*="span 1"] { grid-column: span 1 !important; }
+  
+  /* 3-col grid: all become half */
+  .bento-grid--cols-3 > *[style*="span 2"] { grid-column: span 1 !important; }
+  .bento-grid--cols-3 > *[style*="span 3"] { grid-column: span 2 !important; }
 }
 
 /* Mobile: Everything stacks vertically */
