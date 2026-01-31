@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, Typography } from '../../../components';
+import { Typography } from '../../../components';
 import { TextLink } from '../../../components/actions/TextLink/TextLink';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { CDN_BASE_URL } from '../../../core/utils/env';
@@ -86,6 +86,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
 
   const classes = [
     'bento-card',
+    `bento-card--radius-${radius}`,
     accentHover && 'bento-card--accent-hover',
     !showFooter && 'bento-card--no-footer',
     !showImage && 'bento-card--no-image',
@@ -111,10 +112,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   ].filter(Boolean).join(' ');
 
   return (
-    <Card
-      variant={variant}
-      radius={radius}
-      padding="none"
+    <div
       className={classes}
       data-component-key={componentKey}
       style={gridStyle}
@@ -173,7 +171,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
           </div>
         </div>
       )}
-    </Card>
+    </div>
   );
 };
 

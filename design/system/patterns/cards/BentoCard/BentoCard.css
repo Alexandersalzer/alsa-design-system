@@ -1,13 +1,28 @@
 /* ===============================================
    BENTO CARD - Large illustration card with minimal text
+   Standalone component - does not use Card component
    =============================================== */
 
 .bento-card {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
+  background-color: var(--surface-card, var(--surface-primary));
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Radius variants */
+.bento-card--radius-sm {
+  border-radius: var(--radius-sm);
+}
+
+.bento-card--radius-md {
+  border-radius: var(--radius-md);
+}
+
+.bento-card--radius-lg {
+  border-radius: var(--radius-lg);
 }
 
 /* Border variants */
@@ -104,8 +119,7 @@
 .bento-card__image {
   display: block;
   object-position: center;
-  /* Override Card.css radius rules - we control radius via container */
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 /* Cover mode - fill entire container */
@@ -212,6 +226,11 @@
   right: 0;
   bottom: 0;
   height: 100%;
+  border-radius: inherit;
+}
+
+/* For overlay footer, image needs full radius since it covers entire card */
+.bento-card--overlay-footer .bento-card__image {
   border-radius: inherit;
 }
 
