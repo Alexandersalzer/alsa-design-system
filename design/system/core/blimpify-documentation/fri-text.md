@@ -313,12 +313,6 @@ patterns
 │       │                       └── tablet
 │       │                           └── {overrideProps}
 │       │
-│       ├── defaults?
-│       │   └── {componentType}
-│       │       ├── type
-│       │       ├── props
-│       │       └── animation?
-│       │
 │       ├── items[]                             ← Om type: "items"
 │       │   └── {item}
 │       │       ├── id: "item_{random6}"
@@ -379,11 +373,76 @@ patterns
             }
           ]
         },
-        "defaults?": { },
         "items?": [ ],
         "categories?": [ ]
       }
     }
   },
   "order": [ ]
+}
+
+public/
+├── config/
+│   └── config.json              ← Site config (localization, etc.)
+│
+├── design/
+│   └── design.json              ← Global styles (finns redan)
+│
+├── pages/
+│   ├── page_rmli9b.json         ← Page struktur + design (UTAN content)
+│   ├── page_rmli9N.json
+│   ├── page_rmlyH4.json
+│   └── start.json
+│
+├── shells/
+│   ├── navbar.json              ← Navbar struktur + design (UTAN content)
+│   └── footer.json
+│
+└── content/
+    ├── sv/
+    │   ├── pages/
+    │   │   ├── page_rmli9b.json ← Endast content för denna page
+    │   │   ├── page_rmli9N.json
+    │   │   ├── page_rmlyH4.json
+    │   │   └── start.json
+    │   └── shells/
+    │       ├── navbar.json      ← Endast content för navbar
+    │       └── footer.json
+    ├── en/
+    │   ├── pages/
+    │   └── shells/
+    └── de/
+        ├── pages/
+        └── shells/
+
+        {
+  "name": "hem",
+  "seo": {
+    "title": "UGC-SYSTRAR - Genuint Content",
+    "description": "Alice & Felicia..."
+  },
+  "components": {
+    "heading_Q2tS8v": { "content": "UGC-content som når fler" },
+    "body_R5uT1w": { "content": "Alice & Felicia - 2 systrar..." },
+    "heading_T5nM8k": { "content": "Möt oss" },
+    "heading_wK8nT5": { "content": "Alice" },
+    "heading_P9qR2v": { "content": "Felicia" }
+  }
+}
+
+{
+  "sections": {
+    "hero_jVaWmY": {
+      "patterns": {
+        "sectionHeader_fdsH2a": {
+          "components": {
+            "heading_Q2tS8v": {
+              "type": "heading",
+              "props": {}
+            }
+          }
+        }
+      }
+    }
+  }
 }

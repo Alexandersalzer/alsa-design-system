@@ -9,7 +9,8 @@ import {
   isComponentReference, 
   extractSlotName,
   getLayoutItemOrder,
-  findLayoutItem
+  findLayoutItem,
+  findComponentByType
 } from '../utils/props';
 
 /**
@@ -33,7 +34,7 @@ export const renderLayoutWithTemplate = (
   animationConfig?: AnimationConfig
 ): React.ReactElement | null => {
   
-  const { type: parentType, template, order, defaults, ...parentLayoutProps } = layout;
+  const { type: parentType, template, order, ...parentLayoutProps } = layout;
 
   // Merge pattern props (like align) with layout props
   // Pattern props take precedence
@@ -87,7 +88,7 @@ export const renderLayoutWithTemplate = (
       <React.Fragment key={itemId}>
         {templateChildren.map((child: any, index: number) => (
           <React.Fragment key={index}>
-            {renderTemplateNode(child, item.components, itemContext, sectionKey, patternKey, defaults)}
+            {renderTemplateNode(child, item.components, itemContext, sectionKey, patternKey)}
           </React.Fragment>
         ))}
       </React.Fragment>
@@ -173,17 +174,16 @@ const renderTemplateNode = (
   itemComponents: Record<string, ComponentNode>,
   itemContext: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string,
-  defaults?: Record<string, any>
+  patternKey?: string
 ): React.ReactElement | null => {
   
   // Check what kind of node this is
   if (isComponentReference(node)) {
-    return renderComponentReference(node, itemComponents, sectionKey, patternKey, defaults);
+    return renderComponentReference(node, itemComponents, sectionKey, patternKey);
   }
 
   if (isLayoutNode(node)) {
-    return renderLayoutNodeGeneric(node, itemComponents, itemContext, sectionKey, patternKey, defaults);
+    return renderLayoutNodeGeneric(node, itemComponents, itemContext, sectionKey, patternKey);
   }
 
   console.warn('Invalid template node:', node);
@@ -199,8 +199,7 @@ const renderLayoutNodeGeneric = (
   itemComponents: Record<string, ComponentNode>,
   itemContext: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string,
-  defaults?: Record<string, any>
+  patternKey?: string
 ): React.ReactElement | null => {
   let { layoutType, layoutProps, children } = parseLayoutNode(node);
 
@@ -225,7 +224,7 @@ const renderLayoutNodeGeneric = (
   // Recursively render children for components that support them
   const renderedChildren = children.map((child: any, index: number) => (
     <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, itemContext, sectionKey, patternKey, defaults)}
+      {renderTemplateNode(child, itemComponents, itemContext, sectionKey, patternKey)}
     </React.Fragment>
   ));
 
@@ -238,39 +237,30 @@ const renderLayoutNodeGeneric = (
 };
 
 /**
- * Renders component reference: { component: "${slotName}" }
- * Completely generic - just resolves slot and renders component
+ * Renders component reference: { component: "${componentType}" }
+ * Matches component by TYPE, not by key name
  * Extra props in the reference override component props (for template-level styling)
  * 
- * Supports defaults merging:
- * - defaults: { video: { type: "videoShowcase", props: { ... }, animation: { type: "slideIn", settings: {...} } } }
- * - item.components: { video: { props: { src: "..." } } }
- * - Result: type from defaults, props merged (item props override default props), wrapped with animation
+ * Template: { component: "${image}", radius: "md" }
+ * Items: { image_mN3pL2: { type: "image", props: { src: "..." } } }
+ * Result: Finds component with type "image", merges props with template styling
  */
 const renderComponentReference = (
   reference: Record<string, any>,
   itemComponents: Record<string, ComponentNode>,
   sectionKey?: string,
-  patternKey?: string,
-  defaults?: Record<string, any>
+  patternKey?: string
 ): React.ReactElement | null => {
-  const { component: componentRef, ...extraProps } = reference;
+  const { component: componentRef, animation: templateAnimation, ...extraProps } = reference;
 
-  const slotName = extractSlotName(componentRef);
-  const itemComponent = itemComponents[slotName];
-  const defaultComponent = defaults?.[slotName];
-
-  // If no item component and no default, warn and return null
-  if (!itemComponent && !defaultComponent) {
-    console.warn(`Component slot "${slotName}" not found in item components or defaults`);
-    return null;
-  }
-
-  // Resolve component type: item.type takes precedence, fallback to defaults.type
-  const componentType = itemComponent?.type || defaultComponent?.type;
+  // Extract type from ${componentType} syntax
+  const componentType = extractSlotName(componentRef);
   
-  if (!componentType) {
-    console.warn(`No type found for component slot "${slotName}" - check item or defaults`);
+  // Find component by TYPE (not by key)
+  const itemComponent = findComponentByType(itemComponents, componentType);
+
+  if (!itemComponent) {
+    console.warn(`Component with type "${componentType}" not found in item components`);
     return null;
   }
 
@@ -280,10 +270,8 @@ const renderComponentReference = (
     return null;
   }
 
-  // Merge props: defaults.props < item.props < template extraProps
-  // Each layer overrides the previous
+  // Merge props: item.props (content) < template extraProps (styling)
   const mergedProps = {
-    ...(defaultComponent?.props || {}),
     ...(itemComponent?.props || {}),
     ...extraProps
   };
@@ -291,8 +279,8 @@ const renderComponentReference = (
   // Render the component
   const renderedComponent = <Component {...mergedProps} />;
   
-  // Check for component-level animation (item.animation takes precedence over defaults.animation)
-  const animationConfig = itemComponent?.animation || defaultComponent?.animation;
+  // Check for animation (template animation takes precedence, then item animation)
+  const animationConfig = templateAnimation || itemComponent?.animation;
   
   if (animationConfig && animationConfig.type && animationConfig.type !== 'none') {
     const AnimationComponent = animationComponents[animationConfig.type];
