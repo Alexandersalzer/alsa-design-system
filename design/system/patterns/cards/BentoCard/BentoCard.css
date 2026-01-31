@@ -252,6 +252,14 @@
   gap: var(--foundation-space-4, 16px);
 }
 
+/* Description row - for bottom-right link position */
+.bento-card__description-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--foundation-space-4, 16px);
+}
+
 /* Link styling */
 .bento-card__link {
   flex-shrink: 0;

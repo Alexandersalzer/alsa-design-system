@@ -47,8 +47,8 @@ export interface BentoCardProps {
   showBorder?: boolean;
   /** Border width */
   borderWidth?: 'thin' | 'medium' | 'thick';
-  /** Link position: inline (next to title) or bottom (below description) */
-  linkPosition?: 'inline' | 'bottom';
+  /** Link position: inline (next to title), bottom (below description), bottom-right (same row as description, right aligned) */
+  linkPosition?: 'inline' | 'bottom' | 'bottom-right';
   /** Add elevation/shadow to footer */
   footerElevated?: boolean;
 }
@@ -151,20 +151,43 @@ export const BentoCard: React.FC<BentoCardProps> = ({
                 </TextLink>
               )}
             </div>
-            {description && (
-              <Typography variant="body-sm" color={isOverlayFooter ? 'inverse' : 'secondary'}>
-                {description}
-              </Typography>
-            )}
-            {href && linkPosition === 'bottom' && (
-              <TextLink 
-                href={href} 
-                variant={isOverlayFooter ? 'inverse' : 'brand'}
-                rightIcon={<ArrowRightIcon width={16} height={16} />}
-                className="bento-card__link"
-              >
-                {linkText}
-              </TextLink>
+            {/* Description with optional bottom-right link */}
+            {linkPosition === 'bottom-right' ? (
+              <div className="bento-card__description-row">
+                {description && (
+                  <Typography variant="body-sm" color={isOverlayFooter ? 'inverse' : 'secondary'}>
+                    {description}
+                  </Typography>
+                )}
+                {href && (
+                  <TextLink 
+                    href={href} 
+                    variant={isOverlayFooter ? 'inverse' : 'brand'}
+                    rightIcon={<ArrowRightIcon width={16} height={16} />}
+                    className="bento-card__link"
+                  >
+                    {linkText}
+                  </TextLink>
+                )}
+              </div>
+            ) : (
+              <>
+                {description && (
+                  <Typography variant="body-sm" color={isOverlayFooter ? 'inverse' : 'secondary'}>
+                    {description}
+                  </Typography>
+                )}
+                {href && linkPosition === 'bottom' && (
+                  <TextLink 
+                    href={href} 
+                    variant={isOverlayFooter ? 'inverse' : 'brand'}
+                    rightIcon={<ArrowRightIcon width={16} height={16} />}
+                    className="bento-card__link"
+                  >
+                    {linkText}
+                  </TextLink>
+                )}
+              </>
             )}
           </div>
         </div>
