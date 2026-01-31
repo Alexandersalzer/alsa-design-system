@@ -108,7 +108,8 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   const classes = [
     'bento-card',
     `bento-card--radius-${radius}`,
-    effectiveHoverEffect !== 'none' && `bento-card--hover-${effectiveHoverEffect}`,
+    // Only apply hover effect if card has href (is clickable)
+    href && effectiveHoverEffect !== 'none' && `bento-card--hover-${effectiveHoverEffect}`,
     !showFooter && 'bento-card--no-footer',
     !showImage && 'bento-card--no-image',
     effectiveBorderStyle !== 'none' && `bento-card--border-${effectiveBorderStyle}`,
