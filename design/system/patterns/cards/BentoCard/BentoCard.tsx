@@ -45,8 +45,8 @@ export interface BentoCardProps {
   imageHeight?: string;
   /** Footer style: solid (default), raised (solid with shadow), glass (blur), transparent (no bg), none (no footer) */
   footerStyle?: 'solid' | 'raised' | 'glass' | 'transparent' | 'none';
-  /** Border style: none, solid, subtle (with opacity) */
-  borderStyle?: 'none' | 'solid' | 'subtle';
+  /** Border style: none, solid, subtle, strong, accent */
+  borderStyle?: 'none' | 'solid' | 'subtle' | 'strong' | 'accent';
   /** @deprecated Use borderStyle instead */
   showBorder?: boolean;
   /** @deprecated Use borderStyle instead */

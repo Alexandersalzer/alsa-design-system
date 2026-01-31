@@ -27,11 +27,19 @@
 
 /* Border variants */
 .bento-card--border-solid {
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
 }
 
 .bento-card--border-subtle {
   border: 1px solid var(--border-subtle);
+}
+
+.bento-card--border-strong {
+  border: 2px solid var(--border-emphasis);
+}
+
+.bento-card--border-accent {
+  border: 2px solid var(--accent-500);
 }
 
 /* ===============================================
