@@ -180,7 +180,14 @@
   border-top: 1px solid var(--border-subtle);
 }
 
-/* Elevated/raised footer */
+/* Raised footer - solid with elevation */
+.bento-card__footer--raised {
+  background: var(--surface-card, var(--surface-primary));
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+  border-top: none;
+}
+
+/* Elevated modifier (can be added to any footer style) */
 .bento-card__footer--elevated {
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
 }
