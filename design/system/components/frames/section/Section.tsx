@@ -26,6 +26,8 @@ interface SectionProps extends BackgroundProps {
   overflowX?: Overflow;
   overflowY?: Overflow;
   noPaddingTop?: boolean;
+  /** Override bottom padding with token value */
+  paddingBottom?: SpacingScale | 'none';
   applyNavbarVoid?: boolean;
   style?: React.CSSProperties;
   sectionKey?: string;
@@ -133,6 +135,7 @@ export const Section = ({
   solidFadeEdge = 'none',
   solidFadeStrength = 0.15,
   noPaddingTop = false,
+  paddingBottom,
   applyNavbarVoid = false,
   style,
   sectionKey,
@@ -178,6 +181,13 @@ export const Section = ({
   // For noPaddingTop prop, explicitly remove top padding
   else if (noPaddingTop && !applyNavbarVoid) {
     inlineStyles.paddingTop = 0;
+  }
+
+  // Apply custom paddingBottom
+  if (paddingBottom) {
+    inlineStyles.paddingBottom = paddingBottom === 'none' 
+      ? 0 
+      : `var(--foundation-space-${paddingBottom})`;
   }
 
   if (backgroundImage && background === 'media') {
