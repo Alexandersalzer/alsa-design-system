@@ -273,6 +273,10 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
         p.scale += dScale * p.speedScale * deltaTime;
         p.opacity += dOpacity * p.speedOpacity * deltaTime;
 
+        // Clamp values to prevent drift
+        p.scale = Math.max(0.8, Math.min(1.2, p.scale));
+        p.opacity = Math.max(minOpacity, Math.min(maxOpacity, p.opacity));
+
         // When close to target, pick new target (always within ±15% of current position)
         if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
           const drift = 15; // Max drift in percentage
