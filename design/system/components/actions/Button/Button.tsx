@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { forwardRef, ReactNode, useState, useEffect } from 'react';
+import React, { forwardRef, ReactNode, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '../../../utils/cn';
 import { Label } from '../../Typography/Typography';
@@ -71,16 +71,6 @@ export const Button = forwardRef<
     // Success state from action hook
     const isSuccess = actionHook?.success || false;
     const successMessage = actionHook?.message;
-
-    // Auto-reset success state after 3 seconds
-    useEffect(() => {
-      if (isSuccess && actionHook?.reset) {
-        const timer = setTimeout(() => {
-          actionHook.reset();
-        }, 3000);
-        return () => clearTimeout(timer);
-      }
-    }, [isSuccess, actionHook]);
     
     // Use content prop if provided, otherwise use children
     const displayContent = content || children;
