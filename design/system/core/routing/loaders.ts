@@ -6,7 +6,7 @@ import { loadJsonFile, listDirectory, nameToSlug } from '../utils/loaders';
  * Reads from PageNode structure
  */
 export async function getStartPageSlug(locale: string): Promise<string | null> {
-  const pageData = await loadJsonFile<PageNode>(`content/${locale}/start.json`);
+  const pageData = await loadJsonFile<PageNode>(`content/${locale}/pages/start.json`);
   
   if (pageData?.name) {
     return nameToSlug(pageData.name);
@@ -20,7 +20,7 @@ export async function getStartPageSlug(locale: string): Promise<string | null> {
  * Reads from PageNode structures
  */
 export async function getAllPageSlugs(locale: string): Promise<string[]> {
-  const contentFiles = await listDirectory(`content/${locale}/pages/start.json`);
+  const contentFiles = await listDirectory(`content/${locale}/pages`);
   
    // Excluding navbar and footer files
   const pageFiles = contentFiles.filter(file => 
