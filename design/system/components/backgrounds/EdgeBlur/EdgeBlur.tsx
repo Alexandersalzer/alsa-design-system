@@ -47,10 +47,10 @@ export interface EdgeBlurProps {
  */
 export function EdgeBlur({
   position = 'bottom',
-  height = 60,
+  height = 100,
   mode = 'fade',
   blur = 8,
-  opacity = 0.4,
+  opacity = 0.7,
   fixed = true,
   zIndex = 9999,
   className,
