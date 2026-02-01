@@ -137,12 +137,13 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     const background = pageProps?.background;
     const layers: React.ReactNode[] = [];
     
-    // Layer 1: Noise/grain texture with blend mode
+    // Layer 1: Noise/grain texture with blend mode (auto-inverts for light/dark mode)
     if (pageProps?.backgroundImage) {
       layers.push(
         <div
           key="bg-noise"
           aria-hidden="true"
+          className="page-bg-grain"
           style={{
             position: 'fixed',
             inset: 0,
@@ -154,6 +155,8 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
             mixBlendMode: (pageProps.backgroundBlendMode as React.CSSProperties['mixBlendMode']) || 'overlay',
             pointerEvents: 'none',
             zIndex: 1,
+            // Invert grain in light mode for proper contrast
+            filter: 'var(--grain-filter, none)',
           }}
         />
       );

@@ -28,10 +28,12 @@
 
 :root {
   --is-dark: 0;
+  --grain-filter: invert(1); /* Light mode: invert dark grain to white */
 }
 
 [data-theme="dark"] {
   --is-dark: 1;
+  --grain-filter: none; /* Dark mode: keep grain as-is (dark) */
 }
 
 
