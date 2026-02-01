@@ -22,14 +22,91 @@ export interface ComponentNode extends BaseNode {
   componentKey?: string;
 }
 
+// ===============================================
+// Pattern Layout System
+// ===============================================
+
+/**
+ * Item within a layout - atomic unit that contains components
+ */
+export interface LayoutItem {
+  id: string;
+  components: Record<string, ComponentNode>;
+}
+
+/**
+ * Category for grouping items (nested scenarios)
+ * Allows organizing items into groups with their own ordering
+ */
+export interface LayoutCategory {
+  id: string;
+  items: LayoutItem[];
+  /** Optional: override items array order within this category */
+  itemOrder?: string[];
+}
+
+/**
+ * Template child node - either a layout node or component reference
+ */
+export interface TemplateNode {
+  /** Layout type (vstack, hstack, gridItem, card, etc) */
+  type?: string;
+  /** Component reference: "${heading}", "${body}", "${button}" */
+  component?: string;
+  /** Nested children */
+  children?: TemplateNode[];
+  /** Additional props (spacing, align, colSpan, padding, etc) */
+  [key: string]: any;
+}
+
+/**
+ * Template definition for rendering items
+ */
+export interface LayoutTemplate {
+  children: TemplateNode[];
+}
+
+/**
+ * Pattern Layout - Universal layout system for patterns
+ * Defines how items are arranged and rendered
+ */
+export interface PatternLayout {
+  /** Layout primitive: "vstack", "hstack", "grid" */
+  type: string;
+  /** Template defining how to render each item */
+  template?: LayoutTemplate;
+  
+  // Items (flat structure)
+  /** Array of items to render */
+  items?: LayoutItem[];
+  /** Optional: override items array order (references item IDs) */
+  itemOrder?: string[];
+  
+  // Categories (nested structure)
+  /** Array of categories, each containing items */
+  categories?: LayoutCategory[];
+  /** Optional: override categories array order (references category IDs) */
+  categoryOrder?: string[];
+  
+  /** Layout-specific props: gap, spacing, columns, align, etc */
+  [key: string]: any;
+}
+
 /**
  * Pattern - Container för components
  * Innehåller bara components, inte andra patterns
  */
 export interface PatternNode extends BaseNode {
-  components: Record<string, ComponentNode>;
-  layout?: Record<string, any>; // Universal layout system (free-form, validated at runtime)
-  order: string[];
+  /** Legacy: Direct components without layout system */
+  components?: Record<string, ComponentNode>;
+  /** New: Items-based layout system */
+  layout?: PatternLayout;
+  /** 
+   * @deprecated Use layout.itemOrder instead. 
+   * Kept for backwards compatibility with legacy patterns.
+   * References component keys (legacy) - prefer item IDs in layout.itemOrder
+   */
+  order?: string[];
   animation?: AnimationConfig;
   patternKey?: string;
 }

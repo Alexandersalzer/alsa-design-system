@@ -160,12 +160,58 @@ export const extractSlotName = (componentRef: string): string => {
 
 /**
  * Gets all item IDs from layout in order
+ * Priority: itemOrder > items array order > legacy order field
  */
 export const getLayoutItemOrder = (layout: Record<string, any>): string[] => {
-  const { order, items } = layout;
+  const { itemOrder, items, order } = layout;
   
+  // New: itemOrder takes priority (references item IDs)
+  if (itemOrder && Array.isArray(itemOrder)) {
+    return itemOrder;
+  }
+  
+  // Default: items array defines order
+  if (items && Array.isArray(items)) {
+    return items.map(item => item.id).filter(Boolean);
+  }
+  
+  // Legacy fallback: order field (for backwards compatibility)
   if (order && Array.isArray(order)) {
     return order;
+  }
+  
+  return [];
+};
+
+/**
+ * Gets all category IDs from layout in order
+ * Priority: categoryOrder > categories array order
+ */
+export const getLayoutCategoryOrder = (layout: Record<string, any>): string[] => {
+  const { categoryOrder, categories } = layout;
+  
+  // categoryOrder takes priority
+  if (categoryOrder && Array.isArray(categoryOrder)) {
+    return categoryOrder;
+  }
+  
+  // Default: categories array defines order
+  if (categories && Array.isArray(categories)) {
+    return categories.map(cat => cat.id).filter(Boolean);
+  }
+  
+  return [];
+};
+
+/**
+ * Gets item order within a specific category
+ * Priority: category.itemOrder > category.items array order
+ */
+export const getCategoryItemOrder = (category: Record<string, any>): string[] => {
+  const { itemOrder, items } = category;
+  
+  if (itemOrder && Array.isArray(itemOrder)) {
+    return itemOrder;
   }
   
   if (items && Array.isArray(items)) {
@@ -189,6 +235,45 @@ export const findLayoutItem = (
   }
   
   return items.find(item => item.id === itemId);
+};
+
+/**
+ * Finds category by ID from layout categories array
+ */
+export const findLayoutCategory = (
+  layout: Record<string, any>,
+  categoryId: string
+): Record<string, any> | undefined => {
+  const { categories } = layout;
+  
+  if (!categories || !Array.isArray(categories)) {
+    return undefined;
+  }
+  
+  return categories.find(cat => cat.id === categoryId);
+};
+
+/**
+ * Finds item by ID within a category
+ */
+export const findCategoryItem = (
+  category: Record<string, any>,
+  itemId: string
+): Record<string, any> | undefined => {
+  const { items } = category;
+  
+  if (!items || !Array.isArray(items)) {
+    return undefined;
+  }
+  
+  return items.find(item => item.id === itemId);
+};
+
+/**
+ * Check if layout uses categories (nested structure)
+ */
+export const hasCategories = (layout: Record<string, any>): boolean => {
+  return layout.categories && Array.isArray(layout.categories) && layout.categories.length > 0;
 };
 
 /**
