@@ -25,6 +25,9 @@ export type { ImageBackgroundProps } from './ImageBackground/ImageBackground';
 export { ParticleBackground } from './ParticleBackground/ParticleBackground';
 export type { ParticleBackgroundProps, ParticleColorScheme } from './ParticleBackground/ParticleBackground';
 
+export { BottomBlur } from './BottomBlur/BottomBlur';
+export type { BottomBlurProps, BottomBlurVariant, BottomBlurPosition } from './BottomBlur/BottomBlur';
+
 // Shared types
 export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
 

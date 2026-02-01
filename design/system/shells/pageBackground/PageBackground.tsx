@@ -2,6 +2,8 @@
 
 import { PageProps } from '../../core/types/nodes';
 import { renderBackgroundComponent } from '../../core/render/background';
+import { BottomBlur } from '../../components/backgrounds/BottomBlur/BottomBlur';
+import type { BottomBlurVariant } from '../../components/backgrounds/BottomBlur/BottomBlur';
 
 interface PageBackgroundProps {
   pageProps?: PageProps;
@@ -13,7 +15,7 @@ interface PageBackgroundProps {
  * Used to add subtle textures, patterns, colors or images behind page content
  * 
  * Features:
- * - background: 'generative' | 'gradient' | 'pattern' | 'video' | 'image'
+ * - background: 'generative' | 'gradient' | 'pattern' | 'video' | 'image' | 'particle'
  * - backgroundColor: Solid color background
  * - backgroundImage: Image/pattern with configurable opacity
  * - backgroundOverlay: Color tint on top of image
@@ -24,84 +26,12 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
   const hasBackground = !!pageProps?.background || !!pageProps?.backgroundImage || !!pageProps?.backgroundColor;
   const showBottomBlur = !!pageProps?.bottomBlur;
 
-  // Bottom blur variant presets - controls the max blur and height
-  const bottomBlurPresets = {
-    subtle: { height: 60, maxBlur: 6 },
-    medium: { height: 80, maxBlur: 10 },
-    strong: { height: 100, maxBlur: 14 },
-    reflection: { height: 120, maxBlur: 20 },
-  };
-
-  // Render bottom blur helper - uses stacked blur technique (8 layers like reference)
-  // FIXED: Layers now cover full viewport with masks that only show blur at bottom
-  const renderBottomBlurElement = () => {
-    if (!showBottomBlur) return null;
-    
-    // Get variant or default to medium
-    const variantKey = (typeof pageProps?.bottomBlur === 'string' 
-      ? pageProps.bottomBlur 
-      : 'medium') as keyof typeof bottomBlurPresets;
-    
-    const preset = bottomBlurPresets[variantKey] || bottomBlurPresets.medium;
-    
-    // Allow overrides via props
-    const blurHeight = pageProps?.bottomBlurHeight ?? preset.height;
-    const maxBlur = pageProps?.bottomBlurAmount ?? preset.maxBlur;
-    
-    // 8 layers with progressive blur (matching reference exactly)
-    const blurValues = [
-      maxBlur * 0.0078,
-      maxBlur * 0.0156,
-      maxBlur * 0.03125,
-      maxBlur * 0.0625,
-      maxBlur * 0.125,
-      maxBlur * 0.25,
-      maxBlur * 0.5,
-      maxBlur * 1,
-    ];
-    
-    // Mask gradients - using pixel values from bottom to ensure correct positioning
-    // Each layer reveals blur in a band, stacking from subtle (top) to strong (bottom)
-    const getMaskGradient = (layerIndex: number) => {
-      // Calculate band positions based on layer index (0-7)
-      // Layer 0 = topmost band (subtle blur), Layer 7 = bottommost (strongest blur)
-      const bandHeight = blurHeight / 8;
-      const bandTop = blurHeight - (bandHeight * (layerIndex + 2)); // Where this band starts (from bottom)
-      const bandBottom = blurHeight - (bandHeight * layerIndex); // Where this band ends
-      
-      // Create gradient that fades in at top of band, solid in middle, fades out at bottom
-      // Using calc() with 100vh to position from bottom of viewport
-      return `linear-gradient(to bottom, 
-        transparent 0%, 
-        transparent calc(100% - ${Math.max(0, bandBottom + bandHeight)}px),
-        black calc(100% - ${Math.max(0, bandBottom)}px),
-        black calc(100% - ${Math.max(0, bandTop)}px),
-        transparent calc(100% - ${Math.max(0, bandTop - bandHeight)}px),
-        transparent 100%
-      )`;
-    };
-    
-    return (
-      <>
-        {blurValues.map((blur, i) => (
-          <div
-            key={`blur-${i}`}
-            aria-hidden="true"
-            style={{
-              position: 'fixed',
-              inset: 0,
-              background: 'transparent',
-              pointerEvents: 'none',
-              zIndex: 9990 + i,
-              backdropFilter: `blur(${blur}px)`,
-              WebkitBackdropFilter: `blur(${blur}px)`,
-              maskImage: getMaskGradient(i),
-              WebkitMaskImage: getMaskGradient(i),
-            }}
-          />
-        ))}
-      </>
-    );
+  // Resolve bottomBlur variant from props
+  const getBottomBlurVariant = (): BottomBlurVariant => {
+    if (typeof pageProps?.bottomBlur === 'string') {
+      return pageProps.bottomBlur as BottomBlurVariant;
+    }
+    return 'medium';
   };
 
   // If no background but bottomBlur is enabled, still render it
@@ -109,7 +39,14 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     return (
       <>
         {children}
-        {renderBottomBlurElement()}
+        <BottomBlur
+          enabled={showBottomBlur}
+          variant={getBottomBlurVariant()}
+          height={pageProps?.bottomBlurHeight}
+          blurAmount={pageProps?.bottomBlurAmount}
+          position={pageProps?.bottomBlurPosition}
+          opacity={pageProps?.bottomBlurOpacity}
+        />
       </>
     );
   }
@@ -131,7 +68,7 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     }),
   } as React.CSSProperties;
 
-  // Render dynamic background based on type (Eden-style layered approach)
+  // Render dynamic background based on type
   const renderBackground = () => {
     const background = pageProps?.background;
     const layers: React.ReactNode[] = [];
@@ -264,8 +201,15 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
         {children}
       </div>
       
-      {/* Bottom blur bar */}
-      {renderBottomBlurElement()}
+      {/* Bottom blur effect */}
+      <BottomBlur
+        enabled={showBottomBlur}
+        variant={getBottomBlurVariant()}
+        height={pageProps?.bottomBlurHeight}
+        blurAmount={pageProps?.bottomBlurAmount}
+        position={pageProps?.bottomBlurPosition}
+        opacity={pageProps?.bottomBlurOpacity}
+      />
     </div>
   );
 }

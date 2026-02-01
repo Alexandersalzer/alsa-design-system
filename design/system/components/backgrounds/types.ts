@@ -119,6 +119,23 @@ export interface BackgroundEffectsProps {
   backgroundMask?: boolean;
 }
 
+// ===== BOTTOM BLUR =====
+export type BottomBlurVariant = 'subtle' | 'medium' | 'strong' | 'reflection';
+export type BottomBlurPosition = 'bottom' | 'top';
+
+export interface BottomBlurProps {
+  /** Enable blur effect - boolean or variant name */
+  bottomBlur?: boolean | BottomBlurVariant;
+  /** Custom height in pixels (overrides variant) */
+  bottomBlurHeight?: number;
+  /** Custom max blur amount in pixels (overrides variant) */
+  bottomBlurAmount?: number;
+  /** Position of blur: 'bottom' (default) or 'top' */
+  bottomBlurPosition?: BottomBlurPosition;
+  /** Opacity of blur effect (0-1) */
+  bottomBlurOpacity?: number;
+}
+
 // ===== COMBINED BACKGROUND PROPS =====
 /**
  * All background-related props combined
@@ -132,7 +149,8 @@ export interface BackgroundProps
     SolidBackgroundProps,
     ImageBackgroundProps,
     ParticleBackgroundProps,
-    BackgroundEffectsProps {
+    BackgroundEffectsProps,
+    BottomBlurProps {
   background?: BackgroundType;
   backgroundColor?: string;
 }

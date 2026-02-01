@@ -87,10 +87,10 @@ export interface PageProps extends BackgroundProps {
   bottomBlurHeight?: number;
   /** Override: Blur amount in pixels */
   bottomBlurAmount?: number;
-  /** Override: Tint/darkness amount (0-1) */
-  bottomBlurTint?: number;
-  /** Override: Brightness adjustment (0-1, lower = darker) */
-  bottomBlurBrightness?: number;
+  /** Position of blur: 'bottom' (default) or 'top' */
+  bottomBlurPosition?: 'bottom' | 'top';
+  /** Opacity of blur effect (0-1) */
+  bottomBlurOpacity?: number;
 }
 
 /**
