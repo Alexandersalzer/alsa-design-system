@@ -78,6 +78,12 @@ export interface PageSEO {
 export interface PageProps extends BackgroundProps {
   /** Make sections transparent to show page background through (defaults to true when background is set) */
   transparentSections?: boolean;
+  /** Show a fixed blur/gradient bar at the bottom of the screen */
+  bottomBlur?: boolean;
+  /** Height of the bottom blur bar in pixels (default: 120) */
+  bottomBlurHeight?: number;
+  /** Blur amount in pixels (default: 20) */
+  bottomBlurAmount?: number;
 }
 
 /**

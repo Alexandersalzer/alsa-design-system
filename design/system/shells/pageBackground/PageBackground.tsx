@@ -18,12 +18,56 @@ interface PageBackgroundProps {
  * - backgroundImage: Image/pattern with configurable opacity
  * - backgroundOverlay: Color tint on top of image
  * - transparentSections: Makes child sections transparent (default: true)
+ * - bottomBlur: Adds a fixed blur/gradient bar at the bottom of the screen
  */
 export function PageBackground({ pageProps, children }: PageBackgroundProps) {
   const hasBackground = !!pageProps?.background || !!pageProps?.backgroundImage || !!pageProps?.backgroundColor;
+  const showBottomBlur = pageProps?.bottomBlur === true;
 
+  // Render bottom blur helper (defined early so it can be used in early return)
+  const renderBottomBlurElement = () => {
+    if (!showBottomBlur) return null;
+    
+    const height = typeof pageProps?.bottomBlurHeight === 'number' 
+      ? pageProps.bottomBlurHeight 
+      : 120;
+    
+    const blurAmount = typeof pageProps?.bottomBlurAmount === 'number'
+      ? pageProps.bottomBlurAmount
+      : 20;
+
+    return (
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: `${height}px`,
+          background: `linear-gradient(
+            to top,
+            rgba(var(--surface-base-rgb, 255, 255, 255), 0.9) 0%,
+            rgba(var(--surface-base-rgb, 255, 255, 255), 0.6) 40%,
+            rgba(var(--surface-base-rgb, 255, 255, 255), 0) 100%
+          )`,
+          backdropFilter: `blur(${blurAmount}px)`,
+          WebkitBackdropFilter: `blur(${blurAmount}px)`,
+          pointerEvents: 'none',
+          zIndex: 9999,
+        }}
+      />
+    );
+  };
+
+  // If no background but bottomBlur is enabled, still render it
   if (!hasBackground) {
-    return <>{children}</>;
+    return (
+      <>
+        {children}
+        {renderBottomBlurElement()}
+      </>
+    );
   }
 
   // Determine if sections should be transparent
@@ -105,6 +149,9 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
       <div style={{ position: 'relative', zIndex: 2 }}>
         {children}
       </div>
+      
+      {/* Bottom blur bar */}
+      {renderBottomBlurElement()}
     </div>
   );
 }
