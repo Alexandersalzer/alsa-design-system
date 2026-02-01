@@ -27,32 +27,24 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
   // Bottom blur variant presets
   const bottomBlurPresets = {
     subtle: {
-      height: 40,
-      blur: 6,
-      tint: 0,
-      brightness: 1,
-      maskStrength: 0.4,
+      height: 50,
+      blur: 3,
+      fade: 0.3,
     },
     medium: {
-      height: 60,
-      blur: 10,
-      tint: 0,
-      brightness: 1,
-      maskStrength: 0.6,
+      height: 70,
+      blur: 5,
+      fade: 0.5,
     },
     strong: {
-      height: 80,
-      blur: 16,
-      tint: 0,
-      brightness: 1,
-      maskStrength: 0.8,
+      height: 90,
+      blur: 8,
+      fade: 0.7,
     },
     reflection: {
-      height: 100,
-      blur: 20,
-      tint: 0,
-      brightness: 1,
-      maskStrength: 1,
+      height: 120,
+      blur: 12,
+      fade: 0.85,
     },
   };
 
@@ -70,32 +62,46 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     // Allow overrides via props
     const height = pageProps?.bottomBlurHeight ?? preset.height;
     const blurAmount = pageProps?.bottomBlurAmount ?? preset.blur;
-    const tint = pageProps?.bottomBlurTint ?? preset.tint;
-    const brightness = pageProps?.bottomBlurBrightness ?? preset.brightness;
-    const maskStrength = preset.maskStrength;
-
-    const tintGradient = tint > 0 
-      ? `linear-gradient(to top, rgba(0,0,0,${tint}) 0%, rgba(0,0,0,${tint * 0.3}) 50%, transparent 100%)`
-      : 'transparent';
+    const fade = preset.fade;
 
     return (
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: `${height}px`,
-          background: tintGradient,
-          backdropFilter: `blur(${blurAmount}px) saturate(1.2) brightness(${brightness})`,
-          WebkitBackdropFilter: `blur(${blurAmount}px) saturate(1.2) brightness(${brightness})`,
-          maskImage: `linear-gradient(to top, rgba(0,0,0,${maskStrength}) 0%, rgba(0,0,0,${maskStrength * 0.4}) 60%, rgba(0,0,0,0) 100%)`,
-          WebkitMaskImage: `linear-gradient(to top, rgba(0,0,0,${maskStrength}) 0%, rgba(0,0,0,${maskStrength * 0.4}) 60%, rgba(0,0,0,0) 100%)`,
-          pointerEvents: 'none',
-          zIndex: 9999,
-        }}
-      />
+      <>
+        {/* Gradient fade layer - creates the "haze" effect */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: `${height}px`,
+            background: `linear-gradient(to top, 
+              rgba(var(--surface-base-rgb, 0, 0, 0), ${fade}) 0%, 
+              rgba(var(--surface-base-rgb, 0, 0, 0), ${fade * 0.4}) 40%,
+              rgba(var(--surface-base-rgb, 0, 0, 0), 0) 100%
+            )`,
+            pointerEvents: 'none',
+            zIndex: 9998,
+          }}
+        />
+        {/* Subtle blur layer */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: `${height * 0.6}px`,
+            backdropFilter: `blur(${blurAmount}px)`,
+            WebkitBackdropFilter: `blur(${blurAmount}px)`,
+            maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+            pointerEvents: 'none',
+            zIndex: 9999,
+          }}
+        />
+      </>
     );
   };
 
