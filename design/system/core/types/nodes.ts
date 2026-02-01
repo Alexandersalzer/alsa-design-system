@@ -80,10 +80,12 @@ export interface PageProps extends BackgroundProps {
   transparentSections?: boolean;
   /** Show a fixed blur/gradient bar at the bottom of the screen */
   bottomBlur?: boolean;
-  /** Height of the bottom blur bar in pixels (default: 120) */
+  /** Height of the bottom blur bar in pixels (default: 60) */
   bottomBlurHeight?: number;
-  /** Blur amount in pixels (default: 20) */
+  /** Blur amount in pixels (default: 8) */
   bottomBlurAmount?: number;
+  /** Opacity of the blur (0-1, default: 0.15) */
+  bottomBlurOpacity?: number;
 }
 
 /**
