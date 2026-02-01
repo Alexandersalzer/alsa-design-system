@@ -33,6 +33,7 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
   };
 
   // Render bottom blur helper - uses stacked blur technique (8 layers like reference)
+  // FIXED: Layers now cover full viewport with masks that only show blur at bottom
   const renderBottomBlurElement = () => {
     if (!showBottomBlur) return null;
     
@@ -44,64 +45,62 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     const preset = bottomBlurPresets[variantKey] || bottomBlurPresets.medium;
     
     // Allow overrides via props
-    const height = pageProps?.bottomBlurHeight ?? preset.height;
+    const blurHeight = pageProps?.bottomBlurHeight ?? preset.height;
     const maxBlur = pageProps?.bottomBlurAmount ?? preset.maxBlur;
     
     // 8 layers with progressive blur (matching reference exactly)
-    // Blur values: 0.078, 0.156, 0.3125, 0.625, 1.25, 2.5, 5, 10 (scaled to maxBlur)
     const blurValues = [
-      maxBlur * 0.0078,  // ~0.078px at maxBlur=10
-      maxBlur * 0.0156,  // ~0.156px
-      maxBlur * 0.03125, // ~0.3125px
-      maxBlur * 0.0625,  // ~0.625px
-      maxBlur * 0.125,   // ~1.25px
-      maxBlur * 0.25,    // ~2.5px
-      maxBlur * 0.5,     // ~5px
-      maxBlur * 1,       // ~10px
+      maxBlur * 0.0078,
+      maxBlur * 0.0156,
+      maxBlur * 0.03125,
+      maxBlur * 0.0625,
+      maxBlur * 0.125,
+      maxBlur * 0.25,
+      maxBlur * 0.5,
+      maxBlur * 1,
     ];
     
-    // Mask gradients matching reference (top to bottom, 12.5% bands)
-    const maskGradients = [
-      'linear-gradient(rgba(0,0,0,0) 0%, rgb(0,0,0) 12.5%, rgb(0,0,0) 25%, rgba(0,0,0,0) 37.5%)',
-      'linear-gradient(rgba(0,0,0,0) 12.5%, rgb(0,0,0) 25%, rgb(0,0,0) 37.5%, rgba(0,0,0,0) 50%)',
-      'linear-gradient(rgba(0,0,0,0) 25%, rgb(0,0,0) 37.5%, rgb(0,0,0) 50%, rgba(0,0,0,0) 62.5%)',
-      'linear-gradient(rgba(0,0,0,0) 37.5%, rgb(0,0,0) 50%, rgb(0,0,0) 62.5%, rgba(0,0,0,0) 75%)',
-      'linear-gradient(rgba(0,0,0,0) 50%, rgb(0,0,0) 62.5%, rgb(0,0,0) 75%, rgba(0,0,0,0) 87.5%)',
-      'linear-gradient(rgba(0,0,0,0) 62.5%, rgb(0,0,0) 75%, rgb(0,0,0) 87.5%, rgba(0,0,0,0) 100%)',
-      'linear-gradient(rgba(0,0,0,0) 75%, rgb(0,0,0) 87.5%, rgb(0,0,0) 100%)',
-      'linear-gradient(rgba(0,0,0,0) 87.5%, rgb(0,0,0) 100%)',
-    ];
+    // Mask gradients - using pixel values from bottom to ensure correct positioning
+    // Each layer reveals blur in a band, stacking from subtle (top) to strong (bottom)
+    const getMaskGradient = (layerIndex: number) => {
+      // Calculate band positions based on layer index (0-7)
+      // Layer 0 = topmost band (subtle blur), Layer 7 = bottommost (strongest blur)
+      const bandHeight = blurHeight / 8;
+      const bandTop = blurHeight - (bandHeight * (layerIndex + 2)); // Where this band starts (from bottom)
+      const bandBottom = blurHeight - (bandHeight * layerIndex); // Where this band ends
+      
+      // Create gradient that fades in at top of band, solid in middle, fades out at bottom
+      // Using calc() with 100vh to position from bottom of viewport
+      return `linear-gradient(to bottom, 
+        transparent 0%, 
+        transparent calc(100% - ${Math.max(0, bandBottom + bandHeight)}px),
+        black calc(100% - ${Math.max(0, bandBottom)}px),
+        black calc(100% - ${Math.max(0, bandTop)}px),
+        transparent calc(100% - ${Math.max(0, bandTop - bandHeight)}px),
+        transparent 100%
+      )`;
+    };
     
     return (
-      <div
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: `${height}px`,
-          pointerEvents: 'none',
-          zIndex: 9990,
-          overflow: 'hidden',
-        }}
-      >
+      <>
         {blurValues.map((blur, i) => (
           <div
-            key={i}
+            key={`blur-${i}`}
             aria-hidden="true"
             style={{
-              position: 'absolute',
+              position: 'fixed',
               inset: 0,
+              background: 'transparent',
               pointerEvents: 'none',
-              zIndex: i + 1,
+              zIndex: 9990 + i,
               backdropFilter: `blur(${blur}px)`,
               WebkitBackdropFilter: `blur(${blur}px)`,
-              maskImage: maskGradients[i],
-              WebkitMaskImage: maskGradients[i],
+              maskImage: getMaskGradient(i),
+              WebkitMaskImage: getMaskGradient(i),
             }}
           />
         ))}
-      </div>
+      </>
     );
   };
 
