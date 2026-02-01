@@ -69,6 +69,7 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
         {/* Gradient fade layer - creates the "haze" effect */}
         <div
           aria-hidden="true"
+          className="bottom-blur-fade"
           style={{
             position: 'fixed',
             bottom: 0,
@@ -76,9 +77,9 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
             right: 0,
             height: `${height}px`,
             background: `linear-gradient(to top, 
-              rgba(var(--surface-base-rgb, 0, 0, 0), ${fade}) 0%, 
-              rgba(var(--surface-base-rgb, 0, 0, 0), ${fade * 0.4}) 40%,
-              rgba(var(--surface-base-rgb, 0, 0, 0), 0) 100%
+              color-mix(in srgb, var(--surface-base) ${fade * 100}%, transparent) 0%, 
+              color-mix(in srgb, var(--surface-base) ${fade * 40}%, transparent) 40%,
+              transparent 100%
             )`,
             pointerEvents: 'none',
             zIndex: 9998,
