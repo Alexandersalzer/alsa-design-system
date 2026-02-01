@@ -36,14 +36,31 @@ export const renderLayoutWithTemplate = (
   
   const { type: parentType, template, order, ...parentLayoutProps } = layout;
 
-  // Merge pattern props (like align) with layout props
-  // Pattern props take precedence, then layout props
-  // Convert alignSectionHeader from layoutContext if no explicit align is set
-  const effectiveAlign = patternProps?.align;
-  
+  // Map align values to HStack justify values
+  // align uses semantic names (left, center, right, end) while HStack uses flexbox names (start, center, end)
+  const alignToJustifyMap: Record<string, string> = {
+    left: 'start',
+    start: 'start',
+    center: 'center',
+    right: 'end',
+    end: 'end',
+  };
+
+  // Map mobileAlign to mobileJustify
+  const mobileJustify = patternProps?.mobileAlign 
+    ? alignToJustifyMap[patternProps.mobileAlign] || patternProps.mobileAlign
+    : undefined;
+
+  // Merge pattern props with layout props
+  // For hstack: map align to justify for horizontal alignment
   const mergedLayoutProps = {
     ...parentLayoutProps,
-    ...(effectiveAlign && { align: effectiveAlign })
+    ...(parentType === 'hstack' && patternProps?.align && { 
+      justify: alignToJustifyMap[patternProps.align] || patternProps.align 
+    }),
+    ...(parentType === 'hstack' && mobileJustify && { mobileJustify }),
+    // For other layout types, pass align directly
+    ...(parentType !== 'hstack' && patternProps?.align && { align: patternProps.align })
   };
 
   // Get parent layout component
