@@ -197,8 +197,9 @@ const renderItems = (
     ));
     
     // Wrap in <form> if item contains form-action buttons
+    // Use display:contents so form doesn't break grid/flex layouts
     const itemContent = isFormItem ? (
-      <form key={itemId} onSubmit={(e) => e.preventDefault()}>
+      <form key={itemId} onSubmit={(e) => e.preventDefault()} style={{ display: 'contents' }}>
         {templateContent}
       </form>
     ) : (
