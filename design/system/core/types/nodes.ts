@@ -78,18 +78,14 @@ export interface PageSEO {
 export interface PageProps extends BackgroundProps {
   /** Make sections transparent to show page background through (defaults to true when background is set) */
   transparentSections?: boolean;
-  /** Show edge fade/blur effect */
-  edgeBlur?: boolean;
-  /** Position of the edge effect ('bottom' | 'top', default: 'bottom') */
-  edgeBlurPosition?: 'bottom' | 'top';
-  /** Mode: 'fade' (soft gradient), 'blur' (backdrop), 'both' (default: 'fade') */
-  edgeBlurMode?: 'fade' | 'blur' | 'both';
-  /** Height of the effect in pixels (default: 60) */
-  edgeBlurHeight?: number;
-  /** Blur intensity in pixels - for 'blur' or 'both' mode (default: 8) */
-  edgeBlurAmount?: number;
-  /** Opacity of fade effect (0-1, default: 0.4) */
-  edgeBlurOpacity?: number;
+  /** Show a fixed blur/gradient bar at the bottom of the screen */
+  bottomBlur?: boolean;
+  /** Height of the bottom blur bar in pixels (default: 60) */
+  bottomBlurHeight?: number;
+  /** Blur amount in pixels (default: 8) */
+  bottomBlurAmount?: number;
+  /** Opacity of the blur (0-1, default: 0.15) */
+  bottomBlurOpacity?: number;
 }
 
 /**
