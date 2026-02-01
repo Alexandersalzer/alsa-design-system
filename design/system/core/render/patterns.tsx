@@ -90,6 +90,38 @@ export const renderPatternDirect = (
   sectionKey?: string,
   layoutContext?: LayoutContext
 ) => {
+  const patternProps = getPatternProps(pattern);
+
+  // UNIVERSAL LAYOUT PATH: If pattern has layout prop (like action patterns)
+  if ((pattern as any).layout) {
+    const layoutConfig = (pattern as any).layout;
+    
+    // Determine animation config
+    const patternAnimation = pattern.animation || patternProps.animation;
+    const animationConfig = patternAnimation || layoutContext?.sectionAnimation;
+    
+    // Animations that should wrap each item individually
+    const perItemAnimations = ['fadeIn', 'opacity', 'scale', 'slideIn'];
+    const animationType = animationConfig?.type;
+    const isPerItemAnimation = animationType && perItemAnimations.includes(animationType);
+    
+    const layoutContent = renderLayoutWithTemplate(
+      layoutConfig, 
+      pattern.components, 
+      sectionKey, 
+      patternKey,
+      patternProps,
+      isPerItemAnimation ? animationConfig : undefined
+    );
+
+    return (
+      <div key={patternKey} data-pattern-key={patternKey} style={{ display: 'contents' }}>
+        {layoutContent}
+      </div>
+    );
+  }
+
+  // LEGACY PATH: Use pattern registry for hardcoded patterns
   const PatternComponent = patternRegistry[pattern.type];
   if (!PatternComponent) {
     console.warn(`Pattern: ${pattern.type} don't exist in registry`);

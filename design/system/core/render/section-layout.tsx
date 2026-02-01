@@ -12,7 +12,6 @@ import { Container } from '../../components/frames/container/Container';
 import { LayoutConfig } from '../types/layout';
 import { PatternNode } from '../types/nodes';
 import { renderPattern, renderPatternDirect } from './patterns';
-import { actionsRegistry } from '../../patterns/actions/registry';
 import { AnimationConfig } from '../../components/animations/types';
 
 interface SectionLayoutProps {
@@ -63,10 +62,8 @@ export function renderSectionLayout({
   } = layout || {};
 
   // ===== FIND SPECIAL PATTERNS =====
-  // Helper to check if a pattern is an action pattern
-  const isActionPattern = (patternType: string) => {
-    return patternType in actionsRegistry;
-  };
+  // Action patterns have type === 'action' (explicit in JSON)
+  const isActionPattern = (patternType: string) => patternType === 'action';
 
   const sectionHeaderKey = order.find(key => patterns[key]?.type === 'sectionHeader');
   
