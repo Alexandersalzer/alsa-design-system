@@ -151,7 +151,15 @@ export const Button = forwardRef<
       setInternalLoading(true);
 
       try {
-        await actionHook!.execute(formData || {});
+        // Auto-collect form data from parent <form> if no formData prop provided
+        let dataToSubmit = formData;
+        if (!dataToSubmit || Object.keys(dataToSubmit).length === 0) {
+          const form = (e.currentTarget as HTMLButtonElement).closest('form');
+          if (form) {
+            dataToSubmit = Object.fromEntries(new FormData(form).entries()) as Record<string, any>;
+          }
+        }
+        await actionHook!.execute(dataToSubmit || {});
         onClick?.(e as any); // Call parent onClick after other actions
       } finally {
         setInternalLoading(false);

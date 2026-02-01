@@ -133,6 +133,25 @@ export const renderLayoutWithTemplate = (
 };
 
 /**
+ * Form-action types that require wrapping in a <form> element
+ */
+const FORM_ACTION_TYPES = ['contact', 'newsletter', 'booking'];
+
+/**
+ * Checks if an item's components contain any form-action buttons
+ */
+const hasFormAction = (itemComponents: Record<string, any>): boolean => {
+  if (!itemComponents) return false;
+  
+  return Object.values(itemComponents).some((component: any) => {
+    if (component?.type === 'button' && component?.props?.action?.type) {
+      return FORM_ACTION_TYPES.includes(component.props.action.type);
+    }
+    return false;
+  });
+};
+
+/**
  * Renders items from an array using template
  * Shared logic for both flat and categorized layouts
  */
@@ -169,13 +188,22 @@ const renderItems = (
 
     // Render each child in template.children array
     const templateChildren = template.children || [];
-    const itemContent = (
+    const isFormItem = hasFormAction(item.components);
+    
+    const templateContent = templateChildren.map((child: any, index: number) => (
+      <React.Fragment key={index}>
+        {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey)}
+      </React.Fragment>
+    ));
+    
+    // Wrap in <form> if item contains form-action buttons
+    const itemContent = isFormItem ? (
+      <form key={itemId} onSubmit={(e) => e.preventDefault()}>
+        {templateContent}
+      </form>
+    ) : (
       <React.Fragment key={itemId}>
-        {templateChildren.map((child: any, index: number) => (
-          <React.Fragment key={index}>
-            {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey)}
-          </React.Fragment>
-        ))}
+        {templateContent}
       </React.Fragment>
     );
     
