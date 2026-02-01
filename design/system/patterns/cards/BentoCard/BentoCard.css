@@ -348,6 +348,17 @@
   right: 0;
 }
 
+/* Force white text on overlay footers (transparent/glass) regardless of theme */
+.bento-card__footer--transparent,
+.bento-card__footer--glass {
+  color: var(--always-white) !important;
+}
+
+.bento-card__footer--transparent *,
+.bento-card__footer--glass * {
+  color: var(--always-white) !important;
+}
+
 /* When footer overlays image, image should fill entire card */
 .bento-card--overlay-footer {
   /* Card needs to contain absolute positioned elements */
