@@ -205,15 +205,21 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
     const states: ParticleState[] = [];
     for (let i = 0; i < count; i++) {
       const seed = i * 1337;
+      const startX = seededRandom(seed) * 100;
+      const startY = seededRandom(seed + 1) * 100;
+      const startScale = 0.9 + seededRandom(seed + 5) * 0.2;
+      const startOpacity = minOpacity + seededRandom(seed + 4) * (maxOpacity - minOpacity);
+      
+      // Start targets close to initial position (within 5% range)
       states.push({
-        x: seededRandom(seed) * 100,
-        y: seededRandom(seed + 1) * 100,
-        scale: 0.8 + seededRandom(seed + 5) * 0.4,
-        opacity: minOpacity + seededRandom(seed + 4) * (maxOpacity - minOpacity),
-        targetX: seededRandom(seed + 6) * 100,
-        targetY: seededRandom(seed + 7) * 100,
-        targetScale: 0.9 + seededRandom(seed + 8) * 0.3,
-        targetOpacity: minOpacity + seededRandom(seed + 9) * (maxOpacity - minOpacity),
+        x: startX,
+        y: startY,
+        scale: startScale,
+        opacity: startOpacity,
+        targetX: startX + (seededRandom(seed + 6) - 0.5) * 10, // ±5% from start
+        targetY: startY + (seededRandom(seed + 7) - 0.5) * 10, // ±5% from start
+        targetScale: startScale + (seededRandom(seed + 8) - 0.5) * 0.2,
+        targetOpacity: startOpacity + (seededRandom(seed + 9) - 0.5) * 0.2,
         speedX: 0.00015 + seededRandom(seed + 10) * 0.00025,
         speedY: 0.00015 + seededRandom(seed + 11) * 0.00025,
         speedScale: 0.0004 + seededRandom(seed + 12) * 0.0008,
