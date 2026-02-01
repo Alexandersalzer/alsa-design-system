@@ -103,12 +103,14 @@ export interface ParticleBackgroundProps {
 
 // ===== GLOW/MASK EFFECTS =====
 export interface BackgroundEffectsProps {
-  /** Enable glow/spotlight effect at top (default: false) */
+  /** Enable glow/spotlight effect */
   backgroundGlow?: boolean;
-  /** Glow color (default: rgba(255,255,255,0.06)) */
-  backgroundGlowColor?: string;
-  /** Glow size/spread (default: 65%) */
+  /** Glow intensity (0-1, default: 0.06) */
+  backgroundGlowIntensity?: number;
+  /** Glow size/spread (default: 80%) */
   backgroundGlowSize?: string;
+  /** Glow position: 'top' | 'center' | 'bottom' or custom "x% y%" */
+  backgroundGlowPosition?: 'top' | 'center' | 'bottom' | string;
   /** Enable mask/fade at bottom */
   backgroundMask?: boolean;
 }

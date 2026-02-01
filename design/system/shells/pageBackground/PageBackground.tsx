@@ -159,10 +159,31 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
       );
     }
     
-    // Layer 2: Glow/spotlight effect (radial gradient at top)
-    if (pageProps?.backgroundGlow !== false) {
-      const glowColor = pageProps.backgroundGlowColor || 'rgba(255,255,255,0.06)';
-      const glowSize = pageProps.backgroundGlowSize || '65%';
+    // Layer 2: Glow/spotlight effect (radial gradient at top with smooth steps to avoid banding)
+    if (pageProps?.backgroundGlow) {
+      const glowIntensity = pageProps.backgroundGlowIntensity ?? 0.06;
+      const glowSize = pageProps.backgroundGlowSize || '80%';
+      const glowPosition = pageProps.backgroundGlowPosition || 'top';
+      
+      // Calculate gradient stops based on intensity (smooth 7-step fade)
+      const stops = [
+        glowIntensity,
+        glowIntensity * 0.67,
+        glowIntensity * 0.42,
+        glowIntensity * 0.25,
+        glowIntensity * 0.13,
+        glowIntensity * 0.05,
+        0
+      ];
+      
+      // Position mapping
+      const positionMap: Record<string, string> = {
+        'top': '50% 0%',
+        'center': '50% 50%',
+        'bottom': '50% 100%',
+      };
+      const gradientPosition = positionMap[glowPosition] || glowPosition;
+      
       layers.push(
         <div
           key="bg-glow"
@@ -170,7 +191,15 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
           style={{
             position: 'fixed',
             inset: 0,
-            background: `radial-gradient(ellipse at top, ${glowColor}, transparent ${glowSize})`,
+            background: `radial-gradient(ellipse 120% ${glowSize} at ${gradientPosition}, 
+              rgba(255,255,255,${stops[0]}) 0%, 
+              rgba(255,255,255,${stops[1]}) 15%, 
+              rgba(255,255,255,${stops[2]}) 30%, 
+              rgba(255,255,255,${stops[3]}) 45%, 
+              rgba(255,255,255,${stops[4]}) 60%, 
+              rgba(255,255,255,${stops[5]}) 75%, 
+              rgba(255,255,255,${stops[6]}) 100%
+            )`,
             pointerEvents: 'none',
             zIndex: 2,
           }}
