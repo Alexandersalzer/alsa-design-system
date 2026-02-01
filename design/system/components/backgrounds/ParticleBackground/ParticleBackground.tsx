@@ -119,6 +119,7 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
   const particleStates = useRef<ParticleState[]>([]);
   const animationRef = useRef<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [ready, setReady] = useState(false);
   const [isDark, setIsDark] = useState(false);
 
   // Detect dark mode and listen for changes
@@ -228,15 +229,21 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
     }
     particleStates.current = states;
 
-    // Set initial positions
-    states.forEach((state, i) => {
-      const el = particleRefs.current[i];
-      if (el) {
-        el.style.left = `${state.x}%`;
-        el.style.top = `${state.y}%`;
-        el.style.opacity = String(state.opacity);
-        el.style.transform = `scale(${state.scale})`;
-      }
+    // Set initial positions then show
+    requestAnimationFrame(() => {
+      states.forEach((state, i) => {
+        const el = particleRefs.current[i];
+        if (el) {
+          el.style.left = `${state.x}%`;
+          el.style.top = `${state.y}%`;
+          el.style.opacity = String(state.opacity);
+          el.style.transform = `scale(${state.scale})`;
+        }
+      });
+      // Show particles after positions are set
+      requestAnimationFrame(() => {
+        setReady(true);
+      });
     });
   }, [count, minOpacity, maxOpacity]);
 
@@ -306,6 +313,8 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
         overflow: 'hidden',
         backgroundColor: 'transparent',
         pointerEvents: 'none',
+        opacity: ready ? 1 : 0,
+        transition: 'opacity 0.5s ease-out',
       }}
     >
       {mounted && particleData.map((p, index) => (
