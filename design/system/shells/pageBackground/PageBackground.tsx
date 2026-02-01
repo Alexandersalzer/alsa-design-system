@@ -22,19 +22,50 @@ interface PageBackgroundProps {
  */
 export function PageBackground({ pageProps, children }: PageBackgroundProps) {
   const hasBackground = !!pageProps?.background || !!pageProps?.backgroundImage || !!pageProps?.backgroundColor;
-  const showBottomBlur = pageProps?.bottomBlur === true;
+  const showBottomBlur = !!pageProps?.bottomBlur;
+
+  // Bottom blur variant presets
+  const bottomBlurPresets = {
+    subtle: {
+      height: 40,
+      blur: 4,
+      tint: 0.05,
+      brightness: 0.98,
+      maskStrength: 0.5,
+    },
+    medium: {
+      height: 60,
+      blur: 8,
+      tint: 0.1,
+      brightness: 0.96,
+      maskStrength: 0.7,
+    },
+    strong: {
+      height: 80,
+      blur: 12,
+      tint: 0.18,
+      brightness: 0.92,
+      maskStrength: 0.9,
+    },
+  };
 
   // Render bottom blur helper (defined early so it can be used in early return)
   const renderBottomBlurElement = () => {
     if (!showBottomBlur) return null;
     
-    const height = typeof pageProps?.bottomBlurHeight === 'number' 
-      ? pageProps.bottomBlurHeight 
-      : 50;
+    // Get variant or default to medium
+    const variantKey = (typeof pageProps?.bottomBlur === 'string' 
+      ? pageProps.bottomBlur 
+      : 'medium') as keyof typeof bottomBlurPresets;
     
-    const blurAmount = typeof pageProps?.bottomBlurAmount === 'number'
-      ? pageProps.bottomBlurAmount
-      : 6;
+    const preset = bottomBlurPresets[variantKey] || bottomBlurPresets.medium;
+    
+    // Allow overrides via props
+    const height = pageProps?.bottomBlurHeight ?? preset.height;
+    const blurAmount = pageProps?.bottomBlurAmount ?? preset.blur;
+    const tint = pageProps?.bottomBlurTint ?? preset.tint;
+    const brightness = pageProps?.bottomBlurBrightness ?? preset.brightness;
+    const maskStrength = preset.maskStrength;
 
     return (
       <div
@@ -45,11 +76,11 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
           left: 0,
           right: 0,
           height: `${height}px`,
-          background: 'transparent',
-          backdropFilter: `blur(${blurAmount}px) saturate(1.2)`,
-          WebkitBackdropFilter: `blur(${blurAmount}px) saturate(1.2)`,
-          maskImage: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 100%)',
-          WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 100%)',
+          background: `linear-gradient(to top, rgba(0,0,0,${tint}) 0%, rgba(0,0,0,${tint * 0.3}) 50%, transparent 100%)`,
+          backdropFilter: `blur(${blurAmount}px) saturate(1.1) brightness(${brightness})`,
+          WebkitBackdropFilter: `blur(${blurAmount}px) saturate(1.1) brightness(${brightness})`,
+          maskImage: `linear-gradient(to top, rgba(0,0,0,${maskStrength}) 0%, rgba(0,0,0,${maskStrength * 0.5}) 50%, rgba(0,0,0,0) 100%)`,
+          WebkitMaskImage: `linear-gradient(to top, rgba(0,0,0,${maskStrength}) 0%, rgba(0,0,0,${maskStrength * 0.5}) 50%, rgba(0,0,0,0) 100%)`,
           pointerEvents: 'none',
           zIndex: 9999,
         }}
