@@ -38,7 +38,18 @@ export const renderLayoutWithTemplate = (
   animationConfig?: AnimationConfig
 ): React.ReactElement | null => {
   
-  const { type: parentType, template, order, ...parentLayoutProps } = layout;
+  // Destructure layout-system props to prevent them from being passed to DOM elements
+  const { 
+    type: parentType, 
+    template, 
+    items,
+    itemOrder,
+    categories,
+    categoryOrder,
+    categoryTemplate,
+    order, // legacy
+    ...parentLayoutProps 
+  } = layout;
 
   // Map align values to HStack justify values
   // align uses semantic names (left, center, right, end) while HStack uses flexbox names (start, center, end)
