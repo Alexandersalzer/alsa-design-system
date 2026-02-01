@@ -10,10 +10,6 @@ import { ComponentNode, PatternNode } from '../types/nodes';
  */
 let hiddenComponentsSet: Set<string> = new Set();
 
-export const setHiddenComponentsContext = (hiddenComponents: Set<string>) => {
-  hiddenComponentsSet = hiddenComponents;
-};
-
 /**
  * Get content from the first component with a specific type and optional role
  * Returns the content string or a fallback value
@@ -193,4 +189,22 @@ export const findLayoutItem = (
   }
   
   return items.find(item => item.id === itemId);
+};
+
+/**
+ * Find component by type in components record
+ * Used for template matching: ${image} → finds component with type: "image"
+ * 
+ * @param components - Record of ComponentNodes keyed by componentId
+ * @param type - Component type to find (e.g., "image", "heading", "body")
+ * @returns The matching ComponentNode or undefined
+ */
+export const findComponentByType = (
+  components: Record<string, any>,
+  type: string
+): Record<string, any> | undefined => {
+  const entry = Object.entries(components).find(
+    ([_, component]) => component.type === type
+  );
+  return entry ? entry[1] : undefined;
 };

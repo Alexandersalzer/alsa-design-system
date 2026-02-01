@@ -4,11 +4,15 @@
 import React, { ReactNode, CSSProperties } from 'react';
 import './VStack.css';
 
+type SpacingValue = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+
 export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   // Spacing between items
-  spacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+  spacing?: SpacingValue;
+  // Mobile-specific spacing (overrides spacing on mobile)
+  mobileSpacing?: SpacingValue;
   // Horizontal alignment (cross-axis)
   align?: 'start' | 'center' | 'end' | 'stretch';
   // Vertical distribution (main-axis) - NEW!
@@ -33,6 +37,7 @@ export const VStack = React.forwardRef<HTMLDivElement, StackProps>(({
   children,
   className,
   spacing = 'md',
+  mobileSpacing,
   align = 'stretch',
   justify, // NEW!
   split = false,
@@ -45,6 +50,7 @@ export const VStack = React.forwardRef<HTMLDivElement, StackProps>(({
   const classes = buildClasses(
     'vStack',
     `vStack--spacing-${spacing}`,
+    mobileSpacing && `vStack--mobileSpacing-${mobileSpacing}`,
     align !== 'stretch' && `vStack--align-${align}`,
     justify && `vStack--justify-${justify}`, // NEW!
     split && 'vStack--split',

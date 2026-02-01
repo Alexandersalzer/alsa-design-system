@@ -22,6 +22,8 @@ export interface BleedProps {
   horizontal?: string;
   /** Vertical bleed (top + bottom) */
   vertical?: string;
+  /** Disable bleed on mobile (reset margins to 0) */
+  disableOnMobile?: boolean;
   /** Custom className */
   className?: string;
 }
@@ -35,6 +37,7 @@ export const Bleed: React.FC<BleedProps> = ({
   left,
   horizontal,
   vertical,
+  disableOnMobile = false,
   className = '',
 }) => {
   // Calculate margins (negative values to create bleed effect)
@@ -50,8 +53,14 @@ export const Bleed: React.FC<BleedProps> = ({
     marginLeft: marginLeft !== '0' ? `-${marginLeft}` : undefined,
   };
 
+  const classes = [
+    'Bleed',
+    disableOnMobile && 'Bleed--disable-mobile',
+    className
+  ].filter(Boolean).join(' ');
+
   return (
-    <div className={`Bleed ${className}`} style={style}>
+    <div className={classes} style={style}>
       {children}
     </div>
   );

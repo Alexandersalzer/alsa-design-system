@@ -114,6 +114,40 @@
   .hStack--spacing-xl {
     gap: var(--foundation-space-6);
   }
+
+  /* ===== MOBILE JUSTIFY ===== */
+  .hStack--mobileJustify-start {
+    justify-content: flex-start;
+  }
+
+  .hStack--mobileJustify-center {
+    justify-content: center;
+  }
+
+  .hStack--mobileJustify-end {
+    justify-content: flex-end;
+  }
+
+  .hStack--mobileJustify-between {
+    justify-content: space-between;
+  }
+
+  /* ===== MOBILE DIRECTION ===== */
+  .hStack--mobileDirection-row {
+    flex-direction: row !important;
+  }
+
+  .hStack--mobileDirection-row-reverse {
+    flex-direction: row-reverse !important;
+  }
+
+  .hStack--mobileDirection-column {
+    flex-direction: column !important;
+  }
+
+  .hStack--mobileDirection-column-reverse {
+    flex-direction: column-reverse !important;
+  }
 }
 
 /* ===== ACCESSIBILITY ===== */
