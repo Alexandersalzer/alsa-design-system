@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 
 export type ParticleColorScheme = 'light' | 'warm' | 'cool' | 'accent' | 'custom';
 
@@ -76,20 +76,26 @@ function seededRandom(seed: number) {
 }
 
 export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
-  count = 80,
+  count = 50,
   colorScheme = 'warm',
   customColors = [],
   speed = 1,
   minSize = 1,
-  maxSize = 2,
-  minOpacity = 0.4,
-  maxOpacity = 1,
+  maxSize = 1.8,
+  minOpacity = 0.5,
+  maxOpacity = 0.95,
   blur = 0.25,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const particleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const particleStates = useRef<ParticleState[]>([]);
   const animationRef = useRef<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Only render particles after mount to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Get colors based on scheme
   const colors = useMemo(() => {
@@ -99,14 +105,15 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
     return COLOR_SCHEMES[colorScheme] || COLOR_SCHEMES.warm;
   }, [colorScheme, customColors]);
 
-  // Generate particle data (static properties)
+  // Generate particle data (static properties) - round to 2 decimals for SSR consistency
   const particleData = useMemo(() => {
     const data = [];
     for (let i = 0; i < count; i++) {
       const seed = i * 1337;
+      const size = minSize + seededRandom(seed + 2) * (maxSize - minSize);
       data.push({
         id: i,
-        size: minSize + seededRandom(seed + 2) * (maxSize - minSize),
+        size: Math.round(size * 100) / 100, // Round to 2 decimals for hydration
         color: colors[Math.floor(seededRandom(seed + 3) * colors.length)],
       });
     }
@@ -215,7 +222,7 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
         pointerEvents: 'none',
       }}
     >
-      {particleData.map((p, index) => (
+      {mounted && particleData.map((p, index) => (
         <div
           key={p.id}
           ref={(el) => { particleRefs.current[index] = el; }}
