@@ -132,56 +132,75 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     }),
   } as React.CSSProperties;
 
-  // Render dynamic background based on type
+  // Render dynamic background based on type (Eden-style layered approach)
   const renderBackground = () => {
     const background = pageProps?.background;
     const layers: React.ReactNode[] = [];
     
-    // Layer 1: Background image (can be combined with other backgrounds)
+    // Layer 1: Noise/grain texture with blend mode
     if (pageProps?.backgroundImage) {
       layers.push(
         <div
-          key="bg-image"
+          key="bg-noise"
           aria-hidden="true"
           style={{
             position: 'fixed',
             inset: 0,
             backgroundImage: `url(${pageProps.backgroundImage})`,
-            backgroundSize: pageProps.backgroundSize || 'auto',
+            backgroundSize: pageProps.backgroundSize || '64px',
             backgroundPosition: pageProps.backgroundPosition || 'center',
             backgroundRepeat: pageProps.backgroundRepeat || 'repeat',
-            opacity: pageProps.backgroundOpacity ?? 0.03,
+            opacity: pageProps.backgroundOpacity ?? 0.06,
+            mixBlendMode: (pageProps.backgroundBlendMode as React.CSSProperties['mixBlendMode']) || 'overlay',
             pointerEvents: 'none',
-            zIndex: 0,
+            zIndex: 1,
           }}
         />
       );
-      
-      // Optional overlay on image
-      if (pageProps.backgroundOverlay && typeof pageProps.backgroundOverlay === 'string') {
-        layers.push(
-          <div
-            key="bg-overlay"
-            aria-hidden="true"
-            style={{
-              position: 'fixed',
-              inset: 0,
-              backgroundColor: pageProps.backgroundOverlay,
-              opacity: pageProps.backgroundOverlayOpacity ?? 0.5,
-              pointerEvents: 'none',
-              zIndex: 1,
-            }}
-          />
-        );
-      }
     }
     
-    // Layer 2: Dynamic background component (particle, generative, etc)
+    // Layer 2: Glow/spotlight effect (radial gradient at top)
+    if (pageProps?.backgroundGlow !== false) {
+      const glowColor = pageProps.backgroundGlowColor || 'rgba(255,255,255,0.06)';
+      const glowSize = pageProps.backgroundGlowSize || '65%';
+      layers.push(
+        <div
+          key="bg-glow"
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: `radial-gradient(ellipse at top, ${glowColor}, transparent ${glowSize})`,
+            pointerEvents: 'none',
+            zIndex: 2,
+          }}
+        />
+      );
+    }
+    
+    // Layer 3: Mask/fade effect (optional)
+    if (pageProps?.backgroundMask) {
+      layers.push(
+        <div
+          key="bg-mask"
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'linear-gradient(to bottom, transparent 0%, transparent 75%, rgba(0,0,0,0.3) 100%)',
+            pointerEvents: 'none',
+            zIndex: 3,
+          }}
+        />
+      );
+    }
+    
+    // Layer 4: Dynamic background component (particle, generative, etc)
     if (background && background !== 'image' && pageProps) {
       const bgComponent = renderBackgroundComponent(background, pageProps);
       if (bgComponent) {
         layers.push(
-          <div key="bg-component" style={{ position: 'fixed', inset: 0, zIndex: 2, pointerEvents: 'none' }}>
+          <div key="bg-component" style={{ position: 'fixed', inset: 0, zIndex: 4, pointerEvents: 'none' }}>
             {bgComponent}
           </div>
         );
