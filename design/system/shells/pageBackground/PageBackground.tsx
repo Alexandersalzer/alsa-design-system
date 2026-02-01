@@ -28,24 +28,31 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
   const bottomBlurPresets = {
     subtle: {
       height: 40,
-      blur: 4,
-      tint: 0.05,
-      brightness: 0.98,
-      maskStrength: 0.5,
+      blur: 6,
+      tint: 0,
+      brightness: 1,
+      maskStrength: 0.4,
     },
     medium: {
       height: 60,
-      blur: 8,
-      tint: 0.1,
-      brightness: 0.96,
-      maskStrength: 0.7,
+      blur: 10,
+      tint: 0,
+      brightness: 1,
+      maskStrength: 0.6,
     },
     strong: {
       height: 80,
-      blur: 12,
-      tint: 0.18,
-      brightness: 0.92,
-      maskStrength: 0.9,
+      blur: 16,
+      tint: 0,
+      brightness: 1,
+      maskStrength: 0.8,
+    },
+    reflection: {
+      height: 100,
+      blur: 20,
+      tint: 0,
+      brightness: 1,
+      maskStrength: 1,
     },
   };
 
@@ -67,6 +74,10 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     const brightness = pageProps?.bottomBlurBrightness ?? preset.brightness;
     const maskStrength = preset.maskStrength;
 
+    const tintGradient = tint > 0 
+      ? `linear-gradient(to top, rgba(0,0,0,${tint}) 0%, rgba(0,0,0,${tint * 0.3}) 50%, transparent 100%)`
+      : 'transparent';
+
     return (
       <div
         aria-hidden="true"
@@ -76,11 +87,11 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
           left: 0,
           right: 0,
           height: `${height}px`,
-          background: `linear-gradient(to top, rgba(0,0,0,${tint}) 0%, rgba(0,0,0,${tint * 0.3}) 50%, transparent 100%)`,
-          backdropFilter: `blur(${blurAmount}px) saturate(1.1) brightness(${brightness})`,
-          WebkitBackdropFilter: `blur(${blurAmount}px) saturate(1.1) brightness(${brightness})`,
-          maskImage: `linear-gradient(to top, rgba(0,0,0,${maskStrength}) 0%, rgba(0,0,0,${maskStrength * 0.5}) 50%, rgba(0,0,0,0) 100%)`,
-          WebkitMaskImage: `linear-gradient(to top, rgba(0,0,0,${maskStrength}) 0%, rgba(0,0,0,${maskStrength * 0.5}) 50%, rgba(0,0,0,0) 100%)`,
+          background: tintGradient,
+          backdropFilter: `blur(${blurAmount}px) saturate(1.2) brightness(${brightness})`,
+          WebkitBackdropFilter: `blur(${blurAmount}px) saturate(1.2) brightness(${brightness})`,
+          maskImage: `linear-gradient(to top, rgba(0,0,0,${maskStrength}) 0%, rgba(0,0,0,${maskStrength * 0.4}) 60%, rgba(0,0,0,0) 100%)`,
+          WebkitMaskImage: `linear-gradient(to top, rgba(0,0,0,${maskStrength}) 0%, rgba(0,0,0,${maskStrength * 0.4}) 60%, rgba(0,0,0,0) 100%)`,
           pointerEvents: 'none',
           zIndex: 9999,
         }}

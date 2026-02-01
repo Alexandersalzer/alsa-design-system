@@ -80,9 +80,9 @@ export interface PageProps extends BackgroundProps {
   transparentSections?: boolean;
   /** 
    * Bottom blur bar - can be boolean (uses 'medium') or variant name
-   * Variants: 'subtle' | 'medium' | 'strong'
+   * Variants: 'subtle' | 'medium' | 'strong' | 'reflection'
    */
-  bottomBlur?: boolean | 'subtle' | 'medium' | 'strong';
+  bottomBlur?: boolean | 'subtle' | 'medium' | 'strong' | 'reflection';
   /** Override: Height in pixels */
   bottomBlurHeight?: number;
   /** Override: Blur amount in pixels */
