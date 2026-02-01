@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { forwardRef, ReactNode, useState } from 'react';
+import React, { forwardRef, ReactNode, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { cn } from '../../../utils/cn';
 import { Label } from '../../Typography/Typography';
@@ -15,6 +15,7 @@ import { Component } from '../../frames/component/Component';
 import { useAction } from '../../../core/actions/useAction';
 import type { ActionConfig, NavigationActionConfig, BookingActionConfig } from '../../../core/actions/types';
 import { openCalendlyPopup, buildCalendlyUrl } from '../../../patterns/widgets/CalendlyModal/CalendlyModal';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -66,6 +67,20 @@ export const Button = forwardRef<
     
     const actionHook = action ? useAction(action) : null;
     const isDisabled = disabled || loading || internalLoading;
+    
+    // Success state from action hook
+    const isSuccess = actionHook?.success || false;
+    const successMessage = actionHook?.message;
+
+    // Auto-reset success state after 3 seconds
+    useEffect(() => {
+      if (isSuccess && actionHook?.reset) {
+        const timer = setTimeout(() => {
+          actionHook.reset();
+        }, 3000);
+        return () => clearTimeout(timer);
+      }
+    }, [isSuccess, actionHook]);
     
     // Use content prop if provided, otherwise use children
     const displayContent = content || children;
@@ -180,7 +195,11 @@ export const Button = forwardRef<
             />
           </span>
         )}
-        {!loading && !internalLoading && leftIcon && (
+        {/* Show success icon when action completed successfully */}
+        {!loading && !internalLoading && isSuccess && (
+          <CheckCircleIcon className="w-5 h-5 flex-shrink-0" />
+        )}
+        {!loading && !internalLoading && !isSuccess && leftIcon && (
           <span className="flex-shrink-0">{leftIcon}</span>
         )}
         {/* ✅ Label without color prop - inherits from parent */}
@@ -190,9 +209,9 @@ export const Button = forwardRef<
           as="span"
           className="btn-text"
         >
-          {displayContent}
+          {isSuccess ? (successMessage || 'Skickat!') : displayContent}
         </Label>
-        {!loading && !internalLoading && rightIcon && (
+        {!loading && !internalLoading && !isSuccess && rightIcon && (
           <span className="flex-shrink-0">{rightIcon}</span>
         )}
       </>
