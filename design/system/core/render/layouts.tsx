@@ -37,10 +37,13 @@ export const renderLayoutWithTemplate = (
   const { type: parentType, template, order, ...parentLayoutProps } = layout;
 
   // Merge pattern props (like align) with layout props
-  // Pattern props take precedence
+  // Pattern props take precedence, then layout props
+  // Convert alignSectionHeader from layoutContext if no explicit align is set
+  const effectiveAlign = patternProps?.align;
+  
   const mergedLayoutProps = {
     ...parentLayoutProps,
-    ...(patternProps?.align && { align: patternProps.align })
+    ...(effectiveAlign && { align: effectiveAlign })
   };
 
   // Get parent layout component

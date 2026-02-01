@@ -105,12 +105,25 @@ export const renderPatternDirect = (
     const animationType = animationConfig?.type;
     const isPerItemAnimation = animationType && perItemAnimations.includes(animationType);
     
+    // Convert layoutContext.alignSectionHeader to align prop for HStack
+    // 'left' -> 'start', 'right' -> 'end', 'center' -> 'center'
+    const alignFromContext = layoutContext?.alignSectionHeader;
+    const convertedAlign = alignFromContext === 'left' ? 'start' : 
+                           alignFromContext === 'right' ? 'end' : 
+                           alignFromContext || undefined;
+    
+    // Merge patternProps with converted align (pattern props take precedence)
+    const mergedPatternProps = {
+      ...patternProps,
+      align: patternProps.align || convertedAlign
+    };
+    
     const layoutContent = renderLayoutWithTemplate(
       layoutConfig, 
       pattern.components, 
       sectionKey, 
       patternKey,
-      patternProps,
+      mergedPatternProps,
       isPerItemAnimation ? animationConfig : undefined
     );
 
