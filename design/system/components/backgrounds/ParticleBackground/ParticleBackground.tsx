@@ -25,8 +25,36 @@ export interface ParticleBackgroundProps {
   blur?: number;
 }
 
-// Color presets
-const COLOR_SCHEMES: Record<ParticleColorScheme, string[]> = {
+// Color presets for light and dark modes
+const COLOR_SCHEMES_LIGHT: Record<ParticleColorScheme, string[]> = {
+  light: [
+    'rgb(100, 100, 100)',
+    'rgb(120, 120, 120)',
+    'rgb(80, 80, 80)',
+    'rgb(110, 110, 110)',
+  ],
+  warm: [
+    'rgb(180, 140, 80)',
+    'rgb(160, 120, 60)',
+    'rgb(200, 160, 100)',
+    'rgb(170, 130, 70)',
+  ],
+  cool: [
+    'rgb(100, 140, 180)',
+    'rgb(80, 120, 160)',
+    'rgb(120, 160, 200)',
+    'rgb(90, 130, 170)',
+  ],
+  accent: [
+    'rgb(140, 100, 180)',
+    'rgb(160, 120, 200)',
+    'rgb(120, 80, 160)',
+    'rgb(150, 110, 190)',
+  ],
+  custom: [],
+};
+
+const COLOR_SCHEMES_DARK: Record<ParticleColorScheme, string[]> = {
   light: [
     'rgb(255, 255, 255)',
     'rgb(255, 250, 250)',
@@ -91,19 +119,58 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
   const particleStates = useRef<ParticleState[]>([]);
   const animationRef = useRef<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
-  // Only render particles after mount to avoid hydration mismatch
+  // Detect dark mode and listen for changes
   useEffect(() => {
     setMounted(true);
+    
+    // Check for dark mode via CSS variable or media query
+    const checkDarkMode = () => {
+      // First try to read from CSS variable (design system)
+      const root = document.documentElement;
+      const isDarkVar = getComputedStyle(root).getPropertyValue('--is-dark').trim();
+      if (isDarkVar === '1' || isDarkVar === 'true') {
+        setIsDark(true);
+        return;
+      }
+      // Fallback to data attribute
+      if (root.getAttribute('data-theme') === 'dark' || root.classList.contains('dark')) {
+        setIsDark(true);
+        return;
+      }
+      // Fallback to media query
+      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
+    };
+    
+    checkDarkMode();
+    
+    // Listen for theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => checkDarkMode();
+    mediaQuery.addEventListener('change', handleChange);
+    
+    // Also observe for class/attribute changes on html element
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['class', 'data-theme', 'style'] 
+    });
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+      observer.disconnect();
+    };
   }, []);
 
-  // Get colors based on scheme
+  // Get colors based on scheme and theme
   const colors = useMemo(() => {
     if (colorScheme === 'custom' && customColors.length > 0) {
       return customColors;
     }
-    return COLOR_SCHEMES[colorScheme] || COLOR_SCHEMES.warm;
-  }, [colorScheme, customColors]);
+    const schemes = isDark ? COLOR_SCHEMES_DARK : COLOR_SCHEMES_LIGHT;
+    return schemes[colorScheme] || schemes.warm;
+  }, [colorScheme, customColors, isDark]);
 
   // Generate particle data (static properties) - round to 2 decimals for SSR consistency
   const particleData = useMemo(() => {
@@ -111,14 +178,27 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
     for (let i = 0; i < count; i++) {
       const seed = i * 1337;
       const size = minSize + seededRandom(seed + 2) * (maxSize - minSize);
+      const colorIndex = Math.floor(seededRandom(seed + 3) * colors.length);
       data.push({
         id: i,
         size: Math.round(size * 100) / 100, // Round to 2 decimals for hydration
-        color: colors[Math.floor(seededRandom(seed + 3) * colors.length)],
+        color: colors[colorIndex],
+        colorIndex, // Store index to update color when theme changes
       });
     }
     return data;
   }, [count, colors, minSize, maxSize]);
+
+  // Update particle colors when theme changes
+  useEffect(() => {
+    if (!mounted) return;
+    particleData.forEach((p, index) => {
+      const el = particleRefs.current[index];
+      if (el) {
+        el.style.backgroundColor = p.color;
+      }
+    });
+  }, [particleData, mounted]);
 
   // Initialize particle states
   useEffect(() => {
