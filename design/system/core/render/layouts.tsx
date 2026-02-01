@@ -484,8 +484,15 @@ const renderComponentReference = (
     ...extraProps
   };
   
-  // Render the component
-  const renderedComponent = <Component {...mergedProps} />;
+  // Render the component with componentKey for DOM identification
+  const renderedComponent = (
+    <Component 
+      {...mergedProps} 
+      componentKey={componentKey}
+      sectionKey={sectionKey}
+      patternKey={patternKey}
+    />
+  );
   
   // Check for animation (template animation takes precedence, then item animation)
   const animationConfig = templateAnimation || itemComponent?.animation;
