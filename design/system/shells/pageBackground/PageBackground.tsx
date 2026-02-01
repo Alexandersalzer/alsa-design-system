@@ -30,11 +30,11 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     
     const height = typeof pageProps?.bottomBlurHeight === 'number' 
       ? pageProps.bottomBlurHeight 
-      : 80;
+      : 50;
     
     const blurAmount = typeof pageProps?.bottomBlurAmount === 'number'
       ? pageProps.bottomBlurAmount
-      : 12;
+      : 6;
 
     return (
       <div
@@ -46,10 +46,10 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
           right: 0,
           height: `${height}px`,
           background: 'transparent',
-          backdropFilter: `blur(${blurAmount}px)`,
-          WebkitBackdropFilter: `blur(${blurAmount}px)`,
-          maskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%)',
-          WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%)',
+          backdropFilter: `blur(${blurAmount}px) saturate(1.2)`,
+          WebkitBackdropFilter: `blur(${blurAmount}px) saturate(1.2)`,
+          maskImage: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 100%)',
+          WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 100%)',
           pointerEvents: 'none',
           zIndex: 9999,
         }}
