@@ -24,31 +24,15 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
   const hasBackground = !!pageProps?.background || !!pageProps?.backgroundImage || !!pageProps?.backgroundColor;
   const showBottomBlur = !!pageProps?.bottomBlur;
 
-  // Bottom blur variant presets
+  // Bottom blur variant presets - controls the max blur and height
   const bottomBlurPresets = {
-    subtle: {
-      height: 50,
-      blur: 3,
-      fade: 0.3,
-    },
-    medium: {
-      height: 70,
-      blur: 5,
-      fade: 0.5,
-    },
-    strong: {
-      height: 90,
-      blur: 8,
-      fade: 0.7,
-    },
-    reflection: {
-      height: 120,
-      blur: 12,
-      fade: 0.85,
-    },
+    subtle: { height: 60, maxBlur: 6, layers: 6 },
+    medium: { height: 80, maxBlur: 10, layers: 8 },
+    strong: { height: 100, maxBlur: 14, layers: 8 },
+    reflection: { height: 120, maxBlur: 20, layers: 8 },
   };
 
-  // Render bottom blur helper (defined early so it can be used in early return)
+  // Render bottom blur helper - uses stacked blur technique for smooth effect
   const renderBottomBlurElement = () => {
     if (!showBottomBlur) return null;
     
@@ -61,49 +45,55 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     
     // Allow overrides via props
     const height = pageProps?.bottomBlurHeight ?? preset.height;
-    const blurAmount = pageProps?.bottomBlurAmount ?? preset.blur;
-    const fade = preset.fade;
-
-    return (
-      <>
-        {/* Gradient fade layer - creates the "haze" effect */}
+    const maxBlur = pageProps?.bottomBlurAmount ?? preset.maxBlur;
+    const layerCount = preset.layers;
+    
+    // Generate stacked blur layers
+    const layers = [];
+    const step = 100 / layerCount; // percentage step for each layer
+    
+    for (let i = 0; i < layerCount; i++) {
+      // Progressive blur: doubles each layer (like reference: 0.08 → 0.16 → 0.3 → 0.6 → 1.25 → 2.5 → 5 → 10)
+      const blur = maxBlur / Math.pow(2, layerCount - 1 - i);
+      
+      // Calculate mask positions (each layer covers a band)
+      const start = i * step;
+      const solidStart = start + step * 0.5;
+      const solidEnd = (i + 1) * step;
+      const end = Math.min(solidEnd + step * 0.5, 100);
+      
+      layers.push(
         <div
+          key={i}
           aria-hidden="true"
-          className="bottom-blur-fade"
           style={{
             position: 'fixed',
             bottom: 0,
             left: 0,
             right: 0,
             height: `${height}px`,
-            background: `linear-gradient(to top, 
-              color-mix(in srgb, var(--surface-base) ${fade * 100}%, transparent) 0%, 
-              color-mix(in srgb, var(--surface-base) ${fade * 40}%, transparent) 40%,
-              transparent 100%
+            pointerEvents: 'none',
+            zIndex: 9990 + i,
+            backdropFilter: `blur(${blur}px)`,
+            WebkitBackdropFilter: `blur(${blur}px)`,
+            maskImage: `linear-gradient(to top, 
+              rgba(0,0,0,0) ${start}%, 
+              rgb(0,0,0) ${solidStart}%, 
+              rgb(0,0,0) ${solidEnd}%, 
+              rgba(0,0,0,0) ${end}%
             )`,
-            pointerEvents: 'none',
-            zIndex: 9998,
+            WebkitMaskImage: `linear-gradient(to top, 
+              rgba(0,0,0,0) ${start}%, 
+              rgb(0,0,0) ${solidStart}%, 
+              rgb(0,0,0) ${solidEnd}%, 
+              rgba(0,0,0,0) ${end}%
+            )`,
           }}
         />
-        {/* Subtle blur layer */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: `${height * 0.6}px`,
-            backdropFilter: `blur(${blurAmount}px)`,
-            WebkitBackdropFilter: `blur(${blurAmount}px)`,
-            maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
-            pointerEvents: 'none',
-            zIndex: 9999,
-          }}
-        />
-      </>
-    );
+      );
+    }
+    
+    return <>{layers}</>;
   };
 
   // If no background but bottomBlur is enabled, still render it
