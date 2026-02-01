@@ -14,7 +14,8 @@ export type BackgroundType =
   | 'pattern' 
   | 'video' 
   | 'solid'
-  | 'image';
+  | 'image'
+  | 'particle';
 
 export type ColorScheme = 'accent' | 'primary' | 'success' | 'warning' | 'info';
 export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
@@ -85,6 +86,19 @@ export interface SolidBackgroundProps {
   solidFadeStrength?: number;
 }
 
+// ===== PARTICLE BACKGROUND =====
+export interface ParticleBackgroundProps {
+  particleCount?: number;
+  particleColorScheme?: 'light' | 'warm' | 'cool' | 'accent' | 'custom';
+  particleCustomColors?: string[];
+  particleSpeed?: number;
+  particleMinSize?: number;
+  particleMaxSize?: number;
+  particleMinOpacity?: number;
+  particleMaxOpacity?: number;
+  particleBlur?: number;
+}
+
 // ===== IMAGE BACKGROUND (Legacy) =====
 export interface ImageBackgroundProps {
   backgroundImage?: string;
@@ -110,7 +124,8 @@ export interface BackgroundProps
     PatternBackgroundProps,
     VideoBackgroundProps,
     SolidBackgroundProps,
-    ImageBackgroundProps {
+    ImageBackgroundProps,
+    ParticleBackgroundProps {
   background?: BackgroundType;
   backgroundColor?: string;
 }

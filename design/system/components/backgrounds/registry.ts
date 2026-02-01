@@ -6,6 +6,7 @@ import { PatternBackground } from './PatternBackground/PatternBackground';
 import { VideoBackground } from './VideoBackground/VideoBackground';
 import { SolidBackground } from './SolidBackground/SolidBackground';
 import { ImageBackground } from './ImageBackground/ImageBackground';
+import { ParticleBackground } from './ParticleBackground/ParticleBackground';
 
 /**
  * Background component registry
@@ -22,6 +23,7 @@ export const backgroundRegistry = {
   video: VideoBackground,
   solid: SolidBackground,
   image: ImageBackground,
+  particle: ParticleBackground,
 } as const;
 
 /**
@@ -35,6 +37,7 @@ export const backgroundComponents: Record<string, React.ComponentType<any>> = {
   VideoBackground,
   SolidBackground,
   ImageBackground,
+  ParticleBackground,
 };
 
 /**

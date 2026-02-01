@@ -60,6 +60,17 @@ const propsMappers = {
     fadeEdge: props.solidFadeEdge,
     fadeStrength: props.solidFadeStrength,
   }),
+  particle: (props: BackgroundProps) => ({
+    count: props.particleCount,
+    colorScheme: props.particleColorScheme,
+    customColors: props.particleCustomColors,
+    speed: props.particleSpeed,
+    minSize: props.particleMinSize,
+    maxSize: props.particleMaxSize,
+    minOpacity: props.particleMinOpacity,
+    maxOpacity: props.particleMaxOpacity,
+    blur: props.particleBlur,
+  }),
 } as const;
 
 /**
