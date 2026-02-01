@@ -20,7 +20,7 @@ export async function getStartPageSlug(locale: string): Promise<string | null> {
  * Reads from PageNode structures
  */
 export async function getAllPageSlugs(locale: string): Promise<string[]> {
-  const contentFiles = await listDirectory(`content/${locale}`);
+  const contentFiles = await listDirectory(`content/${locale}/pages/start.json`);
   
    // Excluding navbar and footer files
   const pageFiles = contentFiles.filter(file => 
@@ -30,7 +30,7 @@ export async function getAllPageSlugs(locale: string): Promise<string[]> {
   
   const slugs = await Promise.all(
     pageFiles.map(async (file) => {
-      const pageData = await loadJsonFile<PageNode>(`content/${locale}/${file}`);
+      const pageData = await loadJsonFile<PageNode>(`content/${locale}/pages/${file}`);
       return pageData?.name ? nameToSlug(pageData.name) : null;
     })
   );
