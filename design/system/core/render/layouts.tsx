@@ -111,12 +111,12 @@ export const renderLayoutWithTemplate = (
     );
   }
 
-  // Flat items structure
-  const itemOrder = getLayoutItemOrder(layout);
+  // Flat items structure - use helper to get resolved item order
+  const resolvedItemOrder = getLayoutItemOrder(layout);
   
   // Render template for each item
   const renderedItems = renderItems(
-    itemOrder,
+    resolvedItemOrder,
     (itemId) => findLayoutItem(layout, itemId),
     template,
     AnimationComponent,
