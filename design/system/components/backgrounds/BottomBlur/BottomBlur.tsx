@@ -5,7 +5,7 @@ import React from 'react';
 // ============================================
 // BOTTOM BLUR COMPONENT
 // A stacked blur effect for smooth edge transitions
-// Uses 8 progressive blur layers with masks (like Eden.so)
+// Uses 8 progressive blur layers with masks
 // ============================================
 
 export type BottomBlurVariant = 'subtle' | 'medium' | 'strong' | 'reflection';
