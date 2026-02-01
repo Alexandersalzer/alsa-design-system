@@ -158,13 +158,19 @@ export const Button = forwardRef<
       try {
         // Auto-collect form data from parent <form> if no formData prop provided
         let dataToSubmit = formData;
+        const form = (e.currentTarget as HTMLButtonElement).closest('form');
         if (!dataToSubmit || Object.keys(dataToSubmit).length === 0) {
-          const form = (e.currentTarget as HTMLButtonElement).closest('form');
           if (form) {
             dataToSubmit = Object.fromEntries(new FormData(form).entries()) as Record<string, any>;
           }
         }
-        await actionHook!.execute(dataToSubmit || {});
+        const result = await actionHook!.execute(dataToSubmit || {});
+        
+        // Clear form inputs on success
+        if (result?.success && form) {
+          form.reset();
+        }
+        
         onClick?.(e as any); // Call parent onClick after other actions
       } finally {
         setInternalLoading(false);
@@ -185,11 +191,7 @@ export const Button = forwardRef<
             />
           </span>
         )}
-        {/* Show success icon when action completed successfully */}
-        {!loading && !internalLoading && isSuccess && (
-          <CheckCircleIcon className="w-5 h-5 flex-shrink-0" />
-        )}
-        {!loading && !internalLoading && !isSuccess && leftIcon && (
+        {!loading && !internalLoading && leftIcon && (
           <span className="flex-shrink-0">{leftIcon}</span>
         )}
         {/* ✅ Label without color prop - inherits from parent */}
@@ -199,9 +201,9 @@ export const Button = forwardRef<
           as="span"
           className="btn-text"
         >
-          {isSuccess ? (successMessage || 'Skickat!') : displayContent}
+          {displayContent}
         </Label>
-        {!loading && !internalLoading && !isSuccess && rightIcon && (
+        {!loading && !internalLoading && rightIcon && (
           <span className="flex-shrink-0">{rightIcon}</span>
         )}
       </>
@@ -236,6 +238,20 @@ export const Button = forwardRef<
     }
 
     // Render as <button>
+    // If success, show success message instead of button
+    if (isSuccess) {
+      return (
+        <Component componentKey={componentKey}>
+          <div className="flex items-center gap-2 text-green-600">
+            <CheckCircleIcon className="w-5 h-5 flex-shrink-0" />
+            <Label size={getLabelSize(size)} weight={getLabelWeight(size)} as="span">
+              {successMessage || 'Skickat!'}
+            </Label>
+          </div>
+        </Component>
+      );
+    }
+
     return (
       <Component componentKey={componentKey}>
         <button
