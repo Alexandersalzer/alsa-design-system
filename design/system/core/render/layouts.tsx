@@ -9,7 +9,12 @@ import {
   isComponentReference, 
   extractSlotName,
   getLayoutItemOrder,
-  findLayoutItem
+  getLayoutCategoryOrder,
+  getCategoryItemOrder,
+  findLayoutItem,
+  findLayoutCategory,
+  findCategoryItem,
+  hasCategories
 } from '../utils/props';
 
 /**
@@ -33,7 +38,18 @@ export const renderLayoutWithTemplate = (
   animationConfig?: AnimationConfig
 ): React.ReactElement | null => {
   
-  const { type: parentType, template, order, ...parentLayoutProps } = layout;
+  // Destructure layout-system props to prevent them from being passed to DOM elements
+  const { 
+    type: parentType, 
+    template, 
+    items,
+    itemOrder,
+    categories,
+    categoryOrder,
+    categoryTemplate,
+    order, // legacy
+    ...parentLayoutProps 
+  } = layout;
 
   // Map align values to HStack justify values
   // align uses semantic names (left, center, right, end) while HStack uses flexbox names (start, center, end)
@@ -74,29 +90,76 @@ export const renderLayoutWithTemplate = (
     return renderSimpleLayout(layout, components, order, sectionKey, patternKey);
   }
   
-
-  // Get items to render
-  const itemOrder = getLayoutItemOrder(layout);
-  
   // Extract animation settings if applicable
   const animationType = animationConfig?.type;
   const animationSettings = (animationConfig?.settings || {}) as Record<string, any>;
   
   // Get animation component from registry (e.g., "fadeIn" -> animationComponents["fadeIn"])
   const AnimationComponent = animationType ? animationComponents[animationType] : null;
+
+  // Check if layout uses categories (nested structure)
+  if (hasCategories(layout)) {
+    return renderCategorizedLayout(
+      layout,
+      template,
+      ParentLayout,
+      mergedLayoutProps,
+      AnimationComponent,
+      animationSettings,
+      sectionKey,
+      patternKey
+    );
+  }
+
+  // Flat items structure - use helper to get resolved item order
+  const resolvedItemOrder = getLayoutItemOrder(layout);
   
   // Render template for each item
-  const renderedItems = itemOrder.map((itemId, itemIndex) => {
-    const item = findLayoutItem(layout, itemId);
+  const renderedItems = renderItems(
+    resolvedItemOrder,
+    (itemId) => findLayoutItem(layout, itemId),
+    template,
+    AnimationComponent,
+    animationSettings,
+    sectionKey,
+    patternKey
+  );
+
+  return (
+    <ParentLayout {...mergedLayoutProps}>
+      {renderedItems}
+    </ParentLayout>
+  );
+};
+
+/**
+ * Renders items from an array using template
+ * Shared logic for both flat and categorized layouts
+ */
+const renderItems = (
+  itemOrder: string[],
+  findItem: (id: string) => Record<string, any> | undefined,
+  template: Record<string, any>,
+  AnimationComponent: React.ComponentType<any> | null,
+  animationSettings: Record<string, any>,
+  sectionKey?: string,
+  patternKey?: string,
+  indexOffset: number = 0
+): React.ReactNode[] => {
+  return itemOrder.map((itemId, localIndex) => {
+    const item = findItem(itemId);
     if (!item) {
-      console.warn(`Item "${itemId}" not found in layout items`);
+      console.warn(`Item "${itemId}" not found`);
       return null;
     }
+
+    const globalIndex = indexOffset + localIndex;
 
     // Create item context with index and any item-level props (excluding 'components')
     const { components: _, ...itemProps } = item;
     const itemContext = {
-      index: itemIndex,
+      index: globalIndex,
+      localIndex,
       id: itemId,
       ...itemProps
     };
@@ -117,9 +180,9 @@ export const renderLayoutWithTemplate = (
     );
     
     // Wrap with animation component if configured (dynamic from registry)
-    if (AnimationComponent && animationType) {
+    if (AnimationComponent) {
       // Calculate stagger delay if stagger is set
-      const staggerDelay = (animationSettings.stagger || 0) * itemIndex;
+      const staggerDelay = (animationSettings.stagger || 0) * globalIndex;
       const baseDelay = animationSettings.delay || 0;
       
       // Merge animation settings with calculated delay
@@ -137,11 +200,74 @@ export const renderLayoutWithTemplate = (
     
     return itemContent;
   }).filter(Boolean);
+};
+
+/**
+ * Renders layout with categories (nested structure)
+ * Each category contains its own items
+ */
+const renderCategorizedLayout = (
+  layout: Record<string, any>,
+  template: Record<string, any>,
+  ParentLayout: React.ComponentType<any>,
+  layoutProps: Record<string, any>,
+  AnimationComponent: React.ComponentType<any> | null,
+  animationSettings: Record<string, any>,
+  sectionKey?: string,
+  patternKey?: string
+): React.ReactElement => {
+  const categoryOrder = getLayoutCategoryOrder(layout);
+  const { categoryTemplate } = layout;
   
+  let globalItemIndex = 0;
+  
+  const renderedCategories = categoryOrder.map((categoryId, categoryIndex) => {
+    const category = findLayoutCategory(layout, categoryId);
+    if (!category) {
+      console.warn(`Category "${categoryId}" not found in layout categories`);
+      return null;
+    }
+    
+    const itemOrder = getCategoryItemOrder(category);
+    
+    // Render items within this category
+    const renderedItems = renderItems(
+      itemOrder,
+      (itemId) => findCategoryItem(category, itemId),
+      template,
+      AnimationComponent,
+      animationSettings,
+      sectionKey,
+      patternKey,
+      globalItemIndex
+    );
+    
+    globalItemIndex += itemOrder.length;
+    
+    // If categoryTemplate exists, wrap items in category template
+    if (categoryTemplate) {
+      const CategoryWrapper = componentRegistry[categoryTemplate.type];
+      if (CategoryWrapper) {
+        const { type: _, ...categoryProps } = categoryTemplate;
+        return (
+          <CategoryWrapper key={categoryId} {...categoryProps} {...category.props}>
+            {renderedItems}
+          </CategoryWrapper>
+        );
+      }
+    }
+    
+    // Otherwise return items directly
+    return (
+      <React.Fragment key={categoryId}>
+        {renderedItems}
+      </React.Fragment>
+    );
+  }).filter(Boolean);
 
   return (
-    <ParentLayout {...mergedLayoutProps}>
-      {renderedItems}
+    <ParentLayout {...layoutProps}>
+      {renderedCategories}
     </ParentLayout>
   );
 };

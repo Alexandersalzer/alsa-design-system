@@ -107,7 +107,7 @@ export const renderPatternDirect = (
     
     const layoutContent = renderLayoutWithTemplate(
       layoutConfig, 
-      pattern.components, 
+      pattern.components || {}, 
       sectionKey, 
       patternKey,
       patternProps,
@@ -175,7 +175,7 @@ export const renderPattern = (
     
     const layoutContent = renderLayoutWithTemplate(
       layoutConfig, 
-      pattern.components, 
+      pattern.components || {}, 
       sectionKey, 
       patternKey,
       patternProps, // Pass pattern props for align, etc

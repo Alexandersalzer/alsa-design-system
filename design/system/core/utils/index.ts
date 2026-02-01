@@ -8,4 +8,12 @@ export * from './env';
 export * from './loaders';
 
 // Re-export commonly used types for easier imports
-export type { ComponentNode } from '../types/nodes';
+export type { 
+  ComponentNode, 
+  PatternNode, 
+  PatternLayout, 
+  LayoutItem, 
+  LayoutCategory,
+  LayoutTemplate,
+  TemplateNode
+} from '../types/nodes';
