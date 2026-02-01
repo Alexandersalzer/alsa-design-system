@@ -22,6 +22,9 @@ export type { SolidBackgroundProps, FadeEdge as SolidFadeEdge, ColorPreset as So
 export { ImageBackground } from './ImageBackground/ImageBackground';
 export type { ImageBackgroundProps } from './ImageBackground/ImageBackground';
 
+export { EdgeBlur } from './EdgeBlur';
+export type { EdgeBlurProps, EdgePosition } from './EdgeBlur';
+
 // Shared types
 export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
 

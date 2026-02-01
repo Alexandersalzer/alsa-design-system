@@ -78,14 +78,16 @@ export interface PageSEO {
 export interface PageProps extends BackgroundProps {
   /** Make sections transparent to show page background through (defaults to true when background is set) */
   transparentSections?: boolean;
-  /** Show a fixed blur/gradient bar at the bottom of the screen */
-  bottomBlur?: boolean;
-  /** Height of the bottom blur bar in pixels (default: 60) */
-  bottomBlurHeight?: number;
-  /** Blur amount in pixels (default: 8) */
-  bottomBlurAmount?: number;
-  /** Opacity of the blur (0-1, default: 0.15) */
-  bottomBlurOpacity?: number;
+  /** Show edge blur effect */
+  edgeBlur?: boolean;
+  /** Position of the edge blur ('bottom' | 'top', default: 'bottom') */
+  edgeBlurPosition?: 'bottom' | 'top';
+  /** Height of the blur area in pixels (default: 80) */
+  edgeBlurHeight?: number;
+  /** Blur intensity in pixels (default: 12) */
+  edgeBlurAmount?: number;
+  /** Peak intensity - creates triangle effect where colors meet (0-1, default: 0.3) */
+  edgeBlurPeak?: number;
 }
 
 /**

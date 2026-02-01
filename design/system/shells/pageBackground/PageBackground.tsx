@@ -2,6 +2,7 @@
 
 import { PageProps } from '../../core/types/nodes';
 import { renderBackgroundComponent } from '../../core/render/background';
+import { EdgeBlur } from '../../components/backgrounds/EdgeBlur';
 
 interface PageBackgroundProps {
   pageProps?: PageProps;
@@ -18,51 +19,32 @@ interface PageBackgroundProps {
  * - backgroundImage: Image/pattern with configurable opacity
  * - backgroundOverlay: Color tint on top of image
  * - transparentSections: Makes child sections transparent (default: true)
- * - bottomBlur: Adds a fixed blur/gradient bar at the bottom of the screen
+ * - edgeBlur: Adds a fixed blur effect at the edge of the screen
  */
 export function PageBackground({ pageProps, children }: PageBackgroundProps) {
   const hasBackground = !!pageProps?.background || !!pageProps?.backgroundImage || !!pageProps?.backgroundColor;
-  const showBottomBlur = pageProps?.bottomBlur === true;
+  const showEdgeBlur = pageProps?.edgeBlur === true;
 
-  // Render bottom blur helper (defined early so it can be used in early return)
-  const renderBottomBlurElement = () => {
-    if (!showBottomBlur) return null;
+  // Render edge blur component
+  const renderEdgeBlur = () => {
+    if (!showEdgeBlur) return null;
     
-    const height = typeof pageProps?.bottomBlurHeight === 'number' 
-      ? pageProps.bottomBlurHeight 
-      : 80;
-    
-    const blurAmount = typeof pageProps?.bottomBlurAmount === 'number'
-      ? pageProps.bottomBlurAmount
-      : 12;
-
     return (
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: `${height}px`,
-          background: 'transparent',
-          backdropFilter: `blur(${blurAmount}px)`,
-          WebkitBackdropFilter: `blur(${blurAmount}px)`,
-          maskImage: 'linear-gradient(to top, black 0%, black 20%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to top, black 0%, black 20%, transparent 100%)',
-          pointerEvents: 'none',
-          zIndex: 9999,
-        }}
+      <EdgeBlur
+        position={pageProps?.edgeBlurPosition || 'bottom'}
+        height={pageProps?.edgeBlurHeight}
+        blur={pageProps?.edgeBlurAmount}
+        peak={pageProps?.edgeBlurPeak}
       />
     );
   };
 
-  // If no background but bottomBlur is enabled, still render it
+  // If no background but edgeBlur is enabled, still render it
   if (!hasBackground) {
     return (
       <>
         {children}
-        {renderBottomBlurElement()}
+        {renderEdgeBlur()}
       </>
     );
   }
@@ -147,8 +129,8 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
         {children}
       </div>
       
-      {/* Bottom blur bar */}
-      {renderBottomBlurElement()}
+      {/* Edge blur effect */}
+      {renderEdgeBlur()}
     </div>
   );
 }
