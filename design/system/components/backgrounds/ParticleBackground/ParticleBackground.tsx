@@ -273,16 +273,17 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
         p.scale += dScale * p.speedScale * deltaTime;
         p.opacity += dOpacity * p.speedOpacity * deltaTime;
 
-        // When close to target, pick new target
+        // When close to target, pick new target (always within ±15% of current position)
         if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
-          p.targetX = Math.random() * 100;
-          p.targetY = Math.random() * 100;
+          const drift = 15; // Max drift in percentage
+          p.targetX = Math.max(0, Math.min(100, p.x + (Math.random() - 0.5) * drift * 2));
+          p.targetY = Math.max(0, Math.min(100, p.y + (Math.random() - 0.5) * drift * 2));
         }
         if (Math.abs(dScale) < 0.02) {
-          p.targetScale = 0.9 + Math.random() * 0.3;
+          p.targetScale = Math.max(0.8, Math.min(1.2, p.scale + (Math.random() - 0.5) * 0.2));
         }
         if (Math.abs(dOpacity) < 0.03) {
-          p.targetOpacity = minOpacity + Math.random() * (maxOpacity - minOpacity);
+          p.targetOpacity = Math.max(minOpacity, Math.min(maxOpacity, p.opacity + (Math.random() - 0.5) * 0.3));
         }
 
         // Direct DOM update (no React re-render)
