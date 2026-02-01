@@ -1,19 +1,21 @@
 'use client';
 
 import React from 'react';
-import styles from './EdgeBlur.module.css';
 
 export type EdgePosition = 'bottom' | 'top';
+export type EdgeBlurMode = 'fade' | 'blur' | 'both';
 
 export interface EdgeBlurProps {
-  /** Position of the blur edge (default: 'bottom') */
+  /** Position of the edge effect (default: 'bottom') */
   position?: EdgePosition;
-  /** Height of the blur area in pixels (default: 80) */
+  /** Height of the effect area in pixels (default: 60) */
   height?: number;
-  /** Blur intensity in pixels (default: 12) */
+  /** Mode: 'fade' for soft gradient, 'blur' for backdrop blur, 'both' for combined (default: 'fade') */
+  mode?: EdgeBlurMode;
+  /** Blur intensity in pixels - only used when mode is 'blur' or 'both' (default: 8) */
   blur?: number;
-  /** How much the blur "peaks" in the center - creates the triangle effect (0-1, default: 0.3) */
-  peak?: number;
+  /** Opacity of the fade effect (0-1, default: 0.4) */
+  opacity?: number;
   /** Whether to use fixed positioning (default: true) */
   fixed?: boolean;
   /** Custom z-index (default: 9999) */
@@ -23,71 +25,121 @@ export interface EdgeBlurProps {
 }
 
 /**
- * EdgeBlur - A subtle blur effect that sits at the edge of the viewport
+ * EdgeBlur - A subtle fade/blur effect at the edge of the viewport
  * 
- * Creates a frosted glass effect that naturally "respects" the colors
- * underneath, with an optional "peak" that creates a subtle triangle
- * effect where strong colors meet.
+ * Creates a smooth, almost invisible transition that softens content
+ * at the edge of the screen. Three modes available:
+ * - 'fade': Soft gradient overlay (smoothest, most subtle)
+ * - 'blur': Backdrop blur effect
+ * - 'both': Combined fade + blur
  * 
  * @example
- * // Basic usage - fixed to bottom of viewport
+ * // Basic soft fade (recommended)
  * <EdgeBlur />
  * 
  * @example
- * // Custom height and blur
- * <EdgeBlur height={100} blur={16} />
+ * // Stronger fade
+ * <EdgeBlur height={80} opacity={0.6} />
  * 
  * @example
- * // Top edge with peak effect
- * <EdgeBlur position="top" peak={0.5} />
+ * // With blur effect
+ * <EdgeBlur mode="blur" blur={12} />
  */
 export function EdgeBlur({
   position = 'bottom',
-  height = 80,
-  blur = 12,
-  peak = 0.3,
+  height = 60,
+  mode = 'fade',
+  blur = 8,
+  opacity = 0.4,
   fixed = true,
   zIndex = 9999,
   className,
 }: EdgeBlurProps) {
-  // Calculate mask gradient based on peak value
-  // Peak creates a subtle curve/triangle in the center
-  const maskGradient = position === 'bottom'
+  const isTop = position === 'top';
+  
+  // Soft fade gradient - uses surface color that adapts to theme
+  const fadeGradient = isTop
     ? `linear-gradient(
-        to top,
-        black 0%,
-        black ${20 + peak * 10}%,
-        rgba(0,0,0,${0.5 - peak * 0.3}) ${50 + peak * 20}%,
+        to bottom,
+        var(--surface-base, #ffffff) 0%,
+        color-mix(in srgb, var(--surface-base, #ffffff) ${opacity * 100}%, transparent) 30%,
         transparent 100%
       )`
     : `linear-gradient(
-        to bottom,
-        black 0%,
-        black ${20 + peak * 10}%,
-        rgba(0,0,0,${0.5 - peak * 0.3}) ${50 + peak * 20}%,
+        to top,
+        var(--surface-base, #ffffff) 0%,
+        color-mix(in srgb, var(--surface-base, #ffffff) ${opacity * 100}%, transparent) 30%,
         transparent 100%
       )`;
 
-  const style: React.CSSProperties = {
+  // Blur mask - fades the blur effect smoothly
+  const blurMask = isTop
+    ? 'linear-gradient(to bottom, black 0%, transparent 100%)'
+    : 'linear-gradient(to top, black 0%, transparent 100%)';
+
+  const baseStyle: React.CSSProperties = {
     position: fixed ? 'fixed' : 'absolute',
     [position]: 0,
     left: 0,
     right: 0,
     height: `${height}px`,
-    backdropFilter: `blur(${blur}px)`,
-    WebkitBackdropFilter: `blur(${blur}px)`,
-    maskImage: maskGradient,
-    WebkitMaskImage: maskGradient,
     pointerEvents: 'none',
     zIndex,
   };
 
+  // Fade-only mode (smoothest)
+  if (mode === 'fade') {
+    return (
+      <div
+        aria-hidden="true"
+        className={className}
+        style={{
+          ...baseStyle,
+          background: fadeGradient,
+        }}
+      />
+    );
+  }
+
+  // Blur-only mode
+  if (mode === 'blur') {
+    return (
+      <div
+        aria-hidden="true"
+        className={className}
+        style={{
+          ...baseStyle,
+          backdropFilter: `blur(${blur}px)`,
+          WebkitBackdropFilter: `blur(${blur}px)`,
+          maskImage: blurMask,
+          WebkitMaskImage: blurMask,
+        }}
+      />
+    );
+  }
+
+  // Both mode - layered fade + blur
   return (
-    <div
-      aria-hidden="true"
-      className={className}
-      style={style}
-    />
+    <>
+      <div
+        aria-hidden="true"
+        style={{
+          ...baseStyle,
+          backdropFilter: `blur(${blur}px)`,
+          WebkitBackdropFilter: `blur(${blur}px)`,
+          maskImage: blurMask,
+          WebkitMaskImage: blurMask,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className={className}
+        style={{
+          ...baseStyle,
+          background: fadeGradient,
+        }}
+      />
+    </>
   );
 }
 

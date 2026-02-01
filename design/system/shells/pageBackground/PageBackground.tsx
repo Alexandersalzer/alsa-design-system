@@ -32,9 +32,10 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     return (
       <EdgeBlur
         position={pageProps?.edgeBlurPosition || 'bottom'}
+        mode={pageProps?.edgeBlurMode || 'fade'}
         height={pageProps?.edgeBlurHeight}
         blur={pageProps?.edgeBlurAmount}
-        peak={pageProps?.edgeBlurPeak}
+        opacity={pageProps?.edgeBlurOpacity}
       />
     );
   };
