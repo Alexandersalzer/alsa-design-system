@@ -89,7 +89,7 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const particleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const particleStates = useRef<ParticleState[]>([]);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
 
   // Get colors based on scheme
   const colors = useMemo(() => {
