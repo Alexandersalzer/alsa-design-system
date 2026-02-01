@@ -135,55 +135,60 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
   // Render dynamic background based on type
   const renderBackground = () => {
     const background = pageProps?.background;
+    const layers: React.ReactNode[] = [];
     
-    // Use helper for typed backgrounds
+    // Layer 1: Background image (can be combined with other backgrounds)
+    if (pageProps?.backgroundImage) {
+      layers.push(
+        <div
+          key="bg-image"
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundImage: `url(${pageProps.backgroundImage})`,
+            backgroundSize: pageProps.backgroundSize || 'auto',
+            backgroundPosition: pageProps.backgroundPosition || 'center',
+            backgroundRepeat: pageProps.backgroundRepeat || 'repeat',
+            opacity: pageProps.backgroundOpacity ?? 0.03,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+      );
+      
+      // Optional overlay on image
+      if (pageProps.backgroundOverlay && typeof pageProps.backgroundOverlay === 'string') {
+        layers.push(
+          <div
+            key="bg-overlay"
+            aria-hidden="true"
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: pageProps.backgroundOverlay,
+              opacity: pageProps.backgroundOverlayOpacity ?? 0.5,
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          />
+        );
+      }
+    }
+    
+    // Layer 2: Dynamic background component (particle, generative, etc)
     if (background && background !== 'image' && pageProps) {
       const bgComponent = renderBackgroundComponent(background, pageProps);
       if (bgComponent) {
-        return (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+        layers.push(
+          <div key="bg-component" style={{ position: 'fixed', inset: 0, zIndex: 2, pointerEvents: 'none' }}>
             {bgComponent}
           </div>
         );
       }
     }
     
-    // Legacy image background support
-    if (background === 'image' || pageProps?.backgroundImage) {
-      return (
-        <>
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'fixed',
-              inset: 0,
-              backgroundImage: `url(${pageProps.backgroundImage})`,
-              backgroundSize: pageProps.backgroundSize || 'auto',
-              backgroundPosition: pageProps.backgroundPosition || 'center',
-              backgroundRepeat: 'repeat',
-              opacity: pageProps.backgroundOpacity ?? 0.03,
-              pointerEvents: 'none',
-              zIndex: 0,
-            }}
-          />
-          {pageProps.backgroundOverlay && typeof pageProps.backgroundOverlay === 'string' && (
-            <div
-              aria-hidden="true"
-              style={{
-                position: 'fixed',
-                inset: 0,
-                backgroundColor: pageProps.backgroundOverlay,
-                opacity: pageProps.backgroundOverlayOpacity ?? 0.5,
-                pointerEvents: 'none',
-                zIndex: 1,
-              }}
-            />
-          )}
-        </>
-      );
-    }
-    
-    return null;
+    return layers.length > 0 ? <>{layers}</> : null;
   };
 
   return (
