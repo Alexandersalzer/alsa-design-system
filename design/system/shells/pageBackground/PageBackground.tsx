@@ -26,13 +26,13 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
 
   // Bottom blur variant presets - controls the max blur and height
   const bottomBlurPresets = {
-    subtle: { height: 60, maxBlur: 6, layers: 6 },
-    medium: { height: 80, maxBlur: 10, layers: 8 },
-    strong: { height: 100, maxBlur: 14, layers: 8 },
-    reflection: { height: 120, maxBlur: 20, layers: 8 },
+    subtle: { height: 60, maxBlur: 6 },
+    medium: { height: 80, maxBlur: 10 },
+    strong: { height: 100, maxBlur: 14 },
+    reflection: { height: 120, maxBlur: 20 },
   };
 
-  // Render bottom blur helper - uses stacked blur technique for smooth effect
+  // Render bottom blur helper - uses stacked blur technique (8 layers like reference)
   const renderBottomBlurElement = () => {
     if (!showBottomBlur) return null;
     
@@ -46,54 +46,63 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     // Allow overrides via props
     const height = pageProps?.bottomBlurHeight ?? preset.height;
     const maxBlur = pageProps?.bottomBlurAmount ?? preset.maxBlur;
-    const layerCount = preset.layers;
     
-    // Generate stacked blur layers
-    const layers = [];
-    const step = 100 / layerCount; // percentage step for each layer
+    // 8 layers with progressive blur (matching reference exactly)
+    // Blur values: 0.078, 0.156, 0.3125, 0.625, 1.25, 2.5, 5, 10 (scaled to maxBlur)
+    const blurValues = [
+      maxBlur * 0.0078,  // ~0.078px at maxBlur=10
+      maxBlur * 0.0156,  // ~0.156px
+      maxBlur * 0.03125, // ~0.3125px
+      maxBlur * 0.0625,  // ~0.625px
+      maxBlur * 0.125,   // ~1.25px
+      maxBlur * 0.25,    // ~2.5px
+      maxBlur * 0.5,     // ~5px
+      maxBlur * 1,       // ~10px
+    ];
     
-    for (let i = 0; i < layerCount; i++) {
-      // Progressive blur: doubles each layer (like reference: 0.08 → 0.16 → 0.3 → 0.6 → 1.25 → 2.5 → 5 → 10)
-      const blur = maxBlur / Math.pow(2, layerCount - 1 - i);
-      
-      // Calculate mask positions (each layer covers a band)
-      const start = i * step;
-      const solidStart = start + step * 0.5;
-      const solidEnd = (i + 1) * step;
-      const end = Math.min(solidEnd + step * 0.5, 100);
-      
-      layers.push(
-        <div
-          key={i}
-          aria-hidden="true"
-          style={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: `${height}px`,
-            pointerEvents: 'none',
-            zIndex: 9990 + i,
-            backdropFilter: `blur(${blur}px)`,
-            WebkitBackdropFilter: `blur(${blur}px)`,
-            maskImage: `linear-gradient(to top, 
-              rgba(0,0,0,0) ${start}%, 
-              rgb(0,0,0) ${solidStart}%, 
-              rgb(0,0,0) ${solidEnd}%, 
-              rgba(0,0,0,0) ${end}%
-            )`,
-            WebkitMaskImage: `linear-gradient(to top, 
-              rgba(0,0,0,0) ${start}%, 
-              rgb(0,0,0) ${solidStart}%, 
-              rgb(0,0,0) ${solidEnd}%, 
-              rgba(0,0,0,0) ${end}%
-            )`,
-          }}
-        />
-      );
-    }
+    // Mask gradients matching reference (top to bottom, 12.5% bands)
+    const maskGradients = [
+      'linear-gradient(rgba(0,0,0,0) 0%, rgb(0,0,0) 12.5%, rgb(0,0,0) 25%, rgba(0,0,0,0) 37.5%)',
+      'linear-gradient(rgba(0,0,0,0) 12.5%, rgb(0,0,0) 25%, rgb(0,0,0) 37.5%, rgba(0,0,0,0) 50%)',
+      'linear-gradient(rgba(0,0,0,0) 25%, rgb(0,0,0) 37.5%, rgb(0,0,0) 50%, rgba(0,0,0,0) 62.5%)',
+      'linear-gradient(rgba(0,0,0,0) 37.5%, rgb(0,0,0) 50%, rgb(0,0,0) 62.5%, rgba(0,0,0,0) 75%)',
+      'linear-gradient(rgba(0,0,0,0) 50%, rgb(0,0,0) 62.5%, rgb(0,0,0) 75%, rgba(0,0,0,0) 87.5%)',
+      'linear-gradient(rgba(0,0,0,0) 62.5%, rgb(0,0,0) 75%, rgb(0,0,0) 87.5%, rgba(0,0,0,0) 100%)',
+      'linear-gradient(rgba(0,0,0,0) 75%, rgb(0,0,0) 87.5%, rgb(0,0,0) 100%)',
+      'linear-gradient(rgba(0,0,0,0) 87.5%, rgb(0,0,0) 100%)',
+    ];
     
-    return <>{layers}</>;
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: `${height}px`,
+          pointerEvents: 'none',
+          zIndex: 9990,
+          overflow: 'hidden',
+        }}
+      >
+        {blurValues.map((blur, i) => (
+          <div
+            key={i}
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              zIndex: i + 1,
+              backdropFilter: `blur(${blur}px)`,
+              WebkitBackdropFilter: `blur(${blur}px)`,
+              maskImage: maskGradients[i],
+              WebkitMaskImage: maskGradients[i],
+            }}
+          />
+        ))}
+      </div>
+    );
   };
 
   // If no background but bottomBlur is enabled, still render it
