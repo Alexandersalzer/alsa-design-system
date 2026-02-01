@@ -16,7 +16,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
   if ((pattern as any).layout) {
     const layoutContent = renderLayoutWithTemplate(
       (pattern as any).layout,
-      pattern.components,
+      pattern.components || {},
       sectionKey,
       patternKey
     );
