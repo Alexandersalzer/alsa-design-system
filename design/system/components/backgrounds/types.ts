@@ -51,6 +51,7 @@ export interface ImageBackgroundProps {
   backgroundOpacity?: number;
   backgroundOverlay?: string | false;
   backgroundOverlayOpacity?: number;
+  backgroundBlendMode?: 'overlay' | 'soft-light' | 'multiply' | 'screen' | 'normal';
   imageFadeEdge?: FadeEdge;
   imageFadeStrength?: number;
 }
@@ -99,18 +100,17 @@ export interface ParticleBackgroundProps {
   particleBlur?: number;
 }
 
-// ===== IMAGE BACKGROUND (Legacy) =====
-export interface ImageBackgroundProps {
-  backgroundImage?: string;
-  backgroundOpacity?: number;
-  backgroundSize?: 'cover' | 'contain' | 'auto' | string;
-  backgroundPosition?: string;
-  backgroundRepeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y' | 'space' | 'round';
-  backgroundFixed?: boolean;
-  backgroundOverlay?: string | false;
-  backgroundOverlayOpacity?: number;
-  imageFadeEdge?: FadeEdge;
-  imageFadeStrength?: number;
+
+// ===== GLOW/MASK EFFECTS =====
+export interface BackgroundEffectsProps {
+  /** Enable glow/spotlight effect at top (default: false) */
+  backgroundGlow?: boolean;
+  /** Glow color (default: rgba(255,255,255,0.06)) */
+  backgroundGlowColor?: string;
+  /** Glow size/spread (default: 65%) */
+  backgroundGlowSize?: string;
+  /** Enable mask/fade at bottom */
+  backgroundMask?: boolean;
 }
 
 // ===== COMBINED BACKGROUND PROPS =====
@@ -125,7 +125,8 @@ export interface BackgroundProps
     VideoBackgroundProps,
     SolidBackgroundProps,
     ImageBackgroundProps,
-    ParticleBackgroundProps {
+    ParticleBackgroundProps,
+    BackgroundEffectsProps {
   background?: BackgroundType;
   backgroundColor?: string;
 }
