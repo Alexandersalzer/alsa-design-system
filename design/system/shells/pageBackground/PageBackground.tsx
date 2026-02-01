@@ -137,26 +137,40 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     const background = pageProps?.background;
     const layers: React.ReactNode[] = [];
     
-    // Layer 1: Noise/grain texture with blend mode (auto-inverts for light/dark mode)
+    // Layer 1: Background image (supports both full images and grain/noise textures)
     if (pageProps?.backgroundImage) {
+      // Build filter string from props
+      const filterParts: string[] = [];
+      if (pageProps.backgroundInvert) filterParts.push('invert(1)');
+      if (pageProps.backgroundFilter) filterParts.push(pageProps.backgroundFilter);
+      const filterValue = filterParts.length > 0 ? filterParts.join(' ') : undefined;
+
+      // Detect if this is a "full" image (cover/contain) vs grain texture
+      const bgSize = pageProps.backgroundSize;
+      const isFullImage = bgSize === 'cover' || bgSize === 'contain';
+      
+      // Smart defaults based on image type
+      const defaultSize = isFullImage ? bgSize : '64px';
+      const defaultRepeat = isFullImage ? 'no-repeat' : 'repeat';
+      const defaultOpacity = isFullImage ? 1 : 0.06;
+      const defaultBlendMode = isFullImage ? 'normal' : 'overlay';
+
       layers.push(
         <div
-          key="bg-noise"
+          key="bg-image"
           aria-hidden="true"
-          className="page-bg-grain"
           style={{
             position: 'fixed',
             inset: 0,
             backgroundImage: `url(${pageProps.backgroundImage})`,
-            backgroundSize: pageProps.backgroundSize || '64px',
+            backgroundSize: pageProps.backgroundSize || defaultSize,
             backgroundPosition: pageProps.backgroundPosition || 'center',
-            backgroundRepeat: pageProps.backgroundRepeat || 'repeat',
-            opacity: pageProps.backgroundOpacity ?? 0.06,
-            mixBlendMode: (pageProps.backgroundBlendMode as React.CSSProperties['mixBlendMode']) || 'overlay',
+            backgroundRepeat: pageProps.backgroundRepeat ?? defaultRepeat,
+            opacity: pageProps.backgroundOpacity ?? defaultOpacity,
+            mixBlendMode: (pageProps.backgroundBlendMode as React.CSSProperties['mixBlendMode']) || defaultBlendMode,
             pointerEvents: 'none',
             zIndex: 1,
-            // Invert grain in light mode for proper contrast
-            filter: 'var(--grain-filter, none)',
+            ...(filterValue && { filter: filterValue }),
           }}
         />
       );

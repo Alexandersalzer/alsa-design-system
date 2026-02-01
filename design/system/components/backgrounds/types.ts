@@ -52,6 +52,10 @@ export interface ImageBackgroundProps {
   backgroundOverlay?: string | false;
   backgroundOverlayOpacity?: number;
   backgroundBlendMode?: 'overlay' | 'soft-light' | 'multiply' | 'screen' | 'normal';
+  /** Invert the background image colors */
+  backgroundInvert?: boolean;
+  /** Custom CSS filter for background image */
+  backgroundFilter?: string;
   imageFadeEdge?: FadeEdge;
   imageFadeStrength?: number;
 }
