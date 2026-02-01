@@ -73,23 +73,15 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
     const background = pageProps?.background;
     const layers: React.ReactNode[] = [];
     
-    // Layer 1: Background image (supports both full images and grain/noise textures)
+    // Layer 1: Background image
+    // Defaults are for normal images (cover, full opacity)
+    // For grain textures, explicitly set: backgroundSize="64px", backgroundRepeat="repeat", backgroundOpacity=0.06, backgroundBlendMode="overlay"
     if (pageProps?.backgroundImage) {
       // Build filter string from props
       const filterParts: string[] = [];
       if (pageProps.backgroundInvert) filterParts.push('invert(1)');
       if (pageProps.backgroundFilter) filterParts.push(pageProps.backgroundFilter);
       const filterValue = filterParts.length > 0 ? filterParts.join(' ') : undefined;
-
-      // Detect if this is a "full" image (cover/contain) vs grain texture
-      const bgSize = pageProps.backgroundSize;
-      const isFullImage = bgSize === 'cover' || bgSize === 'contain';
-      
-      // Smart defaults based on image type
-      const defaultSize = isFullImage ? bgSize : '64px';
-      const defaultRepeat = isFullImage ? 'no-repeat' : 'repeat';
-      const defaultOpacity = isFullImage ? 1 : 0.06;
-      const defaultBlendMode = isFullImage ? 'normal' : 'overlay';
 
       layers.push(
         <div
@@ -99,11 +91,11 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
             position: 'fixed',
             inset: 0,
             backgroundImage: `url(${pageProps.backgroundImage})`,
-            backgroundSize: pageProps.backgroundSize || defaultSize,
+            backgroundSize: pageProps.backgroundSize || 'cover',
             backgroundPosition: pageProps.backgroundPosition || 'center',
-            backgroundRepeat: pageProps.backgroundRepeat ?? defaultRepeat,
-            opacity: pageProps.backgroundOpacity ?? defaultOpacity,
-            mixBlendMode: (pageProps.backgroundBlendMode as React.CSSProperties['mixBlendMode']) || defaultBlendMode,
+            backgroundRepeat: pageProps.backgroundRepeat || 'no-repeat',
+            opacity: pageProps.backgroundOpacity ?? 1,
+            mixBlendMode: (pageProps.backgroundBlendMode as React.CSSProperties['mixBlendMode']) || 'normal',
             pointerEvents: 'none',
             zIndex: 1,
             ...(filterValue && { filter: filterValue }),
@@ -112,11 +104,13 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
       );
     }
     
-    // Layer 2: Glow/spotlight effect (radial gradient at top with smooth steps to avoid banding)
+    // Layer 2: Glow/spotlight effect (radial gradient with smooth steps to avoid banding)
     if (pageProps?.backgroundGlow) {
-      const glowIntensity = pageProps.backgroundGlowIntensity ?? 0.06;
-      const glowSize = pageProps.backgroundGlowSize || '80%';
+      const glowIntensity = pageProps.backgroundGlowIntensity ?? 0.15;
+      const glowSize = pageProps.backgroundGlowSize || '60%';
+      const glowWidth = pageProps.backgroundGlowWidth || '120%';
       const glowPosition = pageProps.backgroundGlowPosition || 'top';
+      const glowColor = pageProps.backgroundGlowColor || '255,255,255'; // RGB format
       
       // Calculate gradient stops based on intensity (smooth 7-step fade)
       const stops = [
@@ -144,14 +138,14 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
           style={{
             position: 'fixed',
             inset: 0,
-            background: `radial-gradient(ellipse 120% ${glowSize} at ${gradientPosition}, 
-              rgba(255,255,255,${stops[0]}) 0%, 
-              rgba(255,255,255,${stops[1]}) 15%, 
-              rgba(255,255,255,${stops[2]}) 30%, 
-              rgba(255,255,255,${stops[3]}) 45%, 
-              rgba(255,255,255,${stops[4]}) 60%, 
-              rgba(255,255,255,${stops[5]}) 75%, 
-              rgba(255,255,255,${stops[6]}) 100%
+            background: `radial-gradient(ellipse ${glowWidth} ${glowSize} at ${gradientPosition}, 
+              rgba(${glowColor},${stops[0]}) 0%, 
+              rgba(${glowColor},${stops[1]}) 15%, 
+              rgba(${glowColor},${stops[2]}) 30%, 
+              rgba(${glowColor},${stops[3]}) 45%, 
+              rgba(${glowColor},${stops[4]}) 60%, 
+              rgba(${glowColor},${stops[5]}) 75%, 
+              rgba(${glowColor},${stops[6]}) 100%
             )`,
             pointerEvents: 'none',
             zIndex: 2,
@@ -160,8 +154,12 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
       );
     }
     
-    // Layer 3: Mask/fade effect (optional)
+    // Layer 3: Mask/fade effect (optional vignette/darkening at edges)
     if (pageProps?.backgroundMask) {
+      const maskOpacity = pageProps.backgroundMaskOpacity ?? 0.3;
+      const maskStart = pageProps.backgroundMaskStart ?? 75; // Where fade begins (%)
+      const maskColor = pageProps.backgroundMaskColor || '0,0,0'; // RGB format
+      
       layers.push(
         <div
           key="bg-mask"
@@ -169,7 +167,7 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'linear-gradient(to bottom, transparent 0%, transparent 75%, rgba(0,0,0,0.3) 100%)',
+            background: `linear-gradient(to bottom, transparent 0%, transparent ${maskStart}%, rgba(${maskColor},${maskOpacity}) 100%)`,
             pointerEvents: 'none',
             zIndex: 3,
           }}

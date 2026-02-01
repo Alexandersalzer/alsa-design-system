@@ -109,14 +109,25 @@ export interface ParticleBackgroundProps {
 export interface BackgroundEffectsProps {
   /** Enable glow/spotlight effect */
   backgroundGlow?: boolean;
-  /** Glow intensity (0-1, default: 0.06) */
+  /** Glow intensity (0-1, default: 0.15) */
   backgroundGlowIntensity?: number;
-  /** Glow size/spread (default: 80%) */
+  /** Glow vertical size/spread (default: 60%) */
   backgroundGlowSize?: string;
+  /** Glow horizontal width (default: 120%) */
+  backgroundGlowWidth?: string;
   /** Glow position: 'top' | 'center' | 'bottom' or custom "x% y%" */
   backgroundGlowPosition?: 'top' | 'center' | 'bottom' | string;
-  /** Enable mask/fade at bottom */
+  /** Glow color in RGB format (default: '255,255,255') */
+  backgroundGlowColor?: string;
+  
+  /** Enable mask/fade effect at bottom */
   backgroundMask?: boolean;
+  /** Mask opacity (0-1, default: 0.3) */
+  backgroundMaskOpacity?: number;
+  /** Where mask fade begins in % (default: 75) */
+  backgroundMaskStart?: number;
+  /** Mask color in RGB format (default: '0,0,0') */
+  backgroundMaskColor?: string;
 }
 
 // ===== BOTTOM BLUR =====
