@@ -192,35 +192,19 @@ export const findLayoutItem = (
 };
 
 /**
- * Find component by slot or type in components record
- * Used for template matching: ${image} → finds component with slot: "image" OR type: "image"
- * 
- * Priority order:
- * 1. Exact slot match (component.slot === slotName)
- * 2. Type match (component.type === slotName)
- * 
- * This allows multiple components of same type with different slots:
- * - { type: "body", slot: "label" } → matched by ${label}
- * - { type: "body", slot: "description" } → matched by ${description}
- * - { type: "body" } → matched by ${body} (fallback to type)
+ * Find component by type in components record
+ * Used for template matching: ${image} → finds component with type: "image"
  * 
  * @param components - Record of ComponentNodes keyed by componentId
- * @param slotName - Slot name to find (tries slot first, then type)
+ * @param type - Component type to find (e.g., "image", "heading", "body")
  * @returns The matching ComponentNode or undefined
  */
 export const findComponentByType = (
   components: Record<string, any>,
-  slotName: string
+  type: string
 ): Record<string, any> | undefined => {
-  // First: try to find by slot
-  const slotMatch = Object.entries(components).find(
-    ([_, component]) => component.slot === slotName
+  const entry = Object.entries(components).find(
+    ([_, component]) => component.type === type
   );
-  if (slotMatch) return slotMatch[1];
-  
-  // Fallback: find by type
-  const typeMatch = Object.entries(components).find(
-    ([_, component]) => component.type === slotName
-  );
-  return typeMatch ? typeMatch[1] : undefined;
+  return entry ? entry[1] : undefined;
 };

@@ -9,8 +9,7 @@ import {
   isComponentReference, 
   extractSlotName,
   getLayoutItemOrder,
-  findLayoutItem,
-  findComponentByType
+  findLayoutItem
 } from '../utils/props';
 
 /**
@@ -102,13 +101,16 @@ export const renderLayoutWithTemplate = (
       ...itemProps
     };
 
+    // Track used components within this item to support multiple components of same type
+    const usedComponents = new Set<string>();
+
     // Render each child in template.children array
     const templateChildren = template.children || [];
     const itemContent = (
       <React.Fragment key={itemId}>
         {templateChildren.map((child: any, index: number) => (
           <React.Fragment key={index}>
-            {renderTemplateNode(child, item.components, itemContext, sectionKey, patternKey)}
+            {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey)}
           </React.Fragment>
         ))}
       </React.Fragment>
@@ -188,22 +190,25 @@ const renderSimpleLayout = (
 /**
  * Renders a template node (recursive, completely generic)
  * Handles both layout nodes and component references
+ * 
+ * @param usedComponents - Set of component keys already rendered (for multiple same-type support)
  */
 const renderTemplateNode = (
   node: Record<string, any>,
   itemComponents: Record<string, ComponentNode>,
   itemContext: Record<string, any>,
+  usedComponents: Set<string>,
   sectionKey?: string,
   patternKey?: string
 ): React.ReactElement | null => {
   
   // Check what kind of node this is
   if (isComponentReference(node)) {
-    return renderComponentReference(node, itemComponents, sectionKey, patternKey);
+    return renderComponentReference(node, itemComponents, usedComponents, sectionKey, patternKey);
   }
 
   if (isLayoutNode(node)) {
-    return renderLayoutNodeGeneric(node, itemComponents, itemContext, sectionKey, patternKey);
+    return renderLayoutNodeGeneric(node, itemComponents, itemContext, usedComponents, sectionKey, patternKey);
   }
 
   console.warn('Invalid template node:', node);
@@ -218,6 +223,7 @@ const renderLayoutNodeGeneric = (
   node: Record<string, any>,
   itemComponents: Record<string, ComponentNode>,
   itemContext: Record<string, any>,
+  usedComponents: Set<string>,
   sectionKey?: string,
   patternKey?: string
 ): React.ReactElement | null => {
@@ -244,7 +250,7 @@ const renderLayoutNodeGeneric = (
   // Recursively render children for components that support them
   const renderedChildren = children.map((child: any, index: number) => (
     <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, itemContext, sectionKey, patternKey)}
+      {renderTemplateNode(child, itemComponents, itemContext, usedComponents, sectionKey, patternKey)}
     </React.Fragment>
   ));
 
@@ -257,17 +263,39 @@ const renderLayoutNodeGeneric = (
 };
 
 /**
+ * Finds the next available component by type that hasn't been used yet
+ * Supports multiple components of the same type in one item
+ * 
+ * @param components - Record of ComponentNodes keyed by componentId
+ * @param type - Component type to find (e.g., "body", "heading")
+ * @param usedComponents - Set of component keys already used
+ * @returns { component, key } or undefined
+ */
+const findNextComponentByType = (
+  components: Record<string, any>,
+  type: string,
+  usedComponents: Set<string>
+): { component: Record<string, any>; key: string } | undefined => {
+  const entry = Object.entries(components).find(
+    ([key, component]) => component.type === type && !usedComponents.has(key)
+  );
+  return entry ? { component: entry[1], key: entry[0] } : undefined;
+};
+
+/**
  * Renders component reference: { component: "${componentType}" }
  * Matches component by TYPE, not by key name
+ * Supports multiple components of same type (renders them in order)
  * Extra props in the reference override component props (for template-level styling)
  * 
- * Template: { component: "${image}", radius: "md" }
- * Items: { image_mN3pL2: { type: "image", props: { src: "..." } } }
- * Result: Finds component with type "image", merges props with template styling
+ * Template: { component: "${body}" }, { component: "${body}" }
+ * Items: { body_abc: { type: "body", ... }, body_def: { type: "body", ... } }
+ * Result: First ${body} renders body_abc, second ${body} renders body_def
  */
 const renderComponentReference = (
   reference: Record<string, any>,
   itemComponents: Record<string, ComponentNode>,
+  usedComponents: Set<string>,
   sectionKey?: string,
   patternKey?: string
 ): React.ReactElement | null => {
@@ -276,13 +304,18 @@ const renderComponentReference = (
   // Extract type from ${componentType} syntax
   const componentType = extractSlotName(componentRef);
   
-  // Find component by TYPE (not by key)
-  const itemComponent = findComponentByType(itemComponents, componentType);
+  // Find next available component by TYPE (supports multiple of same type)
+  const result = findNextComponentByType(itemComponents, componentType, usedComponents);
 
-  if (!itemComponent) {
-    console.warn(`Component with type "${componentType}" not found in item components`);
+  if (!result) {
+    console.warn(`Component with type "${componentType}" not found in item components (or all already used)`);
     return null;
   }
+
+  const { component: itemComponent, key: componentKey } = result;
+  
+  // Mark this component as used
+  usedComponents.add(componentKey);
 
   const Component = componentRegistry[componentType];
   if (!Component) {
