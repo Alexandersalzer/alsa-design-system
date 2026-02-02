@@ -208,6 +208,25 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     }
   }, [adjustHeight, value, defaultValue]);
 
+  // Listen for form reset to clear internal state
+  React.useEffect(() => {
+    const textarea = textareaRef.current;
+    const form = textarea?.closest('form');
+    
+    if (!form) return;
+    
+    const handleReset = () => {
+      setCharacterCount(defaultValue?.toString().length || 0);
+      if (autoResize) {
+        // Small delay to let the form reset first
+        setTimeout(adjustHeight, 0);
+      }
+    };
+    
+    form.addEventListener('reset', handleReset);
+    return () => form.removeEventListener('reset', handleReset);
+  }, [defaultValue, autoResize, adjustHeight]);
+
   // Build classes
   const wrapperClasses = cn(
     'textarea-wrapper',
