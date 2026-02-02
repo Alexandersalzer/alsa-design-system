@@ -490,12 +490,11 @@ const renderComponentReference = (
   };
   
   // Render the component with componentKey and itemId for DOM identification
-  const renderedComponent = (
-    <Component 
-      {...mergedProps} 
-      componentKey={componentKey}
-    />
-  );
+const renderedComponent = (
+  <div data-component-key={componentKey} style={{ display: 'contents' }}>
+    <Component {...mergedProps} />
+  </div>
+);
   
   // Check for animation (template animation takes precedence, then item animation)
   const animationConfig = templateAnimation || itemComponent?.animation;
