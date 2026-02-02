@@ -9,14 +9,18 @@ import './HStack.css';
 type JustifyValue = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
 type DirectionValue = 'row' | 'row-reverse' | 'column' | 'column-reverse';
 
+type AlignValue = 'start' | 'center' | 'end' | 'baseline' | 'stretch';
+
 export interface HStackProps extends HTMLAttributes<HTMLDivElement> { // ✅ Extend HTMLAttributes
   children: ReactNode;
   className?: string;
   // Spacing between items
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   // Alignment
-  align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch';
+  align?: AlignValue;
   justify?: JustifyValue;
+  // Mobile-specific align (overrides align on mobile)
+  mobileAlign?: AlignValue;
   // Mobile-specific justify (overrides justify on mobile)
   mobileJustify?: JustifyValue;
   // Wrapping behavior
@@ -39,6 +43,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
   spacing = 'md',
   align = 'center',
   justify = 'start',
+  mobileAlign,
   mobileJustify,
   wrap = false,
   direction = 'row',
@@ -51,6 +56,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
     `hStack--spacing-${spacing}`,
     `hStack--align-${align}`,
     justify !== 'start' && `hStack--justify-${justify}`,
+    mobileAlign && `hStack--mobileAlign-${mobileAlign}`,
     mobileJustify && `hStack--mobileJustify-${mobileJustify}`,
     wrap && 'hStack--wrap',
     direction !== 'row' && `hStack--${direction}`,
