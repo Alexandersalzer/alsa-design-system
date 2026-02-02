@@ -107,6 +107,7 @@ export const Image: React.FC<ImageProps> = ({
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [shouldTryOriginal, setShouldTryOriginal] = useState(false);
 
   // ✅ OPTIMIZATION 1: Check if image is already cached (CloudFront/CDN)
   useEffect(() => {
@@ -181,8 +182,16 @@ export const Image: React.FC<ImageProps> = ({
     onLoad?.();
   };
 
-  // Handle image error
+  // Handle image error - try original URL as fallback if normalized URL fails
   const handleError = () => {
+    // If normalized URL failed and we haven't tried original yet, try original
+    if (!shouldTryOriginal && src !== normalizeCdnUrl(src)) {
+      console.log(`[Image] Normalized URL failed, trying original: ${src}`);
+      setShouldTryOriginal(true);
+      setHasError(false); // Reset error to retry
+      return;
+    }
+
     setHasError(true);
     setIsLoading(false);
     onError?.();
@@ -194,7 +203,16 @@ export const Image: React.FC<ImageProps> = ({
   const normalizedFallbackSrc = fallbackSrc ? normalizeCdnUrl(fallbackSrc) : undefined;
 
   // Determine which src to use
-  const currentSrc = hasError && normalizedFallbackSrc ? normalizedFallbackSrc : normalizedSrc;
+  // Priority: fallback (if error) > original (if normalized failed) > normalized
+  let currentSrc: string;
+  if (hasError && normalizedFallbackSrc) {
+    currentSrc = normalizedFallbackSrc;
+  } else if (shouldTryOriginal) {
+    currentSrc = src; // Try original URL
+  } else {
+    currentSrc = normalizedSrc; // Try normalized URL first
+  }
+
   const shouldLoad = isIntersecting || priority || isCached;
 
   // Trigger loading state when image should load but isn't cached
