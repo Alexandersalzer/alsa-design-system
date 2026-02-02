@@ -494,9 +494,6 @@ const renderComponentReference = (
     <Component 
       {...mergedProps} 
       componentKey={componentKey}
-      sectionKey={sectionKey}
-      patternKey={patternKey}
-      itemId={itemId}
     />
   );
   
