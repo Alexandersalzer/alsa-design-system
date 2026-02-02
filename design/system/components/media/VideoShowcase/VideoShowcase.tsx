@@ -48,6 +48,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   mobileFrameSize?: number;
   /** Max width in pixels for video on mobile (for videos without frame) */
   mobileMaxWidth?: number;
+  /** Overlay element (e.g., flag badge) positioned in top-right corner */
+  overlay?: React.ReactNode;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -72,6 +74,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   frameSize,
   mobileFrameSize,
   mobileMaxWidth,
+  overlay,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -287,6 +290,20 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         <button className="play-button" aria-label="Play video" onClick={handlePlayClick}>
           <span className="play-button-icon" />
         </button>
+      )}
+      {overlay && (
+        <div
+          className="video-container__overlay"
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            pointerEvents: 'none'
+          }}
+        >
+          {overlay}
+        </div>
       )}
     </div>
   );
