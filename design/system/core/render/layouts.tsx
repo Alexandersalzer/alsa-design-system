@@ -232,6 +232,51 @@ const renderItems = (
 };
 
 /**
+ * Renders category components (e.g., heading + body for sticky headers)
+ * These are rendered as direct component instances
+ */
+const renderCategoryComponents = (
+  categoryComponents: Record<string, ComponentNode>,
+  categoryComponentTemplate: Record<string, any> | undefined,
+  sectionKey?: string,
+  patternKey?: string
+): React.ReactNode => {
+  // If we have a categoryComponentTemplate, render the template with components
+  if (categoryComponentTemplate) {
+    const usedComponents = new Set<string>();
+    const categoryContext = { id: 'category-header' };
+
+    return renderTemplateNode(
+      categoryComponentTemplate,
+      categoryComponents,
+      categoryContext,
+      usedComponents,
+      sectionKey,
+      patternKey
+    );
+  }
+
+  // Otherwise render components directly
+  return Object.entries(categoryComponents).map(([componentKey, componentNode]) => {
+    const Component = componentRegistry[componentNode.type];
+    if (!Component) {
+      console.warn(`Component type "${componentNode.type}" not found in registry`);
+      return null;
+    }
+
+    return (
+      <Component
+        key={componentKey}
+        {...componentNode.props}
+        componentKey={componentKey}
+        sectionKey={sectionKey}
+        patternKey={patternKey}
+      />
+    );
+  }).filter(Boolean);
+};
+
+/**
  * Renders layout with categories (nested structure)
  * Each category contains its own items
  * Now supports rendering category.components alongside category.items
@@ -247,7 +292,7 @@ const renderCategorizedLayout = (
   patternKey?: string
 ): React.ReactElement => {
   const categoryOrder = getLayoutCategoryOrder(layout);
-  const { categoryTemplate } = layout;
+  const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
 
   let globalItemIndex = 0;
 
@@ -274,12 +319,27 @@ const renderCategorizedLayout = (
 
     globalItemIndex += itemOrder.length;
 
+    // Wrap items in itemsWrapper if provided (e.g., Grid)
+    let wrappedItems: React.ReactNode = renderedItems;
+    if (itemsWrapper) {
+      const ItemsWrapperComponent = componentRegistry[itemsWrapper.type];
+      if (ItemsWrapperComponent) {
+        const { type: _, ...wrapperProps } = itemsWrapper;
+        wrappedItems = (
+          <ItemsWrapperComponent {...wrapperProps}>
+            {renderedItems}
+          </ItemsWrapperComponent>
+        );
+      }
+    }
+
     // Render category components if they exist (e.g., sticky headers)
     const renderedCategoryComponents = category.components
-      ? renderCategoryComponents(category.components, sectionKey, patternKey)
+      ? renderCategoryComponents(category.components, categoryComponentTemplate, sectionKey, patternKey)
       : null;
 
-    // If categoryTemplate exists, wrap items in category template
+    // If categoryTemplate exists, wrap category components + items in it
+    // categoryTemplate typically wraps both the sticky header and the grid of items
     if (categoryTemplate) {
       const CategoryWrapper = componentRegistry[categoryTemplate.type];
       if (CategoryWrapper) {
@@ -287,7 +347,7 @@ const renderCategorizedLayout = (
         return (
           <CategoryWrapper key={categoryId} {...categoryProps} {...category.props}>
             {renderedCategoryComponents}
-            {renderedItems}
+            {wrappedItems}
           </CategoryWrapper>
         );
       }
@@ -297,7 +357,7 @@ const renderCategorizedLayout = (
     return (
       <React.Fragment key={categoryId}>
         {renderedCategoryComponents}
-        {renderedItems}
+        {wrappedItems}
       </React.Fragment>
     );
   }).filter(Boolean);
