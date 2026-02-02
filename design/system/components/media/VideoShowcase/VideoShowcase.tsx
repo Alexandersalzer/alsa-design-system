@@ -7,6 +7,7 @@ import React, { forwardRef, useRef, useState, useId, useEffect, useCallback } fr
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import { Video } from '../Video/Video';
+import { Flag } from '../Flag/Flag';
 import { FadeIn } from '../../animations/FadeIn/FadeIn';
 import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
@@ -50,6 +51,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   mobileMaxWidth?: number;
   /** Overlay element (e.g., flag badge) positioned in top-right corner */
   overlay?: React.ReactNode;
+  /** Country code or emoji for flag badge overlay (e.g., 'de', '🇩🇪', 'germany') */
+  flagCountry?: string;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -75,6 +78,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   mobileFrameSize,
   mobileMaxWidth,
   overlay,
+  flagCountry,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -291,7 +295,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           <span className="play-button-icon" />
         </button>
       )}
-      {overlay && (
+      {(overlay || flagCountry) && (
         <div
           className="video-container__overlay"
           style={{
@@ -303,6 +307,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           }}
         >
           {overlay}
+          {flagCountry && <Flag country={flagCountry} size="sm" variant="rounded" />}
         </div>
       )}
     </div>
