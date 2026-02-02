@@ -5,3 +5,4 @@ export * from './Avatar';
 export * from './Image';
 export * from './Logo';
 export * from './SquareImageContainer';
+export * from './Flag';

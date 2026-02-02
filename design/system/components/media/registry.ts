@@ -7,6 +7,7 @@ import { Logo } from './Logo/Logo';
 import { SocialIcon } from './SocialIcon/SocialIcon';
 import { SquareImageContainer } from './SquareImageContainer/SquareImageContainer';
 import { VideoShowcase } from './VideoShowcase/VideoShowcase';
+import { Flag } from './Flag/Flag';
 
 export const mediaComponents: Record<string, React.ComponentType<any>> = {
   image: Image,
@@ -18,4 +19,5 @@ export const mediaComponents: Record<string, React.ComponentType<any>> = {
   socialIcon: SocialIcon,
   squareImageContainer: SquareImageContainer,
   videoShowcase: VideoShowcase,
+  flag: Flag,
 };

@@ -13,3 +13,4 @@ export * from './AnimatedBox';
 export * from './OverflowContainer';
 export * from './Spacer';
 export * from './MasonryGrid';
+export * from './Overlay';

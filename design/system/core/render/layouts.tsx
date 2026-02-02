@@ -389,6 +389,11 @@ const renderLayoutNodeGeneric = (
     layoutProps = { ...layoutProps, direction: 'row-reverse' };
   }
 
+  // Add filterTags as data-filter-tags attribute for filtering functionality
+  if (itemContext?.filterTags && Array.isArray(itemContext.filterTags)) {
+    layoutProps = { ...layoutProps, 'data-filter-tags': itemContext.filterTags.join(',') };
+  }
+
   // Handle action prop - convert to onCardClick for components that use it
   if (layoutProps.action) {
     const action = layoutProps.action;
