@@ -211,18 +211,24 @@ export const GenerativeBackground: React.FC<GenerativeBackgroundProps> = ({
   fadeStrength = 0.15
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const lastColorsRef = useRef<string>('');
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Hämta design tokens från CSS custom properties
-    const computedStyle = getComputedStyle(canvas);
-    const colorBase = computedStyle.getPropertyValue('--gen-bg-base').trim() || '#E9D7FF';
-    const colorAccent = computedStyle.getPropertyValue('--gen-bg-accent').trim() || '#D8C8FF';
-    const colorHighlight = computedStyle.getPropertyValue('--gen-bg-highlight').trim() || '#FBF7FF';
-
+    // Draw function that reads current CSS variables
     const draw = () => {
+      const computedStyle = getComputedStyle(canvas);
+      const colorBase = computedStyle.getPropertyValue('--gen-bg-base').trim() || '#E9D7FF';
+      const colorAccent = computedStyle.getPropertyValue('--gen-bg-accent').trim() || '#D8C8FF';
+      const colorHighlight = computedStyle.getPropertyValue('--gen-bg-highlight').trim() || '#FBF7FF';
+
+      // Only redraw if colors actually changed
+      const colorKey = `${colorBase}-${colorAccent}-${colorHighlight}`;
+      if (colorKey === lastColorsRef.current) return;
+      lastColorsRef.current = colorKey;
+
       drawGenerativeBackground(
         canvas, 
         seed, 
@@ -234,14 +240,32 @@ export const GenerativeBackground: React.FC<GenerativeBackgroundProps> = ({
       );
     };
 
+    // Initial draw
     draw();
 
+    // Watch for style changes in document head (for live editor updates)
+    const observer = new MutationObserver(() => {
+      // Use requestAnimationFrame to batch style recalculations
+      requestAnimationFrame(draw);
+    });
+
+    // Observe head for style tag changes
+    observer.observe(document.head, { 
+      childList: true, 
+      subtree: true,
+      characterData: true 
+    });
+
     const handleResize = () => {
+      lastColorsRef.current = ''; // Force redraw on resize
       draw();
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      observer.disconnect();
+    };
   }, [variant, colorScheme, seed, intensity, blurAmount]);
 
   // Kombinera variant och colorScheme till en CSS klass
