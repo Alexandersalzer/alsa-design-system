@@ -8,6 +8,7 @@ import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
+import { normalizeCdnUrl } from '../../../core/utils/media';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -113,13 +114,16 @@ export const Image: React.FC<ImageProps> = ({
       return;
     }
 
+    // Normalize URL before cache check
+    const normalizedUrl = normalizeCdnUrl(src);
+
     // Create a test image to check cache
     const testImg = new window.Image();
-    testImg.src = src;
+    testImg.src = normalizedUrl;
 
     // If image loads super fast (< 10ms), it's cached
     const startTime = Date.now();
-    
+
     const checkCache = () => {
       const loadTime = Date.now() - startTime;
       if (loadTime < 10) {
@@ -131,7 +135,7 @@ export const Image: React.FC<ImageProps> = ({
     };
 
     testImg.onload = checkCache;
-    
+
     // Also check if already complete (sync load from cache)
     if (testImg.complete) {
       checkCache();
@@ -184,8 +188,13 @@ export const Image: React.FC<ImageProps> = ({
     onError?.();
   };
 
+  // Normalize CDN URLs to handle Swedish characters (å, ä, ö)
+  // This prevents Unicode vs percent-encoded mismatches
+  const normalizedSrc = normalizeCdnUrl(src);
+  const normalizedFallbackSrc = fallbackSrc ? normalizeCdnUrl(fallbackSrc) : undefined;
+
   // Determine which src to use
-  const currentSrc = hasError && fallbackSrc ? fallbackSrc : src;
+  const currentSrc = hasError && normalizedFallbackSrc ? normalizedFallbackSrc : normalizedSrc;
   const shouldLoad = isIntersecting || priority || isCached;
 
   // Trigger loading state when image should load but isn't cached

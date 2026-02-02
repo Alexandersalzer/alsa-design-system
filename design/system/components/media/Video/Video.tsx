@@ -8,6 +8,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
+import { normalizeCdnUrl } from '../../../core/utils/media';
 import './Video.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -118,6 +119,11 @@ export const Video: React.FC<VideoProps> = ({
     setIsLoading(true);
   };
 
+  // Normalize CDN URLs to handle Swedish characters (å, ä, ö)
+  // This prevents Unicode vs percent-encoded mismatches
+  const normalizedSrc = normalizeCdnUrl(src);
+  const normalizedPoster = poster ? normalizeCdnUrl(poster) : undefined;
+
   const shouldLoad = isIntersecting || priority;
 
   // Build classes
@@ -175,8 +181,8 @@ export const Video: React.FC<VideoProps> = ({
         <video
           ref={videoRef}
           className={videoClasses}
-          src={src}
-          poster={poster}
+          src={normalizedSrc}
+          poster={normalizedPoster}
           onError={handleVideoError}
           onLoadedData={handleLoadedData}
           onLoadStart={handleLoadStart}
