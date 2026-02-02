@@ -14,7 +14,7 @@ import { Opacity } from '../../animations/Opacity/Opacity';
 import { Scale } from '../../animations/Scale/Scale';
 import { AnimationConfig } from '../../animations/types';
 import { CDN_BASE_URL } from '../../../core/utils/env';
-import { getVideoThumbnailUrl, normalizeCdnUrl } from '../../../core/utils/media';
+import { getVideoThumbnailUrl } from '../../../core/utils/media';
 import './VideoShowcase.css';
 import './PlayButton.css';
 import './DeviceFrames.css';
@@ -139,18 +139,14 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   );
 
   // Process video URL and derive poster/thumbnail
-  // Normalize URLs to handle Swedish characters (å, ä, ö)
   const videoSrc = typeof props.src === 'string' ? props.src : '';
-  const rawVideoUrl = videoSrc.startsWith('http') ? videoSrc : `${CDN_BASE_URL}${videoSrc}`;
-  const videoUrl = normalizeCdnUrl(rawVideoUrl);
+  const videoUrl = videoSrc.startsWith('http') ? videoSrc : `${CDN_BASE_URL}${videoSrc}`;
 
   // Priority 1: Use hardcoded poster if provided
-  const rawPosterUrl = poster ? (poster.startsWith('http') ? poster : `${CDN_BASE_URL}${poster}`) : undefined;
-  let derivedPosterUrl = rawPosterUrl ? normalizeCdnUrl(rawPosterUrl) : undefined;
+  let derivedPosterUrl = poster ? (poster.startsWith('http') ? poster : `${CDN_BASE_URL}${poster}`) : undefined;
 
   // Priority 2: Auto-derive thumbnail from video path
   // Backend stores thumbnails at: user-{id}/thumbnails/{video-name}.jpg
-  // getVideoThumbnailUrl already normalizes internally
   if (!derivedPosterUrl) {
     derivedPosterUrl = getVideoThumbnailUrl(videoUrl);
   }

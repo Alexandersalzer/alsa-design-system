@@ -8,7 +8,6 @@ import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
-import { normalizeCdnUrl } from '../../../core/utils/media';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -107,7 +106,6 @@ export const Image: React.FC<ImageProps> = ({
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldTryOriginal, setShouldTryOriginal] = useState(false);
 
   // ✅ OPTIMIZATION 1: Check if image is already cached (CloudFront/CDN)
   useEffect(() => {
@@ -115,16 +113,13 @@ export const Image: React.FC<ImageProps> = ({
       return;
     }
 
-    // Normalize URL before cache check
-    const normalizedUrl = normalizeCdnUrl(src);
-
     // Create a test image to check cache
     const testImg = new window.Image();
-    testImg.src = normalizedUrl;
+    testImg.src = src;
 
     // If image loads super fast (< 10ms), it's cached
     const startTime = Date.now();
-
+    
     const checkCache = () => {
       const loadTime = Date.now() - startTime;
       if (loadTime < 10) {
@@ -136,7 +131,7 @@ export const Image: React.FC<ImageProps> = ({
     };
 
     testImg.onload = checkCache;
-
+    
     // Also check if already complete (sync load from cache)
     if (testImg.complete) {
       checkCache();
@@ -182,37 +177,15 @@ export const Image: React.FC<ImageProps> = ({
     onLoad?.();
   };
 
-  // Handle image error - try original URL as fallback if normalized URL fails
+  // Handle image error
   const handleError = () => {
-    // If normalized URL failed and we haven't tried original yet, try original
-    if (!shouldTryOriginal && src !== normalizeCdnUrl(src)) {
-      console.log(`[Image] Normalized URL failed, trying original: ${src}`);
-      setShouldTryOriginal(true);
-      setHasError(false); // Reset error to retry
-      return;
-    }
-
     setHasError(true);
     setIsLoading(false);
     onError?.();
   };
 
-  // Normalize CDN URLs to handle Swedish characters (å, ä, ö)
-  // This prevents Unicode vs percent-encoded mismatches
-  const normalizedSrc = normalizeCdnUrl(src);
-  const normalizedFallbackSrc = fallbackSrc ? normalizeCdnUrl(fallbackSrc) : undefined;
-
   // Determine which src to use
-  // Priority: fallback (if error) > original (if normalized failed) > normalized
-  let currentSrc: string;
-  if (hasError && normalizedFallbackSrc) {
-    currentSrc = normalizedFallbackSrc;
-  } else if (shouldTryOriginal) {
-    currentSrc = src; // Try original URL
-  } else {
-    currentSrc = normalizedSrc; // Try normalized URL first
-  }
-
+  const currentSrc = hasError && fallbackSrc ? fallbackSrc : src;
   const shouldLoad = isIntersecting || priority || isCached;
 
   // Trigger loading state when image should load but isn't cached

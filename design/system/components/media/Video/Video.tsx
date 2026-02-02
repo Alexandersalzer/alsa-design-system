@@ -8,7 +8,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
-import { normalizeCdnUrl } from '../../../core/utils/media';
 import './Video.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -69,7 +68,6 @@ export const Video: React.FC<VideoProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority);
   const [hasError, setHasError] = useState(false);
-  const [shouldTryOriginal, setShouldTryOriginal] = useState(false);
   // Don't show loading if we have a poster - poster displays immediately
   const [isLoading, setIsLoading] = useState(!poster);
 
@@ -103,16 +101,8 @@ export const Video: React.FC<VideoProps> = ({
     };
   }, [priority, loading, rootMargin]);
 
-  // Handle video error - try original URL as fallback if normalized URL fails
+  // Handle video error
   const handleVideoError = () => {
-    // If normalized URL failed and we haven't tried original yet, try original
-    if (!shouldTryOriginal && src !== normalizeCdnUrl(src)) {
-      console.log(`[Video] Normalized URL failed, trying original: ${src}`);
-      setShouldTryOriginal(true);
-      setHasError(false); // Reset error to retry
-      return;
-    }
-
     console.warn('Video error:', src);
     setHasError(true);
     setIsLoading(false);
@@ -127,15 +117,6 @@ export const Video: React.FC<VideoProps> = ({
   const handleLoadStart = () => {
     setIsLoading(true);
   };
-
-  // Normalize CDN URLs to handle Swedish characters (å, ä, ö)
-  // This prevents Unicode vs percent-encoded mismatches
-  const normalizedSrc = normalizeCdnUrl(src);
-  const normalizedPoster = poster ? normalizeCdnUrl(poster) : undefined;
-
-  // Determine which src to use - try original if normalized fails
-  const currentSrc = shouldTryOriginal ? src : normalizedSrc;
-  const currentPoster = shouldTryOriginal && poster ? poster : normalizedPoster;
 
   const shouldLoad = isIntersecting || priority;
 
@@ -194,8 +175,8 @@ export const Video: React.FC<VideoProps> = ({
         <video
           ref={videoRef}
           className={videoClasses}
-          src={currentSrc}
-          poster={currentPoster}
+          src={src}
+          poster={poster}
           onError={handleVideoError}
           onLoadedData={handleLoadedData}
           onLoadStart={handleLoadStart}
