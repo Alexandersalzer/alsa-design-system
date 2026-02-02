@@ -234,6 +234,7 @@ const renderItems = (
 /**
  * Renders layout with categories (nested structure)
  * Each category contains its own items
+ * Now supports rendering category.components alongside category.items
  */
 const renderCategorizedLayout = (
   layout: Record<string, any>,
@@ -247,18 +248,18 @@ const renderCategorizedLayout = (
 ): React.ReactElement => {
   const categoryOrder = getLayoutCategoryOrder(layout);
   const { categoryTemplate } = layout;
-  
+
   let globalItemIndex = 0;
-  
+
   const renderedCategories = categoryOrder.map((categoryId, categoryIndex) => {
     const category = findLayoutCategory(layout, categoryId);
     if (!category) {
       console.warn(`Category "${categoryId}" not found in layout categories`);
       return null;
     }
-    
+
     const itemOrder = getCategoryItemOrder(category);
-    
+
     // Render items within this category
     const renderedItems = renderItems(
       itemOrder,
@@ -270,9 +271,14 @@ const renderCategorizedLayout = (
       patternKey,
       globalItemIndex
     );
-    
+
     globalItemIndex += itemOrder.length;
-    
+
+    // Render category components if they exist (e.g., sticky headers)
+    const renderedCategoryComponents = category.components
+      ? renderCategoryComponents(category.components, sectionKey, patternKey)
+      : null;
+
     // If categoryTemplate exists, wrap items in category template
     if (categoryTemplate) {
       const CategoryWrapper = componentRegistry[categoryTemplate.type];
@@ -280,15 +286,17 @@ const renderCategorizedLayout = (
         const { type: _, ...categoryProps } = categoryTemplate;
         return (
           <CategoryWrapper key={categoryId} {...categoryProps} {...category.props}>
+            {renderedCategoryComponents}
             {renderedItems}
           </CategoryWrapper>
         );
       }
     }
-    
-    // Otherwise return items directly
+
+    // Otherwise return category components + items directly
     return (
       <React.Fragment key={categoryId}>
+        {renderedCategoryComponents}
         {renderedItems}
       </React.Fragment>
     );
