@@ -132,6 +132,27 @@
     justify-content: space-between;
   }
 
+  /* ===== MOBILE ALIGN ===== */
+  .hStack--mobileAlign-start {
+    align-items: flex-start !important;
+  }
+
+  .hStack--mobileAlign-center {
+    align-items: center !important;
+  }
+
+  .hStack--mobileAlign-end {
+    align-items: flex-end !important;
+  }
+
+  .hStack--mobileAlign-baseline {
+    align-items: baseline !important;
+  }
+
+  .hStack--mobileAlign-stretch {
+    align-items: stretch !important;
+  }
+
   /* ===== MOBILE DIRECTION ===== */
   .hStack--mobileDirection-row {
     flex-direction: row !important;
