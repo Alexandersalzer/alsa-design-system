@@ -27,6 +27,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
         align="center"
         height="auto"
         useNavbarWidth={patternProps.useNavbarWidth || false}
+        useMediaWidth={patternProps.useMediaWidth || false}
         noPadding={true}
         patternKey={patternKey}
       >
