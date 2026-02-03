@@ -382,7 +382,15 @@ export function renderSectionLayout({
           ) : (
             <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
               {wrapInCard ? (
-                <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                <Box
+                  style={{
+                    maxWidth: sectionHeaderMaxWidth,
+                    margin: marginValue,
+                    width: '100%',
+                    paddingLeft: 'var(--foundation-space-6)',
+                    paddingRight: 'var(--foundation-space-6)',
+                  }}
+                >
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
@@ -406,7 +414,15 @@ export function renderSectionLayout({
           {isSectionHeaderInRightColumn ? (
             <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
               {wrapInCard ? (
-                <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                <Box
+                  style={{
+                    maxWidth: sectionHeaderMaxWidth,
+                    margin: marginValue,
+                    width: '100%',
+                    paddingLeft: 'var(--foundation-space-6)',
+                    paddingRight: 'var(--foundation-space-6)',
+                  }}
+                >
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
