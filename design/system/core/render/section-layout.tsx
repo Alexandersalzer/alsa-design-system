@@ -13,8 +13,10 @@ import { Card } from '../../components/layout/Card/Card';
 import { LayoutConfig } from '../types/layout';
 import { PatternNode } from '../types/nodes';
 import { renderPattern, renderPatternDirect } from './patterns';
+import { renderBackgroundComponent } from './background';
 import { actionsRegistry } from '../../patterns/actions/registry';
 import { AnimationConfig } from '../../components/animations/types';
+import type { BackgroundProps } from '../../components/backgrounds/types';
 
 interface SectionLayoutProps {
   layout?: LayoutConfig;
@@ -64,6 +66,10 @@ export function renderSectionLayout({
     mobileGap,
     wrapInCard = false,
     cardVariant = 'raised',
+    cardPadding = 'lg',
+    cardRadius = 'lg',
+    cardBackground,
+    cardBackgroundSettings = {},
   } = layout || {};
 
   // ===== FIND SPECIAL PATTERNS =====
@@ -460,11 +466,45 @@ export function renderSectionLayout({
         )}
             </>
           );
-          return wrapInCard ? (
-            <Card variant={cardVariant} padding="lg" radius="lg" style={{ width: '100%', boxSizing: 'border-box' }}>
+          if (!wrapInCard) return layoutContent;
+
+          const hasCardBackground = Boolean(cardBackground);
+          const cardBackgroundProps: BackgroundProps = { ...(cardBackgroundSettings || {}) } as BackgroundProps;
+
+          if (hasCardBackground) {
+            return (
+              <Card
+                variant="ghost"
+                padding="none"
+                radius={cardRadius}
+                style={{
+                  width: '100%',
+                  boxSizing: 'border-box',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  background: 'transparent',
+                }}
+              >
+                <Box style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+                  {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
+                </Box>
+                <Box
+                  style={{
+                    position: 'relative',
+                    padding: cardPadding === 'none' ? 0 : `var(--foundation-space-${cardPadding})`,
+                  }}
+                >
+                  {layoutContent}
+                </Box>
+              </Card>
+            );
+          }
+
+          return (
+            <Card variant={cardVariant} padding={cardPadding} radius={cardRadius} style={{ width: '100%', boxSizing: 'border-box' }}>
               {layoutContent}
             </Card>
-          ) : layoutContent;
+          );
         })()}
       </Box>
     </>

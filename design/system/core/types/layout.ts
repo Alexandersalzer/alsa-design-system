@@ -100,7 +100,29 @@ export interface LayoutConfig {
   wrapInCard?: boolean;
 
   /**
-   * Card variant when wrapInCard is true (e.g. 'raised' | 'elevated' | 'outlined')
+   * Card variant when wrapInCard is true – styr bakgrund, kant och skugga
    */
-  cardVariant?: 'default' | 'raised' | 'elevated' | 'outlined' | 'bordered';
+  cardVariant?: 'default' | 'raised' | 'elevated' | 'outlined' | 'solid' | 'ghost' | 'bordered' | 'accent-subtle' | 'accent-muted';
+
+  /**
+   * Card padding när wrapInCard är true
+   */
+  cardPadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg';
+
+  /**
+   * Card radius när wrapInCard är true
+   */
+  cardRadius?: 'sm' | 'md' | 'lg';
+
+  /**
+   * Bakgrundstyp inuti kortet när wrapInCard är true (t.ex. particle, image, generative)
+   */
+  cardBackground?: 'particle' | 'image' | 'generative' | 'gradient' | 'pattern' | 'solid';
+
+  /**
+   * Inställningar för cardBackground – skickas till bakgrundskomponenten.
+   * För particle: particleCount, particleColorScheme, particleSpeed, particleMinSize, particleMaxSize, particleMinOpacity, particleMaxOpacity, particleBlur.
+   * För image: backgroundImage (url), backgroundSize, backgroundPosition, backgroundOpacity.
+   */
+  cardBackgroundSettings?: Record<string, unknown>;
 }
