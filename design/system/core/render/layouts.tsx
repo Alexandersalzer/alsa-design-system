@@ -3,10 +3,10 @@ import { ComponentNode } from '../types/nodes';
 import { componentRegistry } from '../../components/registry';
 import { animationComponents } from '../../components/animations/registry';
 import { AnimationConfig } from '../../components/animations/types';
-import { 
-  parseLayoutNode, 
-  isLayoutNode, 
-  isComponentReference, 
+import {
+  parseLayoutNode,
+  isLayoutNode,
+  isComponentReference,
   extractSlotName,
   getLayoutItemOrder,
   getLayoutCategoryOrder,
@@ -16,11 +16,82 @@ import {
   findCategoryItem,
   hasCategories
 } from '../utils/props';
+import './layouts.css';
+
+/**
+ * Type for responsive maxItems value
+ */
+interface ResponsiveMaxItems {
+  base?: number;
+  sm?: number;
+  md?: number;
+  lg?: number;
+  xl?: number;
+  '2xl'?: number;
+}
+
+/**
+ * Applies maxItems limiting to item order array
+ * Supports both static number and responsive object: { base: 6, md: 9, lg: 18 }
+ * Uses CSS classes to hide items beyond the limit at each breakpoint
+ */
+const applyMaxItemsLimit = (
+  itemOrder: string[],
+  maxItems?: number | ResponsiveMaxItems
+): string[] => {
+  // If no maxItems specified, return all items
+  if (!maxItems) return itemOrder;
+
+  // If maxItems is a number, return sliced array (backward compatible)
+  if (typeof maxItems === 'number') {
+    return itemOrder.slice(0, maxItems);
+  }
+
+  // For responsive maxItems, we return all items but will add CSS classes
+  // to hide items beyond the limit at each breakpoint
+  return itemOrder;
+};
+
+/**
+ * Gets CSS classes for item based on its index and responsive maxItems config
+ * Returns classes that will hide the item at appropriate breakpoints
+ */
+const getMaxItemsClasses = (
+  index: number,
+  maxItems?: number | ResponsiveMaxItems
+): string => {
+  if (!maxItems || typeof maxItems === 'number') return '';
+
+  const classes: string[] = [];
+  const responsive = maxItems as ResponsiveMaxItems;
+
+  // Check each breakpoint and add hide class if index exceeds limit
+  if (responsive.base !== undefined && index >= responsive.base) {
+    classes.push('hide-on-base');
+  }
+  if (responsive.sm !== undefined && index >= responsive.sm) {
+    classes.push('hide-on-sm');
+  }
+  if (responsive.md !== undefined && index >= responsive.md) {
+    classes.push('hide-on-md');
+  }
+  if (responsive.lg !== undefined && index >= responsive.lg) {
+    classes.push('hide-on-lg');
+  }
+  if (responsive.xl !== undefined && index >= responsive.xl) {
+    classes.push('hide-on-xl');
+  }
+  if (responsive['2xl'] !== undefined && index >= responsive['2xl']) {
+    classes.push('hide-on-2xl');
+  }
+
+  return classes.join(' ');
+};
 
 /**
  * Main entry: Renders layout with template system (NEW UNIFIED APPROACH)
  * Works with ANY layout primitive - completely generic
- * 
+ *
  * @param layout - Layout definition from pattern.layout
  * @param components - All available components from pattern
  * @param sectionKey - Section context
@@ -39,16 +110,17 @@ export const renderLayoutWithTemplate = (
 ): React.ReactElement | null => {
   
   // Destructure layout-system props to prevent them from being passed to DOM elements
-  const { 
-    type: parentType, 
-    template, 
+  const {
+    type: parentType,
+    template,
     items,
     itemOrder,
+    maxItems,
     categories,
     categoryOrder,
     categoryTemplate,
     order, // legacy
-    ...parentLayoutProps 
+    ...parentLayoutProps
   } = layout;
 
   // Map align values to HStack justify values
@@ -113,16 +185,21 @@ export const renderLayoutWithTemplate = (
 
   // Flat items structure - use helper to get resolved item order
   const resolvedItemOrder = getLayoutItemOrder(layout);
-  
+
+  // Apply maxItems limiting if specified
+  const limitedItemOrder = applyMaxItemsLimit(resolvedItemOrder, maxItems);
+
   // Render template for each item
   const renderedItems = renderItems(
-    resolvedItemOrder,
+    limitedItemOrder,
     (itemId) => findLayoutItem(layout, itemId),
     template,
     AnimationComponent,
     animationSettings,
     sectionKey,
-    patternKey
+    patternKey,
+    0,
+    maxItems
   );
 
   return (
@@ -163,7 +240,8 @@ const renderItems = (
   animationSettings: Record<string, any>,
   sectionKey?: string,
   patternKey?: string,
-  indexOffset: number = 0
+  indexOffset: number = 0,
+  maxItems?: number | ResponsiveMaxItems
 ): React.ReactNode[] => {
   return itemOrder.map((itemId, localIndex) => {
     const item = findItem(itemId);
@@ -189,22 +267,37 @@ const renderItems = (
     // Render each child in template.children array
     const templateChildren = template.children || [];
     const isFormItem = hasFormAction(item.components);
-    
+
+    // Get maxItems classes for responsive hiding
+    const maxItemsClasses = getMaxItemsClasses(globalIndex, maxItems);
+
     const templateContent = templateChildren.map((child: any, index: number) => (
       <React.Fragment key={index}>
         {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, itemId)}
       </React.Fragment>
     ));
-    
+
     // Wrap in <form> if item contains form-action buttons
     // Use display:contents so form doesn't break grid/flex layouts
     // Add data-item-key for EditorOverlay detection
+    // Add maxItems classes for responsive hiding
     const itemContent = isFormItem ? (
-      <form key={itemId} data-item-key={itemId} onSubmit={(e) => e.preventDefault()} style={{ display: 'contents' }}>
+      <form
+        key={itemId}
+        data-item-key={itemId}
+        className={maxItemsClasses}
+        onSubmit={(e) => e.preventDefault()}
+        style={{ display: 'contents' }}
+      >
         {templateContent}
       </form>
     ) : (
-      <div key={itemId} data-item-key={itemId} style={{ display: 'contents' }}>
+      <div
+        key={itemId}
+        data-item-key={itemId}
+        className={maxItemsClasses}
+        style={{ display: 'contents' }}
+      >
         {templateContent}
       </div>
     );

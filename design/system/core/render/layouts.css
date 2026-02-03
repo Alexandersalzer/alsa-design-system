@@ -1,0 +1,59 @@
+/* ===============================================
+   Layout Rendering Utilities
+   Responsive maxItems support - hide items at breakpoints
+   =============================================== */
+
+/* Base (mobile-first): Hide items exceeding base limit */
+.hide-on-base {
+  display: none;
+}
+
+/* sm breakpoint (640px+): Show items if sm limit is higher, hide if still over limit */
+@media (min-width: 640px) {
+  .hide-on-base:not(.hide-on-sm) {
+    display: contents;
+  }
+  .hide-on-sm {
+    display: none;
+  }
+}
+
+/* md breakpoint (768px+): Show items if md limit is higher */
+@media (min-width: 768px) {
+  .hide-on-sm:not(.hide-on-md) {
+    display: contents;
+  }
+  .hide-on-md {
+    display: none;
+  }
+}
+
+/* lg breakpoint (1024px+): Show items if lg limit is higher */
+@media (min-width: 1024px) {
+  .hide-on-md:not(.hide-on-lg) {
+    display: contents;
+  }
+  .hide-on-lg {
+    display: none;
+  }
+}
+
+/* xl breakpoint (1280px+): Show items if xl limit is higher */
+@media (min-width: 1280px) {
+  .hide-on-lg:not(.hide-on-xl) {
+    display: contents;
+  }
+  .hide-on-xl {
+    display: none;
+  }
+}
+
+/* 2xl breakpoint (1536px+): Show items if 2xl limit is higher */
+@media (min-width: 1536px) {
+  .hide-on-xl:not(.hide-on-2xl) {
+    display: contents;
+  }
+  .hide-on-2xl {
+    display: none;
+  }
+}
