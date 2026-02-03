@@ -95,7 +95,9 @@ export interface LayoutConfig {
   mobileGap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
   /**
-   * When true, wraps the split layout content (header + columns) in a Card for a common background
+   * When true, wraps the split layout content (header + columns) in a Card for a common background.
+   * All options below (cardVariant, cardPadding, cardColumnVerticalAlign, etc.) only apply when wrapInCard is true.
+   * Sections without wrapInCard behave exactly as before – no Card, no extra padding/alignment logic.
    */
   wrapInCard?: boolean;
 
@@ -130,4 +132,11 @@ export interface LayoutConfig {
    * Kantlinje på kortet när wrapInCard är true
    */
   cardBorderStyle?: 'none' | 'subtle' | 'solid' | 'accent';
+
+  /**
+   * Vertikal alignment för båda kolumnerna inuti wrap-kortet (stor skärm).
+   * Styr så att t.ex. section header och formulär ligger lika (centrerat eller topp/botten).
+   * Default 'center' när wrapInCard är true så att båda sidor ser balanserade ut.
+   */
+  cardColumnVerticalAlign?: 'start' | 'center' | 'end';
 }

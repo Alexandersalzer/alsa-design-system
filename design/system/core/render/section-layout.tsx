@@ -71,7 +71,18 @@ export function renderSectionLayout({
     cardBackground,
     cardBackgroundSettings = {},
     cardBorderStyle = 'none',
+    cardColumnVerticalAlign,
   } = layout || {};
+
+  // När wrapInCard: samma vertikala alignment för båda kolumnerna (default center så det inte sitter i hörnet)
+  const effectiveCardColumnAlign =
+    wrapInCard ? (cardColumnVerticalAlign ?? 'center') : null;
+  const cardColumnAlignCss =
+    effectiveCardColumnAlign === 'start'
+      ? 'flex-start'
+      : effectiveCardColumnAlign === 'end'
+        ? 'flex-end'
+        : 'center';
 
   // ===== FIND SPECIAL PATTERNS =====
   // Helper to check if a pattern is an action pattern
@@ -386,7 +397,7 @@ export function renderSectionLayout({
               </VStack>
             )
           ) : (
-            <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
+            <Box style={{ display: 'flex', alignItems: wrapInCard && cardColumnAlignCss ? cardColumnAlignCss : (sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center'), height: '100%' }}>
               {wrapInCard ? (
                 <Box
                   style={{
@@ -417,7 +428,7 @@ export function renderSectionLayout({
           )}
 
           {isSectionHeaderInRightColumn ? (
-            <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
+            <Box style={{ display: 'flex', alignItems: wrapInCard && cardColumnAlignCss ? cardColumnAlignCss : (sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center'), height: '100%' }}>
               {wrapInCard ? (
                 <Box
                   style={{
@@ -452,7 +463,7 @@ export function renderSectionLayout({
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : wrapInCard && columnInnerPadding ? (
-              <Box style={{ ...columnInnerPadding, height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <Box style={{ ...columnInnerPadding, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: cardColumnAlignCss }}>
                 <VStack spacing={gap} align="stretch">
                   {renderPatterns(secondColumnPatterns, secondColumnContext)}
                 </VStack>
