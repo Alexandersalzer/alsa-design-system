@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { Button } from '../../actions/Button/Button';
 
-export interface ShowMoreTestimonialsProps {
+export interface ShowMoreButtonProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   variant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
   showMoreText?: string;
   showLessText?: string;
 }
 
-export const ShowMoreTestimonials: React.FC<ShowMoreTestimonialsProps> = ({
+export const ShowMoreButton: React.FC<ShowMoreButtonProps> = ({
   size = 'sm',
   variant = 'secondary',
   showMoreText = 'Visa mer',

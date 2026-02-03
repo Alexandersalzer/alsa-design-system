@@ -1,6 +1,6 @@
-import { ShowMoreTestimonials } from './ShowMoreTestimonials/ShowMoreTestimonials';
+import { ShowMoreButton } from './ShowMoreButton/ShowMoreButton';
 
 export const utilityComponents: Record<string, React.ComponentType<any>> = {
-  ShowMoreTestimonials,
-  showMoreTestimonials: ShowMoreTestimonials,
+  ShowMoreButton,
+  showMoreButton: ShowMoreButton,
 };
