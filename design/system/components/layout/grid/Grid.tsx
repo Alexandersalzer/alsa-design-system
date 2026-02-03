@@ -65,6 +65,12 @@ export interface GridItemProps extends React.HTMLAttributes<HTMLDivElement> {
   rowSpan?: number;
   colStart?: number;
   rowStart?: number;
+  /** Enable sticky positioning */
+  sticky?: boolean;
+  /** Top offset for sticky positioning (default: '100px') */
+  top?: string | number;
+  /** z-index for sticky element (default: 10) */
+  zIndex?: number;
 }
 
 // ===== SIMPLE CLASS CONCATENATION =====
@@ -220,6 +226,9 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
   rowSpan,
   colStart,
   rowStart,
+  sticky = false,
+  top = '100px',
+  zIndex = 10,
   style,
   ...props
 }, ref) => {
@@ -245,6 +254,14 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
   if (rowSpan) inlineStyles.gridRow = `span ${rowSpan}`;
   if (colStart) inlineStyles.gridColumnStart = colStart;
   if (rowStart) inlineStyles.gridRowStart = rowStart;
+
+  // Handle sticky positioning
+  if (sticky) {
+    inlineStyles.position = 'sticky';
+    inlineStyles.top = typeof top === 'number' ? `${top}px` : top;
+    inlineStyles.zIndex = zIndex;
+    inlineStyles.alignSelf = 'start';
+  }
 
   const classes = buildClasses(
     'grid-item',
