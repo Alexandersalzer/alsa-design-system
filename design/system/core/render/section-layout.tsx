@@ -315,10 +315,22 @@ export function renderSectionLayout({
   const effectiveAlign = sectionHeaderAlign || 'start';
   const marginValue = effectiveAlign === 'center' ? '0 auto' : effectiveAlign === 'end' ? '0 0 0 auto' : '0 auto 0 0';
 
-  // When wrapInCard: same inner padding for both columns so they align (no hardcoding)
+  // Layout cardPadding (xs/lg/xl) -> foundation numeric token (--foundation-space-2, -8, -10, etc.)
+  const cardPaddingToFoundationToken: Record<string, string> = {
+    xs: '2',
+    sm: '4',
+    md: '6',
+    lg: '8',
+    xl: '10',
+    '2xl': '12',
+  };
+  const cardPaddingToken =
+    cardPadding && cardPadding !== 'none' ? cardPaddingToFoundationToken[cardPadding] ?? '8' : null;
+
+  // When wrapInCard: same inner padding for both columns so they align; use real foundation token so spacing to card edge works
   const columnInnerPadding =
-    wrapInCard && cardPadding && cardPadding !== 'none'
-      ? { padding: `var(--foundation-space-${cardPadding})` as const }
+    wrapInCard && cardPaddingToken
+      ? { padding: `var(--foundation-space-${cardPaddingToken})` as const }
       : undefined;
 
   // Get mobile pattern order for stacked view
@@ -338,7 +350,7 @@ export function renderSectionLayout({
         #${layoutId} .split-grid {
           display: grid;
           grid-template-columns: ${ratioMap[ratio]};
-          gap: ${wrapInCard && cardPadding && cardPadding !== 'none' ? `var(--foundation-space-${cardPadding})` : `var(--space-${gap})`};
+          gap: ${wrapInCard && cardPaddingToken ? `var(--foundation-space-${cardPaddingToken})` : `var(--space-${gap})`};
           align-items: ${verticalAlign};
           ${isSecondColumnMediaOnly ? 'grid-auto-rows: 1fr;' : ''}
         }
@@ -559,7 +571,7 @@ export function renderSectionLayout({
                 <Box
                   style={{
                     position: 'relative',
-                    padding: cardPadding === 'none' ? 0 : `var(--foundation-space-${cardPadding})`,
+                    padding: cardPaddingToken ? `var(--foundation-space-${cardPaddingToken})` : 0,
                   }}
                 >
                   {layoutContent}
