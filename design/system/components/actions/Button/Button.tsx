@@ -67,8 +67,8 @@ export const Button = forwardRef<
     const actionHook = action ? useAction(action) : null;
     const isDisabled = disabled || loading || internalLoading;
     
-    // Success state from action hook
-    const isSuccess = actionHook?.success || false;
+    // Success state from action hook - only for form actions (contact, newsletter)
+    const isSuccess = actionHook?.success && action?.type !== 'navigation' && action?.type !== 'booking';
     const successMessage = actionHook?.message;
     
     // Use content prop if provided, otherwise use children
