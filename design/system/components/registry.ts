@@ -12,6 +12,7 @@ import { mediaComponents } from './media/registry';
 import { navigationComponents } from './navigation/registry';
 import { overlayComponents } from './overlays/registry';
 import { typographyComponents } from './Typography/registry';
+import { utilityComponents } from './utility/registry';
 
 // Parent component registry - combines all local registries
 export const componentRegistry: Record<string, React.ComponentType<any>> = {
@@ -29,4 +30,5 @@ export const componentRegistry: Record<string, React.ComponentType<any>> = {
   ...navigationComponents,
   ...overlayComponents,
   ...typographyComponents,
+  ...utilityComponents,
 };
