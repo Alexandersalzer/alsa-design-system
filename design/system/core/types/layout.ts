@@ -107,7 +107,7 @@ export interface LayoutConfig {
   /**
    * Card padding när wrapInCard är true
    */
-  cardPadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg';
+  cardPadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
   /**
    * Card radius när wrapInCard är true

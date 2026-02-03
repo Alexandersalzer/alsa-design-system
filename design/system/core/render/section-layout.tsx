@@ -381,7 +381,7 @@ export function renderSectionLayout({
             )
           ) : (
             <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
-              <Container height="auto">
+              {wrapInCard ? (
                 <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
@@ -389,13 +389,23 @@ export function renderSectionLayout({
                     {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                   </VStack>
                 </Box>
-              </Container>
+              ) : (
+                <Container height="auto">
+                  <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                    <VStack spacing="lg" align="start">
+                      {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
+                      {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                      {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                    </VStack>
+                  </Box>
+                </Container>
+              )}
             </Box>
           )}
 
           {isSectionHeaderInRightColumn ? (
             <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
-              <Container height="auto">
+              {wrapInCard ? (
                 <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
@@ -403,7 +413,17 @@ export function renderSectionLayout({
                     {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                   </VStack>
                 </Box>
-              </Container>
+              ) : (
+                <Container height="auto">
+                  <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                    <VStack spacing="lg" align="start">
+                      {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
+                      {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                      {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                    </VStack>
+                  </Box>
+                </Container>
+              )}
             </Box>
           ) : (
             // When SectionHeader is on left, right column has secondColumn patterns
@@ -511,10 +531,11 @@ export function renderSectionLayout({
             );
           }
 
+          const cardPaddingForCard = (cardPadding === 'xl' || cardPadding === '2xl') ? 'lg' : cardPadding;
           return (
             <Card
               variant={cardVariant}
-              padding={cardPadding}
+              padding={cardPaddingForCard}
               radius={cardRadius}
               style={{
                 width: '100%',
