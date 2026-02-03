@@ -117,13 +117,6 @@
   min-width: 0; /* Prevent overflow issues */
 }
 
-/* Mobile: All grid items become single column (override any colSpan) */
-@media (max-width: 767px) {
-  .grid--responsive > .grid-item {
-    grid-column: span 1 !important;
-  }
-}
-
 /* ===== RESPONSIVE COLLAPSE ===== */
 
 /* Mobile collapse */
