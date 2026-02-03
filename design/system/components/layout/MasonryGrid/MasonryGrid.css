@@ -61,36 +61,40 @@
   }
 }
 
-/* Masonry items */
+/* Masonry items - use margin-top instead of margin-bottom for better control */
 .masonry-item {
   break-inside: avoid;
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
-  margin-bottom: var(--foundation-space-5); /* Default: lg */
   width: 100%;
-  display: block; /* Changed from inline-block to block */
+  display: block;
   overflow: hidden; /* Prevents content overflow */
 }
 
-/* Gap variants for items margin-bottom */
-.masonry-grid--gap-xs .masonry-item {
-  margin-bottom: var(--foundation-space-2);
+/* Add top margin to all items except first in column */
+.masonry-item:not(:first-child) {
+  margin-top: var(--foundation-space-5); /* Default: lg */
 }
 
-.masonry-grid--gap-sm .masonry-item {
-  margin-bottom: var(--foundation-space-3);
+/* Gap variants for items margin-top */
+.masonry-grid--gap-xs .masonry-item:not(:first-child) {
+  margin-top: var(--foundation-space-2);
 }
 
-.masonry-grid--gap-md .masonry-item {
-  margin-bottom: var(--foundation-space-4);
+.masonry-grid--gap-sm .masonry-item:not(:first-child) {
+  margin-top: var(--foundation-space-3);
 }
 
-.masonry-grid--gap-lg .masonry-item {
-  margin-bottom: var(--foundation-space-5);
+.masonry-grid--gap-md .masonry-item:not(:first-child) {
+  margin-top: var(--foundation-space-4);
 }
 
-.masonry-grid--gap-xl .masonry-item {
-  margin-bottom: var(--foundation-space-6);
+.masonry-grid--gap-lg .masonry-item:not(:first-child) {
+  margin-top: var(--foundation-space-5);
+}
+
+.masonry-grid--gap-xl .masonry-item:not(:first-child) {
+  margin-top: var(--foundation-space-6);
 }
 
 /* Ensure card children don't break */
@@ -99,9 +103,4 @@
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
   display: block;
-}
-
-/* Remove margin from last items in each column */
-.masonry-item:last-child {
-  margin-bottom: 0;
 }
