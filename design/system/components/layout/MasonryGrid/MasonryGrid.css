@@ -61,46 +61,42 @@
   }
 }
 
-/* Masonry items - use margin-top instead of margin-bottom for better control */
+/* Direct children of masonry grid */
+.masonry-grid > * {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin-bottom: var(--foundation-space-5); /* Default: lg */
+  display: inline-block;
+  width: 100%;
+}
+
+/* Gap variants for direct children */
+.masonry-grid--gap-xs > * {
+  margin-bottom: var(--foundation-space-2);
+}
+
+.masonry-grid--gap-sm > * {
+  margin-bottom: var(--foundation-space-3);
+}
+
+.masonry-grid--gap-md > * {
+  margin-bottom: var(--foundation-space-4);
+}
+
+.masonry-grid--gap-lg > * {
+  margin-bottom: var(--foundation-space-5);
+}
+
+.masonry-grid--gap-xl > * {
+  margin-bottom: var(--foundation-space-6);
+}
+
+/* Legacy masonry-item support (if used directly) */
 .masonry-item {
   break-inside: avoid;
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
   width: 100%;
-  display: block;
-  overflow: hidden; /* Prevents content overflow */
-}
-
-/* Add top margin to all items except first in column */
-.masonry-item:not(:first-child) {
-  margin-top: var(--foundation-space-5); /* Default: lg */
-}
-
-/* Gap variants for items margin-top */
-.masonry-grid--gap-xs .masonry-item:not(:first-child) {
-  margin-top: var(--foundation-space-2);
-}
-
-.masonry-grid--gap-sm .masonry-item:not(:first-child) {
-  margin-top: var(--foundation-space-3);
-}
-
-.masonry-grid--gap-md .masonry-item:not(:first-child) {
-  margin-top: var(--foundation-space-4);
-}
-
-.masonry-grid--gap-lg .masonry-item:not(:first-child) {
-  margin-top: var(--foundation-space-5);
-}
-
-.masonry-grid--gap-xl .masonry-item:not(:first-child) {
-  margin-top: var(--foundation-space-6);
-}
-
-/* Ensure card children don't break */
-.masonry-item > * {
-  break-inside: avoid;
-  page-break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  display: block;
+  display: inline-block;
 }
