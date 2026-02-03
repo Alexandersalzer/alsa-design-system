@@ -572,11 +572,12 @@ const renderCategoryTemplateNode = (
 
       const usedComponents = new Set<string>();
 
-      // Render the item template with merged scope (category + item components)
-      const mergedComponents = { ...categoryComponents, ...item.components };
+      // Render the item template with ONLY item components (not merged with category)
+      // Category components are for the outer template (e.g., sticky sidebar)
+      // Item components are for the inner template (e.g., cards)
       const templateContent = node.template.children?.map((child: any, index: number) => (
         <React.Fragment key={index}>
-          {renderTemplateNode(child, mergedComponents, itemContext, usedComponents, sectionKey, patternKey)}
+          {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey)}
         </React.Fragment>
       ));
 
