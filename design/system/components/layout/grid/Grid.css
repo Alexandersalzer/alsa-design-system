@@ -35,7 +35,7 @@
 
 @media (min-width: 768px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-md, var(--grid-cols-sm, var(--grid-cols-base, 2))), 1fr);
+    grid-template-columns: repeat(var(--grid-cols-md, var(--grid-cols-sm, var(--grid-cols-base, 1))), 1fr);
   }
 }
 

@@ -80,36 +80,6 @@
 
 
   /* ==========================================================
-     DROPDOWN
-     ========================================================== */
-  --surface-dropdown: var(--surface-raised);
-  --surface-dropdown-hover: var(--surface-hover);
-  --surface-dropdown-disabled: var(--surface-disabled);
-
-  --surface-dropdown-option: var(--surface-base);
-  --surface-dropdown-option-hover: var(--surface-hover);
-  --surface-dropdown-option-selected: var(--surface-active);
-
-  --border-dropdown: var(--border-default);
-  --border-dropdown-hover: var(--border-hover);
-  --border-dropdown-focus: var(--border-focus);
-  --border-dropdown-error: var(--border-error);
-  --border-dropdown-disabled: var(--border-disabled);
-
-  --text-dropdown: var(--text-default);
-  --text-dropdown-placeholder: var(--text-placeholder);
-  --text-dropdown-disabled: var(--text-disabled);
-  --text-dropdown-option: var(--text-default);
-  --text-dropdown-option-selected: var(--text-accent);
-
-  --icon-dropdown: var(--icon-default);
-  --icon-dropdown-disabled: var(--icon-disabled);
-
-  /* No DS shadows yet — safe fallback */
-  --shadow-dropdown: 0 4px 12px rgba(0,0,0,0.12);
-
-
-  /* ==========================================================
      TEXTAREA
      ========================================================== */
   --surface-textarea: var(--surface-base);

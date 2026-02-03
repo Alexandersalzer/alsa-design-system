@@ -15,7 +15,7 @@
 // src/design-system/components/layout/utilities/grid/Grid.tsx
 // GRID COMPONENT - Responsive grid layouts with Chakra-like API
 // ===============================================
-import React, { ReactNode, CSSProperties } from 'react';
+import React, { ReactNode, CSSProperties, createContext, useContext } from 'react';
 
 // ===== TYPE DEFINITIONS =====
 export interface ResponsiveValue {
@@ -25,6 +25,17 @@ export interface ResponsiveValue {
   lg?: number;
   xl?: number;
   '2xl'?: number;
+}
+
+// ===== GRID CONTEXT =====
+interface GridContextValue {
+  columns?: ResponsiveValue;
+}
+
+const GridContext = createContext<GridContextValue | undefined>(undefined);
+
+function useGridContext() {
+  return useContext(GridContext);
 }
 
 export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -209,10 +220,22 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
     className
   );
 
+  // =====================================================
+  // PREPARE CONTEXT VALUE
+  // =====================================================
+  let contextColumns: ResponsiveValue | undefined;
+  if (useResponsiveColumns) {
+    contextColumns = columns as ResponsiveValue;
+  } else if (useSimpleColumns) {
+    contextColumns = getDefaultResponsiveColumns(columns as number);
+  }
+
   return (
-    <div ref={ref} className={classes} style={inlineStyles} {...props}>
-      {children}
-    </div>
+    <GridContext.Provider value={{ columns: contextColumns }}>
+      <div ref={ref} className={classes} style={inlineStyles} {...props}>
+        {children}
+      </div>
+    </GridContext.Provider>
   );
 });
 
@@ -232,9 +255,11 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
   style,
   ...props
 }, ref) => {
+  const gridContext = useGridContext();
   const inlineStyles: CSSProperties & Record<string, any> = { ...style };
 
   // Handle responsive colSpan
+  let hasResponsiveColSpan = false;
   if (colSpan !== undefined) {
     if (isResponsiveValue(colSpan)) {
       // Responsive colSpan: set CSS variables for each breakpoint
@@ -245,9 +270,27 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
       if (responsiveColSpan.lg !== undefined) inlineStyles['--col-span-lg'] = responsiveColSpan.lg;
       if (responsiveColSpan.xl !== undefined) inlineStyles['--col-span-xl'] = responsiveColSpan.xl;
       if (responsiveColSpan['2xl'] !== undefined) inlineStyles['--col-span-2xl'] = responsiveColSpan['2xl'];
+      hasResponsiveColSpan = true;
     } else {
-      // Simple number colSpan
-      inlineStyles.gridColumn = `span ${colSpan}`;
+      // Static colSpan: automatically adapt based on parent grid's columns
+      const staticColSpan = colSpan as number;
+
+      if (gridContext?.columns) {
+        // Parent grid has responsive columns - adapt the static colSpan to never exceed available columns
+        const breakpoints: Array<keyof ResponsiveValue> = ['base', 'sm', 'md', 'lg', 'xl', '2xl'];
+
+        for (const breakpoint of breakpoints) {
+          const gridCols = gridContext.columns[breakpoint];
+          if (gridCols !== undefined) {
+            // Cap colSpan to available columns at this breakpoint
+            inlineStyles[`--col-span-${breakpoint}`] = Math.min(staticColSpan, gridCols);
+          }
+        }
+        hasResponsiveColSpan = true;
+      } else {
+        // No grid context - use static colSpan as-is
+        inlineStyles.gridColumn = `span ${colSpan}`;
+      }
     }
   }
 
@@ -263,7 +306,7 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
 
   const classes = buildClasses(
     'grid-item',
-    isResponsiveValue(colSpan) && 'grid-item--responsive-span',
+    hasResponsiveColSpan && 'grid-item--responsive-span',
     sticky && 'grid-item--sticky',
     className
   );
