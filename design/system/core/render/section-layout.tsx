@@ -9,6 +9,7 @@ import React from 'react';
 import { VStack } from '../../components/layout/vStack/VStack';
 import { Box } from '../../components/layout/box/Box';
 import { Container } from '../../components/frames/container/Container';
+import { Card } from '../../components/layout/Card/Card';
 import { LayoutConfig } from '../types/layout';
 import { PatternNode } from '../types/nodes';
 import { renderPattern, renderPatternDirect } from './patterns';
@@ -61,6 +62,8 @@ export function renderSectionLayout({
     mobileOrder,
     mobileAlign,
     mobileGap,
+    wrapInCard = false,
+    cardVariant = 'raised',
   } = layout || {};
 
   // ===== FIND SPECIAL PATTERNS =====
@@ -352,8 +355,11 @@ export function renderSectionLayout({
           margin: '0 auto',
         }}
       >
-        {/* Desktop: Split Grid - Two Columns */}
-        <Box className="split-grid section-split-layout">
+        {(() => {
+          const layoutContent = (
+            <>
+              {/* Desktop: Split Grid - Two Columns */}
+              <Box className="split-grid section-split-layout">
           {/* Left Column */}
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, left column has secondColumn patterns
@@ -452,6 +458,14 @@ export function renderSectionLayout({
             </Container>
           </Box>
         )}
+            </>
+          );
+          return wrapInCard ? (
+            <Card variant={cardVariant} padding="lg" radius="lg" style={{ width: '100%', boxSizing: 'border-box' }}>
+              {layoutContent}
+            </Card>
+          ) : layoutContent;
+        })()}
       </Box>
     </>
   );

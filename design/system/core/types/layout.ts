@@ -93,4 +93,14 @@ export interface LayoutConfig {
    * If not provided, uses the main `gap` value
    */
   mobileGap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
+  /**
+   * When true, wraps the split layout content (header + columns) in a Card for a common background
+   */
+  wrapInCard?: boolean;
+
+  /**
+   * Card variant when wrapInCard is true (e.g. 'raised' | 'elevated' | 'outlined')
+   */
+  cardVariant?: 'default' | 'raised' | 'elevated' | 'outlined' | 'bordered';
 }
