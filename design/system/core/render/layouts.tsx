@@ -3,24 +3,26 @@ import { ComponentNode } from '../types/nodes';
 import { componentRegistry } from '../../components/registry';
 import { animationComponents } from '../../components/animations/registry';
 import { AnimationConfig } from '../../components/animations/types';
-import {
-  parseLayoutNode,
-  isLayoutNode,
-  isComponentReference,
+import { 
+  parseLayoutNode, 
+  isLayoutNode, 
+  isComponentReference, 
   extractSlotName,
   getLayoutItemOrder,
   getLayoutCategoryOrder,
   getCategoryItemOrder,
+  findLayoutItem,
   findLayoutCategory,
+  findCategoryItem,
   hasCategories
 } from '../utils/props';
 
 /**
- * Main entry: Renders layout with unified template tree system
+ * Main entry: Renders layout with template system (NEW UNIFIED APPROACH)
  * Works with ANY layout primitive - completely generic
- *
+ * 
  * @param layout - Layout definition from pattern.layout
- * @param components - All available components from pattern (for flat layouts)
+ * @param components - All available components from pattern
  * @param sectionKey - Section context
  * @param patternKey - Pattern context
  * @param patternProps - Pattern-level props (align, etc) to merge with layout config
@@ -35,18 +37,63 @@ export const renderLayoutWithTemplate = (
   patternProps?: Record<string, any>,
   animationConfig?: AnimationConfig
 ): React.ReactElement | null => {
+  
+  // Destructure layout-system props to prevent them from being passed to DOM elements
+  const { 
+    type: parentType, 
+    template, 
+    items,
+    itemOrder,
+    categories,
+    categoryOrder,
+    categoryTemplate,
+    order, // legacy
+    ...parentLayoutProps 
+  } = layout;
 
-  const { template, order } = layout;
+  // Map align values to HStack justify values
+  // align uses semantic names (left, center, right, end) while HStack uses flexbox names (start, center, end)
+  const alignToJustifyMap: Record<string, string> = {
+    left: 'start',
+    start: 'start',
+    center: 'center',
+    right: 'end',
+    end: 'end',
+  };
+
+  // Map mobileAlign to mobileJustify
+  const mobileJustify = patternProps?.mobileAlign 
+    ? alignToJustifyMap[patternProps.mobileAlign] || patternProps.mobileAlign
+    : undefined;
+
+  // Merge pattern props with layout props
+  // For hstack: map align to justify for horizontal alignment
+  const mergedLayoutProps = {
+    ...parentLayoutProps,
+    ...(parentType === 'hstack' && patternProps?.align && { 
+      justify: alignToJustifyMap[patternProps.align] || patternProps.align 
+    }),
+    ...(parentType === 'hstack' && mobileJustify && { mobileJustify }),
+    // For other layout types, pass align directly
+    ...(parentType !== 'hstack' && patternProps?.align && { align: patternProps.align })
+  };
+
+  // Get parent layout component
+  const ParentLayout = componentRegistry[parentType];
+  if (!ParentLayout) {
+    console.warn(`Layout type "${parentType}" not found in registry`);
+    return null;
+  }
 
   // If no template, render simple layout (fallback to old system)
   if (!template) {
-    return renderSimpleLayout(layout, components, order);
+    return renderSimpleLayout(layout, components, order, sectionKey, patternKey);
   }
-
+  
   // Extract animation settings if applicable
   const animationType = animationConfig?.type;
   const animationSettings = (animationConfig?.settings || {}) as Record<string, any>;
-
+  
   // Get animation component from registry (e.g., "fadeIn" -> animationComponents["fadeIn"])
   const AnimationComponent = animationType ? animationComponents[animationType] : null;
 
@@ -54,27 +101,34 @@ export const renderLayoutWithTemplate = (
   if (hasCategories(layout)) {
     return renderCategorizedLayout(
       layout,
+      template,
+      ParentLayout,
+      mergedLayoutProps,
       AnimationComponent,
       animationSettings,
-      patternProps,
       sectionKey,
       patternKey
     );
   }
 
-  // Flat items structure
+  // Flat items structure - use helper to get resolved item order
   const resolvedItemOrder = getLayoutItemOrder(layout);
-
-  // Render template tree for flat items
-  return renderTemplateTree(
+  
+  // Render template for each item
+  const renderedItems = renderItems(
+    resolvedItemOrder,
+    (itemId) => findLayoutItem(layout, itemId),
     template,
-    { items: layout.items, itemOrder: resolvedItemOrder },
-    {},
     AnimationComponent,
     animationSettings,
-    patternProps,
     sectionKey,
     patternKey
+  );
+
+  return (
+    <ParentLayout {...mergedLayoutProps}>
+      {renderedItems}
+    </ParentLayout>
   );
 };
 
@@ -88,7 +142,7 @@ const FORM_ACTION_TYPES = ['contact', 'newsletter', 'booking'];
  */
 const hasFormAction = (itemComponents: Record<string, any>): boolean => {
   if (!itemComponents) return false;
-
+  
   return Object.values(itemComponents).some((component: any) => {
     if (component?.type === 'button' && component?.props?.action?.type) {
       return FORM_ACTION_TYPES.includes(component.props.action.type);
@@ -98,259 +152,27 @@ const hasFormAction = (itemComponents: Record<string, any>): boolean => {
 };
 
 /**
- * UNIFIED TEMPLATE TREE RENDERER
- *
- * This is the core rendering function that handles the unified template tree structure.
- * It recursively walks through the template tree and:
- * 1. Renders layout nodes with their props
- * 2. Renders component references from the current context
- * 3. Detects nested templates and switches context to iterate items
- *
- * @param templateNode - Current node in the template tree
- * @param dataContext - Data context containing items/categories and their order
- * @param currentComponents - Components available in current context (category.components or item.components)
- * @param AnimationComponent - Animation wrapper component
- * @param animationSettings - Animation settings
- * @param patternProps - Pattern-level props (align, etc)
- * @param sectionKey - Section context
- * @param patternKey - Pattern context
- * @param itemIndexOffset - Offset for global item indexing (for stagger animations)
+ * Renders items from an array using template
+ * Shared logic for both flat and categorized layouts
  */
-const renderTemplateTree = (
-  templateNode: Record<string, any>,
-  dataContext: {
-    items?: Record<string, any>[];
-    itemOrder?: string[];
-    categories?: Record<string, any>[];
-    categoryOrder?: string[];
-  },
-  currentComponents: Record<string, ComponentNode>,
+const renderItems = (
+  itemOrder: string[],
+  findItem: (id: string) => Record<string, any> | undefined,
+  template: Record<string, any>,
   AnimationComponent: React.ComponentType<any> | null,
   animationSettings: Record<string, any>,
-  patternProps?: Record<string, any>,
   sectionKey?: string,
   patternKey?: string,
-  itemIndexOffset: number = 0
-): React.ReactElement | null => {
-
-  // Extract template structure
-  const { children } = templateNode;
-
-  if (!children || !Array.isArray(children)) {
-    console.warn('Template node has no children array:', templateNode);
-    return null;
-  }
-
-  // Render each child in the template tree
-  return (
-    <>
-      {children.map((child: any, index: number) => (
-        <React.Fragment key={index}>
-          {renderTemplateTreeNode(
-            child,
-            dataContext,
-            currentComponents,
-            {},
-            new Set(),
-            AnimationComponent,
-            animationSettings,
-            patternProps,
-            sectionKey,
-            patternKey,
-            itemIndexOffset
-          )}
-        </React.Fragment>
-      ))}
-    </>
-  );
-};
-
-/**
- * Renders a single node in the template tree
- * This node can be:
- * 1. A component reference { component: "${type}" } - renders from currentComponents
- * 2. A layout node with nested template - switches context to iterate items
- * 3. A layout node without nested template - renders children normally
- */
-const renderTemplateTreeNode = (
-  node: Record<string, any>,
-  dataContext: {
-    items?: Record<string, any>[];
-    itemOrder?: string[];
-    categories?: Record<string, any>[];
-    categoryOrder?: string[];
-  },
-  currentComponents: Record<string, ComponentNode>,
-  currentContext: Record<string, any>,
-  usedComponents: Set<string>,
-  AnimationComponent: React.ComponentType<any> | null,
-  animationSettings: Record<string, any>,
-  patternProps?: Record<string, any>,
-  sectionKey?: string,
-  patternKey?: string,
-  itemIndexOffset: number = 0
-): React.ReactElement | null => {
-
-  // Check if this is a component reference
-  if (isComponentReference(node)) {
-    return renderComponentReference(
-      node,
-      currentComponents,
-      usedComponents,
-      sectionKey,
-      patternKey
-    );
-  }
-
-  // Check if this is a layout node
-  if (isLayoutNode(node)) {
-    return renderLayoutNodeWithTemplate(
-      node,
-      dataContext,
-      currentComponents,
-      currentContext,
-      usedComponents,
-      AnimationComponent,
-      animationSettings,
-      patternProps,
-      sectionKey,
-      patternKey,
-      itemIndexOffset
-    );
-  }
-
-  console.warn('Invalid template node:', node);
-  return null;
-};
-
-/**
- * Renders a layout node that may contain:
- * 1. A nested template - switches context to iterate items/categories
- * 2. Regular children - renders them in the current context
- */
-const renderLayoutNodeWithTemplate = (
-  node: Record<string, any>,
-  dataContext: {
-    items?: Record<string, any>[];
-    itemOrder?: string[];
-    categories?: Record<string, any>[];
-    categoryOrder?: string[];
-  },
-  currentComponents: Record<string, ComponentNode>,
-  currentContext: Record<string, any>,
-  usedComponents: Set<string>,
-  AnimationComponent: React.ComponentType<any> | null,
-  animationSettings: Record<string, any>,
-  patternProps?: Record<string, any>,
-  sectionKey?: string,
-  patternKey?: string,
-  itemIndexOffset: number = 0
-): React.ReactElement | null => {
-
-  let { layoutType, layoutProps, children } = parseLayoutNode(node);
-
-  // Apply pattern-level props (align -> justify for hstack)
-  layoutProps = applyPatternPropsToLayout(layoutType, layoutProps, patternProps);
-
-  // Apply context-level overrides (e.g., reverse from item context)
-  layoutProps = applyContextOverrides(layoutType, layoutProps, currentContext);
-
-  // Get layout component from registry
-  const LayoutComponent = componentRegistry[layoutType];
-  if (!LayoutComponent) {
-    console.warn(`Layout type "${layoutType}" not found in registry`);
-    return null;
-  }
-
-  // Self-closing components (like divider/hr) cannot have children
-  const isSelfClosing = layoutType === 'divider';
-  if (isSelfClosing) {
-    return <LayoutComponent {...layoutProps} />;
-  }
-
-  // Check if this layout node has a nested template
-  const nestedTemplate = node.template;
-
-  if (nestedTemplate) {
-    // This layout node contains a nested template - switch context to iterate items
-    return renderLayoutWithNestedTemplate(
-      LayoutComponent,
-      layoutProps,
-      nestedTemplate,
-      dataContext,
-      AnimationComponent,
-      animationSettings,
-      patternProps,
-      sectionKey,
-      patternKey,
-      itemIndexOffset
-    );
-  }
-
-  // No nested template - render children in current context
-  const renderedChildren = children.map((child: any, index: number) => (
-    <React.Fragment key={index}>
-      {renderTemplateTreeNode(
-        child,
-        dataContext,
-        currentComponents,
-        currentContext,
-        usedComponents,
-        AnimationComponent,
-        animationSettings,
-        patternProps,
-        sectionKey,
-        patternKey,
-        itemIndexOffset
-      )}
-    </React.Fragment>
-  ));
-
-  return (
-    <LayoutComponent {...layoutProps}>
-      {renderedChildren}
-    </LayoutComponent>
-  );
-};
-
-/**
- * Renders a layout node with a nested template
- * This switches context from category-level to item-level iteration
- */
-const renderLayoutWithNestedTemplate = (
-  LayoutComponent: React.ComponentType<any>,
-  layoutProps: Record<string, any>,
-  nestedTemplate: Record<string, any>,
-  dataContext: {
-    items?: Record<string, any>[];
-    itemOrder?: string[];
-    categories?: Record<string, any>[];
-    categoryOrder?: string[];
-  },
-  AnimationComponent: React.ComponentType<any> | null,
-  animationSettings: Record<string, any>,
-  patternProps?: Record<string, any>,
-  sectionKey?: string,
-  patternKey?: string,
-  itemIndexOffset: number = 0
-): React.ReactElement => {
-
-  const { items, itemOrder } = dataContext;
-
-  if (!items || !itemOrder) {
-    console.warn('Nested template found but no items in data context');
-    return <LayoutComponent {...layoutProps} />;
-  }
-
-  // Map through items and render nested template for each
-  const renderedItems = itemOrder.map((itemId, localIndex) => {
-    const item = items.find((i: any) => i.id === itemId);
+  indexOffset: number = 0
+): React.ReactNode[] => {
+  return itemOrder.map((itemId, localIndex) => {
+    const item = findItem(itemId);
     if (!item) {
       console.warn(`Item "${itemId}" not found`);
       return null;
     }
 
-    const globalIndex = itemIndexOffset + localIndex;
+    const globalIndex = indexOffset + localIndex;
 
     // Create item context with index and any item-level props (excluding 'components')
     const { components: _, ...itemProps } = item;
@@ -361,84 +183,120 @@ const renderLayoutWithNestedTemplate = (
       ...itemProps
     };
 
-    // Track used components within this item
+    // Track used components within this item to support multiple components of same type
     const usedComponents = new Set<string>();
 
-    // Check if item has form actions
+    // Render each child in template.children array
+    const templateChildren = template.children || [];
     const isFormItem = hasFormAction(item.components);
-
-    // Render nested template with item.components as context
-    const nestedChildren = (nestedTemplate.children || []).map((child: any, idx: number) => (
-      <React.Fragment key={idx}>
-        {renderTemplateTreeNode(
-          child,
-          dataContext,
-          item.components,
-          itemContext,
-          usedComponents,
-          AnimationComponent,
-          animationSettings,
-          patternProps,
-          sectionKey,
-          patternKey,
-          itemIndexOffset
-        )}
+    
+    const templateContent = templateChildren.map((child: any, index: number) => (
+      <React.Fragment key={index}>
+        {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey)}
       </React.Fragment>
     ));
-
-    // Wrap in form if needed
+    
+    // Wrap in <form> if item contains form-action buttons
+    // Use display:contents so form doesn't break grid/flex layouts
     const itemContent = isFormItem ? (
       <form key={itemId} onSubmit={(e) => e.preventDefault()} style={{ display: 'contents' }}>
-        {nestedChildren}
+        {templateContent}
       </form>
     ) : (
       <React.Fragment key={itemId}>
-        {nestedChildren}
+        {templateContent}
       </React.Fragment>
     );
-
-    // Wrap with animation if configured
+    
+    // Wrap with animation component if configured (dynamic from registry)
     if (AnimationComponent) {
+      // Calculate stagger delay if stagger is set
       const staggerDelay = (animationSettings.stagger || 0) * globalIndex;
       const baseDelay = animationSettings.delay || 0;
-
+      
+      // Merge animation settings with calculated delay
+      const itemAnimationProps = {
+        ...animationSettings,
+        delay: baseDelay + staggerDelay,
+      };
+      
       return (
-        <AnimationComponent key={itemId} {...animationSettings} delay={baseDelay + staggerDelay}>
+        <AnimationComponent key={itemId} {...itemAnimationProps}>
           {itemContent}
         </AnimationComponent>
       );
     }
-
+    
     return itemContent;
   }).filter(Boolean);
+};
 
-  return (
-    <LayoutComponent {...layoutProps}>
-      {renderedItems}
-    </LayoutComponent>
-  );
+/**
+ * Renders category components (e.g., heading + body for sticky headers)
+ * These are rendered as direct component instances
+ */
+const renderCategoryComponents = (
+  categoryComponents: Record<string, ComponentNode>,
+  categoryComponentTemplate: Record<string, any> | undefined,
+  sectionKey?: string,
+  patternKey?: string
+): React.ReactNode => {
+  // If we have a categoryComponentTemplate, render the template with components
+  if (categoryComponentTemplate) {
+    const usedComponents = new Set<string>();
+    const categoryContext = { id: 'category-header' };
+
+    return renderTemplateNode(
+      categoryComponentTemplate,
+      categoryComponents,
+      categoryContext,
+      usedComponents,
+      sectionKey,
+      patternKey
+    );
+  }
+
+  // Otherwise render components directly
+  return Object.entries(categoryComponents).map(([componentKey, componentNode]) => {
+    const Component = componentRegistry[componentNode.type];
+    if (!Component) {
+      console.warn(`Component type "${componentNode.type}" not found in registry`);
+      return null;
+    }
+
+    return (
+      <Component
+        key={componentKey}
+        {...componentNode.props}
+        componentKey={componentKey}
+        sectionKey={sectionKey}
+        patternKey={patternKey}
+      />
+    );
+  }).filter(Boolean);
 };
 
 /**
  * Renders layout with categories (nested structure)
- * Each category is rendered using the template tree
+ * Each category contains its own items
+ * Now supports rendering category.components alongside category.items
  */
 const renderCategorizedLayout = (
   layout: Record<string, any>,
+  template: Record<string, any>,
+  ParentLayout: React.ComponentType<any>,
+  layoutProps: Record<string, any>,
   AnimationComponent: React.ComponentType<any> | null,
   animationSettings: Record<string, any>,
-  patternProps?: Record<string, any>,
   sectionKey?: string,
   patternKey?: string
-): React.ReactElement | null => {
-
-  const { template, categories } = layout;
+): React.ReactElement => {
   const categoryOrder = getLayoutCategoryOrder(layout);
+  const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
 
   let globalItemIndex = 0;
 
-  // Render each category using the template tree
-  const renderedCategories = categoryOrder.map((categoryId) => {
+  const renderedCategories = categoryOrder.map((categoryId, categoryIndex) => {
     const category = findLayoutCategory(layout, categoryId);
     if (!category) {
       console.warn(`Category "${categoryId}" not found in layout categories`);
@@ -447,20 +305,13 @@ const renderCategorizedLayout = (
 
     const itemOrder = getCategoryItemOrder(category);
 
-    // Prepare data context for this category
-    const categoryDataContext = {
-      items: category.items,
+    // Render items within this category
+    const renderedItems = renderItems(
       itemOrder,
-    };
-
-    // Render the template tree with category.components as context
-    const renderedCategory = renderTemplateTree(
+      (itemId) => findCategoryItem(category, itemId),
       template,
-      categoryDataContext,
-      category.components || {},
       AnimationComponent,
       animationSettings,
-      patternProps,
       sectionKey,
       patternKey,
       globalItemIndex
@@ -468,99 +319,54 @@ const renderCategorizedLayout = (
 
     globalItemIndex += itemOrder.length;
 
-    return <React.Fragment key={categoryId}>{renderedCategory}</React.Fragment>;
+    // Wrap items in itemsWrapper if provided (e.g., Grid)
+    let wrappedItems: React.ReactNode = renderedItems;
+    if (itemsWrapper) {
+      const ItemsWrapperComponent = componentRegistry[itemsWrapper.type];
+      if (ItemsWrapperComponent) {
+        const { type: _, ...wrapperProps } = itemsWrapper;
+        wrappedItems = (
+          <ItemsWrapperComponent {...wrapperProps}>
+            {renderedItems}
+          </ItemsWrapperComponent>
+        );
+      }
+    }
+
+    // Render category components if they exist (e.g., sticky headers)
+    const renderedCategoryComponents = category.components
+      ? renderCategoryComponents(category.components, categoryComponentTemplate, sectionKey, patternKey)
+      : null;
+
+    // If categoryTemplate exists, wrap category components + items in it
+    // categoryTemplate typically wraps both the sticky header and the grid of items
+    if (categoryTemplate) {
+      const CategoryWrapper = componentRegistry[categoryTemplate.type];
+      if (CategoryWrapper) {
+        const { type: _, ...categoryProps } = categoryTemplate;
+        return (
+          <CategoryWrapper key={categoryId} {...categoryProps} {...category.props}>
+            {renderedCategoryComponents}
+            {wrappedItems}
+          </CategoryWrapper>
+        );
+      }
+    }
+
+    // Otherwise return category components + items directly
+    return (
+      <React.Fragment key={categoryId}>
+        {renderedCategoryComponents}
+        {wrappedItems}
+      </React.Fragment>
+    );
   }).filter(Boolean);
 
-  return <>{renderedCategories}</>;
-};
-
-/**
- * Applies pattern-level props to layout props
- */
-const applyPatternPropsToLayout = (
-  layoutType: string,
-  layoutProps: Record<string, any>,
-  patternProps?: Record<string, any>
-): Record<string, any> => {
-  if (!patternProps) return layoutProps;
-
-  const alignToJustifyMap: Record<string, string> = {
-    left: 'start',
-    start: 'start',
-    center: 'center',
-    right: 'end',
-    end: 'end',
-  };
-
-  // For hstack: map align to justify
-  if (layoutType === 'hstack' && patternProps.align) {
-    layoutProps = {
-      ...layoutProps,
-      justify: alignToJustifyMap[patternProps.align] || patternProps.align
-    };
-  }
-
-  // Map mobileAlign to mobileJustify
-  if (layoutType === 'hstack' && patternProps.mobileAlign) {
-    const mobileJustify = alignToJustifyMap[patternProps.mobileAlign] || patternProps.mobileAlign;
-    layoutProps = { ...layoutProps, mobileJustify };
-  }
-
-  // For other layout types, pass align directly
-  if (layoutType !== 'hstack' && patternProps.align) {
-    layoutProps = { ...layoutProps, align: patternProps.align };
-  }
-
-  return layoutProps;
-};
-
-/**
- * Applies context-level overrides to layout props
- */
-const applyContextOverrides = (
-  layoutType: string,
-  layoutProps: Record<string, any>,
-  context: Record<string, any>
-): Record<string, any> => {
-  // Apply item-level reverse for hstack
-  if (layoutType === 'hstack' && context?.reverse) {
-    layoutProps = { ...layoutProps, direction: 'row-reverse' };
-  }
-
-  // Add filterTags as data attribute
-  if (context?.filterTags && Array.isArray(context.filterTags)) {
-    layoutProps = { ...layoutProps, 'data-filter-tags': context.filterTags.join(',') };
-  }
-
-  // Handle action prop - convert to onCardClick
-  if (layoutProps.action) {
-    const action = layoutProps.action;
-
-    if (action.type === 'navigation' && action.settings?.href) {
-      let resolvedHref = action.settings.href;
-
-      // Replace placeholders with context values
-      Object.keys(context).forEach(key => {
-        const placeholder = `\${${key}}`;
-        if (resolvedHref.includes(placeholder)) {
-          resolvedHref = resolvedHref.replace(placeholder, context[key]);
-        }
-      });
-
-      const onCardClick = () => {
-        if (action.settings.openInNewTab) {
-          window.open(resolvedHref, '_blank', 'noopener,noreferrer');
-        } else {
-          window.location.href = resolvedHref;
-        }
-      };
-
-      layoutProps = { ...layoutProps, onCardClick };
-      delete layoutProps.action;
-    }
-  }
-
-  return layoutProps;
+  return (
+    <ParentLayout {...layoutProps}>
+      {renderedCategories}
+    </ParentLayout>
+  );
 };
 
 /**
@@ -570,7 +376,9 @@ const applyContextOverrides = (
 const renderSimpleLayout = (
   layout: Record<string, any>,
   components: Record<string, ComponentNode>,
-  order?: string[]
+  order?: string[],
+  sectionKey?: string,
+  patternKey?: string
 ): React.ReactElement | null => {
   const { type, ...layoutProps } = layout;
 
@@ -603,8 +411,125 @@ const renderSimpleLayout = (
 };
 
 /**
+ * Renders a template node (recursive, completely generic)
+ * Handles both layout nodes and component references
+ * 
+ * @param usedComponents - Set of component keys already rendered (for multiple same-type support)
+ */
+const renderTemplateNode = (
+  node: Record<string, any>,
+  itemComponents: Record<string, ComponentNode>,
+  itemContext: Record<string, any>,
+  usedComponents: Set<string>,
+  sectionKey?: string,
+  patternKey?: string
+): React.ReactElement | null => {
+  
+  // Check what kind of node this is
+  if (isComponentReference(node)) {
+    return renderComponentReference(node, itemComponents, usedComponents, sectionKey, patternKey);
+  }
+
+  if (isLayoutNode(node)) {
+    return renderLayoutNodeGeneric(node, itemComponents, itemContext, usedComponents, sectionKey, patternKey);
+  }
+
+  console.warn('Invalid template node:', node);
+  return null;
+};
+
+/**
+ * Renders ANY layout node (grid, vstack, hstack, box, gridItem, etc)
+ * Completely generic - doesn't know about specific layout types
+ */
+const renderLayoutNodeGeneric = (
+  node: Record<string, any>,
+  itemComponents: Record<string, ComponentNode>,
+  itemContext: Record<string, any>,
+  usedComponents: Set<string>,
+  sectionKey?: string,
+  patternKey?: string
+): React.ReactElement | null => {
+  let { layoutType, layoutProps, children } = parseLayoutNode(node);
+
+  // Apply item-level overrides for specific layout types
+  if (layoutType === 'hstack' && itemContext?.reverse) {
+    layoutProps = { ...layoutProps, direction: 'row-reverse' };
+  }
+
+  // Add filterTags as data-filter-tags attribute for filtering functionality
+  if (itemContext?.filterTags && Array.isArray(itemContext.filterTags)) {
+    layoutProps = { ...layoutProps, 'data-filter-tags': itemContext.filterTags.join(',') };
+  }
+
+  // Handle action prop - convert to onCardClick for components that use it
+  if (layoutProps.action) {
+    const action = layoutProps.action;
+
+    // Only handle navigation actions
+    if (action.type === 'navigation' && action.settings?.href) {
+      // Resolve template placeholders in href (e.g., ${link} -> actual link from itemContext)
+      let resolvedHref = action.settings.href;
+
+      // Replace all ${variable} placeholders with actual values from itemContext
+      Object.keys(itemContext).forEach(key => {
+        const placeholder = `\${${key}}`;
+        if (resolvedHref.includes(placeholder)) {
+          resolvedHref = resolvedHref.replace(placeholder, itemContext[key]);
+        }
+      });
+
+      // Create onCardClick handler
+      const onCardClick = () => {
+        if (action.settings.openInNewTab) {
+          window.open(resolvedHref, '_blank', 'noopener,noreferrer');
+        } else {
+          window.location.href = resolvedHref;
+        }
+      };
+
+      // Add onCardClick to layoutProps and remove action
+      layoutProps = { ...layoutProps, onCardClick };
+      delete layoutProps.action;
+    }
+  }
+
+  // Get layout component from registry
+  const LayoutComponent = componentRegistry[layoutType];
+  if (!LayoutComponent) {
+    console.warn(`Layout type "${layoutType}" not found in registry`);
+    return null;
+  }
+
+  // Self-closing components (like divider/hr) cannot have children
+  const isSelfClosing = layoutType === 'divider';
+  if (isSelfClosing) {
+    return <LayoutComponent {...layoutProps} />;
+  }
+
+  // Recursively render children for components that support them
+  const renderedChildren = children.map((child: any, index: number) => (
+    <React.Fragment key={index}>
+      {renderTemplateNode(child, itemComponents, itemContext, usedComponents, sectionKey, patternKey)}
+    </React.Fragment>
+  ));
+
+  // Layout component takes care of its own props (colSpan for GridItem, spacing for VStack, etc)
+  return (
+    <LayoutComponent {...layoutProps}>
+      {renderedChildren}
+    </LayoutComponent>
+  );
+};
+
+/**
  * Finds the next available component by type that hasn't been used yet
  * Supports multiple components of the same type in one item
+ * 
+ * @param components - Record of ComponentNodes keyed by componentId
+ * @param type - Component type to find (e.g., "body", "heading")
+ * @param usedComponents - Set of component keys already used
+ * @returns { component, key } or undefined
  */
 const findNextComponentByType = (
   components: Record<string, any>,
@@ -622,6 +547,10 @@ const findNextComponentByType = (
  * Matches component by TYPE, not by key name
  * Supports multiple components of same type (renders them in order)
  * Extra props in the reference override component props (for template-level styling)
+ * 
+ * Template: { component: "${body}" }, { component: "${body}" }
+ * Items: { body_abc: { type: "body", ... }, body_def: { type: "body", ... } }
+ * Result: First ${body} renders body_abc, second ${body} renders body_def
  */
 const renderComponentReference = (
   reference: Record<string, any>,
@@ -634,7 +563,7 @@ const renderComponentReference = (
 
   // Extract type from ${componentType} syntax
   const componentType = extractSlotName(componentRef);
-
+  
   // Find next available component by TYPE (supports multiple of same type)
   const result = findNextComponentByType(itemComponents, componentType, usedComponents);
 
@@ -644,7 +573,7 @@ const renderComponentReference = (
   }
 
   const { component: itemComponent, key: componentKey } = result;
-
+  
   // Mark this component as used
   usedComponents.add(componentKey);
 
@@ -659,20 +588,20 @@ const renderComponentReference = (
     ...(itemComponent?.props || {}),
     ...extraProps
   };
-
+  
   // Render the component with componentKey for DOM identification
   const renderedComponent = (
-    <Component
-      {...mergedProps}
+    <Component 
+      {...mergedProps} 
       componentKey={componentKey}
       sectionKey={sectionKey}
       patternKey={patternKey}
     />
   );
-
+  
   // Check for animation (template animation takes precedence, then item animation)
   const animationConfig = templateAnimation || itemComponent?.animation;
-
+  
   if (animationConfig && animationConfig.type && animationConfig.type !== 'none') {
     const AnimationComponent = animationComponents[animationConfig.type];
     if (AnimationComponent) {
@@ -684,7 +613,7 @@ const renderComponentReference = (
     }
     console.warn(`Animation component for type "${animationConfig.type}" not found in registry`);
   }
-
+  
   return renderedComponent;
 };
 
