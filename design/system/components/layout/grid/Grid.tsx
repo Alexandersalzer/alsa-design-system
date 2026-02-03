@@ -255,17 +255,16 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
   if (colStart) inlineStyles.gridColumnStart = colStart;
   if (rowStart) inlineStyles.gridRowStart = rowStart;
 
-  // Handle sticky positioning
+  // Handle sticky positioning (inline styles for desktop, CSS handles mobile override)
   if (sticky) {
-    inlineStyles.position = 'sticky';
     inlineStyles.top = typeof top === 'number' ? `${top}px` : top;
     inlineStyles.zIndex = zIndex;
-    inlineStyles.alignSelf = 'start';
   }
 
   const classes = buildClasses(
     'grid-item',
     isResponsiveValue(colSpan) && 'grid-item--responsive-span',
+    sticky && 'grid-item--sticky',
     className
   );
 

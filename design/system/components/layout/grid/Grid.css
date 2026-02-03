@@ -117,6 +117,19 @@
   min-width: 0; /* Prevent overflow issues */
 }
 
+/* Sticky grid item */
+.grid-item--sticky {
+  position: sticky;
+  align-self: start;
+}
+
+/* Disable sticky on mobile - becomes relative positioning */
+@media (max-width: 767px) {
+  .grid-item--sticky {
+    position: relative;
+  }
+}
+
 /* Responsive colSpan support */
 .grid-item--responsive-span {
   grid-column: span var(--col-span-base, 1);
