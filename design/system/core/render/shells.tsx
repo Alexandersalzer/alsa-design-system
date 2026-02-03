@@ -57,8 +57,6 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
         type={pattern.type}
         props={pattern.props}
         components={pattern.components}
-        sectionKey={sectionKey}
-        patternKey={patternKey}
       />
     </Container>
   );

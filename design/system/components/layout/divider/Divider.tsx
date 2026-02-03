@@ -46,8 +46,8 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(({
   className,
   ...props
 }, ref) => {
-  // Filter out non-DOM props that shouldn't be spread to <hr>
-  const { sectionKey, patternKey, componentKey, components, order, type, ...domProps } = props as any;
+  // Filter out non-DOM props that shouldn't be spread to <hr> (editor context props)
+  const { sectionKey, patternKey, itemKey, componentKey, components, order, type, ...domProps } = props as any;
   // If there's a button, render divider with button in the middle
   if (button && orientation === 'horizontal') {
     return (

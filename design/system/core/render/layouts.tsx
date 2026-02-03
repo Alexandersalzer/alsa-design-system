@@ -192,20 +192,21 @@ const renderItems = (
     
     const templateContent = templateChildren.map((child: any, index: number) => (
       <React.Fragment key={index}>
-        {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey)}
+        {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, itemId)}
       </React.Fragment>
     ));
     
     // Wrap in <form> if item contains form-action buttons
     // Use display:contents so form doesn't break grid/flex layouts
+    // Add data-item-key for EditorOverlay detection
     const itemContent = isFormItem ? (
-      <form key={itemId} onSubmit={(e) => e.preventDefault()} style={{ display: 'contents' }}>
+      <form key={itemId} data-item-key={itemId} onSubmit={(e) => e.preventDefault()} style={{ display: 'contents' }}>
         {templateContent}
       </form>
     ) : (
-      <React.Fragment key={itemId}>
+      <div key={itemId} data-item-key={itemId} style={{ display: 'contents' }}>
         {templateContent}
-      </React.Fragment>
+      </div>
     );
     
     // Wrap with animation component if configured (dynamic from registry)
@@ -613,6 +614,7 @@ const renderSimpleLayout = (
  * Handles both layout nodes and component references
  * 
  * @param usedComponents - Set of component keys already rendered (for multiple same-type support)
+ * @param itemId - ID of the item containing this component (for EditorOverlay)
  */
 const renderTemplateNode = (
   node: Record<string, any>,
@@ -620,16 +622,17 @@ const renderTemplateNode = (
   itemContext: Record<string, any>,
   usedComponents: Set<string>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  itemId?: string
 ): React.ReactElement | null => {
   
   // Check what kind of node this is
   if (isComponentReference(node)) {
-    return renderComponentReference(node, itemComponents, usedComponents, sectionKey, patternKey);
+    return renderComponentReference(node, itemComponents, usedComponents, sectionKey, patternKey, itemId);
   }
 
   if (isLayoutNode(node)) {
-    return renderLayoutNodeGeneric(node, itemComponents, itemContext, usedComponents, sectionKey, patternKey);
+    return renderLayoutNodeGeneric(node, itemComponents, itemContext, usedComponents, sectionKey, patternKey, itemId);
   }
 
   console.warn('Invalid template node:', node);
@@ -646,7 +649,8 @@ const renderLayoutNodeGeneric = (
   itemContext: Record<string, any>,
   usedComponents: Set<string>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  itemId?: string
 ): React.ReactElement | null => {
   let { layoutType, layoutProps, children } = parseLayoutNode(node);
 
@@ -708,7 +712,7 @@ const renderLayoutNodeGeneric = (
   // Recursively render children for components that support them
   const renderedChildren = children.map((child: any, index: number) => (
     <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, itemContext, usedComponents, sectionKey, patternKey)}
+      {renderTemplateNode(child, itemComponents, itemContext, usedComponents, sectionKey, patternKey, itemId)}
     </React.Fragment>
   ));
 
@@ -755,7 +759,8 @@ const renderComponentReference = (
   itemComponents: Record<string, ComponentNode>,
   usedComponents: Set<string>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  itemId?: string
 ): React.ReactElement | null => {
   const { component: componentRef, animation: templateAnimation, ...extraProps } = reference;
 
@@ -787,15 +792,12 @@ const renderComponentReference = (
     ...extraProps
   };
   
-  // Render the component with componentKey for DOM identification
-  const renderedComponent = (
-    <Component 
-      {...mergedProps} 
-      componentKey={componentKey}
-      sectionKey={sectionKey}
-      patternKey={patternKey}
-    />
-  );
+  // Render the component with componentKey and itemId for DOM identification
+const renderedComponent = (
+  <div data-component-key={componentKey} style={{ display: 'contents' }}>
+    <Component {...mergedProps} />
+  </div>
+);
   
   // Check for animation (template animation takes precedence, then item animation)
   const animationConfig = templateAnimation || itemComponent?.animation;

@@ -135,8 +135,6 @@ export const renderPatternDirect = (
         props={pattern.props}
         components={pattern.components}
         order={pattern.order}
-        sectionKey={sectionKey}
-        patternKey={patternKey}
         layoutContext={layoutContext}
       />
     </div>
@@ -221,8 +219,6 @@ export const renderPattern = (
         props={pattern.props}
         components={pattern.components}
         order={pattern.order}
-        sectionKey={sectionKey}
-        patternKey={patternKey}
         layoutContext={layoutContext}
       />
     </Container>
