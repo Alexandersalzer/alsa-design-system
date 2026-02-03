@@ -278,10 +278,83 @@ const renderCategoryComponents = (
 
 /**
  * Renders layout with categories (nested structure)
- * Each category contains its own items
- * Now supports rendering category.components alongside category.items
+ * NEW APPROACH: Uses unified template tree where items template can be nested anywhere
+ * The presence of a 'template' property on a node signals: iterate items and render this template for each
  */
 const renderCategorizedLayout = (
+  layout: Record<string, any>,
+  template: Record<string, any>,
+  ParentLayout: React.ComponentType<any>,
+  layoutProps: Record<string, any>,
+  AnimationComponent: React.ComponentType<any> | null,
+  animationSettings: Record<string, any>,
+  sectionKey?: string,
+  patternKey?: string
+): React.ReactElement => {
+  const categoryOrder = getLayoutCategoryOrder(layout);
+  const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
+
+  // LEGACY SUPPORT: If old structure exists (categoryTemplate, itemsWrapper), use old logic
+  if (categoryTemplate || categoryComponentTemplate || itemsWrapper) {
+    return renderCategorizedLayoutLegacy(
+      layout,
+      template,
+      ParentLayout,
+      layoutProps,
+      AnimationComponent,
+      animationSettings,
+      sectionKey,
+      patternKey
+    );
+  }
+
+  // NEW UNIFIED APPROACH: Render categories using template.children recursively
+  let globalItemIndex = 0;
+
+  const renderedCategories = categoryOrder.map((categoryId) => {
+    const category = findLayoutCategory(layout, categoryId);
+    if (!category) {
+      console.warn(`Category "${categoryId}" not found in layout categories`);
+      return null;
+    }
+
+    const itemOrder = getCategoryItemOrder(category);
+
+    // Render the category template for this category
+    // Pass category items so nested templates can iterate them
+    const categoryContent = template.children?.map((child: any, index: number) => (
+      <React.Fragment key={index}>
+        {renderCategoryTemplateNode(
+          child,
+          category.components || {},
+          category.items || [],
+          itemOrder,
+          AnimationComponent,
+          animationSettings,
+          sectionKey,
+          patternKey,
+          globalItemIndex
+        )}
+      </React.Fragment>
+    ));
+
+    globalItemIndex += itemOrder.length;
+
+    return <React.Fragment key={categoryId}>{categoryContent}</React.Fragment>;
+  }).filter(Boolean);
+
+  return (
+    <ParentLayout {...layoutProps}>
+      {renderedCategories}
+    </ParentLayout>
+  );
+};
+
+/**
+ * LEGACY: Old categorized layout rendering (kept for backward compatibility)
+ * Uses categoryTemplate, categoryComponentTemplate, itemsWrapper
+ */
+const renderCategorizedLayoutLegacy = (
   layout: Record<string, any>,
   template: Record<string, any>,
   ParentLayout: React.ComponentType<any>,
@@ -367,6 +440,131 @@ const renderCategorizedLayout = (
       {renderedCategories}
     </ParentLayout>
   );
+};
+
+/**
+ * Renders a template node in category context (NEW UNIFIED APPROACH)
+ * If the node has a 'template' property, it iterates category items
+ * Otherwise, it's a regular layout/component node using category components
+ */
+const renderCategoryTemplateNode = (
+  node: Record<string, any>,
+  categoryComponents: Record<string, ComponentNode>,
+  categoryItems: any[],
+  itemOrder: string[],
+  AnimationComponent: React.ComponentType<any> | null,
+  animationSettings: Record<string, any>,
+  sectionKey?: string,
+  patternKey?: string,
+  globalItemIndexOffset: number = 0
+): React.ReactElement | null => {
+  // If node has 'template' property, this is where we iterate items
+  if (node.template) {
+    const renderedItems = itemOrder.map((itemId, localIndex) => {
+      const item = categoryItems.find(i => i.id === itemId);
+      if (!item) {
+        console.warn(`Item "${itemId}" not found in category items`);
+        return null;
+      }
+
+      const globalIndex = globalItemIndexOffset + localIndex;
+      const { components: _, ...itemProps } = item;
+      const itemContext = {
+        index: globalIndex,
+        localIndex,
+        id: itemId,
+        ...itemProps
+      };
+
+      const usedComponents = new Set<string>();
+
+      // Render the item template with merged scope (category + item components)
+      const mergedComponents = { ...categoryComponents, ...item.components };
+      const templateContent = node.template.children?.map((child: any, index: number) => (
+        <React.Fragment key={index}>
+          {renderTemplateNode(child, mergedComponents, itemContext, usedComponents, sectionKey, patternKey)}
+        </React.Fragment>
+      ));
+
+      // Wrap with animation if configured
+      if (AnimationComponent) {
+        const staggerDelay = (animationSettings.stagger || 0) * globalIndex;
+        const baseDelay = animationSettings.delay || 0;
+        const itemAnimationProps = {
+          ...animationSettings,
+          delay: baseDelay + staggerDelay,
+        };
+
+        return (
+          <AnimationComponent key={itemId} {...itemAnimationProps}>
+            {templateContent}
+          </AnimationComponent>
+        );
+      }
+
+      return <React.Fragment key={itemId}>{templateContent}</React.Fragment>;
+    }).filter(Boolean);
+
+    // Render the wrapper layout node (e.g., grid) with items as children
+    if (isLayoutNode(node)) {
+      let { layoutType, layoutProps } = parseLayoutNode(node);
+      const LayoutComponent = componentRegistry[layoutType];
+      if (!LayoutComponent) {
+        console.warn(`Layout type "${layoutType}" not found in registry`);
+        return null;
+      }
+
+      return (
+        <LayoutComponent {...layoutProps}>
+          {renderedItems}
+        </LayoutComponent>
+      );
+    }
+
+    // If not a layout node, just return items
+    return <>{renderedItems}</>;
+  }
+
+  // Regular node (no template) - render with category components
+  if (isComponentReference(node)) {
+    const usedComponents = new Set<string>();
+    return renderComponentReference(node, categoryComponents, usedComponents, sectionKey, patternKey);
+  }
+
+  if (isLayoutNode(node)) {
+    let { layoutType, layoutProps, children } = parseLayoutNode(node);
+    const LayoutComponent = componentRegistry[layoutType];
+    if (!LayoutComponent) {
+      console.warn(`Layout type "${layoutType}" not found in registry`);
+      return null;
+    }
+
+    // Recursively render children - they might contain items template deeper in tree
+    const renderedChildren = children.map((child: any, index: number) => (
+      <React.Fragment key={index}>
+        {renderCategoryTemplateNode(
+          child,
+          categoryComponents,
+          categoryItems,
+          itemOrder,
+          AnimationComponent,
+          animationSettings,
+          sectionKey,
+          patternKey,
+          globalItemIndexOffset
+        )}
+      </React.Fragment>
+    ));
+
+    return (
+      <LayoutComponent {...layoutProps}>
+        {renderedChildren}
+      </LayoutComponent>
+    );
+  }
+
+  console.warn('Invalid category template node:', node);
+  return null;
 };
 
 /**
