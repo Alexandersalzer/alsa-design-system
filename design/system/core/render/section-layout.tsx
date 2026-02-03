@@ -304,6 +304,12 @@ export function renderSectionLayout({
   const effectiveAlign = sectionHeaderAlign || 'start';
   const marginValue = effectiveAlign === 'center' ? '0 auto' : effectiveAlign === 'end' ? '0 0 0 auto' : '0 auto 0 0';
 
+  // When wrapInCard: same inner padding for both columns so they align (no hardcoding)
+  const columnInnerPadding =
+    wrapInCard && cardPadding && cardPadding !== 'none'
+      ? { padding: `var(--foundation-space-${cardPadding})` as const }
+      : undefined;
+
   // Get mobile pattern order for stacked view
   const mobilePatternOrder = getMobilePatternOrder();
 
@@ -384,11 +390,10 @@ export function renderSectionLayout({
               {wrapInCard ? (
                 <Box
                   style={{
+                    ...columnInnerPadding,
                     maxWidth: sectionHeaderMaxWidth,
                     margin: marginValue,
                     width: '100%',
-                    paddingLeft: 'var(--foundation-space-6)',
-                    paddingRight: 'var(--foundation-space-6)',
                   }}
                 >
                   <VStack spacing="lg" align="start">
@@ -416,11 +421,10 @@ export function renderSectionLayout({
               {wrapInCard ? (
                 <Box
                   style={{
+                    ...columnInnerPadding,
                     maxWidth: sectionHeaderMaxWidth,
                     margin: marginValue,
                     width: '100%',
-                    paddingLeft: 'var(--foundation-space-6)',
-                    paddingRight: 'var(--foundation-space-6)',
                   }}
                 >
                   <VStack spacing="lg" align="start">
@@ -446,6 +450,12 @@ export function renderSectionLayout({
             isSecondColumnMediaOnly ? (
               <Box className="media-column">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
+              </Box>
+            ) : wrapInCard && columnInnerPadding ? (
+              <Box style={{ ...columnInnerPadding, height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <VStack spacing={gap} align="stretch">
+                  {renderPatterns(secondColumnPatterns, secondColumnContext)}
+                </VStack>
               </Box>
             ) : (
               <VStack spacing={gap} align="stretch">
