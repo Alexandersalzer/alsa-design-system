@@ -70,6 +70,7 @@ export function renderSectionLayout({
     cardRadius = 'lg',
     cardBackground,
     cardBackgroundSettings = {},
+    cardBorderStyle = 'none',
   } = layout || {};
 
   // ===== FIND SPECIAL PATTERNS =====
@@ -320,7 +321,7 @@ export function renderSectionLayout({
         #${layoutId} .split-grid {
           display: grid;
           grid-template-columns: ${ratioMap[ratio]};
-          gap: var(--space-${gap});
+          gap: ${wrapInCard && cardPadding && cardPadding !== 'none' ? `var(--foundation-space-${cardPadding})` : `var(--space-${gap})`};
           align-items: ${verticalAlign};
           ${isSecondColumnMediaOnly ? 'grid-auto-rows: 1fr;' : ''}
         }
@@ -471,6 +472,15 @@ export function renderSectionLayout({
           const hasCardBackground = Boolean(cardBackground);
           const cardBackgroundProps: BackgroundProps = { ...(cardBackgroundSettings || {}) } as BackgroundProps;
 
+          const cardBorderCss =
+            cardBorderStyle === 'subtle'
+              ? '1px solid var(--border-subtle)'
+              : cardBorderStyle === 'solid'
+                ? '2px solid var(--border-default)'
+                : cardBorderStyle === 'accent'
+                  ? '1px solid var(--accent-500)'
+                  : undefined;
+
           if (hasCardBackground) {
             return (
               <Card
@@ -483,6 +493,7 @@ export function renderSectionLayout({
                   position: 'relative',
                   overflow: 'hidden',
                   background: 'transparent',
+                  ...(cardBorderCss && { border: cardBorderCss }),
                 }}
               >
                 <Box style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
@@ -501,7 +512,16 @@ export function renderSectionLayout({
           }
 
           return (
-            <Card variant={cardVariant} padding={cardPadding} radius={cardRadius} style={{ width: '100%', boxSizing: 'border-box' }}>
+            <Card
+              variant={cardVariant}
+              padding={cardPadding}
+              radius={cardRadius}
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+                ...(cardBorderCss && { border: cardBorderCss }),
+              }}
+            >
               {layoutContent}
             </Card>
           );

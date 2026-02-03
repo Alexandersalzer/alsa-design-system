@@ -125,4 +125,9 @@ export interface LayoutConfig {
    * För image: backgroundImage (url), backgroundSize, backgroundPosition, backgroundOpacity.
    */
   cardBackgroundSettings?: Record<string, unknown>;
+
+  /**
+   * Kantlinje på kortet när wrapInCard är true
+   */
+  cardBorderStyle?: 'none' | 'subtle' | 'solid' | 'accent';
 }
