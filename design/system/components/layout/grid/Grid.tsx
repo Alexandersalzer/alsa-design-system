@@ -36,6 +36,10 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
    */
   columns?: number | ResponsiveValue;
   /**
+   * Column span (for when Grid is child of another Grid)
+   */
+  colSpan?: number | ResponsiveValue;
+  /**
    * Card density mode (uses semantic tokens for min width)
    * Only works when columns is NOT set
    */
@@ -118,6 +122,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   justifyItems = 'stretch',
   style,
   columns,
+  colSpan,
   ...props
 }, ref) => {
   // =====================================================
@@ -136,7 +141,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   if (useResponsiveColumns) {
     // User provided explicit breakpoint object
     Object.assign(inlineStyles, getResponsiveStyles(columns as ResponsiveValue));
-  } 
+  }
   // =====================================================
   // SIMPLE COLUMNS MODE (with automatic responsive behavior)
   // =====================================================
@@ -144,7 +149,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
     // Convert simple number to responsive object with smart defaults
     const responsiveColumns = getDefaultResponsiveColumns(columns as number);
     Object.assign(inlineStyles, getResponsiveStyles(responsiveColumns));
-  } 
+  }
   // =====================================================
   // AUTO-FIT MODE (density-based)
   // =====================================================
@@ -163,16 +168,38 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   }
 
   // =====================================================
+  // HANDLE COLSPAN (for Grid as child of Grid)
+  // =====================================================
+  let hasResponsiveColSpan = false;
+  if (colSpan !== undefined) {
+    if (isResponsiveValue(colSpan)) {
+      // Responsive colSpan
+      const responsiveColSpan = colSpan as ResponsiveValue;
+      if (responsiveColSpan.base !== undefined) inlineStyles['--col-span-base'] = responsiveColSpan.base;
+      if (responsiveColSpan.sm !== undefined) inlineStyles['--col-span-sm'] = responsiveColSpan.sm;
+      if (responsiveColSpan.md !== undefined) inlineStyles['--col-span-md'] = responsiveColSpan.md;
+      if (responsiveColSpan.lg !== undefined) inlineStyles['--col-span-lg'] = responsiveColSpan.lg;
+      if (responsiveColSpan.xl !== undefined) inlineStyles['--col-span-xl'] = responsiveColSpan.xl;
+      if (responsiveColSpan['2xl'] !== undefined) inlineStyles['--col-span-2xl'] = responsiveColSpan['2xl'];
+      hasResponsiveColSpan = true;
+    } else {
+      // Simple number colSpan
+      inlineStyles.gridColumn = `span ${colSpan}`;
+    }
+  }
+
+  // =====================================================
   // BUILD CLASSES
   // =====================================================
   const classes = buildClasses(
     'grid',
-    useResponsiveColumns || useSimpleColumns ? 'grid--responsive' : 
-      useAutoFit ? 'grid--auto-fit' : 
+    useResponsiveColumns || useSimpleColumns ? 'grid--responsive' :
+      useAutoFit ? 'grid--auto-fit' :
       'grid--responsive', // Default to responsive mode
     `grid--gap-${gap}`,
     alignItems !== 'stretch' && `grid--align-${alignItems}`,
     justifyItems !== 'stretch' && `grid--justify-${justifyItems}`,
+    hasResponsiveColSpan && 'grid-item--responsive-span',
     className
   );
 

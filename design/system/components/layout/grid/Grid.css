@@ -117,6 +117,41 @@
   min-width: 0; /* Prevent overflow issues */
 }
 
+/* Responsive colSpan support */
+.grid-item--responsive-span {
+  grid-column: span var(--col-span-base, 1);
+}
+
+@media (min-width: 640px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-sm, var(--col-span-base, 1));
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-md, var(--col-span-sm, var(--col-span-base, 1)));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-lg, var(--col-span-md, var(--col-span-sm, var(--col-span-base, 1))));
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-xl, var(--col-span-lg, var(--col-span-md, var(--col-span-sm, var(--col-span-base, 1)))));
+  }
+}
+
+@media (min-width: 1536px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-2xl, var(--col-span-xl, var(--col-span-lg, var(--col-span-md, var(--col-span-sm, var(--col-span-base, 1))))));
+  }
+}
+
 /* ===== RESPONSIVE COLLAPSE ===== */
 
 /* Mobile collapse */
