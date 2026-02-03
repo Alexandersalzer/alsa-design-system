@@ -57,7 +57,7 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
 export interface GridItemProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
-  colSpan?: number;
+  colSpan?: number | ResponsiveValue;
   rowSpan?: number;
   colStart?: number;
   rowStart?: number;
@@ -196,18 +196,39 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
   style,
   ...props
 }, ref) => {
-  const inlineStyles: CSSProperties = {
-    ...(colSpan && { gridColumn: `span ${colSpan}` }),
-    ...(rowSpan && { gridRow: `span ${rowSpan}` }),
-    ...(colStart && { gridColumnStart: colStart }),
-    ...(rowStart && { gridRowStart: rowStart }),
-    ...style
-  };
+  const inlineStyles: CSSProperties & Record<string, any> = { ...style };
+
+  // Handle responsive colSpan
+  if (colSpan !== undefined) {
+    if (isResponsiveValue(colSpan)) {
+      // Responsive colSpan: set CSS variables for each breakpoint
+      const responsiveColSpan = colSpan as ResponsiveValue;
+      if (responsiveColSpan.base !== undefined) inlineStyles['--col-span-base'] = responsiveColSpan.base;
+      if (responsiveColSpan.sm !== undefined) inlineStyles['--col-span-sm'] = responsiveColSpan.sm;
+      if (responsiveColSpan.md !== undefined) inlineStyles['--col-span-md'] = responsiveColSpan.md;
+      if (responsiveColSpan.lg !== undefined) inlineStyles['--col-span-lg'] = responsiveColSpan.lg;
+      if (responsiveColSpan.xl !== undefined) inlineStyles['--col-span-xl'] = responsiveColSpan.xl;
+      if (responsiveColSpan['2xl'] !== undefined) inlineStyles['--col-span-2xl'] = responsiveColSpan['2xl'];
+    } else {
+      // Simple number colSpan
+      inlineStyles.gridColumn = `span ${colSpan}`;
+    }
+  }
+
+  if (rowSpan) inlineStyles.gridRow = `span ${rowSpan}`;
+  if (colStart) inlineStyles.gridColumnStart = colStart;
+  if (rowStart) inlineStyles.gridRowStart = rowStart;
+
+  const classes = buildClasses(
+    'grid-item',
+    isResponsiveValue(colSpan) && 'grid-item--responsive-span',
+    className
+  );
 
   return (
     <div
       ref={ref}
-      className={buildClasses('grid-item', className)}
+      className={classes}
       style={inlineStyles}
       {...props}
     >
