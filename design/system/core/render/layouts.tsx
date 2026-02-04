@@ -278,6 +278,32 @@ const renderFilterLayout = (
 };
 
 /**
+ * Resolves ${...} placeholders in props using context values
+ * e.g., categoryId: "${id}" with context { id: "category-all" } → categoryId: "category-all"
+ */
+const resolvePropsWithContext = (
+  props: Record<string, any>,
+  context: Record<string, any>
+): Record<string, any> => {
+  const resolved: Record<string, any> = {};
+  
+  for (const [key, value] of Object.entries(props)) {
+    if (typeof value === 'string' && value.startsWith('${') && value.endsWith('}')) {
+      // Extract variable name from ${varName}
+      const varName = value.slice(2, -1);
+      resolved[key] = context[varName] ?? value; // Use context value or keep original
+    } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      // Recursively resolve nested objects
+      resolved[key] = resolvePropsWithContext(value, context);
+    } else {
+      resolved[key] = value;
+    }
+  }
+  
+  return resolved;
+};
+
+/**
  * Renders a template node in filter context
  * Smart detection:
  * - If node has `template` + `filterAware`: iterate over items
@@ -352,11 +378,19 @@ const renderFilterTemplateNode = (
       const categoryContext = { index, id: categoryId, ...category };
       const usedComponents = new Set<string>();
 
-      const templateContent = template.children?.map((child: any, childIndex: number) => (
-        <React.Fragment key={childIndex}>
-          {renderTemplateNode(child, category.components || {}, categoryContext, usedComponents, sectionKey, patternKey)}
-        </React.Fragment>
-      ));
+      // Render each template child for this category
+      const templateContent = template.children?.map((child: any, childIndex: number) => {
+        // Resolve ${...} placeholders in child props with category context
+        const { children: childChildren, ...childProps } = child;
+        const resolvedProps = resolvePropsWithContext(childProps, categoryContext);
+        const resolvedChild = { ...resolvedProps, children: childChildren };
+        
+        return (
+          <React.Fragment key={childIndex}>
+            {renderTemplateNode(resolvedChild, category.components || {}, categoryContext, usedComponents, sectionKey, patternKey)}
+          </React.Fragment>
+        );
+      });
 
       return <React.Fragment key={categoryId}>{templateContent}</React.Fragment>;
     }).filter(Boolean);
