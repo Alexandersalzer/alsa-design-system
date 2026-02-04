@@ -1,13 +1,77 @@
 /* ===============================================
-   MasonryGrid CSS - Column-based Masonry Layout.
+   MasonryGrid CSS - Column-based Masonry Layout
    =============================================== */
 
+/* ===== BASE GRID ===== */
 .masonry-grid {
-  column-gap: var(--foundation-space-5); /* Default: lg */
   width: 100%;
+  column-fill: balance;
+  break-inside: avoid;
+  column-gap: var(--foundation-space-5); /* Default: lg */
 }
 
-/* Gap variants for column-gap */
+/* ===== COLUMN WIDTH VARIANTS ===== */
+/* Base (mobile): 1 column */
+.masonry-grid {
+  column-width: 100%;
+}
+
+/* Small screens (sm): 1 or 2 columns based on config */
+@media (min-width: 640px) {
+  .masonry-grid[data-columns-sm="1"] {
+    column-width: 100%;
+  }
+  .masonry-grid[data-columns-sm="2"] {
+    column-width: 28rem;
+  }
+  .masonry-grid[data-columns-sm="3"] {
+    column-width: 18rem;
+  }
+}
+
+/* Medium screens (md): 2 columns typically */
+@media (min-width: 768px) {
+  .masonry-grid[data-columns-md="1"] {
+    column-width: 100%;
+  }
+  .masonry-grid[data-columns-md="2"] {
+    column-width: 28rem;
+  }
+  .masonry-grid[data-columns-md="3"] {
+    column-width: 18rem;
+  }
+}
+
+/* Large screens (lg): 3 columns typically */
+@media (min-width: 1024px) {
+  .masonry-grid[data-columns-lg="1"] {
+    column-width: 100%;
+  }
+  .masonry-grid[data-columns-lg="2"] {
+    column-width: 28rem;
+  }
+  .masonry-grid[data-columns-lg="3"] {
+    column-width: 18rem;
+  }
+}
+
+/* Extra large screens (xl) */
+@media (min-width: 1280px) {
+  .masonry-grid[data-columns-xl="1"] {
+    column-width: 100%;
+  }
+  .masonry-grid[data-columns-xl="2"] {
+    column-width: 28rem;
+  }
+  .masonry-grid[data-columns-xl="3"] {
+    column-width: 18rem;
+  }
+  .masonry-grid[data-columns-xl="4"] {
+    column-width: 16rem;
+  }
+}
+
+/* ===== GAP VARIANTS ===== */
 .masonry-grid--gap-xs {
   column-gap: var(--foundation-space-2);
 }
@@ -28,50 +92,17 @@
   column-gap: var(--foundation-space-6);
 }
 
-/* Base mobile - 1 column */
-.masonry-grid {
-  column-count: var(--masonry-columns-base, 1);
-}
-
-/* Small tablets */
-@media (min-width: 640px) {
-  .masonry-grid {
-    column-count: var(--masonry-columns-sm, var(--masonry-columns-base, 1));
-  }
-}
-
-/* Tablets */
-@media (min-width: 768px) {
-  .masonry-grid {
-    column-count: var(--masonry-columns-md, 2);
-  }
-}
-
-/* Desktop */
-@media (min-width: 1024px) {
-  .masonry-grid {
-    column-count: var(--masonry-columns-lg, 3);
-  }
-}
-
-/* Large desktop */
-@media (min-width: 1280px) {
-  .masonry-grid {
-    column-count: var(--masonry-columns-xl, var(--masonry-columns-lg, 3));
-  }
-}
-
-/* Direct children of masonry grid */
+/* ===== DIRECT CHILDREN (MASONRY ITEMS) ===== */
 .masonry-grid > * {
   break-inside: avoid;
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
-  margin-bottom: var(--foundation-space-5); /* Default: lg */
   display: inline-block;
   width: 100%;
+  margin-bottom: var(--foundation-space-5); /* Default: lg */
 }
 
-/* Gap variants for direct children */
+/* Gap variants for direct children margin-bottom */
 .masonry-grid--gap-xs > * {
   margin-bottom: var(--foundation-space-2);
 }
@@ -90,15 +121,6 @@
 
 .masonry-grid--gap-xl > * {
   margin-bottom: var(--foundation-space-6);
-}
-
-/* Legacy masonry-item support (if used directly) */
-.masonry-item {
-  break-inside: avoid;
-  page-break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  width: 100%;
-  display: inline-block;
 }
 
 /* ===== MASONRY GRID WRAPPER ===== */

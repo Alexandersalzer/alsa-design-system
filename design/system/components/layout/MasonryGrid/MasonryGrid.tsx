@@ -84,14 +84,13 @@ export const MasonryGrid = React.forwardRef<HTMLDivElement, MasonryGridProps>(
       ? items
       : items.slice(0, currentMaxItems);
 
-    // Build inline styles for CSS variables
-    const inlineStyles: React.CSSProperties & Record<string, any> = {
-      ...style,
-      '--masonry-columns-base': columns.base,
-      '--masonry-columns-sm': columns.sm,
-      '--masonry-columns-md': columns.md,
-      '--masonry-columns-lg': columns.lg,
-      '--masonry-columns-xl': columns.xl,
+    // Build data attributes for responsive columns
+    const dataAttributes: Record<string, any> = {
+      'data-columns-base': columns.base,
+      'data-columns-sm': columns.sm,
+      'data-columns-md': columns.md,
+      'data-columns-lg': columns.lg,
+      'data-columns-xl': columns.xl,
     };
 
     // Build className with gap modifier
@@ -102,7 +101,8 @@ export const MasonryGrid = React.forwardRef<HTMLDivElement, MasonryGridProps>(
         <div
           ref={ref}
           className={gridClassName}
-          style={inlineStyles}
+          style={style}
+          {...dataAttributes}
           {...props}
         >
           {visibleItems}
