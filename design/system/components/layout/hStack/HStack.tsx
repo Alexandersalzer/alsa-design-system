@@ -10,6 +10,7 @@ type JustifyValue = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'
 type DirectionValue = 'row' | 'row-reverse' | 'column' | 'column-reverse';
 
 type AlignValue = 'start' | 'center' | 'end' | 'baseline' | 'stretch';
+type OverflowValue = 'auto' | 'hidden' | 'scroll' | 'visible';
 
 export interface HStackProps extends HTMLAttributes<HTMLDivElement> { // ✅ Extend HTMLAttributes
   children: ReactNode;
@@ -29,6 +30,8 @@ export interface HStackProps extends HTMLAttributes<HTMLDivElement> { // ✅ Ext
   direction?: 'row' | 'row-reverse';
   // Mobile-specific direction (overrides direction on mobile)
   mobileDirection?: DirectionValue;
+  // Overflow behavior (useful for scrollable tab containers)
+  overflow?: OverflowValue;
 }
 
 // ===== SIMPLE CLASS CONCATENATION =====
@@ -48,6 +51,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
   wrap = false,
   direction = 'row',
   mobileDirection,
+  overflow,
   ...props // ✅ Now includes onClick and other HTML props
 }, ref) => {
   // Build CSS classes
@@ -61,6 +65,7 @@ export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({
     wrap && 'hStack--wrap',
     direction !== 'row' && `hStack--${direction}`,
     mobileDirection && `hStack--mobileDirection-${mobileDirection}`,
+    overflow && `hStack--overflow-${overflow}`,
     className
   );
 
