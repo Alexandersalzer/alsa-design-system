@@ -113,44 +113,37 @@
   break-inside: avoid;
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
-  display: inline-block;
+  display: block; /* Changed from inline-block to prevent column bleeding */
   width: 100%;
-  box-sizing: border-box; /* Prevent width overflow into next column */
-  overflow: clip; /* Prevent visual overflow (shadows, etc.) */
-  margin-bottom: var(--foundation-space-5) !important; /* Default: lg - force override card resets */
-  padding-bottom: var(--foundation-space-5); /* Extra spacing buffer for visual consistency */
+  box-sizing: border-box;
+  margin-bottom: var(--foundation-space-5) !important; /* Default: lg */
 }
 
-/* Prevent nested elements from adding extra spacing */
-.masonry-grid > * > * {
+/* Apply box-sizing to nested cards to prevent overflow */
+.masonry-grid > * > *,
+.masonry-grid > * > * > * {
   box-sizing: border-box;
-  margin-bottom: 0;
 }
 
 /* Gap variants for direct children margin-bottom */
 .masonry-grid--gap-xs > * {
   margin-bottom: var(--foundation-space-2) !important;
-  padding-bottom: var(--foundation-space-2);
 }
 
 .masonry-grid--gap-sm > * {
   margin-bottom: var(--foundation-space-3) !important;
-  padding-bottom: var(--foundation-space-3);
 }
 
 .masonry-grid--gap-md > * {
   margin-bottom: var(--foundation-space-4) !important;
-  padding-bottom: var(--foundation-space-4);
 }
 
 .masonry-grid--gap-lg > * {
   margin-bottom: var(--foundation-space-5) !important;
-  padding-bottom: var(--foundation-space-5);
 }
 
 .masonry-grid--gap-xl > * {
   margin-bottom: var(--foundation-space-6) !important;
-  padding-bottom: var(--foundation-space-6);
 }
 
 /* ===== MASONRY GRID WRAPPER ===== */
