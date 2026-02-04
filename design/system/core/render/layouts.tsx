@@ -641,7 +641,7 @@ const renderCategoryTemplateNode = (
         {renderCategoryTemplateNode(
           child,
           categoryComponents,
-          categoryItems,
+          layout,
           itemOrder,
           AnimationComponent,
           animationSettings,
