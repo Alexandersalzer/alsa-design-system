@@ -14,7 +14,8 @@ import React, { createContext, useContext, useState, useMemo, ReactNode } from '
 
 interface Category {
   id: string;
-  itemIds: string[];
+  /** Item IDs - can be array of IDs or "*" for all items */
+  itemIds: string[] | '*';
   [key: string]: any;
 }
 
@@ -51,6 +52,8 @@ interface FilterProviderProps {
   children: ReactNode;
   /** Categories array from layout (each with id and itemIds) */
   categories: Category[];
+  /** All item IDs from layout (for wildcard "*" support) */
+  allItemIds?: string[];
   /** Initial active category ID (defaults to first category) */
   defaultCategoryId?: string;
 }
@@ -58,10 +61,12 @@ interface FilterProviderProps {
 /**
  * FilterProvider wraps layouts that need category-based filtering
  * Provides state management for active category and filtered item IDs
+ * Supports wildcard "*" in itemIds to mean "all items"
  */
 export const FilterProvider: React.FC<FilterProviderProps> = ({
   children,
   categories,
+  allItemIds = [],
   defaultCategoryId
 }) => {
   // Default to first category if not specified
@@ -69,10 +74,19 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({
   const [activeCategoryId, setActiveCategoryId] = useState<string>(initialCategoryId);
 
   // Compute filtered item IDs based on active category
+  // Supports wildcard "*" to mean all items
   const filteredItemIds = useMemo(() => {
     const activeCategory = categories.find(c => c.id === activeCategoryId);
-    return activeCategory?.itemIds || [];
-  }, [categories, activeCategoryId]);
+    if (!activeCategory) return [];
+    
+    // Check for wildcard - either "*" string or array with "*"
+    const itemIds = activeCategory.itemIds;
+    if (itemIds === '*' || (Array.isArray(itemIds) && itemIds.length === 1 && itemIds[0] === '*')) {
+      return allItemIds;
+    }
+    
+    return itemIds || [];
+  }, [categories, activeCategoryId, allItemIds]);
 
   const value = useMemo<FilterContextValue>(() => ({
     activeCategoryId,

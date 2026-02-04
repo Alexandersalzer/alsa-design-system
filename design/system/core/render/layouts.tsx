@@ -269,7 +269,7 @@ const renderFilterLayout = (
   });
 
   return (
-    <FilterProvider categories={categories}>
+    <FilterProvider categories={categories} allItemIds={allItemIds}>
       <ParentLayout {...layoutProps}>
         {renderedChildren}
       </ParentLayout>
