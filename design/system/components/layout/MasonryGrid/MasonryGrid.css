@@ -61,34 +61,39 @@
   }
 }
 
-/* Direct children of masonry grid */
-.masonry-grid > * {
+/* Apply spacing and box constraints to actual rendered cards (grandchildren)
+   Wrappers have display:contents so they don't generate boxes - target their children instead */
+.masonry-grid > * > * {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+
   break-inside: avoid;
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
+
   margin-bottom: var(--foundation-space-5); /* Default: lg */
-  display: inline-block;
-  width: 100%;
+  overflow: clip; /* Prevent items from bleeding into adjacent columns */
 }
 
-/* Gap variants for direct children */
-.masonry-grid--gap-xs > * {
+/* Gap variants for actual rendered cards */
+.masonry-grid--gap-xs > * > * {
   margin-bottom: var(--foundation-space-2);
 }
 
-.masonry-grid--gap-sm > * {
+.masonry-grid--gap-sm > * > * {
   margin-bottom: var(--foundation-space-3);
 }
 
-.masonry-grid--gap-md > * {
+.masonry-grid--gap-md > * > * {
   margin-bottom: var(--foundation-space-4);
 }
 
-.masonry-grid--gap-lg > * {
+.masonry-grid--gap-lg > * > * {
   margin-bottom: var(--foundation-space-5);
 }
 
-.masonry-grid--gap-xl > * {
+.masonry-grid--gap-xl > * > * {
   margin-bottom: var(--foundation-space-6);
 }
 
