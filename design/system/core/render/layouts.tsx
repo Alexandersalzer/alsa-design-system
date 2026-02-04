@@ -371,9 +371,218 @@ const renderCategoryComponents = (
 };
 
 /**
+ * Extracts ${...} variable names from a template node recursively
+ * Used to determine if a template should iterate categories or items
+ */
+const extractTemplateVariables = (template: any): string[] => {
+  const vars: string[] = [];
+  
+  const traverse = (node: any) => {
+    if (!node) return;
+    
+    // Check component reference like { "component": "${label}" }
+    if (node.component && typeof node.component === 'string') {
+      const match = node.component.match(/\$\{(\w+)\}/);
+      if (match) vars.push(match[1]);
+    }
+    
+    // Recurse into children array
+    if (Array.isArray(node.children)) {
+      node.children.forEach(traverse);
+    }
+    
+    // Recurse into nested template
+    if (node.template?.children) {
+      node.template.children.forEach(traverse);
+    }
+  };
+  
+  if (template?.children) {
+    template.children.forEach(traverse);
+  }
+  
+  return [...new Set(vars)];
+};
+
+/**
+ * Checks if template variables match category components
+ */
+const templateMatchesCategories = (
+  templateVars: string[],
+  categories: any[],
+  items: any[]
+): boolean => {
+  if (!categories?.length || !templateVars.length) return false;
+  
+  const firstCategory = categories[0];
+  const firstItem = items?.[0];
+  
+  // Get component keys from category and item
+  const categoryKeys = firstCategory?.components ? Object.keys(firstCategory.components) : [];
+  const itemKeys = firstItem?.components ? Object.keys(firstItem.components) : [];
+  
+  // Check if any template var matches category components (exact or partial match)
+  const matchesCategory = templateVars.some(v => 
+    categoryKeys.some(k => k === v || k.startsWith(v + '_') || k.startsWith(v))
+  );
+  const matchesItem = templateVars.some(v => 
+    itemKeys.some(k => k === v || k.startsWith(v + '_') || k.startsWith(v))
+  );
+  
+  // If matches category but NOT item, it's a category template
+  // If matches both or only item, default to item iteration
+  return matchesCategory && !matchesItem;
+};
+
+/**
+ * Renders a node that iterates over categories (e.g., filter tabs)
+ * Each category is rendered using the template
+ */
+const renderCategoryIterationNode = (
+  node: Record<string, any>,
+  categories: any[],
+  layout: Record<string, any>,
+  AnimationComponent: React.ComponentType<any> | null,
+  animationSettings: Record<string, any>,
+  sectionKey?: string,
+  patternKey?: string
+): React.ReactElement | null => {
+  const { template, ...nodeWithoutTemplate } = node;
+  
+  const renderedCategories = categories.map((category, index) => {
+    const usedComponents = new Set<string>();
+    const categoryContext = {
+      index,
+      id: category.id,
+      ...category
+    };
+    
+    // Render the template children with category components
+    const content = template.children?.map((child: any, childIndex: number) => (
+      <React.Fragment key={childIndex}>
+        {renderTemplateNode(
+          child,
+          category.components || {},
+          categoryContext,
+          usedComponents,
+          sectionKey,
+          patternKey
+        )}
+      </React.Fragment>
+    ));
+    
+    return <React.Fragment key={category.id}>{content}</React.Fragment>;
+  });
+  
+  // Wrap in the layout node (e.g., hstack for tabs)
+  if (isLayoutNode(node)) {
+    const { layoutType, layoutProps } = parseLayoutNode(node);
+    const LayoutComponent = componentRegistry[layoutType];
+    if (!LayoutComponent) {
+      console.warn(`Layout type "${layoutType}" not found in registry`);
+      return null;
+    }
+    
+    return (
+      <LayoutComponent {...layoutProps}>
+        {renderedCategories}
+      </LayoutComponent>
+    );
+  }
+  
+  return <>{renderedCategories}</>;
+};
+
+/**
+ * Renders a node that iterates over items (e.g., portfolio grid)
+ * Items are looked up from layout.items[] using itemIds
+ */
+const renderItemIterationNode = (
+  node: Record<string, any>,
+  itemIds: string[],
+  layout: Record<string, any>,
+  AnimationComponent: React.ComponentType<any> | null,
+  animationSettings: Record<string, any>,
+  sectionKey?: string,
+  patternKey?: string,
+  globalItemIndexOffset: number = 0
+): React.ReactElement | null => {
+  const { template, ...nodeWithoutTemplate } = node;
+  
+  const renderedItems = itemIds.map((itemId, localIndex) => {
+    const item = findLayoutItem(layout, itemId);
+    if (!item) {
+      console.warn(`Item "${itemId}" not found in layout items`);
+      return null;
+    }
+    
+    const globalIndex = globalItemIndexOffset + localIndex;
+    const { components: _, ...itemProps } = item;
+    const itemContext = {
+      index: globalIndex,
+      localIndex,
+      id: itemId,
+      ...itemProps
+    };
+    
+    const usedComponents = new Set<string>();
+    
+    // Render the template children with item components
+    const content = template.children?.map((child: any, childIndex: number) => (
+      <React.Fragment key={childIndex}>
+        {renderTemplateNode(
+          child,
+          item.components || {},
+          itemContext,
+          usedComponents,
+          sectionKey,
+          patternKey
+        )}
+      </React.Fragment>
+    ));
+    
+    // Wrap with animation if configured
+    if (AnimationComponent) {
+      const staggerDelay = (animationSettings.stagger || 0) * globalIndex;
+      const baseDelay = animationSettings.delay || 0;
+      const itemAnimationProps = {
+        ...animationSettings,
+        delay: baseDelay + staggerDelay,
+      };
+      
+      return (
+        <AnimationComponent key={itemId} {...itemAnimationProps}>
+          {content}
+        </AnimationComponent>
+      );
+    }
+    
+    return <React.Fragment key={itemId}>{content}</React.Fragment>;
+  }).filter(Boolean);
+  
+  // Wrap in the layout node (e.g., grid for portfolio cards)
+  if (isLayoutNode(node)) {
+    const { layoutType, layoutProps } = parseLayoutNode(node);
+    const LayoutComponent = componentRegistry[layoutType];
+    if (!LayoutComponent) {
+      console.warn(`Layout type "${layoutType}" not found in registry`);
+      return null;
+    }
+    
+    return (
+      <LayoutComponent {...layoutProps}>
+        {renderedItems}
+      </LayoutComponent>
+    );
+  }
+  
+  return <>{renderedItems}</>;
+};
+
+/**
  * Renders layout with categories (nested structure)
- * NEW APPROACH: Uses unified template tree where items template can be nested anywhere
- * The presence of a 'template' property on a node signals: iterate items and render this template for each
+ * NEW APPROACH: Auto-detects whether each template child should iterate categories or items
+ * based on which ${...} variables are used and where they exist (category.components vs item.components)
  */
 const renderCategorizedLayout = (
   layout: Record<string, any>,
@@ -385,7 +594,6 @@ const renderCategorizedLayout = (
   sectionKey?: string,
   patternKey?: string
 ): React.ReactElement => {
-  const categoryOrder = getLayoutCategoryOrder(layout);
   const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
 
   // LEGACY SUPPORT: If old structure exists (categoryTemplate, itemsWrapper), use old logic
@@ -402,44 +610,82 @@ const renderCategorizedLayout = (
     );
   }
 
-  // NEW UNIFIED APPROACH: Render categories using template.children recursively
-  let globalItemIndex = 0;
+  const categories = layout.categories || [];
+  const allItems = layout.items || [];
+  
+  // Get default itemIds from first category (usually "all") for item iteration
+  const defaultCategory = categories[0];
+  const defaultItemIds = defaultCategory?.itemIds || allItems.map((i: any) => i.id);
 
-  const renderedCategories = categoryOrder.map((categoryId) => {
-    const category = findLayoutCategory(layout, categoryId);
-    if (!category) {
-      console.warn(`Category "${categoryId}" not found in layout categories`);
-      return null;
+  // NEW UNIFIED APPROACH: Render each template child independently
+  // Auto-detect whether to iterate categories or items based on template variables
+  const renderedChildren = template.children?.map((child: any, index: number) => {
+    // Check if this child has a template (iteration point)
+    if (child.template) {
+      const templateVars = extractTemplateVariables(child);
+      
+      // Determine data source based on template variables
+      const isCategories = templateMatchesCategories(templateVars, categories, allItems);
+      
+      if (isCategories) {
+        // CATEGORY ITERATION: Render template for each category (e.g., tabs)
+        return (
+          <React.Fragment key={index}>
+            {renderCategoryIterationNode(
+              child,
+              categories,
+              layout,
+              AnimationComponent,
+              animationSettings,
+              sectionKey,
+              patternKey
+            )}
+          </React.Fragment>
+        );
+      } else {
+        // ITEM ITERATION: Render template for each item (e.g., portfolio cards)
+        return (
+          <React.Fragment key={index}>
+            {renderItemIterationNode(
+              child,
+              defaultItemIds,
+              layout,
+              AnimationComponent,
+              animationSettings,
+              sectionKey,
+              patternKey,
+              0
+            )}
+          </React.Fragment>
+        );
+      }
     }
-
-    const itemOrder = getCategoryItemOrder(category);
-
-    // Render the category template for this category
-    // Pass layout so nested templates can lookup items by ID
-    const categoryContent = template.children?.map((child: any, index: number) => (
-      <React.Fragment key={index}>
-        {renderCategoryTemplateNode(
-          child,
-          category.components || {},
-          layout,  // Pass entire layout for item lookup
-          itemOrder,
-          AnimationComponent,
-          animationSettings,
-          sectionKey,
-          patternKey,
-          globalItemIndex
-        )}
-      </React.Fragment>
-    ));
-
-    globalItemIndex += itemOrder.length;
-
-    return <React.Fragment key={categoryId}>{categoryContent}</React.Fragment>;
+    
+    // No template - render as static node (e.g., static header)
+    if (isLayoutNode(child)) {
+      const { layoutType, layoutProps: childLayoutProps, children } = parseLayoutNode(child);
+      const LayoutComponent = componentRegistry[layoutType];
+      if (!LayoutComponent) return null;
+      
+      const renderedStaticChildren = children.map((c: any, i: number) => (
+        <React.Fragment key={i}>
+          {renderTemplateNode(c, {}, {}, new Set(), sectionKey, patternKey)}
+        </React.Fragment>
+      ));
+      
+      return (
+        <LayoutComponent key={index} {...childLayoutProps}>
+          {renderedStaticChildren}
+        </LayoutComponent>
+      );
+    }
+    
+    return null;
   }).filter(Boolean);
 
   return (
     <ParentLayout {...layoutProps}>
-      {renderedCategories}
+      {renderedChildren}
     </ParentLayout>
   );
 };
