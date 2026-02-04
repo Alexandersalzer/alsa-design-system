@@ -30,16 +30,17 @@ export function useAction(config: ActionConfig) {
     // Handle navigation action (client-side only, no API call)
     if (config.type === 'navigation') {
       const navConfig = config as NavigationActionConfig;
-      const href = navConfig.settings.href;
+      const { href, pageId } = navConfig.settings;
       
-      if (!href) {
-        console.error('[Action] Navigation action missing href');
+      // Resolve href from pageId or use direct href
+      const localeAwareHref = buildHref(href, pageId);
+      
+      if (!localeAwareHref) {
+        console.error('[Action] Navigation action missing href or pageId');
         setLoading(false);
-        setError('Navigation href missing');
-        return { success: false, error: 'Navigation href missing' };
+        setError('Navigation target missing');
+        return { success: false, error: 'Navigation target missing' };
       }
-
-      const localeAwareHref = buildHref(href);
       
       // Scroll to top if specified
       if (navConfig.settings.scrollToTop !== false) {

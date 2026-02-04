@@ -76,13 +76,23 @@ export const Button = forwardRef<
     
     const getEffectiveHref = () => {
       if (action?.type === 'navigation') {
-        return (action as NavigationActionConfig).settings.href;
+        const navSettings = (action as NavigationActionConfig).settings;
+        // pageId takes precedence, buildHref will resolve it
+        return navSettings.pageId || navSettings.href;
       }
       return href;
     };
     
+    const getPageId = () => {
+      if (action?.type === 'navigation') {
+        return (action as NavigationActionConfig).settings.pageId;
+      }
+      return undefined;
+    };
+    
     const effectiveHref = getEffectiveHref();
-    const localeAwareHref = effectiveHref ? buildHref(effectiveHref) : undefined;
+    const pageId = getPageId();
+    const localeAwareHref = (effectiveHref || pageId) ? buildHref(effectiveHref, pageId) : undefined;
     
     const effectiveTarget = 
       (action?.type === 'navigation' && (action as NavigationActionConfig).settings.openInNewTab) 
