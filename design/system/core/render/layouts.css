@@ -55,6 +55,11 @@
     width: auto !important;
     height: auto !important;
   }
+
+  /* Hide show-more button when all items are visible */
+  .show-more-button--hide-lg {
+    display: none !important;
+  }
 }
 
 /* xl breakpoint (1280px+): Show items if xl limit is higher */

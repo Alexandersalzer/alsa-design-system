@@ -117,16 +117,25 @@
   min-width: 0; /* Prevent overflow issues */
 }
 
-/* Sticky grid item */
+/* Sticky grid item - only applies top/z-index when actually sticky (desktop) */
 .grid-item--sticky {
-  position: sticky;
   align-self: start;
 }
 
-/* Disable sticky on mobile - becomes relative positioning */
+/* Desktop: Enable sticky positioning with top/z-index */
+@media (min-width: 768px) {
+  .grid-item--sticky {
+    position: sticky;
+    top: var(--sticky-top, 100px);
+    z-index: var(--sticky-z-index, 10);
+  }
+}
+
+/* Mobile: Use relative positioning (no top offset) */
 @media (max-width: 767px) {
   .grid-item--sticky {
     position: relative;
+    /* top and z-index are not set, so no offset */
   }
 }
 

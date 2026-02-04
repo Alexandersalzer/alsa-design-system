@@ -298,10 +298,13 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
   if (colStart) inlineStyles.gridColumnStart = colStart;
   if (rowStart) inlineStyles.gridRowStart = rowStart;
 
-  // Handle sticky positioning (inline styles for desktop, CSS handles mobile override)
+  // Handle sticky positioning
+  // Don't set top/zIndex as inline styles - let CSS handle it with media queries
+  // This prevents top offset from applying when position becomes relative on mobile
   if (sticky) {
-    inlineStyles.top = typeof top === 'number' ? `${top}px` : top;
-    inlineStyles.zIndex = zIndex;
+    // Store sticky config in CSS variables for responsive control
+    inlineStyles['--sticky-top'] = typeof top === 'number' ? `${top}px` : top;
+    inlineStyles['--sticky-z-index'] = zIndex;
   }
 
   const classes = buildClasses(

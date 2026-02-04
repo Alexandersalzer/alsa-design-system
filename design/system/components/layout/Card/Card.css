@@ -312,11 +312,15 @@
   .card {
     padding: var(--foundation-space-4);
   }
-  
+
+  .card--padding-none {
+    padding: 0;
+  }
+
   .card--padding-sm {
     padding: var(--foundation-space-3);
   }
-  
+
   .card--padding-lg {
     padding: var(--foundation-space-6);
   }
