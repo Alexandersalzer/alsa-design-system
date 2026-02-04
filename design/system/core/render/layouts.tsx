@@ -383,6 +383,12 @@ const renderFilterTemplateNode = (
         // Resolve ${...} placeholders in child props with category context
         const { children: childChildren, ...childProps } = child;
         const resolvedProps = resolvePropsWithContext(childProps, categoryContext);
+        
+        // Auto-inject categoryId for Tab components in filter context
+        if (resolvedProps.type === 'tab' && !resolvedProps.categoryId) {
+          resolvedProps.categoryId = categoryId;
+        }
+        
         const resolvedChild = { ...resolvedProps, children: childChildren };
         
         return (
