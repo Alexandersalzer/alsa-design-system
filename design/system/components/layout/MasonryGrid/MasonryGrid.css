@@ -2,92 +2,12 @@
    MasonryGrid CSS - Column-based Masonry Layout
    =============================================== */
 
-/* ===== BASE GRID ===== */
 .masonry-grid {
-  width: 100%;
   column-gap: var(--foundation-space-5); /* Default: lg */
+  width: 100%;
 }
 
-/* ===== COLUMN WIDTH VARIANTS ===== */
-
-/* Base (mobile) - explicit data-attribute rules */
-.masonry-grid[data-columns-base="1"] {
-  column-width: 100%;
-}
-
-.masonry-grid[data-columns-base="2"] {
-  column-width: 28rem;
-}
-
-.masonry-grid[data-columns-base="3"] {
-  column-width: 18rem;
-}
-
-/* Small screens (sm) */
-@media (min-width: 640px) {
-  .masonry-grid[data-columns-sm="1"] {
-    column-width: 100%;
-  }
-
-  .masonry-grid[data-columns-sm="2"] {
-    column-width: 28rem;
-  }
-
-  .masonry-grid[data-columns-sm="3"] {
-    column-width: 18rem;
-  }
-}
-
-/* Medium screens (md) */
-@media (min-width: 768px) {
-  .masonry-grid[data-columns-md="1"] {
-    column-width: 100%;
-  }
-
-  .masonry-grid[data-columns-md="2"] {
-    column-width: 28rem;
-  }
-
-  .masonry-grid[data-columns-md="3"] {
-    column-width: 18rem;
-  }
-}
-
-/* Large screens (lg) */
-@media (min-width: 1024px) {
-  .masonry-grid[data-columns-lg="1"] {
-    column-width: 100%;
-  }
-
-  .masonry-grid[data-columns-lg="2"] {
-    column-width: 28rem;
-  }
-
-  .masonry-grid[data-columns-lg="3"] {
-    column-width: 18rem;
-  }
-}
-
-/* Extra large screens (xl) */
-@media (min-width: 1280px) {
-  .masonry-grid[data-columns-xl="1"] {
-    column-width: 100%;
-  }
-
-  .masonry-grid[data-columns-xl="2"] {
-    column-width: 28rem;
-  }
-
-  .masonry-grid[data-columns-xl="3"] {
-    column-width: 18rem;
-  }
-
-  .masonry-grid[data-columns-xl="4"] {
-    column-width: 16rem;
-  }
-}
-
-/* ===== GAP VARIANTS ===== */
+/* Gap variants for column-gap */
 .masonry-grid--gap-xs {
   column-gap: var(--foundation-space-2);
 }
@@ -108,74 +28,75 @@
   column-gap: var(--foundation-space-6);
 }
 
-/* ===== DIRECT CHILDREN (MASONRY ITEMS) ===== */
+/* Base mobile - 1 column */
+.masonry-grid {
+  column-count: var(--masonry-columns-base, 1);
+}
+
+/* Small tablets */
+@media (min-width: 640px) {
+  .masonry-grid {
+    column-count: var(--masonry-columns-sm, var(--masonry-columns-base, 1));
+  }
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .masonry-grid {
+    column-count: var(--masonry-columns-md, 2);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .masonry-grid {
+    column-count: var(--masonry-columns-lg, 3);
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1280px) {
+  .masonry-grid {
+    column-count: var(--masonry-columns-xl, var(--masonry-columns-lg, 3));
+  }
+}
+
+/* Direct children of masonry grid */
 .masonry-grid > * {
   break-inside: avoid;
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
-  display: block; /* Changed from inline-block to prevent column bleeding */
+  margin-bottom: var(--foundation-space-5); /* Default: lg */
+  display: inline-block;
   width: 100%;
-  box-sizing: border-box;
-  margin-bottom: var(--foundation-space-5) !important; /* Default: lg */
 }
 
-/* Apply box-sizing to nested cards to prevent overflow */
-.masonry-grid > * > *,
-.masonry-grid > * > * > * {
-  box-sizing: border-box;
-}
-
-/* Gap variants for direct children margin-bottom */
+/* Gap variants for direct children */
 .masonry-grid--gap-xs > * {
-  margin-bottom: var(--foundation-space-2) !important;
+  margin-bottom: var(--foundation-space-2);
 }
 
 .masonry-grid--gap-sm > * {
-  margin-bottom: var(--foundation-space-3) !important;
+  margin-bottom: var(--foundation-space-3);
 }
 
 .masonry-grid--gap-md > * {
-  margin-bottom: var(--foundation-space-4) !important;
+  margin-bottom: var(--foundation-space-4);
 }
 
 .masonry-grid--gap-lg > * {
-  margin-bottom: var(--foundation-space-5) !important;
+  margin-bottom: var(--foundation-space-5);
 }
 
 .masonry-grid--gap-xl > * {
-  margin-bottom: var(--foundation-space-6) !important;
+  margin-bottom: var(--foundation-space-6);
 }
 
-/* ===== MASONRY GRID WRAPPER ===== */
-.masonry-grid-wrapper {
+/* Legacy masonry-item support (if used directly) */
+.masonry-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
   width: 100%;
-}
-
-/* ===== SHOW MORE BUTTON ===== */
-.masonry-grid-show-more {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--foundation-space-6);
-}
-
-.masonry-grid-show-more-button {
-  background: var(--surface-card);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-button);
-  padding: var(--foundation-space-2) var(--foundation-space-4);
-  font-family: var(--typography-body-font-family);
-  font-size: var(--typography-body-sm-size);
-  font-weight: var(--typography-body-sm-weight);
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
-}
-
-.masonry-grid-show-more-button:hover {
-  background: var(--surface-hover);
-  border-color: var(--border-emphasis);
-}
-
-.masonry-grid-show-more-button:active {
-  background: var(--surface-active);
+  display: inline-block;
 }
