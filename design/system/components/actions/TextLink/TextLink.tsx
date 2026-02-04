@@ -45,17 +45,31 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   
   const { buildHref } = useHref();
   
-  // Extract href and pageId from action or use direct href prop
+  // Extract href, pageId, and anchor from action or use direct href prop
   let finalHref = href;
   let pageId: string | undefined;
+  let anchor: string | undefined;
+  let scrollToTop = true; // Default to scroll to top
+  let smoothScroll = true; // Default to smooth scroll
   
   if (action && action.type === 'navigation') {
     finalHref = action.settings.href;
     pageId = action.settings.pageId;
+    anchor = action.settings.anchor;
+    scrollToTop = action.settings.scrollToTop !== false && !anchor; // Don't scroll to top if there's an anchor
+    smoothScroll = action.settings.smoothScroll !== false;
   }
   
-  // Build locale-aware href (pageId takes precedence if provided)
-  const localeAwareHref = (finalHref || pageId) ? buildHref(finalHref, pageId) : undefined;
+  // Build locale-aware href with optional anchor
+  const localeAwareHref = (finalHref || pageId) ? buildHref(finalHref, pageId, anchor) : undefined;
+  
+  // Handle click for scroll-to-top
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (scrollToTop && !anchor) {
+      // Let Next.js handle the navigation, but ensure scroll to top
+      window.scrollTo({ top: 0, behavior: smoothScroll ? 'smooth' : 'auto' });
+    }
+  };
   
   // Use content if provided, otherwise use children
   const displayContent = content || children;
@@ -146,6 +160,8 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : undefined}
         ref={ref}
+        onClick={handleClick}
+        scroll={scrollToTop}
         {...domProps}
       >
         {linkContent}

@@ -90,9 +90,17 @@ export const Button = forwardRef<
       return undefined;
     };
     
+    const getAnchor = () => {
+      if (action?.type === 'navigation') {
+        return (action as NavigationActionConfig).settings.anchor;
+      }
+      return undefined;
+    };
+    
     const effectiveHref = getEffectiveHref();
     const pageId = getPageId();
-    const localeAwareHref = (effectiveHref || pageId) ? buildHref(effectiveHref, pageId) : undefined;
+    const anchor = getAnchor();
+    const localeAwareHref = (effectiveHref || pageId) ? buildHref(effectiveHref, pageId, anchor) : undefined;
     
     const effectiveTarget = 
       (action?.type === 'navigation' && (action as NavigationActionConfig).settings.openInNewTab) 

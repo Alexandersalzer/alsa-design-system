@@ -30,10 +30,10 @@ export function useAction(config: ActionConfig) {
     // Handle navigation action (client-side only, no API call)
     if (config.type === 'navigation') {
       const navConfig = config as NavigationActionConfig;
-      const { href, pageId } = navConfig.settings;
+      const { href, pageId, anchor, smoothScroll } = navConfig.settings;
       
-      // Resolve href from pageId or use direct href
-      const localeAwareHref = buildHref(href, pageId);
+      // Resolve href from pageId or use direct href, with optional anchor
+      const localeAwareHref = buildHref(href, pageId, anchor);
       
       if (!localeAwareHref) {
         console.error('[Action] Navigation action missing href or pageId');
@@ -42,9 +42,9 @@ export function useAction(config: ActionConfig) {
         return { success: false, error: 'Navigation target missing' };
       }
       
-      // Scroll to top if specified
-      if (navConfig.settings.scrollToTop !== false) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Scroll to top if specified (and no anchor)
+      if (navConfig.settings.scrollToTop !== false && !anchor) {
+        window.scrollTo({ top: 0, behavior: smoothScroll !== false ? 'smooth' : 'auto' });
       }
 
       // Internal navigation (Next.js)

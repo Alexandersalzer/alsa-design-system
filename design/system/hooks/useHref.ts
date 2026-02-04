@@ -41,41 +41,49 @@ export function useHref() {
   };
 
   /**
-   * Build a locale-aware href from a given href or pageId
+   * Build a locale-aware href from a given href, pageId, and optional anchor
    * 
    * @param href - Original href (for external, anchor, or direct paths)
    * @param pageId - Page ID to resolve to locale-aware slug
+   * @param anchor - Optional anchor/hash to append (without #)
    * @returns Href with locale added if needed
    */
-  const buildHref = (href?: string, pageId?: string): string => {
+  const buildHref = (href?: string, pageId?: string, anchor?: string): string => {
+    let finalHref = '';
+
     // If pageId is provided, resolve it first
     if (pageId) {
       const resolvedSlug = resolvePageId(pageId);
       if (resolvedSlug) {
-        return `/${currentLocale}/${resolvedSlug}`;
+        finalHref = `/${currentLocale}/${resolvedSlug}`;
+      } else {
+        // Fallback: use pageId as slug (remove page_ prefix)
+        const fallbackSlug = pageId.replace(/^page_/, '');
+        console.warn(`Using fallback slug for pageId: ${pageId} -> ${fallbackSlug}`);
+        finalHref = `/${currentLocale}/${fallbackSlug}`;
       }
-      // Fallback: use pageId as slug (remove page_ prefix)
-      const fallbackSlug = pageId.replace(/^page_/, '');
-      console.warn(`Using fallback slug for pageId: ${pageId} -> ${fallbackSlug}`);
-      return `/${currentLocale}/${fallbackSlug}`;
+    } else if (href) {
+      // Handle href as before
+      if (href.startsWith('http') || 
+          href.startsWith('mailto:') || 
+          href.startsWith('tel:') ||
+          href.startsWith('#')) {
+        finalHref = href;
+      } else if (href.startsWith('/')) {
+        // Add locale for relative links
+        finalHref = `/${currentLocale}${href}`;
+      } else {
+        finalHref = href;
+      }
     }
 
-    // Handle href as before
-    if (!href || 
-        href.startsWith('http') || 
-        href.startsWith('mailto:') || 
-        href.startsWith('tel:') ||
-        href.startsWith('#')) {
-      return href || '';
+    // Append anchor if provided (and not already a hash link)
+    if (anchor && !finalHref.startsWith('#')) {
+      const cleanAnchor = anchor.startsWith('#') ? anchor.slice(1) : anchor;
+      finalHref = `${finalHref}#${cleanAnchor}`;
     }
 
-    // Add locale for relative links
-    if (href.startsWith('/')) {
-      return `/${currentLocale}${href}`;
-    }
-
-    // For other types of links, return as-is
-    return href;
+    return finalHref;
   };
 
   return { 
