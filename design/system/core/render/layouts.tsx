@@ -171,7 +171,24 @@ export const renderLayoutWithTemplate = (
   // Get animation component from registry (e.g., "fadeIn" -> animationComponents["fadeIn"])
   const AnimationComponent = animationType ? animationComponents[animationType] : null;
 
-  // Check if layout uses categories (nested structure)
+  // FILTER CONTEXT MODE: Special rendering for filter patterns
+  // - Parent layout renders ONCE (no iteration)
+  // - Child templates with `template` prop iterate over categories OR items
+  // - Grid with filterAware iterates items, other templates iterate categories
+  if (context === 'filter' && categories && categories.length > 0) {
+    return renderFilterLayout(
+      layout,
+      template,
+      ParentLayout,
+      mergedLayoutProps,
+      AnimationComponent,
+      animationSettings,
+      sectionKey,
+      patternKey
+    );
+  }
+
+  // Check if layout uses categories (nested structure) - LEGACY categorized layout
   if (hasCategories(layout)) {
     return renderCategorizedLayout(
       layout,
@@ -204,22 +221,171 @@ export const renderLayoutWithTemplate = (
     maxItems
   );
 
-  const layoutContent = (
+  return (
     <ParentLayout {...mergedLayoutProps}>
       {renderedItems}
     </ParentLayout>
   );
+};
 
-  // Wrap in FilterProvider when context === 'filter' and categories exist
-  if (context === 'filter' && categories && categories.length > 0) {
+/**
+ * FILTER LAYOUT MODE
+ * Renders layout with filter context where:
+ * - Parent layout renders ONCE (no iteration at parent level)
+ * - Template children with `template` prop iterate over categories (for tabs)
+ * - Template children with `filterAware` iterate over items (for grids)
+ * The system is smart: nodes with template auto-detect what to iterate based on filterAware
+ */
+const renderFilterLayout = (
+  layout: Record<string, any>,
+  template: Record<string, any>,
+  ParentLayout: React.ComponentType<any>,
+  layoutProps: Record<string, any>,
+  AnimationComponent: React.ComponentType<any> | null,
+  animationSettings: Record<string, any>,
+  sectionKey?: string,
+  patternKey?: string
+): React.ReactElement => {
+  const { categories, items } = layout;
+  const categoryOrder = getLayoutCategoryOrder(layout);
+  const allItemIds = items?.map((item: any) => item.id) || [];
+
+  // Render template children - each child determines its own iteration
+  const renderedChildren = template.children?.map((child: any, index: number) => {
     return (
-      <FilterProvider categories={categories}>
-        {layoutContent}
-      </FilterProvider>
+      <React.Fragment key={index}>
+        {renderFilterTemplateNode(
+          child,
+          layout,
+          categoryOrder,
+          allItemIds,
+          AnimationComponent,
+          animationSettings,
+          sectionKey,
+          patternKey
+        )}
+      </React.Fragment>
     );
+  });
+
+  return (
+    <FilterProvider categories={categories}>
+      <ParentLayout {...layoutProps}>
+        {renderedChildren}
+      </ParentLayout>
+    </FilterProvider>
+  );
+};
+
+/**
+ * Renders a template node in filter context
+ * Smart detection:
+ * - If node has `template` + `filterAware`: iterate over items
+ * - If node has `template` (no filterAware): iterate over categories
+ * - Otherwise: render as static node
+ */
+const renderFilterTemplateNode = (
+  node: Record<string, any>,
+  layout: Record<string, any>,
+  categoryOrder: string[],
+  allItemIds: string[],
+  AnimationComponent: React.ComponentType<any> | null,
+  animationSettings: Record<string, any>,
+  sectionKey?: string,
+  patternKey?: string
+): React.ReactElement | null => {
+  const { type, template, filterAware, children, ...nodeProps } = node;
+
+  // Get component from registry
+  const NodeComponent = componentRegistry[type];
+  if (!NodeComponent) {
+    console.warn(`Component type "${type}" not found in registry`);
+    return null;
   }
 
-  return layoutContent;
+  // CASE 1: Node has template + filterAware → iterate over ITEMS
+  if (template && filterAware) {
+    const renderedItems = allItemIds.map((itemId, index) => {
+      const item = findLayoutItem(layout, itemId);
+      if (!item) return null;
+
+      const { components: _, ...itemProps } = item;
+      const itemContext = { index, id: itemId, ...itemProps };
+      const usedComponents = new Set<string>();
+
+      const templateContent = template.children?.map((child: any, childIndex: number) => (
+        <React.Fragment key={childIndex}>
+          {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, itemId)}
+        </React.Fragment>
+      ));
+
+      // Wrap each item with data-item-key for filtering
+      const itemContent = (
+        <div key={itemId} data-item-key={itemId} style={{ display: 'contents' }}>
+          {templateContent}
+        </div>
+      );
+
+      // Apply animation if configured
+      if (AnimationComponent) {
+        const staggerDelay = (animationSettings.stagger || 0) * index;
+        const baseDelay = animationSettings.delay || 0;
+        return (
+          <AnimationComponent key={itemId} {...animationSettings} delay={baseDelay + staggerDelay}>
+            {itemContent}
+          </AnimationComponent>
+        );
+      }
+
+      return itemContent;
+    }).filter(Boolean);
+
+    return <NodeComponent {...nodeProps} filterAware={filterAware}>{renderedItems}</NodeComponent>;
+  }
+
+  // CASE 2: Node has template (no filterAware) → iterate over CATEGORIES
+  if (template) {
+    const renderedCategories = categoryOrder.map((categoryId, index) => {
+      const category = findLayoutCategory(layout, categoryId);
+      if (!category) return null;
+
+      const categoryContext = { index, id: categoryId, ...category };
+      const usedComponents = new Set<string>();
+
+      const templateContent = template.children?.map((child: any, childIndex: number) => (
+        <React.Fragment key={childIndex}>
+          {renderTemplateNode(child, category.components || {}, categoryContext, usedComponents, sectionKey, patternKey)}
+        </React.Fragment>
+      ));
+
+      return <React.Fragment key={categoryId}>{templateContent}</React.Fragment>;
+    }).filter(Boolean);
+
+    return <NodeComponent {...nodeProps}>{renderedCategories}</NodeComponent>;
+  }
+
+  // CASE 3: Static node with children - recursively process
+  if (children) {
+    const renderedChildren = children.map((child: any, index: number) => (
+      <React.Fragment key={index}>
+        {renderFilterTemplateNode(
+          child,
+          layout,
+          categoryOrder,
+          allItemIds,
+          AnimationComponent,
+          animationSettings,
+          sectionKey,
+          patternKey
+        )}
+      </React.Fragment>
+    ));
+
+    return <NodeComponent {...nodeProps}>{renderedChildren}</NodeComponent>;
+  }
+
+  // CASE 4: Leaf node - render as-is
+  return <NodeComponent {...nodeProps} />;
 };
 
 /**
