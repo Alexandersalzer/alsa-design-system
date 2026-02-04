@@ -15,7 +15,8 @@
 // src/design-system/components/layout/utilities/grid/Grid.tsx
 // GRID COMPONENT - Responsive grid layouts with Chakra-like API
 // ===============================================
-import React, { ReactNode, CSSProperties, createContext, useContext } from 'react';
+import React, { ReactNode, CSSProperties, createContext, useContext, isValidElement } from 'react';
+import { useFilterContext } from '../../../core/context/FilterContext';
 
 // ===== TYPE DEFINITIONS =====
 export interface ResponsiveValue {
@@ -67,6 +68,11 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   alignItems?: 'start' | 'center' | 'end' | 'stretch';
   justifyItems?: 'start' | 'center' | 'end' | 'stretch';
+  /**
+   * When true and within FilterProvider, filters children by data-item-key
+   * matching the active category's itemIds
+   */
+  filterAware?: boolean;
 }
 
 export interface GridItemProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -140,8 +146,32 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   style,
   columns,
   colSpan,
+  filterAware,
   ...props
 }, ref) => {
+  // =====================================================
+  // FILTER CONTEXT - Filter children when filterAware
+  // =====================================================
+  const filterCtx = useFilterContext();
+  
+  // Filter children based on FilterContext when filterAware is true
+  let filteredChildren = children;
+  if (filterAware && filterCtx && filterCtx.filteredItemIds.length > 0) {
+    filteredChildren = React.Children.toArray(children).filter(child => {
+      if (!isValidElement(child)) return false;
+      
+      // Check for data-item-key on the child element
+      const itemKey = (child.props as any)?.['data-item-key'];
+      if (itemKey) {
+        return filterCtx.filteredItemIds.includes(itemKey);
+      }
+      
+      // Also check nested children (for form/div wrappers with display:contents)
+      // The wrapper div has data-item-key attribute
+      return true; // Keep if no data-item-key (legacy support)
+    });
+  }
+
   // =====================================================
   // MODE DETECTION - Priority: columns > cardDensity
   // =====================================================
@@ -233,7 +263,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(({
   return (
     <GridContext.Provider value={{ columns: contextColumns }}>
       <div ref={ref} className={classes} style={inlineStyles} {...props}>
-        {children}
+        {filteredChildren}
       </div>
     </GridContext.Provider>
   );

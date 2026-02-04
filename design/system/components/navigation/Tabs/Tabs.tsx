@@ -9,6 +9,7 @@ import React, { ReactNode, useState, useRef, useEffect, useCallback } from 'reac
 import Link from 'next/link';
 import { Label, TypographyWeight, TypographyColor } from '../../Typography';
 import { cn } from '../../../utils/cn';
+import { useFilterContext } from '../../../core/context/FilterContext';
 import './Tabs.css'
 
 // ===============================================
@@ -46,6 +47,8 @@ interface BaseTabProps {
   role?: string;
   'aria-selected'?: boolean;
   style?: React.CSSProperties;
+  /** Category ID for filter mode - when within FilterProvider, auto-connects isActive/onClick */
+  categoryId?: string;
 }
 
 interface LinkTabProps extends BaseTabProps {
@@ -55,7 +58,7 @@ interface LinkTabProps extends BaseTabProps {
 
 interface ButtonTabProps extends BaseTabProps {
   href?: never;
-  onClick: () => void;
+  onClick?: () => void; // Optional when using categoryId with FilterContext
 }
 
 export type TabProps = LinkTabProps | ButtonTabProps;
@@ -128,13 +131,13 @@ export const Tab: React.FC<TabProps> = ({
   variant = 'line',
   size = 'md',
   isAccent = true,
-  isActive = false,
+  isActive: isActiveProp = false,
   isDisabled = false,
   icon,
   badge,
   className = '',
   href,
-  onClick,
+  onClick: onClickProp,
   fontWeight,
   useHeadingFont = variant === 'navigation',
   tabIndex,
@@ -142,8 +145,22 @@ export const Tab: React.FC<TabProps> = ({
   role,
   'aria-selected': ariaSelected,
   style,
+  categoryId,
   ...rest
 }) => {
+  // Check for FilterContext - if present and categoryId provided, auto-connect
+  const filterCtx = useFilterContext();
+  
+  // Resolve isActive: use filter context if available and categoryId matches
+  const isActive = filterCtx && categoryId 
+    ? filterCtx.activeCategoryId === categoryId 
+    : isActiveProp;
+  
+  // Resolve onClick: use filter context setter if available and categoryId provided
+  const onClick = filterCtx && categoryId 
+    ? () => filterCtx.setActiveCategoryId(categoryId)
+    : onClickProp;
+
   const baseTypographyProps = createTabTypographyProps(variant, size, isActive, isDisabled, isAccent);
 
   const getWeight = (): TypographyWeight => {
