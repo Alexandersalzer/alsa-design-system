@@ -1,5 +1,5 @@
 /* ===============================================
-   MasonryGrid CSS - Column-based Masonry Layout
+   MasonryGrid CSS - Column-based Masonry Layout.
    =============================================== */
 
 .masonry-grid {
@@ -99,4 +99,38 @@
   -webkit-column-break-inside: avoid;
   width: 100%;
   display: inline-block;
+}
+
+/* ===== MASONRY GRID WRAPPER ===== */
+.masonry-grid-wrapper {
+  width: 100%;
+}
+
+/* ===== SHOW MORE BUTTON ===== */
+.masonry-grid-show-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--foundation-space-6);
+}
+
+.masonry-grid-show-more-button {
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-button);
+  padding: var(--foundation-space-2) var(--foundation-space-4);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-sm-size);
+  font-weight: var(--typography-body-sm-weight);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-standard);
+}
+
+.masonry-grid-show-more-button:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-emphasis);
+}
+
+.masonry-grid-show-more-button:active {
+  background: var(--surface-active);
 }
