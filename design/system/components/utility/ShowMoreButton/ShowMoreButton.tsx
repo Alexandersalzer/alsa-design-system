@@ -29,20 +29,28 @@ export const ShowMoreButton: React.FC<ShowMoreButtonProps> = ({
     if (expanded) {
       // Collapse - re-apply hide classes to items that were originally hidden
       hiddenItemsRef.current.forEach((element) => {
-        // Determine which hide class to apply based on screen size
-        if (window.innerWidth < 768) {
-          if (!element.classList.contains('hide-on-base')) {
-            element.classList.add('hide-on-base');
-          }
-        } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
-          if (!element.classList.contains('hide-on-md')) {
-            element.classList.add('hide-on-md');
-          }
+        // Check the element's dataset to see which classes it originally had
+        const originalClasses = element.getAttribute('data-original-hide-classes');
+        if (originalClasses) {
+          // Re-add the original hide classes
+          originalClasses.split(' ').forEach(cls => {
+            if (cls) element.classList.add(cls);
+          });
         }
       });
     } else {
-      // Expand - remove hide classes from stored items
+      // Expand - store original hide classes and remove them
       hiddenItemsRef.current.forEach((element) => {
+        // Store the original hide classes in dataset before removing
+        const hideClasses: string[] = [];
+        if (element.classList.contains('hide-on-base')) hideClasses.push('hide-on-base');
+        if (element.classList.contains('hide-on-md')) hideClasses.push('hide-on-md');
+
+        if (hideClasses.length > 0) {
+          element.setAttribute('data-original-hide-classes', hideClasses.join(' '));
+        }
+
+        // Remove the hide classes
         element.classList.remove('hide-on-base', 'hide-on-md');
       });
     }
