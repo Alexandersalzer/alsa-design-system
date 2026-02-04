@@ -205,17 +205,13 @@ export const getLayoutCategoryOrder = (layout: Record<string, any>): string[] =>
 
 /**
  * Gets item order within a specific category
- * Priority: category.itemOrder > category.items array order
+ * Uses itemIds array (references to items in layout.items[])
  */
 export const getCategoryItemOrder = (category: Record<string, any>): string[] => {
-  const { itemOrder, items } = category;
+  const { itemIds } = category;
   
-  if (itemOrder && Array.isArray(itemOrder)) {
-    return itemOrder;
-  }
-  
-  if (items && Array.isArray(items)) {
-    return items.map(item => item.id).filter(Boolean);
+  if (itemIds && Array.isArray(itemIds)) {
+    return itemIds;
   }
   
   return [];
@@ -254,19 +250,21 @@ export const findLayoutCategory = (
 };
 
 /**
- * Finds item by ID within a category
+ * @deprecated Categories now use itemIds referencing layout.items[]
+ * Use findLayoutItem(layout, itemId) instead
  */
 export const findCategoryItem = (
   category: Record<string, any>,
   itemId: string
 ): Record<string, any> | undefined => {
+  // Legacy support: if category still has nested items
   const { items } = category;
   
-  if (!items || !Array.isArray(items)) {
-    return undefined;
+  if (items && Array.isArray(items)) {
+    return items.find(item => item.id === itemId);
   }
   
-  return items.find(item => item.id === itemId);
+  return undefined;
 };
 
 /**

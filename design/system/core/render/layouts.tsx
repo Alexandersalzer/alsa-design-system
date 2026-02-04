@@ -415,13 +415,13 @@ const renderCategorizedLayout = (
     const itemOrder = getCategoryItemOrder(category);
 
     // Render the category template for this category
-    // Pass category items so nested templates can iterate them
+    // Pass layout so nested templates can lookup items by ID
     const categoryContent = template.children?.map((child: any, index: number) => (
       <React.Fragment key={index}>
         {renderCategoryTemplateNode(
           child,
           category.components || {},
-          category.items || [],
+          layout,  // Pass entire layout for item lookup
           itemOrder,
           AnimationComponent,
           animationSettings,
@@ -472,10 +472,10 @@ const renderCategorizedLayoutLegacy = (
 
     const itemOrder = getCategoryItemOrder(category);
 
-    // Render items within this category
+    // Render items within this category - lookup from layout.items[]
     const renderedItems = renderItems(
       itemOrder,
-      (itemId) => findCategoryItem(category, itemId),
+      (itemId) => findLayoutItem(layout, itemId),
       template,
       AnimationComponent,
       animationSettings,
@@ -544,7 +544,7 @@ const renderCategorizedLayoutLegacy = (
 const renderCategoryTemplateNode = (
   node: Record<string, any>,
   categoryComponents: Record<string, ComponentNode>,
-  categoryItems: any[],
+  layout: Record<string, any>,  // Full layout for item lookup
   itemOrder: string[],
   AnimationComponent: React.ComponentType<any> | null,
   animationSettings: Record<string, any>,
@@ -555,9 +555,10 @@ const renderCategoryTemplateNode = (
   // If node has 'template' property, this is where we iterate items
   if (node.template) {
     const renderedItems = itemOrder.map((itemId, localIndex) => {
-      const item = categoryItems.find(i => i.id === itemId);
+      // Lookup item from layout.items[] by ID
+      const item = findLayoutItem(layout, itemId);
       if (!item) {
-        console.warn(`Item "${itemId}" not found in category items`);
+        console.warn(`Item "${itemId}" not found in layout items`);
         return null;
       }
 

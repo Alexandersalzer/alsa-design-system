@@ -35,14 +35,16 @@ export interface LayoutItem {
 }
 
 /**
- * Category for grouping items (nested scenarios)
- * Allows organizing items into groups with their own ordering
+ * Category for grouping items
+ * Uses flat structure: category references items by ID from layout.items[]
+ * This supports both 1:N and M:N relationships (same item can be in multiple categories)
  */
 export interface LayoutCategory {
   id: string;
-  items: LayoutItem[];
-  /** Optional: override items array order within this category */
-  itemOrder?: string[];
+  /** Category's own components (e.g., heading, body for sticky sidebar, or label for filter tabs) */
+  components?: Record<string, ComponentNode>;
+  /** References to item IDs in layout.items[] - order matters */
+  itemIds: string[];
 }
 
 /**
