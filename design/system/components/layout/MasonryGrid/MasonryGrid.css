@@ -5,51 +5,64 @@
 /* ===== BASE GRID ===== */
 .masonry-grid {
   width: 100%;
-  column-fill: balance;
-  break-inside: avoid;
   column-gap: var(--foundation-space-5); /* Default: lg */
 }
 
 /* ===== COLUMN WIDTH VARIANTS ===== */
-/* Base (mobile): 1 column */
-.masonry-grid {
+
+/* Base (mobile) - explicit data-attribute rules */
+.masonry-grid[data-columns-base="1"] {
   column-width: 100%;
 }
 
-/* Small screens (sm): 1 or 2 columns based on config */
+.masonry-grid[data-columns-base="2"] {
+  column-width: 28rem;
+}
+
+.masonry-grid[data-columns-base="3"] {
+  column-width: 18rem;
+}
+
+/* Small screens (sm) */
 @media (min-width: 640px) {
   .masonry-grid[data-columns-sm="1"] {
     column-width: 100%;
   }
+
   .masonry-grid[data-columns-sm="2"] {
     column-width: 28rem;
   }
+
   .masonry-grid[data-columns-sm="3"] {
     column-width: 18rem;
   }
 }
 
-/* Medium screens (md): 2 columns typically */
+/* Medium screens (md) */
 @media (min-width: 768px) {
   .masonry-grid[data-columns-md="1"] {
     column-width: 100%;
   }
+
   .masonry-grid[data-columns-md="2"] {
     column-width: 28rem;
   }
+
   .masonry-grid[data-columns-md="3"] {
     column-width: 18rem;
   }
 }
 
-/* Large screens (lg): 3 columns typically */
+/* Large screens (lg) */
 @media (min-width: 1024px) {
   .masonry-grid[data-columns-lg="1"] {
     column-width: 100%;
   }
+
   .masonry-grid[data-columns-lg="2"] {
     column-width: 28rem;
   }
+
   .masonry-grid[data-columns-lg="3"] {
     column-width: 18rem;
   }
@@ -60,12 +73,15 @@
   .masonry-grid[data-columns-xl="1"] {
     column-width: 100%;
   }
+
   .masonry-grid[data-columns-xl="2"] {
     column-width: 28rem;
   }
+
   .masonry-grid[data-columns-xl="3"] {
     column-width: 18rem;
   }
+
   .masonry-grid[data-columns-xl="4"] {
     column-width: 16rem;
   }
