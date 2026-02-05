@@ -39,7 +39,7 @@
 
 /* ===== IPHONE 14 PRO ===== */
 .device-frame--iphone-14-pro {
-  aspect-ratio: auto; /* iPhone 14 Pro exact physical dimensions: 71.5mm x 147.5mm (2.81" x 5.81") */
+  aspect-ratio: 71.5 / 144.5; /* iPhone 14 Pro exact physical dimensions: 71.5mm x 147.5mm (2.81" x 5.81") */
   max-width: var(--frame-size, 320px); /* Control size here - height follows naturally via aspect-ratio */
   width: 100%;
   background: #1a1a1a;
@@ -70,7 +70,7 @@
   width: 100% !important;
   height: 100% !important;
   max-height: none !important;
-  aspect-ratio: 143/289; /* iPhone 14 Pro screen aspect ratio */
+  aspect-ratio: unset !important;
   border-radius: var(--radius-lg);
 }
 
