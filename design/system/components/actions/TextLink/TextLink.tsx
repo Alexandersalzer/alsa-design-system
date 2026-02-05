@@ -45,14 +45,17 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   
   const { buildHref } = useHref();
   
-  // Extract href from action or use direct href prop
+  // Extract href and pageId from action or use direct href prop
   let finalHref = href;
+  let pageId: string | undefined;
+  
   if (action && action.type === 'navigation') {
     finalHref = action.settings.href;
+    pageId = action.settings.pageId;
   }
   
-  // Build locale-aware href
-  const localeAwareHref = finalHref ? buildHref(finalHref) : undefined;
+  // Build locale-aware href (pageId takes precedence if provided)
+  const localeAwareHref = (finalHref || pageId) ? buildHref(finalHref, pageId) : undefined;
   
   // Use content if provided, otherwise use children
   const displayContent = content || children;

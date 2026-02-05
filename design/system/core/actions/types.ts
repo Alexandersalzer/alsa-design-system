@@ -33,7 +33,8 @@ export interface BaseActionConfig {
 export interface NavigationActionConfig extends BaseActionConfig {
   type: 'navigation';
   settings: {
-    href: string;
+    href?: string;           // Direct URL (for external, anchor, or fallback)
+    pageId?: string;         // Page ID reference - resolves to locale-aware slug
     openInNewTab?: boolean;
     scrollToTop?: boolean;
     pixelEvents?: PixelEvent[];
