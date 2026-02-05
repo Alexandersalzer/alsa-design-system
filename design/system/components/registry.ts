@@ -13,7 +13,8 @@ import { navigationComponents } from './navigation/registry';
 import { overlayComponents } from './overlays/registry';
 import { typographyComponents } from './Typography/registry';
 import { utilityComponents } from './utility/registry';
-import { CalendlyInline } from '../patterns/widgets/calendly/CalendlyInline';
+import { calendlyComponents } from './thirdparty/calendly/registry';
+import { trustpilotComponents } from './thirdparty/trustpilot/registry';
 
 // Parent component registry - combines all local registries
 export const componentRegistry: Record<string, React.ComponentType<any>> = {
@@ -32,5 +33,7 @@ export const componentRegistry: Record<string, React.ComponentType<any>> = {
   ...overlayComponents,
   ...typographyComponents,
   ...utilityComponents,
-  'calendly-inline': CalendlyInline,
+  // Third-party integrations
+  ...calendlyComponents,
+  ...trustpilotComponents,
 };
