@@ -58,11 +58,11 @@ export interface LayoutConfig {
   verticalAlign?: 'start' | 'center' | 'end';
 
   /**
-   * Vertical alignment for SectionHeader content (CSS justifyContent)
-   * Controls how SectionHeader + action patterns are positioned vertically
+   * Vertical alignment for SectionHeader column (split layout, when wrapInCard is false).
    * - 'start': Align to top (default)
    * - 'center': Align to middle
-   * - 'end': Align to bottom - useful for hero sections with tall media
+   * - 'end': Align to bottom
+   * When wrapInCard is true, this is ignored on desktop; use cardColumnVerticalAlign instead for both columns.
    */
   sectionHeaderVerticalAlign?: 'start' | 'center' | 'end';
 
@@ -135,8 +135,11 @@ export interface LayoutConfig {
 
   /**
    * Vertikal alignment för båda kolumnerna inuti wrap-kortet (stor skärm).
-   * Styr så att t.ex. section header och formulär ligger lika (centrerat eller topp/botten).
-   * Default 'center' när wrapInCard är true så att båda sidor ser balanserade ut.
+   * = "flytta section header (och formulär) upp/ner" i kortet.
+   * - 'start': båda kolumnerna topp-alignerade
+   * - 'center': båda centrerade i höjdled (default när wrapInCard är true)
+   * - 'end': båda botten-alignerade
+   * Gäller bara när wrapInCard är true. Andra sections använder sectionHeaderVerticalAlign + verticalAlign.
    */
   cardColumnVerticalAlign?: 'start' | 'center' | 'end';
 }
