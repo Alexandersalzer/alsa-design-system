@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 // Embeds Calendly booking interface directly on the page
 
 export interface CalendlyInlineProps {
-  calendlyUrl: string; // Full Calendly URL (e.g., https://calendly.com/kjmarketingsweden/30min)
+  calendlyUrl: string;
   prefill?: {
     name?: string;
     email?: string;
@@ -19,11 +19,11 @@ export interface CalendlyInlineProps {
     utmContent?: string;
     utmTerm?: string;
   };
-  primaryColor?: string; // Hex color without # (e.g., "b899f8")
+  primaryColor?: string;
   hideEventTypeDetails?: boolean;
   hideGdprBanner?: boolean;
-  height?: string; // e.g., "700px"
-  minWidth?: string; // e.g., "320px"
+  height?: string;
+  minWidth?: string;
 }
 
 // Helper function to build Calendly URL with parameters
@@ -33,8 +33,6 @@ const buildCalendlyUrl = (
     primaryColor?: string;
     hideEventTypeDetails?: boolean;
     hideGdprBanner?: boolean;
-    prefill?: Record<string, string>;
-    utm?: Record<string, string>;
   }
 ): string => {
   const url = new URL(baseUrl);
@@ -51,27 +49,11 @@ const buildCalendlyUrl = (
     url.searchParams.set('hide_gdpr_banner', '1');
   }
 
-  // Add prefill data
-  if (options?.prefill) {
-    Object.entries(options.prefill).forEach(([key, value]) => {
-      url.searchParams.set(key, value);
-    });
-  }
-
-  // Add UTM parameters
-  if (options?.utm) {
-    Object.entries(options.utm).forEach(([key, value]) => {
-      url.searchParams.set(key, value);
-    });
-  }
-
   return url.toString();
 };
 
 export const CalendlyInline: React.FC<CalendlyInlineProps> = ({
   calendlyUrl,
-  prefill,
-  utm,
   primaryColor,
   hideEventTypeDetails = true,
   hideGdprBanner = true,
@@ -79,54 +61,15 @@ export const CalendlyInline: React.FC<CalendlyInlineProps> = ({
   minWidth = '320px',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const initializedRef = useRef(false);
+
+  const fullUrl = buildCalendlyUrl(calendlyUrl, {
+    primaryColor,
+    hideEventTypeDetails,
+    hideGdprBanner,
+  });
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !containerRef.current || initializedRef.current) return;
-
-    const fullUrl = buildCalendlyUrl(calendlyUrl, {
-      primaryColor,
-      hideEventTypeDetails,
-      hideGdprBanner,
-      prefill: prefill as Record<string, string>,
-      utm: utm as Record<string, string>,
-    });
-
-    // Check if Calendly script already exists
-    const existingScript = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
-
-    const initWidget = () => {
-      if (window.Calendly && containerRef.current && !initializedRef.current) {
-        initializedRef.current = true;
-        window.Calendly.initInlineWidget({
-          url: fullUrl,
-          parentElement: containerRef.current,
-        });
-      }
-    };
-
-    if (existingScript) {
-      // Script already exists, check if Calendly is loaded
-      if (window.Calendly) {
-        initWidget();
-      } else {
-        // Wait for script to load
-        const checkLoaded = setInterval(() => {
-          if (window.Calendly) {
-            clearInterval(checkLoaded);
-            initWidget();
-          }
-        }, 100);
-      }
-      return;
-    }
-
-    // Load Calendly script
-    const script = document.createElement('script');
-    script.src = 'https://assets.calendly.com/assets/external/widget.js';
-    script.async = true;
-    script.onload = initWidget;
-    document.head.appendChild(script);
+    if (typeof window === 'undefined') return;
 
     // Load Calendly CSS
     const existingLink = document.querySelector('link[href*="calendly.com/assets/external/widget.css"]');
@@ -136,12 +79,22 @@ export const CalendlyInline: React.FC<CalendlyInlineProps> = ({
       link.rel = 'stylesheet';
       document.head.appendChild(link);
     }
-  }, [calendlyUrl, primaryColor, hideEventTypeDetails, hideGdprBanner, prefill, utm]);
+
+    // Load Calendly script - it auto-initializes widgets with data-url
+    const existingScript = document.querySelector('script[src*="calendly.com/assets/external/widget.js"]');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, []);
 
   return (
     <div
       ref={containerRef}
       className="calendly-inline-widget"
+      data-url={fullUrl}
       style={{
         minWidth,
         height,
