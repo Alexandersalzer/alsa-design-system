@@ -7,6 +7,7 @@ import { ContentCard } from './ContentCard/ContentCard';
 import { OverlayCard } from './OverlayCard/OverlayCard';
 import { ProcessCard } from './ProcessCard/ProcessCard';
 import { AlternatingCardsRow } from './AlternatingCardsRow/AlternatingCardsRow';
+import { BentoCard } from './BentoCard/BentoCard';
 
 export const cardsRegistry: Record<string, React.ComponentType<any>> = {
   stats: Stats,
@@ -18,4 +19,5 @@ export const cardsRegistry: Record<string, React.ComponentType<any>> = {
   overlayCard: OverlayCard,
   processCard: ProcessCard,
   alternatingCardsRow: AlternatingCardsRow,
+  bentoCard: BentoCard,
 };

@@ -49,6 +49,7 @@ export function renderSectionLayout({
   
   const {
     alignSectionHeader = 'center',
+    firstColumn = [],
     secondColumn = [],
     distanceAction = false,
     gap = 'xl',
@@ -91,15 +92,19 @@ export function renderSectionLayout({
     key => key !== sectionHeaderKey && !actionPatternKeys.includes(key)
   );
   
-  // Separate secondColumn patterns from other patterns
+  // Separate firstColumn and secondColumn patterns from other patterns
   // Include action patterns that are explicitly in secondColumn
+  const firstColumnPatterns = otherPatternKeys.filter(key => 
+    firstColumn.includes(key) && !secondColumn.includes(key)
+  );
+  
   const secondColumnPatterns = [
     ...otherPatternKeys.filter(key => secondColumn.includes(key)),
     ...actionPatternsInSecondColumn
   ];
   
   const remainingPatterns = otherPatternKeys.filter(key => 
-    !secondColumn.includes(key)
+    !secondColumn.includes(key) && !firstColumn.includes(key)
   );
 
   // ===== LAYOUT CONTEXT =====
@@ -190,11 +195,13 @@ export function renderSectionLayout({
     if (mobileOrder && mobileOrder.length > 0) {
       return mobileOrder;
     }
-    // Default: SectionHeader first, then action patterns (if not distanced), then secondColumn, then remaining, then distanced actions
+    // Default: SectionHeader first, then action patterns (if not distanced), then firstColumn, then secondColumn, then remaining, then distanced actions
     const defaultOrder: string[] = [];
     if (sectionHeaderKey) defaultOrder.push(sectionHeaderKey);
     // Add action patterns after sectionHeader if not distanced and not in secondColumn
     defaultOrder.push(...actionPatternsWithHeader);
+    // Add firstColumn patterns
+    defaultOrder.push(...firstColumnPatterns);
     // Add secondColumn patterns
     defaultOrder.push(...secondColumnPatterns);
     // Add remaining patterns
@@ -363,6 +370,7 @@ export function renderSectionLayout({
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                    {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                   </VStack>
                 </Box>
               </Container>
@@ -376,6 +384,7 @@ export function renderSectionLayout({
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                    {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                   </VStack>
                 </Box>
               </Container>
@@ -387,7 +396,7 @@ export function renderSectionLayout({
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : (
-              <VStack spacing="none" align="end" justify="end">
+              <VStack spacing={gap} align="stretch">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </VStack>
             )

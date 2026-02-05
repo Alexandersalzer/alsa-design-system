@@ -45,3 +45,21 @@
 /* ===== STAT WITH ICON ===== */
 /* Icon container styles are handled inline via Box component */
 /* Additional hover effects can be added here if needed */
+
+/* ===== HERO STAT SPACING ===== */
+/* Used to push down the secondary stats grid */
+.stats-hero-spacing {
+  margin-bottom: var(--foundation-space-12, 48px);
+}
+
+@media (min-width: 768px) {
+  .stats-hero-spacing {
+    margin-bottom: var(--foundation-space-16, 64px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .stats-hero-spacing {
+    margin-bottom: var(--foundation-space-20, 80px);
+  }
+}

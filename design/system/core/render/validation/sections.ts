@@ -30,6 +30,10 @@ export const sectionTypeConfig = {
   cta: {
     allowedPatterns: ['sectionBody'],
     requiredPatterns: ['sectionBody']
+  },
+  bentoServices: {
+    allowedPatterns: ['sectionHeader', 'bentoGrid'],
+    requiredPatterns: []
   }
 } as const;
 

@@ -14,7 +14,8 @@ export type BackgroundType =
   | 'pattern' 
   | 'video' 
   | 'solid'
-  | 'image';
+  | 'image'
+  | 'particle';
 
 export type ColorScheme = 'accent' | 'primary' | 'success' | 'warning' | 'info';
 export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
@@ -50,6 +51,11 @@ export interface ImageBackgroundProps {
   backgroundOpacity?: number;
   backgroundOverlay?: string | false;
   backgroundOverlayOpacity?: number;
+  backgroundBlendMode?: 'overlay' | 'soft-light' | 'multiply' | 'screen' | 'normal';
+  /** Invert the background image colors */
+  backgroundInvert?: boolean;
+  /** Custom CSS filter for background image */
+  backgroundFilter?: string;
   imageFadeEdge?: FadeEdge;
   imageFadeStrength?: number;
 }
@@ -85,18 +91,60 @@ export interface SolidBackgroundProps {
   solidFadeStrength?: number;
 }
 
-// ===== IMAGE BACKGROUND (Legacy) =====
-export interface ImageBackgroundProps {
-  backgroundImage?: string;
-  backgroundOpacity?: number;
-  backgroundSize?: 'cover' | 'contain' | 'auto' | string;
-  backgroundPosition?: string;
-  backgroundRepeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y' | 'space' | 'round';
-  backgroundFixed?: boolean;
-  backgroundOverlay?: string | false;
-  backgroundOverlayOpacity?: number;
-  imageFadeEdge?: FadeEdge;
-  imageFadeStrength?: number;
+// ===== PARTICLE BACKGROUND =====
+export interface ParticleBackgroundProps {
+  particleCount?: number;
+  particleColorScheme?: 'light' | 'warm' | 'cool' | 'accent' | 'custom';
+  particleCustomColors?: string[];
+  particleSpeed?: number;
+  particleMinSize?: number;
+  particleMaxSize?: number;
+  particleMinOpacity?: number;
+  particleMaxOpacity?: number;
+  particleBlur?: number;
+}
+
+
+// ===== GLOW/MASK EFFECTS =====
+export interface BackgroundEffectsProps {
+  /** Enable glow/spotlight effect */
+  backgroundGlow?: boolean;
+  /** Glow intensity (0-1, default: 0.15) */
+  backgroundGlowIntensity?: number;
+  /** Glow vertical size/spread (default: 60%) */
+  backgroundGlowSize?: string;
+  /** Glow horizontal width (default: 120%) */
+  backgroundGlowWidth?: string;
+  /** Glow position: 'top' | 'center' | 'bottom' or custom "x% y%" */
+  backgroundGlowPosition?: 'top' | 'center' | 'bottom' | string;
+  /** Glow color in RGB format (default: '255,255,255') */
+  backgroundGlowColor?: string;
+  
+  /** Enable mask/fade effect at bottom */
+  backgroundMask?: boolean;
+  /** Mask opacity (0-1, default: 0.3) */
+  backgroundMaskOpacity?: number;
+  /** Where mask fade begins in % (default: 75) */
+  backgroundMaskStart?: number;
+  /** Mask color in RGB format (default: '0,0,0') */
+  backgroundMaskColor?: string;
+}
+
+// ===== BOTTOM BLUR =====
+export type BottomBlurVariant = 'subtle' | 'medium' | 'strong' | 'reflection';
+export type BottomBlurPosition = 'bottom' | 'top';
+
+export interface BottomBlurProps {
+  /** Enable blur effect - boolean or variant name */
+  bottomBlur?: boolean | BottomBlurVariant;
+  /** Custom height in pixels (overrides variant) */
+  bottomBlurHeight?: number;
+  /** Custom max blur amount in pixels (overrides variant) */
+  bottomBlurAmount?: number;
+  /** Position of blur: 'bottom' (default) or 'top' */
+  bottomBlurPosition?: BottomBlurPosition;
+  /** Opacity of blur effect (0-1) */
+  bottomBlurOpacity?: number;
 }
 
 // ===== COMBINED BACKGROUND PROPS =====
@@ -110,7 +158,10 @@ export interface BackgroundProps
     PatternBackgroundProps,
     VideoBackgroundProps,
     SolidBackgroundProps,
-    ImageBackgroundProps {
+    ImageBackgroundProps,
+    ParticleBackgroundProps,
+    BackgroundEffectsProps,
+    BottomBlurProps {
   background?: BackgroundType;
   backgroundColor?: string;
 }

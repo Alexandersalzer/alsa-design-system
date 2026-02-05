@@ -14,14 +14,30 @@ import {
     HStack,
     Box,
     Card,
+    Grid,
 } from '../../../components/layout';
 import { Icon, IconColor } from '../../../components/media/Icon';
+import { CountUp } from '../../../components/animations/CountUp/CountUp';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 
 import './Stats.css';
 
 // ===== TYPE DEFINITIONS =====
+
+export interface StatAnimation {
+  type: 'countUp';
+  settings: {
+    start?: number;
+    end: number;
+    suffix?: string;
+    prefix?: string;
+    separator?: string;
+    duration?: number;
+    enableScrollTrigger?: boolean;
+    triggerOffset?: number;
+  };
+}
 
 export interface StatItem {
   id: string;
@@ -35,6 +51,7 @@ export interface StatItem {
     value: string;
     direction: 'up' | 'down' | 'neutral';
   };
+  animation?: StatAnimation;
 }
 
 export type StatsVariant =
@@ -68,6 +85,12 @@ export interface StatsProps {
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   align?: 'start' | 'center' | 'end';
   
+  // Grid layout - forces CSS grid with specified columns
+  columns?: 1 | 2 | 3 | 4;
+  
+  // Grid gap when using columns
+  gridGap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  
   // Card options (for with-card variant)
   cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
   cardPadding?: 'sm' | 'md' | 'lg';
@@ -75,6 +98,9 @@ export interface StatsProps {
   // Icon options (for with-icon variant)
   iconSize?: 'sm' | 'md' | 'lg';
   iconColor?: IconColor;
+  
+  // Spacing below component
+  marginBottom?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 }
 
 // ===== STAT ITEM COMPONENTS =====
@@ -95,6 +121,47 @@ interface StatItemComponentProps {
   iconColor?: IconColor;
 }
 
+// Helper to render stat value with optional CountUp animation
+const StatValue: React.FC<{
+  stat: StatItem;
+  valueVariant: NonNullable<StatsProps['valueVariant']>;
+  valueWeight: NonNullable<StatsProps['valueWeight']>;
+  valueColor: TypographyColor;
+}> = ({ stat, valueVariant, valueWeight, valueColor }) => {
+  // If animation is configured, use CountUp
+  if (stat.animation?.type === 'countUp') {
+    const { settings } = stat.animation;
+    return (
+      <CountUp
+        end={settings.end}
+        start={settings.start}
+        suffix={settings.suffix}
+        prefix={settings.prefix}
+        separator={settings.separator}
+        duration={settings.duration}
+        enableScrollTrigger={settings.enableScrollTrigger}
+        triggerOffset={settings.triggerOffset}
+        variant={valueVariant}
+        weight={valueWeight}
+        color={valueColor}
+        data-component-key={stat.componentKey}
+      />
+    );
+  }
+
+  // Default: static value
+  return (
+    <Typography
+      variant={valueVariant}
+      weight={valueWeight}
+      color={valueColor}
+      data-component-key={stat.componentKey}
+    >
+      {stat.value}
+    </Typography>
+  );
+};
+
 // Centered variant - Simple centered stat
 const StatCentered: React.FC<StatItemComponentProps> = ({
   stat,
@@ -110,14 +177,12 @@ const StatCentered: React.FC<StatItemComponentProps> = ({
   align
 }) => (
   <VStack spacing={spacing} align={align}>
-    <Typography
-      variant={valueVariant}
-      weight={valueWeight}
-      color={valueColor}
-      data-component-key={stat.componentKey}
-    >
-      {stat.value}
-    </Typography>
+    <StatValue
+      stat={stat}
+      valueVariant={valueVariant}
+      valueWeight={valueWeight}
+      valueColor={valueColor}
+    />
     <Typography
       variant={labelVariant}
       weight={labelWeight}
@@ -153,14 +218,12 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
 }) => (
   <HStack spacing="lg" align="center" className="stat-with-separator">
     <VStack spacing={spacing} align={align}>
-      <Typography
-        variant={valueVariant}
-        weight={valueWeight}
-        color={valueColor}
-        data-component-key={stat.componentKey}
-      >
-        {stat.value}
-      </Typography>
+      <StatValue
+        stat={stat}
+        valueVariant={valueVariant}
+        valueWeight={valueWeight}
+        valueColor={valueColor}
+      />
       <Typography
         variant={labelVariant}
         weight={labelWeight}
@@ -485,11 +548,27 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     descriptionColor = 'tertiary',
     spacing = 'sm',
     align = 'center',
+    columns,
+    gridGap = 'xl',
     cardVariant = 'elevated',
     cardPadding = 'lg',
     iconSize = 'lg',
     iconColor = 'accent',
+    marginBottom = 'none',
   } = getPatternProps();
+  
+  // Map marginBottom to CSS variable
+  const marginBottomMap: Record<string, string> = {
+    'none': '0',
+    'sm': 'var(--foundation-space-4, 16px)',
+    'md': 'var(--foundation-space-6, 24px)',
+    'lg': 'var(--foundation-space-8, 32px)',
+    'xl': 'var(--foundation-space-12, 48px)',
+    '2xl': 'var(--foundation-space-16, 64px)',
+    '3xl': 'var(--foundation-space-20, 80px)',
+  };
+  
+  const wrapperStyle = marginBottom !== 'none' ? { marginBottom: marginBottomMap[marginBottom] } : undefined;
   
   const commonProps = {
     valueVariant,
@@ -518,7 +597,8 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
       description: component.props.description,
       icon: component.props.icon,
       logo: component.props.logo,
-      trend: component.props.trend
+      trend: component.props.trend,
+      animation: component.props.animation
     };
   }).filter(Boolean) as StatItem[];
 
@@ -572,8 +652,10 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
   };
 
   // Choose container based on variant
+  let content: React.ReactNode;
+  
   if (variant === 'with-separator') {
-    return (
+    content = (
       <HStack 
         spacing="xl" 
         align="center" 
@@ -584,20 +666,38 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
         {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
       </HStack>
     );
+  } else if (columns && columns >= 1) {
+    // If columns prop is set, use Grid component for forced grid layout
+    content = (
+      <Grid 
+        columns={columns}
+        gap={gridGap}
+        className={className}
+      >
+        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
+      </Grid>
+    );
+  } else {
+    // Default: Use responsive grid-like HStack with wrapping
+    content = (
+      <HStack 
+        spacing="xl" 
+        align="stretch" 
+        justify="center"
+        wrap={true}
+        className={className}
+      >
+        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
+      </HStack>
+    );
   }
 
-  // Default: Use responsive grid-like HStack with wrapping
-  return (
-    <HStack 
-      spacing="xl" 
-      align="stretch" 
-      justify="center"
-      wrap={true}
-      className={className}
-    >
-      {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
-    </HStack>
-  );
+  // Wrap with margin if needed
+  if (wrapperStyle) {
+    return <div style={wrapperStyle}>{content}</div>;
+  }
+  
+  return <>{content}</>;
 };
 
 Stats.displayName = 'Stats';

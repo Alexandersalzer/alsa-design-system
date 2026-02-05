@@ -16,6 +16,14 @@ export interface LayoutConfig {
   alignSectionHeader?: 'left' | 'center' | 'right';
 
   /**
+   * Array of pattern keys that should appear in the first column
+   * (in addition to SectionHeader and action patterns)
+   * Only available when alignSectionHeader is 'left' or 'right'
+   * Example: ["sparkline_growth", "testimonial_X2pQ5w"]
+   */
+  firstColumn?: string[];
+
+  /**
    * Array of pattern keys that should appear in the second column
    * Only available when alignSectionHeader is 'left' or 'right'
    * Example: ["media_M8kR3p", "stats_X2pQ5w"]

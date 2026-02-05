@@ -3,9 +3,67 @@
 // LOGO TEXT COMPONENT - Branded text for logos and headings
 // ===============================================
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
 import './LogoText.css';
+
+// ===== INLINE MARKUP PROCESSOR =====
+/**
+ * Inline markup syntax:
+ * - **text** → bold
+ * - *text* → italic  
+ * - {font:Name}text{/font} → custom font
+ * - {font:Name:400}text{/font} → custom font with weight
+ */
+const processInlineMarkup = (content: ReactNode): ReactNode => {
+  if (typeof content !== 'string') return content;
+
+  const parse = (text: string, key = 0): ReactNode[] => {
+    const result: ReactNode[] = [];
+    let i = 0;
+
+    while (i < text.length) {
+      // Custom font: {font:Name}text{/font} or {font:Name:weight}text{/font}
+      const fontMatch = text.slice(i).match(/^{font:([^:}]+)(?::(\d+))?}([\s\S]*?){\/font}/);
+      if (fontMatch) {
+        const [full, fontName, weight, inner] = fontMatch;
+        const style: React.CSSProperties = { fontFamily: fontName };
+        if (weight) style.fontWeight = Number(weight);
+        result.push(<span key={`f-${key++}`} style={style}>{parse(inner, key)}</span>);
+        i += full.length;
+        continue;
+      }
+
+      // Bold: **text**
+      const boldMatch = text.slice(i).match(/^\*\*(.+?)\*\*/);
+      if (boldMatch) {
+        const [full, inner] = boldMatch;
+        result.push(<strong key={`b-${key++}`}>{parse(inner, key)}</strong>);
+        i += full.length;
+        continue;
+      }
+
+      // Italic: *text*
+      const italicMatch = text.slice(i).match(/^\*(.+?)\*/);
+      if (italicMatch) {
+        const [full, inner] = italicMatch;
+        result.push(<em key={`i-${key++}`}>{parse(inner, key)}</em>);
+        i += full.length;
+        continue;
+      }
+
+      // Plain text until next special char
+      let end = i + 1;
+      while (end < text.length && !'{*'.includes(text[end])) end++;
+      result.push(text.slice(i, end));
+      i = end;
+    }
+
+    return result;
+  };
+
+  return <>{parse(content)}</>;
+};
 
 // ===== TYPE DEFINITIONS =====
 
@@ -69,11 +127,14 @@ export const LogoText: React.FC<LogoTextProps> = ({
     className
   );
 
+  // Process inline markup (bold, italic, font)
+  const processedContent = processInlineMarkup(children);
+
   // If href is provided, render as link
   if (href) {
     return (
       <a href={href} className={classes} onClick={onClick}>
-        {children}
+        {processedContent}
       </a>
     );
   }
@@ -81,7 +142,7 @@ export const LogoText: React.FC<LogoTextProps> = ({
   // Otherwise render as span
   return (
     <span className={classes} onClick={onClick}>
-      {children}
+      {processedContent}
     </span>
   );
 };

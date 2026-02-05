@@ -7,6 +7,7 @@ type Height = 'auto' | 'full' | 'screen';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
+type ContentPosition = 'top' | 'center' | 'bottom';
 
 interface SectionProps extends BackgroundProps {
   children: ReactNode;
@@ -14,6 +15,8 @@ interface SectionProps extends BackgroundProps {
   id?: string;
   as?: React.ElementType;
   height?: Height;
+  /** Vertical position of content when height is full/screen */
+  contentPosition?: ContentPosition;
   position?: Position;
   sticky?: boolean;
   top?: string | number;
@@ -23,6 +26,8 @@ interface SectionProps extends BackgroundProps {
   overflowX?: Overflow;
   overflowY?: Overflow;
   noPaddingTop?: boolean;
+  /** Override bottom padding with token value */
+  paddingBottom?: SpacingScale | 'none';
   applyNavbarVoid?: boolean;
   style?: React.CSSProperties;
   sectionKey?: string;
@@ -79,6 +84,7 @@ export const Section = ({
   id,
   as: Component = 'section',
   height = 'auto',
+  contentPosition = 'center',
   position = 'relative',
   sticky = false,
   top,
@@ -138,6 +144,7 @@ export const Section = ({
   solidFadeEdge = 'none',
   solidFadeStrength = 0.15,
   noPaddingTop = false,
+  paddingBottom,
   applyNavbarVoid = false,
   style,
   sectionKey,
@@ -163,6 +170,16 @@ export const Section = ({
   if (zIndex !== undefined) inlineStyles.zIndex = zIndex;
   if (overflowX !== undefined) inlineStyles.overflowX = overflowX;
   if (overflowY !== undefined) inlineStyles.overflowY = overflowY;
+  
+  // Content position for full/screen height sections
+  if (height === 'full' || height === 'screen') {
+    const positionMap: Record<ContentPosition, string> = {
+      top: 'flex-start',
+      center: 'center',
+      bottom: 'flex-end',
+    };
+    inlineStyles.justifyContent = positionMap[contentPosition];
+  }
 
   // Apply border styles
   const borderWidthMap = {
@@ -187,6 +204,13 @@ export const Section = ({
   // For noPaddingTop prop, explicitly remove top padding
   else if (noPaddingTop && !applyNavbarVoid) {
     inlineStyles.paddingTop = 0;
+  }
+
+  // Apply custom paddingBottom
+  if (paddingBottom) {
+    inlineStyles.paddingBottom = paddingBottom === 'none' 
+      ? 0 
+      : `var(--foundation-space-${paddingBottom})`;
   }
 
   if (backgroundImage && background === 'media') {
