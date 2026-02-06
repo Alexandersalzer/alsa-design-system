@@ -147,30 +147,55 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
     if (!fullscreenDropzone) return;
 
     let dragCounter = 0;
+    let dragTimer: NodeJS.Timeout | null = null;
 
     const handleGlobalDragEnter = (e: DragEvent) => {
       e.preventDefault();
-      dragCounter++;
-      if (dragCounter === 1) {
-        setGlobalDragActive(true);
+
+      // Only count drag events that have files
+      if (e.dataTransfer?.types?.includes('Files')) {
+        dragCounter++;
+        if (dragCounter === 1) {
+          setGlobalDragActive(true);
+        }
+
+        // Clear any existing timer
+        if (dragTimer) {
+          clearTimeout(dragTimer);
+          dragTimer = null;
+        }
       }
     };
 
     const handleGlobalDragLeave = (e: DragEvent) => {
       e.preventDefault();
+
       dragCounter--;
-      if (dragCounter === 0) {
-        setGlobalDragActive(false);
-      }
+
+      // Use a small delay to prevent flashing when moving between elements
+      if (dragTimer) clearTimeout(dragTimer);
+      dragTimer = setTimeout(() => {
+        if (dragCounter <= 0) {
+          dragCounter = 0;
+          setGlobalDragActive(false);
+        }
+      }, 50);
     };
 
     const handleGlobalDragOver = (e: DragEvent) => {
       e.preventDefault();
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'copy';
+      }
     };
 
     const handleGlobalDrop = (e: DragEvent) => {
       e.preventDefault();
       dragCounter = 0;
+      if (dragTimer) {
+        clearTimeout(dragTimer);
+        dragTimer = null;
+      }
       setGlobalDragActive(false);
     };
 
@@ -180,6 +205,7 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
     window.addEventListener('drop', handleGlobalDrop);
 
     return () => {
+      if (dragTimer) clearTimeout(dragTimer);
       window.removeEventListener('dragenter', handleGlobalDragEnter);
       window.removeEventListener('dragleave', handleGlobalDragLeave);
       window.removeEventListener('dragover', handleGlobalDragOver);
