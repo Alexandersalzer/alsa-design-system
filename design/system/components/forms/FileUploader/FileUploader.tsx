@@ -3,7 +3,7 @@
 // FILE UPLOADER COMPONENT - Integrated with Design System
 // ===============================================
 
-import React, { forwardRef, ReactNode, useRef, useState, useCallback } from 'react';
+import React, { forwardRef, ReactNode, useRef, useState, useCallback, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import { Label, TypographyColor, Avatar } from '../..';
 import { AvatarSize } from '../../media/Avatar/Avatar';
@@ -24,6 +24,7 @@ export interface FileUploaderProps extends Omit<React.InputHTMLAttributes<HTMLIn
   helperText?: string;
   label?: string;
   required?: boolean;
+  fullscreenDropzone?: boolean; // Enable fullscreen dropzone overlay on drag
   // Avatar variant specific props
   avatarSize?: AvatarSize;
   avatarName?: string;
@@ -51,6 +52,7 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
   label,
   required = false,
   onChange,
+  fullscreenDropzone = false,
   // Avatar variant props
   avatarSize = 'xl',
   avatarName,
@@ -63,6 +65,7 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
   const [isDragging, setIsDragging] = useState(false);
   const [dragCounter, setDragCounter] = useState(0);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [globalDragActive, setGlobalDragActive] = useState(false);
 
   // Handle file selection
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,6 +141,51 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
       hiddenInputRef.current?.click();
     }
   }, [disabled]);
+
+  // Global drag event handlers for fullscreen dropzone
+  useEffect(() => {
+    if (!fullscreenDropzone) return;
+
+    let dragCounter = 0;
+
+    const handleGlobalDragEnter = (e: DragEvent) => {
+      e.preventDefault();
+      dragCounter++;
+      if (dragCounter === 1) {
+        setGlobalDragActive(true);
+      }
+    };
+
+    const handleGlobalDragLeave = (e: DragEvent) => {
+      e.preventDefault();
+      dragCounter--;
+      if (dragCounter === 0) {
+        setGlobalDragActive(false);
+      }
+    };
+
+    const handleGlobalDragOver = (e: DragEvent) => {
+      e.preventDefault();
+    };
+
+    const handleGlobalDrop = (e: DragEvent) => {
+      e.preventDefault();
+      dragCounter = 0;
+      setGlobalDragActive(false);
+    };
+
+    window.addEventListener('dragenter', handleGlobalDragEnter);
+    window.addEventListener('dragleave', handleGlobalDragLeave);
+    window.addEventListener('dragover', handleGlobalDragOver);
+    window.addEventListener('drop', handleGlobalDrop);
+
+    return () => {
+      window.removeEventListener('dragenter', handleGlobalDragEnter);
+      window.removeEventListener('dragleave', handleGlobalDragLeave);
+      window.removeEventListener('dragover', handleGlobalDragOver);
+      window.removeEventListener('drop', handleGlobalDrop);
+    };
+  }, [fullscreenDropzone]);
 
   // Typography props for different states
   const getTypographyProps = (variant: string, size: string, error: boolean, disabled: boolean) => {
@@ -390,6 +438,40 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
         >
           {helperText}
         </Label>
+      )}
+
+      {/* Fullscreen Dropzone Overlay */}
+      {fullscreenDropzone && globalDragActive && (
+        <div
+          className="file-uploader__fullscreen-overlay"
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
+          <div className="file-uploader__fullscreen-content">
+            <div className="file-uploader__fullscreen-icon">
+              <svg
+                width="64"
+                height="64"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+            </div>
+            <Label size="lg" weight="semibold" color="primary" as="div" className="file-uploader__fullscreen-text">
+              Drop {multiple ? 'files' : 'file'} anywhere to upload
+            </Label>
+          </div>
+        </div>
       )}
     </div>
   );
