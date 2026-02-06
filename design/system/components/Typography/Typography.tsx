@@ -12,7 +12,7 @@ import { FadeIn } from '../animations/FadeIn/FadeIn';
 
 // ===== TYPE DEFINITIONS =====
 export type TypographyVariant =
-  | 'display-xl' | 'display-lg' | 'display-md' | 'display-sm'
+  | 'display-2xl' | 'display-xl' | 'display-lg' | 'display-md' | 'display-sm'
   | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   | 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs'
   | 'label-lg' | 'label-md' | 'label-sm' | 'label-xs'
@@ -79,17 +79,108 @@ export type TypographyColor =
 
 export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 
-// ===== HELPER FUNCTION FOR LINE BREAKS =====
-const processLineBreaks = (content: ReactNode): ReactNode => {
+// ===== HELPER FUNCTION FOR INLINE MARKUP =====
+/**
+ * Inline markup syntax:
+ * - \n → line break
+ * - *text* → italic
+ * - **text** → bold  
+ * - {accent}text{/accent} → accent color (shortcuts: brand, secondary, primary)
+ * - {color:#ff5500}text{/color} → any color (hex, rgb, etc)
+ * - {font:Name}text{/font} → custom font
+ * - {font:Name:400}text{/font} → custom font with weight
+ * - {size:1.5em}text{/size} → custom size
+ */
+const processInlineMarkup = (content: ReactNode): ReactNode => {
   if (typeof content !== 'string') return content;
-  if (!content.includes('\n')) return content;
   
-  return content.split('\n').map((line, index, array) => (
-    <span key={index}>
-      {line}
-      {index < array.length - 1 && <br />}
-    </span>
-  ));
+  // Shortcut colors (maps to CSS variables)
+  const colors: Record<string, string> = {
+    accent: 'var(--text-accent)',
+    brand: 'var(--brand-color)',
+    secondary: 'var(--text-secondary)',
+    primary: 'var(--text-strong)',
+  };
+
+  const parse = (text: string, key = 0): ReactNode[] => {
+    const result: ReactNode[] = [];
+    let i = 0;
+    
+    while (i < text.length) {
+      // Line break
+      if (text[i] === '\n') {
+        result.push(<br key={`br-${key++}`} />);
+        i++;
+        continue;
+      }
+      
+      // Custom color: {color:#hex}text{/color} or {color:rgb(...)}text{/color}
+      const customColorMatch = text.slice(i).match(/^\{color:([^}]+)\}([\s\S]*?)\{\/color\}/);
+      if (customColorMatch) {
+        const [full, colorValue, inner] = customColorMatch;
+        result.push(<span key={`cc-${key++}`} style={{ color: colorValue }}>{parse(inner, key)}</span>);
+        i += full.length;
+        continue;
+      }
+      
+      // Size: {size:1.5em}text{/size}
+      const sizeMatch = text.slice(i).match(/^\{size:([^}]+)\}([\s\S]*?)\{\/size\}/);
+      if (sizeMatch) {
+        const [full, sizeValue, inner] = sizeMatch;
+        result.push(<span key={`s-${key++}`} style={{ fontSize: sizeValue }}>{parse(inner, key)}</span>);
+        i += full.length;
+        continue;
+      }
+      
+      // Custom font: {font:Name}text{/font} or {font:Name:weight}text{/font}
+      const fontMatch = text.slice(i).match(/^\{font:([^:}]+)(?::(\d+))?\}([\s\S]*?)\{\/font\}/);
+      if (fontMatch) {
+        const [full, fontName, weight, inner] = fontMatch;
+        const style: React.CSSProperties = { fontFamily: fontName };
+        if (weight) style.fontWeight = Number(weight);
+        result.push(<span key={`f-${key++}`} style={style}>{parse(inner, key)}</span>);
+        i += full.length;
+        continue;
+      }
+      
+      // Shortcut colors: {accent}text{/accent}
+      const colorMatch = text.slice(i).match(/^\{(accent|brand|secondary|primary)\}([\s\S]*?)\{\/\1\}/);
+      if (colorMatch) {
+        const [full, color, inner] = colorMatch;
+        result.push(<span key={`c-${key++}`} style={{ color: colors[color] }}>{parse(inner, key)}</span>);
+        i += full.length;
+        continue;
+      }
+      
+      // Bold: **text**
+      const boldMatch = text.slice(i).match(/^\*\*(.+?)\*\*/);
+      if (boldMatch) {
+        const [full, inner] = boldMatch;
+        result.push(<strong key={`b-${key++}`}>{parse(inner, key)}</strong>);
+        i += full.length;
+        continue;
+      }
+      
+      // Italic: *text*
+      const italicMatch = text.slice(i).match(/^\*(.+?)\*/);
+      if (italicMatch) {
+        const [full, inner] = italicMatch;
+        result.push(<em key={`i-${key++}`}>{parse(inner, key)}</em>);
+        i += full.length;
+        continue;
+      }
+      
+      // Plain text until next special char
+      let end = i + 1;
+      while (end < text.length && !'\n{*'.includes(text[end])) end++;
+      result.push(text.slice(i, end));
+      i = end;
+    }
+    
+    return result;
+  };
+
+  return <>{parse(content)}</>;
 };
 
 // ===== POLYMORPHIC TYPES =====
@@ -180,7 +271,7 @@ const getColorValue = (color: TypographyColor): string => {
 // ===== UTILITY FUNCTIONS =====
 const getDefaultElement = (variant: TypographyVariant): ElementType => {
   const variantElementMap: Record<TypographyVariant, ElementType> = {
-    'display-xl': 'h1', 'display-lg': 'h1', 'display-md': 'h2', 'display-sm': 'h3',
+    'display-2xl': 'h1', 'display-xl': 'h1', 'display-lg': 'h1', 'display-md': 'h2', 'display-sm': 'h3',
     'h1': 'h1', 'h2': 'h2', 'h3': 'h3', 'h4': 'h4', 'h5': 'h5', 'h6': 'h6',
     'body-xl': 'p', 'body-lg': 'p', 'body-md': 'p', 'body-sm': 'p', 'body-xs': 'p',
     'label-lg': 'span', 'label-md': 'span', 'label-sm': 'span', 'label-xs': 'span',
@@ -241,12 +332,12 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   preserveLineBreaks = true,
   ...rest
 }, ref) => {
-  // Process line breaks if enabled and children is a string with \n
-  const processedChildren = preserveLineBreaks ? processLineBreaks(children) : children;
   const Element = as || getDefaultElement(variant);
   
   // Use content prop if provided, otherwise use children
-  const displayContent = content || children;
+  // Process line breaks if enabled (converts \n to <br />)
+  const rawContent = content || children;
+  const displayContent = preserveLineBreaks ? processInlineMarkup(rawContent) : rawContent;
   
   const classes = buildTypographyClasses({
     variant,

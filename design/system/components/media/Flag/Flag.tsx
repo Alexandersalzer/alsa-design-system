@@ -86,7 +86,7 @@ export const Flag = forwardRef<HTMLDivElement, FlagProps>(
 
     const sizeMap = {
       sm: '24px',
-      md: '32px',
+      md: '34px',
       lg: '48px',
     };
 
@@ -106,31 +106,30 @@ export const Flag = forwardRef<HTMLDivElement, FlagProps>(
           alignItems: 'center',
           justifyContent: 'center',
           width: flagWidth,
-          ...(variant === 'rounded' && {
-            padding: 'var(--space-2xs)',
-            backgroundColor: 'var(--surface-base)',
-            borderRadius: 'var(--radius-sm)',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-          }),
+          padding: '1px',
+          backgroundColor: 'var(--surface-base)',
+          borderRadius: 'var(--foundation-radius-xl-xs)',
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
           ...(variant === 'circle' && {
-            padding: 'var(--space-2xs)',
-            backgroundColor: 'var(--surface-base)',
             borderRadius: '50%',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
             overflow: 'hidden',
           }),
           ...(variant === 'square' && {
-            padding: 'var(--space-2xs)',
-            backgroundColor: 'var(--surface-base)',
             borderRadius: 'var(--radius-xs)',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
           }),
           ...style,
         }}
         aria-label={`${country.toUpperCase()} flag`}
         {...props}
       >
-        <FlagComponent style={{ width: '100%', height: 'auto', display: 'block' }} />
+        <FlagComponent
+          style={{
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            borderRadius: 'var(--foundation-radius-xl-xs)',
+          }}
+        />
       </div>
     );
   }

@@ -131,8 +131,9 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
   }, []);
 
   // Build logo props with componentKey
+  const logoSrc = renderIf('logo') ? get('logo').props.src : undefined;
   const logoProps = {
-    src: renderIf('logo') && get('logo').props.src ? `${CDN_BASE_URL}${get('logo').props.src}` : undefined,
+    src: logoSrc ? (logoSrc.startsWith('http') ? logoSrc : `${CDN_BASE_URL}${logoSrc}`) : undefined,
     alt: renderIf('logo') ? (get('logo').props.alt || 'Logo') : undefined,
     text: renderIf('typography-businessName') ? get('typography-businessName').props.content : undefined,
     href: `/${currentLocale}`,

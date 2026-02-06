@@ -132,15 +132,17 @@
 
 /* Inverse variant (for dark backgrounds) - Light colors */
 .textlink-inverse {
-  color: var(--text-on-inverse);                 /* Light color for dark backgrounds */
+  color: var(--text-inverse);                    /* Same as Typography inverse */
 }
 
 .textlink-inverse:hover {
-  color: var(--text-on-inverse-secondary);       /* Slightly dimmed on hover */
+  color: var(--text-inverse);                    /* Keep same on hover */
+  opacity: 0.8;
 }
 
 .textlink-inverse:active {
-  color: var(--text-on-inverse);                 /* Back to full brightness on active */
+  color: var(--text-inverse);                    /* Keep same on active */
+  opacity: 1;
 }
 
 /* ===== UNDERLINE VARIANTS ===== */

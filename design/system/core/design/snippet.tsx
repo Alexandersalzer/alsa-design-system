@@ -60,10 +60,11 @@ export function buildCssVars(tokens: DesignTokens): string {
   }
 
   const fontWeights = "300;400;500;600;700;800;900";
-  const fontsToImport = [fontPrimary, fontSecondary]
-    .filter((f, i, arr) => arr.indexOf(f) === i)
-    .map(f => `family=${f.replace(/\s/g, '+')}:wght@${fontWeights}`)
-    .join('&');
+  const extraFonts = tokens?.extraFonts || [];
+  const allFonts = [fontPrimary, fontSecondary, ...extraFonts].filter((f, i, arr) => arr.indexOf(f) === i);
+  // Load both regular and italic weights: ital,wght@0,weight;1,weight
+  const weightParams = fontWeights.split(';').flatMap(w => [`0,${w}`, `1,${w}`]).join(';');
+  const fontsToImport = allFonts.map(f => `family=${f.replace(/\s/g, '+')}:ital,wght@${weightParams}`).join('&');
   const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport}&display=swap`;
 
   const isInverseAccent = accentColor === "inverse";

@@ -1,0 +1,1 @@
+export { BentoGridPattern } from './BentoGridPattern';

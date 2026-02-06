@@ -13,6 +13,7 @@ import { Rhythm } from './rhythm/Rhythm';
 import { Bleed } from './bleed/Bleed';
 import { MasonryGrid, MasonryItem } from './MasonryGrid/MasonryGrid';
 import { Overlay } from './Overlay/Overlay';
+import { BentoGrid, BentoItem } from './BentoGrid/BentoGrid';
 
 export const layoutComponents: Record<string, React.ComponentType<any>> = {
   grid: Grid,
@@ -31,5 +32,6 @@ export const layoutComponents: Record<string, React.ComponentType<any>> = {
   bleed: Bleed,
   masonryGrid: MasonryGrid,
   masonryItem: MasonryItem,
-  overlay: Overlay,
+  bentoGrid: BentoGrid,
+  bentoItem: BentoItem,
 };
