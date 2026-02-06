@@ -1,0 +1,17 @@
+.filterable-tabs {
+  margin-bottom: var(--spacing-lg);
+}
+
+[data-filter-tags] {
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+[data-filter-tags].filtered-out {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+[data-filter-tags].filtered-in {
+  opacity: 1;
+  transform: scale(1);
+}

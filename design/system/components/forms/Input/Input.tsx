@@ -114,9 +114,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const startContentRef = useRef<HTMLDivElement>(null);
     const endContentRef = useRef<HTMLDivElement>(null);
     const actionButtonRef = useRef<HTMLDivElement>(null);
+    const internalInputRef = useRef<HTMLInputElement>(null);
     const [startContentWidth, setStartContentWidth] = useState(0);
     const [endContentWidth, setEndContentWidth] = useState(0);
     const [actionButtonWidth, setActionButtonWidth] = useState(0);
+    
+    // Combine internal and forwarded refs
+    const setRefs = (element: HTMLInputElement | null) => {
+      internalInputRef.current = element;
+      if (typeof ref === 'function') {
+        ref(element);
+      } else if (ref) {
+        ref.current = element;
+      }
+    };
 
     // Sync with controlled value
     useEffect(() => {
@@ -124,6 +135,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         setInputValue(value as string);
       }
     }, [value]);
+
+    // Listen for form reset to clear internal state
+    useEffect(() => {
+      const inputElement = internalInputRef.current;
+      const form = inputElement?.closest('form');
+      
+      if (!form) return;
+      
+      const handleReset = () => {
+        setInputValue(defaultValue as string || '');
+      };
+      
+      form.addEventListener('reset', handleReset);
+      return () => form.removeEventListener('reset', handleReset);
+    }, [defaultValue]);
 
     // Measure start/end content and action button width
     useEffect(() => {
@@ -234,7 +260,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
           {/* Input */}
           <input
-            ref={ref}
+            ref={setRefs}
             id={inputId}
             type={actualType}
             value={value !== undefined ? value : inputValue}

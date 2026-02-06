@@ -24,6 +24,7 @@ export interface TextLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElem
   disabled?: boolean;
   componentKey?: string;
   action?: ActionConfig;
+  skipClient?: boolean; // Skip buildHref for dashboard/client navigation - use href directly
 }
 
 export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
@@ -40,19 +41,26 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
   href,
   action,
   componentKey,
+  skipClient = false,
   ...props
 }, ref) => {
-  
+
   const { buildHref } = useHref();
-  
-  // Extract href from action or use direct href prop
+
+  // Extract href and pageId from action or use direct href prop
   let finalHref = href;
+  let pageId: string | undefined;
+
   if (action && action.type === 'navigation') {
     finalHref = action.settings.href;
+    pageId = action.settings.pageId;
   }
-  
-  // Build locale-aware href
-  const localeAwareHref = finalHref ? buildHref(finalHref) : undefined;
+
+  // Build locale-aware href (pageId takes precedence if provided)
+  // Skip buildHref if skipClient is true (for dashboard internal navigation)
+  const localeAwareHref = skipClient
+    ? finalHref
+    : ((finalHref || pageId) ? buildHref(finalHref, pageId) : undefined);
   
   // Use content if provided, otherwise use children
   const displayContent = content || children;

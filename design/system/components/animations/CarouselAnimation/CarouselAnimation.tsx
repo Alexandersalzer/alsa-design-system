@@ -57,6 +57,50 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
 
   const duplicatedItems = Array.from({ length: duplicateCount }, () => items).flat();
 
+  // Preload all images in carousel to prevent white flashes
+  useEffect(() => {
+    const preloadImages = () => {
+      items.forEach(item => {
+        // Extract image src from React elements
+        const extractImageSrc = (node: ReactNode): string[] => {
+          const srcs: string[] = [];
+
+          if (!node) return srcs;
+
+          // Handle React elements
+          if (typeof node === 'object' && 'props' in node) {
+            const props = (node as any).props;
+
+            // Direct image src
+            if (props.src && typeof props.src === 'string') {
+              srcs.push(props.src);
+            }
+
+            // Recurse through children
+            if (props.children) {
+              const children = Array.isArray(props.children) ? props.children : [props.children];
+              children.forEach((child: ReactNode) => {
+                srcs.push(...extractImageSrc(child));
+              });
+            }
+          }
+
+          return srcs;
+        };
+
+        const imageSrcs = extractImageSrc(item.content);
+
+        // Preload each image
+        imageSrcs.forEach(src => {
+          const img = new Image();
+          img.src = src;
+        });
+      });
+    };
+
+    preloadImages();
+  }, [items]);
+
   useEffect(() => {
     const element = animationRef.current;
     if (!element) return;

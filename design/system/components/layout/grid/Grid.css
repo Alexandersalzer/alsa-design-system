@@ -35,7 +35,7 @@
 
 @media (min-width: 768px) {
   .grid--responsive {
-    grid-template-columns: repeat(var(--grid-cols-md, var(--grid-cols-sm, var(--grid-cols-base, 2))), 1fr);
+    grid-template-columns: repeat(var(--grid-cols-md, var(--grid-cols-sm, var(--grid-cols-base, 1))), 1fr);
   }
 }
 
@@ -117,10 +117,60 @@
   min-width: 0; /* Prevent overflow issues */
 }
 
-/* On mobile, force all grid items to span full width */
+/* Sticky grid item - only applies top/z-index when actually sticky (desktop) */
+.grid-item--sticky {
+  align-self: start;
+}
+
+/* Desktop: Enable sticky positioning with top/z-index */
+@media (min-width: 768px) {
+  .grid-item--sticky {
+    position: sticky;
+    top: var(--sticky-top, 100px);
+    z-index: var(--sticky-z-index, 10);
+  }
+}
+
+/* Mobile: Use relative positioning (no top offset) */
 @media (max-width: 767px) {
-  .grid--responsive .grid-item {
-    grid-column: 1 / -1 !important;
+  .grid-item--sticky {
+    position: relative;
+    /* top and z-index are not set, so no offset */
+  }
+}
+
+/* Responsive colSpan support */
+.grid-item--responsive-span {
+  grid-column: span var(--col-span-base, 1);
+}
+
+@media (min-width: 640px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-sm, var(--col-span-base, 1));
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-md, var(--col-span-sm, var(--col-span-base, 1)));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-lg, var(--col-span-md, var(--col-span-sm, var(--col-span-base, 1))));
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-xl, var(--col-span-lg, var(--col-span-md, var(--col-span-sm, var(--col-span-base, 1)))));
+  }
+}
+
+@media (min-width: 1536px) {
+  .grid-item--responsive-span {
+    grid-column: span var(--col-span-2xl, var(--col-span-xl, var(--col-span-lg, var(--col-span-md, var(--col-span-sm, var(--col-span-base, 1))))));
   }
 }
 

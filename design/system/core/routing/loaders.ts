@@ -1,12 +1,79 @@
 import { PageNode } from '../types/nodes';
 import { loadJsonFile, listDirectory, nameToSlug } from '../utils/loaders';
 
+// ===== PAGE SLUG MAP =====
+// Cache for pageId -> slug mapping per locale
+// Built at startup and used for navigation resolution
+type PageSlugMap = Record<string, Record<string, string>>; // { pageId: { locale: slug } }
+let pageSlugMapCache: PageSlugMap | null = null;
+
+/**
+ * Build a complete mapping of pageId -> slug for all locales
+ * Used for resolving pageId references in navigation actions
+ */
+export async function buildPageSlugMap(): Promise<PageSlugMap> {
+  if (pageSlugMapCache) {
+    return pageSlugMapCache;
+  }
+
+  const map: PageSlugMap = {};
+  const locales = await getAvailableLocales();
+
+  for (const locale of locales) {
+    const contentFiles = await listDirectory(`content/${locale}/pages`);
+    const pageFiles = contentFiles.filter(file => 
+      file.endsWith('.json') &&
+      !['navbar.json', 'footer.json'].includes(file)
+    );
+
+    for (const file of pageFiles) {
+      const pageId = file.replace('.json', '');
+      const pageData = await loadJsonFile<PageNode>(`content/${locale}/pages/${file}`);
+      
+      if (pageData?.name) {
+        if (!map[pageId]) {
+          map[pageId] = {};
+        }
+        map[pageId][locale] = nameToSlug(pageData.name);
+      }
+    }
+  }
+
+  pageSlugMapCache = map;
+  return map;
+}
+
+/**
+ * Get slug for a specific pageId and locale
+ * @param pageId - The page identifier (e.g., "page_mjU8bl" or "start")
+ * @param locale - The locale code (e.g., "sv", "en")
+ * @returns The localized slug or null if not found
+ */
+export async function getSlugByPageId(pageId: string, locale: string): Promise<string | null> {
+  const map = await buildPageSlugMap();
+  return map[pageId]?.[locale] || null;
+}
+
+/**
+ * Get the complete page slug map (for client-side injection)
+ */
+export async function getPageSlugMap(): Promise<PageSlugMap> {
+  return buildPageSlugMap();
+}
+
+/**
+ * Clear the page slug map cache (useful for development/hot reload)
+ */
+export function clearPageSlugMapCache(): void {
+  pageSlugMapCache = null;
+}
+
 /**
  * Get the start/home page slug for a specific locale
  * Reads from PageNode structure
  */
 export async function getStartPageSlug(locale: string): Promise<string | null> {
-  const pageData = await loadJsonFile<PageNode>(`content/${locale}/start.json`);
+  const pageData = await loadJsonFile<PageNode>(`content/${locale}/pages/start.json`);
   
   if (pageData?.name) {
     return nameToSlug(pageData.name);
@@ -20,7 +87,7 @@ export async function getStartPageSlug(locale: string): Promise<string | null> {
  * Reads from PageNode structures
  */
 export async function getAllPageSlugs(locale: string): Promise<string[]> {
-  const contentFiles = await listDirectory(`content/${locale}`);
+  const contentFiles = await listDirectory(`content/${locale}/pages`);
   
    // Excluding navbar and footer files
   const pageFiles = contentFiles.filter(file => 
@@ -30,7 +97,7 @@ export async function getAllPageSlugs(locale: string): Promise<string[]> {
   
   const slugs = await Promise.all(
     pageFiles.map(async (file) => {
-      const pageData = await loadJsonFile<PageNode>(`content/${locale}/${file}`);
+      const pageData = await loadJsonFile<PageNode>(`content/${locale}/pages/${file}`);
       return pageData?.name ? nameToSlug(pageData.name) : null;
     })
   );

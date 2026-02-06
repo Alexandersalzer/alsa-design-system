@@ -16,7 +16,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
   if ((pattern as any).layout) {
     const layoutContent = renderLayoutWithTemplate(
       (pattern as any).layout,
-      pattern.components,
+      pattern.components || {},
       sectionKey,
       patternKey
     );
@@ -27,6 +27,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
         align="center"
         height="auto"
         useNavbarWidth={patternProps.useNavbarWidth || false}
+        useMediaWidth={patternProps.useMediaWidth || false}
         noPadding={true}
         patternKey={patternKey}
       >
@@ -56,8 +57,6 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
         type={pattern.type}
         props={pattern.props}
         components={pattern.components}
-        sectionKey={sectionKey}
-        patternKey={patternKey}
       />
     </Container>
   );

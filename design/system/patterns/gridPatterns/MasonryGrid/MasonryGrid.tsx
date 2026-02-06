@@ -1,5 +1,5 @@
 'use client';
-
+// deprecated and should not be used
 import React from 'react';
 import { PatternNode } from '../../../core/types/nodes';
 import { patternProps, getPatternOrder } from '../../../core/utils/props';

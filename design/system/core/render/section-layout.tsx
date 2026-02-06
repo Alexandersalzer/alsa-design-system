@@ -85,10 +85,8 @@ export function renderSectionLayout({
         : 'center';
 
   // ===== FIND SPECIAL PATTERNS =====
-  // Helper to check if a pattern is an action pattern
-  const isActionPattern = (patternType: string) => {
-    return patternType in actionsRegistry;
-  };
+  // Action patterns have type === 'action' (explicit in JSON)
+  const isActionPattern = (patternType: string) => patternType === 'action';
 
   const sectionHeaderKey = order.find(key => patterns[key]?.type === 'sectionHeader');
   

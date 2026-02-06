@@ -7,6 +7,7 @@ import React, { forwardRef, useRef, useState, useId, useEffect, useCallback } fr
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import { Video } from '../Video/Video';
+import { Flag } from '../Flag/Flag';
 import { FadeIn } from '../../animations/FadeIn/FadeIn';
 import { SlideIn } from '../../animations/SlideIn/SlideIn';
 import { Opacity } from '../../animations/Opacity/Opacity';
@@ -44,6 +45,14 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   frameColor?: 'black' | 'white' | 'silver' | 'gold';
   /** Frame size in pixels (controls max-width) */
   frameSize?: number;
+  /** Mobile-specific frame size in pixels */
+  mobileFrameSize?: number;
+  /** Max width in pixels for video on mobile (for videos without frame) */
+  mobileMaxWidth?: number;
+  /** Overlay element (e.g., flag badge) positioned in top-right corner */
+  overlay?: React.ReactNode;
+  /** Country code or emoji for flag badge overlay (e.g., 'de', '🇩🇪', 'germany') */
+  flagCountry?: string;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -66,6 +75,10 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   frame = 'none',
   frameColor = 'black',
   frameSize,
+  mobileFrameSize,
+  mobileMaxWidth,
+  overlay,
+  flagCountry,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -240,8 +253,10 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       className={cn(
         "video-container",
         "video-container--clickable",
-        `video-container--radius-${radius}`
+        `video-container--radius-${radius}`,
+        mobileMaxWidth !== undefined && "video-container--mobile-max-width"
       )}
+      style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
     >
       <Video
         src={videoUrl}
@@ -280,14 +295,35 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           <span className="play-button-icon" />
         </button>
       )}
+      {(overlay || flagCountry) && (
+        <div
+          className="video-container__overlay"
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            pointerEvents: 'none'
+          }}
+        >
+          {overlay}
+          {flagCountry && <Flag country={flagCountry} size="sm" variant="rounded" />}
+        </div>
+      )}
     </div>
   );
+
+  // Build frame style with responsive size support
+  const frameStyle: React.CSSProperties | undefined = frameSize ? {
+    '--frame-size': `${frameSize}px`,
+    '--mobile-frame-size': mobileFrameSize ? `${mobileFrameSize}px` : `${frameSize}px`,
+  } as React.CSSProperties : undefined;
 
   // Wrap video in device frame if specified
   const wrappedContent = frame !== 'none' ? (
     <div 
       className={cn("device-frame", `device-frame--${frame}`, `device-frame--${frameColor}`)}
-      style={frameSize ? { maxWidth: `${frameSize}px` } : undefined}
+      style={frameStyle}
     >
       <div className="device-frame__screen">
         {videoContent}

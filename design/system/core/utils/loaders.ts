@@ -64,63 +64,236 @@ export const nameToSlug = (name: string): string => {
     .trim();
 };
 
-// ===== CONTENT LOADERS =====
+// ===== CONTENT INJECTION =====
 
 /**
- * Generic shell content loader for navbar, footer, etc.
- * Returns typed SectionNode structure
+ * Content file structure (hybrid format)
+ * {
+ *   "name": "hem",
+ *   "seo": { "title": "...", "description": "..." },
+ *   "components": {
+ *     "heading_Q2tS8v": { "content": "UGC-content som når fler" },
+ *     "body_R5uT1w": { "content": "Alice & Felicia..." }
+ *   }
+ * }
  */
-export async function getShellContent(
-  shellType: 'navbar' | 'footer', 
+interface ContentFile {
+  name?: string;
+  seo?: Record<string, any>;
+  components: Record<string, Record<string, any>>;
+}
+
+/**
+ * Recursively inject content into structure by matching component IDs
+ * Traverses the structure and merges content props where IDs match
+ */
+function injectContentByIds(
+  structure: any, 
+  contentMap: Record<string, Record<string, any>>
+): any {
+  if (!structure || typeof structure !== 'object') {
+    return structure;
+  }
+
+  // Handle arrays
+  if (Array.isArray(structure)) {
+    return structure.map(item => injectContentByIds(item, contentMap));
+  }
+
+  // Clone the object to avoid mutation
+  const result = { ...structure };
+
+  // Check each key in the object
+  for (const key of Object.keys(result)) {
+    const value = result[key];
+
+    // If this key exists in contentMap and value has props, merge content
+    if (contentMap[key] && typeof value === 'object' && value !== null) {
+      if (value.props !== undefined) {
+        // Merge content into props
+        result[key] = {
+          ...value,
+          props: { ...value.props, ...contentMap[key] }
+        };
+      } else if (value.type !== undefined) {
+        // Component without props - add props from content
+        result[key] = {
+          ...value,
+          props: { ...contentMap[key] }
+        };
+      }
+    }
+
+    // Recursively process nested objects
+    if (typeof result[key] === 'object' && result[key] !== null) {
+      result[key] = injectContentByIds(result[key], contentMap);
+    }
+  }
+
+  return result;
+}
+
+// ===== PAGE LOADERS =====
+
+/**
+ * Load page structure (design + layout, no content)
+ * Path: public/pages/{pageId}.json
+ */
+export async function getPageStructure(pageId: string): Promise<any | null> {
+  return loadJsonFile<any>(`pages/${pageId}.json`);
+}
+
+/**
+ * Load page content strings for a specific locale
+ * Path: public/content/{locale}/pages/{pageId}.json
+ */
+export async function getPageContentStrings(
+  pageId: string, 
   locale: string
-): Promise<Record<string, any>> {
-  const content = await loadJsonFile<Record<string, any>>(
-    `content/${locale}/${shellType}.json`
-  );
-  return content || {};
+): Promise<ContentFile | null> {
+  return loadJsonFile<ContentFile>(`content/${locale}/pages/${pageId}.json`);
 }
 
 /**
- * Load navbar content for a specific locale
- * Convenience wrapper around getShellContent
+ * Get complete page with merged structure + content
+ * Main function for rendering pages
+ * 
+ * @param pageSlug - URL slug to find the page
+ * @param locale - Language code
+ * @returns Complete PageNode with content injected
  */
-export async function getNavbarContent(locale: string): Promise<Record<string, any> | null> {
-  return getShellContent('navbar', locale);
-}
+export async function getPageWithContent(
+  pageSlug: string, 
+  locale: string
+): Promise<any> {
+  // List all page structure files
+  const pageFiles = await listDirectory('pages');
+  const jsonFiles = pageFiles.filter(f => f.endsWith('.json'));
 
-/**
- * Load footer content for a specific locale  
- * Convenience wrapper around getShellContent
- */
-export async function getFooterContent(locale: string): Promise<Record<string, any> | null> {
-  return getShellContent('footer', locale);
-}
-
-/**
- * Get page content for rendering a specific page
- * Returns complete PageNode structure
- */
-export async function getPageContent(locale: string, pageSlug: string): Promise<any> {
-  const contentFiles = await listDirectory(`content/${locale}`);
-  
-  // Excluding navbar and footer files
-  const pageFiles = contentFiles.filter(file => 
-    file.endsWith('.json') &&
-    !['navbar.json', 'footer.json'].includes(file)
-  );
-  
-  // Search for matching page
-  for (const file of pageFiles) {
-    const pageData = await loadJsonFile<any>(`content/${locale}/${file}`);
+  // Find page by matching slug from content file
+  for (const file of jsonFiles) {
+    const pageId = file.replace('.json', '');
+    const content = await getPageContentStrings(pageId, locale);
     
-    if (pageData?.name) {
-      const slug = nameToSlug(pageData.name);
+    if (content?.name) {
+      const slug = nameToSlug(content.name);
       if (slug === pageSlug) {
-        return pageData;
+        // Found matching page - load structure and merge
+        const structure = await getPageStructure(pageId);
+        if (!structure) {
+          throw new Error(`Page structure not found: ${pageId}`);
+        }
+
+        // Inject content into structure
+        const merged = injectContentByIds(structure, content.components || {});
+
+        // Add page-level content (name, seo)
+        merged.name = content.name;
+        merged.locale = locale;
+        if (content.seo) {
+          merged.seo = { ...merged.seo, ...content.seo };
+        }
+
+        return merged;
       }
     }
   }
+
   throw new Error(`Page not found: ${locale}/${pageSlug}`);
+}
+
+/**
+ * Get page content by page ID (when you already know the ID)
+ * Useful for direct page access without slug lookup
+ */
+export async function getPageById(
+  pageId: string, 
+  locale: string
+): Promise<any> {
+  const structure = await getPageStructure(pageId);
+  if (!structure) {
+    throw new Error(`Page structure not found: ${pageId}`);
+  }
+
+  const content = await getPageContentStrings(pageId, locale);
+  if (!content) {
+    throw new Error(`Page content not found: ${pageId} for locale ${locale}`);
+  }
+
+  // Inject content into structure
+  const merged = injectContentByIds(structure, content.components || {});
+
+  // Add page-level content
+  merged.name = content.name;
+  merged.locale = locale;
+  if (content.seo) {
+    merged.seo = { ...merged.seo, ...content.seo };
+  }
+
+  return merged;
+}
+
+// ===== SHELL LOADERS =====
+
+/**
+ * Load shell structure (design + layout, no content)
+ * Path: public/shells/{shellType}.json
+ */
+export async function getShellStructure(
+  shellType: 'navbar' | 'footer'
+): Promise<Record<string, any> | null> {
+  return loadJsonFile<Record<string, any>>(`shells/${shellType}.json`);
+}
+
+/**
+ * Load shell content strings for a specific locale
+ * Path: public/content/{locale}/shells/{shellType}.json
+ */
+export async function getShellContentStrings(
+  shellType: 'navbar' | 'footer', 
+  locale: string
+): Promise<ContentFile | null> {
+  return loadJsonFile<ContentFile>(`content/${locale}/shells/${shellType}.json`);
+}
+
+/**
+ * Get complete shell with merged structure + content
+ * Main function for rendering navbar/footer
+ */
+export async function getShellWithContent(
+  shellType: 'navbar' | 'footer', 
+  locale: string
+): Promise<Record<string, any>> {
+  const structure = await getShellStructure(shellType);
+  if (!structure) {
+    console.warn(`Shell structure not found: ${shellType}`);
+    return {};
+  }
+
+  const content = await getShellContentStrings(shellType, locale);
+  if (!content) {
+    console.warn(`Shell content not found: ${shellType} for locale ${locale}`);
+    return structure; // Return structure without content injection
+  }
+
+  // Inject content into structure
+  return injectContentByIds(structure, content.components || {});
+}
+
+/**
+ * Load navbar with content for a specific locale
+ * Convenience wrapper around getShellWithContent
+ */
+export async function getNavbarContent(locale: string): Promise<Record<string, any>> {
+  return getShellWithContent('navbar', locale);
+}
+
+/**
+ * Load footer with content for a specific locale
+ * Convenience wrapper around getShellWithContent
+ */
+export async function getFooterContent(locale: string): Promise<Record<string, any>> {
+  return getShellWithContent('footer', locale);
 }
 
 // ===== CONFIG LOADERS =====

@@ -10,10 +10,6 @@ import { ComponentNode, PatternNode } from '../types/nodes';
  */
 let hiddenComponentsSet: Set<string> = new Set();
 
-export const setHiddenComponentsContext = (hiddenComponents: Set<string>) => {
-  hiddenComponentsSet = hiddenComponents;
-};
-
 /**
  * Get content from the first component with a specific type and optional role
  * Returns the content string or a fallback value
@@ -164,16 +160,58 @@ export const extractSlotName = (componentRef: string): string => {
 
 /**
  * Gets all item IDs from layout in order
+ * Priority: itemOrder > items array order > legacy order field
  */
 export const getLayoutItemOrder = (layout: Record<string, any>): string[] => {
-  const { order, items } = layout;
+  const { itemOrder, items, order } = layout;
   
+  // New: itemOrder takes priority (references item IDs)
+  if (itemOrder && Array.isArray(itemOrder)) {
+    return itemOrder;
+  }
+  
+  // Default: items array defines order
+  if (items && Array.isArray(items)) {
+    return items.map(item => item.id).filter(Boolean);
+  }
+  
+  // Legacy fallback: order field (for backwards compatibility)
   if (order && Array.isArray(order)) {
     return order;
   }
   
-  if (items && Array.isArray(items)) {
-    return items.map(item => item.id).filter(Boolean);
+  return [];
+};
+
+/**
+ * Gets all category IDs from layout in order
+ * Priority: categoryOrder > categories array order
+ */
+export const getLayoutCategoryOrder = (layout: Record<string, any>): string[] => {
+  const { categoryOrder, categories } = layout;
+  
+  // categoryOrder takes priority
+  if (categoryOrder && Array.isArray(categoryOrder)) {
+    return categoryOrder;
+  }
+  
+  // Default: categories array defines order
+  if (categories && Array.isArray(categories)) {
+    return categories.map(cat => cat.id).filter(Boolean);
+  }
+  
+  return [];
+};
+
+/**
+ * Gets item order within a specific category
+ * Uses itemIds array (references to items in layout.items[])
+ */
+export const getCategoryItemOrder = (category: Record<string, any>): string[] => {
+  const { itemIds } = category;
+  
+  if (itemIds && Array.isArray(itemIds)) {
+    return itemIds;
   }
   
   return [];
@@ -193,4 +231,63 @@ export const findLayoutItem = (
   }
   
   return items.find(item => item.id === itemId);
+};
+
+/**
+ * Finds category by ID from layout categories array
+ */
+export const findLayoutCategory = (
+  layout: Record<string, any>,
+  categoryId: string
+): Record<string, any> | undefined => {
+  const { categories } = layout;
+  
+  if (!categories || !Array.isArray(categories)) {
+    return undefined;
+  }
+  
+  return categories.find(cat => cat.id === categoryId);
+};
+
+/**
+ * @deprecated Categories now use itemIds referencing layout.items[]
+ * Use findLayoutItem(layout, itemId) instead
+ */
+export const findCategoryItem = (
+  category: Record<string, any>,
+  itemId: string
+): Record<string, any> | undefined => {
+  // Legacy support: if category still has nested items
+  const { items } = category;
+  
+  if (items && Array.isArray(items)) {
+    return items.find(item => item.id === itemId);
+  }
+  
+  return undefined;
+};
+
+/**
+ * Check if layout uses categories (nested structure)
+ */
+export const hasCategories = (layout: Record<string, any>): boolean => {
+  return layout.categories && Array.isArray(layout.categories) && layout.categories.length > 0;
+};
+
+/**
+ * Find component by type in components record
+ * Used for template matching: ${image} → finds component with type: "image"
+ * 
+ * @param components - Record of ComponentNodes keyed by componentId
+ * @param type - Component type to find (e.g., "image", "heading", "body")
+ * @returns The matching ComponentNode or undefined
+ */
+export const findComponentByType = (
+  components: Record<string, any>,
+  type: string
+): Record<string, any> | undefined => {
+  const entry = Object.entries(components).find(
+    ([_, component]) => component.type === type
+  );
+  return entry ? entry[1] : undefined;
 };

@@ -38,7 +38,7 @@ export const Sticky: React.FC<StickyProps> = ({
         position: 'sticky',
         top: topValue,
         zIndex,
-        alignSelf: 'flex-start',
+        alignSelf: 'start', // Works in both Grid and Flexbox contexts
         ...style,
       }}
     >

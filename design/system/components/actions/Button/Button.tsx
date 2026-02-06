@@ -67,18 +67,32 @@ export const Button = forwardRef<
     const actionHook = action ? useAction(action) : null;
     const isDisabled = disabled || loading || internalLoading;
     
+    // Success state from action hook - only for form actions (contact, newsletter)
+    const isSuccess = actionHook?.success && action?.type !== 'navigation' && action?.type !== 'booking';
+    const successMessage = actionHook?.message;
+    
     // Use content prop if provided, otherwise use children
     const displayContent = content || children;
     
     const getEffectiveHref = () => {
       if (action?.type === 'navigation') {
-        return (action as NavigationActionConfig).settings.href;
+        const navSettings = (action as NavigationActionConfig).settings;
+        // pageId takes precedence, buildHref will resolve it
+        return navSettings.pageId || navSettings.href;
       }
       return href;
     };
     
+    const getPageId = () => {
+      if (action?.type === 'navigation') {
+        return (action as NavigationActionConfig).settings.pageId;
+      }
+      return undefined;
+    };
+    
     const effectiveHref = getEffectiveHref();
-    const localeAwareHref = effectiveHref ? buildHref(effectiveHref) : undefined;
+    const pageId = getPageId();
+    const localeAwareHref = (effectiveHref || pageId) ? buildHref(effectiveHref, pageId) : undefined;
     
     const effectiveTarget = 
       (action?.type === 'navigation' && (action as NavigationActionConfig).settings.openInNewTab) 
@@ -151,7 +165,21 @@ export const Button = forwardRef<
       setInternalLoading(true);
 
       try {
-        await actionHook!.execute(formData || {});
+        // Auto-collect form data from parent <form> if no formData prop provided
+        let dataToSubmit = formData;
+        const form = (e.currentTarget as HTMLButtonElement).closest('form');
+        if (!dataToSubmit || Object.keys(dataToSubmit).length === 0) {
+          if (form) {
+            dataToSubmit = Object.fromEntries(new FormData(form).entries()) as Record<string, any>;
+          }
+        }
+        const result = await actionHook!.execute(dataToSubmit || {});
+        
+        // Clear form inputs on success
+        if (result?.success && form) {
+          form.reset();
+        }
+        
         onClick?.(e as any); // Call parent onClick after other actions
       } finally {
         setInternalLoading(false);
@@ -219,6 +247,19 @@ export const Button = forwardRef<
     }
 
     // Render as <button>
+    // If success, show success message instead of button
+    if (isSuccess) {
+      return (
+        <Component componentKey={componentKey}>
+          <div className="text-green-600">
+            <Label size={getLabelSize(size)} weight={getLabelWeight(size)} as="span">
+              {successMessage || 'Skickat!'}
+            </Label>
+          </div>
+        </Component>
+      );
+    }
+
     return (
       <Component componentKey={componentKey}>
         <button

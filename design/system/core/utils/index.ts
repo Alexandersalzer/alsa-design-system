@@ -7,5 +7,16 @@ export * from './props';
 export * from './env';
 export * from './loaders';
 
+// Context providers
+export { PageSlugProvider } from '../context/PageSlugProvider';
+
 // Re-export commonly used types for easier imports
-export type { ComponentNode } from '../types/nodes';
+export type { 
+  ComponentNode, 
+  PatternNode, 
+  PatternLayout, 
+  LayoutItem, 
+  LayoutCategory,
+  LayoutTemplate,
+  TemplateNode
+} from '../types/nodes';

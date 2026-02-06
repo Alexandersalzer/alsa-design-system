@@ -20,6 +20,8 @@ export interface ButtonGroupProps extends PatternNode {
   patternKey?: string;
   /** Layout context for inheriting alignment from parent layout */
   layoutContext?: LayoutContext;
+  /** Mobile-specific alignment override */
+  mobileAlign?: 'left' | 'start' | 'center' | 'right' | 'end';
 }
 
 /**
@@ -43,6 +45,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
   const {
     gap = 'md', // HStack gap between buttons
     wrap = true, // Allow buttons to wrap on mobile
+    mobileAlign, // Mobile-specific alignment override
   } = patternPropsValues;
 
   // Get alignment from props or inherit from layout context
@@ -59,6 +62,9 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
     end: 'end',
   } as const;
   const justify = justifyMap[align as keyof typeof justifyMap] || 'center';
+  
+  // Map mobileAlign to HStack mobileJustify
+  const mobileJustify = mobileAlign ? justifyMap[mobileAlign as keyof typeof justifyMap] : undefined;
 
   // Fallback: if no order, use all component keys
   const buttonKeys = order.length > 0 ? order : Object.keys(components);
@@ -110,6 +116,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = (patternNode) => {
     <HStack
       spacing={gap}
       justify={justify}
+      mobileJustify={mobileJustify}
       align="center"
       wrap={wrap}
       style={{ width: '100%' }}

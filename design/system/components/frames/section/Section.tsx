@@ -31,6 +31,12 @@ interface SectionProps extends BackgroundProps {
   applyNavbarVoid?: boolean;
   style?: React.CSSProperties;
   sectionKey?: string;
+  /** Add border to top of section */
+  borderTop?: boolean;
+  /** Add border to bottom of section */
+  borderBottom?: boolean;
+  /** Border weight/thickness */
+  borderWeight?: 'thin' | 'default' | 'thick';
 }
 
 const getHeightClass = (height: Height): string => {
@@ -87,6 +93,9 @@ export const Section = ({
   overflow,
   overflowX,
   overflowY,
+  borderTop = false,
+  borderBottom = false,
+  borderWeight = 'default',
   background,
   backgroundImage,
   backgroundSize,
@@ -170,6 +179,20 @@ export const Section = ({
       bottom: 'flex-end',
     };
     inlineStyles.justifyContent = positionMap[contentPosition];
+  }
+
+  // Apply border styles
+  const borderWidthMap = {
+    thin: '1px',
+    default: '1px',
+    thick: '2px'
+  };
+
+  if (borderTop) {
+    inlineStyles.borderTop = `${borderWidthMap[borderWeight]} solid var(--border-default)`;
+  }
+  if (borderBottom) {
+    inlineStyles.borderBottom = `${borderWidthMap[borderWeight]} solid var(--border-default)`;
   }
 
   // Apply navbar void compensation for hero sections

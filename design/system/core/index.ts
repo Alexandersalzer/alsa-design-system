@@ -19,6 +19,9 @@ export type {
 // Render utilities and components
 export * from './render';
 
+// Context providers
+export { FilterProvider, useFilterContext } from './context/FilterContext';
+export { PageSlugProvider } from './context/PageSlugProvider';
 
 export * from './utils';
 export * from './design';
