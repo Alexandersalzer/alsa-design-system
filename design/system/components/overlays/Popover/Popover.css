@@ -204,12 +204,40 @@
   background: var(--border-hover);
 }
 
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .popover-content {
+    /* Make popover responsive on mobile */
+    max-width: calc(100vw - 32px) !important;
+    left: 16px !important;
+    right: 16px !important;
+  }
+
+  /* Override min-width constraints on mobile */
+  .popover-content--xs,
+  .popover-content--sm,
+  .popover-content--md,
+  .popover-content--lg {
+    min-width: unset !important;
+  }
+
+  /* Reduce padding on mobile */
+  .popover-header,
+  .popover-footer {
+    padding: 12px;
+  }
+
+  .popover-body {
+    padding: 8px;
+  }
+}
+
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .popover-content {
     animation: simpleFadeIn 0.15s ease;
   }
-  
+
   @keyframes simpleFadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

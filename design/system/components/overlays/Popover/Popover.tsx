@@ -411,15 +411,24 @@ export const PopoverContent = ({
     // Horizontal positioning - prevent overflow
     let left = triggerRect.left;
 
-    // Check if content would overflow on the right
-    if (left + actualContentWidth > viewportWidth - 16) {
-      // Align to right edge of trigger
-      left = triggerRect.right - actualContentWidth;
-    }
-
-    // Check if it would overflow on the left
-    if (left < 16) {
+    // Mobile responsive: On small screens (< 640px), center and constrain width
+    const isMobile = viewportWidth <= 640;
+    if (isMobile) {
+      // Center horizontally with 16px padding on each side
       left = 16;
+      // Content will be constrained by CSS max-width: calc(100vw - 32px)
+    } else {
+      // Desktop: Normal positioning logic
+      // Check if content would overflow on the right
+      if (left + actualContentWidth > viewportWidth - 16) {
+        // Align to right edge of trigger
+        left = triggerRect.right - actualContentWidth;
+      }
+
+      // Check if it would overflow on the left
+      if (left < 16) {
+        left = 16;
+      }
     }
 
     // Vertical position (fixed positioning from viewport)
