@@ -5,6 +5,7 @@ export * from './Switch';
 export * from './Picker';
 export * from './Input';
 export * from './FileUploader';
+export * from './FileDropOverlay';
 export * from './ImageCropper';
 export * from './ProfilePictureCropper';
 export * from './DateInput';

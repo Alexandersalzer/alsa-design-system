@@ -3,13 +3,14 @@
 // FILE UPLOADER COMPONENT - Integrated with Design System
 // ===============================================
 
-import React, { forwardRef, ReactNode, useRef, useState, useCallback } from 'react';
+import React, { forwardRef, ReactNode, useRef, useState, useCallback, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
-import { Label, TypographyColor } from '../..';
+import { Label, TypographyColor, Avatar } from '../..';
+import { AvatarSize } from '../../media/Avatar/Avatar';
 
 export interface FileUploaderProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   children?: ReactNode;
-  variant?: 'dropzone' | 'button' | 'compact';
+  variant?: 'dropzone' | 'button' | 'compact' | 'avatar';
   size?: 'sm' | 'md' | 'lg';
   maxSize?: number; // in bytes
   accept?: string;
@@ -23,6 +24,13 @@ export interface FileUploaderProps extends Omit<React.InputHTMLAttributes<HTMLIn
   helperText?: string;
   label?: string;
   required?: boolean;
+  fullscreenDropzone?: boolean; // Enable fullscreen dropzone overlay on drag
+  // Avatar variant specific props
+  avatarSize?: AvatarSize;
+  avatarName?: string;
+  avatarShape?: 'square' | 'rounded' | 'full';
+  avatarVariant?: 'solid' | 'subtle' | 'outline';
+  avatarColorPalette?: 'gray' | 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'blue' | 'cyan' | 'purple' | 'pink';
 }
 
 export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
@@ -44,18 +52,40 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
   label,
   required = false,
   onChange,
+  fullscreenDropzone = false,
+  // Avatar variant props
+  avatarSize = 'xl',
+  avatarName,
+  avatarShape = 'full',
+  avatarVariant = 'subtle',
+  avatarColorPalette = 'gray',
   ...props
 }, ref) => {
   const hiddenInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragCounter, setDragCounter] = useState(0);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [globalDragActive, setGlobalDragActive] = useState(false);
 
   // Handle file selection
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
+
+    // Generate preview for avatar variant
+    if (variant === 'avatar' && files && files.length > 0) {
+      const file = files[0];
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewUrl(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
     onFilesSelected?.(files);
     onChange?.(event);
-  }, [onFilesSelected, onChange]);
+  }, [onFilesSelected, onChange, variant]);
 
   // Handle drag events
   const handleDragEnter = useCallback((e: React.DragEvent) => {
@@ -112,6 +142,77 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
     }
   }, [disabled]);
 
+  // Global drag event handlers for fullscreen dropzone
+  useEffect(() => {
+    if (!fullscreenDropzone) return;
+
+    let dragCounter = 0;
+    let dragTimer: NodeJS.Timeout | null = null;
+
+    const handleGlobalDragEnter = (e: DragEvent) => {
+      e.preventDefault();
+
+      // Only count drag events that have files
+      if (e.dataTransfer?.types?.includes('Files')) {
+        dragCounter++;
+        if (dragCounter === 1) {
+          setGlobalDragActive(true);
+        }
+
+        // Clear any existing timer
+        if (dragTimer) {
+          clearTimeout(dragTimer);
+          dragTimer = null;
+        }
+      }
+    };
+
+    const handleGlobalDragLeave = (e: DragEvent) => {
+      e.preventDefault();
+
+      dragCounter--;
+
+      // Use a small delay to prevent flashing when moving between elements
+      if (dragTimer) clearTimeout(dragTimer);
+      dragTimer = setTimeout(() => {
+        if (dragCounter <= 0) {
+          dragCounter = 0;
+          setGlobalDragActive(false);
+        }
+      }, 50);
+    };
+
+    const handleGlobalDragOver = (e: DragEvent) => {
+      e.preventDefault();
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'copy';
+      }
+    };
+
+    const handleGlobalDrop = (e: DragEvent) => {
+      e.preventDefault();
+      dragCounter = 0;
+      if (dragTimer) {
+        clearTimeout(dragTimer);
+        dragTimer = null;
+      }
+      setGlobalDragActive(false);
+    };
+
+    window.addEventListener('dragenter', handleGlobalDragEnter);
+    window.addEventListener('dragleave', handleGlobalDragLeave);
+    window.addEventListener('dragover', handleGlobalDragOver);
+    window.addEventListener('drop', handleGlobalDrop);
+
+    return () => {
+      if (dragTimer) clearTimeout(dragTimer);
+      window.removeEventListener('dragenter', handleGlobalDragEnter);
+      window.removeEventListener('dragleave', handleGlobalDragLeave);
+      window.removeEventListener('dragover', handleGlobalDragOver);
+      window.removeEventListener('drop', handleGlobalDrop);
+    };
+  }, [fullscreenDropzone]);
+
   // Typography props for different states
   const getTypographyProps = (variant: string, size: string, error: boolean, disabled: boolean) => {
     const sizeMap = {
@@ -161,6 +262,43 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
 
     // Default content based on variant
     switch (variant) {
+      case 'avatar':
+        return (
+          <div className="file-uploader__avatar-container">
+            <Avatar
+              size={avatarSize}
+              shape={avatarShape}
+              variant={avatarVariant}
+              colorPalette={avatarColorPalette}
+              name={avatarName}
+              src={previewUrl || undefined}
+              fallbackMode={previewUrl ? 'none' : 'icon'}
+            />
+            <div className="file-uploader__avatar-overlay">
+              <svg
+                className="file-uploader__avatar-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </div>
+          </div>
+        );
+
       case 'button':
         return (
           <>
@@ -327,6 +465,40 @@ export const FileUploader = forwardRef<HTMLInputElement, FileUploaderProps>(({
           {helperText}
         </Label>
       )}
+
+      {/* Fullscreen Dropzone Overlay */}
+      {fullscreenDropzone && globalDragActive && (
+        <div
+          className="file-uploader__fullscreen-overlay"
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
+          <div className="file-uploader__fullscreen-content">
+            <div className="file-uploader__fullscreen-icon">
+              <svg
+                width="64"
+                height="64"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+            </div>
+            <Label size="lg" weight="semibold" color="primary" as="div" className="file-uploader__fullscreen-text">
+              Drop {multiple ? 'files' : 'file'} anywhere to upload
+            </Label>
+          </div>
+        </div>
+      )}
     </div>
   );
 });
@@ -367,6 +539,29 @@ export default FileUploader;
   size="sm"
   accept="image/*"
   leftIcon={<ImageIcon />}
+  onFilesSelected={(files) => console.log(files)}
+/>
+
+// ✅ AVATAR VARIANT
+<FileUploader
+  variant="avatar"
+  avatarSize="xl"
+  avatarShape="full"
+  avatarName="John Doe"
+  accept="image/*"
+  onFilesSelected={(files) => console.log(files)}
+  label="Profile Picture"
+  helperText="Click to upload a new profile picture"
+/>
+
+// ✅ AVATAR VARIANT - Square Shape
+<FileUploader
+  variant="avatar"
+  avatarSize="2xl"
+  avatarShape="square"
+  avatarVariant="outline"
+  avatarColorPalette="blue"
+  accept="image/*"
   onFilesSelected={(files) => console.log(files)}
 />
 
