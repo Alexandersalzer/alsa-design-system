@@ -135,6 +135,62 @@
   min-height: 36px;
 }
 
+/* AVATAR VARIANT */
+.file-uploader--avatar {
+  padding: 0;
+  min-height: auto;
+  border: none;
+  background-color: transparent;
+  border-radius: var(--radius-full);
+  width: fit-content;
+  position: relative;
+}
+
+.file-uploader--avatar:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.file-uploader__avatar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-uploader__avatar-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+  pointer-events: none;
+}
+
+.file-uploader--avatar:hover .file-uploader__avatar-overlay {
+  opacity: 1;
+}
+
+.file-uploader__avatar-icon {
+  width: 40%;
+  height: 40%;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.file-uploader--avatar.file-uploader--disabled .file-uploader__avatar-overlay {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.file-uploader--avatar.file-uploader--error {
+  outline: 2px solid var(--border-error);
+  outline-offset: 2px;
+}
+
 /* ===== FILE UPLOADER STATES - USING SEMANTIC TOKENS ===== */
 
 /* HOVER STATES */
