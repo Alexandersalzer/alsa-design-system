@@ -41,7 +41,7 @@ const SparklinePattern = ({ props = {} }: SparklinePatternProps) => {
     className?: string;
   };
 
-  const wrapperStyle = maxWidth ? { maxWidth, width: '100%' } : undefined;
+  const wrapperStyle = maxWidth ? { maxWidth, width: '100%' } : { width: '100%' };
 
   return (
     <div style={wrapperStyle}>

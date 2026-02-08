@@ -58,6 +58,8 @@ export interface BentoCardProps {
   showLink?: boolean;
   /** Add elevation/shadow to footer */
   footerElevated?: boolean;
+  /** Scale image to fill the card (may crop/zoom). If false, image keeps proportions without zoom. */
+  scaleImageToFill?: boolean;
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
@@ -86,6 +88,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   linkPosition = 'inline',
   showLink = true,
   footerElevated = false,
+  scaleImageToFill,
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
 
@@ -101,6 +104,11 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   const effectiveHoverEffect = accentHover !== undefined 
     ? (accentHover ? 'accent' : 'none') 
     : hoverEffect;
+
+  // Support scaleImageToFill prop - overrides imageObjectFit when defined
+  const effectiveImageObjectFit = scaleImageToFill !== undefined
+    ? (scaleImageToFill ? 'cover' : 'contain')
+    : imageObjectFit;
 
   // Card is clickable if it has href
   const isClickable = !!href;
@@ -154,7 +162,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
           <img
             src={fullImageSrc}
             alt={imageAlt || title || 'Bento card image'}
-            className={`bento-card__image bento-card__image--${imageObjectFit}`}
+            className={`bento-card__image bento-card__image--${effectiveImageObjectFit}`}
             loading="lazy"
           />
         </div>

@@ -9,10 +9,14 @@ import React from 'react';
 import { VStack } from '../../components/layout/vStack/VStack';
 import { Box } from '../../components/layout/box/Box';
 import { Container } from '../../components/frames/container/Container';
+import { Card } from '../../components/layout/Card/Card';
 import { LayoutConfig } from '../types/layout';
 import { PatternNode } from '../types/nodes';
 import { renderPattern, renderPatternDirect } from './patterns';
+import { renderBackgroundComponent } from './background';
+import { actionsRegistry } from '../../patterns/actions/registry';
 import { AnimationConfig } from '../../components/animations/types';
+import type { BackgroundProps } from '../../components/backgrounds/types';
 
 interface SectionLayoutProps {
   layout?: LayoutConfig;
@@ -60,7 +64,25 @@ export function renderSectionLayout({
     mobileOrder,
     mobileAlign,
     mobileGap,
+    wrapInCard = false,
+    cardVariant = 'raised',
+    cardPadding = 'lg',
+    cardRadius = 'lg',
+    cardBackground,
+    cardBackgroundSettings = {},
+    cardBorderStyle = 'none',
+    cardColumnVerticalAlign,
   } = layout || {};
+
+  // När wrapInCard: samma vertikala alignment för båda kolumnerna (default center så det inte sitter i hörnet)
+  const effectiveCardColumnAlign =
+    wrapInCard ? (cardColumnVerticalAlign ?? 'center') : null;
+  const cardColumnAlignCss =
+    effectiveCardColumnAlign === 'start'
+      ? 'flex-start'
+      : effectiveCardColumnAlign === 'end'
+        ? 'flex-end'
+        : 'center';
 
   // ===== FIND SPECIAL PATTERNS =====
   // Action patterns have type === 'action' (explicit in JSON)
@@ -291,6 +313,24 @@ export function renderSectionLayout({
   const effectiveAlign = sectionHeaderAlign || 'start';
   const marginValue = effectiveAlign === 'center' ? '0 auto' : effectiveAlign === 'end' ? '0 0 0 auto' : '0 auto 0 0';
 
+  // Layout cardPadding (xs/lg/xl) -> foundation numeric token (--foundation-space-2, -8, -10, etc.)
+  const cardPaddingToFoundationToken: Record<string, string> = {
+    xs: '2',
+    sm: '4',
+    md: '6',
+    lg: '8',
+    xl: '10',
+    '2xl': '12',
+  };
+  const cardPaddingToken =
+    cardPadding && cardPadding !== 'none' ? cardPaddingToFoundationToken[cardPadding] ?? '8' : null;
+
+  // When wrapInCard: same inner padding for both columns so they align; use real foundation token so spacing to card edge works
+  const columnInnerPadding =
+    wrapInCard && cardPaddingToken
+      ? { padding: `var(--foundation-space-${cardPaddingToken})` as const }
+      : undefined;
+
   // Get mobile pattern order for stacked view
   const mobilePatternOrder = getMobilePatternOrder();
 
@@ -308,7 +348,7 @@ export function renderSectionLayout({
         #${layoutId} .split-grid {
           display: grid;
           grid-template-columns: ${ratioMap[ratio]};
-          gap: var(--space-${gap});
+          gap: ${wrapInCard && cardPaddingToken ? `var(--foundation-space-${cardPaddingToken})` : `var(--space-${gap})`};
           align-items: ${verticalAlign};
           ${isSecondColumnMediaOnly ? 'grid-auto-rows: 1fr;' : ''}
         }
@@ -349,8 +389,11 @@ export function renderSectionLayout({
           margin: '0 auto',
         }}
       >
-        {/* Desktop: Split Grid - Two Columns */}
-        <Box className="split-grid section-split-layout">
+        {(() => {
+          const layoutContent = (
+            <>
+              {/* Desktop: Split Grid - Two Columns */}
+              <Box className="split-grid section-split-layout">
           {/* Left Column */}
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, left column has secondColumn patterns
@@ -364,36 +407,76 @@ export function renderSectionLayout({
               </VStack>
             )
           ) : (
-            <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
-              <Container height="auto">
-                <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+            <Box style={{ display: 'flex', alignItems: wrapInCard && cardColumnAlignCss ? cardColumnAlignCss : (sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center'), height: '100%' }}>
+              {wrapInCard ? (
+                <Box
+                  style={{
+                    ...columnInnerPadding,
+                    maxWidth: sectionHeaderMaxWidth,
+                    margin: marginValue,
+                    width: '100%',
+                  }}
+                >
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                     {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                   </VStack>
                 </Box>
-              </Container>
+              ) : (
+                <Container height="auto">
+                  <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                    <VStack spacing="lg" align="start">
+                      {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
+                      {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                      {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                    </VStack>
+                  </Box>
+                </Container>
+              )}
             </Box>
           )}
 
           {isSectionHeaderInRightColumn ? (
-            <Box style={{ display: 'flex', alignItems: sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center', height: '100%' }}>
-              <Container height="auto">
-                <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+            <Box style={{ display: 'flex', alignItems: wrapInCard && cardColumnAlignCss ? cardColumnAlignCss : (sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center'), height: '100%' }}>
+              {wrapInCard ? (
+                <Box
+                  style={{
+                    ...columnInnerPadding,
+                    maxWidth: sectionHeaderMaxWidth,
+                    margin: marginValue,
+                    width: '100%',
+                  }}
+                >
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                     {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
                   </VStack>
                 </Box>
-              </Container>
+              ) : (
+                <Container height="auto">
+                  <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                    <VStack spacing="lg" align="start">
+                      {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext)}
+                      {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                      {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext))}
+                    </VStack>
+                  </Box>
+                </Container>
+              )}
             </Box>
           ) : (
             // When SectionHeader is on left, right column has secondColumn patterns
             isSecondColumnMediaOnly ? (
               <Box className="media-column">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
+              </Box>
+            ) : wrapInCard && columnInnerPadding ? (
+              <Box style={{ ...columnInnerPadding, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: cardColumnAlignCss }}>
+                <VStack spacing={gap} align="stretch">
+                  {renderPatterns(secondColumnPatterns, secondColumnContext)}
+                </VStack>
               </Box>
             ) : (
               <VStack spacing={gap} align="stretch">
@@ -449,6 +532,68 @@ export function renderSectionLayout({
             </Container>
           </Box>
         )}
+            </>
+          );
+          if (!wrapInCard) return layoutContent;
+
+          const hasCardBackground = Boolean(cardBackground);
+          const cardBackgroundProps: BackgroundProps = { ...(cardBackgroundSettings || {}) } as BackgroundProps;
+
+          const cardBorderCss =
+            cardBorderStyle === 'subtle'
+              ? '1px solid var(--border-subtle)'
+              : cardBorderStyle === 'solid'
+                ? '2px solid var(--border-default)'
+                : cardBorderStyle === 'accent'
+                  ? '1px solid var(--accent-500)'
+                  : undefined;
+
+          if (hasCardBackground) {
+            return (
+              <Card
+                variant="ghost"
+                padding="none"
+                radius={cardRadius}
+                style={{
+                  width: '100%',
+                  boxSizing: 'border-box',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  background: 'transparent',
+                  ...(cardBorderCss && { border: cardBorderCss }),
+                }}
+              >
+                <Box style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+                  {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
+                </Box>
+                <Box
+                  style={{
+                    position: 'relative',
+                    padding: cardPaddingToken ? `var(--foundation-space-${cardPaddingToken})` : 0,
+                  }}
+                >
+                  {layoutContent}
+                </Box>
+              </Card>
+            );
+          }
+
+          const cardPaddingForCard = (cardPadding === 'xl' || cardPadding === '2xl') ? 'lg' : cardPadding;
+          return (
+            <Card
+              variant={cardVariant}
+              padding={cardPaddingForCard}
+              radius={cardRadius}
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+                ...(cardBorderCss && { border: cardBorderCss }),
+              }}
+            >
+              {layoutContent}
+            </Card>
+          );
+        })()}
       </Box>
     </>
   );

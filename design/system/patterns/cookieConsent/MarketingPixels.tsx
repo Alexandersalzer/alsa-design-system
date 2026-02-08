@@ -235,6 +235,12 @@ export function MarketingPixels({ pixels }: MarketingPixelsProps) {
     }
   }, []);
 
+  // Per-pixel consent: Google (GA) kräver analytics, övriga (Meta, TikTok, Snap) kräver marketing
+  const hasConsentForPixel = useCallback((pixel: PixelConfig) => {
+    if (pixel.platform === 'google') return consent.analytics;
+    return consent.marketing;
+  }, [consent.analytics, consent.marketing]);
+
   useEffect(() => {
     // 🛡️ Security: Only run in browser
     if (typeof window === 'undefined') return;
@@ -242,19 +248,14 @@ export function MarketingPixels({ pixels }: MarketingPixelsProps) {
     // ⏳ Wait for consent to load
     if (isLoading) return;
     
-    // 🛡️ GDPR: Only load if marketing consent granted
-    if (!consent.marketing) {
-      return;
-    }
-    
     // 🔒 Security: Validate pixels array
     if (!Array.isArray(pixels) || pixels.length === 0) {
       return;
     }
     
-    // Load each pixel
-    pixels.forEach(loadPixel);
-  }, [consent.marketing, isLoading, pixels, loadPixel]);
+    // GDPR: Load only pixels the user has consented to
+    pixels.filter(hasConsentForPixel).forEach(loadPixel);
+  }, [consent.analytics, consent.marketing, isLoading, pixels, loadPixel, hasConsentForPixel]);
 
   return null; // No UI
 }
