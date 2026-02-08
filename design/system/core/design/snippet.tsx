@@ -1,12 +1,14 @@
 import type { DesignTokens } from "../types/design";
 import { getDesignConfig } from "./loaders";
 import { normalizeWeights, getWeightValue, normalizeNumericWeights } from "./weights";
+import { getFontMetadata } from "./googleFontsUtils";
 
 /**
  * Generates CSS variables from design.json
  * Injects design tokens dynamically into <head>.
+ * Now async to intelligently load only available font weights and styles
  */
-export function buildCssVars(tokens: DesignTokens): string {
+export async function buildCssVars(tokens: DesignTokens): Promise<string> {
   const radius           = tokens?.radius           || "md";
   const accentColor      = tokens?.accentColor      || "purple";
 
@@ -59,13 +61,45 @@ export function buildCssVars(tokens: DesignTokens): string {
     fontWeightLabel = getWeightValue(weights.label);
   }
 
-  const fontWeights = "300;400;500;600;700;800;900";
+  // 🎯 SMART FONT LOADING: Only load weights and styles that actually exist
+  const requestedWeights = [300, 400, 500, 600, 700, 800, 900];
   const extraFonts = tokens?.extraFonts || [];
   const allFonts = [fontPrimary, fontSecondary, ...extraFonts].filter((f, i, arr) => arr.indexOf(f) === i);
-  // Load both regular and italic weights: ital,wght@0,weight;1,weight
-  const weightParams = fontWeights.split(';').flatMap(w => [`0,${w}`, `1,${w}`]).join(';');
-  const fontsToImport = allFonts.map(f => `family=${f.replace(/\s/g, '+')}:ital,wght@${weightParams}`).join('&');
-  const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport}&display=swap`;
+
+  // Fetch metadata for all fonts to determine available weights
+  const fontsToImport = await Promise.all(
+    allFonts.map(async (fontFamily) => {
+      try {
+        const metadata = await getFontMetadata(fontFamily);
+
+        // Filter to only weights that this font actually supports
+        const validWeights = requestedWeights.filter(w =>
+          metadata.availableWeights.includes(w)
+        );
+
+        // Use available weights or fallback to font's actual weights
+        const weightsToLoad = validWeights.length > 0 ? validWeights : metadata.availableWeights;
+
+        if (weightsToLoad.length === 0) {
+          console.warn(`[Font Loading] No weights available for ${fontFamily}, using regular (400)`);
+          return `family=${fontFamily.replace(/\s/g, '+')}:wght@400`;
+        }
+
+        // For now, only load regular (non-italic) to ensure compatibility
+        // Google Fonts API fails completely if italic is requested for fonts without it
+        const family = fontFamily.replace(/\s/g, '+');
+        const weights = weightsToLoad.join(';');
+        return `family=${family}:wght@${weights}`;
+
+      } catch (error) {
+        // Fallback if metadata fetch fails
+        console.warn(`[Font Loading] Failed to fetch metadata for ${fontFamily}, using standard weights`);
+        return `family=${fontFamily.replace(/\s/g, '+')}:wght@400;500;600;700`;
+      }
+    })
+  );
+
+  const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport.join('&')}&display=swap`;
 
   const isInverseAccent = accentColor === "inverse";
 
@@ -317,8 +351,8 @@ export async function designSnippet(isEditing?: boolean): Promise<{
     themeMode = 'light';
   }
 
-  // Generate CSS
-  const css = buildCssVars(tokens);
+  // Generate CSS (now async)
+  const css = await buildCssVars(tokens);
 
   // Return both new and deprecated fields
   const isDark = themeMode === 'dark';  // For backward compatibility
