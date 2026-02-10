@@ -10,6 +10,8 @@ export type AnimationType =
   | 'opacity'
   | 'scale'
   | 'carousel'
+  | 'bounce'
+  | 'opacityBounce'
   | 'none';
 
 export type EasingType =
@@ -108,6 +110,28 @@ export interface CarouselAnimationConfig extends BaseAnimationConfig {
   };
 }
 
+export interface BounceAnimationConfig extends BaseAnimationConfig {
+  type: 'bounce';
+  settings?: {
+    duration?: number;
+    delay?: number;
+    intensity?: number;
+    enableScrollTrigger?: boolean;
+    triggerOffset?: number;
+  };
+}
+
+export interface OpacityBounceAnimationConfig extends BaseAnimationConfig {
+  type: 'opacityBounce';
+  settings?: {
+    duration?: number;
+    delay?: number;
+    intensity?: number;
+    enableScrollTrigger?: boolean;
+    triggerOffset?: number;
+  };
+}
+
 export interface NoneAnimationConfig extends BaseAnimationConfig {
   type: 'none';
   settings?: never;
@@ -121,4 +145,6 @@ export type AnimationConfig =
   | OpacityAnimationConfig
   | ScaleAnimationConfig
   | CarouselAnimationConfig
+  | BounceAnimationConfig
+  | OpacityBounceAnimationConfig
   | NoneAnimationConfig;
