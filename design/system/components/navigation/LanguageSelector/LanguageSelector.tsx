@@ -10,7 +10,7 @@ import { Menu } from '../../overlays/Menu/Menu';
 import { getPickerLocale, handleLocaleChange } from '../../../core/routing';
 
 export type LanguageSelectorSize = 'sm' | 'md' | 'lg';
-export type LanguageSelectorVariant = 'subtle' | 'solid';
+export type LanguageSelectorVariant = 'solid' | 'bordered' | 'light' | 'flat' | 'faded' | 'shadow';
 
 export interface LanguageOption {
   value: string;
@@ -34,7 +34,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   options = [],
   placeholder = 'Select Language',
   size = 'sm',
-  variant = 'subtle',
+  variant = 'light',
   componentKey
 }) => {
   const pathname = usePathname();
