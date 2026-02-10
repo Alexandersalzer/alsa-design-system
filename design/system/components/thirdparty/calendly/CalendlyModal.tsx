@@ -30,6 +30,7 @@ declare global {
       initPopupWidget: (options: { url: string }) => void;
       closePopupWidget: () => void;
       showPopupWidget: (url: string) => void;
+      initInlineWidget: (options: { url: string; parentElement: HTMLElement }) => void;
     };
   }
 }

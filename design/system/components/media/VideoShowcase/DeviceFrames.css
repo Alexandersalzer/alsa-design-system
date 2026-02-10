@@ -39,7 +39,6 @@
 
 /* ===== IPHONE 14 PRO ===== */
 .device-frame--iphone-14-pro {
-  aspect-ratio: 71.5 / 144.5; /* iPhone 14 Pro exact physical dimensions: 71.5mm x 147.5mm (2.81" x 5.81") */
   max-width: var(--frame-size, 320px); /* Control size here - height follows naturally via aspect-ratio */
   width: 100%;
   background: #1a1a1a;

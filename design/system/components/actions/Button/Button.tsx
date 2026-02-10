@@ -14,7 +14,7 @@ import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
 import { useAction } from '../../../core/actions/useAction';
 import type { ActionConfig, NavigationActionConfig, BookingActionConfig } from '../../../core/actions/types';
-import { openCalendlyPopup, buildCalendlyUrl } from '../../../patterns/widgets/CalendlyModal/CalendlyModal';
+import { openCalendlyPopup, buildCalendlyUrl } from '../../thirdparty/calendly/CalendlyModal';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {

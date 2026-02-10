@@ -58,11 +58,11 @@ export interface LayoutConfig {
   verticalAlign?: 'start' | 'center' | 'end';
 
   /**
-   * Vertical alignment for SectionHeader content (CSS justifyContent)
-   * Controls how SectionHeader + action patterns are positioned vertically
+   * Vertical alignment for SectionHeader column (split layout, when wrapInCard is false).
    * - 'start': Align to top (default)
    * - 'center': Align to middle
-   * - 'end': Align to bottom - useful for hero sections with tall media
+   * - 'end': Align to bottom
+   * When wrapInCard is true, this is ignored on desktop; use cardColumnVerticalAlign instead for both columns.
    */
   sectionHeaderVerticalAlign?: 'start' | 'center' | 'end';
 
@@ -93,4 +93,53 @@ export interface LayoutConfig {
    * If not provided, uses the main `gap` value
    */
   mobileGap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
+  /**
+   * When true, wraps the split layout content (header + columns) in a Card for a common background.
+   * All options below (cardVariant, cardPadding, cardColumnVerticalAlign, etc.) only apply when wrapInCard is true.
+   * Sections without wrapInCard behave exactly as before – no Card, no extra padding/alignment logic.
+   */
+  wrapInCard?: boolean;
+
+  /**
+   * Card variant when wrapInCard is true – styr bakgrund, kant och skugga
+   */
+  cardVariant?: 'default' | 'raised' | 'elevated' | 'outlined' | 'solid' | 'ghost' | 'bordered' | 'accent-subtle' | 'accent-muted';
+
+  /**
+   * Card padding när wrapInCard är true
+   */
+  cardPadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
+  /**
+   * Card radius när wrapInCard är true
+   */
+  cardRadius?: 'sm' | 'md' | 'lg';
+
+  /**
+   * Bakgrundstyp inuti kortet när wrapInCard är true (t.ex. particle, image, generative)
+   */
+  cardBackground?: 'particle' | 'image' | 'generative' | 'gradient' | 'pattern' | 'solid';
+
+  /**
+   * Inställningar för cardBackground – skickas till bakgrundskomponenten.
+   * För particle: particleCount, particleColorScheme, particleSpeed, particleMinSize, particleMaxSize, particleMinOpacity, particleMaxOpacity, particleBlur.
+   * För image: backgroundImage (url), backgroundSize, backgroundPosition, backgroundOpacity.
+   */
+  cardBackgroundSettings?: Record<string, unknown>;
+
+  /**
+   * Kantlinje på kortet när wrapInCard är true
+   */
+  cardBorderStyle?: 'none' | 'subtle' | 'solid' | 'accent';
+
+  /**
+   * Vertikal alignment för båda kolumnerna inuti wrap-kortet (stor skärm).
+   * = "flytta section header (och formulär) upp/ner" i kortet.
+   * - 'start': båda kolumnerna topp-alignerade
+   * - 'center': båda centrerade i höjdled (default när wrapInCard är true)
+   * - 'end': båda botten-alignerade
+   * Gäller bara när wrapInCard är true. Andra sections använder sectionHeaderVerticalAlign + verticalAlign.
+   */
+  cardColumnVerticalAlign?: 'start' | 'center' | 'end';
 }
