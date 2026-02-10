@@ -128,8 +128,9 @@ export const PageLoading: React.FC<PageLoadingProps> = ({
         {subtext && (
           <Body
             size="sm"
-            color="tertiary"
+            color="secondary"
             align="center"
+            style={{ marginTop: 'var(--foundation-space-2)' }}
           >
             {subtext}
           </Body>
