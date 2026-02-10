@@ -114,15 +114,20 @@
 
 /* ===== MENU CONTENT ===== */
 .menu-content {
-  padding: 6px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .menu-content--sm {
-  padding: 4px;
+  padding: 2px;
+  gap: 1px;
 }
 
 .menu-content--lg {
-  padding: 8px;
+  padding: 6px;
+  gap: 3px;
 }
 
 /* ===== CONTAINER ANIMATIONS ===== */

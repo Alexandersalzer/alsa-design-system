@@ -408,33 +408,69 @@ export const PopoverContent = ({
       ? Math.min(maxHeight, spaceAbove - 16)
       : Math.min(maxHeight, spaceBelow - 16);
 
-    // Horizontal positioning - prevent overflow
-    let left = triggerRect.left;
+    // Positioning based on placement (same clean logic as Tooltip)
+    const placement = positioning.placement || 'bottom-start';
+    const offset = positioning.offset || 8;
+    let top = 0;
+    let left = 0;
 
-    // Mobile responsive: On small screens (< 640px), center and constrain width
+    // Calculate position based on placement
+    switch (placement) {
+      case 'top-start':
+        top = triggerRect.top - offset;
+        left = triggerRect.left;
+        break;
+      case 'top':
+        top = triggerRect.top - offset;
+        left = triggerRect.left + (triggerRect.width / 2) - (actualContentWidth / 2);
+        break;
+      case 'top-end':
+        top = triggerRect.top - offset;
+        left = triggerRect.right - actualContentWidth;
+        break;
+      case 'bottom-start':
+        top = triggerRect.bottom + offset;
+        left = triggerRect.left;
+        break;
+      case 'bottom':
+        top = triggerRect.bottom + offset;
+        left = triggerRect.left + (triggerRect.width / 2) - (actualContentWidth / 2);
+        break;
+      case 'bottom-end':
+        top = triggerRect.bottom + offset;
+        left = triggerRect.right - actualContentWidth;
+        break;
+      case 'left':
+        top = triggerRect.top + (triggerRect.height / 2);
+        left = triggerRect.left - actualContentWidth - offset;
+        break;
+      case 'right':
+        top = triggerRect.top + (triggerRect.height / 2);
+        left = triggerRect.right + offset;
+        break;
+      default:
+        top = triggerRect.bottom + offset;
+        left = triggerRect.left;
+    }
+
+    // Adjust top for upward opening if needed
+    if (shouldOpenUpward && (placement.startsWith('bottom'))) {
+      top = triggerRect.top - offset;
+    }
+
+    // Mobile responsive: center on small screens
     const isMobile = viewportWidth <= 640;
     if (isMobile) {
-      // Center horizontally with 16px padding on each side
       left = 16;
-      // Content will be constrained by CSS max-width: calc(100vw - 32px)
     } else {
-      // Desktop: Normal positioning logic
-      // Check if content would overflow on the right
+      // Prevent overflow
       if (left + actualContentWidth > viewportWidth - 16) {
-        // Align to right edge of trigger
-        left = triggerRect.right - actualContentWidth;
+        left = Math.max(16, viewportWidth - actualContentWidth - 16);
       }
-
-      // Check if it would overflow on the left
       if (left < 16) {
         left = 16;
       }
     }
-
-    // Vertical position (fixed positioning from viewport)
-    const top = shouldOpenUpward
-      ? triggerRect.top - 8  // Position bottom edge 8px above trigger
-      : triggerRect.bottom + 8;
 
     setPosition({
       top,
