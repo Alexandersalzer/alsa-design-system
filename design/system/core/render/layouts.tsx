@@ -968,6 +968,9 @@ const renderLayoutNodeGeneric = (
 ): React.ReactElement | null => {
   let { layoutType, layoutProps, children } = parseLayoutNode(node);
 
+  // Resolve ${...} placeholders in layout props from item context (e.g. colSpan for bentoItem)
+  layoutProps = resolvePropsWithContext(layoutProps, itemContext);
+
   // Apply item-level overrides for specific layout types
   if (layoutType === 'hstack' && itemContext?.reverse) {
     layoutProps = { ...layoutProps, direction: 'row-reverse' };
