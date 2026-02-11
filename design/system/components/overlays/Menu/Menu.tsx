@@ -379,13 +379,14 @@ export const MenuContent = ({
   };
 
   return (
-    <Popover.Positioner positioning={{ placement: finalPlacement }}>
+    <Popover.Positioner>
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         <Popover.Content
           maxHeight={maxHeight}
+          positioning={{ placement: finalPlacement }}
           className={cn(
             'menu-content',
             `menu-content--${size}`,
