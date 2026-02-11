@@ -6,6 +6,7 @@
 import React, {
   useState,
   useRef,
+  useEffect,
   createContext,
   useContext,
   forwardRef,
@@ -282,15 +283,36 @@ export interface MenuTriggerProps {
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
   ({ children, asChild = false, className, disabled, ...props }, ref) => {
     const { size, trigger, setIsOpen } = useMenuContext();
+    const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+      return () => {
+        if (closeTimeoutRef.current) {
+          clearTimeout(closeTimeoutRef.current);
+        }
+      };
+    }, []);
 
     const handleMouseEnter = () => {
       if (disabled || trigger !== 'hover') return;
+
+      // Clear any pending close timeout
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+        closeTimeoutRef.current = null;
+      }
+
       setIsOpen(true);
     };
 
     const handleMouseLeave = () => {
       if (disabled || trigger !== 'hover') return;
-      setIsOpen(false);
+
+      // Add delay before closing to allow cursor to reach dropdown
+      closeTimeoutRef.current = setTimeout(() => {
+        setIsOpen(false);
+      }, 150);
     };
 
     // If asChild, just pass the child through - don't add menu-trigger classes
@@ -357,6 +379,7 @@ export const MenuContent = ({
 }: MenuContentProps) => {
   const {
     size,
+    variant,
     placement: contextPlacement,
     animationVariant,
     animateContainer,
@@ -365,28 +388,53 @@ export const MenuContent = ({
     setIsOpen
   } = useMenuContext();
 
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const shouldAnimate = animateContainer && !disableAnimation && animationVariant !== 'none';
   const finalPlacement = placementOverride || contextPlacement;
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const handleMouseEnter = () => {
     if (trigger !== 'hover') return;
+
+    // Clear any pending close timeout
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+
     setIsOpen(true);
   };
 
   const handleMouseLeave = () => {
     if (trigger !== 'hover') return;
-    setIsOpen(false);
+
+    // Add delay before closing to allow cursor to return
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 150);
   };
+
+  // Reduce gap for hover menus
+  const offset = trigger === 'hover' ? 4 : 8;
 
   return (
     <Popover.Positioner>
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        className={`menu-root--${variant}`}
       >
         <Popover.Content
           maxHeight={maxHeight}
-          positioning={{ placement: finalPlacement }}
+          positioning={{ placement: finalPlacement, offset }}
           className={cn(
             'menu-content',
             `menu-content--${size}`,
