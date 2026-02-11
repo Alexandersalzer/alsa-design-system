@@ -1079,7 +1079,7 @@ const renderComponentReference = (
   patternKey?: string,
   itemId?: string
 ): React.ReactElement | null => {
-  const { component: componentRef, animation: templateAnimation, ...extraProps } = reference;
+  const { component: componentRef, animation: templateAnimation, optional, ...extraProps } = reference;
 
   // Extract type from ${componentType} syntax
   const componentType = extractSlotName(componentRef);
@@ -1088,6 +1088,7 @@ const renderComponentReference = (
   const result = findNextComponentByType(itemComponents, componentType, usedComponents);
 
   if (!result) {
+    if (optional) return null;
     console.warn(`Component with type "${componentType}" not found in item components (or all already used)`);
     return null;
   }
