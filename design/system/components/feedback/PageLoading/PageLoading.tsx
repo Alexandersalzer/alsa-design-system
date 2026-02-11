@@ -15,6 +15,9 @@ export interface PageLoadingProps {
   /** Loading message text */
   text?: string;
 
+  /** Secondary text shown below the main text (e.g. estimated time) */
+  subtext?: string;
+
   /** Array of texts to cycle through (optional) */
   animatedTexts?: string[];
 
@@ -64,6 +67,7 @@ export interface PageLoadingProps {
  */
 export const PageLoading: React.FC<PageLoadingProps> = ({
   text = "Laddar...",
+  subtext,
   animatedTexts,
   textInterval = 3000,
   size = "lg",
@@ -118,6 +122,17 @@ export const PageLoading: React.FC<PageLoadingProps> = ({
             }}
           >
             {displayText}
+          </Body>
+        )}
+
+        {subtext && (
+          <Body
+            size="sm"
+            color="secondary"
+            align="center"
+            style={{ marginTop: 'var(--foundation-space-2)' }}
+          >
+            {subtext}
           </Body>
         )}
       </VStack>
