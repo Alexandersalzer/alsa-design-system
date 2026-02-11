@@ -358,6 +358,8 @@ export interface PopoverContentProps {
   maxHeight?: number;
   width?: number | string;
   positioning?: PositioningOptions;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
 export const PopoverContent = ({
@@ -365,7 +367,9 @@ export const PopoverContent = ({
   className,
   maxHeight = 600,
   width,
-  positioning = {}
+  positioning = {},
+  onMouseEnter,
+  onMouseLeave
 }: PopoverContentProps) => {
   const { contentId, size, contentRef, triggerRef, autoFocus, isOpen } = usePopoverContext();
   const [isPositioned, setIsPositioned] = useState(false);
@@ -550,6 +554,8 @@ export const PopoverContent = ({
       role="dialog"
       aria-modal="false"
       tabIndex={-1}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className={cn(
         'popover-content',
         `popover-content--${size}`,

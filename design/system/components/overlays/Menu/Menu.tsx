@@ -309,10 +309,11 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
     const handleMouseLeave = () => {
       if (disabled || trigger !== 'hover') return;
 
-      // Add delay before closing to allow cursor to reach dropdown
+      // For hover menus, add a longer delay to allow reaching dropdown
+      // Don't close immediately - let the content handler manage closing
       closeTimeoutRef.current = setTimeout(() => {
         setIsOpen(false);
-      }, 150);
+      }, 300);
     };
 
     // If asChild, just pass the child through - don't add menu-trigger classes
@@ -416,38 +417,35 @@ export const MenuContent = ({
   const handleMouseLeave = () => {
     if (trigger !== 'hover') return;
 
-    // Add delay before closing to allow cursor to return
+    // Add delay before closing
     closeTimeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-    }, 150);
+    }, 300);
   };
 
-  // Reduce gap for hover menus
-  const offset = trigger === 'hover' ? 4 : 8;
+  // Reduce gap for hover menus to make transition easier
+  const offset = trigger === 'hover' ? 2 : 8;
 
   return (
     <Popover.Positioner>
-      <div
+      <Popover.Content
+        maxHeight={maxHeight}
+        positioning={{ placement: finalPlacement, offset }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`menu-root--${variant}`}
+        className={cn(
+          'menu-content',
+          `menu-content--${size}`,
+          `menu-root--${variant}`, // Apply variant class here so CSS selectors work
+          shouldAnimate && 'menu-content--animated',
+          shouldAnimate && `menu-content--${animationVariant}`,
+          className
+        )}
       >
-        <Popover.Content
-          maxHeight={maxHeight}
-          positioning={{ placement: finalPlacement, offset }}
-          className={cn(
-            'menu-content',
-            `menu-content--${size}`,
-            shouldAnimate && 'menu-content--animated',
-            shouldAnimate && `menu-content--${animationVariant}`,
-            className
-          )}
-        >
-          <Listbox role="menu" size={size} spacing="xs" surface="raised">
-            {children}
-          </Listbox>
-        </Popover.Content>
-      </div>
+        <Listbox role="menu" size={size} spacing="xs" surface="raised">
+          {children}
+        </Listbox>
+      </Popover.Content>
     </Popover.Positioner>
   );
 };

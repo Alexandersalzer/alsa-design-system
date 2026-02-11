@@ -344,7 +344,7 @@
 /* ===== VARIANTS ===== */
 
 /* Solid variant - Strong, filled appearance */
-.menu-root--solid .menu-content {
+.menu-content.menu-root--solid {
   background-color: var(--surface-raised);
   border: 1px solid var(--border-default);
   box-shadow: var(--foundation-shadow-lg);
@@ -361,7 +361,7 @@
 }
 
 /* Bordered variant - Outlined with border emphasis */
-.menu-root--bordered .menu-content {
+.menu-content.menu-root--bordered {
   background-color: var(--surface-base);
   border: 2px solid var(--border-default);
   box-shadow: var(--foundation-shadow-sm);
@@ -385,7 +385,7 @@
 }
 
 /* Light variant - Subtle, light background */
-.menu-root--light .menu-content {
+.menu-content.menu-root--light {
   background-color: var(--surface-subtle);
   border: 1px solid var(--border-subtle);
   box-shadow: var(--foundation-shadow-sm);
@@ -402,7 +402,7 @@
 }
 
 /* Flat variant - Minimal, no shadows */
-.menu-root--flat .menu-content {
+.menu-content.menu-root--flat {
   background-color: var(--surface-base);
   border: 1px solid var(--border-subtle);
   box-shadow: none;
@@ -419,7 +419,7 @@
 }
 
 /* Faded variant - Faded background with subtle borders */
-.menu-root--faded .menu-content {
+.menu-content.menu-root--faded {
   background-color: rgba(var(--surface-raised-rgb), 0.7);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(var(--border-default-rgb), 0.5);
@@ -443,7 +443,7 @@
 }
 
 /* Shadow variant - Prominent shadows, elevated appearance */
-.menu-root--shadow .menu-content {
+.menu-content.menu-root--shadow {
   background-color: var(--surface-raised);
   border: 1px solid var(--border-default);
   box-shadow: var(--foundation-shadow-xl);
