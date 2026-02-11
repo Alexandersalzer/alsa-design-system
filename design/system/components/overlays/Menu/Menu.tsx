@@ -144,7 +144,7 @@ export const MenuRoot = <T extends object>({
   animationVariant = 'none',
   animateContainer = false,
   animateItems = false,
-  itemStagger = 50,
+  itemStagger = 30,
   disableAnimation = false,
   selectionMode = 'none',
   selectedKeys: controlledSelectedKeys,

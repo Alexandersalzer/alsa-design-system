@@ -266,7 +266,7 @@
 /* ===== ITEM ANIMATIONS ===== */
 .menu-item--animated {
   opacity: 0;
-  animation-duration: 300ms;
+  animation-duration: 200ms;
   animation-timing-function: var(--foundation-ease-out);
   animation-fill-mode: both;
   animation-delay: var(--menu-item-animation-delay, 0ms);
@@ -302,7 +302,7 @@
 
 .menu-item--animated.menu-item--bounce {
   animation-name: menuItemBounceIn;
-  animation-duration: 400ms;
+  animation-duration: 250ms;
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
@@ -322,7 +322,7 @@
 
 .menu-item--animated.menu-item--opacityBounce {
   animation-name: menuItemOpacityBounceIn;
-  animation-duration: 400ms;
+  animation-duration: 250ms;
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
