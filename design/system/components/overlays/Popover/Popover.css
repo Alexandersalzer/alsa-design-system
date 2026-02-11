@@ -52,10 +52,11 @@
 /* ===== HOVER BRIDGE ===== */
 .popover-hover-bridge {
   position: absolute;
-  left: 0;
-  right: 0;
-  height: var(--hover-bridge-height, 4px);
-  top: calc(-1 * var(--hover-bridge-height, 4px));
+  /* Extend far beyond content width to catch diagonal mouse movement */
+  left: -100px;
+  right: -100px;
+  height: var(--hover-bridge-height, 6px);
+  top: calc(-1 * var(--hover-bridge-height, 6px));
   z-index: 1;
   /* Invisible but catches mouse events */
   background: transparent;
@@ -64,8 +65,13 @@
 
 .popover-hover-bridge--bottom {
   top: auto;
-  bottom: calc(-1 * var(--hover-bridge-height, 4px));
+  bottom: calc(-1 * var(--hover-bridge-height, 6px));
 }
+
+/* DEBUG: Uncomment to visualize the bridge area */
+/* .popover-hover-bridge {
+  background: rgba(255, 0, 0, 0.2) !important;
+} */
 
 /* Show with smooth fade when positioned */
 .popover-content--positioned {
