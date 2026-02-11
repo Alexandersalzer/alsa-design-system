@@ -5,6 +5,7 @@
 
 import React, {
   useState,
+  useRef,
   createContext,
   useContext,
   forwardRef,
@@ -51,8 +52,7 @@ interface MenuContextValue {
   onSelectionChange?: (keys: Set<Key>) => void;
   onAction?: (key: Key) => void;
   hideSelectedIcon: boolean;
-  itemIndex: number;
-  incrementItemIndex: () => void;
+  getAndIncrementItemIndex: () => number;
 }
 
 const MenuContext = createContext<MenuContextValue | null>(null);
@@ -167,7 +167,8 @@ export const MenuRoot = <T extends object>({
 
   const disabledKeysSet = useMemo(() => new Set(disabledKeys || []), [disabledKeys]);
 
-  const [itemIndex, setItemIndex] = useState(0);
+  // Use ref for item index to avoid setState during render
+  const itemIndexRef = useRef(0);
 
   const handleSelectionChange = (keys: Set<Key>) => {
     if (!isSelectionControlled) {
@@ -176,8 +177,11 @@ export const MenuRoot = <T extends object>({
     onSelectionChange?.(keys);
   };
 
-  const incrementItemIndex = () => {
-    setItemIndex(prev => prev + 1);
+  // Function to atomically get and increment the item index
+  const getAndIncrementItemIndex = () => {
+    const index = itemIndexRef.current;
+    itemIndexRef.current += 1;
+    return index;
   };
 
   const value: MenuContextValue = {
@@ -199,8 +203,7 @@ export const MenuRoot = <T extends object>({
     onSelectionChange: handleSelectionChange,
     onAction,
     hideSelectedIcon,
-    itemIndex,
-    incrementItemIndex
+    getAndIncrementItemIndex
   };
 
   // Handle dynamic items rendering
@@ -403,16 +406,11 @@ export const MenuItem = ({
     disabledKeys,
     onSelectionChange,
     onAction: rootOnAction,
-    itemIndex,
-    incrementItemIndex
+    getAndIncrementItemIndex
   } = useMenuContext();
 
-  // Track this item's index for stagger animation
-  const [myIndex] = useState(() => {
-    const index = itemIndex;
-    incrementItemIndex();
-    return index;
-  });
+  // Track this item's index for stagger animation (using useMemo is safe with ref mutation)
+  const myIndex = useMemo(() => getAndIncrementItemIndex(), [getAndIncrementItemIndex]);
 
   const shouldClose = itemCloseOnSelect ?? rootCloseOnSelect;
   const itemKey = key || value;
