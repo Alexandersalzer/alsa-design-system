@@ -46,10 +46,10 @@
 .navbar-center-pill__middle-pill {
   display: none;
   justify-self: center;
-  padding: var(--foundation-space-2) var(--foundation-space-4);
+  padding: var(--space-navbar);
   background: var(--surface-raised);
   border: 1px solid var(--border-default);
-  border-radius: var(--foundation-radius-full);
+  border-radius: var(--radius-2xl);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-sm);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);

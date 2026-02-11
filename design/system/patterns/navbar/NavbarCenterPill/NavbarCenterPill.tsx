@@ -168,6 +168,7 @@ const NavbarCenterPill = ({ components = {}, sectionKey, patternKey, ...patternN
                   return (
                     <TextLink
                       key={i}
+                      variant={props.variant}
                       action={props.action}
                       href={props.href}
                       size="sm"
@@ -241,6 +242,7 @@ const NavbarCenterPill = ({ components = {}, sectionKey, patternKey, ...patternN
               const linkContent = (
                 <TextLink
                   key={i}
+                  variant={props.variant}
                   action={props.action}
                   href={props.href}
                   onClick={() => setMobileOpen(false)}
