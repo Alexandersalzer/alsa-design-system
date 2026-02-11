@@ -551,68 +551,100 @@ export const PopoverContent = ({
   
   if (!isOpen) return null;
 
-  // Calculate bridge dimensions for hover menus
-  const bridgeHeight = showHoverBridge ? hoverBridgeOffset : 0;
   const finalPlacement = positioning.placement || 'bottom-start';
   const isBottomPlacement = finalPlacement.startsWith('bottom');
   const isTopPlacement = finalPlacement.startsWith('top');
 
-  return (
-    <div
-      ref={contentRef}
-      id={contentId}
-      role="dialog"
-      aria-modal="false"
-      tabIndex={-1}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      className={cn(
-        'popover-content',
-        `popover-content--${size}`,
-        'popover-content--portal',
-        isPositioned && 'popover-content--positioned',
-        showHoverBridge && 'popover-content--has-bridge',
-        className
-      )}
-      style={{
+  // Calculate bridge overlay position to create seamless hover zone
+  const getBridgeOverlayStyle = (): React.CSSProperties => {
+    if (!showHoverBridge || !triggerRef.current || !isPositioned) {
+      return {};
+    }
+
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+
+    if (isBottomPlacement) {
+      // For bottom placement: overlay from trigger bottom to content top
+      return {
         position: 'fixed',
-        ...(position.shouldOpenUpward ? {
-          bottom: `${window.innerHeight - position.top}px`,
-          top: 'auto'
-        } : {
-          top: `${position.top}px`,
-          bottom: 'auto'
-        }),
-        left: `${position.left}px`,
-        maxHeight: `${position.maxHeight}px`,
-        ...(width ? { width, minWidth: width } : { minWidth: position.minWidth }),
-        zIndex: 'var(--z-popover)',
-        ...(showHoverBridge && {
-          '--hover-bridge-height': `${bridgeHeight}px`,
-          '--hover-bridge-position': isBottomPlacement ? 'top' : isTopPlacement ? 'bottom' : 'top'
-        } as React.CSSProperties)
-      }}
-    >
-      {/* Invisible hover bridge */}
-      {showHoverBridge && isBottomPlacement && (
+        top: `${triggerRect.bottom}px`,
+        left: `${Math.min(triggerRect.left, position.left) - 50}px`,
+        right: `${window.innerWidth - Math.max(triggerRect.right, position.left + (width ? (typeof width === 'number' ? width : 200) : position.minWidth)) - 50}px`,
+        height: `${position.top - triggerRect.bottom + 20}px`,
+        zIndex: 'calc(var(--z-popover) - 1)',
+        pointerEvents: 'auto',
+        background: 'transparent'
+      };
+    } else if (isTopPlacement) {
+      // For top placement: overlay from content bottom to trigger top
+      const contentBottom = position.shouldOpenUpward
+        ? window.innerHeight - position.top
+        : position.top + (contentRef.current?.offsetHeight || 0);
+
+      return {
+        position: 'fixed',
+        bottom: `${window.innerHeight - triggerRect.top}px`,
+        left: `${Math.min(triggerRect.left, position.left) - 50}px`,
+        right: `${window.innerWidth - Math.max(triggerRect.right, position.left + (width ? (typeof width === 'number' ? width : 200) : position.minWidth)) - 50}px`,
+        height: `${triggerRect.top - position.top + 20}px`,
+        zIndex: 'calc(var(--z-popover) - 1)',
+        pointerEvents: 'auto',
+        background: 'transparent'
+      };
+    }
+
+    return {};
+  };
+
+  return (
+    <>
+      {/* Seamless hover bridge overlay - creates a safe zone between trigger and content */}
+      {showHoverBridge && isPositioned && (
         <div
-          className="popover-hover-bridge"
+          className="popover-hover-bridge-overlay"
+          style={getBridgeOverlayStyle()}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         />
       )}
-      {/* Wrap content in scrollable container to prevent overflow from clipping the bridge */}
-      <div className="popover-content-inner">
-        {children}
+
+      <div
+        ref={contentRef}
+        id={contentId}
+        role="dialog"
+        aria-modal="false"
+        tabIndex={-1}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        className={cn(
+          'popover-content',
+          `popover-content--${size}`,
+          'popover-content--portal',
+          isPositioned && 'popover-content--positioned',
+          showHoverBridge && 'popover-content--has-bridge',
+          className
+        )}
+        style={{
+          position: 'fixed',
+          ...(position.shouldOpenUpward ? {
+            bottom: `${window.innerHeight - position.top}px`,
+            top: 'auto'
+          } : {
+            top: `${position.top}px`,
+            bottom: 'auto'
+          }),
+          left: `${position.left}px`,
+          maxHeight: `${position.maxHeight}px`,
+          ...(width ? { width, minWidth: width } : { minWidth: position.minWidth }),
+          zIndex: 'var(--z-popover)'
+        }}
+      >
+        {/* Wrap content in scrollable container */}
+        <div className="popover-content-inner">
+          {children}
+        </div>
       </div>
-      {showHoverBridge && isTopPlacement && (
-        <div
-          className="popover-hover-bridge popover-hover-bridge--bottom"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        />
-      )}
-    </div>
+    </>
   );
 };
 

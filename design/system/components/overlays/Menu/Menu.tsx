@@ -309,10 +309,10 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
     const handleMouseLeave = () => {
       if (disabled || trigger !== 'hover') return;
 
-      // Delay to allow mouse to reach content via bridge
+      // Delay to allow mouse to reach content via bridge overlay
       closeTimeoutRef.current = setTimeout(() => {
         setIsOpen(false);
-      }, 150);
+      }, 200);
     };
 
     // If asChild, just pass the child through - don't add menu-trigger classes
@@ -416,10 +416,10 @@ export const MenuContent = ({
   const handleMouseLeave = () => {
     if (trigger !== 'hover') return;
 
-    // Delay to allow mouse to return to trigger or stay in content
+    // Delay to allow mouse to return to trigger via bridge overlay
     closeTimeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-    }, 150);
+    }, 200);
   };
 
   // 8px gap with wide hover bridge for hover menus

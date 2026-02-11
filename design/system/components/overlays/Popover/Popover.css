@@ -57,30 +57,19 @@
   border-radius: inherit;
 }
 
-/* ===== HOVER BRIDGE ===== */
-.popover-hover-bridge {
-  position: absolute;
-  /* Extend far beyond content width to catch diagonal mouse movement */
-  left: -200px;
-  right: -200px;
-  /* Add extra height for more forgiving hover area */
-  height: calc(var(--hover-bridge-height, 8px) + 4px);
-  top: calc(-1 * (var(--hover-bridge-height, 8px) + 4px));
-  /* High z-index to ensure it catches hover events */
-  z-index: 10;
-  /* Invisible but catches mouse events */
-  background: transparent;
+/* ===== HOVER BRIDGE OVERLAY ===== */
+/* Creates a seamless hover zone between trigger and content for hover menus */
+.popover-hover-bridge-overlay {
+  /* Positioned by inline styles - creates safe zone between trigger and content */
   pointer-events: auto;
+  /* Invisible but catches all mouse events in the gap */
+  background: transparent;
 }
 
-.popover-hover-bridge--bottom {
-  top: auto;
-  bottom: calc(-1 * (var(--hover-bridge-height, 8px) + 4px));
-}
-
-/* DEBUG: Uncomment to visualize the bridge area */
-/* .popover-hover-bridge {
-  background: rgba(255, 0, 0, 0.2) !important;
+/* DEBUG: Uncomment to visualize the hover bridge area */
+/* .popover-hover-bridge-overlay {
+  background: rgba(0, 255, 0, 0.15) !important;
+  border: 2px dashed rgba(0, 255, 0, 0.5) !important;
 } */
 
 /* Show with smooth fade when positioned */
