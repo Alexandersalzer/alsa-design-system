@@ -132,9 +132,24 @@
 
 /* ===== CONTAINER ANIMATIONS ===== */
 .menu-content--animated {
-  animation-duration: 200ms;
+  animation-duration: 150ms;
   animation-timing-function: var(--foundation-ease-out);
   animation-fill-mode: both;
+}
+
+/* Faster animations for hover menus */
+.menu-content--animated.menu-content--hover {
+  animation-duration: 120ms;
+}
+
+/* Closing state uses exit animations */
+.menu-content--animated.menu-content--closing {
+  animation-direction: reverse;
+  animation-duration: 100ms;
+}
+
+.menu-content--animated.menu-content--hover.menu-content--closing {
+  animation-duration: 80ms;
 }
 
 /* Fade animation */
@@ -145,7 +160,7 @@
 @keyframes menuFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-6px);
   }
   to {
     opacity: 1;
@@ -170,17 +185,21 @@
 /* Bounce animation */
 .menu-content--bounce {
   animation-name: menuBounceIn;
-  animation-duration: 400ms;
+  animation-duration: 300ms;
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.menu-content--bounce.menu-content--hover {
+  animation-duration: 250ms;
 }
 
 @keyframes menuBounceIn {
   0% {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.85);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
   100% {
     opacity: 1;
@@ -191,18 +210,22 @@
 /* Opacity + Bounce animation */
 .menu-content--opacityBounce {
   animation-name: menuOpacityBounceIn;
-  animation-duration: 400ms;
+  animation-duration: 300ms;
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.menu-content--opacityBounce.menu-content--hover {
+  animation-duration: 250ms;
 }
 
 @keyframes menuOpacityBounceIn {
   0% {
     opacity: 0;
-    transform: scale(0.9) translateY(-4px);
+    transform: scale(0.92) translateY(-3px);
   }
   50% {
     opacity: 0.8;
-    transform: scale(1.02) translateY(0);
+    transform: scale(1.01) translateY(0);
   }
   100% {
     opacity: 1;

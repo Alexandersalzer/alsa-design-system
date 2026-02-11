@@ -57,6 +57,7 @@ interface MenuContextValue {
   hideSelectedIcon: boolean;
   getAndIncrementItemIndex: () => number;
   isOpen: boolean;
+  isClosing: boolean;
   setIsOpen: (open: boolean) => void;
   handleHoverEnter: () => void;
   handleHoverLeave: () => void;
@@ -177,12 +178,49 @@ export const MenuRoot = <T extends object>({
 
   const disabledKeysSet = useMemo(() => new Set(disabledKeys || []), [disabledKeys]);
 
-  // Open state management
+  // Open state management with closing state for exit animations
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const [isClosing, setIsClosing] = useState(false);
   const isOpenControlled = open !== undefined;
   const isOpen = isOpenControlled ? open : uncontrolledOpen;
+  const closeAnimationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const setIsOpen = (newOpen: boolean) => {
+    // If closing and animations are enabled, trigger exit animation first
+    if (!newOpen && !isClosing && !disableAnimation && animationVariant !== 'none' && animateContainer) {
+      setIsClosing(true);
+
+      // Determine animation duration based on variant and trigger type
+      let duration = 100; // Default closing duration
+      if (trigger === 'hover') {
+        duration = 80; // Faster for hover menus
+      }
+
+      // Clear any existing timeout
+      if (closeAnimationTimeoutRef.current) {
+        clearTimeout(closeAnimationTimeoutRef.current);
+      }
+
+      // Delay actual close until animation completes
+      closeAnimationTimeoutRef.current = setTimeout(() => {
+        setIsClosing(false);
+        if (!isOpenControlled) {
+          setUncontrolledOpen(false);
+        }
+        onOpenChange?.(false);
+        closeAnimationTimeoutRef.current = null;
+      }, duration);
+
+      return;
+    }
+
+    // Opening or immediate close (no animation)
+    setIsClosing(false);
+    if (closeAnimationTimeoutRef.current) {
+      clearTimeout(closeAnimationTimeoutRef.current);
+      closeAnimationTimeoutRef.current = null;
+    }
+
     if (!isOpenControlled) {
       setUncontrolledOpen(newOpen);
     }
@@ -207,17 +245,20 @@ export const MenuRoot = <T extends object>({
   const handleHoverLeave = () => {
     if (trigger !== 'hover') return;
 
-    // Set timeout to close
+    // Very short timeout for instant switching between adjacent menus
     hoverCloseTimeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-    }, 100);
+    }, 30);
   };
 
-  // Cleanup timeout on unmount
+  // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
       if (hoverCloseTimeoutRef.current) {
         clearTimeout(hoverCloseTimeoutRef.current);
+      }
+      if (closeAnimationTimeoutRef.current) {
+        clearTimeout(closeAnimationTimeoutRef.current);
       }
     };
   }, []);
@@ -261,6 +302,7 @@ export const MenuRoot = <T extends object>({
     hideSelectedIcon,
     getAndIncrementItemIndex,
     isOpen,
+    isClosing,
     setIsOpen,
     handleHoverEnter,
     handleHoverLeave
@@ -282,7 +324,7 @@ export const MenuRoot = <T extends object>({
   return (
     <MenuContext.Provider value={value}>
       <Popover
-        open={isOpen}
+        open={isOpen || isClosing}
         onOpenChange={setIsOpen}
         size={size}
         componentKey={componentKey}
@@ -401,15 +443,17 @@ export const MenuContent = ({
     animateContainer,
     disableAnimation,
     trigger,
+    isClosing,
     handleHoverEnter,
     handleHoverLeave
   } = useMenuContext();
 
   const shouldAnimate = animateContainer && !disableAnimation && animationVariant !== 'none';
   const finalPlacement = placementOverride || contextPlacement;
+  const isHoverMenu = trigger === 'hover';
 
   // 8px gap with wide hover bridge for hover menus
-  const offset = trigger === 'hover' ? 8 : 8;
+  const offset = isHoverMenu ? 8 : 8;
 
   return (
     <Popover.Positioner>
@@ -418,7 +462,7 @@ export const MenuContent = ({
         positioning={{ placement: finalPlacement, offset }}
         onMouseEnter={handleHoverEnter}
         onMouseLeave={handleHoverLeave}
-        showHoverBridge={trigger === 'hover'}
+        showHoverBridge={isHoverMenu}
         hoverBridgeOffset={offset}
         className={cn(
           'menu-content',
@@ -426,6 +470,8 @@ export const MenuContent = ({
           `menu-root--${variant}`, // Apply variant class here so CSS selectors work
           shouldAnimate && 'menu-content--animated',
           shouldAnimate && `menu-content--${animationVariant}`,
+          shouldAnimate && isHoverMenu && 'menu-content--hover',
+          shouldAnimate && isClosing && 'menu-content--closing',
           className
         )}
       >
