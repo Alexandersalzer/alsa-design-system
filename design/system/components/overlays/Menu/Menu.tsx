@@ -32,6 +32,7 @@ export type MenuPlacement = PopoverPlacement;
 export type MenuAnimationVariant = 'none' | 'fade' | 'opacity' | 'bounce' | 'opacityBounce';
 export type MenuSelectionMode = 'none' | 'single' | 'multiple';
 export type MenuBackdrop = 'transparent' | 'opaque' | 'blur';
+export type MenuTriggerType = 'click' | 'hover';
 
 interface MenuContextValue {
   closeOnSelect: boolean;
@@ -40,6 +41,7 @@ interface MenuContextValue {
   color: MenuColor;
   colorPalette: MenuColorPalette;
   placement: MenuPlacement;
+  trigger: MenuTriggerType;
   animationVariant: MenuAnimationVariant;
   animateContainer: boolean;
   animateItems: boolean;
@@ -53,6 +55,8 @@ interface MenuContextValue {
   onAction?: (key: Key) => void;
   hideSelectedIcon: boolean;
   getAndIncrementItemIndex: () => number;
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
 }
 
 const MenuContext = createContext<MenuContextValue | null>(null);
@@ -85,6 +89,8 @@ export interface MenuRootProps<T = object> {
   colorPalette?: MenuColorPalette;
   /** Placement relative to trigger */
   placement?: MenuPlacement;
+  /** Trigger type: 'click' or 'hover' */
+  trigger?: MenuTriggerType;
   /** Animation variant for the menu */
   animationVariant?: MenuAnimationVariant;
   /** Animate the container on open */
@@ -134,6 +140,7 @@ export const MenuRoot = <T extends object>({
   color = 'default',
   colorPalette = 'gray',
   placement = 'bottom-start',
+  trigger = 'click',
   animationVariant = 'none',
   animateContainer = false,
   animateItems = false,
@@ -167,6 +174,18 @@ export const MenuRoot = <T extends object>({
 
   const disabledKeysSet = useMemo(() => new Set(disabledKeys || []), [disabledKeys]);
 
+  // Open state management
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const isOpenControlled = open !== undefined;
+  const isOpen = isOpenControlled ? open : uncontrolledOpen;
+
+  const setIsOpen = (newOpen: boolean) => {
+    if (!isOpenControlled) {
+      setUncontrolledOpen(newOpen);
+    }
+    onOpenChange?.(newOpen);
+  };
+
   // Use ref for item index to avoid setState during render
   const itemIndexRef = useRef(0);
 
@@ -191,6 +210,7 @@ export const MenuRoot = <T extends object>({
     color,
     colorPalette,
     placement,
+    trigger,
     animationVariant,
     animateContainer,
     animateItems,
@@ -203,7 +223,9 @@ export const MenuRoot = <T extends object>({
     onSelectionChange: handleSelectionChange,
     onAction,
     hideSelectedIcon,
-    getAndIncrementItemIndex
+    getAndIncrementItemIndex,
+    isOpen,
+    setIsOpen
   };
 
   // Handle dynamic items rendering
@@ -222,9 +244,8 @@ export const MenuRoot = <T extends object>({
   return (
     <MenuContext.Provider value={value}>
       <Popover
-        open={open}
-        defaultOpen={defaultOpen}
-        onOpenChange={onOpenChange}
+        open={isOpen}
+        onOpenChange={setIsOpen}
         size={size}
         componentKey={componentKey}
       >
@@ -260,13 +281,30 @@ export interface MenuTriggerProps {
 
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
   ({ children, asChild = false, className, disabled, ...props }, ref) => {
-    const { size } = useMenuContext();
+    const { size, trigger, setIsOpen } = useMenuContext();
+
+    const handleMouseEnter = () => {
+      if (disabled || trigger !== 'hover') return;
+      setIsOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+      if (disabled || trigger !== 'hover') return;
+      setIsOpen(false);
+    };
 
     // If asChild, just pass the child through - don't add menu-trigger classes
     if (asChild && React.isValidElement(children)) {
+      const childWithHover = trigger === 'hover'
+        ? React.cloneElement(children as React.ReactElement<any>, {
+            onMouseEnter: handleMouseEnter,
+            onMouseLeave: handleMouseLeave
+          })
+        : children;
+
       return (
         <Popover.Trigger asChild ref={ref}>
-          {children}
+          {childWithHover}
         </Popover.Trigger>
       );
     }
@@ -282,6 +320,8 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
             `menu-trigger--${size}`,
             className
           )}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           {...props}
         >
           {children || 'Menu'}
@@ -320,28 +360,45 @@ export const MenuContent = ({
     placement: contextPlacement,
     animationVariant,
     animateContainer,
-    disableAnimation
+    disableAnimation,
+    trigger,
+    setIsOpen
   } = useMenuContext();
 
   const shouldAnimate = animateContainer && !disableAnimation && animationVariant !== 'none';
   const finalPlacement = placementOverride || contextPlacement;
 
+  const handleMouseEnter = () => {
+    if (trigger !== 'hover') return;
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (trigger !== 'hover') return;
+    setIsOpen(false);
+  };
+
   return (
     <Popover.Positioner positioning={{ placement: finalPlacement }}>
-      <Popover.Content
-        maxHeight={maxHeight}
-        className={cn(
-          'menu-content',
-          `menu-content--${size}`,
-          shouldAnimate && 'menu-content--animated',
-          shouldAnimate && `menu-content--${animationVariant}`,
-          className
-        )}
+      <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <Listbox role="menu" size={size} spacing="xs" surface="raised">
-          {children}
-        </Listbox>
-      </Popover.Content>
+        <Popover.Content
+          maxHeight={maxHeight}
+          className={cn(
+            'menu-content',
+            `menu-content--${size}`,
+            shouldAnimate && 'menu-content--animated',
+            shouldAnimate && `menu-content--${animationVariant}`,
+            className
+          )}
+        >
+          <Listbox role="menu" size={size} spacing="xs" surface="raised">
+            {children}
+          </Listbox>
+        </Popover.Content>
+      </div>
     </Popover.Positioner>
   );
 };
@@ -352,7 +409,8 @@ export const MenuContent = ({
 
 export interface MenuItemProps {
   children: ReactNode;
-  key?: Key;
+  /** Unique identifier for this menu item (used for selection state) */
+  itemKey?: Key;
   value?: string;
   disabled?: boolean;
   closeOnSelect?: boolean;
@@ -377,7 +435,7 @@ export interface MenuItemProps {
 
 export const MenuItem = ({
   children,
-  key,
+  itemKey,
   value = '',
   disabled = false,
   closeOnSelect: itemCloseOnSelect,
@@ -413,9 +471,9 @@ export const MenuItem = ({
   const myIndex = useMemo(() => getAndIncrementItemIndex(), [getAndIncrementItemIndex]);
 
   const shouldClose = itemCloseOnSelect ?? rootCloseOnSelect;
-  const itemKey = key || value;
-  const isDisabled = disabled || (itemKey ? disabledKeys.has(itemKey) : false);
-  const isSelected = itemKey ? selectedKeys.has(itemKey) : false;
+  const finalItemKey = itemKey || value;
+  const isDisabled = disabled || (finalItemKey ? disabledKeys.has(finalItemKey) : false);
+  const isSelected = finalItemKey ? selectedKeys.has(finalItemKey) : false;
 
   const shouldAnimateItem = animateItems && !disableAnimation && animationVariant !== 'none';
   const animationDelay = shouldAnimateItem ? myIndex * itemStagger : 0;
@@ -424,18 +482,18 @@ export const MenuItem = ({
     if (isDisabled) return;
 
     // Handle selection
-    if (selectionMode !== 'none' && itemKey) {
+    if (selectionMode !== 'none' && finalItemKey) {
       const newKeys = new Set(selectedKeys);
       if (selectionMode === 'single') {
         newKeys.clear();
         if (!isSelected) {
-          newKeys.add(itemKey);
+          newKeys.add(finalItemKey);
         }
       } else if (selectionMode === 'multiple') {
         if (isSelected) {
-          newKeys.delete(itemKey);
+          newKeys.delete(finalItemKey);
         } else {
-          newKeys.add(itemKey);
+          newKeys.add(finalItemKey);
         }
       }
       onSelectionChange?.(newKeys);
@@ -444,8 +502,8 @@ export const MenuItem = ({
     // Handle actions
     onClick?.();
     onAction?.();
-    if (itemKey) {
-      rootOnAction?.(itemKey);
+    if (finalItemKey) {
+      rootOnAction?.(finalItemKey);
     }
   };
 

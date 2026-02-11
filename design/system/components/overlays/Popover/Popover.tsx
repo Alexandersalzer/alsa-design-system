@@ -25,7 +25,11 @@ import './Popover.css';
 // ===============================================
 
 export type PopoverSize = 'xs' | 'sm' | 'md' | 'lg';
-export type PopoverPlacement = 'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
+export type PopoverPlacement =
+  | 'top' | 'top-start' | 'top-end'
+  | 'bottom' | 'bottom-start' | 'bottom-end'
+  | 'left' | 'left-start' | 'left-end'
+  | 'right' | 'right-start' | 'right-end';
 
 interface PositioningOptions {
   placement?: PopoverPlacement;
@@ -440,12 +444,28 @@ export const PopoverContent = ({
         top = triggerRect.bottom + offset;
         left = triggerRect.right - actualContentWidth;
         break;
+      case 'left-start':
+        top = triggerRect.top;
+        left = triggerRect.left - actualContentWidth - offset;
+        break;
       case 'left':
         top = triggerRect.top + (triggerRect.height / 2);
         left = triggerRect.left - actualContentWidth - offset;
         break;
+      case 'left-end':
+        top = triggerRect.bottom;
+        left = triggerRect.left - actualContentWidth - offset;
+        break;
+      case 'right-start':
+        top = triggerRect.top;
+        left = triggerRect.right + offset;
+        break;
       case 'right':
         top = triggerRect.top + (triggerRect.height / 2);
+        left = triggerRect.right + offset;
+        break;
+      case 'right-end':
+        top = triggerRect.bottom;
         left = triggerRect.right + offset;
         break;
       default:
