@@ -343,7 +343,7 @@
 
 /* ===== VARIANTS ===== */
 
-/* Solid variant - Strong, filled appearance */
+/* Solid variant - Strong, filled appearance (raised surface) */
 .menu-content.menu-root--solid {
   background-color: var(--surface-raised);
   border: 1px solid var(--border-default);
@@ -351,16 +351,16 @@
 }
 
 .menu-item--solid[data-hover="true"] {
-  background-color: var(--surface-hover);
+  background-color: var(--surface-raised-hover);  /* One level above raised */
   border-radius: 4px;
 }
 
 .menu-item--solid[data-selected="true"] {
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-raised-selected);
   color: var(--text-accent);
 }
 
-/* Bordered variant - Outlined with border emphasis */
+/* Bordered variant - Outlined with border emphasis (base surface) */
 .menu-content.menu-root--bordered {
   background-color: var(--surface-base);
   border: 2px solid var(--border-default);
@@ -374,34 +374,34 @@
 
 .menu-item--bordered[data-hover="true"] {
   border-color: var(--border-emphasis);
-  background-color: var(--surface-subtle);
+  background-color: var(--surface-hover);  /* One level above base */
   border-radius: 4px;
 }
 
 .menu-item--bordered[data-selected="true"] {
   border-color: var(--border-accent);
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-selected);
   color: var(--text-accent);
 }
 
-/* Light variant - Subtle, light background */
+/* Light variant - Subtle, light background (raised surface) */
 .menu-content.menu-root--light {
-  background-color: var(--surface-subtle);
+  background-color: var(--surface-raised);
   border: 1px solid var(--border-subtle);
   box-shadow: var(--foundation-shadow-sm);
 }
 
 .menu-item--light[data-hover="true"] {
-  background-color: var(--surface-base);
+  background-color: var(--surface-raised-hover);  /* One level above raised */
   border-radius: 4px;
 }
 
 .menu-item--light[data-selected="true"] {
-  background-color: var(--surface-accent-subtle);
+  background-color: var(--surface-raised-selected);
   color: var(--text-accent);
 }
 
-/* Flat variant - Minimal, no shadows */
+/* Flat variant - Minimal, no shadows (base surface) */
 .menu-content.menu-root--flat {
   background-color: var(--surface-base);
   border: 1px solid var(--border-subtle);
@@ -409,20 +409,20 @@
 }
 
 .menu-item--flat[data-hover="true"] {
-  background-color: var(--surface-muted);
+  background-color: var(--surface-hover);  /* One level above base */
   border-radius: 4px;
 }
 
 .menu-item--flat[data-selected="true"] {
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-selected);
   color: var(--text-accent);
 }
 
-/* Faded variant - Faded background with subtle borders */
+/* Faded variant - Frosted glass (raised surface with transparency) */
 .menu-content.menu-root--faded {
-  background-color: rgba(var(--surface-raised-rgb), 0.7);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(var(--border-default-rgb), 0.5);
+  background-color: color-mix(in srgb, var(--surface-raised) 70%, transparent);
+  backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in srgb, var(--border-default) 50%, transparent);
   box-shadow: var(--foundation-shadow-md);
 }
 
@@ -431,26 +431,26 @@
 }
 
 .menu-item--faded[data-hover="true"] {
-  border-color: rgba(var(--border-default-rgb), 0.3);
-  background-color: rgba(var(--surface-subtle-rgb), 0.5);
+  border-color: color-mix(in srgb, var(--border-default) 30%, transparent);
+  background-color: color-mix(in srgb, var(--surface-raised-hover) 60%, transparent);
   border-radius: 4px;
 }
 
 .menu-item--faded[data-selected="true"] {
   border-color: var(--border-accent);
-  background-color: rgba(var(--surface-accent-muted-rgb), 0.7);
+  background-color: color-mix(in srgb, var(--surface-accent-muted) 70%, transparent);
   color: var(--text-accent);
 }
 
-/* Shadow variant - Prominent shadows, elevated appearance */
+/* Shadow variant - Prominent shadows, maximum elevation (elevated surface) */
 .menu-content.menu-root--shadow {
-  background-color: var(--surface-raised);
+  background-color: var(--surface-elevated);
   border: 1px solid var(--border-default);
   box-shadow: var(--foundation-shadow-xl);
 }
 
 .menu-item--shadow[data-hover="true"] {
-  background-color: var(--surface-hover);
+  background-color: var(--surface-elevated-hover);  /* One level above elevated */
   box-shadow: var(--foundation-shadow-md);
   border-radius: 4px;
   transform: translateY(-1px);
@@ -458,7 +458,7 @@
 }
 
 .menu-item--shadow[data-selected="true"] {
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-elevated-selected);
   color: var(--text-accent);
   box-shadow: var(--foundation-shadow-sm);
 }
