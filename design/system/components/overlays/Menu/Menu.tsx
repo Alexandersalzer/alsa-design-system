@@ -58,6 +58,8 @@ interface MenuContextValue {
   getAndIncrementItemIndex: () => number;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
+  handleHoverEnter: () => void;
+  handleHoverLeave: () => void;
 }
 
 const MenuContext = createContext<MenuContextValue | null>(null);
@@ -187,6 +189,39 @@ export const MenuRoot = <T extends object>({
     onOpenChange?.(newOpen);
   };
 
+  // Centralized hover timeout management for hover menus
+  const hoverCloseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleHoverEnter = () => {
+    if (trigger !== 'hover') return;
+
+    // Clear any pending close timeout
+    if (hoverCloseTimeoutRef.current) {
+      clearTimeout(hoverCloseTimeoutRef.current);
+      hoverCloseTimeoutRef.current = null;
+    }
+
+    setIsOpen(true);
+  };
+
+  const handleHoverLeave = () => {
+    if (trigger !== 'hover') return;
+
+    // Set timeout to close
+    hoverCloseTimeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 100);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverCloseTimeoutRef.current) {
+        clearTimeout(hoverCloseTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Use ref for item index to avoid setState during render
   const itemIndexRef = useRef(0);
 
@@ -226,7 +261,9 @@ export const MenuRoot = <T extends object>({
     hideSelectedIcon,
     getAndIncrementItemIndex,
     isOpen,
-    setIsOpen
+    setIsOpen,
+    handleHoverEnter,
+    handleHoverLeave
   };
 
   // Handle dynamic items rendering
@@ -282,37 +319,16 @@ export interface MenuTriggerProps {
 
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
   ({ children, asChild = false, className, disabled, ...props }, ref) => {
-    const { size, trigger, setIsOpen } = useMenuContext();
-    const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-    // Cleanup timeout on unmount
-    useEffect(() => {
-      return () => {
-        if (closeTimeoutRef.current) {
-          clearTimeout(closeTimeoutRef.current);
-        }
-      };
-    }, []);
+    const { size, trigger, handleHoverEnter, handleHoverLeave } = useMenuContext();
 
     const handleMouseEnter = () => {
-      if (disabled || trigger !== 'hover') return;
-
-      // Clear any pending close timeout
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current);
-        closeTimeoutRef.current = null;
-      }
-
-      setIsOpen(true);
+      if (disabled) return;
+      handleHoverEnter();
     };
 
     const handleMouseLeave = () => {
-      if (disabled || trigger !== 'hover') return;
-
-      // Delay to allow mouse to reach content via bridge overlay
-      closeTimeoutRef.current = setTimeout(() => {
-        setIsOpen(false);
-      }, 200);
+      if (disabled) return;
+      handleHoverLeave();
     };
 
     // If asChild, just pass the child through - don't add menu-trigger classes
@@ -385,42 +401,12 @@ export const MenuContent = ({
     animateContainer,
     disableAnimation,
     trigger,
-    setIsOpen
+    handleHoverEnter,
+    handleHoverLeave
   } = useMenuContext();
 
-  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const shouldAnimate = animateContainer && !disableAnimation && animationVariant !== 'none';
   const finalPlacement = placementOverride || contextPlacement;
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const handleMouseEnter = () => {
-    if (trigger !== 'hover') return;
-
-    // Clear any pending close timeout
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
-    }
-
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (trigger !== 'hover') return;
-
-    // Delay to allow mouse to return to trigger via bridge overlay
-    closeTimeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 200);
-  };
 
   // 8px gap with wide hover bridge for hover menus
   const offset = trigger === 'hover' ? 8 : 8;
@@ -430,8 +416,8 @@ export const MenuContent = ({
       <Popover.Content
         maxHeight={maxHeight}
         positioning={{ placement: finalPlacement, offset }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseEnter={handleHoverEnter}
+        onMouseLeave={handleHoverLeave}
         showHoverBridge={trigger === 'hover'}
         hoverBridgeOffset={offset}
         className={cn(
