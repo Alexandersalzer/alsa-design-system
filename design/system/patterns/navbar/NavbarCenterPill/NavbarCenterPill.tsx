@@ -172,7 +172,7 @@ const NavbarCenterPill = ({ components = {}, sectionKey, patternKey, ...patternN
                       action={props.action}
                       href={props.href}
                       size="sm"
-                      underline="hover"
+                      underline={props.underline}
                       componentKey={componentKey}
                       className="navbar-center-pill__menu-link"
                     >
@@ -245,6 +245,7 @@ const NavbarCenterPill = ({ components = {}, sectionKey, patternKey, ...patternN
                   variant={props.variant}
                   action={props.action}
                   href={props.href}
+                  underline={props.underline}
                   onClick={() => setMobileOpen(false)}
                   className="drawer-navbar-link"
                   componentKey={componentKey}
