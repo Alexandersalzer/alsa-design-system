@@ -49,6 +49,24 @@
   will-change: transform, opacity;
 }
 
+/* ===== HOVER BRIDGE ===== */
+.popover-hover-bridge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--hover-bridge-height, 4px);
+  top: calc(-1 * var(--hover-bridge-height, 4px));
+  z-index: 1;
+  /* Invisible but catches mouse events */
+  background: transparent;
+  pointer-events: auto;
+}
+
+.popover-hover-bridge--bottom {
+  top: auto;
+  bottom: calc(-1 * var(--hover-bridge-height, 4px));
+}
+
 /* Show with smooth fade when positioned */
 .popover-content--positioned {
   opacity: 1;

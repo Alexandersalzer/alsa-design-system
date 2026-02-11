@@ -360,6 +360,8 @@ export interface PopoverContentProps {
   positioning?: PositioningOptions;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  showHoverBridge?: boolean;
+  hoverBridgeOffset?: number;
 }
 
 export const PopoverContent = ({
@@ -369,7 +371,9 @@ export const PopoverContent = ({
   width,
   positioning = {},
   onMouseEnter,
-  onMouseLeave
+  onMouseLeave,
+  showHoverBridge = false,
+  hoverBridgeOffset = 4
 }: PopoverContentProps) => {
   const { contentId, size, contentRef, triggerRef, autoFocus, isOpen } = usePopoverContext();
   const [isPositioned, setIsPositioned] = useState(false);
@@ -547,6 +551,12 @@ export const PopoverContent = ({
   
   if (!isOpen) return null;
 
+  // Calculate bridge dimensions for hover menus
+  const bridgeHeight = showHoverBridge ? hoverBridgeOffset : 0;
+  const finalPlacement = positioning.placement || 'bottom-start';
+  const isBottomPlacement = finalPlacement.startsWith('bottom');
+  const isTopPlacement = finalPlacement.startsWith('top');
+
   return (
     <div
       ref={contentRef}
@@ -561,6 +571,7 @@ export const PopoverContent = ({
         `popover-content--${size}`,
         'popover-content--portal',
         isPositioned && 'popover-content--positioned',
+        showHoverBridge && 'popover-content--has-bridge',
         className
       )}
       style={{
@@ -575,10 +586,29 @@ export const PopoverContent = ({
         left: `${position.left}px`,
         maxHeight: `${position.maxHeight}px`,
         ...(width ? { width, minWidth: width } : { minWidth: position.minWidth }),
-        zIndex: 'var(--z-popover)'
+        zIndex: 'var(--z-popover)',
+        ...(showHoverBridge && {
+          '--hover-bridge-height': `${bridgeHeight}px`,
+          '--hover-bridge-position': isBottomPlacement ? 'top' : isTopPlacement ? 'bottom' : 'top'
+        } as React.CSSProperties)
       }}
     >
+      {/* Invisible hover bridge */}
+      {showHoverBridge && isBottomPlacement && (
+        <div
+          className="popover-hover-bridge"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        />
+      )}
       {children}
+      {showHoverBridge && isTopPlacement && (
+        <div
+          className="popover-hover-bridge popover-hover-bridge--bottom"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        />
+      )}
     </div>
   );
 };

@@ -309,11 +309,10 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
     const handleMouseLeave = () => {
       if (disabled || trigger !== 'hover') return;
 
-      // For hover menus, add a longer delay to allow reaching dropdown
-      // Don't close immediately - let the content handler manage closing
+      // Short delay to allow reaching content
       closeTimeoutRef.current = setTimeout(() => {
         setIsOpen(false);
-      }, 300);
+      }, 150);
     };
 
     // If asChild, just pass the child through - don't add menu-trigger classes
@@ -417,14 +416,14 @@ export const MenuContent = ({
   const handleMouseLeave = () => {
     if (trigger !== 'hover') return;
 
-    // Add delay before closing
+    // Short delay before closing
     closeTimeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-    }, 300);
+    }, 150);
   };
 
-  // Reduce gap for hover menus to make transition easier
-  const offset = trigger === 'hover' ? 2 : 8;
+  // Small gap with hover bridge for hover menus
+  const offset = trigger === 'hover' ? 4 : 8;
 
   return (
     <Popover.Positioner>
@@ -433,6 +432,8 @@ export const MenuContent = ({
         positioning={{ placement: finalPlacement, offset }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        showHoverBridge={trigger === 'hover'}
+        hoverBridgeOffset={offset}
         className={cn(
           'menu-content',
           `menu-content--${size}`,
