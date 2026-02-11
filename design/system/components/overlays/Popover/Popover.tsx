@@ -601,7 +601,10 @@ export const PopoverContent = ({
           onMouseLeave={onMouseLeave}
         />
       )}
-      {children}
+      {/* Wrap content in scrollable container to prevent overflow from clipping the bridge */}
+      <div className="popover-content-inner">
+        {children}
+      </div>
       {showHoverBridge && isTopPlacement && (
         <div
           className="popover-hover-bridge popover-hover-bridge--bottom"

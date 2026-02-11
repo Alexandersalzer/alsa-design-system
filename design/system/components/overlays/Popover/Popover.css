@@ -38,8 +38,8 @@
   border-radius: var(--radius-dropdown);
   background-color: var(--surface-base);
   box-shadow: var(--foundation-shadow-lg);
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* IMPORTANT: overflow must be visible to prevent clipping the hover bridge */
+  overflow: visible;
 
   /* Hide initially until positioned to prevent flash */
   opacity: 0;
@@ -49,15 +49,25 @@
   will-change: transform, opacity;
 }
 
+/* Inner container for scrollable content */
+.popover-content-inner {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: inherit;
+  border-radius: inherit;
+}
+
 /* ===== HOVER BRIDGE ===== */
 .popover-hover-bridge {
   position: absolute;
   /* Extend far beyond content width to catch diagonal mouse movement */
-  left: -100px;
-  right: -100px;
-  height: var(--hover-bridge-height, 6px);
-  top: calc(-1 * var(--hover-bridge-height, 6px));
-  z-index: 1;
+  left: -200px;
+  right: -200px;
+  /* Add extra height for more forgiving hover area */
+  height: calc(var(--hover-bridge-height, 8px) + 4px);
+  top: calc(-1 * (var(--hover-bridge-height, 8px) + 4px));
+  /* High z-index to ensure it catches hover events */
+  z-index: 10;
   /* Invisible but catches mouse events */
   background: transparent;
   pointer-events: auto;
@@ -65,7 +75,7 @@
 
 .popover-hover-bridge--bottom {
   top: auto;
-  bottom: calc(-1 * var(--hover-bridge-height, 6px));
+  bottom: calc(-1 * (var(--hover-bridge-height, 8px) + 4px));
 }
 
 /* DEBUG: Uncomment to visualize the bridge area */
@@ -211,20 +221,24 @@
 }
 
 /* ===== SCROLLBAR STYLING ===== */
-.popover-body::-webkit-scrollbar {
+.popover-body::-webkit-scrollbar,
+.popover-content-inner::-webkit-scrollbar {
   width: 6px;
 }
 
-.popover-body::-webkit-scrollbar-track {
+.popover-body::-webkit-scrollbar-track,
+.popover-content-inner::-webkit-scrollbar-track {
   background: var(--surface-raised);
 }
 
-.popover-body::-webkit-scrollbar-thumb {
+.popover-body::-webkit-scrollbar-thumb,
+.popover-content-inner::-webkit-scrollbar-thumb {
   background: var(--border-strong);
   border-radius: 3px;
 }
 
-.popover-body::-webkit-scrollbar-thumb:hover {
+.popover-body::-webkit-scrollbar-thumb:hover,
+.popover-content-inner::-webkit-scrollbar-thumb:hover {
   background: var(--border-hover);
 }
 

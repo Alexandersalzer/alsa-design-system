@@ -309,10 +309,10 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(
     const handleMouseLeave = () => {
       if (disabled || trigger !== 'hover') return;
 
-      // Minimal delay - bridge handles the gap crossing
+      // Delay to allow mouse to reach content via bridge
       closeTimeoutRef.current = setTimeout(() => {
         setIsOpen(false);
-      }, 100);
+      }, 150);
     };
 
     // If asChild, just pass the child through - don't add menu-trigger classes
@@ -416,14 +416,14 @@ export const MenuContent = ({
   const handleMouseLeave = () => {
     if (trigger !== 'hover') return;
 
-    // Minimal delay - bridge handles the gap crossing
+    // Delay to allow mouse to return to trigger or stay in content
     closeTimeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-    }, 100);
+    }, 150);
   };
 
-  // 6px gap with wide hover bridge for hover menus
-  const offset = trigger === 'hover' ? 6 : 8;
+  // 8px gap with wide hover bridge for hover menus
+  const offset = trigger === 'hover' ? 8 : 8;
 
   return (
     <Popover.Positioner>
