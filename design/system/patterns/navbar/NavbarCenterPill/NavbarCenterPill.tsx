@@ -250,6 +250,7 @@ const NavbarCenterPill = ({ components = {}, sectionKey, patternKey, ...patternN
         <div className="navbar-center-pill__mobile-wrapper">
           <div className={cn(
             "navbar-center-pill__mobile-pill",
+            mobileOpen && "navbar-center-pill__mobile-pill--active",
             backgroundVariant !== 'default' && `navbar-center-pill__mobile-pill--${backgroundVariant}`,
             !showBorder && "navbar-center-pill__mobile-pill--no-border"
           )}>
