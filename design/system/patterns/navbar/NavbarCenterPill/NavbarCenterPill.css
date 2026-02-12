@@ -24,6 +24,14 @@
   /* Optional: Add backdrop blur on scroll */
 }
 
+/* Unified wrapper - pill + mobile drawer share same border/background */
+.navbar-center-pill__unified-wrapper {
+  max-width: var(--width-navbar);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-navbar);
+}
+
 /* Container */
 .navbar-center-pill__container {
   display: grid;
@@ -49,7 +57,7 @@
   padding: var(--space-navbar);
   background: var(--surface-raised);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-navbar-pill);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-sm);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -186,6 +194,111 @@
 .navbar-center-pill--scrolled.navbar-center-pill--glass {
   background: rgba(var(--surface-base-rgb), 0.95);
   border-bottom-color: var(--border-default);
+}
+
+/* ===============================================
+   MOBILE DRAWER SECTION (unified within navbar on mobile)
+   =============================================== */
+
+.navbar-center-pill__mobile-wrapper {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .navbar-center-pill__mobile-wrapper {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-navbar);
+    padding: var(--foundation-space-3) var(--space-navbar);
+  }
+
+  .navbar-center-pill__mobile-pill {
+    background: var(--surface-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-navbar-pill);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-sm);
+    transition: all 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+  }
+
+  /* Background variants for mobile pill */
+  .navbar-center-pill__mobile-pill--transparent {
+    background: rgba(var(--surface-raised-rgb), 0.7);
+    backdrop-filter: blur(12px);
+  }
+
+  .navbar-center-pill__mobile-pill--glass {
+    background: rgba(var(--surface-raised-rgb), 0.9);
+    backdrop-filter: blur(16px);
+  }
+
+  .navbar-center-pill__mobile-pill--solid {
+    background: var(--surface-raised);
+  }
+
+  .navbar-center-pill__mobile-pill--no-border {
+    border-color: transparent;
+  }
+
+  /* Mobile top bar - always visible */
+  .navbar-center-pill__mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-navbar);
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Mobile drawer section - expands below the bar */
+  .navbar-center-pill__drawer-section {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 400ms ease-out;
+  }
+
+  .navbar-center-pill__drawer-section--open {
+    max-height: 80vh;
+    opacity: 1;
+    padding-bottom: var(--foundation-space-6);
+  }
+
+  .navbar-center-pill__drawer-section--sheet.navbar-center-pill__drawer-section--open {
+    max-height: 60vh;
+  }
+
+  .navbar-center-pill__drawer-section--fullscreen.navbar-center-pill__drawer-section--open {
+    max-height: calc(100vh - var(--navbar-height) - 80px);
+  }
+
+  /* Hide desktop container on mobile */
+  .navbar-center-pill__container {
+    display: none;
+  }
+}
+
+/* Backdrop overlay for mobile */
+.navbar-center-pill__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: calc(var(--z-navbar) - 1);
+  animation: fadeIn 300ms ease-out;
+}
+
+@media (min-width: 1024px) {
+  .navbar-center-pill__backdrop {
+    display: none;
+  }
 }
 
 /* ===============================================
