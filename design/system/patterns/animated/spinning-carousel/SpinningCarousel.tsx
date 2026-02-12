@@ -8,7 +8,7 @@
 import React from 'react';
 import { CarouselAnimation, CarouselAnimationItem } from '../../../components/animations/CarouselAnimation';
 import { Image } from '../../../components/media/Image';
-import { CDN_BASE_URL } from '../../../core/utils/env';
+import { resolveCdnImageUrl } from '../../../core/utils/env';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
 import { useAction } from '../../../core/actions/useAction';
@@ -99,7 +99,7 @@ export const SpinningCarousel: React.FC<PatternNode> = (patternNode) => {
         }}
       >
         <Image
-          src={`${CDN_BASE_URL}${image.src}`}
+          src={resolveCdnImageUrl(image.src)}
           alt={image.alt}
           title={image.title}
           width="100%"
