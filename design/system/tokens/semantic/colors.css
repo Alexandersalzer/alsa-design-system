@@ -282,12 +282,36 @@
   /* optional */
   --surface-floating: var(--neutral-0);
 
-  /* ----- Interactive States ----- */
+  /* ----- Interactive States (Base/Page Level) ----- */
   --surface-hover: var(--neutral-100);
   --surface-active: var(--neutral-200);
   --surface-selected: var(--neutral-200);
   --surface-pressed: var(--neutral-300);
   --surface-disabled: var(--neutral-100);
+
+  /* ----- Raised Surface States ----- */
+  --surface-raised-hover: var(--neutral-200);
+  --surface-raised-active: var(--neutral-300);
+  --surface-raised-selected: var(--neutral-300);
+  --surface-raised-pressed: var(--neutral-400);
+
+  /* ----- Elevated Surface States ----- */
+  --surface-elevated-hover: var(--neutral-300);
+  --surface-elevated-active: var(--neutral-400);
+  --surface-elevated-selected: var(--neutral-400);
+  --surface-elevated-pressed: var(--neutral-500);
+
+  /* ----- Sunken Surface States ----- */
+  --surface-sunken-hover: var(--neutral-400);
+  --surface-sunken-active: var(--neutral-500);
+  --surface-sunken-selected: var(--neutral-500);
+  --surface-sunken-pressed: var(--neutral-600);
+
+  /* ----- Deep Surface States ----- */
+  --surface-deep-hover: var(--neutral-500);
+  --surface-deep-active: var(--neutral-600);
+  --surface-deep-selected: var(--neutral-600);
+  --surface-deep-pressed: var(--neutral-700);
 
   /* ----- Input Surfaces ----- */
   --surface-input: var(--surface-base);

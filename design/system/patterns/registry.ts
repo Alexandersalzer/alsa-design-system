@@ -5,7 +5,6 @@ import { footerRegistry } from './footer/registry';
 import { navbarRegistry } from './navbar/registry';
 import { gridPatternsRegistry } from './gridPatterns/registry';
 import { cardsRegistry } from './cards/registry';
-import { widgetsRegistry } from './widgets/registry';
 import { endingCtaRegistry } from './endingCta/registry';
 import { actionsRegistry } from './actions/registry'
 
@@ -18,7 +17,6 @@ export const patternRegistry: Record<string, React.ComponentType<any>> = {
   ...navbarRegistry,
   ...gridPatternsRegistry,
   ...cardsRegistry,
-  ...widgetsRegistry,
   ...endingCtaRegistry,
   ...actionsRegistry
 };

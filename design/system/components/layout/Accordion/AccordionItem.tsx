@@ -18,7 +18,9 @@ export interface AccordionItemProps {
   /** Optional subtitle */
   subtitle?: React.ReactNode;
   /** Content to show when expanded */
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  /** Content alias (for localized content compatibility) */
+  content?: React.ReactNode;
   /** Optional start content (icon, avatar, etc.) */
   startContent?: React.ReactNode;
   /** Disabled state */
@@ -37,12 +39,15 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   title,
   subtitle,
   children,
+  content,
   startContent,
   disabled = false,
   disableIndicator = false,
   indicatorIcon,
   className
 }) => {
+  // Use content if provided, otherwise use children
+  const itemContent = content || children;
   const { expandedKeys, toggleKey, showIndicator } = useAccordionContext();
   const isExpanded = expandedKeys.has(itemKey);
   const shouldShowIndicator = showIndicator && !disableIndicator;
@@ -167,7 +172,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         ref={contentRef}
         className="accordion-item__content"
       >
-        {children}
+        {itemContent}
       </div>
     </div>
   );

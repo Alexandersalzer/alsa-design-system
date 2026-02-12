@@ -29,30 +29,30 @@
 
 /* ===== BRAND VARIANT (AUTO-ADAPTIVE) ===== */
 .number-display-brand {
-  background-color: var(--surface-button-brand);
-  color: var(--text-button-brand);
-  border-color: var(--border-button-brand);
+  background-color: var(--surface-accent);
+  color: var(--text-on-accent);
+  border-color: var(--surface-accent);
 }
 
 /* ===== PRIMARY VARIANT (ALWAYS INVERSE/DARK) ===== */
 .number-display-primary {
   background-color: var(--interactive-primary);
-  color: var(--text-button-primary);
-  border-color: var(--border-button-primary);
+  color: var(--text-inverse);
+  border-color: var(--interactive-primary);
 }
 
 /* ===== SECONDARY VARIANT ===== */
 .number-display-secondary {
-  background-color: var(--surface-button-secondary);
-  color: var(--text-button-secondary);
-  border-color: var(--border-button-secondary);
+  background-color: var(--interactive-secondary);
+  color: var(--text-default);
+  border-color: var(--border-default);
 }
 
 /* ===== ACCENT VARIANT ===== */
 .number-display-accent {
-  background-color: var(--surface-button-accent);
-  color: var(--text-button-accent);
-  border-color: var(--border-button-accent);
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border-color: var(--interactive-accent);
 }
 
 /* ===== GHOST VARIANT ===== */

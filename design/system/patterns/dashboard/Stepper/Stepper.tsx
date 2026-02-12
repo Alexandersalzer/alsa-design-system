@@ -95,6 +95,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
 }, ref) => {
   const [basePrice, setBasePrice] = useState<number>(6999); // Fallback price
   const [priceLoading, setPriceLoading] = useState<boolean>(true);
+  const [isNavigating, setIsNavigating] = useState<boolean>(false);
 
   // Use provided basePackagePrice or fallback to hardcoded value
   useEffect(() => {
@@ -115,10 +116,29 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
   const showContent = !hideContent && !navigationOnly && !!currentStepData;
 
   // ✅ FIXED: Calculate actual disabled states
-  const isPreviousDisabled = previousDisabled || isFirstStep;
+  const isPreviousDisabled = previousDisabled || isFirstStep || isNavigating;
   // On last step, respect nextDisabled prop only. Don't auto-disable.
   // This allows parent (StepWizard) to control the button state based on form validation
-  const isNextDisabled = nextDisabled;
+  const isNextDisabled = nextDisabled || isNavigating;
+
+  // Handle navigation clicks with loading state
+  const handlePreviousClick = () => {
+    if (!isPreviousDisabled && onPrevious) {
+      setIsNavigating(true);
+      onPrevious();
+      // Reset after a timeout to prevent permanent lock
+      setTimeout(() => setIsNavigating(false), 3000);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (!isNextDisabled && onNext) {
+      setIsNavigating(true);
+      onNext();
+      // Reset after a timeout to prevent permanent lock
+      setTimeout(() => setIsNavigating(false), 3000);
+    }
+  };
 
   // Generate dynamic next button label with price
   const getNextButtonLabel = () => {
@@ -186,7 +206,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
         {/* Left: Previous button */}
         <Button
           variant="secondary"
-          onClick={onPrevious}
+          onClick={handlePreviousClick}
           disabled={isPreviousDisabled}
           className="stepper-button"
           leftIcon={
@@ -246,7 +266,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(({
         {/* Right: Next button with dynamic pricing */}
         <Button
           variant="accent"
-          onClick={onNext}
+          onClick={handleNextClick}
           disabled={isNextDisabled}
           className={cn(
             'stepper-button',

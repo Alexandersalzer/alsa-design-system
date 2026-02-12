@@ -5,6 +5,8 @@ export * from './SlideIn';
 export * from './Opacity';
 export * from './Scale';
 export * from './ProgressRail';
+export * from './Bounce';
+export * from './OpacityBounce';
 
 // Export animation types
 export type {
@@ -16,6 +18,8 @@ export type {
   OpacityAnimationConfig,
   ScaleAnimationConfig,
   CarouselAnimationConfig,
+  BounceAnimationConfig,
+  OpacityBounceAnimationConfig,
   NoneAnimationConfig,
   EasingType,
   AnimationDirection

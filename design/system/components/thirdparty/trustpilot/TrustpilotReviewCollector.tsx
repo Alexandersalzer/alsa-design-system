@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { PatternNode } from '../../../core/types/nodes';
-import { patternProps } from '../../../core/utils/props';
-import { Box, Button } from '@blimpify-im/ui';
+import { Box } from '../../layout/box/Box';
+import { Button } from '../../actions/Button/Button';
 
-// ===== TRUSTPILOT REVIEW COLLECTOR PATTERN =====
+// ===== TRUSTPILOT REVIEW COLLECTOR =====
 // Two modes: 'button' (simple link) or 'widget' (embedded TrustBox)
 
 export interface TrustpilotReviewCollectorProps {
@@ -23,21 +22,18 @@ export interface TrustpilotReviewCollectorProps {
   stars?: string; // Pre-selected stars (1-5)
 }
 
-export const TrustpilotReviewCollector: React.FC<PatternNode> = (patternNode) => {
-  const getPatternProps = patternProps(patternNode);
+export const TrustpilotReviewCollector: React.FC<TrustpilotReviewCollectorProps> = ({
+  mode = 'button',
+  reviewUrl,
+  buttonText = 'Lämna ett omdöme på Trustpilot',
+  buttonVariant = 'primary',
+  businessUnitId,
+  locale = 'sv-SE',
+  templateId = '56278e9abfbbba0bdcd568bc',
+  stars = '5',
+}) => {
   const widgetRef = useRef<HTMLDivElement>(null);
   const scriptLoadedRef = useRef(false);
-
-  const {
-    mode = 'button',
-    reviewUrl,
-    buttonText = 'Lämna ett omdöme på Trustpilot',
-    buttonVariant = 'primary',
-    businessUnitId,
-    locale = 'sv-SE',
-    templateId = '56278e9abfbbba0bdcd568bc',
-    stars = '5'
-  } = getPatternProps() as TrustpilotReviewCollectorProps;
 
   // Load Trustpilot widget script (only for widget mode)
   useEffect(() => {
@@ -118,3 +114,5 @@ export const TrustpilotReviewCollector: React.FC<PatternNode> = (patternNode) =>
 };
 
 TrustpilotReviewCollector.displayName = 'TrustpilotReviewCollector';
+
+export default TrustpilotReviewCollector;

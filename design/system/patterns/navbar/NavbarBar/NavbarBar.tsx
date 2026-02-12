@@ -177,7 +177,7 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
               .map((props, i) => {
                 const componentKey = `textlink-menuItem_${i}`;
                 return (
-                  <TextLink key={i} action={props.action} href={props.href} size="md" underline="hover" componentKey={componentKey}>
+                  <TextLink key={i} variant={props.variant} action={props.action} href={props.href} size="md" underline={props.underline} componentKey={componentKey}>
                     {props.content}
                   </TextLink>
                 );
@@ -237,8 +237,10 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
               const linkContent = (
                 <TextLink
                   key={i}
+                  variant={props.variant}
                   action={props.action}
                   href={props.href}
+                  underline={props.underline}
                   onClick={() => setMobileOpen(false)}
                   className="drawer-navbar-link"
                   componentKey={componentKey}

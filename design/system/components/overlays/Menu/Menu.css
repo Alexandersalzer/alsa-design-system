@@ -1,6 +1,6 @@
 /* ===============================================
    src/design-system/components/primitives/Menu/Menu.css
-   FIXED - No conflicting trigger styles when using asChild
+   Enhanced with variants, animations, and HeroUI-inspired features
    ============================================== */
 
 /* ===== MENU ROOT ===== */
@@ -10,7 +10,6 @@
 }
 
 /* ===== MENU TRIGGER (ONLY FOR DEFAULT TRIGGER) ===== */
-/* These styles ONLY apply when NOT using asChild */
 .menu-trigger {
   display: inline-flex;
   align-items: center;
@@ -28,7 +27,7 @@
   line-height: 1.5;
   cursor: pointer;
   outline: none;
-  transition: 
+  transition:
     border-color var(--foundation-duration-fast) var(--foundation-ease-out),
     background-color var(--foundation-duration-fast) var(--foundation-ease-out),
     box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
@@ -37,7 +36,7 @@
 .menu-trigger:hover:not(:disabled):not([aria-expanded="true"]) {
   background-color: var(--surface-picker-hover);
   border-color: var(--border-picker-hover);
-  box-shadow: 
+  box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.04),
     0 1px 2px rgba(0, 0, 0, 0.06);
 }
@@ -57,7 +56,7 @@
 .menu-trigger[aria-expanded="true"] {
   background-color: var(--surface-picker-hover);
   border-color: var(--border-picker-focus);
-  box-shadow: 
+  box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.08),
     0 1px 4px rgba(0, 0, 0, 0.06);
 }
@@ -67,10 +66,6 @@
   opacity: 0.6;
   background-color: var(--surface-picker-disabled);
   border-color: var(--border-picker-disabled);
-}
-
-.menu-trigger:disabled:hover {
-  box-shadow: none;
 }
 
 /* Size variants */
@@ -108,22 +103,455 @@
   transform: rotate(180deg);
 }
 
-/* ===== MENU CONTENT (Popover customization) ===== */
+/* ===== BACKDROP STYLES ===== */
+.menu-root--backdrop-blur {
+  backdrop-filter: blur(8px);
+}
+
+.menu-root--backdrop-opaque {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ===== MENU CONTENT ===== */
 .menu-content {
-  padding: 6px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .menu-content--sm {
-  padding: 4px;
+  padding: 2px;
+  gap: 1px;
 }
 
 .menu-content--lg {
-  padding: 8px;
+  padding: 6px;
+  gap: 3px;
 }
 
-/* ===== MENU ITEMS - Now use ListboxItem internally ===== */
-/* All item styling is handled by ListboxItem component */
-/* Only menu-specific overrides remain below */
+/* ===== CONTAINER ANIMATIONS ===== */
+.menu-content--animated {
+  animation-duration: 150ms;
+  animation-timing-function: var(--foundation-ease-out);
+  animation-fill-mode: both;
+}
+
+/* Faster animations for hover menus */
+.menu-content--animated.menu-content--hover {
+  animation-duration: 120ms;
+}
+
+/* Closing state uses exit animations */
+.menu-content--animated.menu-content--closing {
+  animation-direction: reverse;
+  animation-duration: 100ms;
+}
+
+.menu-content--animated.menu-content--hover.menu-content--closing {
+  animation-duration: 80ms;
+}
+
+/* Fade animation */
+.menu-content--fade {
+  animation-name: menuFadeIn;
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Opacity animation */
+.menu-content--opacity {
+  animation-name: menuOpacityIn;
+}
+
+@keyframes menuOpacityIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Bounce animation */
+.menu-content--bounce {
+  animation-name: menuBounceIn;
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.menu-content--bounce.menu-content--hover {
+  animation-duration: 250ms;
+}
+
+@keyframes menuBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Opacity + Bounce animation */
+.menu-content--opacityBounce {
+  animation-name: menuOpacityBounceIn;
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.menu-content--opacityBounce.menu-content--hover {
+  animation-duration: 250ms;
+}
+
+@keyframes menuOpacityBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(-3px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.01) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ===== MENU ITEMS ===== */
+.menu-item {
+  position: relative;
+}
+
+.menu-item__content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.menu-item__start-content,
+.menu-item__end-content {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.menu-item__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-item__title {
+  font-size: 14px;
+  font-weight: var(--foundation-weight-medium);
+  line-height: 1.5;
+  color: var(--text-default);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-item__description {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.menu-item__shortcut {
+  margin-left: auto;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: var(--font-mono-family, monospace);
+  color: var(--text-subtle);
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ===== ITEM ANIMATIONS ===== */
+.menu-item--animated {
+  opacity: 0;
+  animation-duration: 200ms;
+  animation-timing-function: var(--foundation-ease-out);
+  animation-fill-mode: both;
+  animation-delay: var(--menu-item-animation-delay, 0ms);
+}
+
+.menu-item--animated.menu-item--fade {
+  animation-name: menuItemFadeIn;
+}
+
+@keyframes menuItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menu-item--animated.menu-item--opacity {
+  animation-name: menuItemOpacityIn;
+}
+
+@keyframes menuItemOpacityIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.menu-item--animated.menu-item--bounce {
+  animation-name: menuItemBounceIn;
+  animation-duration: 250ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes menuItemBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.menu-item--animated.menu-item--opacityBounce {
+  animation-name: menuItemOpacityBounceIn;
+  animation-duration: 250ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes menuItemOpacityBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== VARIANTS ===== */
+
+/* Solid variant - Strong, filled appearance (raised surface) */
+.menu-content.menu-root--solid {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--foundation-shadow-lg);
+}
+
+.menu-content.menu-root--solid .menu-item--solid.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-raised-hover);  /* One level above raised */
+}
+
+.menu-content.menu-root--solid .menu-item--solid.listbox-item--selected {
+  background-color: var(--surface-raised-selected);
+  color: var(--text-accent);
+}
+
+/* Bordered variant - Outlined with border emphasis (base surface) */
+.menu-content.menu-root--bordered {
+  background-color: var(--surface-base);
+  border: 2px solid var(--border-default);
+  box-shadow: var(--foundation-shadow-sm);
+}
+
+.menu-item--bordered {
+  border: 1px solid transparent;
+  margin: 1px;
+}
+
+.menu-content.menu-root--bordered .menu-item--bordered.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  border-color: var(--border-emphasis);
+  background-color: var(--surface-hover);  /* One level above base */
+}
+
+.menu-content.menu-root--bordered .menu-item--bordered.listbox-item--selected {
+  border-color: var(--border-accent);
+  background-color: var(--surface-selected);
+  color: var(--text-accent);
+}
+
+/* Light variant - Subtle, light background (raised surface) */
+.menu-content.menu-root--light {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--foundation-shadow-sm);
+}
+
+.menu-content.menu-root--light .menu-item--light.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-raised-hover);  /* One level above raised */
+}
+
+.menu-content.menu-root--light .menu-item--light.listbox-item--selected {
+  background-color: var(--surface-raised-selected);
+  color: var(--text-accent);
+}
+
+/* Flat variant - Minimal, no shadows (base surface) */
+.menu-content.menu-root--flat {
+  background-color: var(--surface-base);
+  border: 1px solid var(--border-subtle);
+  box-shadow: none;
+}
+
+.menu-content.menu-root--flat .menu-item--flat.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-hover);  /* One level above base */
+}
+
+.menu-content.menu-root--flat .menu-item--flat.listbox-item--selected {
+  background-color: var(--surface-selected);
+  color: var(--text-accent);
+}
+
+/* Faded variant - Frosted glass (raised surface with transparency) */
+.menu-content.menu-root--faded {
+  background-color: color-mix(in srgb, var(--surface-raised) 70%, transparent);
+  backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in srgb, var(--border-default) 50%, transparent);
+  box-shadow: var(--foundation-shadow-md);
+}
+
+.menu-item--faded {
+  border: 1px solid transparent;
+}
+
+.menu-content.menu-root--faded .menu-item--faded.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  border-color: color-mix(in srgb, var(--border-default) 30%, transparent);
+  background-color: color-mix(in srgb, var(--surface-raised-hover) 60%, transparent);
+}
+
+.menu-content.menu-root--faded .menu-item--faded.listbox-item--selected {
+  border-color: var(--border-accent);
+  background-color: color-mix(in srgb, var(--surface-accent-muted) 70%, transparent);
+  color: var(--text-accent);
+}
+
+/* Shadow variant - Prominent shadows, maximum elevation (elevated surface) */
+.menu-content.menu-root--shadow {
+  background-color: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--foundation-shadow-xl);
+}
+
+.menu-content.menu-root--shadow .menu-item--shadow.listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
+  background-color: var(--surface-elevated-hover);  /* One level above elevated */
+  box-shadow: var(--foundation-shadow-md);
+  transform: translateY(-1px);
+  transition: all 150ms ease-out;
+}
+
+.menu-content.menu-root--shadow .menu-item--shadow.listbox-item--selected {
+  background-color: var(--surface-elevated-selected);
+  color: var(--text-accent);
+  box-shadow: var(--foundation-shadow-sm);
+}
+
+/* ===== COLOR VARIANTS ===== */
+
+/* Primary */
+.menu-item--primary[data-hover="true"] {
+  background-color: var(--surface-accent);
+  color: var(--text-on-accent);
+}
+
+.menu-item--primary.menu-item--bordered[data-hover="true"],
+.menu-item--primary.menu-item--faded[data-hover="true"] {
+  border-color: var(--border-accent);
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+.menu-item--primary.menu-item--light[data-hover="true"],
+.menu-item--primary.menu-item--flat[data-hover="true"] {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+/* Secondary */
+.menu-item--secondary[data-hover="true"] {
+  background-color: var(--surface-secondary);
+  color: var(--text-on-secondary);
+}
+
+.menu-item--secondary.menu-item--bordered[data-hover="true"],
+.menu-item--secondary.menu-item--faded[data-hover="true"] {
+  border-color: var(--border-secondary);
+  background-color: var(--surface-secondary-muted);
+  color: var(--text-secondary);
+}
+
+/* Success */
+.menu-item--success[data-hover="true"] {
+  background-color: var(--surface-success);
+  color: var(--text-on-success);
+}
+
+.menu-item--success.menu-item--bordered[data-hover="true"],
+.menu-item--success.menu-item--faded[data-hover="true"] {
+  border-color: var(--border-success);
+  background-color: var(--surface-success-muted);
+  color: var(--text-success);
+}
+
+/* Warning */
+.menu-item--warning[data-hover="true"] {
+  background-color: var(--surface-warning);
+  color: var(--text-on-warning);
+}
+
+.menu-item--warning.menu-item--bordered[data-hover="true"],
+.menu-item--warning.menu-item--faded[data-hover="true"] {
+  border-color: var(--border-warning);
+  background-color: var(--surface-warning-muted);
+  color: var(--text-warning);
+}
+
+/* Danger */
+.menu-item--danger[data-hover="true"] {
+  background-color: var(--surface-error);
+  color: var(--text-on-error);
+}
+
+.menu-item--danger.menu-item--bordered[data-hover="true"],
+.menu-item--danger.menu-item--faded[data-hover="true"] {
+  border-color: var(--border-error);
+  background-color: var(--surface-error-muted);
+  color: var(--text-error);
+}
 
 /* ===== MENU CHECKBOX ITEM ===== */
 .menu-checkbox-item {
@@ -133,7 +561,6 @@
 /* ===== MENU RADIO ITEM ===== */
 .menu-radio-item {
   /* All styling from ListboxItem */
-  /* Selected state is handled by ListboxItem's selected prop */
 }
 
 /* ===== MENU ITEM GROUP ===== */
@@ -223,12 +650,24 @@
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .menu-trigger,
-  .menu-trigger-icon {
-    transition:
-      background-color 0.15s ease,
-      border-color 0.15s ease,
-      color 0.15s ease !important;
+  .menu-trigger-icon,
+  .menu-content--animated,
+  .menu-item--animated {
+    transition: none !important;
     animation: none !important;
   }
-  /* Menu items inherit reduced motion from ListboxItem */
+
+  /* Simple fade in for accessibility */
+  .menu-content--animated {
+    animation: menuReducedMotion 150ms ease !important;
+  }
+
+  @keyframes menuReducedMotion {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }

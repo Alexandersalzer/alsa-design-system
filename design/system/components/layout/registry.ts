@@ -4,6 +4,7 @@ import { HStack } from './hStack/HStack';
 import { Box } from './box/Box';
 import { Card, CardHeader, CardContent, CardFooter } from './Card/Card';
 import { Accordion } from './Accordion/Accordion';
+import { AccordionItem } from './Accordion/AccordionItem';
 import { Sticky } from './Sticky/Sticky';
 import { AnimatedBox } from './AnimatedBox/AnimatedBox';
 import { OverflowContainer } from './OverflowContainer/OverflowContainer';
@@ -26,6 +27,7 @@ export const layoutComponents: Record<string, React.ComponentType<any>> = {
   cardContent: CardContent,
   cardFooter: CardFooter,
   accordion: Accordion,
+  accordionItem: AccordionItem,
   sticky: Sticky,
   animatedBox: AnimatedBox,
   overflowContainer: OverflowContainer,

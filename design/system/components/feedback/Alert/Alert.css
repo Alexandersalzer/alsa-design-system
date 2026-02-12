@@ -165,15 +165,17 @@
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 640px) {
   .alert {
-    padding: var(--space-alert-padding-small);
-    gap: var(--space-alert-gap-small);
+    /* Keep same padding on mobile - don't make it cramped */
+    padding: var(--space-alert-padding);
+    gap: var(--space-alert-gap);
   }
 
+  /* Don't shrink text on mobile - keep it readable */
   .alert__title {
-    font-size: 0.875rem;
+    font-size: inherit;
   }
 
   .alert__description {
-    font-size: 0.8125rem;
+    font-size: inherit;
   }
 }

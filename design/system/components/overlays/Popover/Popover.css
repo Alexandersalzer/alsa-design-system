@@ -38,8 +38,8 @@
   border-radius: var(--radius-dropdown);
   background-color: var(--surface-base);
   box-shadow: var(--foundation-shadow-lg);
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* IMPORTANT: overflow must be visible to prevent clipping the hover bridge */
+  overflow: visible;
 
   /* Hide initially until positioned to prevent flash */
   opacity: 0;
@@ -48,6 +48,29 @@
   transform: translateZ(0);
   will-change: transform, opacity;
 }
+
+/* Inner container for scrollable content */
+.popover-content-inner {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: inherit;
+  border-radius: inherit;
+}
+
+/* ===== HOVER BRIDGE OVERLAY ===== */
+/* Creates a seamless hover zone between trigger and content for hover menus */
+.popover-hover-bridge-overlay {
+  /* Positioned by inline styles - creates safe zone between trigger and content */
+  pointer-events: auto;
+  /* Invisible but catches all mouse events in the gap */
+  background: transparent;
+}
+
+/* DEBUG: Uncomment to visualize the hover bridge area */
+/* .popover-hover-bridge-overlay {
+  background: rgba(0, 255, 0, 0.15) !important;
+  border: 2px dashed rgba(0, 255, 0, 0.5) !important;
+} */
 
 /* Show with smooth fade when positioned */
 .popover-content--positioned {
@@ -187,21 +210,53 @@
 }
 
 /* ===== SCROLLBAR STYLING ===== */
-.popover-body::-webkit-scrollbar {
+.popover-body::-webkit-scrollbar,
+.popover-content-inner::-webkit-scrollbar {
   width: 6px;
 }
 
-.popover-body::-webkit-scrollbar-track {
+.popover-body::-webkit-scrollbar-track,
+.popover-content-inner::-webkit-scrollbar-track {
   background: var(--surface-raised);
 }
 
-.popover-body::-webkit-scrollbar-thumb {
+.popover-body::-webkit-scrollbar-thumb,
+.popover-content-inner::-webkit-scrollbar-thumb {
   background: var(--border-strong);
   border-radius: 3px;
 }
 
-.popover-body::-webkit-scrollbar-thumb:hover {
+.popover-body::-webkit-scrollbar-thumb:hover,
+.popover-content-inner::-webkit-scrollbar-thumb:hover {
   background: var(--border-hover);
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .popover-content {
+    /* Make popover responsive on mobile */
+    max-width: calc(100vw - 32px) !important;
+    left: 16px !important;
+    right: 16px !important;
+  }
+
+  /* Override min-width constraints on mobile */
+  .popover-content--xs,
+  .popover-content--sm,
+  .popover-content--md,
+  .popover-content--lg {
+    min-width: unset !important;
+  }
+
+  /* Reduce padding on mobile */
+  .popover-header,
+  .popover-footer {
+    padding: 12px;
+  }
+
+  .popover-body {
+    padding: 8px;
+  }
 }
 
 /* ===== REDUCED MOTION ===== */
@@ -209,7 +264,7 @@
   .popover-content {
     animation: simpleFadeIn 0.15s ease;
   }
-  
+
   @keyframes simpleFadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

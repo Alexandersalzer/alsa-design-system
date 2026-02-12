@@ -25,7 +25,11 @@ import './Popover.css';
 // ===============================================
 
 export type PopoverSize = 'xs' | 'sm' | 'md' | 'lg';
-export type PopoverPlacement = 'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
+export type PopoverPlacement =
+  | 'top' | 'top-start' | 'top-end'
+  | 'bottom' | 'bottom-start' | 'bottom-end'
+  | 'left' | 'left-start' | 'left-end'
+  | 'right' | 'right-start' | 'right-end';
 
 interface PositioningOptions {
   placement?: PopoverPlacement;
@@ -354,6 +358,10 @@ export interface PopoverContentProps {
   maxHeight?: number;
   width?: number | string;
   positioning?: PositioningOptions;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  showHoverBridge?: boolean;
+  hoverBridgeOffset?: number;
 }
 
 export const PopoverContent = ({
@@ -361,7 +369,11 @@ export const PopoverContent = ({
   className,
   maxHeight = 600,
   width,
-  positioning = {}
+  positioning = {},
+  onMouseEnter,
+  onMouseLeave,
+  showHoverBridge = false,
+  hoverBridgeOffset = 4
 }: PopoverContentProps) => {
   const { contentId, size, contentRef, triggerRef, autoFocus, isOpen } = usePopoverContext();
   const [isPositioned, setIsPositioned] = useState(false);
@@ -408,24 +420,85 @@ export const PopoverContent = ({
       ? Math.min(maxHeight, spaceAbove - 16)
       : Math.min(maxHeight, spaceBelow - 16);
 
-    // Horizontal positioning - prevent overflow
-    let left = triggerRect.left;
+    // Positioning based on placement (same clean logic as Tooltip)
+    const placement = positioning.placement || 'bottom-start';
+    const offset = positioning.offset || 8;
+    let top = 0;
+    let left = 0;
 
-    // Check if content would overflow on the right
-    if (left + actualContentWidth > viewportWidth - 16) {
-      // Align to right edge of trigger
-      left = triggerRect.right - actualContentWidth;
+    // Calculate position based on placement
+    switch (placement) {
+      case 'top-start':
+        top = triggerRect.top - offset;
+        left = triggerRect.left;
+        break;
+      case 'top':
+        top = triggerRect.top - offset;
+        left = triggerRect.left + (triggerRect.width / 2) - (actualContentWidth / 2);
+        break;
+      case 'top-end':
+        top = triggerRect.top - offset;
+        left = triggerRect.right - actualContentWidth;
+        break;
+      case 'bottom-start':
+        top = triggerRect.bottom + offset;
+        left = triggerRect.left;
+        break;
+      case 'bottom':
+        top = triggerRect.bottom + offset;
+        left = triggerRect.left + (triggerRect.width / 2) - (actualContentWidth / 2);
+        break;
+      case 'bottom-end':
+        top = triggerRect.bottom + offset;
+        left = triggerRect.right - actualContentWidth;
+        break;
+      case 'left-start':
+        top = triggerRect.top;
+        left = triggerRect.left - actualContentWidth - offset;
+        break;
+      case 'left':
+        top = triggerRect.top + (triggerRect.height / 2);
+        left = triggerRect.left - actualContentWidth - offset;
+        break;
+      case 'left-end':
+        top = triggerRect.bottom;
+        left = triggerRect.left - actualContentWidth - offset;
+        break;
+      case 'right-start':
+        top = triggerRect.top;
+        left = triggerRect.right + offset;
+        break;
+      case 'right':
+        top = triggerRect.top + (triggerRect.height / 2);
+        left = triggerRect.right + offset;
+        break;
+      case 'right-end':
+        top = triggerRect.bottom;
+        left = triggerRect.right + offset;
+        break;
+      default:
+        top = triggerRect.bottom + offset;
+        left = triggerRect.left;
     }
 
-    // Check if it would overflow on the left
-    if (left < 16) {
+    // Adjust top for upward opening if needed
+    if (shouldOpenUpward && (placement.startsWith('bottom'))) {
+      top = triggerRect.top - offset;
+    }
+
+    // Mobile responsive: center on small screens
+    const isMobile = viewportWidth <= 640;
+    if (isMobile) {
       left = 16;
+    } else {
+      // Prevent overflow
+      if (left + actualContentWidth > viewportWidth - 16) {
+        left = Math.max(16, viewportWidth - actualContentWidth - 16);
+      }
+      if (left < 16) {
+        left = 16;
+      }
     }
-
-    // Vertical position (fixed positioning from viewport)
-    const top = shouldOpenUpward
-      ? triggerRect.top - 8  // Position bottom edge 8px above trigger
-      : triggerRect.bottom + 8;
 
     setPosition({
       top,
@@ -478,37 +551,100 @@ export const PopoverContent = ({
   
   if (!isOpen) return null;
 
-  return (
-    <div
-      ref={contentRef}
-      id={contentId}
-      role="dialog"
-      aria-modal="false"
-      tabIndex={-1}
-      className={cn(
-        'popover-content',
-        `popover-content--${size}`,
-        'popover-content--portal',
-        isPositioned && 'popover-content--positioned',
-        className
-      )}
-      style={{
+  const finalPlacement = positioning.placement || 'bottom-start';
+  const isBottomPlacement = finalPlacement.startsWith('bottom');
+  const isTopPlacement = finalPlacement.startsWith('top');
+
+  // Calculate bridge overlay position to create seamless hover zone
+  const getBridgeOverlayStyle = (): React.CSSProperties => {
+    if (!showHoverBridge || !triggerRef.current || !isPositioned) {
+      return {};
+    }
+
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+
+    if (isBottomPlacement) {
+      // For bottom placement: overlay from trigger bottom to content top
+      return {
         position: 'fixed',
-        ...(position.shouldOpenUpward ? {
-          bottom: `${window.innerHeight - position.top}px`,
-          top: 'auto'
-        } : {
-          top: `${position.top}px`,
-          bottom: 'auto'
-        }),
-        left: `${position.left}px`,
-        maxHeight: `${position.maxHeight}px`,
-        ...(width ? { width, minWidth: width } : { minWidth: position.minWidth }),
-        zIndex: 'var(--z-popover)'
-      }}
-    >
-      {children}
-    </div>
+        top: `${triggerRect.bottom}px`,
+        left: `${Math.min(triggerRect.left, position.left) - 50}px`,
+        right: `${window.innerWidth - Math.max(triggerRect.right, position.left + (width ? (typeof width === 'number' ? width : 200) : position.minWidth)) - 50}px`,
+        height: `${position.top - triggerRect.bottom + 20}px`,
+        zIndex: 'calc(var(--z-popover) - 1)',
+        pointerEvents: 'auto',
+        background: 'transparent'
+      };
+    } else if (isTopPlacement) {
+      // For top placement: overlay from content bottom to trigger top
+      const contentBottom = position.shouldOpenUpward
+        ? window.innerHeight - position.top
+        : position.top + (contentRef.current?.offsetHeight || 0);
+
+      return {
+        position: 'fixed',
+        bottom: `${window.innerHeight - triggerRect.top}px`,
+        left: `${Math.min(triggerRect.left, position.left) - 50}px`,
+        right: `${window.innerWidth - Math.max(triggerRect.right, position.left + (width ? (typeof width === 'number' ? width : 200) : position.minWidth)) - 50}px`,
+        height: `${triggerRect.top - position.top + 20}px`,
+        zIndex: 'calc(var(--z-popover) - 1)',
+        pointerEvents: 'auto',
+        background: 'transparent'
+      };
+    }
+
+    return {};
+  };
+
+  return (
+    <>
+      {/* Seamless hover bridge overlay - creates a safe zone between trigger and content */}
+      {showHoverBridge && isPositioned && (
+        <div
+          className="popover-hover-bridge-overlay"
+          style={getBridgeOverlayStyle()}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        />
+      )}
+
+      <div
+        ref={contentRef}
+        id={contentId}
+        role="dialog"
+        aria-modal="false"
+        tabIndex={-1}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        className={cn(
+          'popover-content',
+          `popover-content--${size}`,
+          'popover-content--portal',
+          isPositioned && 'popover-content--positioned',
+          showHoverBridge && 'popover-content--has-bridge',
+          className
+        )}
+        style={{
+          position: 'fixed',
+          ...(position.shouldOpenUpward ? {
+            bottom: `${window.innerHeight - position.top}px`,
+            top: 'auto'
+          } : {
+            top: `${position.top}px`,
+            bottom: 'auto'
+          }),
+          left: `${position.left}px`,
+          maxHeight: `${position.maxHeight}px`,
+          ...(width ? { width, minWidth: width } : { minWidth: position.minWidth }),
+          zIndex: 'var(--z-popover)'
+        }}
+      >
+        {/* Wrap content in scrollable container */}
+        <div className="popover-content-inner">
+          {children}
+        </div>
+      </div>
+    </>
   );
 };
 
