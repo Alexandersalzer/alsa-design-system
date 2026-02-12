@@ -14,7 +14,7 @@
   background-color: var(--section-background, var(--surface-base)); /* Default background for all sections */
   position: relative; /* För att generativ bakgrund ska positionera sig korrekt */
   /* Kompensera för fixed navbar + lite extra breathing room */
-  scroll-margin-top: calc(var(--navbar-void) - var(--space-section));
+  scroll-margin-top: calc(var(--navbar-void) + var(--space-section));
 }
 
 
