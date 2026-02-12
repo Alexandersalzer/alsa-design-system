@@ -28,9 +28,6 @@ export function useHashScroll(delay: number = 600) {
       history.scrollRestoration = 'manual';
     }
 
-    // Start at top to prevent flash of wrong position
-    window.scrollTo(0, 0);
-
     const scrollToElement = () => {
       // Only scroll once
       if (hasScrolledRef.current) return;
