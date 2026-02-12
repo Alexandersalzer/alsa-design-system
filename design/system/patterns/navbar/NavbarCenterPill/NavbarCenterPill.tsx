@@ -226,7 +226,7 @@ const NavbarCenterPill = ({ components = {}, sectionKey, patternKey, ...patternN
         showCloseButton={false}
         preventScroll
         type="top"
-        className={`drawer-variant-${mobileVariant}`}
+        className={`drawer-variant-${mobileVariant} drawer-bg-${backgroundVariant}`}
       >
         <VStack
           spacing="lg"
