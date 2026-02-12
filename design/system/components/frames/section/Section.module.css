@@ -13,6 +13,7 @@
   overflow: visible; /* Changed from hidden to visible - allows sticky positioning */
   background-color: var(--section-background, var(--surface-base)); /* Default background for all sections */
   position: relative; /* För att generativ bakgrund ska positionera sig korrekt */
+  scroll-margin-top: var(--navbar-void); /* Kompensera för fixed navbar vid anchor-navigering */
 }
 
 

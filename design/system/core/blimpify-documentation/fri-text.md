@@ -1,23 +1,3 @@
-De enda filer från pattern som kommer till användning just nu är SectionHeader, navbar. Detta gäller för klient-hemsidor, det finns en del filer som används för annat. Vi borde inte ha hårdkodade navbars. 
-
-De mest kraftfulla och betydelse fulla mapparna i blimpify-ui är tokens, core och components. 
-
-CHECK - Jag kan skapa types.ts filer kopplat till komponenter för att separera logik. Exemeplvis kan core/animations/types flyttas till components/animations istället.
-
-CHECK - Jag tror att vi kan flytta innehållet i blimpify-ui/design/system/core/content till loaders.ts och detsamma med blimpify-ui/design/system/core/config.
-
-CHECK - Background props i page nodes och i section filen kan göras smartare än att bara spränga filerna. 
-
-CHECK - Dessutom behöver jag se över PageBackground komponenten samband med detta.
-
-I samband med den flytten ser vi nog enklare hur vi skapar json schema rules för components, och vidare för patterns layout osv.
-
-CHECK - Ta reda på vart LayoutRenderer bäst hör hemma. 
-
-Alla scripts vi har borde köras i build script innan man kan klicka "publicera" en klient sida för lansering.
-
-
-
 "defaults": {
   "image": { "type": "image" },
   "heading": { "type": "heading", "props": { "level": 3 } }
@@ -31,7 +11,6 @@ Alla scripts vi har borde köras i build script innan man kan klicka "publicera"
     }
   }
 ]
-
 
 
 {
