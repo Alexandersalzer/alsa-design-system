@@ -1,7 +1,7 @@
 import { Card, VStack, Typography } from '../../../components';
 import { Image } from '../../../components/media/Image';
 import { SquareImageContainer } from '../../../components/media/SquareImageContainer';
-import { CDN_BASE_URL } from '../../../core/utils/env';
+import { resolveCdnImageUrl } from '../../../core/utils/env';
 import './ContentCard.css';
 
 interface ContentCardProps {
@@ -65,7 +65,7 @@ export function ContentCard({
   };
 
   const finalAspectRatio = getAspectRatio(imageAspectRatio);
-  const fullImageSrc = `${CDN_BASE_URL}${imageSrc}`;
+  const fullImageSrc = resolveCdnImageUrl(imageSrc || '');
 
   // Render SquareImageContainer mode
   if (imageDisplayMode === 'squareContainer') {

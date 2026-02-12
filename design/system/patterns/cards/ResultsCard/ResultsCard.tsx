@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, VStack, Typography } from '../../../components';
 import { Image } from '../../../components/media/Image';
-import { CDN_BASE_URL } from '../../../core/utils/env';
+import { resolveCdnImageUrl } from '../../../core/utils/env';
 import './ResultsCard.css';
 
 interface ResultsCardProps {
@@ -54,7 +54,7 @@ export function ResultsCard({
         style={cardContainerStyle}
       >
         <Image
-          src={`${CDN_BASE_URL}${imageSrc}`}
+          src={resolveCdnImageUrl(imageSrc)}
           alt={imageAlt}
           width="100%"
           aspectRatio={imageAspectRatio}

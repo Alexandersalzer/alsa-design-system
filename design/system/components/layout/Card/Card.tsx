@@ -140,11 +140,21 @@ InteractiveCard.displayName = 'InteractiveCard';
 // Card sub-components remain the same
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
+  /** För bild/topp – ingen border/padding, innehåll kant-i-kant */
+  variant?: 'default' | 'media';
 }
 
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
-  ({ className, children, ...props }, ref) => (
-    <div ref={ref} className={cn('card-header', className)} {...props}>
+  ({ className, variant = 'default', children, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(
+        'card-header',
+        variant === 'media' && 'card-header--media',
+        className
+      )}
+      {...props}
+    >
       {children}
     </div>
   )
@@ -168,11 +178,21 @@ CardContent.displayName = 'CardContent';
 
 export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
+  /** Footer bakgrund – styrs via tokens */
+  variant?: 'default' | 'subtle' | 'muted';
 }
 
 export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
-  ({ className, children, ...props }, ref) => (
-    <div ref={ref} className={cn('card-footer', className)} {...props}>
+  ({ className, variant = 'default', children, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(
+        'card-footer',
+        variant !== 'default' && `card-footer--${variant}`,
+        className
+      )}
+      {...props}
+    >
       {children}
     </div>
   )

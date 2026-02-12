@@ -127,7 +127,7 @@ export function OverlayCard({
       {imageSrc && (
         <div className="overlay-card__background">
           <img
-            src={`${CDN_BASE_URL}${imageSrc}`}
+            src={imageSrc.startsWith('http') ? imageSrc : `${CDN_BASE_URL}${imageSrc}`}
             alt={imageAlt || ''}
             className="overlay-card__image"
             style={{ objectFit: imageObjectFit }}

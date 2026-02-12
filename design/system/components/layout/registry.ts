@@ -2,7 +2,7 @@ import { Grid, GridItem } from './grid/Grid';
 import { VStack } from './vStack/VStack';
 import { HStack } from './hStack/HStack';
 import { Box } from './box/Box';
-import { Card } from './Card/Card';
+import { Card, CardHeader, CardContent, CardFooter } from './Card/Card';
 import { Accordion } from './Accordion/Accordion';
 import { Sticky } from './Sticky/Sticky';
 import { AnimatedBox } from './AnimatedBox/AnimatedBox';
@@ -22,6 +22,9 @@ export const layoutComponents: Record<string, React.ComponentType<any>> = {
   hstack: HStack,
   box: Box,
   card: Card,
+  cardHeader: CardHeader,
+  cardContent: CardContent,
+  cardFooter: CardFooter,
   accordion: Accordion,
   sticky: Sticky,
   animatedBox: AnimatedBox,

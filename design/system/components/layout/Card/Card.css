@@ -254,6 +254,14 @@
   margin-bottom: var(--foundation-space-4);
 }
 
+.card-header--media {
+  padding: 0;
+  border: none;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+
 .card-content {
   display: flex;
   flex-direction: column;
@@ -269,6 +277,16 @@
   align-items: center;
   justify-content: flex-end;
   gap: var(--foundation-space-3);
+}
+
+.card-footer--subtle {
+  background-color: var(--surface-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.card-footer--muted {
+  background-color: var(--surface-muted, var(--surface-subtle));
+  border-radius: var(--radius-sm);
 }
 
 /* ===== CARD TYPOGRAPHY STYLES ===== */
