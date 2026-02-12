@@ -62,6 +62,14 @@
   border-color: var(--border-default);
 }
 
+/* ===== RAISED VARIANT (SUBTLE WITH GOOD CONTRAST) ===== */
+.number-display-raised {
+  background-color: var(--surface-raised);
+  color: var(--text-default);
+  border-color: var(--border-default);
+  box-shadow: var(--shadow-sm);
+}
+
 /* Value styling - Label component handles typography */
 .number-display-value {
   font-variant-numeric: tabular-nums;

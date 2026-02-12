@@ -9,7 +9,7 @@ import { Box } from '../../layout/box/Box';
 import { Label } from '../../Typography/Typography';
 
 export type NumberDisplaySize = 'sm' | 'md' | 'lg' | 'xl';
-export type NumberDisplayVariant = 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost';
+export type NumberDisplayVariant = 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'raised';
 export type NumberDisplayShape = 'square' | 'rounded' | 'circle';
 
 export interface NumberDisplayProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -33,7 +33,7 @@ const SIZE_MAP: Record<NumberDisplaySize, {
 };
 
 export const NumberDisplay = forwardRef<HTMLDivElement, NumberDisplayProps>(
-  ({ value, size = 'md', variant = 'primary', shape = 'circle', className, ...props }, ref) => {
+  ({ value, size = 'md', variant = 'raised', shape = 'rounded', className, ...props }, ref) => {
     const sizeConfig = SIZE_MAP[size];
 
     const classes = cn(
