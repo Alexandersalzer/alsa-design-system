@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
 /**
@@ -11,8 +11,12 @@ import { usePathname } from 'next/navigation';
  */
 export function useHashScroll(delay: number = 600) {
   const pathname = usePathname();
+  const hasScrolledRef = useRef(false);
 
   useEffect(() => {
+    // Reset on pathname change
+    hasScrolledRef.current = false;
+    
     const hash = window.location.hash;
     if (!hash) return;
 
@@ -28,24 +32,21 @@ export function useHashScroll(delay: number = 600) {
     window.scrollTo(0, 0);
 
     const scrollToElement = () => {
+      // Only scroll once
+      if (hasScrolledRef.current) return;
+      
       const element = document.getElementById(elementId);
       if (element) {
+        hasScrolledRef.current = true;
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     };
 
-    // Primary scroll after delay (wait for images/content)
+    // Single scroll after delay (wait for images/content)
     const timer = setTimeout(scrollToElement, delay);
-
-    // Backup: also try after window load event
-    const handleLoad = () => {
-      setTimeout(scrollToElement, 100);
-    };
-    window.addEventListener('load', handleLoad);
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('load', handleLoad);
     };
   }, [pathname, delay]);
 }
