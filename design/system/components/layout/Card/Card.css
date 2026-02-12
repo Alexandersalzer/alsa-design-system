@@ -270,7 +270,7 @@
 }
 
 .card-footer {
-  padding-top: var(--foundation-space-4);
+  padding: var(--foundation-space-4);
   border-top: 1px solid var(--border-subtle);
   margin-top: var(--foundation-space-4);
   display: flex;
@@ -282,11 +282,27 @@
 .card-footer--subtle {
   background-color: var(--surface-subtle);
   border-radius: var(--radius-sm);
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+}
+
+.card-footer--subtle > * {
+  flex-shrink: 0;
 }
 
 .card-footer--muted {
   background-color: var(--surface-muted, var(--surface-subtle));
   border-radius: var(--radius-sm);
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+}
+
+.card-footer--muted > * {
+  flex-shrink: 0;
 }
 
 /* ===== CARD TYPOGRAPHY STYLES ===== */
