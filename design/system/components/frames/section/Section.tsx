@@ -3,7 +3,7 @@ import styles from './Section.module.css';
 import { BackgroundProps, BackgroundType } from '../../backgrounds/types';
 import { renderBackgroundComponent } from '../../../core/render/background';
 
-type Height = 'auto' | 'full' | 'screen';
+type Height = 'auto' | 'full' | 'screen' | '90vh' | '75vh' | '50vh' | 'media-half';
 type Position = 'static' | 'relative' | 'sticky' | 'fixed' | 'absolute';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Overflow = 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip';
@@ -37,12 +37,23 @@ interface SectionProps extends BackgroundProps {
   borderBottom?: boolean;
   /** Border weight/thickness */
   borderWeight?: 'thin' | 'default' | 'thick';
+  /** Enable split background (background only covers portion of section) */
+  backgroundSplit?: boolean;
+  /** Split percentage - width of background on right side (default: 50) */
+  backgroundSplitPercentage?: number;
 }
 
 const getHeightClass = (height: Height): string => {
   switch (height) {
-    case 'full':
-      return styles.heightFull;
+    case '90vh':
+      return styles.height90vh;
+    case '75vh':
+      return styles.height75vh;
+    case '50vh':
+      return styles.height50vh;
+    case 'media-half':
+      return styles.heightMediaHalf;
+    case 'full': // deprecated, alias for screen
     case 'screen':
       return styles.heightScreen;
     case 'auto':
@@ -148,7 +159,25 @@ export const Section = ({
   applyNavbarVoid = false,
   style,
   sectionKey,
+  backgroundSplit = false,
+  backgroundSplitPercentage = 50,
 }: SectionProps) => {
+  // Media-half height calculation
+  const [mediaHeight, setMediaHeight] = React.useState<number | null>(null);
+
+  React.useEffect(() => {
+    if (height === 'media-half' && backgroundImage && (background === 'image' || background === 'media')) {
+      const img = new Image();
+      img.src = backgroundImage;
+      img.onload = () => {
+        setMediaHeight(img.naturalHeight / 2);
+      };
+      img.onerror = () => {
+        setMediaHeight(null); // Fallback to CSS default (50vh)
+      };
+    }
+  }, [height, backgroundImage, background]);
+
   const heightClass = getHeightClass(height);
   const positionClass = getPositionClass(position, sticky);
   const spacingClass = getSpacingClass(spacing);
@@ -219,6 +248,19 @@ export const Section = ({
 
   const finalStyles = { ...inlineStyles, ...style };
 
+  // CSS custom properties for dynamic values
+  const customProperties: Record<string, string> = {};
+
+  if (backgroundSplit && backgroundSplitPercentage) {
+    customProperties['--split-percentage'] = `${backgroundSplitPercentage}%`;
+  }
+
+  if (height === 'media-half' && mediaHeight) {
+    customProperties['--section-media-height'] = `${mediaHeight}px`;
+  }
+
+  const allStyles = { ...finalStyles, ...customProperties } as React.CSSProperties;
+
   // Create background props object for renderBackgroundComponent
   const backgroundProps: BackgroundProps = {
     background,
@@ -269,20 +311,26 @@ export const Section = ({
     <Component
       id={id}
       className={combinedClassName}
-      style={finalStyles}
+      style={allStyles}
       data-section-key={sectionKey}
     >
-      {/* Render background using helper */}
-      {renderBackgroundComponent(background, backgroundProps)}
+      {/* Render background - wrapped in split container if needed */}
+      {backgroundSplit && background && background !== 'default' ? (
+        <div className={styles.splitBackgroundContainer}>
+          {renderBackgroundComponent(background, backgroundProps)}
+        </div>
+      ) : (
+        renderBackgroundComponent(background, backgroundProps)
+      )}
 
-      {/* Media Background Overlay (legacy) */}
-      {backgroundImage && background === 'media' && backgroundOverlay && (
+      {/* Media Background Overlay (legacy) - only for non-split */}
+      {backgroundImage && background === 'media' && backgroundOverlay && !backgroundSplit && (
         <div
           className={styles.backgroundOverlay}
           style={{ opacity: backgroundOverlayOpacity }}
         />
       )}
-      
+
       {children}
     </Component>
   );

@@ -56,6 +56,13 @@
   min-height: 100vh;
   justify-content: center;
 }
+.height90vh { min-height: 90vh; justify-content: center; }
+.height75vh { min-height: 75vh; justify-content: center; }
+.height50vh { min-height: 50vh; justify-content: center; }
+.heightMediaHalf {
+  min-height: var(--section-media-height, 50vh);
+  justify-content: center;
+}
 
 /* ===== OVERFLOW VARIANTS ===== */
 .overflowVisible { overflow: visible; }
@@ -109,6 +116,40 @@
   overflow: hidden;
 }
 
+.backgroundImage {
+  background-color: transparent;
+  overflow: hidden;
+}
+
+.backgroundSolid {
+  overflow: hidden;
+}
+
+.backgroundParticle {
+  background-color: transparent;
+  overflow: hidden;
+}
+
+/* ===== SPLIT BACKGROUND CONTAINER ===== */
+.splitBackgroundContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--split-percentage, 50%);
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .splitBackgroundContainer {
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+}
+
 /* Background overlay for media variant */
 .backgroundOverlay {
   position: absolute;
@@ -122,11 +163,14 @@
 }
 
 /* Ensure content is above backgrounds */
-.backgroundMedia > *:not(.backgroundOverlay),
-.backgroundGenerative > *:not(canvas),
-.backgroundGradient > *:not(div[class*="gradientBackground"]),
-.backgroundPattern > *:not(div[class*="patternBackground"]),
-.backgroundVideo > *:not(div[class*="container"]) {
+.backgroundMedia > *:not(.backgroundOverlay):not(.splitBackgroundContainer),
+.backgroundGenerative > *:not(canvas):not(.splitBackgroundContainer),
+.backgroundGradient > *:not(div[class*="gradientBackground"]):not(.splitBackgroundContainer),
+.backgroundPattern > *:not(div[class*="patternBackground"]):not(.splitBackgroundContainer),
+.backgroundVideo > *:not(div[class*="container"]):not(.splitBackgroundContainer),
+.backgroundImage > *:not(.splitBackgroundContainer):not(div[class*="imageBackground"]),
+.backgroundSolid > *:not(.splitBackgroundContainer):not(div[class*="solidBackground"]),
+.backgroundParticle > *:not(.splitBackgroundContainer):not(canvas) {
   position: relative;
   z-index: 1;
 }

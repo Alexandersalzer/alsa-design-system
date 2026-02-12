@@ -164,4 +164,8 @@ export interface BackgroundProps
     BottomBlurProps {
   background?: BackgroundType;
   backgroundColor?: string;
+  /** Enable split background (background only covers portion of section) */
+  backgroundSplit?: boolean;
+  /** Split percentage - width of background on right side (default: 50) */
+  backgroundSplitPercentage?: number;
 }
