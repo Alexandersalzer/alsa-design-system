@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useConsent, type ConsentState } from './ConsentProvider';
 import { Button } from '../../components/actions/Button';
 import { Label, Body } from '../../components/Typography';
@@ -38,6 +38,7 @@ export function CookieConsent({
 }: CookieConsentProps) {
   const { hasResponded, isLoading, acceptAll, rejectAll, acceptSelected } = useConsent();
   const [showDetails, setShowDetails] = useState(showDetailsInitially);
+  const [delayPassed, setDelayPassed] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<Partial<ConsentState>>({
     analytics: false,
     marketing: false,
@@ -47,8 +48,20 @@ export function CookieConsent({
   // Get content for locale (fallback to Swedish)
   const t = contentByLocale[locale] || contentByLocale['sv'];
 
-  // Visa inte om redan svarat eller laddar
-  if (isLoading || hasResponded) {
+  // Delay banner appearance to not interfere with hash scroll
+  useEffect(() => {
+    const hasHash = typeof window !== 'undefined' && window.location.hash.length > 0;
+    const delay = hasHash ? 800 : 300; // Longer delay if hash navigation
+    
+    const timer = setTimeout(() => {
+      setDelayPassed(true);
+    }, delay);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Visa inte om redan svarat, laddar, eller delay inte passerat
+  if (isLoading || hasResponded || !delayPassed) {
     return null;
   }
 

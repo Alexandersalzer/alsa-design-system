@@ -81,6 +81,16 @@
       "require": "./dist/design/system/pages/index.js",
       "types": "./dist/design/system/pages/index.d.ts"
     },
+    "./navigation": {
+      "import": "./dist/design/system/components/navigation/index.js",
+      "require": "./dist/design/system/components/navigation/index.js",
+      "types": "./dist/design/system/components/navigation/index.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/design/system/hooks/index.js",
+      "require": "./dist/design/system/hooks/index.js",
+      "types": "./dist/design/system/hooks/index.d.ts"
+    },
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
