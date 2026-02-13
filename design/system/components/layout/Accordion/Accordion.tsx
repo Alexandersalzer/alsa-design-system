@@ -10,7 +10,7 @@ import { AccordionContext } from './AccordionContext';
 // ===== TYPES =====
 export type AccordionRadius = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type AccordionRadiusMode = 'edges' | 'all' | 'none';
-export type AccordionVariant = 'default' | 'separated' | 'bordered' | 'sunken' | 'borderless';
+export type AccordionVariant = 'default' | 'separated' | 'bordered' | 'sunken' | 'borderless' | 'list';
 export type AccordionGap = 'none' | 'xs' | 'sm' | 'md' | 'lg';
 export type AccordionSize = 'sm' | 'md' | 'lg';
 

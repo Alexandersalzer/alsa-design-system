@@ -13,7 +13,7 @@ export interface AccordionContextValue {
   selectionMode: 'single' | 'multiple';
   radius: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   radiusMode: 'edges' | 'all' | 'none';
-  variant: 'default' | 'separated' | 'bordered' | 'sunken' | 'borderless';
+  variant: 'default' | 'separated' | 'bordered' | 'sunken' | 'borderless' | 'list';
   showIndicator: boolean;
 }
 

@@ -1,0 +1,16 @@
+/* ===============================================
+   HeightSlide Animation Styles
+   Smooth height expansion and collapse
+   =============================================== */
+
+.height-slide {
+  overflow: hidden;
+  will-change: height, opacity, transform;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .height-slide {
+    transition: none !important;
+  }
+}
