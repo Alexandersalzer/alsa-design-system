@@ -117,7 +117,7 @@
 }
 
 .backgroundImage {
-  background-color: transparent;
+  background-color: var(--surface-page);
   overflow: hidden;
 }
 
@@ -187,22 +187,11 @@
 
 /* ===== MOBILE BACKGROUND OPACITY ===== */
 @media (max-width: 768px) {
-  .section[style*="--mobile-bg-opacity"]::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, calc(1 - var(--mobile-bg-opacity)));
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Ensure content stays above the mobile opacity overlay */
-  .section[style*="--mobile-bg-opacity"] > *:not(canvas):not(div[class*="Background"]) {
-    position: relative;
-    z-index: 2;
+  /* Reduce background image opacity on mobile to show theme background underneath */
+  .section[style*="--mobile-bg-opacity"] .splitBackgroundContainer,
+  .section[style*="--mobile-bg-opacity"] > div[class*="Background"],
+  .section[style*="--mobile-bg-opacity"] > canvas {
+    opacity: var(--mobile-bg-opacity);
   }
 }
 
