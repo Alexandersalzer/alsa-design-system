@@ -1,5 +1,6 @@
 // ===============================================
 // RailSegment.tsx - Modular rail pieces that stack together
+// Enhanced with variants, colors, and custom content
 // ===============================================
 
 'use client';
@@ -10,28 +11,59 @@ import './RailSegment.css';
 export interface RailSegmentProps {
   /** Segment type: start, middle, or end */
   type: 'start' | 'middle' | 'end';
-  /** Node number to display */
-  number: string;
+
+  /** Variant: 'segments' (default, separate segments) or 'connected' (full connected line) */
+  variant?: 'segments' | 'connected';
+
+  /** Content to display inside the node (number, icon, or React element) */
+  content?: React.ReactNode;
+
+  /** @deprecated Use content instead. Node number to display */
+  number?: string;
+
   /** Whether this segment is active (can be overridden by scroll) */
   active?: boolean;
-  /** Size of the node dot */
+
+  /** Size of the node indicator */
   nodeSize?: number;
+
   /** Width of the connecting line */
   lineWidth?: number;
+
+  /** Color of active line */
+  activeLineColor?: string;
+
+  /** Color of inactive line */
+  inactiveLineColor?: string;
+
+  /** Color of active node */
+  activeNodeColor?: string;
+
+  /** Color of inactive node */
+  inactiveNodeColor?: string;
+
   /** Custom className */
   className?: string;
+
   /** Scroll offset to trigger activation (0-1, default 0.75 = 3/4 from top) */
   scrollOffset?: number;
+
   /** Distance threshold in pixels for activation (default 150px) */
   activationThreshold?: number;
 }
 
 export const RailSegment: React.FC<RailSegmentProps> = ({
   type,
-  number,
+  variant = 'segments',
+  content,
+  number, // Deprecated, fallback to content
   active: propActive = false,
   nodeSize = 16,
   lineWidth = 1,
+  activeLineColor,
+  inactiveLineColor,
+  activeNodeColor,
+  inactiveNodeColor,
   className = '',
   scrollOffset = 0.75,
   activationThreshold = 150,
@@ -40,6 +72,9 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
   const [isActive, setIsActive] = useState(propActive);
   const [topLineFill, setTopLineFill] = useState(0); // 0-1
   const [bottomLineFill, setBottomLineFill] = useState(0); // 0-1
+
+  // Use content if provided, otherwise fall back to deprecated number prop
+  const displayContent = content !== undefined ? content : number;
 
   useEffect(() => {
     // If active is explicitly set to true, use that
@@ -54,7 +89,7 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const rect = nodeRef.current.getBoundingClientRect();
       const triggerPoint = window.innerHeight * scrollOffset;
       const nodeCenter = rect.top + rect.height / 2;
-      
+
       // Activate node when it crosses the trigger point (same as lines)
       setIsActive(nodeCenter <= triggerPoint);
 
@@ -62,29 +97,29 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       if (type === 'middle' || type === 'end') {
         const topOfLine = rect.top; // Top of the rail segment (top of top line)
         const bottomOfLine = nodeCenter; // Bottom of top line (at node center)
-        
+
         // Progress from 0 (top at trigger) to 1 (bottom at trigger)
         const topProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
           ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
           : topOfLine >= triggerPoint
             ? 0
             : 1;
-        
+
         setTopLineFill(topProgress);
       }
-      
+
       // Bottom line (start/middle): Fills as the BOTTOM of the line crosses trigger point
       if (type === 'start' || type === 'middle') {
         const topOfLine = nodeCenter; // Top of bottom line (at node center)
         const bottomOfLine = rect.bottom; // Bottom of the rail segment (bottom of bottom line)
-        
+
         // Progress from 0 (top at trigger) to 1 (bottom at trigger)
         const bottomProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
           ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
           : topOfLine >= triggerPoint
             ? 0
             : 1;
-        
+
         setBottomLineFill(bottomProgress);
       }
     };
@@ -95,45 +130,53 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
     // Add scroll listener
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleScroll, { passive: true });
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
   }, [propActive, scrollOffset, activationThreshold, type]);
 
+  // Build custom CSS properties
+  const customStyles = {
+    '--node-size': `${nodeSize}px`,
+    '--line-width': `${lineWidth}px`,
+    ...(activeLineColor && { '--rail-line-active-color': activeLineColor }),
+    ...(inactiveLineColor && { '--rail-line-inactive-color': inactiveLineColor }),
+    ...(activeNodeColor && { '--rail-node-active-color': activeNodeColor }),
+    ...(inactiveNodeColor && { '--rail-node-inactive-color': inactiveNodeColor }),
+  } as React.CSSProperties;
+
   return (
-    <div 
+    <div
       ref={nodeRef}
-      className={`rail-segment rail-segment--${type} ${isActive ? 'rail-segment--active' : ''} ${className}`}
-      style={{
-        '--node-size': `${nodeSize}px`,
-        '--line-width': `${lineWidth}px`,
-      } as React.CSSProperties}
+      className={`rail-segment rail-segment--${type} rail-segment--${variant} ${isActive ? 'rail-segment--active' : ''} ${className}`}
+      style={customStyles}
     >
-      {/* Top line (only for middle and end) */}
-      {(type === 'middle' || type === 'end') && (
+      {/* Top line (only for middle and end, OR connected variant for all except start) */}
+      {(type === 'middle' || type === 'end' || (variant === 'connected' && type !== 'start')) && (
         <div className="rail-segment__line-container rail-segment__line-container--top">
           <div className="rail-segment__line rail-segment__line--base" />
-          <div 
-            className="rail-segment__line rail-segment__line--fill" 
+          <div
+            className="rail-segment__line rail-segment__line--fill"
             style={{ transform: `scaleY(${topLineFill})` }}
           />
         </div>
       )}
-      
+
       {/* Node */}
       <div className="rail-segment__node">
-        <div className="rail-segment__node-dot" />
-        <div className="rail-segment__node-label">{number}</div>
+        <div className="rail-segment__node-indicator">
+          {displayContent}
+        </div>
       </div>
-      
-      {/* Bottom line (only for start and middle) */}
-      {(type === 'start' || type === 'middle') && (
+
+      {/* Bottom line (only for start and middle, OR connected variant for all except end) */}
+      {(type === 'start' || type === 'middle' || (variant === 'connected' && type !== 'end')) && (
         <div className="rail-segment__line-container rail-segment__line-container--bottom">
           <div className="rail-segment__line rail-segment__line--base" />
-          <div 
-            className="rail-segment__line rail-segment__line--fill" 
+          <div
+            className="rail-segment__line rail-segment__line--fill"
             style={{ transform: `scaleY(${bottomLineFill})` }}
           />
         </div>
