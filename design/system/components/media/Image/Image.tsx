@@ -8,6 +8,7 @@ import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
+import { resolveCdnImageUrl } from '../../../core/utils/env';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -99,6 +100,7 @@ export const Image: React.FC<ImageProps> = ({
   placeholderColor,
   ...props
 }) => {
+  const resolvedSrc = resolveCdnImageUrl(src || '');
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority || loading === 'eager');
@@ -109,13 +111,13 @@ export const Image: React.FC<ImageProps> = ({
 
   // ✅ OPTIMIZATION 1: Check if image is already cached (CloudFront/CDN)
   useEffect(() => {
-    if (!src || priority || loading === 'eager') {
+    if (!resolvedSrc || priority || loading === 'eager') {
       return;
     }
 
     // Create a test image to check cache
     const testImg = new window.Image();
-    testImg.src = src;
+    testImg.src = resolvedSrc;
 
     // If image loads super fast (< 10ms), it's cached
     const startTime = Date.now();
@@ -136,7 +138,7 @@ export const Image: React.FC<ImageProps> = ({
     if (testImg.complete) {
       checkCache();
     }
-  }, [src, priority, loading]);
+  }, [resolvedSrc, priority, loading]);
 
   // Intersection Observer for lazy loading (skip if cached or priority)
   useEffect(() => {
@@ -185,7 +187,7 @@ export const Image: React.FC<ImageProps> = ({
   };
 
   // Determine which src to use
-  const currentSrc = hasError && fallbackSrc ? fallbackSrc : src;
+  const currentSrc = hasError && fallbackSrc ? resolveCdnImageUrl(fallbackSrc) : resolvedSrc;
   const shouldLoad = isIntersecting || priority || isCached;
 
   // Trigger loading state when image should load but isn't cached

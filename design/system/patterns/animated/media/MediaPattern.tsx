@@ -3,7 +3,7 @@
 import { VideoShowcase } from '../../../components/media/VideoShowcase/VideoShowcase';
 import { Image } from '../../../components/media/Image/Image';
 import { componentProps, componentPresent } from '../../../core/utils/props';
-import { CDN_BASE_URL } from '../../../core/utils/env';
+import { CDN_BASE_URL, resolveCdnImageUrl } from '../../../core/utils/env';
 import { getVideoThumbnailUrl } from '../../../core/utils/media';
 import { PatternNode } from '../../../core/types/nodes';
 
@@ -123,7 +123,7 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
     return (
       <div style={containerStyles}>
         <Image
-          src={`${CDN_BASE_URL}${imageProps.imageSrc}`}
+          src={resolveCdnImageUrl(imageProps.imageSrc)}
           alt={imageProps.alt || 'Media image'}
           width="100%"
           height={imageProps.height || 'auto'}

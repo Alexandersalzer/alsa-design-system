@@ -24,7 +24,7 @@ export const sectionTypeConfig = {
     requiredPatterns: ['sectionBody']
   },
   resultsGrid: {
-    allowedPatterns: ['sectionBody', 'resultsGrid'],
+    allowedPatterns: ['sectionBody', 'resultsGrid', 'gridPattern'],
     requiredPatterns: ['sectionBody']
   },
   cta: {

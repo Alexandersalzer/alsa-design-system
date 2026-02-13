@@ -414,7 +414,9 @@ export const TabGroup: React.FC<TabGroupProps> = ({
   }, [animated, variant, orientation]);
 
   const enhancedChildren = React.Children.map(children, (child, index) => {
-    if (React.isValidElement<TabChildProps>(child)) {
+    // Only enhance Tab components – wrapper elements (div, etc.) must not receive Tab-specific props
+    // or they leak to DOM and trigger React warnings (e.g. isAccent)
+    if (React.isValidElement<TabChildProps>(child) && child.type === Tab) {
       const childProps = child.props as TabChildProps;
 
       const enhancedProps: Partial<TabChildProps> = {
