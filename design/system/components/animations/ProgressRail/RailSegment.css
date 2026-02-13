@@ -99,16 +99,52 @@
 
 /* ===== VARIANT: CONNECTED ===== */
 /* Connected variant shows a continuous line through all segments */
+/* Use negative margins to bridge the gap created by parent spacing */
+
+.rail-segment--connected {
+  /* Remove default margins to allow continuous connection */
+  margin: 0;
+}
+
+.rail-segment--connected .rail-segment__node {
+  /* Keep node spacing */
+  margin: 8px 0;
+}
+
+/* Extend line containers to overlap parent spacing */
+.rail-segment--connected .rail-segment__line-container {
+  /* Extend containers significantly to bridge vstack gaps */
+  min-height: 80px;
+}
+
 .rail-segment--connected.rail-segment--start {
-  min-height: 120px; /* Taller to show full line */
+  min-height: auto;
+  /* Extend downward to bridge gap */
+  padding-bottom: 40px;
+  margin-bottom: -40px;
 }
 
 .rail-segment--connected.rail-segment--middle {
-  min-height: 140px; /* Taller to show full line */
+  min-height: auto;
+  /* Extend both up and down to bridge gaps */
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-top: -40px;
+  margin-bottom: -40px;
 }
 
 .rail-segment--connected.rail-segment--end {
-  min-height: 120px; /* Taller to show full line */
+  min-height: auto;
+  /* Extend upward to bridge gap */
+  padding-top: 40px;
+  margin-top: -40px;
+}
+
+/* Ensure line containers fill the extended space */
+.rail-segment--connected .rail-segment__line-container--top,
+.rail-segment--connected .rail-segment__line-container--bottom {
+  flex: 1;
+  min-height: 60px;
 }
 
 /* Responsive adjustments */
