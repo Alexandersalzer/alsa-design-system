@@ -9,7 +9,7 @@
 import React from 'react';
 import { ProcessTimeline } from '../../animations/ProcessTimeline/ProcessTimeline';
 import { renderComponents } from '../../../core/render/components';
-import { ComponentNode } from '../../../core/types';
+import { ComponentNode } from '../../../core/types/nodes';
 import './ProcessSteps.css';
 
 export interface ProcessStepsProps {
@@ -57,8 +57,8 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = ({
 
           return (
             <div key={stepId} className="process-steps__step">
-              {components[headingKey] && renderComponents([components[headingKey]], components)}
-              {components[bodyKey] && renderComponents([components[bodyKey]], components)}
+              {components[headingKey] && renderComponents(components, [headingKey])}
+              {components[bodyKey] && renderComponents(components, [bodyKey])}
             </div>
           );
         })}
