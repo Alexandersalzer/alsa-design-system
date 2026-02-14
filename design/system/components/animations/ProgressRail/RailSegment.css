@@ -52,6 +52,11 @@
   transition: transform 0.2s ease-out;
 }
 
+/* Top line fills instantly (no animation) to prevent overlap */
+.rail-segment__line-container--top .rail-segment__line--fill {
+  transition: none;
+}
+
 /* Node container */
 .rail-segment__node {
   position: relative;

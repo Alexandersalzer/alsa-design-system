@@ -93,25 +93,18 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       const triggerPoint = window.innerHeight * scrollOffset;
       const nodeCenter = rect.top + rect.height / 2;
 
-      // Activate node when it crosses the trigger point (same as lines)
-      setIsActive(nodeCenter <= triggerPoint);
+      // Activate node when it crosses the trigger point
+      const nodeIsActive = nodeCenter <= triggerPoint;
+      setIsActive(nodeIsActive);
 
-      // Top line (middle/end): Fills as the TOP of the line crosses trigger point
+      // Top line (middle/end): Instantly fills when node becomes active (no gradual animation)
+      // This prevents overlap with the previous segment's bottom line
       if (type === 'middle' || type === 'end') {
-        const topOfLine = rect.top; // Top of the rail segment (top of top line)
-        const bottomOfLine = nodeCenter; // Bottom of top line (at node center)
-
-        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
-        const topProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
-          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
-          : topOfLine >= triggerPoint
-            ? 0
-            : 1;
-
-        setTopLineFill(topProgress);
+        setTopLineFill(nodeIsActive ? 1 : 0);
       }
 
-      // Bottom line (start/middle): Fills as the BOTTOM of the line crosses trigger point
+      // Bottom line (start/middle): Fills gradually as it crosses the trigger point
+      // This is the only line that animates, ensuring one-at-a-time progression
       if (type === 'start' || type === 'middle') {
         const topOfLine = nodeCenter; // Top of bottom line (at node center)
         const bottomOfLine = rect.bottom; // Bottom of the rail segment (bottom of bottom line)
