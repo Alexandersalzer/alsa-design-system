@@ -12,13 +12,14 @@
   width: 60px;
   flex-shrink: 0;
   height: 100%;
+  align-self: stretch; /* Take full height of parent hstack */
 }
 
 /* Line container - only below the node */
 .rail-segment__line-container {
   position: relative;
-  flex: 1;
-  min-height: 40px;
+  flex: 1; /* Takes all remaining space after the node */
+  min-height: 0;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -81,12 +82,13 @@
 }
 
 /* Type-specific heights - simplified */
-.rail-segment {
-  min-height: 0; /* Let content determine height */
+.rail-segment--start,
+.rail-segment--middle {
+  min-height: 120px; /* Ensure enough height for line to show */
 }
 
 .rail-segment--end {
-  min-height: 0; /* End segment only has node, no line below */
+  min-height: auto; /* End segment only has node, no line below */
 }
 
 /* ===== VARIANT: CONNECTED ===== */
