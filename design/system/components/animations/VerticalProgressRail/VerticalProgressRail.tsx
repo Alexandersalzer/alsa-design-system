@@ -7,6 +7,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { Label } from '../../Typography/Typography';
 import './VerticalProgressRail.css';
 
 export interface VerticalProgressRailProps {
@@ -141,9 +142,16 @@ export const VerticalProgressRail: React.FC<VerticalProgressRailProps> = ({
             }`}
             style={{ top: `${position}%` }}
           >
-            <span className="vertical-progress-rail__node-number">
+            <Label
+              weight="semibold"
+              className="vertical-progress-rail__node-number"
+              style={{
+                fontSize: `calc(var(--node-size) * 0.5)`,
+                lineHeight: 1,
+              }}
+            >
               {index + 1}
-            </span>
+            </Label>
           </div>
         );
       })}
