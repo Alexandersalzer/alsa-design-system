@@ -119,32 +119,32 @@
 
 .rail-segment--connected.rail-segment--start {
   min-height: auto;
-  /* Extend downward to bridge gap */
-  padding-bottom: 40px;
-  margin-bottom: -40px;
+  /* Extend downward to bridge gap (increased for xl/2xl/3xl spacing) */
+  padding-bottom: 70px;
+  margin-bottom: -70px;
 }
 
 .rail-segment--connected.rail-segment--middle {
   min-height: auto;
-  /* Extend both up and down to bridge gaps */
-  padding-top: 40px;
-  padding-bottom: 40px;
-  margin-top: -40px;
-  margin-bottom: -40px;
+  /* Extend both up and down to bridge gaps (increased for xl/2xl/3xl spacing) */
+  padding-top: 70px;
+  padding-bottom: 70px;
+  margin-top: -70px;
+  margin-bottom: -70px;
 }
 
 .rail-segment--connected.rail-segment--end {
   min-height: auto;
-  /* Extend upward to bridge gap */
-  padding-top: 40px;
-  margin-top: -40px;
+  /* Extend upward to bridge gap (increased for xl/2xl/3xl spacing) */
+  padding-top: 70px;
+  margin-top: -70px;
 }
 
 /* Ensure line containers fill the extended space */
 .rail-segment--connected .rail-segment__line-container--top,
 .rail-segment--connected .rail-segment__line-container--bottom {
   flex: 1;
-  min-height: 60px;
+  min-height: 80px;
 }
 
 /* Responsive adjustments */

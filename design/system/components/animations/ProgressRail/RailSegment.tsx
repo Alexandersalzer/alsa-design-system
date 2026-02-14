@@ -83,6 +83,9 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
       return;
     }
 
+    let rafId: number | null = null;
+    let isScheduled = false;
+
     const handleScroll = () => {
       if (!nodeRef.current) return;
 
@@ -122,18 +125,30 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
 
         setBottomLineFill(bottomProgress);
       }
+
+      isScheduled = false;
+    };
+
+    const scheduleUpdate = () => {
+      if (!isScheduled) {
+        isScheduled = true;
+        rafId = requestAnimationFrame(handleScroll);
+      }
     };
 
     // Initial check
     handleScroll();
 
-    // Add scroll listener
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
+    // Add scroll listener with RAF throttling
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [propActive, scrollOffset, activationThreshold, type]);
 
