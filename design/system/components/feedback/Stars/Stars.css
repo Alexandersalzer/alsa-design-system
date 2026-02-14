@@ -56,3 +56,8 @@
 .stars__icon--filled {
   opacity: 1;
 }
+
+/* Half stars */
+.stars__icon--half {
+  opacity: 1;
+}

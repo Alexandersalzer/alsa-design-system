@@ -92,8 +92,6 @@ export interface GridItemProps extends React.HTMLAttributes<HTMLDivElement> {
   height?: 'full' | 'auto';
   /** Vertical alignment within grid cell */
   alignSelf?: 'start' | 'center' | 'end' | 'stretch';
-  /** Spacing between children when gridItem contains multiple template-rendered items */
-  spacing?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 }
 
 // ===== SIMPLE CLASS CONCATENATION =====
@@ -290,7 +288,6 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
   zIndex = 10,
   height,
   alignSelf,
-  spacing,
   style,
   ...props
 }, ref) => {
@@ -355,13 +352,6 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
     className
   );
 
-  // Wrap children in vstack when spacing is provided
-  const content = spacing ? (
-    <div className={`vstack vstack--spacing-${spacing}`}>
-      {children}
-    </div>
-  ) : children;
-
   return (
     <div
       ref={ref}
@@ -369,7 +359,7 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
       style={inlineStyles}
       {...props}
     >
-      {content}
+      {children}
     </div>
   );
 });
