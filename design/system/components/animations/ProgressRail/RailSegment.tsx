@@ -91,32 +91,53 @@ export const RailSegment: React.FC<RailSegmentProps> = ({
 
       const rect = nodeRef.current.getBoundingClientRect();
       const triggerPoint = window.innerHeight * scrollOffset;
-      const nodeCenter = rect.top + rect.height / 2;
+      const nodeTop = rect.top;
+      const nodeCenter = nodeTop + rect.height / 2;
+      const nodeBottom = rect.bottom;
 
       // Activate node when it crosses the trigger point
       const nodeIsActive = nodeCenter <= triggerPoint;
       setIsActive(nodeIsActive);
 
-      // Top line (middle/end): Instantly fills when node becomes active (no gradual animation)
-      // This prevents overlap with the previous segment's bottom line
+      // For connected variant, we want a continuous smooth animation
+      // The key is to make each line fill based on its actual position relative to trigger
+
+      // Top line (middle/end): Fill based on how far above the node the trigger is
       if (type === 'middle' || type === 'end') {
-        setTopLineFill(nodeIsActive ? 1 : 0);
+        // Top line should be fully filled when the node is active
+        // and should start filling as we approach the node from above
+        const lineStart = nodeTop; // Top of the segment
+        const lineEnd = nodeCenter; // Center where the node is
+
+        if (triggerPoint >= lineEnd) {
+          // Trigger is past the node center - fully filled
+          setTopLineFill(1);
+        } else if (triggerPoint <= lineStart) {
+          // Trigger hasn't reached the top yet - empty
+          setTopLineFill(0);
+        } else {
+          // Trigger is between line start and node - partial fill
+          const progress = (triggerPoint - lineStart) / (lineEnd - lineStart);
+          setTopLineFill(Math.max(0, Math.min(1, progress)));
+        }
       }
 
-      // Bottom line (start/middle): Fills gradually as it crosses the trigger point
-      // This is the only line that animates, ensuring one-at-a-time progression
+      // Bottom line (start/middle): Fill as we scroll past the node
       if (type === 'start' || type === 'middle') {
-        const topOfLine = nodeCenter; // Top of bottom line (at node center)
-        const bottomOfLine = rect.bottom; // Bottom of the rail segment (bottom of bottom line)
+        const lineStart = nodeCenter; // Center where the node is
+        const lineEnd = nodeBottom; // Bottom of the segment
 
-        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
-        const bottomProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
-          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
-          : topOfLine >= triggerPoint
-            ? 0
-            : 1;
-
-        setBottomLineFill(bottomProgress);
+        if (triggerPoint >= lineEnd) {
+          // Trigger is past the bottom - fully filled
+          setBottomLineFill(1);
+        } else if (triggerPoint <= lineStart) {
+          // Trigger hasn't reached the node yet - empty
+          setBottomLineFill(0);
+        } else {
+          // Trigger is between node and bottom - partial fill
+          const progress = (triggerPoint - lineStart) / (lineEnd - lineStart);
+          setBottomLineFill(Math.max(0, Math.min(1, progress)));
+        }
       }
 
       isScheduled = false;
