@@ -1,44 +1,39 @@
 /* ===============================================
-   PROCESS STEPS STYLES
-   2-column layout: timeline left, content right
+   PROCESS STEPS
+   2-column grid: timeline on left, step content on right
    =============================================== */
 
 .process-steps {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: var(--foundation-space-8, 32px);
-  align-items: start;
+  gap: var(--spacing-2xl, 48px);
   width: 100%;
 }
 
-/* Timeline column (left) */
 .process-steps__timeline {
   position: relative;
+  min-height: 400px;
 }
 
-/* Content column (right) */
 .process-steps__content {
-  flex: 1;
-  min-width: 0; /* Prevent overflow */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3xl, 64px);
 }
 
-/* Individual step container */
 .process-steps__step {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs, 8px);
 }
 
-/* Responsive: Stack vertically on mobile, hide timeline */
+/* Responsive: hide timeline on mobile, stack content */
 @media (max-width: 768px) {
   .process-steps {
     grid-template-columns: 1fr;
-    gap: 0;
   }
 
   .process-steps__timeline {
     display: none;
-  }
-
-  .process-steps__content {
-    width: 100%;
   }
 }
