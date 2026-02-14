@@ -17,7 +17,6 @@
   top: 0;
   width: var(--line-width);
   transform: translateX(-50%);
-  transition: height 0.3s ease-out;
 }
 
 .vertical-progress-rail__line--inactive {
