@@ -14,22 +14,14 @@
   height: 100%;
 }
 
-/* Line containers */
+/* Line container - only below the node */
 .rail-segment__line-container {
   position: relative;
   flex: 1;
   min-height: 40px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.rail-segment__line-container--top {
-  align-items: flex-end;
-}
-
-.rail-segment__line-container--bottom {
   align-items: flex-start;
+  justify-content: center;
 }
 
 /* Base line (always visible, low opacity) */
@@ -52,14 +44,15 @@
   transition: transform 0.15s ease-out;
 }
 
-/* Node container */
+/* Node container - at the start of each segment */
 .rail-segment__node {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 8px 0;
+  margin: 0 0 8px 0; /* Only bottom margin */
   z-index: 1;
+  flex-shrink: 0;
 }
 
 /* Node indicator (replaces node-dot, now supports content) */
@@ -87,64 +80,33 @@
   transform: scale(1.2);
 }
 
-/* Type-specific heights */
-.rail-segment--start,
-.rail-segment--end {
-  min-height: 80px;
+/* Type-specific heights - simplified */
+.rail-segment {
+  min-height: 0; /* Let content determine height */
 }
 
-.rail-segment--middle {
-  min-height: 100px;
+.rail-segment--end {
+  min-height: 0; /* End segment only has node, no line below */
 }
 
 /* ===== VARIANT: CONNECTED ===== */
 /* Connected variant shows a continuous line through all segments */
-/* Use negative margins to bridge the gap created by parent spacing */
+/* Node at top, line extends down to next segment's node */
 
 .rail-segment--connected {
-  /* Remove default margins to allow continuous connection */
   margin: 0;
+  padding: 0;
 }
 
 .rail-segment--connected .rail-segment__node {
-  /* Keep node spacing */
-  margin: 8px 0;
+  margin: 0 0 8px 0;
 }
 
-/* Extend line containers to overlap parent spacing */
+/* Line extends down to bridge gaps between segments */
 .rail-segment--connected .rail-segment__line-container {
-  /* Extend containers significantly to bridge vstack gaps */
-  min-height: 80px;
-}
-
-.rail-segment--connected.rail-segment--start {
-  min-height: auto;
-  /* Extend downward to bridge gap (increased for xl/2xl/3xl spacing) */
-  padding-bottom: 70px;
-  margin-bottom: -70px;
-}
-
-.rail-segment--connected.rail-segment--middle {
-  min-height: auto;
-  /* Extend both up and down to bridge gaps (increased for xl/2xl/3xl spacing) */
-  padding-top: 70px;
-  padding-bottom: 70px;
-  margin-top: -70px;
-  margin-bottom: -70px;
-}
-
-.rail-segment--connected.rail-segment--end {
-  min-height: auto;
-  /* Extend upward to bridge gap (increased for xl/2xl/3xl spacing) */
-  padding-top: 70px;
-  margin-top: -70px;
-}
-
-/* Ensure line containers fill the extended space */
-.rail-segment--connected .rail-segment__line-container--top,
-.rail-segment--connected .rail-segment__line-container--bottom {
   flex: 1;
-  min-height: 80px;
+  /* Extend past the segment boundary to connect to next node */
+  padding-bottom: 0;
 }
 
 /* Responsive adjustments */
