@@ -75,3 +75,10 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
+
+/* Mobile-only step indicator - hides on desktop (md and above) */
+@media (min-width: 768px) {
+  .mobile-only-step-indicator {
+    display: none;
+  }
+}
