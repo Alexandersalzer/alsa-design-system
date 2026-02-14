@@ -1,0 +1,92 @@
+/* ===============================================
+   PROCESS RAIL CONTAINER STYLES
+   Combines ProgressRail with process step content
+   =============================================== */
+
+.process-rail-container {
+  position: relative;
+  display: flex;
+  gap: var(--spacing-xl);
+  align-items: flex-start;
+}
+
+/* Rail column (fixed width) */
+.process-rail-container__rail {
+  position: sticky;
+  top: 20vh;
+  width: 60px;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* Content column (flexible) */
+.process-rail-container__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Spacing variants */
+.process-rail-container__content--spacing-sm {
+  gap: var(--spacing-sm);
+}
+
+.process-rail-container__content--spacing-md {
+  gap: var(--spacing-md);
+}
+
+.process-rail-container__content--spacing-lg {
+  gap: var(--spacing-lg);
+}
+
+.process-rail-container__content--spacing-xl {
+  gap: var(--spacing-xl);
+}
+
+.process-rail-container__content--spacing-2xl {
+  gap: var(--spacing-2xl);
+}
+
+.process-rail-container__content--spacing-3xl {
+  gap: var(--spacing-3xl);
+}
+
+/* Individual step */
+.process-rail-container__step {
+  display: flex;
+  flex-direction: column;
+  min-height: 120px; /* Minimum height to spread steps vertically */
+}
+
+.process-rail-container__step-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.process-rail-container__tag {
+  /* Tag styling inherited from design system */
+}
+
+.process-rail-container__heading {
+  /* Heading styling inherited from design system */
+}
+
+.process-rail-container__body {
+  /* Body styling inherited from design system */
+}
+
+/* Responsive: hide rail on mobile */
+@media (max-width: 768px) {
+  .process-rail-container__rail {
+    display: none;
+  }
+
+  .process-rail-container {
+    gap: var(--spacing-md);
+  }
+
+  .process-rail-container__step {
+    min-height: auto;
+  }
+}
