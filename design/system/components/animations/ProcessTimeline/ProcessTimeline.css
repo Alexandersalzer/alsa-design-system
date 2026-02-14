@@ -1,0 +1,19 @@
+/* ===============================================
+   PROCESS TIMELINE STYLES
+   Container for vertical process rail segments
+   =============================================== */
+
+.process-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* No gap - segments connect seamlessly */
+  width: 60px;
+  flex-shrink: 0;
+}
+
+/* Responsive - hide on mobile */
+@media (max-width: 768px) {
+  .process-timeline {
+    display: none;
+  }
+}
