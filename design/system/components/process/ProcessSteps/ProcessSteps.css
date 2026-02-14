@@ -1,0 +1,44 @@
+/* ===============================================
+   PROCESS STEPS STYLES
+   2-column layout: timeline left, content right
+   =============================================== */
+
+.process-steps {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--foundation-space-8, 32px);
+  align-items: start;
+  width: 100%;
+}
+
+/* Timeline column (left) */
+.process-steps__timeline {
+  position: relative;
+}
+
+/* Content column (right) */
+.process-steps__content {
+  flex: 1;
+  min-width: 0; /* Prevent overflow */
+}
+
+/* Individual step container */
+.process-steps__step {
+  width: 100%;
+}
+
+/* Responsive: Stack vertically on mobile, hide timeline */
+@media (max-width: 768px) {
+  .process-steps {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .process-steps__timeline {
+    display: none;
+  }
+
+  .process-steps__content {
+    width: 100%;
+  }
+}
