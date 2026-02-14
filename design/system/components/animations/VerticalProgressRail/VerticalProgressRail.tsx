@@ -16,9 +16,9 @@ export interface VerticalProgressRailProps {
   nodeSize?: number;
   /** Width of the rail line in pixels */
   lineWidth?: number;
-  /** Color of the active (filled) portion */
+  /** Color of the active (filled) portion - accepts semantic tokens: 'accent', 'contrast', 'contrastMuted' or CSS var */
   activeColor?: string;
-  /** Color of the inactive (unfilled) portion */
+  /** Color of the inactive (unfilled) portion - accepts semantic tokens or CSS var */
   inactiveColor?: string;
   /** Scroll offset for activation (0-1, default 0.9 = 90% down viewport) */
   scrollOffset?: number;
@@ -26,15 +26,27 @@ export interface VerticalProgressRailProps {
   className?: string;
 }
 
+// Map semantic color names to CSS variables
+const mapSemanticColor = (color: string): string => {
+  const colorMap: Record<string, string> = {
+    'accent': 'var(--text-accent)',
+    'contrast': 'var(--text-strong)',
+    'contrastMuted': 'var(--text-muted)',
+  };
+  return colorMap[color] || color;
+};
+
 export const VerticalProgressRail: React.FC<VerticalProgressRailProps> = ({
   steps = 4,
   nodeSize = 24,
   lineWidth = 2,
-  activeColor = 'var(--color-primary, #000)',
-  inactiveColor = 'var(--color-border, #e0e0e0)',
+  activeColor = 'accent',
+  inactiveColor = 'var(--border-default)',
   scrollOffset = 0.90,
   className = '',
 }) => {
+  const mappedActiveColor = mapSemanticColor(activeColor);
+  const mappedInactiveColor = mapSemanticColor(inactiveColor);
   const railRef = useRef<HTMLDivElement>(null);
   const [fillPercentage, setFillPercentage] = useState(0);
 
@@ -105,8 +117,8 @@ export const VerticalProgressRail: React.FC<VerticalProgressRailProps> = ({
       style={{
         ['--node-size' as any]: `${nodeSize}px`,
         ['--line-width' as any]: `${lineWidth}px`,
-        ['--active-color' as any]: activeColor,
-        ['--inactive-color' as any]: inactiveColor,
+        ['--active-color' as any]: mappedActiveColor,
+        ['--inactive-color' as any]: mappedInactiveColor,
       }}
     >
       {/* Background line (inactive) */}
