@@ -6,6 +6,7 @@
 .vertical-progress-rail {
   position: relative;
   width: var(--node-size);
+  min-height: 300px;
   height: 100%;
 }
 
