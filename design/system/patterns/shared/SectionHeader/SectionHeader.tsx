@@ -106,11 +106,14 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
   // Checks if component has its own animation prop - if so, skip FadeIn wrapper
   const withAnimation = (content: React.ReactNode, index: number = 0, componentKey?: string) => {
     if (!shouldAnimate) return content;
-    
+
     // If componentKey provided, check if component has its own animation
     if (componentKey && get(componentKey).props?.animation) {
       return content; // Skip wrapper - component handles animation itself
     }
+
+    // Hero sections should animate on mount, not on scroll (they're already in view)
+    const enableScrollTrigger = !isHero;
 
     // If opacity animation, use Opacity component
     if (animationType === 'opacity') {
@@ -118,7 +121,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         <Opacity
           duration={animationDuration}
           delay={animationDelay + (index * animationStagger)}
-          enableScrollTrigger={true}
+          enableScrollTrigger={enableScrollTrigger}
           triggerOffset={100}
         >
           {content}
@@ -132,7 +135,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         direction={animationDirection}
         duration={animationDuration}
         delay={animationDelay + (index * animationStagger)}
-        enableScrollTrigger={true}
+        enableScrollTrigger={enableScrollTrigger}
         triggerOffset={100}
       >
         {content}
