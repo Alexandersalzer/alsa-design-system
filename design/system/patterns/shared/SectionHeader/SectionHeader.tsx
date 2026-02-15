@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography/Typography';
@@ -77,12 +77,14 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
     ? sectionAnimationConfig.settings.stagger
     : props?.animationStagger) ?? 100; // Delay between elements
 
-  // Read animation mode from CSS variable (set in design.json)
-  // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
-  // Read synchronously to avoid timing issues with animation triggers
-  const getAnimationMode = (): 'all' | 'hero' | 'none' => {
-    if (typeof window === 'undefined') return 'all'; // SSR default
+  // Track if component is mounted to avoid hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  const [animationMode, setAnimationMode] = useState<'all' | 'hero' | 'none'>('all');
 
+  useEffect(() => {
+    setMounted(true);
+
+    // Read CSS variable on client-side after mount
     const rawValue = getComputedStyle(document.documentElement)
       .getPropertyValue('--section-body-animation')
       .replace(/['"`]/g, '')
@@ -93,19 +95,16 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
     // Check both lowercase and original value for backwards compatibility
     if (rawValue && (rawValue === 'all' || rawValue === 'hero' || rawValue === 'none' ||
         rawValue === 'All' || rawValue === 'Hero' || rawValue === 'None')) {
-      return lowerValue as 'all' | 'hero' | 'none';
+      setAnimationMode(lowerValue as 'all' | 'hero' | 'none');
     }
-
-    return 'all'; // Default fallback
-  };
-
-  const animationMode = getAnimationMode();
+  }, []);
 
   // Determine if animation should be enabled for this section
+  // Only enable after mount to avoid hydration mismatch
   // Priority: section animation > global animation mode
-  const shouldAnimate = sectionAnimationConfig
+  const shouldAnimate = mounted && (sectionAnimationConfig
     ? sectionAnimationConfig.type !== 'none'
-    : (animationMode === 'all' || (animationMode === 'hero' && isHero));
+    : (animationMode === 'all' || (animationMode === 'hero' && isHero)));
 
   // Determine animation type
   const animationType = sectionAnimationConfig?.type || 'fadeIn';
