@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
 import { Typography } from '../../../components/Typography/Typography';
@@ -79,28 +79,32 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
 
   // Read animation mode from CSS variable (set in design.json)
   // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
-  const [animationMode, setAnimationMode] = useState<'all' | 'hero' | 'none'>('all');
+  // Read synchronously to avoid timing issues with animation triggers
+  const getAnimationMode = (): 'all' | 'hero' | 'none' => {
+    if (typeof window === 'undefined') return 'all'; // SSR default
 
-  useEffect(() => {
-    // Read CSS variable on client-side after mount to avoid hydration mismatch
     const rawValue = getComputedStyle(document.documentElement)
       .getPropertyValue('--section-body-animation')
       .replace(/['"`]/g, '')
       .trim();
 
-    const cssValue = rawValue.toLowerCase() as 'all' | 'hero' | 'none';
+    const lowerValue = rawValue.toLowerCase();
 
     // Check both lowercase and original value for backwards compatibility
     if (rawValue && (rawValue === 'all' || rawValue === 'hero' || rawValue === 'none' ||
         rawValue === 'All' || rawValue === 'Hero' || rawValue === 'None')) {
-      setAnimationMode(cssValue);
+      return lowerValue as 'all' | 'hero' | 'none';
     }
-  }, []);
+
+    return 'all'; // Default fallback
+  };
+
+  const animationMode = getAnimationMode();
 
   // Determine if animation should be enabled for this section
   // Priority: section animation > global animation mode
-  const shouldAnimate = sectionAnimationConfig 
-    ? sectionAnimationConfig.type !== 'none' 
+  const shouldAnimate = sectionAnimationConfig
+    ? sectionAnimationConfig.type !== 'none'
     : (animationMode === 'all' || (animationMode === 'hero' && isHero));
 
   // Determine animation type
