@@ -180,7 +180,7 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
       const bgComponent = renderBackgroundComponent(background, pageProps);
       if (bgComponent) {
         layers.push(
-          <div key="bg-component" style={{ position: 'fixed', inset: 0, zIndex: 4, pointerEvents: 'none' }}>
+          <div key="bg-component" style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
             {bgComponent}
           </div>
         );
