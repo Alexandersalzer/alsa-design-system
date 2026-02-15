@@ -11,7 +11,7 @@ import { Logo } from '../../../components/media/Logo';
 import { TextLink } from '../../../components/actions/TextLink';
 import { Divider } from '../../../components/layout/divider/Divider';
 import { PatternNode } from '../../../core/types/nodes';
-import { CDN_BASE_URL } from '../../../core/utils/env';
+import { resolveCdnImageUrl } from '../../../core/utils/env';
 import { getPickerLocale, handleLocaleChange } from '../../../core/routing';
 import './MultiColumnFooter.css';
 
@@ -43,7 +43,7 @@ export const MultiColumnFooter: React.FC<MultiColumnFooterProps> = ({
 
   // Build logo props
   const logoProps = {
-    src: hasComp('logo') && getComp('logo').props?.src ? `${CDN_BASE_URL}${getComp('logo').props.src}` : undefined,
+    src: hasComp('logo') && getComp('logo').props?.src ? resolveCdnImageUrl(getComp('logo').props.src) : undefined,
     alt: hasComp('logo') ? (getComp('logo').props?.alt || 'Logo') : undefined,
     text: hasComp('logo-text') ? getComp('logo-text').props?.content : undefined,
     href: '/',
