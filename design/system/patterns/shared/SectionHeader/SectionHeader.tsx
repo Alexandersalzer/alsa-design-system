@@ -112,16 +112,13 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
       return content; // Skip wrapper - component handles animation itself
     }
 
-    // Hero sections should animate on mount, not on scroll (they're already in view)
-    const enableScrollTrigger = !isHero;
-
     // If opacity animation, use Opacity component
     if (animationType === 'opacity') {
       return (
         <Opacity
           duration={animationDuration}
           delay={animationDelay + (index * animationStagger)}
-          enableScrollTrigger={enableScrollTrigger}
+          enableScrollTrigger={true}
           triggerOffset={100}
         >
           {content}
@@ -135,7 +132,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         direction={animationDirection}
         duration={animationDuration}
         delay={animationDelay + (index * animationStagger)}
-        enableScrollTrigger={enableScrollTrigger}
+        enableScrollTrigger={true}
         triggerOffset={100}
       >
         {content}
