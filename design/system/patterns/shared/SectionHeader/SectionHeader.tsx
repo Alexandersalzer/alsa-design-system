@@ -86,8 +86,9 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
     const cssValue = getComputedStyle(document.documentElement)
       .getPropertyValue('--section-body-animation')
       .replace(/['"`]/g, '')
-      .trim() as 'all' | 'hero' | 'none';
-    
+      .trim()
+      .toLowerCase() as 'all' | 'hero' | 'none';
+
     if (cssValue && (cssValue === 'all' || cssValue === 'hero' || cssValue === 'none')) {
       setAnimationMode(cssValue);
     }
