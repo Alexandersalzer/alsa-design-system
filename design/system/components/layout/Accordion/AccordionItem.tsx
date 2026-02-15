@@ -172,7 +172,13 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         ref={contentRef}
         className="accordion-item__content"
       >
-        {itemContent}
+        {typeof itemContent === 'string' ? (
+          <Body size="md" color="primary">
+            {itemContent}
+          </Body>
+        ) : (
+          itemContent
+        )}
       </div>
     </div>
   );
