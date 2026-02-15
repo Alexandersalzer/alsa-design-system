@@ -83,13 +83,16 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
 
   useEffect(() => {
     // Read CSS variable on client-side after mount to avoid hydration mismatch
-    const cssValue = getComputedStyle(document.documentElement)
+    const rawValue = getComputedStyle(document.documentElement)
       .getPropertyValue('--section-body-animation')
       .replace(/['"`]/g, '')
-      .trim()
-      .toLowerCase() as 'all' | 'hero' | 'none';
+      .trim();
 
-    if (cssValue && (cssValue === 'all' || cssValue === 'hero' || cssValue === 'none')) {
+    const cssValue = rawValue.toLowerCase() as 'all' | 'hero' | 'none';
+
+    // Check both lowercase and original value for backwards compatibility
+    if (rawValue && (rawValue === 'all' || rawValue === 'hero' || rawValue === 'none' ||
+        rawValue === 'All' || rawValue === 'Hero' || rawValue === 'None')) {
       setAnimationMode(cssValue);
     }
   }, []);
