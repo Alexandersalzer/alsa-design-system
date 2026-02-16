@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 // ===== CAL.COM INLINE WIDGET =====
 // Embeds Cal.com booking interface directly on the page
@@ -50,33 +50,74 @@ export const CalInline: React.FC<CalInlineProps> = ({
   height = '700px',
   minWidth = '320px',
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const calLink = extractCalLink(calUrl);
+  const elementId = useRef(`cal-inline-${Math.random().toString(36).substring(7)}`);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !containerRef.current) return;
 
-    // Load Cal.com embed script
-    const scriptId = 'cal-embed-script';
-    const existingScript = document.getElementById(scriptId);
+    const loadAndInitCal = () => {
+      // Check if Cal is already loaded
+      if ((window as any).Cal) {
+        initializeCalInline();
+        return;
+      }
 
-    if (!existingScript) {
-      const script = document.createElement('script');
-      script.id = scriptId;
-      script.src = 'https://app.cal.com/embed/embed.js';
-      script.async = true;
-      document.head.appendChild(script);
-    }
-  }, []);
+      // Load Cal.com embed script
+      const scriptId = 'cal-embed-script';
+      let script = document.getElementById(scriptId) as HTMLScriptElement | null;
 
-  // Build data attributes for Cal.com auto-initialization
-  const dataConfig = JSON.stringify(config);
-  const dataStyles = JSON.stringify(styles);
+      if (!script) {
+        script = document.createElement('script');
+        script.id = scriptId;
+        script.src = 'https://app.cal.com/embed/embed.js';
+        script.async = true;
+        
+        script.onload = () => {
+          initializeCalInline();
+        };
+
+        document.head.appendChild(script);
+      } else if ((window as any).Cal) {
+        // Script exists and Cal is loaded
+        initializeCalInline();
+      } else {
+        // Script exists but Cal not loaded yet, wait for it
+        script.addEventListener('load', initializeCalInline);
+      }
+    };
+
+    const initializeCalInline = () => {
+      if (!(window as any).Cal || !containerRef.current) return;
+
+      const Cal = (window as any).Cal;
+
+      // Initialize Cal if not already initialized
+      if (!Cal.loaded) {
+        Cal('init', {
+          origin: 'https://app.cal.com',
+        });
+      }
+
+      // Create inline embed
+      Cal('inline', {
+        elementOrSelector: `#${elementId.current}`,
+        calLink,
+        config: {
+          ...config,
+          branding: styles.branding,
+        },
+      });
+    };
+
+    loadAndInitCal();
+  }, [calLink, config, styles]);
 
   return (
     <div
-      data-cal-link={calLink}
-      data-cal-config={dataConfig}
-      data-cal-styles={dataStyles}
+      id={elementId.current}
+      ref={containerRef}
       style={{
         minWidth,
         height,
