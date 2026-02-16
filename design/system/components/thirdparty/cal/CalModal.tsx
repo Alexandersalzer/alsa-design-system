@@ -97,7 +97,7 @@ export const openCalPopup = (
 ): void => {
   if (typeof window !== 'undefined') {
     ensureCalScriptsLoaded().then(() => {
-      if (window.Cal) {
+      if (window.Cal && window.Cal.ns) {
         const { calLink, config, styles } = buildCalUrl(calUrl, options);
         const namespace = `modal-${Date.now()}`;
 
