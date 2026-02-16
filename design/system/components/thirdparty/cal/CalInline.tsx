@@ -60,47 +60,37 @@ export const CalInline: React.FC<CalInlineProps> = ({
     if (typeof window === 'undefined' || !containerRef.current) return;
 
     const loadAndInitCal = () => {
-      // Check if Cal is already loaded
-      if ((window as any).Cal) {
-        initializeCalInline();
-        return;
+      // Initialize Cal object if it doesn't exist (using Cal.com's embed snippet pattern)
+      if (!(window as any).Cal) {
+        (function (C: any, A: string, L: string) {
+          const p = function (a: any, ar: any) {
+            a.q.push(ar);
+          };
+          const d = C.document;
+          C.Cal =
+            C.Cal ||
+            function () {
+              const cal = C.Cal;
+              const ar = arguments;
+              if (!cal.loaded) {
+                p(cal, ar);
+              } else {
+                cal(...ar);
+              }
+            };
+          C.Cal.ns = {};
+          C.Cal.q = C.Cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+        })(window, "https://app.cal.com/embed/embed.js", "init");
       }
 
-      // Load Cal.com embed script
-      const scriptId = 'cal-embed-script';
-      let script = document.getElementById(scriptId) as HTMLScriptElement | null;
-
-      if (!script) {
-        script = document.createElement('script');
-        script.id = scriptId;
-        script.src = 'https://app.cal.com/embed/embed.js';
-        script.async = true;
-        
-        script.onload = () => {
-          initializeCalInline();
-        };
-
-        document.head.appendChild(script);
-      } else if ((window as any).Cal) {
-        // Script exists and Cal is loaded
-        initializeCalInline();
-      } else {
-        // Script exists but Cal not loaded yet, wait for it
-        script.addEventListener('load', initializeCalInline);
-      }
-    };
-
-    const initializeCalInline = () => {
-      if (!(window as any).Cal || !containerRef.current) return;
-
+      // Now Cal exists (either queuing or loaded), we can call it
       const Cal = (window as any).Cal;
-
-      // Initialize Cal if not already initialized
-      if (!Cal.loaded) {
-        Cal('init', {
-          origin: 'https://app.cal.com',
-        });
-      }
+      
+      // Initialize Cal
+      Cal('init', {
+        origin: 'https://app.cal.com',
+      });
 
       // Create inline embed
       Cal('inline', {
