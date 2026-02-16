@@ -15,6 +15,7 @@ import { processComponents } from './process/registry';
 import { typographyComponents } from './Typography/registry';
 import { utilityComponents } from './utility/registry';
 import { calendlyComponents } from './thirdparty/calendly/registry';
+import { calComponents } from './thirdparty/cal/registry';
 import { trustpilotComponents } from './thirdparty/trustpilot/registry';
 
 // Parent component registry - combines all local registries
@@ -37,5 +38,6 @@ export const componentRegistry: Record<string, React.ComponentType<any>> = {
   ...utilityComponents,
   // Third-party integrations
   ...calendlyComponents,
+  ...calComponents,
   ...trustpilotComponents,
 };
