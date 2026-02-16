@@ -118,6 +118,25 @@ export const CalInline: React.FC<CalInlineProps> = ({
     };
   }, [calLink, config, styles, elementId]);
 
+  useEffect(() => {
+    // Add global CSS to hide Cal.com branding
+    if (typeof document !== 'undefined') {
+      const styleId = 'cal-hide-branding';
+      if (!document.getElementById(styleId)) {
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `
+          .cal-inline-wrapper a[href*="cal.com"][target="_blank"],
+          .cal-inline-wrapper [class*="branding"],
+          .cal-inline-wrapper [class*="powered"] {
+            display: none !important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+  }, []);
+
   return (
     <div
       id={elementId}
@@ -128,15 +147,7 @@ export const CalInline: React.FC<CalInlineProps> = ({
         width: '100%',
       }}
       className="cal-inline-wrapper"
-    >
-      <style jsx>{`
-        .cal-inline-wrapper :global(a[href*="cal.com"][target="_blank"]),
-        .cal-inline-wrapper :global([class*="branding"]),
-        .cal-inline-wrapper :global([class*="powered"]) {
-          display: none !important;
-        }
-      `}</style>
-    </div>
+    />
   );
 };
 
