@@ -122,12 +122,14 @@ export const FadeIn: React.FC<FadeInProps> = ({
     opacity: isVisible ? 1 : 0,
     transform: isVisible ? 'translate(0, 0)' : getTransform(),
     transition: `opacity ${duration}ms ${easing} ${delay}ms, transform ${duration}ms ${easing} ${delay}ms`,
+    // Ensure hidden state is applied immediately on first render to prevent flash
+    willChange: 'opacity, transform',
   };
 
   return (
     <div
       ref={elementRef}
-      className={`fade-in ${className}`}
+      className={`fade-in ${!isVisible ? 'fade-in-hidden' : ''} ${className}`}
       style={style}
     >
       {children}

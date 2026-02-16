@@ -5,3 +5,8 @@
 .fade-in {
   will-change: opacity, transform;
 }
+
+/* Ensure elements start hidden to prevent flash on initial render */
+.fade-in-hidden {
+  opacity: 0 !important;
+}

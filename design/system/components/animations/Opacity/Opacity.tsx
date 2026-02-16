@@ -95,6 +95,8 @@ export const Opacity: React.FC<OpacityProps> = ({
   const style: React.CSSProperties = {
     opacity: isVisible ? 1 : 0,
     transition: `opacity ${duration}ms ${easing} ${delay}ms`,
+    // Ensure hidden state is applied immediately on first render to prevent flash
+    willChange: 'opacity',
   };
 
   return (
