@@ -201,13 +201,7 @@ export const renderPattern = (
       // Otherwise check global mode
       if (!layoutContext?.sectionAnimation) {
         const shouldAnimate = globalMode === 'all' || (globalMode === 'hero' && isHero);
-        if (shouldAnimate && !animationConfig) {
-          // Provide default fadeIn animation
-          animationConfig = {
-            type: 'fadeIn',
-            settings: { direction: 'up', duration: 600, stagger: 100 }
-          };
-        } else if (!shouldAnimate) {
+        if (!shouldAnimate) {
           animationConfig = { type: 'none', settings: {} };
         }
       }

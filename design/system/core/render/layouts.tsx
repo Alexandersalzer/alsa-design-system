@@ -356,8 +356,9 @@ const renderFilterTemplateNode = (
       if (AnimationComponent) {
         const staggerDelay = (animationSettings.stagger || 0) * index;
         const baseDelay = animationSettings.delay || 0;
+        const isDisabled = animationSettings.type === 'none';
         return (
-          <AnimationComponent key={itemId} {...animationSettings} delay={baseDelay + staggerDelay}>
+          <AnimationComponent key={itemId} {...animationSettings} delay={baseDelay + staggerDelay} disabled={isDisabled}>
             {itemContent}
           </AnimationComponent>
         );
@@ -531,6 +532,7 @@ const renderItems = (
       const itemAnimationProps = {
         ...animationSettings,
         delay: baseDelay + staggerDelay,
+        disabled: animationSettings.type === 'none',
       };
       
       return (
@@ -808,6 +810,7 @@ const renderCategoryTemplateNode = (
         const itemAnimationProps = {
           ...animationSettings,
           delay: baseDelay + staggerDelay,
+          disabled: animationSettings.type === 'none',
         };
 
         return (
@@ -1124,7 +1127,7 @@ const renderedComponent = (
     const AnimationComponent = animationComponents[animationConfig.type];
     if (AnimationComponent) {
       return (
-        <AnimationComponent {...(animationConfig.settings || {})}>
+        <AnimationComponent {...(animationConfig.settings || {})} disabled={animationConfig.type === 'none'}>
           {renderedComponent}
         </AnimationComponent>
       );

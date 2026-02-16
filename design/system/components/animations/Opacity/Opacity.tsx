@@ -22,6 +22,8 @@ export interface OpacityProps {
   className?: string;
   /** Callback when animation completes */
   onComplete?: () => void;
+  /** Disable animation and render children immediately */
+  disabled?: boolean;
 }
 
 export const Opacity: React.FC<OpacityProps> = ({
@@ -33,7 +35,13 @@ export const Opacity: React.FC<OpacityProps> = ({
   easing = 'ease-out',
   className = '',
   onComplete,
+  disabled = false,
 }) => {
+  // Skip animation entirely if disabled
+  if (disabled) {
+    return <>{children}</>;
+  }
+
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);

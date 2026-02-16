@@ -28,6 +28,8 @@ export interface FadeInProps {
   className?: string;
   /** Callback when animation completes */
   onComplete?: () => void;
+  /** Disable animation and render children immediately */
+  disabled?: boolean;
 }
 
 export const FadeIn: React.FC<FadeInProps> = ({
@@ -41,7 +43,13 @@ export const FadeIn: React.FC<FadeInProps> = ({
   easing = 'ease-out',
   className = '',
   onComplete,
+  disabled = false,
 }) => {
+  // Skip animation entirely if disabled
+  if (disabled) {
+    return <>{children}</>;
+  }
+
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
