@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 // ===== CAL.COM INLINE WIDGET =====
 // Embeds Cal.com booking interface directly on the page
@@ -50,63 +50,33 @@ export const CalInline: React.FC<CalInlineProps> = ({
   height = '700px',
   minWidth = '320px',
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const calNamespace = useRef<string>(`cal-${Math.random().toString(36).substring(7)}`);
   const calLink = extractCalLink(calUrl);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !containerRef.current) return;
+    if (typeof window === 'undefined') return;
 
     // Load Cal.com embed script
     const scriptId = 'cal-embed-script';
-    let script = document.getElementById(scriptId) as HTMLScriptElement;
+    const existingScript = document.getElementById(scriptId);
 
-    if (!script) {
-      script = document.createElement('script');
+    if (!existingScript) {
+      const script = document.createElement('script');
       script.id = scriptId;
       script.src = 'https://app.cal.com/embed/embed.js';
       script.async = true;
       document.head.appendChild(script);
     }
+  }, []);
 
-    // Initialize Cal when script loads
-    const initCal = () => {
-      if (typeof window !== 'undefined' && (window as any).Cal) {
-        const Cal = (window as any).Cal;
-        const namespace = calNamespace.current;
-
-        Cal(namespace, {
-          calLink,
-          config,
-          styles,
-        });
-
-        Cal.ns[namespace]('inline', {
-          elementOrSelector: containerRef.current,
-          calLink,
-          config,
-          styles,
-        });
-      }
-    };
-
-    if ((window as any).Cal) {
-      initCal();
-    } else {
-      script.addEventListener('load', initCal);
-    }
-
-    return () => {
-      // Cleanup if needed
-      if ((window as any).Cal?.ns?.[calNamespace.current]) {
-        delete (window as any).Cal.ns[calNamespace.current];
-      }
-    };
-  }, [calLink, config, styles]);
+  // Build data attributes for Cal.com auto-initialization
+  const dataConfig = JSON.stringify(config);
+  const dataStyles = JSON.stringify(styles);
 
   return (
     <div
-      ref={containerRef}
+      data-cal-link={calLink}
+      data-cal-config={dataConfig}
+      data-cal-styles={dataStyles}
       style={{
         minWidth,
         height,
