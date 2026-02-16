@@ -15,6 +15,7 @@ import { Component } from '../../frames/component/Component';
 import { useAction } from '../../../core/actions/useAction';
 import type { ActionConfig, NavigationActionConfig, BookingActionConfig } from '../../../core/actions/types';
 import { openCalendlyPopup, buildCalendlyUrl } from '../../thirdparty/calendly/CalendlyModal';
+import { openCalPopup } from '../../thirdparty/cal/CalModal';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -133,14 +134,24 @@ export const Button = forwardRef<
         return;
       }
 
-      // If it's a booking action with Calendly URL, open modal
+      // If it's a booking action with Calendly or Cal.com URL, open modal
       if (action?.type === 'booking') {
         e.preventDefault();
         const bookingConfig = action as BookingActionConfig;
+        
+        // Check if it's Cal.com or Calendly
+        const calUrl = bookingConfig.settings?.calUrl;
         const calendlyUrl = bookingConfig.settings?.calendlyUrl;
 
-        if (calendlyUrl) {
-          // Build URL with custom parameters
+        if (calUrl) {
+          // Cal.com booking
+          openCalPopup(calUrl, {
+            brandColor: bookingConfig.settings?.brandColor || bookingConfig.settings?.primaryColor,
+            theme: bookingConfig.settings?.theme,
+            layout: bookingConfig.settings?.layout,
+          });
+        } else if (calendlyUrl) {
+          // Calendly booking
           const fullUrl = buildCalendlyUrl(calendlyUrl, {
             primaryColor: bookingConfig.settings?.primaryColor,
             hideEventTypeDetails: bookingConfig.settings?.hideEventTypeDetails,
