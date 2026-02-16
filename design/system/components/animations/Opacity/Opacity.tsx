@@ -48,11 +48,9 @@ export const Opacity: React.FC<OpacityProps> = ({
 
   useEffect(() => {
     if (!enableScrollTrigger) {
-      // Trigger animation on mount after a brief delay to ensure initial state is rendered
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 10);
-      return () => clearTimeout(timer);
+      // Start animation immediately (delay is handled via transition delay)
+      setIsVisible(true);
+      return;
     }
 
     const element = elementRef.current;

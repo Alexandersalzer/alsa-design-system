@@ -56,11 +56,9 @@ export const FadeIn: React.FC<FadeInProps> = ({
 
   useEffect(() => {
     if (!enableScrollTrigger) {
-      // Start animation after brief delay to ensure initial render
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 10);
-      return () => clearTimeout(timer);
+      // Start animation immediately (delay is handled via transition delay)
+      setIsVisible(true);
+      return;
     }
 
     const element = elementRef.current;
