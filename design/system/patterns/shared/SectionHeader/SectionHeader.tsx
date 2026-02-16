@@ -105,6 +105,20 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
 
   const animationMode = getAnimationMode();
 
+  // Debug logging
+  if (typeof window !== 'undefined') {
+    console.log('[SectionHeader Animation Debug]', {
+      sectionKey,
+      patternKey,
+      isHero,
+      animationMode,
+      sectionAnimationConfig,
+      willAnimate: sectionAnimationConfig
+        ? sectionAnimationConfig.type !== 'none'
+        : (animationMode === 'all' || (animationMode === 'hero' && isHero))
+    });
+  }
+
   // Determine if animation should be enabled for this section
   // Priority: section animation > global animation mode
   const shouldAnimate = sectionAnimationConfig
