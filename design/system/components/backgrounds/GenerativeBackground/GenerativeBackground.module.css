@@ -20,21 +20,21 @@
 .subtle {
   --gen-bg-base: var(--gen-bg-subtle-base, var(--accent-100));
   --gen-bg-accent: var(--gen-bg-subtle-accent, var(--accent-200));
-  --gen-bg-highlight: var(--gen-bg-subtle-highlight, var(--neutral-0));
+  --gen-bg-highlight: var(--gen-bg-subtle-highlight, var(--surface-page));
 }
 
 /* Medium variant - mer färgstarka toner */
 .medium {
   --gen-bg-base: var(--gen-bg-medium-base, var(--accent-200));
   --gen-bg-accent: var(--gen-bg-medium-accent, var(--accent-300));
-  --gen-bg-highlight: var(--gen-bg-medium-highlight, var(--accent-100));
+  --gen-bg-highlight: var(--gen-bg-medium-highlight, var(--surface-page));
 }
 
 /* Vibrant variant - starkare färger */
 .vibrant {
   --gen-bg-base: var(--gen-bg-vibrant-base, var(--accent-300));
   --gen-bg-accent: var(--gen-bg-vibrant-accent, var(--accent-400));
-  --gen-bg-highlight: var(--gen-bg-vibrant-highlight, var(--accent-200));
+  --gen-bg-highlight: var(--gen-bg-vibrant-highlight, var(--surface-page));
 }
 
 /* ===== COLOR SCHEME: Different color palettes ===== */
@@ -48,74 +48,74 @@
 .primary.subtle {
   --gen-bg-base: var(--gen-bg-primary-subtle-base, var(--neutral-100));
   --gen-bg-accent: var(--gen-bg-primary-subtle-accent, var(--neutral-200));
-  --gen-bg-highlight: var(--gen-bg-primary-subtle-highlight, var(--neutral-0));
+  --gen-bg-highlight: var(--gen-bg-primary-subtle-highlight, var(--surface-page));
 }
 
 .primary.medium {
   --gen-bg-base: var(--gen-bg-primary-medium-base, var(--neutral-200));
   --gen-bg-accent: var(--gen-bg-primary-medium-accent, var(--neutral-300));
-  --gen-bg-highlight: var(--gen-bg-primary-medium-highlight, var(--neutral-100));
+  --gen-bg-highlight: var(--gen-bg-primary-medium-highlight, var(--surface-page));
 }
 
 .primary.vibrant {
   --gen-bg-base: var(--gen-bg-primary-vibrant-base, var(--neutral-300));
   --gen-bg-accent: var(--gen-bg-primary-vibrant-accent, var(--neutral-400));
-  --gen-bg-highlight: var(--gen-bg-primary-vibrant-highlight, var(--neutral-200));
+  --gen-bg-highlight: var(--gen-bg-primary-vibrant-highlight, var(--surface-page));
 }
 
 /* Success - använder success-färger (grön) */
 .success.subtle {
   --gen-bg-base: var(--gen-bg-success-subtle-base, var(--success-100));
   --gen-bg-accent: var(--gen-bg-success-subtle-accent, var(--success-200));
-  --gen-bg-highlight: var(--gen-bg-success-subtle-highlight, var(--neutral-0));
+  --gen-bg-highlight: var(--gen-bg-success-subtle-highlight, var(--surface-page));
 }
 
 .success.medium {
   --gen-bg-base: var(--gen-bg-success-medium-base, var(--success-200));
   --gen-bg-accent: var(--gen-bg-success-medium-accent, var(--success-300));
-  --gen-bg-highlight: var(--gen-bg-success-medium-highlight, var(--success-100));
+  --gen-bg-highlight: var(--gen-bg-success-medium-highlight, var(--surface-page));
 }
 
 .success.vibrant {
   --gen-bg-base: var(--gen-bg-success-vibrant-base, var(--success-300));
   --gen-bg-accent: var(--gen-bg-success-vibrant-accent, var(--success-400));
-  --gen-bg-highlight: var(--gen-bg-success-vibrant-highlight, var(--success-200));
+  --gen-bg-highlight: var(--gen-bg-success-vibrant-highlight, var(--surface-page));
 }
 
 /* Warning - använder warning-färger (orange/gul) */
 .warning.subtle {
   --gen-bg-base: var(--gen-bg-warning-subtle-base, var(--warning-100));
   --gen-bg-accent: var(--gen-bg-warning-subtle-accent, var(--warning-200));
-  --gen-bg-highlight: var(--gen-bg-warning-subtle-highlight, var(--neutral-0));
+  --gen-bg-highlight: var(--gen-bg-warning-subtle-highlight, var(--surface-page));
 }
 
 .warning.medium {
   --gen-bg-base: var(--gen-bg-warning-medium-base, var(--warning-200));
   --gen-bg-accent: var(--gen-bg-warning-medium-accent, var(--warning-300));
-  --gen-bg-highlight: var(--gen-bg-warning-medium-highlight, var(--warning-100));
+  --gen-bg-highlight: var(--gen-bg-warning-medium-highlight, var(--surface-page));
 }
 
 .warning.vibrant {
   --gen-bg-base: var(--gen-bg-warning-vibrant-base, var(--warning-300));
   --gen-bg-accent: var(--gen-bg-warning-vibrant-accent, var(--warning-400));
-  --gen-bg-highlight: var(--gen-bg-warning-vibrant-highlight, var(--warning-200));
+  --gen-bg-highlight: var(--gen-bg-warning-vibrant-highlight, var(--surface-page));
 }
 
 /* Info - använder info-färger (cyan/blue) */
 .info.subtle {
   --gen-bg-base: var(--gen-bg-info-subtle-base, var(--info-100));
   --gen-bg-accent: var(--gen-bg-info-subtle-accent, var(--info-200));
-  --gen-bg-highlight: var(--gen-bg-info-subtle-highlight, var(--neutral-0));
+  --gen-bg-highlight: var(--gen-bg-info-subtle-highlight, var(--surface-page));
 }
 
 .info.medium {
   --gen-bg-base: var(--gen-bg-info-medium-base, var(--info-200));
   --gen-bg-accent: var(--gen-bg-info-medium-accent, var(--info-300));
-  --gen-bg-highlight: var(--gen-bg-info-medium-highlight, var(--info-100));
+  --gen-bg-highlight: var(--gen-bg-info-medium-highlight, var(--surface-page));
 }
 
 .info.vibrant {
   --gen-bg-base: var(--gen-bg-info-vibrant-base, var(--info-300));
   --gen-bg-accent: var(--gen-bg-info-vibrant-accent, var(--info-400));
-  --gen-bg-highlight: var(--gen-bg-info-vibrant-highlight, var(--info-200));
+  --gen-bg-highlight: var(--gen-bg-info-vibrant-highlight, var(--surface-page));
 }
