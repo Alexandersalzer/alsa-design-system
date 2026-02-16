@@ -105,20 +105,6 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
 
   const animationMode = getAnimationMode();
 
-  // Debug logging
-  if (typeof window !== 'undefined') {
-    console.log('[SectionHeader Animation Debug]', {
-      sectionKey,
-      patternKey,
-      isHero,
-      animationMode,
-      sectionAnimationConfig,
-      willAnimate: sectionAnimationConfig
-        ? sectionAnimationConfig.type !== 'none'
-        : (animationMode === 'all' || (animationMode === 'hero' && isHero))
-    });
-  }
-
   // Determine if animation should be enabled for this section
   // Priority: section animation > global animation mode
   const shouldAnimate = sectionAnimationConfig
@@ -238,10 +224,11 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
 
   // If maxWidth specified, wrap in a div with the constraint
   if (containerStyle) {
-    return <div style={containerStyle}>{content}</div>;
+    return <div style={containerStyle} suppressHydrationWarning>{content}</div>;
   }
 
-  return content;
+  // Suppress hydration warning - animation mode is read from CSS var which differs between SSR/client
+  return <div suppressHydrationWarning style={{ display: 'contents' }}>{content}</div>;
 };
 
 SectionHeader.displayName = 'SectionHeader';
