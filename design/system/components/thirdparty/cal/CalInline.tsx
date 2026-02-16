@@ -61,53 +61,48 @@ export const CalInline: React.FC<CalInlineProps> = ({
   useEffect(() => {
     if (typeof window === 'undefined' || !containerRef.current || isInitialized.current) return;
 
-    const loadAndInitCal = () => {
-      // Initialize Cal object if it doesn't exist (using Cal.com's embed snippet pattern)
-      if (!(window as any).Cal) {
-        (function (C: any, A: string, L: string) {
-          const p = function (a: any, ar: any) {
-            a.q.push(ar);
+    // Initialize Cal object if it doesn't exist (using Cal.com's embed snippet pattern)
+    if (!(window as any).Cal) {
+      (function (C: any, A: string, L: string) {
+        const p = function (a: any, ar: any) {
+          a.q.push(ar);
+        };
+        const d = C.document;
+        C.Cal =
+          C.Cal ||
+          function () {
+            const cal = C.Cal;
+            const ar = arguments;
+            if (!cal.loaded) {
+              p(cal, ar);
+            } else {
+              cal(...ar);
+            }
           };
-          const d = C.document;
-          C.Cal =
-            C.Cal ||
-            function () {
-              const cal = C.Cal;
-              const ar = arguments;
-              if (!cal.loaded) {
-                p(cal, ar);
-              } else {
-                cal(...ar);
-              }
-            };
-          C.Cal.ns = {};
-          C.Cal.q = C.Cal.q || [];
-          d.head.appendChild(d.createElement("script")).src = A;
-        })(window, "https://app.cal.com/embed/embed.js", "init");
-      }
+        C.Cal.ns = {};
+        C.Cal.q = C.Cal.q || [];
+        d.head.appendChild(d.createElement("script")).src = A;
+      })(window, "https://app.cal.com/embed/embed.js", "init");
+    }
 
-      // Now Cal exists (either queuing or loaded), we can call it
-      const Cal = (window as any).Cal;
-      
-      // Initialize Cal with unique namespace
-      Cal('init', namespace, {
-        origin: 'https://app.cal.com',
-      });
+    const Cal = (window as any).Cal;
+    
+    // Initialize Cal with unique namespace
+    Cal('init', namespace, {
+      origin: 'https://app.cal.com',
+    });
 
-      // Create inline embed using namespace
-      Cal.ns[namespace]('inline', {
-        elementOrSelector: `#${elementId}`,
-        calLink,
-        config: {
-          ...config,
-          branding: styles.branding,
-        },
-      });
+    // Create inline embed using namespace - Cal's queue system handles the timing
+    Cal.ns[namespace]('inline', {
+      elementOrSelector: `#${elementId}`,
+      calLink,
+      config: {
+        ...config,
+        branding: styles.branding,
+      },
+    });
 
-      isInitialized.current = true;
-    };
-
-    loadAndInitCal();
+    isInitialized.current = true;
 
     // Cleanup function
     return () => {
