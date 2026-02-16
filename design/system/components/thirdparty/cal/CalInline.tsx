@@ -55,7 +55,6 @@ export const CalInline: React.FC<CalInlineProps> = ({
   // Use React's useId for SSR-safe stable IDs
   const reactId = useId();
   const elementId = `cal-inline-${reactId.replace(/:/g, '-')}`;
-  const namespace = `ns-${reactId.replace(/:/g, '-')}`;
   const isInitialized = useRef(false);
 
   useEffect(() => {
@@ -87,13 +86,13 @@ export const CalInline: React.FC<CalInlineProps> = ({
 
     const Cal = (window as any).Cal;
     
-    // Initialize Cal with unique namespace
-    Cal('init', namespace, {
+    // Initialize Cal (without namespace, using default)
+    Cal('init', {
       origin: 'https://app.cal.com',
     });
 
-    // Create inline embed using namespace - Cal's queue system handles the timing
-    Cal.ns[namespace]('inline', {
+    // Create inline embed - each has unique elementId so no conflicts
+    Cal('inline', {
       elementOrSelector: `#${elementId}`,
       calLink,
       config: {
@@ -106,21 +105,17 @@ export const CalInline: React.FC<CalInlineProps> = ({
 
     // Cleanup function
     return () => {
-      if ((window as any).Cal?.ns?.[namespace]) {
-        // Remove the inline element
-        const container = document.getElementById(elementId);
-        if (container) {
-          const calInlineElement = container.querySelector('cal-inline');
-          if (calInlineElement) {
-            calInlineElement.remove();
-          }
-        }
-        // Clean up namespace
-        delete (window as any).Cal.ns[namespace];
-      }
       isInitialized.current = false;
+      // Remove the cal-inline element if it exists
+      const container = document.getElementById(elementId);
+      if (container) {
+        const calInlineElement = container.querySelector('cal-inline');
+        if (calInlineElement) {
+          calInlineElement.remove();
+        }
+      }
     };
-  }, [calLink, config, styles, elementId, namespace]);
+  }, [calLink, config, styles, elementId]);
 
   return (
     <div
