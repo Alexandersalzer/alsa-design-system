@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useId } from 'react';
 
 // ===== CAL.COM INLINE WIDGET =====
 // Embeds Cal.com booking interface directly on the page
@@ -52,7 +52,9 @@ export const CalInline: React.FC<CalInlineProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const calLink = extractCalLink(calUrl);
-  const elementId = useRef(`cal-inline-${Math.random().toString(36).substring(7)}`);
+  // Use React's useId for SSR-safe stable IDs
+  const reactId = useId();
+  const elementId = `cal-inline-${reactId.replace(/:/g, '-')}`;
 
   useEffect(() => {
     if (typeof window === 'undefined' || !containerRef.current) return;
@@ -102,7 +104,7 @@ export const CalInline: React.FC<CalInlineProps> = ({
 
       // Create inline embed
       Cal('inline', {
-        elementOrSelector: `#${elementId.current}`,
+        elementOrSelector: `#${elementId}`,
         calLink,
         config: {
           ...config,
@@ -112,11 +114,11 @@ export const CalInline: React.FC<CalInlineProps> = ({
     };
 
     loadAndInitCal();
-  }, [calLink, config, styles]);
+  }, [calLink, config, styles, elementId]);
 
   return (
     <div
-      id={elementId.current}
+      id={elementId}
       ref={containerRef}
       style={{
         minWidth,
