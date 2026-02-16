@@ -10,6 +10,7 @@ export interface CalInlineProps {
   config?: {
     layout?: 'month_view' | 'week_view' | 'column_view';
     theme?: 'light' | 'dark' | 'auto';
+    hideEventTypeDetails?: boolean;
   };
   styles?: {
     branding?: {
