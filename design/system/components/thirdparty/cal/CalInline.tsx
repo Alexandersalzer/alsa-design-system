@@ -127,7 +127,16 @@ export const CalInline: React.FC<CalInlineProps> = ({
         height,
         width: '100%',
       }}
-    />
+      className="cal-inline-wrapper"
+    >
+      <style jsx>{`
+        .cal-inline-wrapper :global(a[href*="cal.com"][target="_blank"]),
+        .cal-inline-wrapper :global([class*="branding"]),
+        .cal-inline-wrapper :global([class*="powered"]) {
+          display: none !important;
+        }
+      `}</style>
+    </div>
   );
 };
 
