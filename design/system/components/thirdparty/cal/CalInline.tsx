@@ -55,9 +55,11 @@ export const CalInline: React.FC<CalInlineProps> = ({
   // Use React's useId for SSR-safe stable IDs
   const reactId = useId();
   const elementId = `cal-inline-${reactId.replace(/:/g, '-')}`;
+  const namespace = `ns-${reactId.replace(/:/g, '-')}`;
+  const isInitialized = useRef(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !containerRef.current) return;
+    if (typeof window === 'undefined' || !containerRef.current || isInitialized.current) return;
 
     const loadAndInitCal = () => {
       // Initialize Cal object if it doesn't exist (using Cal.com's embed snippet pattern)
@@ -87,13 +89,13 @@ export const CalInline: React.FC<CalInlineProps> = ({
       // Now Cal exists (either queuing or loaded), we can call it
       const Cal = (window as any).Cal;
       
-      // Initialize Cal
-      Cal('init', {
+      // Initialize Cal with unique namespace
+      Cal('init', namespace, {
         origin: 'https://app.cal.com',
       });
 
-      // Create inline embed
-      Cal('inline', {
+      // Create inline embed using namespace
+      Cal.ns[namespace]('inline', {
         elementOrSelector: `#${elementId}`,
         calLink,
         config: {
@@ -101,10 +103,29 @@ export const CalInline: React.FC<CalInlineProps> = ({
           branding: styles.branding,
         },
       });
+
+      isInitialized.current = true;
     };
 
     loadAndInitCal();
-  }, [calLink, config, styles, elementId]);
+
+    // Cleanup function
+    return () => {
+      if ((window as any).Cal?.ns?.[namespace]) {
+        // Remove the inline element
+        const container = document.getElementById(elementId);
+        if (container) {
+          const calInlineElement = container.querySelector('cal-inline');
+          if (calInlineElement) {
+            calInlineElement.remove();
+          }
+        }
+        // Clean up namespace
+        delete (window as any).Cal.ns[namespace];
+      }
+      isInitialized.current = false;
+    };
+  }, [calLink, config, styles, elementId, namespace]);
 
   return (
     <div
