@@ -65,7 +65,11 @@ export interface BookingActionConfig extends BaseActionConfig {
   type: 'booking';
   settings?: {
     calendlyUrl?: string; // Calendly booking URL (e.g., https://calendly.com/username/30min)
+    calUrl?: string; // Cal.com booking URL (e.g., https://cal.com/smpl-growth/60min)
     primaryColor?: string; // Hex color without # (e.g., "b899f8")
+    brandColor?: string; // For Cal.com branding
+    theme?: 'light' | 'dark' | 'auto'; // For Cal.com theme
+    layout?: 'month_view' | 'week_view' | 'column_view'; // For Cal.com layout
     hideEventTypeDetails?: boolean;
     hideGdprBanner?: boolean;
     serviceId?: string;

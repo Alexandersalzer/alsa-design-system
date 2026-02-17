@@ -62,8 +62,23 @@
   border-color: var(--border-default);
 }
 
+/* ===== RAISED VARIANT (SUBTLE WITH GOOD CONTRAST) ===== */
+.number-display-raised {
+  background-color: var(--surface-raised);
+  color: var(--text-default);
+  border-color: var(--border-default);
+  box-shadow: var(--shadow-sm);
+}
+
 /* Value styling - Label component handles typography */
 .number-display-value {
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
+}
+
+/* Mobile-only step indicator - hides on desktop (md and above) */
+@media (min-width: 768px) {
+  .mobile-only-step-indicator {
+    display: none;
+  }
 }

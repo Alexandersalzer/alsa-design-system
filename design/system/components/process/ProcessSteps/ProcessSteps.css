@@ -1,0 +1,39 @@
+/* ===============================================
+   PROCESS STEPS
+   2-column grid: timeline on left, step content on right
+   =============================================== */
+
+.process-steps {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-2xl, 48px);
+  width: 100%;
+}
+
+.process-steps__timeline {
+  position: relative;
+  min-height: 400px;
+}
+
+.process-steps__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3xl, 64px);
+}
+
+.process-steps__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs, 8px);
+}
+
+/* Responsive: hide timeline on mobile, stack content */
+@media (max-width: 768px) {
+  .process-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .process-steps__timeline {
+    display: none;
+  }
+}

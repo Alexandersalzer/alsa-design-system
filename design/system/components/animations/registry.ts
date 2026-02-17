@@ -6,6 +6,8 @@ import { Scale } from './Scale/Scale';
 import { CarouselAnimation } from './CarouselAnimation/CarouselAnimation';
 import { ProgressRail } from './ProgressRail/ProgressRail';
 import { RailSegment } from './ProgressRail/RailSegment';
+import { ProcessTimeline } from './ProcessTimeline/ProcessTimeline';
+import { VerticalProgressRail } from './VerticalProgressRail/VerticalProgressRail';
 import { Bounce } from './Bounce/Bounce';
 import { OpacityBounce } from './OpacityBounce/OpacityBounce';
 
@@ -18,6 +20,8 @@ export const animationComponents: Record<string, React.ComponentType<any>> = {
   carouselAnimation: CarouselAnimation,
   progressRail: ProgressRail,
   railSegment: RailSegment,
+  processTimeline: ProcessTimeline,
+  verticalProgressRail: VerticalProgressRail,
   bounce: Bounce,
   opacityBounce: OpacityBounce,
 };

@@ -137,6 +137,32 @@
   border-top: 1px solid var(--border-subtle);
 }
 
+/* ===== VARIANT: LIST (SIMPLE WITH DIVIDERS) ===== */
+.accordion--list .accordion-item {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.accordion--list .accordion-item:hover:not(.accordion-item--disabled) {
+  background: var(--surface-hover);
+}
+
+/* Divider between all items */
+.accordion--list .accordion-item + .accordion-item {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* First item top border for contained look */
+.accordion--list .accordion-item:first-child {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Last item bottom border for contained look */
+.accordion--list .accordion-item:last-child {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
 /* ===== RADIUS MODE: EDGES (default) ===== */
 /* First item gets ONLY top-left and top-right radius */
 .accordion--radius-mode-edges .accordion-item:first-child {

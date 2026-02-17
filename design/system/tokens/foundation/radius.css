@@ -103,6 +103,60 @@
   --selected-radius-scale-2xl: var(--foundation-radius-md-2xl);
   --selected-radius-scale-full: var(--foundation-radius-md-full);
 
+
+  /* ===== 🔧 FIXED BORDER RADIUS COMPONENT TOKENS ===== */
+  /* All form components now have consistent rounded rectangle radius */
+  /* Using YOUR semantic radius tokens - NOT foundation tokens! */
+  --radius-navbar-pill: var(--radius-lg);
+  
+  /* LEVEL 1: CONTAINER COMPONENTS (Outer shells) */
+  --radius-card-sm: var(--radius-sm);                   /* Uses your semantic token */
+  --radius-card: var(--radius-md);                      /* Uses your semantic token */
+  --radius-card-lg: var(--radius-lg);                   /* Uses your semantic token */
+  --radius-modal: var(--radius-lg);                     /* Uses your semantic token */
+  --radius-sheet: var(--radius-lg);                     /* Uses your semantic token */
+  --radius-popover: var(--radius-md);                   /* Uses your semantic token */
+  --radius-section: var(--radius-md);                   /* Uses your semantic token */
+  --radius-panel: var(--radius-lg);                     /* Uses your semantic token */
+
+  /* LEVEL 2: FORM COMPONENTS - 🎯 CONSISTENT ROUNDED RECTANGLES */
+  --radius-button-sm: var(--radius-xs);                 /* Uses your semantic token */
+  --radius-button: var(--radius-sm);                    /* Uses your semantic token */
+  --radius-button-lg: var(--radius-md);                 /* Uses your semantic token */
+  
+  /* 🔧 FIXED: Inputs now match button radius exactly */
+  --radius-input-sm: var(--radius-xs);                  /* Same as button-sm */
+  --radius-input: var(--radius-sm);                     /* Same as button */
+  --radius-input-lg: var(--radius-md);                  /* Same as button-lg */
+  
+  /* 🔧 FIXED: Pickers now match button radius exactly */
+  --radius-picker-sm: var(--radius-xs);                 /* Same as button-sm */
+  --radius-picker: var(--radius-sm);                    /* Same as button */
+  --radius-picker-lg: var(--radius-md);                 /* Same as button-lg */
+  
+  /* 🔧 FIXED: Dropdowns match form components */
+  --radius-dropdown-sm: var(--radius-xs);               /* Same as form elements */
+  --radius-dropdown: var(--radius-sm);                  /* Same as form elements */
+  --radius-dropdown-lg: var(--radius-md);               /* Same as form elements */
+
+  /* OTHER CONTENT ELEMENTS */
+  --radius-image: var(--radius-sm);                     /* Uses your semantic token */
+  --radius-video: var(--radius-md);                     /* Uses your semantic token */
+  --radius-code-component: var(--radius-sm);                /* Uses your semantic token */
+
+  /* LEVEL 3: DEEPLY NESTED COMPONENTS */
+  --radius-badge: var(--radius-sm);                     /* Uses your semantic token */
+  --radius-tag: var(--radius-xs);                       /* Uses your semantic token */
+  --radius-chip: var(--radius-sm);                      /* Uses your semantic token */
+  --radius-avatar-sm: var(--radius-xs);                 /* Uses your semantic token */
+  --radius-avatar: var(--radius-sm);                    /* Uses your semantic token */
+  --radius-icon-button: var(--radius-xs);               /* Uses your semantic token */
+
+  /* SPECIALIZED COMPONENTS */
+  --radius-toast: var(--radius-md);                     /* Uses your semantic token */
+  --radius-alert: var(--radius-sm);                     /* Uses your semantic token */
+  --radius-tab: var(--radius-sm);                       /* Uses your semantic token */
+  --radius-table-cell: var(--radius-xs);                /* Uses your semantic token */
 }
 
 /* 

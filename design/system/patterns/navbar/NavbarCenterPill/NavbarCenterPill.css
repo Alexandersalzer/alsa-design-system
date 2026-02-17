@@ -63,11 +63,6 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.navbar-center-pill__middle-pill:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--border-emphasis);
-}
-
 .navbar-center-pill__middle-pill--no-border {
   border-color: transparent;
 }

@@ -117,6 +117,28 @@
   min-width: 0; /* Prevent overflow issues */
 }
 
+/* Height variants */
+.grid-item--height-full {
+  height: 100%;
+}
+
+/* Alignment variants */
+.grid-item--align-start {
+  align-self: start;
+}
+
+.grid-item--align-center {
+  align-self: center;
+}
+
+.grid-item--align-end {
+  align-self: end;
+}
+
+.grid-item--align-stretch {
+  align-self: stretch;
+}
+
 /* Sticky grid item - only applies top/z-index when actually sticky (desktop) */
 .grid-item--sticky {
   align-self: start;

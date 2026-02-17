@@ -119,7 +119,7 @@
 }
 
 .backgroundImage {
-  background-color: transparent;
+  background-color: var(--surface-page);
   overflow: hidden;
 }
 
@@ -185,6 +185,16 @@
 .editingMode:hover {
   border: 1px solid rgba(59, 130, 246, 0.6); /* Blue border with transparency */
   box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2); /* Subtle glow */
+}
+
+/* ===== MOBILE BACKGROUND OPACITY ===== */
+@media (max-width: 768px) {
+  /* Reduce background image opacity on mobile to show theme background underneath */
+  .section[style*="--mobile-bg-opacity"] .splitBackgroundContainer,
+  .section[style*="--mobile-bg-opacity"] > div[class*="Background"],
+  .section[style*="--mobile-bg-opacity"] > canvas {
+    opacity: var(--mobile-bg-opacity);
+  }
 }
 
 /* ===== UNIVERSAL RESET ===== */

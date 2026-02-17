@@ -11,9 +11,11 @@ import { logoIconComponents } from './LogoIcon/registry';
 import { mediaComponents } from './media/registry';
 import { navigationComponents } from './navigation/registry';
 import { overlayComponents } from './overlays/registry';
+import { processComponents } from './process/registry';
 import { typographyComponents } from './Typography/registry';
 import { utilityComponents } from './utility/registry';
 import { calendlyComponents } from './thirdparty/calendly/registry';
+import { calComponents } from './thirdparty/cal/registry';
 import { trustpilotComponents } from './thirdparty/trustpilot/registry';
 
 // Parent component registry - combines all local registries
@@ -31,9 +33,11 @@ export const componentRegistry: Record<string, React.ComponentType<any>> = {
   ...mediaComponents,
   ...navigationComponents,
   ...overlayComponents,
+  ...processComponents,
   ...typographyComponents,
   ...utilityComponents,
   // Third-party integrations
   ...calendlyComponents,
+  ...calComponents,
   ...trustpilotComponents,
 };

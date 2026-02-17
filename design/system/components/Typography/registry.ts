@@ -2,7 +2,8 @@ import {
   Body,
   Heading,
   Typography,
-  Label
+  Label,
+  Display
 } from './Typography';
 
 export const typographyComponents: Record<string, React.ComponentType<any>> = {
@@ -10,4 +11,5 @@ export const typographyComponents: Record<string, React.ComponentType<any>> = {
   heading: Heading,
   label: Label,
   typography: Typography,
+  display: Display,
 };

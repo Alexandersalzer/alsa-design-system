@@ -5,8 +5,10 @@ export * from './SlideIn';
 export * from './Opacity';
 export * from './Scale';
 export * from './ProgressRail';
+export * from './ProcessTimeline';
 export * from './Bounce';
 export * from './OpacityBounce';
+export * from './HeightSlide';
 
 // Export animation types
 export type {

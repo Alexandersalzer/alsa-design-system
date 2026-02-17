@@ -88,6 +88,10 @@ export interface GridItemProps extends React.HTMLAttributes<HTMLDivElement> {
   top?: string | number;
   /** z-index for sticky element (default: 10) */
   zIndex?: number;
+  /** Height variant */
+  height?: 'full' | 'auto';
+  /** Vertical alignment within grid cell */
+  alignSelf?: 'start' | 'center' | 'end' | 'stretch';
 }
 
 // ===== SIMPLE CLASS CONCATENATION =====
@@ -282,6 +286,8 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
   sticky = false,
   top = '100px',
   zIndex = 10,
+  height,
+  alignSelf,
   style,
   ...props
 }, ref) => {
@@ -341,6 +347,8 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(({
     'grid-item',
     hasResponsiveColSpan && 'grid-item--responsive-span',
     sticky && 'grid-item--sticky',
+    height === 'full' && 'grid-item--height-full',
+    alignSelf && `grid-item--align-${alignSelf}`,
     className
   );
 

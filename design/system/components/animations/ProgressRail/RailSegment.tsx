@@ -1,5 +1,6 @@
 // ===============================================
 // RailSegment.tsx - Modular rail pieces that stack together
+// Enhanced with variants, colors, and custom content
 // ===============================================
 
 'use client';
@@ -10,131 +11,168 @@ import './RailSegment.css';
 export interface RailSegmentProps {
   /** Segment type: start, middle, or end */
   type: 'start' | 'middle' | 'end';
-  /** Node number to display */
-  number: string;
+
+  /** Variant: 'segments' (default, separate segments) or 'connected' (full connected line) */
+  variant?: 'segments' | 'connected';
+
+  /** Content to display inside the node (number, icon, or React element) */
+  content?: React.ReactNode;
+
+  /** @deprecated Use content instead. Node number to display */
+  number?: string;
+
   /** Whether this segment is active (can be overridden by scroll) */
   active?: boolean;
-  /** Size of the node dot */
+
+  /** Size of the node indicator */
   nodeSize?: number;
+
   /** Width of the connecting line */
   lineWidth?: number;
+
+  /** Color of active line */
+  activeLineColor?: string;
+
+  /** Color of inactive line */
+  inactiveLineColor?: string;
+
+  /** Color of active node */
+  activeNodeColor?: string;
+
+  /** Color of inactive node */
+  inactiveNodeColor?: string;
+
   /** Custom className */
   className?: string;
+
   /** Scroll offset to trigger activation (0-1, default 0.75 = 3/4 from top) */
   scrollOffset?: number;
+
   /** Distance threshold in pixels for activation (default 150px) */
   activationThreshold?: number;
 }
 
 export const RailSegment: React.FC<RailSegmentProps> = ({
   type,
-  number,
+  variant = 'segments',
+  content,
+  number, // Deprecated, fallback to content
   active: propActive = false,
   nodeSize = 16,
   lineWidth = 1,
+  activeLineColor,
+  inactiveLineColor,
+  activeNodeColor,
+  inactiveNodeColor,
   className = '',
   scrollOffset = 0.75,
   activationThreshold = 150,
 }) => {
-  const nodeRef = useRef<HTMLDivElement>(null);
+  const segmentRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(propActive);
-  const [topLineFill, setTopLineFill] = useState(0); // 0-1
-  const [bottomLineFill, setBottomLineFill] = useState(0); // 0-1
+  const [lineFill, setLineFill] = useState(0); // 0-1 for the single line below the node
+
+  // Use content if provided, otherwise fall back to deprecated number prop
+  const displayContent = content !== undefined ? content : number;
 
   useEffect(() => {
     // If active is explicitly set to true, use that
     if (propActive) {
       setIsActive(true);
+      setLineFill(1);
       return;
     }
 
+    let rafId: number | null = null;
+    let isScheduled = false;
+
     const handleScroll = () => {
-      if (!nodeRef.current) return;
+      if (!segmentRef.current) return;
 
-      const rect = nodeRef.current.getBoundingClientRect();
+      const rect = segmentRef.current.getBoundingClientRect();
       const triggerPoint = window.innerHeight * scrollOffset;
-      const nodeCenter = rect.top + rect.height / 2;
-      
-      // Activate node when it crosses the trigger point (same as lines)
-      setIsActive(nodeCenter <= triggerPoint);
 
-      // Top line (middle/end): Fills as the TOP of the line crosses trigger point
-      if (type === 'middle' || type === 'end') {
-        const topOfLine = rect.top; // Top of the rail segment (top of top line)
-        const bottomOfLine = nodeCenter; // Bottom of top line (at node center)
-        
-        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
-        const topProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
-          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
-          : topOfLine >= triggerPoint
-            ? 0
-            : 1;
-        
-        setTopLineFill(topProgress);
+      // Node is at the top of the segment
+      const nodePosition = rect.top;
+
+      // Activate node when it crosses the trigger point
+      setIsActive(nodePosition <= triggerPoint);
+
+      // For connected variant: fill the line below the node as we scroll
+      // Line starts right after the node and goes to the bottom of the segment
+      if (type !== 'end') {
+        const lineStart = nodePosition; // Where the node is
+        const lineEnd = rect.bottom; // Bottom of segment
+
+        if (triggerPoint >= lineEnd) {
+          // Scrolled past the entire segment - fully filled
+          setLineFill(1);
+        } else if (triggerPoint <= lineStart) {
+          // Haven't reached the node yet - empty
+          setLineFill(0);
+        } else {
+          // Between node and bottom - progressive fill
+          const progress = (triggerPoint - lineStart) / (lineEnd - lineStart);
+          setLineFill(Math.max(0, Math.min(1, progress)));
+        }
       }
-      
-      // Bottom line (start/middle): Fills as the BOTTOM of the line crosses trigger point
-      if (type === 'start' || type === 'middle') {
-        const topOfLine = nodeCenter; // Top of bottom line (at node center)
-        const bottomOfLine = rect.bottom; // Bottom of the rail segment (bottom of bottom line)
-        
-        // Progress from 0 (top at trigger) to 1 (bottom at trigger)
-        const bottomProgress = topOfLine < triggerPoint && bottomOfLine > triggerPoint
-          ? (triggerPoint - topOfLine) / (bottomOfLine - topOfLine)
-          : topOfLine >= triggerPoint
-            ? 0
-            : 1;
-        
-        setBottomLineFill(bottomProgress);
+
+      isScheduled = false;
+    };
+
+    const scheduleUpdate = () => {
+      if (!isScheduled) {
+        isScheduled = true;
+        rafId = requestAnimationFrame(handleScroll);
       }
     };
 
     // Initial check
     handleScroll();
 
-    // Add scroll listener
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
-    
+    // Add scroll listener with RAF throttling
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate, { passive: true });
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
-  }, [propActive, scrollOffset, activationThreshold, type]);
+  }, [propActive, scrollOffset, type]);
+
+  // Build custom CSS properties
+  const customStyles = {
+    '--node-size': `${nodeSize}px`,
+    '--line-width': `${lineWidth}px`,
+    ...(activeLineColor && { '--rail-line-active-color': activeLineColor }),
+    ...(inactiveLineColor && { '--rail-line-inactive-color': inactiveLineColor }),
+    ...(activeNodeColor && { '--rail-node-active-color': activeNodeColor }),
+    ...(inactiveNodeColor && { '--rail-node-inactive-color': inactiveNodeColor }),
+  } as React.CSSProperties;
 
   return (
-    <div 
-      ref={nodeRef}
-      className={`rail-segment rail-segment--${type} ${isActive ? 'rail-segment--active' : ''} ${className}`}
-      style={{
-        '--node-size': `${nodeSize}px`,
-        '--line-width': `${lineWidth}px`,
-      } as React.CSSProperties}
+    <div
+      ref={segmentRef}
+      className={`rail-segment rail-segment--${type} rail-segment--${variant} ${isActive ? 'rail-segment--active' : ''} ${className}`}
+      style={customStyles}
     >
-      {/* Top line (only for middle and end) */}
-      {(type === 'middle' || type === 'end') && (
-        <div className="rail-segment__line-container rail-segment__line-container--top">
-          <div className="rail-segment__line rail-segment__line--base" />
-          <div 
-            className="rail-segment__line rail-segment__line--fill" 
-            style={{ transform: `scaleY(${topLineFill})` }}
-          />
-        </div>
-      )}
-      
-      {/* Node */}
+      {/* Node at the top */}
       <div className="rail-segment__node">
-        <div className="rail-segment__node-dot" />
-        <div className="rail-segment__node-label">{number}</div>
+        <div className="rail-segment__node-indicator">
+          {displayContent}
+        </div>
       </div>
-      
-      {/* Bottom line (only for start and middle) */}
-      {(type === 'start' || type === 'middle') && (
+
+      {/* Single line below the node (all except end type) */}
+      {type !== 'end' && (
         <div className="rail-segment__line-container rail-segment__line-container--bottom">
           <div className="rail-segment__line rail-segment__line--base" />
-          <div 
-            className="rail-segment__line rail-segment__line--fill" 
-            style={{ transform: `scaleY(${bottomLineFill})` }}
+          <div
+            className="rail-segment__line rail-segment__line--fill"
+            style={{ transform: `scaleY(${lineFill})` }}
           />
         </div>
       )}

@@ -41,6 +41,8 @@ interface SectionProps extends BackgroundProps {
   backgroundSplit?: boolean;
   /** Split percentage - width of background on right side (default: 50) */
   backgroundSplitPercentage?: number;
+  /** Mobile-specific background opacity (0-1) - only affects mobile screens */
+  mobileBackgroundOpacity?: number;
 }
 
 const getHeightClass = (height: Height): string => {
@@ -161,6 +163,7 @@ export const Section = ({
   sectionKey,
   backgroundSplit = false,
   backgroundSplitPercentage = 50,
+  mobileBackgroundOpacity,
 }: SectionProps) => {
   // Media-half height calculation
   const [mediaHeight, setMediaHeight] = React.useState<number | null>(null);
@@ -257,6 +260,10 @@ export const Section = ({
 
   if (height === 'media-half' && mediaHeight) {
     customProperties['--section-media-height'] = `${mediaHeight}px`;
+  }
+
+  if (mobileBackgroundOpacity !== undefined) {
+    customProperties['--mobile-bg-opacity'] = `${mobileBackgroundOpacity}`;
   }
 
   const allStyles = { ...finalStyles, ...customProperties } as React.CSSProperties;

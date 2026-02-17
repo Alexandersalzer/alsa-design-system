@@ -1,6 +1,7 @@
 /* ===============================================
    RAIL SEGMENT STYLES
    Modular rail pieces (start, middle, end)
+   Enhanced with variants and color customization
    =============================================== */
 
 .rail-segment {
@@ -11,24 +12,17 @@
   width: 60px;
   flex-shrink: 0;
   height: 100%;
+  align-self: stretch; /* Take full height of parent hstack */
 }
 
-/* Line containers */
+/* Line container - only below the node */
 .rail-segment__line-container {
   position: relative;
-  flex: 1;
-  min-height: 40px;
+  flex: 1; /* Takes all remaining space after the node */
+  min-height: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.rail-segment__line-container--top {
-  align-items: flex-end;
-}
-
-.rail-segment__line-container--bottom {
   align-items: flex-start;
+  justify-content: center;
 }
 
 /* Base line (always visible, low opacity) */
@@ -36,7 +30,7 @@
   position: absolute;
   width: var(--line-width, 1px);
   height: 100%;
-  background: var(--surface-accent);
+  background: var(--rail-line-inactive-color, var(--surface-accent));
 }
 
 .rail-segment__line--base {
@@ -45,22 +39,89 @@
 
 /* Fill line (grows with scroll) */
 .rail-segment__line--fill {
+  background: var(--rail-line-active-color, var(--surface-accent));
   opacity: 1;
   transform-origin: top;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.15s ease-out;
 }
 
-/* Node container */
+/* Node container - at the start of each segment */
 .rail-segment__node {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 8px 0;
+  margin: 0 0 8px 0; /* Only bottom margin */
+  z-index: 1;
+  flex-shrink: 0;
 }
 
-/* Node dot/square (app icon shaped) */
+/* Node indicator (replaces node-dot, now supports content) */
+.rail-segment__node-indicator {
+  width: var(--node-size, 16px);
+  height: var(--node-size, 16px);
+  min-width: var(--node-size, 16px);
+  min-height: var(--node-size, 16px);
+  border-radius: 22%;
+  background: var(--rail-node-inactive-color, var(--surface-accent));
+  opacity: 0.2;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--node-size, 16px) * 0.6);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-on-accent);
+}
+
+/* Active node */
+.rail-segment--active .rail-segment__node-indicator {
+  background: var(--rail-node-active-color, var(--surface-accent));
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Type-specific heights - simplified */
+.rail-segment--start,
+.rail-segment--middle {
+  min-height: 120px; /* Ensure enough height for line to show */
+}
+
+.rail-segment--end {
+  min-height: auto; /* End segment only has node, no line below */
+}
+
+/* ===== VARIANT: CONNECTED ===== */
+/* Connected variant shows a continuous line through all segments */
+/* Node at top, line extends down to next segment's node */
+
+.rail-segment--connected {
+  margin: 0;
+  padding: 0;
+}
+
+.rail-segment--connected .rail-segment__node {
+  margin: 0 0 8px 0;
+}
+
+/* Line extends down to bridge gaps between segments */
+.rail-segment--connected .rail-segment__line-container {
+  flex: 1;
+  /* Extend past the segment boundary to connect to next node */
+  padding-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rail-segment {
+    display: none;
+  }
+}
+
+/* ===== BACKWARDS COMPATIBILITY ===== */
+/* Support old .rail-segment__node-dot and .rail-segment__node-label classes */
 .rail-segment__node-dot {
+  /* Deprecated: Use .rail-segment__node-indicator instead */
   width: var(--node-size, 16px);
   height: var(--node-size, 16px);
   border-radius: 22%;
@@ -69,14 +130,13 @@
   transition: all 0.3s ease;
 }
 
-/* Active node */
 .rail-segment--active .rail-segment__node-dot {
   opacity: 1;
   transform: scale(1.2);
 }
 
-/* Node label */
 .rail-segment__node-label {
+  /* Deprecated: Use content inside .rail-segment__node-indicator instead */
   position: absolute;
   left: calc(var(--node-size, 16px) + 12px);
   font-size: var(--text-sm);
@@ -91,21 +151,4 @@
 .rail-segment--active .rail-segment__node-label {
   opacity: 1;
   color: var(--text-accent);
-}
-
-/* Type-specific heights */
-.rail-segment--start,
-.rail-segment--end {
-  min-height: 80px;
-}
-
-.rail-segment--middle {
-  min-height: 100px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .rail-segment {
-    display: none;
-  }
 }
