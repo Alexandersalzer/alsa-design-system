@@ -27,16 +27,16 @@ export const createBodySchema = (locale: SupportedLocale = 'sv'): ComponentSchem
     },
     
     props: {
-      children: createLocalizedProp(
+      content: createLocalizedProp(
         {
-          name: 'children',
+          name: 'content',
           type: 'string',
           required: true,
           editorType: 'textarea',
           cmsEnabled: true,
           group: 'content',
         },
-        t.props?.children
+        t.props?.content
       ),
       
       size: createLocalizedProp(
@@ -82,7 +82,7 @@ export const createBodySchema = (locale: SupportedLocale = 'sv'): ComponentSchem
       {
         id: 'body-content-required',
         message: 'Body text content is required',
-        validator: (value: any) => !!value.children && value.children.length > 0,
+        validator: (value: any) => !!value.content && value.content.length > 0,
       },
     ],
     examples: [],

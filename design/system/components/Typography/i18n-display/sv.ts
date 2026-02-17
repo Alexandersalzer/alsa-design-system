@@ -7,7 +7,7 @@ export const displayTranslations_sv = {
   description: 'Extra stor display-text för rubriker och hero-sektioner',
   
   props: {
-    children: {
+    content: {
       displayName: 'Innehåll',
       description: 'Texten som ska visas',
     },

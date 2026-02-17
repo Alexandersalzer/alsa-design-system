@@ -7,7 +7,7 @@ export const bodyTranslations_sv = {
   description: 'Standardtext för paragrafer och innehåll',
   
   props: {
-    children: {
+    content: {
       displayName: 'Innehåll',
       description: 'Texten som ska visas',
     },

@@ -7,7 +7,7 @@ export const labelTranslations_en = {
   description: 'Small text for labels and descriptions',
   
   props: {
-    children: {
+    content: {
       displayName: 'Content',
       description: 'The text to display',
     },

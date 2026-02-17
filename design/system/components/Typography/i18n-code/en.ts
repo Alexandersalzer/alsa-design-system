@@ -7,7 +7,7 @@ export const codeTranslations_en = {
   description: 'Monospace text for code and technical examples',
   
   props: {
-    children: {
+    content: {
       displayName: 'Content',
       description: 'The code to display',
     },

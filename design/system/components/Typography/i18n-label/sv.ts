@@ -7,7 +7,7 @@ export const labelTranslations_sv = {
   description: 'Liten text för etiketter och beskrivningar',
   
   props: {
-    children: {
+    content: {
       displayName: 'Innehåll',
       description: 'Texten som ska visas',
     },

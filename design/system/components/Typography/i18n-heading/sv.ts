@@ -7,7 +7,7 @@ export const headingTranslations_sv = {
   description: 'Rubrikkomponent för struktur och hierarki',
   
   props: {
-    children: {
+    content: {
       displayName: 'Innehåll',
       description: 'Rubriktext',
     },

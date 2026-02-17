@@ -27,16 +27,16 @@ export const createLabelSchema = (locale: SupportedLocale = 'sv'): ComponentSche
     },
     
     props: {
-      children: createLocalizedProp(
+      content: createLocalizedProp(
         {
-          name: 'children',
+          name: 'content',
           type: 'string',
           required: true,
           editorType: 'input',
           cmsEnabled: true,
           group: 'content',
         },
-        t.props?.children
+        t.props?.content
       ),
       
       size: createLocalizedProp(
@@ -70,7 +70,7 @@ export const createLabelSchema = (locale: SupportedLocale = 'sv'): ComponentSche
       {
         id: 'label-content-required',
         message: 'Label text content is required',
-        validator: (value: any) => !!value.children && value.children.length > 0,
+        validator: (value: any) => !!value.content && value.content.length > 0,
       },
     ],
     examples: [],

@@ -30,9 +30,9 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
     },
     
     props: {
-      children: createLocalizedProp(
+      content: createLocalizedProp(
         {
-          name: 'children',
+          name: 'content',
           type: 'string',
           required: true,
           editorType: 'textarea',
@@ -40,7 +40,7 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           cmsEnabled: true,
           group: 'content',
         },
-        t.props?.children
+        t.props?.content
       ),
       
       variant: createLocalizedProp(
@@ -87,7 +87,7 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
       {
         id: 'heading-content-required',
         message: 'Heading text is required',
-        validator: (value: any) => !!value.children && value.children.length > 0,
+        validator: (value: any) => !!value.content && value.content.length > 0,
       },
     ],
     examples: [],

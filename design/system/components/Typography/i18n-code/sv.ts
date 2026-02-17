@@ -7,7 +7,7 @@ export const codeTranslations_sv = {
   description: 'Monospace-text för kod och tekniska exempel',
   
   props: {
-    children: {
+    content: {
       displayName: 'Innehåll',
       description: 'Koden som ska visas',
     },
