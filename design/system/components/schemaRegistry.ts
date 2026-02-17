@@ -25,19 +25,97 @@ import {
   setSchemaLocale as setCoreSchemaLocale,
   onLocaleChange 
 } from '../core/schemas/i18n';
+
+// Actions
 import { createButtonSchema } from './actions/Button/schema';
+import { createIconButtonSchema } from './actions/IconButton/schema';
+import { createTextLinkSchema } from './actions/TextLink/schema';
+import { createClickableSchema } from './actions/Clickable/schema';
+import { createSegmentedControlSchema } from './actions/SegmentedControl/schema';
+import { createSelectionCardSchema } from './actions/SelectionCard/schema';
+import { createBulkActionBarSchema } from './actions/BulkActionBar/schema';
+import { createKbdSchema } from './actions/Kbd/schema';
+
+// Forms
+import { createInputSchema } from './forms/Input/schema';
+import { createTextareaSchema } from './forms/Textarea/schema';
+import { createPickerSchema } from './forms/Picker/schema';
+import { createCheckboxSchema } from './forms/Checkbox/schema';
+import { createRadioSchema } from './forms/Radio/schema';
+import { createSwitchSchema } from './forms/Switch/schema';
+import { createSliderSchema } from './forms/Slider/schema';
+
+// Media
+import { createImageSchema } from './media/Image/schema';
+
+// Typography
+import { createHeadingSchema } from './Typography/schema';
+
+// Layout
+import { createCardSchema } from './layout/Card/schema';
+import { createHStackSchema } from './layout/hStack/schema';
+import { createVStackSchema } from './layout/vStack/schema';
+import { createGridSchema } from './layout/grid/schema';
+import { createSpacerSchema } from './layout/Spacer/schema';
+import { createBoxSchema } from './layout/box/schema';
+import { createDividerSchema } from './layout/divider/schema';
+import { createAccordionSchema } from './layout/Accordion/schema';
+import { createBleedSchema } from './layout/bleed/schema';
+import { createRhythmSchema } from './layout/rhythm/schema';
+import { createBentoGridSchema } from './layout/BentoGrid/schema';
+import { createMasonryGridSchema } from './layout/MasonryGrid/schema';
+import { createStickySchema } from './layout/Sticky/schema';
+
+// Feedback
+import { createBadgeSchema } from './feedback/Badge/schema';
 
 /**
  * Schema factory functions
  * Maps component type to its schema creation function
  */
 const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSchema> = {
+  // Actions
   button: createButtonSchema,
-  // Add more component schema factories here as they are created:
-  // heading: createHeadingSchema,
-  // body: createBodySchema,
-  // image: createImageSchema,
-  // etc...
+  iconButton: createIconButtonSchema,
+  textLink: createTextLinkSchema,
+  clickable: createClickableSchema,
+  segmentedControl: createSegmentedControlSchema,
+  selectionCard: createSelectionCardSchema,
+  bulkActionBar: createBulkActionBarSchema,
+  kbd: createKbdSchema,
+  
+  // Forms
+  input: createInputSchema,
+  textarea: createTextareaSchema,
+  picker: createPickerSchema,
+  checkbox: createCheckboxSchema,
+  radio: createRadioSchema,
+  switch: createSwitchSchema,
+  slider: createSliderSchema,
+  
+  // Media
+  image: createImageSchema,
+  
+  // Typography
+  heading: createHeadingSchema,
+  
+  // Layout
+  card: createCardSchema,
+  hStack: createHStackSchema,
+  vStack: createVStackSchema,
+  grid: createGridSchema,
+  spacer: createSpacerSchema,
+  box: createBoxSchema,
+  divider: createDividerSchema,
+  accordion: createAccordionSchema,
+  bleed: createBleedSchema,
+  rhythm: createRhythmSchema,
+  bentoGrid: createBentoGridSchema,
+  masonryGrid: createMasonryGridSchema,
+  sticky: createStickySchema,
+  
+  // Feedback
+  badge: createBadgeSchema,
 };
 
 /**
