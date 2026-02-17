@@ -28,3 +28,5 @@ export * from './design';
 export * from './localization';
 export type { DesignTokens } from './types';
 
+export * from './actions';
+export * from './schemas';

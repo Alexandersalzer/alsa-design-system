@@ -4,6 +4,7 @@ import { componentRegistry } from '../../components/registry';
 import { animationComponents } from '../../components/animations/registry';
 import { AnimationConfig } from '../../components/animations/types';
 import { FilterProvider } from '../context/FilterContext';
+import { mergeWithDefaults } from '../../components/schemaRegistry';
 import {
   parseLayoutNode,
   isLayoutNode,
@@ -99,6 +100,7 @@ const getMaxItemsClasses = (
  * @param patternKey - Pattern context
  * @param patternProps - Pattern-level props (align, etc) to merge with layout config
  * @param animationConfig - Optional animation config for items (fadeIn with stagger)
+ * @param locale - Optional locale for internationalization
  * @returns Rendered React element tree
  */
 export const renderLayoutWithTemplate = (
@@ -107,7 +109,8 @@ export const renderLayoutWithTemplate = (
   sectionKey?: string,
   patternKey?: string,
   patternProps?: Record<string, any>,
-  animationConfig?: AnimationConfig
+  animationConfig?: AnimationConfig,
+  locale?: string
 ): React.ReactElement | null => {
   
   // Destructure layout-system props to prevent them from being passed to DOM elements
@@ -161,7 +164,7 @@ export const renderLayoutWithTemplate = (
 
   // If no template, render simple layout (fallback to old system)
   if (!template) {
-    return renderSimpleLayout(layout, components, order, sectionKey, patternKey);
+    return renderSimpleLayout(layout, components, order, sectionKey, patternKey, locale);
   }
   
   // Extract animation settings if applicable
@@ -184,7 +187,8 @@ export const renderLayoutWithTemplate = (
       AnimationComponent,
       animationSettings,
       sectionKey,
-      patternKey
+      patternKey,
+      locale
     );
   }
 
@@ -198,7 +202,8 @@ export const renderLayoutWithTemplate = (
       AnimationComponent,
       animationSettings,
       sectionKey,
-      patternKey
+      patternKey,
+      locale
     );
   }
 
@@ -218,7 +223,8 @@ export const renderLayoutWithTemplate = (
     sectionKey,
     patternKey,
     0,
-    maxItems
+    maxItems,
+    locale
   );
 
   return (
@@ -244,7 +250,8 @@ const renderFilterLayout = (
   AnimationComponent: React.ComponentType<any> | null,
   animationSettings: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  locale?: string
 ): React.ReactElement => {
   const { categories, items } = layout;
   const categoryOrder = getLayoutCategoryOrder(layout);
@@ -262,7 +269,8 @@ const renderFilterLayout = (
           AnimationComponent,
           animationSettings,
           sectionKey,
-          patternKey
+          patternKey,
+          locale
         )}
       </React.Fragment>
     );
@@ -318,7 +326,8 @@ const renderFilterTemplateNode = (
   AnimationComponent: React.ComponentType<any> | null,
   animationSettings: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  locale?: string
 ): React.ReactElement | null => {
   const { type, template, filterAware, children, ...nodeProps } = node;
 
@@ -341,7 +350,7 @@ const renderFilterTemplateNode = (
 
       const templateContent = template.children?.map((child: any, childIndex: number) => (
         <React.Fragment key={childIndex}>
-          {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, itemId)}
+          {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
         </React.Fragment>
       ));
 
@@ -394,7 +403,7 @@ const renderFilterTemplateNode = (
         
         return (
           <React.Fragment key={childIndex}>
-            {renderTemplateNode(resolvedChild, category.components || {}, categoryContext, usedComponents, sectionKey, patternKey)}
+            {renderTemplateNode(resolvedChild, category.components || {}, categoryContext, usedComponents, sectionKey, patternKey, undefined, locale)}
           </React.Fragment>
         );
       });
@@ -417,7 +426,8 @@ const renderFilterTemplateNode = (
           AnimationComponent,
           animationSettings,
           sectionKey,
-          patternKey
+          patternKey,
+          locale
         )}
       </React.Fragment>
     ));
@@ -461,7 +471,8 @@ const renderItems = (
   sectionKey?: string,
   patternKey?: string,
   indexOffset: number = 0,
-  maxItems?: number | ResponsiveMaxItems
+  maxItems?: number | ResponsiveMaxItems,
+  locale?: string
 ): React.ReactNode[] => {
   return itemOrder.map((itemId, localIndex) => {
     const item = findItem(itemId);
@@ -493,7 +504,7 @@ const renderItems = (
 
     const templateContent = templateChildren.map((child: any, index: number) => (
       <React.Fragment key={index}>
-        {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, itemId)}
+        {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
       </React.Fragment>
     ));
 
@@ -554,7 +565,8 @@ const renderCategoryComponents = (
   categoryComponents: Record<string, ComponentNode>,
   categoryComponentTemplate: Record<string, any> | undefined,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  locale?: string
 ): React.ReactNode => {
   // If we have a categoryComponentTemplate, render the template with components
   if (categoryComponentTemplate) {
@@ -567,7 +579,9 @@ const renderCategoryComponents = (
       categoryContext,
       usedComponents,
       sectionKey,
-      patternKey
+      patternKey,
+      undefined,
+      locale
     );
   }
 
@@ -604,7 +618,8 @@ const renderCategorizedLayout = (
   AnimationComponent: React.ComponentType<any> | null,
   animationSettings: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  locale?: string
 ): React.ReactElement => {
   const categoryOrder = getLayoutCategoryOrder(layout);
   const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
@@ -619,7 +634,8 @@ const renderCategorizedLayout = (
       AnimationComponent,
       animationSettings,
       sectionKey,
-      patternKey
+      patternKey,
+      locale
     );
   }
 
@@ -648,7 +664,8 @@ const renderCategorizedLayout = (
           animationSettings,
           sectionKey,
           patternKey,
-          globalItemIndex
+          globalItemIndex,
+          locale
         )}
       </React.Fragment>
     ));
@@ -677,7 +694,8 @@ const renderCategorizedLayoutLegacy = (
   AnimationComponent: React.ComponentType<any> | null,
   animationSettings: Record<string, any>,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  locale?: string
 ): React.ReactElement => {
   const categoryOrder = getLayoutCategoryOrder(layout);
   const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
@@ -702,7 +720,9 @@ const renderCategorizedLayoutLegacy = (
       animationSettings,
       sectionKey,
       patternKey,
-      globalItemIndex
+      globalItemIndex,
+      undefined,
+      locale
     );
 
     globalItemIndex += itemOrder.length;
@@ -723,7 +743,7 @@ const renderCategorizedLayoutLegacy = (
 
     // Render category components if they exist (e.g., sticky headers)
     const renderedCategoryComponents = category.components
-      ? renderCategoryComponents(category.components, categoryComponentTemplate, sectionKey, patternKey)
+      ? renderCategoryComponents(category.components, categoryComponentTemplate, sectionKey, patternKey, locale)
       : null;
 
     // If categoryTemplate exists, wrap category components + items in it
@@ -771,7 +791,8 @@ const renderCategoryTemplateNode = (
   animationSettings: Record<string, any>,
   sectionKey?: string,
   patternKey?: string,
-  globalItemIndexOffset: number = 0
+  globalItemIndexOffset: number = 0,
+  locale?: string
 ): React.ReactElement | null => {
   // If node has 'template' property, this is where we iterate items
   if (node.template) {
@@ -799,7 +820,7 @@ const renderCategoryTemplateNode = (
       // Item components are for the inner template (e.g., cards)
       const templateContent = node.template.children?.map((child: any, index: number) => (
         <React.Fragment key={index}>
-          {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey)}
+          {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, undefined, locale)}
         </React.Fragment>
       ));
 
@@ -846,7 +867,7 @@ const renderCategoryTemplateNode = (
   // Regular node (no template) - render with category components
   if (isComponentReference(node)) {
     const usedComponents = new Set<string>();
-    return renderComponentReference(node, categoryComponents, usedComponents, sectionKey, patternKey);
+    return renderComponentReference(node, categoryComponents, usedComponents, sectionKey, patternKey, undefined, locale);
   }
 
   if (isLayoutNode(node)) {
@@ -869,7 +890,8 @@ const renderCategoryTemplateNode = (
           animationSettings,
           sectionKey,
           patternKey,
-          globalItemIndexOffset
+          globalItemIndexOffset,
+          locale
         )}
       </React.Fragment>
     ));
@@ -894,7 +916,8 @@ const renderSimpleLayout = (
   components: Record<string, ComponentNode>,
   order?: string[],
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  locale?: string
 ): React.ReactElement | null => {
   const { type, ...layoutProps } = layout;
 
@@ -940,16 +963,17 @@ const renderTemplateNode = (
   usedComponents: Set<string>,
   sectionKey?: string,
   patternKey?: string,
-  itemId?: string
+  itemId?: string,
+  locale?: string
 ): React.ReactElement | null => {
   
   // Check what kind of node this is
   if (isComponentReference(node)) {
-    return renderComponentReference(node, itemComponents, usedComponents, sectionKey, patternKey, itemId);
+    return renderComponentReference(node, itemComponents, usedComponents, sectionKey, patternKey, itemId, locale);
   }
 
   if (isLayoutNode(node)) {
-    return renderLayoutNodeGeneric(node, itemComponents, itemContext, usedComponents, sectionKey, patternKey, itemId);
+    return renderLayoutNodeGeneric(node, itemComponents, itemContext, usedComponents, sectionKey, patternKey, itemId, locale);
   }
 
   console.warn('Invalid template node:', node);
@@ -967,7 +991,8 @@ const renderLayoutNodeGeneric = (
   usedComponents: Set<string>,
   sectionKey?: string,
   patternKey?: string,
-  itemId?: string
+  itemId?: string,
+  locale?: string
 ): React.ReactElement | null => {
   let { layoutType, layoutProps, children } = parseLayoutNode(node);
 
@@ -1032,7 +1057,7 @@ const renderLayoutNodeGeneric = (
   // Recursively render children for components that support them
   const renderedChildren = children.map((child: any, index: number) => (
     <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, itemContext, usedComponents, sectionKey, patternKey, itemId)}
+      {renderTemplateNode(child, itemComponents, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
     </React.Fragment>
   ));
 
@@ -1080,7 +1105,8 @@ const renderComponentReference = (
   usedComponents: Set<string>,
   sectionKey?: string,
   patternKey?: string,
-  itemId?: string
+  itemId?: string,
+  locale?: string
 ): React.ReactElement | null => {
   const { component: componentRef, animation: templateAnimation, optional, ...extraProps } = reference;
 
@@ -1107,11 +1133,15 @@ const renderComponentReference = (
     return null;
   }
 
-  // Merge props: item.props (content) < template extraProps (styling)
-  const mergedProps = {
-    ...(itemComponent?.props || {}),
-    ...extraProps
-  };
+  // Merge props: schema defaults < item.props (content) < template extraProps (styling)
+  const mergedProps = mergeWithDefaults(
+    componentType,
+    {
+      ...(itemComponent?.props || {}),
+      ...extraProps
+    },
+    locale as any
+  );
   
   // Render the component with componentKey and itemId for DOM identification
 const renderedComponent = (

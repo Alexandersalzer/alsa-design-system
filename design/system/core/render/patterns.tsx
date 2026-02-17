@@ -77,6 +77,8 @@ export interface LayoutContext {
   verticalAlign?: 'start' | 'center' | 'end';
   /** Animation config for this section (overrides global sectionBodyAnimation) */
   sectionAnimation?: AnimationConfig;
+  /** Locale for language-specific defaults */
+  locale?: string;
 }
 
 /**
@@ -88,7 +90,8 @@ export const renderPatternDirect = (
   pattern: PatternNode,
   patternKey: string,
   sectionKey?: string,
-  layoutContext?: LayoutContext
+  layoutContext?: LayoutContext,
+  locale?: string
 ) => {
   const patternProps = getPatternProps(pattern);
 
@@ -136,7 +139,8 @@ export const renderPatternDirect = (
       sectionKey, 
       patternKey,
       patternProps,
-      isPerItemAnimation ? animationConfig : undefined
+      isPerItemAnimation ? animationConfig : undefined,
+      locale
     );
 
     return (
@@ -176,7 +180,8 @@ export const renderPattern = (
   pattern: PatternNode,
   patternKey: string,
   sectionKey?: string,
-  layoutContext?: LayoutContext
+  layoutContext?: LayoutContext,
+  locale?: string
 ) => {
   const patternProps = getPatternProps(pattern);
 
@@ -223,7 +228,8 @@ export const renderPattern = (
       sectionKey, 
       patternKey,
       patternProps, // Pass pattern props for align, etc
-      isPerItemAnimation ? animationConfig : undefined // Pass per-item animations to layout renderer
+      isPerItemAnimation ? animationConfig : undefined, // Pass per-item animations to layout renderer
+      locale
     );
 
     // Wrap with animation if pattern has layout-wrap animation config (carousel, etc)

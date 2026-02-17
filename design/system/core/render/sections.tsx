@@ -13,6 +13,7 @@ import { VStack } from '../../components/layout/vStack/VStack';
 interface SectionsProps {
   sections: Record<string, SectionNode>;
   order: string[];
+  locale?: string;
 }
 
 /**
@@ -21,7 +22,8 @@ interface SectionsProps {
 export function renderSection(
   sectionData: SectionNode,
   sectionKey: string,
-  sectionIndex: number
+  sectionIndex: number,
+  locale?: string
 ): React.ReactNode {
   if (!sectionData?.patterns) return null;
 
@@ -48,6 +50,7 @@ export function renderSection(
           order: patternOrder,
           sectionKey,
           sectionAnimation: props?.animation,
+          locale,
         })}
       </Section>
     );
@@ -55,7 +58,7 @@ export function renderSection(
 
   // Fallback: Simple vertical stacking (no layout config)
   const renderedPatterns = patternOrder
-    .map((patternKey) => renderPattern(patterns[patternKey], patternKey, sectionKey))
+    .map((patternKey) => renderPattern(patterns[patternKey], patternKey, sectionKey, undefined, locale))
     .filter(Boolean);
 
   if (renderedPatterns.length === 0) return null;
@@ -83,7 +86,8 @@ export function renderSection(
  */
 export function Sections({
   sections,
-  order
+  order,
+  locale
 }: SectionsProps) {
   return (
     <>
@@ -92,7 +96,7 @@ export function Sections({
           const sectionData = sections[sectionKey];
           if (!sectionData) return null;
 
-          return renderSection(sectionData, sectionKey, index);
+          return renderSection(sectionData, sectionKey, index, locale);
         })
         .filter(Boolean)}
     </>
