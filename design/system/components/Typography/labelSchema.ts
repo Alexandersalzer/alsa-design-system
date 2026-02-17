@@ -33,6 +33,7 @@ export const createLabelSchema = (locale: SupportedLocale = 'sv'): ComponentSche
           type: 'string',
           required: true,
           editorType: 'input',
+          cmsEnabled: true,
           group: 'content',
         },
         t.props?.children
