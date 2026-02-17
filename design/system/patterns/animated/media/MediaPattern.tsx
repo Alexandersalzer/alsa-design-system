@@ -106,8 +106,6 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
     const overflowStyles = getOverflowStyles();
     const radius = imageProps.radius || 'md';
     const border = imageProps.border;
-    // Wrapper (border + radius) är valfritt – används bara när border sätts i JSON
-    const useBorderRadiusWrapper = !!border;
 
     // Container styles for positioning
     const containerStyles: React.CSSProperties = {
@@ -124,38 +122,31 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
       ...(align === 'center' && { marginLeft: 'auto', marginRight: 'auto' }),
     };
 
-    const wrapperStyles: React.CSSProperties = useBorderRadiusWrapper
-      ? {
-          overflow: 'hidden',
-          borderRadius: `var(--radius-${radius})`,
-          ...(border && { border }),
-        }
-      : {};
-
-    const imageNode = (
-      <Image
-        src={resolveCdnImageUrl(imageProps.imageSrc)}
-        alt={imageProps.alt || 'Media image'}
-        width="100%"
-        height={imageProps.height || 'auto'}
-        objectFit={imageProps.objectFit ?? 'contain'}
-        objectPosition={imageProps.objectPosition ?? 'center'}
-        radius={radius}
-        loading="eager"
-        priority={true}
-        aspectRatio={imageProps.aspectRatio}
-        className="media-pattern-image"
-        componentKey={get('image').key}
-      />
-    );
+    // Wrapper so border + radius clip the image correctly
+    const wrapperStyles: React.CSSProperties = {
+      overflow: 'hidden',
+      borderRadius: `var(--radius-${radius})`,
+      ...(border && { border }),
+    };
 
     return (
       <div style={containerStyles}>
-        {useBorderRadiusWrapper ? (
-          <div style={wrapperStyles}>{imageNode}</div>
-        ) : (
-          imageNode
-        )}
+        <div style={wrapperStyles}>
+          <Image
+            src={resolveCdnImageUrl(imageProps.imageSrc)}
+            alt={imageProps.alt || 'Media image'}
+            width="100%"
+            height={imageProps.height || 'auto'}
+            objectFit={imageProps.objectFit || 'contain'}
+            objectPosition={imageProps.objectPosition || 'center'}
+            radius={radius}
+            loading="eager"
+            priority={true}
+            aspectRatio={imageProps.aspectRatio}
+            className="media-pattern-image"
+            componentKey={get('image').key}
+          />
+        </div>
       </div>
     );
   }
