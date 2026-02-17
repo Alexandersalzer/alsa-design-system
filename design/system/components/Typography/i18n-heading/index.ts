@@ -1,3 +1,7 @@
+/**
+ * Heading translations aggregator
+ */
+
 import { headingTranslations_sv } from './sv';
 import { headingTranslations_en } from './en';
 

@@ -4,7 +4,7 @@
 
 import { ComponentSchema } from '../../../core/schemas/component.types';
 import { getTranslation, createLocalizedProp } from '../../../core/schemas/i18n';
-import { displayTranslations } from './i18n';
+import { displayTranslations } from './i18n-display';
 import type { SupportedLocale } from '../../../core/schemas/i18n/types';
 
 export const createDisplaySchema = (locale: SupportedLocale = 'sv'): ComponentSchema => {

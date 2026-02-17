@@ -1,29 +1,28 @@
 /**
- * Label Component Schema
+ * Code Component Schema
  */
 
 import { ComponentSchema } from '../../../core/schemas/component.types';
 import { getTranslation, createLocalizedProp } from '../../../core/schemas/i18n';
-import { labelTranslations } from './i18n';
+import { codeTranslations } from './i18n-code';
 import type { SupportedLocale } from '../../../core/schemas/i18n/types';
 
-export const createLabelSchema = (locale: SupportedLocale = 'sv'): ComponentSchema => {
-  const t = getTranslation(labelTranslations, locale);
+export const createCodeSchema = (locale: SupportedLocale = 'sv'): ComponentSchema => {
+  const t = getTranslation(codeTranslations, locale);
   
   return {
-    $id: 'label',
+    $id: 'code',
     displayName: t.displayName,
     category: 'typography',
     description: t.description,
-    icon: 'Tag',
-    tags: ['typography', 'label', 'text', 'small'],
+    icon: 'CodeBracket',
+    tags: ['typography', 'code', 'monospace', 'technical'],
     version: '1.0.0',
     cmsEnabled: true,
     
     defaultProps: {
       size: 'md',
-      color: 'label',
-      weight: 'medium',
+      color: 'code',
     },
     
     props: {
@@ -32,7 +31,7 @@ export const createLabelSchema = (locale: SupportedLocale = 'sv'): ComponentSche
           name: 'children',
           type: 'string',
           required: true,
-          editorType: 'input',
+          editorType: 'textarea',
           group: 'content',
         },
         t.props?.children
@@ -45,39 +44,26 @@ export const createLabelSchema = (locale: SupportedLocale = 'sv'): ComponentSche
           required: false,
           default: 'md',
           editorType: 'segmented',
-          values: ['lg', 'md', 'sm', 'xs'] as const,
+          values: ['lg', 'md', 'sm'] as const,
           group: 'appearance',
         },
         t.props?.size
-      ),
-      
-      weight: createLocalizedProp(
-        {
-          name: 'weight',
-          type: 'enum',
-          required: false,
-          default: 'medium',
-          editorType: 'select',
-          values: ['regular', 'medium', 'semibold', 'bold'] as const,
-          group: 'appearance',
-        },
-        t.props?.weight
       ),
     },
     
     validation: [
       {
-        id: 'label-content-required',
-        message: 'Label text content is required',
+        id: 'code-content-required',
+        message: 'Code content is required',
         validator: (value: any) => !!value.children && value.children.length > 0,
       },
     ],
     examples: [],
     
-    related: ['body', 'badge'],
-    docsUrl: '/docs/components/label',
+    related: ['kbd'],
+    docsUrl: '/docs/components/code',
   };
 };
 
-export const labelSchema = createLabelSchema('sv');
-export default labelSchema;
+export const codeSchema = createCodeSchema('sv');
+export default codeSchema;

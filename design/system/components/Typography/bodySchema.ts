@@ -4,7 +4,7 @@
 
 import { ComponentSchema } from '../../../core/schemas/component.types';
 import { getTranslation, createLocalizedProp } from '../../../core/schemas/i18n';
-import { bodyTranslations } from './i18n';
+import { bodyTranslations } from './i18n-body';
 import type { SupportedLocale } from '../../../core/schemas/i18n/types';
 
 export const createBodySchema = (locale: SupportedLocale = 'sv'): ComponentSchema => {
