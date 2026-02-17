@@ -50,6 +50,7 @@ export const createButtonSchema = (locale: SupportedLocale = 'sv'): ComponentSch
           editorType: 'text',
           maxLength: 50,
           group: 'content',
+          cmsEnabled: true,
         },
         t.props?.content
       ),
@@ -194,6 +195,7 @@ export const createButtonSchema = (locale: SupportedLocale = 'sv'): ComponentSch
             },
           },
           group: 'behavior',
+          cmsEnabled: true,
         },
         t.props?.action
       ),

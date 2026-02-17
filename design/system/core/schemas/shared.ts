@@ -250,6 +250,9 @@ export interface BasePropConfig {
   /** Whether this prop can be edited in CMS */
   editable?: boolean;
   
+  /** Whether this prop should be shown in CMS editor (default: false) */
+  cmsEnabled?: boolean;
+  
   /** Mark as deprecated */
   deprecated?: DeprecationInfo;
 }
