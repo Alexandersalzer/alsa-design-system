@@ -1,5 +1,6 @@
 import { ComponentNode } from '../types/nodes';
 import { componentRegistry } from '../../components/registry';
+import { mergeWithDefaults } from '../../components/schemaRegistry';
 
 /**
  * Internal helper: Renders a single component using the component registry
@@ -17,10 +18,13 @@ const renderComponent = (
     return null;
   }
 
+  // Merge schema defaults with component props
+  const mergedProps = mergeWithDefaults(component.type, component.props);
+
   return (
     <Component
       key={componentKey}
-      {...component.props}
+      {...mergedProps}
       componentKey={componentKey}
     />
   );

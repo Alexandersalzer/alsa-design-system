@@ -4,6 +4,7 @@ import { componentRegistry } from '../../components/registry';
 import { animationComponents } from '../../components/animations/registry';
 import { AnimationConfig } from '../../components/animations/types';
 import { FilterProvider } from '../context/FilterContext';
+import { mergeWithDefaults } from '../../components/schemaRegistry';
 import {
   parseLayoutNode,
   isLayoutNode,
@@ -1104,11 +1105,14 @@ const renderComponentReference = (
     return null;
   }
 
-  // Merge props: item.props (content) < template extraProps (styling)
-  const mergedProps = {
-    ...(itemComponent?.props || {}),
-    ...extraProps
-  };
+  // Merge props: schema defaults < item.props (content) < template extraProps (styling)
+  const mergedProps = mergeWithDefaults(
+    componentType,
+    {
+      ...(itemComponent?.props || {}),
+      ...extraProps
+    }
+  );
   
   // Render the component with componentKey and itemId for DOM identification
 const renderedComponent = (
