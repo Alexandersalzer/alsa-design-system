@@ -148,13 +148,30 @@ export function getDefaultProps(componentType: string): Record<string, any> {
  * Merge default props with provided props
  * @param componentType - The component type
  * @param props - Props from JSON
+ * @param locale - Optional locale to use (defaults to global schema locale)
  * @returns Merged props (defaults + provided)
  */
 export function mergeWithDefaults(
   componentType: string,
-  props: Record<string, any> = {}
+  props: Record<string, any> = {},
+  locale?: SupportedLocale
 ): Record<string, any> {
-  const defaults = getDefaultProps(componentType);
+  // If locale is provided, get defaults for that specific locale
+  // Otherwise use the cached schema for current global locale
+  let defaults: Record<string, any>;
+  
+  if (locale) {
+    const factory = schemaFactories[componentType];
+    if (factory) {
+      const schema = factory(locale);
+      defaults = schema.defaultProps || {};
+    } else {
+      defaults = {};
+    }
+  } else {
+    defaults = getDefaultProps(componentType);
+  }
+  
   return {
     ...defaults,
     ...props, // User props override defaults
