@@ -2,10 +2,10 @@
  * Label Component Schema
  */
 
-import { ComponentSchema } from '../../../core/schemas/component.types';
-import { getTranslation, createLocalizedProp } from '../../../core/schemas/i18n';
+import { ComponentSchema } from '../../core/schemas/component.types';
+import { getTranslation, createLocalizedProp } from '../../core/schemas/i18n';
 import { labelTranslations } from './i18n-label';
-import type { SupportedLocale } from '../../../core/schemas/i18n/types';
+import type { SupportedLocale } from '../../core/schemas/i18n/types';
 
 export const createLabelSchema = (locale: SupportedLocale = 'sv'): ComponentSchema => {
   const t = getTranslation(labelTranslations, locale);

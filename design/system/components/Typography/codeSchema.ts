@@ -2,10 +2,10 @@
  * Code Component Schema
  */
 
-import { ComponentSchema } from '../../../core/schemas/component.types';
-import { getTranslation, createLocalizedProp } from '../../../core/schemas/i18n';
+import { ComponentSchema } from '../../core/schemas/component.types';
+import { getTranslation, createLocalizedProp } from '../../core/schemas/i18n';
 import { codeTranslations } from './i18n-code';
-import type { SupportedLocale } from '../../../core/schemas/i18n/types';
+import type { SupportedLocale } from '../../core/schemas/i18n/types';
 
 export const createCodeSchema = (locale: SupportedLocale = 'sv'): ComponentSchema => {
   const t = getTranslation(codeTranslations, locale);
