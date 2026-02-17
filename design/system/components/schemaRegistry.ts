@@ -81,7 +81,7 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   // Actions
   button: createButtonSchema,
   iconButton: createIconButtonSchema,
-  textLink: createTextLinkSchema,
+  link: createTextLinkSchema,
   clickable: createClickableSchema,
   segmentedControl: createSegmentedControlSchema,
   selectionCard: createSelectionCardSchema,
