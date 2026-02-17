@@ -3,30 +3,127 @@
  * 
  * Central registry for all component schemas.
  * Maps component type strings to their schema definitions.
+ * Supports runtime locale switching for language-specific defaults and labels.
  * 
  * Usage:
  * ```typescript
- * import { componentSchemas, getComponentSchema } from './schemaRegistry';
+ * import { componentSchemas, getComponentSchema, setSchemaLocale } from './schemaRegistry';
  * 
+ * // Change locale (will regenerate all schemas)
+ * setSchemaLocale('en');
+ * 
+ * // Get schema for current locale
  * const schema = getComponentSchema('button');
- * const defaultProps = schema?.defaultProps;
+ * const defaultProps = schema?.defaultProps; // Language-specific defaults
  * ```
  */
 
 import { ComponentSchema } from '../core/schemas/component.types';
-import buttonSchema from './actions/Button/schema';
+import type { SupportedLocale } from '../core/schemas/i18n/types';
+import { 
+  getSchemaLocale as getCoreSchemaLocale,
+  setSchemaLocale as setCoreSchemaLocale,
+  onLocaleChange 
+} from '../core/schemas/i18n';
+import { createButtonSchema } from './actions/Button/schema';
 
 /**
- * Registry mapping component types to their schemas
+ * Schema factory functions
+ * Maps component type to its schema creation function
  */
-export const componentSchemas: Record<string, ComponentSchema> = {
-  button: buttonSchema,
-  // Add more component schemas here as they are created:
-  // heading: headingSchema,
-  // body: bodySchema,
-  // image: imageSchema,
+const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSchema> = {
+  button: createButtonSchema,
+  // Add more component schema factories here as they are created:
+  // heading: createHeadingSchema,
+  // body: createBodySchema,
+  // image: createImageSchema,
   // etc...
 };
+
+/**
+ * Cached schemas for current locale
+ * Regenerated when locale changes
+ */
+let cachedSchemas: Record<string, ComponentSchema> = {};
+
+/**
+ * Generate all schemas for current locale
+ */
+function regenerateSchemas(): void {
+  const locale = getCoreSchemaLocale();
+  cachedSchemas = {};
+  
+  for (const [type, factory] of Object.entries(schemaFactories)) {
+    try {
+      cachedSchemas[type] = factory(locale);
+    } catch (error) {
+      console.error(`Failed to generate schema for ${type}:`, error);
+    }
+  }
+}
+
+// Initialize schemas with default locale
+regenerateSchemas();
+
+// Listen for locale changes and regenerate schemas
+onLocaleChange(() => {
+  regenerateSchemas();
+});
+
+/**
+ * Component schemas registry (dynamic proxy)
+ * Automatically returns cached schema for current locale
+ */
+export const componentSchemas = new Proxy({} as Record<string, ComponentSchema>, {
+  get(target, prop: string) {
+    return cachedSchemas[prop];
+  },
+  
+  // Support Object.keys(), Object.values(), etc.
+  ownKeys() {
+    return Object.keys(cachedSchemas);
+  },
+  
+  getOwnPropertyDescriptor(target, prop) {
+    return {
+      enumerable: true,
+      configurable: true,
+    };
+  },
+});
+
+/**
+ * Get the current schema locale
+ * @returns Current locale code (e.g., 'sv', 'en')
+ */
+export function getSchemaLocale(): SupportedLocale {
+  return getCoreSchemaLocale();
+}
+
+/**
+ * Set the schema locale
+ * This will regenerate all schemas with new language-specific defaults and labels
+ * 
+ * @param locale - New locale code
+ * 
+ * @example
+ * ```typescript
+ * // Switch to English
+ * setSchemaLocale('en');
+ * 
+ * // All schemas now have English labels and defaults
+ * const button = getComponentSchema('button');
+ * console.log(button.defaultProps.content); // "Click here"
+ * 
+ * // Switch to Swedish
+ * setSchemaLocale('sv');
+ * console.log(button.defaultProps.content); // "Klicka här"
+ * ```
+ */
+export function setSchemaLocale(locale: SupportedLocale): void {
+  setCoreSchemaLocale(locale);
+  // Schemas will be regenerated automatically via onLocaleChange listener
+}
 
 /**
  * Get schema for a component type
