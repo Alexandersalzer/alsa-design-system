@@ -4,6 +4,8 @@ export * from './shells';
 export * from './patterns/index';
 export * from './components/layout';
 export * from './hooks';
-export * from './core';
 export * from './bookings';
 export * from './patterns';
+
+// Core exports - avoid AnimationType conflict by exporting after components
+export * from './core';
