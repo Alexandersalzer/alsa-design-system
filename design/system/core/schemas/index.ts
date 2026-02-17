@@ -15,12 +15,21 @@ export * from './shared';
 export type {
   SectionSchema,
   SectionType,
+  SectionCategory,
+  SectionAlignment,
+  VerticalAlignment,
+  GapSize,
   SectionLayoutConfig,
+  SectionLayoutSchema,
+  BackgroundType,
   BackgroundSchema,
   PatternConstraints,
-  SectionLayoutRule,
-  SectionHeaderRule,
-  SectionNavigationConfig
+  PatternOrderConstraint,
+  SectionExample,
+  SectionValidationContext,
+  AllowedPatterns,
+  RequiredPatterns,
+  SupportsSplitLayout
 } from './section.types';
 
 // i18n system
