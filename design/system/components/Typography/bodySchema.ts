@@ -33,6 +33,7 @@ export const createBodySchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           type: 'string',
           required: true,
           editorType: 'textarea',
+          maxLength: 200,
           cmsEnabled: true,
           group: 'content',
         },
