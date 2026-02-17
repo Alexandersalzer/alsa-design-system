@@ -50,6 +50,10 @@ import { createImageSchema } from './media/Image/schema';
 
 // Typography
 import { createHeadingSchema } from './Typography/schema';
+import { createDisplaySchema } from './Typography/Display/schema';
+import { createBodySchema } from './Typography/Body/schema';
+import { createLabelSchema } from './Typography/Label/schema';
+import { createCodeSchema } from './Typography/Code/schema';
 
 // Layout
 import { createCardSchema } from './layout/Card/schema';
@@ -98,6 +102,10 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   
   // Typography
   heading: createHeadingSchema,
+  display: createDisplaySchema,
+  body: createBodySchema,
+  label: createLabelSchema,
+  code: createCodeSchema,
   
   // Layout
   card: createCardSchema,
