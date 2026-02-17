@@ -7,12 +7,14 @@
 
 // Type definitions
 export * from './component.types';
-export * from './pattern.types';
-export * from './page.types';
 export * from './shared';
+export * from './page.types';
 
-// Section types - explicit exports to avoid commonLayoutProps conflict
-export type {
+// Pattern types - exports commonLayoutProps
+export * from './pattern.types';
+
+// Section types - also has commonLayoutProps, but we only need specific types
+export type { 
   SectionSchema,
   SectionType,
   SectionCategory,
@@ -26,10 +28,7 @@ export type {
   PatternConstraints,
   PatternOrderConstraint,
   SectionExample,
-  SectionValidationContext,
-  AllowedPatterns,
-  RequiredPatterns,
-  SupportsSplitLayout
+  SectionValidationContext
 } from './section.types';
 
 // i18n system
