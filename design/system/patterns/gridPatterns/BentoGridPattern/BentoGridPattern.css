@@ -9,3 +9,9 @@
 .bento-grid-pattern {
   width: 100%;
 }
+
+/* Varje kort fyller sin grid-cell så att alla kort i samma rad blir lika höga */
+.bento-grid-pattern > * {
+  min-height: 0;
+  height: 100%;
+}
