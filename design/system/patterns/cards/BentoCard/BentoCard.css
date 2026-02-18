@@ -208,11 +208,13 @@
   border: 1px solid var(--border-default);
 }
 
-/* Image container - top radius inherits from card, bottom radius 0 when footer exists */
+/* Image container - fixed aspect ratio så att bilden får samma "zoom" (crop) på alla kort oberoende av storlek */
 .bento-card__image-container {
-  flex: 1;
+  flex: none;
   display: block;
-  min-height: 200px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
   overflow: hidden;
   position: relative;
   border-top-left-radius: inherit;
@@ -372,6 +374,7 @@
   right: 0;
   bottom: 0;
   height: 100%;
+  aspect-ratio: auto; /* Override: bild fyller hela kortet vid overlay-footer */
   border-radius: inherit;
 }
 
@@ -436,11 +439,7 @@
     --bento-footer-height: 110px; /* Enough for title + description + link on mobile */
     padding: var(--foundation-space-4, 16px);
   }
-  
-  .bento-card__image-container {
-    min-height: 160px;
-  }
-  
+
   /* Single line description on mobile */
   .bento-card__footer-content p {
     -webkit-line-clamp: 1;

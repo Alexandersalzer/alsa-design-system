@@ -31,12 +31,24 @@ export const sectionTypeConfig = {
     allowedPatterns: ['sectionBody'],
     requiredPatterns: ['sectionBody']
   },
+  services: {
+    allowedPatterns: ['sectionHeader', 'action', 'gridPattern'],
+    requiredPatterns: []
+  },
   bentoServices: {
-    allowedPatterns: ['sectionHeader', 'bentoGrid'],
+    allowedPatterns: ['sectionHeader', 'action', 'bentoGrid'],
     requiredPatterns: []
   },
   pricing: {
     allowedPatterns: ['sectionHeader', 'items'],
+    requiredPatterns: []
+  },
+  team: {
+    allowedPatterns: ['sectionHeader', 'action', 'gridPattern'],
+    requiredPatterns: []
+  },
+  process: {
+    allowedPatterns: ['sectionHeader', 'action', 'gridPattern'],
     requiredPatterns: []
   }
 } as const;

@@ -17,11 +17,18 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
   const getPatternProps = patternProps(patternNode);
   const componentOrder = getPatternOrder(patternNode);
 
+  const patternPropsObj = getPatternProps();
   const {
     columns = 2,
     gap = 'lg',
     alignItems = 'stretch',
-  } = getPatternProps();
+    defaultFooterStyle,
+    defaultVariant,
+    defaultShowImage,
+  } = patternPropsObj;
+  const hasFooterDefault = 'defaultFooterStyle' in patternPropsObj;
+  const hasVariantDefault = 'defaultVariant' in patternPropsObj;
+  const hasShowImageDefault = 'defaultShowImage' in patternPropsObj;
 
   return (
     <div className="bento-grid-pattern-container">
@@ -46,11 +53,22 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
             return null;
           }
 
+          const resolveShowImage = (v: unknown) =>
+            v === true || v === 'true' ? true : v === false || v === 'false' ? false : undefined;
+          const mergedProps = {
+            ...component.props,
+            ...(hasFooterDefault && { footerStyle: component.props?.footerStyle ?? defaultFooterStyle }),
+            ...(hasVariantDefault && { variant: component.props?.variant ?? defaultVariant }),
+            ...(hasShowImageDefault && {
+              showImage: resolveShowImage(component.props?.showImage) ?? resolveShowImage(defaultShowImage) ?? true,
+            }),
+          };
+
           return (
             <CardComponent
               key={key}
               componentKey={key}
-              {...component.props}
+              {...mergedProps}
             />
           );
         })}
