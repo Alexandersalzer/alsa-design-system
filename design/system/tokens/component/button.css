@@ -119,18 +119,18 @@
    ========================================================== */
 
 :root {
-  --surface-button-secondary-glass: color-mix(in srgb, var(--neutral-0) 12%, transparent);
-  --surface-button-secondary-glass-hover: color-mix(in srgb, var(--neutral-0) 22%, transparent);
-  --surface-button-secondary-glass-active: color-mix(in srgb, var(--neutral-0) 30%, transparent);
+  --surface-button-secondary-glass: color-mix(in srgb, var(--neutral-1400) 10%, transparent);
+  --surface-button-secondary-glass-hover: color-mix(in srgb, var(--neutral-1400) 18%, transparent);
+  --surface-button-secondary-glass-active: color-mix(in srgb, var(--neutral-1400) 25%, transparent);
 
   --text-button-secondary-glass: var(--text-default);
   --text-button-secondary-glass-disabled: var(--text-disabled);
 
-  --border-button-secondary-glass: color-mix(in srgb, var(--neutral-0) 14%, transparent);
-  --border-button-secondary-glass-hover: color-mix(in srgb, var(--neutral-0) 25%, transparent);
+  --border-button-secondary-glass: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  --border-button-secondary-glass-hover: color-mix(in srgb, var(--neutral-1400) 22%, transparent);
   --border-button-secondary-glass-focus: var(--border-focus);
-  --border-button-secondary-glass-active: color-mix(in srgb, var(--neutral-0) 32%, transparent);
-  --border-button-secondary-glass-disabled: color-mix(in srgb, var(--neutral-0) 6%, transparent);
+  --border-button-secondary-glass-active: color-mix(in srgb, var(--neutral-1400) 28%, transparent);
+  --border-button-secondary-glass-disabled: color-mix(in srgb, var(--neutral-1400) 5%, transparent);
 }
 
 /* ==========================================================
@@ -140,16 +140,16 @@
 
 :root {
   --surface-button-ghost-glass: transparent;
-  --surface-button-ghost-glass-hover: color-mix(in srgb, var(--neutral-0) 12%, transparent);
-  --surface-button-ghost-glass-active: color-mix(in srgb, var(--neutral-0) 20%, transparent);
+  --surface-button-ghost-glass-hover: color-mix(in srgb, var(--neutral-1400) 10%, transparent);
+  --surface-button-ghost-glass-active: color-mix(in srgb, var(--neutral-1400) 18%, transparent);
 
   --text-button-ghost-glass: var(--text-default);
   --text-button-ghost-glass-disabled: var(--text-disabled);
 
   --border-button-ghost-glass: transparent;
-  --border-button-ghost-glass-hover: color-mix(in srgb, var(--neutral-0) 14%, transparent);
+  --border-button-ghost-glass-hover: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
   --border-button-ghost-glass-focus: var(--border-focus);
-  --border-button-ghost-glass-active: color-mix(in srgb, var(--neutral-0) 20%, transparent);
+  --border-button-ghost-glass-active: color-mix(in srgb, var(--neutral-1400) 18%, transparent);
 }
 
 /* ==========================================================

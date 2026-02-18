@@ -123,7 +123,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         case "ghost-glass":
           spinnerTrack =
             trackColor ||
-            "color-mix(in srgb, var(--neutral-0) 15%, transparent)";
+            "color-mix(in srgb, var(--neutral-1400) 10%, transparent)";
           spinnerColor = color || "var(--text-button-secondary-glass)";
           break;
 
