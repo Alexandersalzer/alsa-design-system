@@ -4,7 +4,7 @@
 // Use this for: domains, notifications, news, selections, any clickable list
 // ===============================================
 
-import React, { 
+import React, {
   forwardRef,
   type ReactNode,
   type HTMLAttributes,
@@ -121,8 +121,10 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
   role = 'option',
   ...props
 }, ref) => {
-  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
+  const handleMouseDown = (e: MouseEvent<HTMLLIElement>) => {
     if (disabled) return;
+    // Fire on mousedown so React re-renders with selected=true before mouseup
+    // This prevents hover from briefly showing after click while waiting for re-render
     onClick?.(e);
   };
 
@@ -141,7 +143,7 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
       ref={ref}
       role={role}
       tabIndex={disabled ? -1 : interactive ? 0 : -1}
-      onClick={handleClick}
+      onMouseDown={handleMouseDown}
       onKeyDown={handleKeyDown}
       aria-selected={props['aria-selected'] ?? (selected ? true : undefined)}
       aria-checked={props['aria-checked']}
