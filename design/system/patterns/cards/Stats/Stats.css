@@ -9,7 +9,7 @@
 }
 
 .stat-separator {
-  background-color: var(--border-subtle);
+  background-color: var(--border-accent);
   flex-shrink: 0;
 }
 

@@ -237,10 +237,12 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
       <Box
         style={{
           width: '1px',
-          height: '48px',
-          backgroundColor: 'var(--border-subtle)'
+          minHeight: '40px',
+          alignSelf: 'stretch',
+          backgroundColor: 'var(--border-accent)'
         }}
         className="stat-separator"
+        aria-hidden
       />
     )}
   </HStack>
