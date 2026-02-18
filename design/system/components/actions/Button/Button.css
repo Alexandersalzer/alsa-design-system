@@ -237,7 +237,7 @@
 }
 
 .btn-secondary-glass:disabled {
-  background-color: color-mix(in srgb, var(--neutral-0) 6%, transparent);
+  background-color: color-mix(in srgb, var(--neutral-0) 5%, transparent);
   border-color: var(--border-button-secondary-glass-disabled);
   color: var(--text-button-secondary-glass-disabled);
   cursor: not-allowed;
