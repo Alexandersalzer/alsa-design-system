@@ -617,7 +617,10 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
             key={key}
             stat={stat}
             {...commonProps}
-            isLast={index === statItems.length - 1}
+            isLast={
+              index === statItems.length - 1 ||
+              (columns != null && columns >= 1 && (index + 1) % columns === 0)
+            }
           />
         );
         
@@ -652,22 +655,11 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     }
   };
 
-  // Choose container based on variant
+  // Choose container based on variant. Separator uses same Grid/columns as others
+  // so layout (e.g. 2x2) stays consistent; only the vertical lines between items differ.
   let content: React.ReactNode;
   
-  if (variant === 'with-separator') {
-    content = (
-      <HStack 
-        spacing="xl" 
-        align="center" 
-        justify="center"
-        wrap={true}
-        className={className}
-      >
-        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
-      </HStack>
-    );
-  } else if (columns && columns >= 1) {
+  if (columns && columns >= 1) {
     // If columns prop is set, use Grid component for forced grid layout
     content = (
       <Grid 
