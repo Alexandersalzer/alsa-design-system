@@ -7,6 +7,64 @@ import { patternProps, getPatternOrder } from '../../../core/utils/props';
 import { cardsRegistry } from '../../cards/registry';
 import './BentoGridPattern.css';
 
+export type CardLayoutPreset =
+  | 'equal'        // 2×2, alla lika höga
+  | 'feature-top'  // stor topp (2×2), två små, en bred
+  | 'three-col'    // 4×4×4, tre kolumner
+  | 'two-col'      // 6×6, två kolumner (samma som equal)
+  | 'narrow-wide'; // 4+8, smal + bred
+
+const LAYOUT_PRESETS: Record<
+  CardLayoutPreset,
+  { columns: 1 | 2 | 3; spans: Array<{ colSpan: number; rowSpan: number }> }
+> = {
+  equal: {
+    columns: 2,
+    spans: [
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+    ],
+  },
+  'feature-top': {
+    columns: 2,
+    spans: [
+      { colSpan: 2, rowSpan: 2 },
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 2, rowSpan: 1 },
+    ],
+  },
+  'three-col': {
+    columns: 3,
+    spans: [
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 3, rowSpan: 1 },
+    ],
+  },
+  'two-col': {
+    columns: 2,
+    spans: [
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+    ],
+  },
+  'narrow-wide': {
+    columns: 3,
+    spans: [
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 2, rowSpan: 1 },
+      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 2, rowSpan: 1 },
+    ],
+  },
+};
+
 export interface BentoGridPatternProps extends PatternNode {
   sectionKey?: string;
   patternKey?: string;
@@ -19,16 +77,21 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
 
   const patternPropsObj = getPatternProps();
   const {
-    columns = 2,
+    columns: columnsProp = 2,
     gap = 'lg',
     alignItems = 'stretch',
     defaultFooterStyle,
     defaultVariant,
     defaultShowImage,
+    cardLayout,
   } = patternPropsObj;
   const hasFooterDefault = 'defaultFooterStyle' in patternPropsObj;
   const hasVariantDefault = 'defaultVariant' in patternPropsObj;
   const hasShowImageDefault = 'defaultShowImage' in patternPropsObj;
+
+  const preset = (cardLayout && LAYOUT_PRESETS[cardLayout as CardLayoutPreset]) || LAYOUT_PRESETS.equal;
+  const columns = preset.columns;
+  const spanByIndex = preset.spans;
 
   return (
     <div className="bento-grid-pattern-container">
@@ -38,7 +101,7 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
         alignItems={alignItems}
         className="bento-grid-pattern"
       >
-        {componentOrder.map(key => {
+        {componentOrder.map((key, index) => {
           const component = components[key];
 
           if (!component) {
@@ -55,8 +118,11 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
 
           const resolveShowImage = (v: unknown) =>
             v === true || v === 'true' ? true : v === false || v === 'false' ? false : undefined;
+          const span = spanByIndex[index] ?? { colSpan: 1, rowSpan: 1 };
           const mergedProps = {
             ...component.props,
+            colSpan: span.colSpan,
+            rowSpan: span.rowSpan,
             ...(hasFooterDefault && { footerStyle: component.props?.footerStyle ?? defaultFooterStyle }),
             ...(hasVariantDefault && { variant: component.props?.variant ?? defaultVariant }),
             ...(hasShowImageDefault && {
