@@ -6,10 +6,3 @@
   will-change: opacity;
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .opacity-animation {
-    transition: none !important;
-    opacity: 1 !important;
-  }
-}

@@ -91,6 +91,11 @@
       "require": "./dist/design/system/hooks/index.js",
       "types": "./dist/design/system/hooks/index.d.ts"
     },
+    "./schemas": {
+      "import": "./dist/design/system/core/schemas/index.js",
+      "require": "./dist/design/system/core/schemas/index.js",
+      "types": "./dist/design/system/core/schemas/index.d.ts"
+    },
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [

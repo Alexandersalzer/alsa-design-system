@@ -149,7 +149,7 @@ const NavbarCenterPill = ({ components = {}, sectionKey, patternKey, ...patternN
   const logoProps = {
     src: logoSrc ? (logoSrc.startsWith('http') ? logoSrc : `${CDN_BASE_URL}${logoSrc}`) : undefined,
     alt: renderIf('logo') ? (get('logo').props.alt || 'Logo') : undefined,
-    text: renderIf('typography-businessName') ? get('typography-businessName').props.content : undefined,
+    text: undefined,
     href: `/${currentLocale}`,
     width: renderIf('logo') ? (get('logo').props.width || 40) : undefined,
     height: renderIf('logo') ? (get('logo').props.height || 40) : undefined,

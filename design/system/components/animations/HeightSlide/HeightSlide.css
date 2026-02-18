@@ -8,9 +8,3 @@
   will-change: height, opacity, transform;
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .height-slide {
-    transition: none !important;
-  }
-}

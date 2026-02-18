@@ -31,20 +31,3 @@
   }
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .opacity-bounce-animation--active {
-    animation: opacityBounceInReduced var(--opacity-bounce-duration, 600ms) var(--opacity-bounce-delay, 0ms) ease forwards;
-  }
-
-  @keyframes opacityBounceInReduced {
-    0% {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-}

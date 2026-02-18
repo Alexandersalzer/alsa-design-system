@@ -1,5 +1,6 @@
 import { ComponentNode } from '../types/nodes';
 import { componentRegistry } from '../../components/registry';
+import { mergeWithDefaults } from '../../components/schemaRegistry';
 
 /**
  * Internal helper: Renders a single component using the component registry
@@ -8,7 +9,8 @@ const renderComponent = (
   component: ComponentNode,
   componentKey: string,
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  locale?: string
 ): React.ReactElement | null => {
   const Component = componentRegistry[component.type];
   
@@ -17,10 +19,13 @@ const renderComponent = (
     return null;
   }
 
+  // Merge schema defaults with component props, using locale-specific defaults
+  const mergedProps = mergeWithDefaults(component.type, component.props, locale as any);
+
   return (
     <Component
       key={componentKey}
-      {...component.props}
+      {...mergedProps}
       componentKey={componentKey}
     />
   );
@@ -34,18 +39,20 @@ const renderComponent = (
  * @param order - Array of component keys defining render order
  * @param sectionKey - Optional parent section key for context
  * @param patternKey - Optional parent pattern key for context
+ * @param locale - Optional locale for language-specific schema defaults
  * @returns Array of rendered React components
  * 
  * @example
  * // Inside a pattern component:
- * const elements = renderComponents(components, order, sectionKey, patternKey);
+ * const elements = renderComponents(components, order, sectionKey, patternKey, locale);
  * return <VStack>{elements}</VStack>;
  */
 export const renderComponents = (
   components: Record<string, ComponentNode>,
   order: string[],
   sectionKey?: string,
-  patternKey?: string
+  patternKey?: string,
+  locale?: string
 ): React.ReactElement[] => {
   return order
     .map((componentKey) => {
@@ -54,7 +61,7 @@ export const renderComponents = (
         console.warn(`Component "${componentKey}" not found in components record`);
         return null;
       }
-      return renderComponent(component, componentKey, sectionKey, patternKey);
+      return renderComponent(component, componentKey, sectionKey, patternKey, locale);
     })
     .filter((element): element is React.ReactElement => element !== null);
 };

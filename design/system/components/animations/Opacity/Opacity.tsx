@@ -22,6 +22,8 @@ export interface OpacityProps {
   className?: string;
   /** Callback when animation completes */
   onComplete?: () => void;
+  /** Disable animation and render children immediately */
+  disabled?: boolean;
 }
 
 export const Opacity: React.FC<OpacityProps> = ({
@@ -33,18 +35,22 @@ export const Opacity: React.FC<OpacityProps> = ({
   easing = 'ease-out',
   className = '',
   onComplete,
+  disabled = false,
 }) => {
+  // Skip animation entirely if disabled
+  if (disabled) {
+    return <>{children}</>;
+  }
+
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!enableScrollTrigger) {
-      // Trigger animation on mount after a brief delay to ensure initial state is rendered
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 10);
-      return () => clearTimeout(timer);
+      // Start animation immediately (delay is handled via transition delay)
+      setIsVisible(true);
+      return;
     }
 
     const element = elementRef.current;
@@ -87,6 +93,8 @@ export const Opacity: React.FC<OpacityProps> = ({
   const style: React.CSSProperties = {
     opacity: isVisible ? 1 : 0,
     transition: `opacity ${duration}ms ${easing} ${delay}ms`,
+    // Ensure hidden state is applied immediately on first render to prevent flash
+    willChange: 'opacity',
   };
 
   return (

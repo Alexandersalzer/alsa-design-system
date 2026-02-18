@@ -26,3 +26,23 @@ Vi har utvecklat ett eget development workspace. Använder sig av blimpify-core 
 
 --<> CMS-systemet <>--
 Hämtar in JSON filer från github via api och använder kärnkomponenterna Navbar, Footer och Sections som redan används i BLIMPIFY-CORE för att möjliggöra dynamisk rendering i real tid (run time). Vidare används next iframe för att rendera sidan. Varje komponent/pattern/sektion/page har tilldelade keys (ex. button_khli8N7) som gör att vi kan göra uppdateringar i real tid genom DOM uppdateringar. När någon sparar en ändring så triggas en push till github repo med [skip ci] tagg, för att inte trigga en riktig deploy. När någon sedan klickar "Publciera" på en viss version så triggas website-deploy.yml för den versionen och uppdateringarna laddas upp till deras S3 bucket och cloudfront invalidation körs.
+
+
+
+--<> LAGERHIERARKI <>--
+
+1. JSON FILES (källa)
+   └─ public/pages/homepage.json
+   └─ public/content/sv/pages/homepage.json
+
+2. NODES (runtime struktur) ← Definierar JSON-strukturen
+   └─ nodes.ts: PageNode, SectionNode, PatternNode, ComponentNode
+   └─ Bestämmer: "En page har sections[], en section har patterns[], etc"
+
+3. SCHEMAS (innehållsdefinition) ← Definierar vad som finns INUTI nodes
+   └─ component.types.ts: "Button har props: { variant, size, content }"
+   └─ pattern.types.ts: "SectionHeader får ha components: [tag, heading, body]"
+   └─ section.types.ts: "Hero får ha patterns: [sectionHeader, ctaGroup, media]"
+   └─ page.types.ts: "Landing page får ha sections: [hero, features, cta]"
+
+Nodes = "skelettet", Schemas = "köttet"
