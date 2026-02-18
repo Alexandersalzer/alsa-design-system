@@ -96,9 +96,12 @@
   background-color: var(--surface-hover);
 }
 
-.listbox-item--variant-card.listbox-item--selected {
+.listbox-item--variant-card.listbox-item--selected,
+.listbox-item--variant-card.listbox-item--selected:hover,
+.listbox-item--variant-card.listbox-item--selected:active {
   border-color: var(--border-accent);
   background-color: var(--surface-active);
+  transform: none;
 }
 
 /* Size variants */
@@ -135,7 +138,7 @@
   cursor: default;
 }
 
-.listbox-item--interactive:active:not(.listbox-item--disabled) {
+.listbox-item--interactive:active:not(.listbox-item--disabled):not(.listbox-item--selected) {
   background-color: var(--surface-pressed);
   transform: scale(0.995);
 }
@@ -157,6 +160,22 @@
   background-color: var(--surface-picker-option-selected);
   color: var(--text-picker-option-selected);
   font-weight: var(--foundation-weight-semibold);
+}
+
+/* Selected state - hover and active must not override it */
+.listbox-item--selected:hover,
+.listbox-item--selected:active,
+.listbox-item--interactive.listbox-item--selected:hover,
+.listbox-item--interactive.listbox-item--selected:active,
+.listbox--surface-page .listbox-item--selected:hover,
+.listbox--surface-raised .listbox-item--selected:hover,
+.listbox--surface-elevated .listbox-item--selected:hover,
+[data-surface="page"] .listbox-item--selected:hover,
+[data-surface="raised"] .listbox-item--selected:hover,
+[data-surface="elevated"] .listbox-item--selected:hover {
+  background-color: var(--surface-picker-option-selected);
+  color: var(--text-picker-option-selected);
+  transform: none;
 }
 
 /* Disabled state */
