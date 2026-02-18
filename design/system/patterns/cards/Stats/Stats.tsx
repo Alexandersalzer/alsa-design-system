@@ -20,6 +20,7 @@ import { Icon, IconColor } from '../../../components/media/Icon';
 import { CountUp } from '../../../components/animations/CountUp/CountUp';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { cn } from '../../../utils/cn';
 
 import './Stats.css';
 
@@ -236,10 +237,10 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
     {!isLast && (
       <Box
         style={{
-          width: '1px',
+          width: 'var(--stat-separator-width, 3px)',
           minHeight: '40px',
           alignSelf: 'stretch',
-          backgroundColor: 'var(--border-accent)'
+          backgroundColor: 'var(--stat-separator-color, var(--border-accent))'
         }}
         className="stat-separator"
         aria-hidden
@@ -662,14 +663,26 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
   let content: React.ReactNode;
   
   if (columns && columns >= 1) {
-    // If columns prop is set, use Grid component for forced grid layout
+    // If columns prop is set, use Grid component for forced grid layout.
+    // With separator: wrap each stat in .stats-grid-item and set data-cols so CSS
+    // can hide the separator when the item is last in its row (responsive).
+    const isSeparator = variant === 'with-separator';
     content = (
-      <Grid 
+      <Grid
         columns={columns}
         gap={gridGap}
-        className={className}
+        className={cn(className, isSeparator && 'stats-grid--separator')}
+        data-cols={isSeparator ? columns : undefined}
       >
-        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
+        {statItems.map((stat: StatItem, index: number) =>
+          isSeparator ? (
+            <div key={stat.id || `stat-${index}`} className="stats-grid-item">
+              {renderStat(stat, index)}
+            </div>
+          ) : (
+            renderStat(stat, index)
+          )
+        )}
       </Grid>
     );
   } else {
