@@ -45,7 +45,7 @@
     border-left: none !important;
     border-top: 4px solid var(--border-accent) !important;
     padding-left: 0 !important;
-    padding-top: var(--space-md) !important;
+    padding-top: var(--foundation-space-6, 24px) !important;
   }
 }
 

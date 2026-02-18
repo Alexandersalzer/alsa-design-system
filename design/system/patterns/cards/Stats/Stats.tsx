@@ -265,7 +265,7 @@ const StatWithBottomBorder: React.FC<StatItemComponentProps> = ({
     padding="md"
     style={{
       borderBottom: '3px solid var(--border-accent)',
-      paddingBottom: 'var(--space-md)'
+      paddingBottom: 'var(--foundation-space-6, 24px)'
     }}
   >
     <VStack spacing={spacing} align={align}>
@@ -303,7 +303,7 @@ const StatWithTopBorder: React.FC<StatItemComponentProps> = ({
     padding="md"
     style={{
       borderTop: '3px solid var(--border-accent)',
-      paddingTop: 'var(--space-md)'
+      paddingTop: 'var(--foundation-space-6, 24px)'
     }}
   >
     <VStack spacing={spacing} align={align}>
@@ -342,7 +342,7 @@ const StatWithLeftBorder: React.FC<StatItemComponentProps> = ({
     className="stat--left-border-responsive"
     style={{
       borderLeft: '4px solid var(--border-accent)',
-      paddingLeft: 'var(--space-md)'
+      paddingLeft: 'var(--foundation-space-6, 24px)'
     }}
   >
     <VStack spacing={spacing} align={align}>
