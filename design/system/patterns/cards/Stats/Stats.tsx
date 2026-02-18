@@ -261,7 +261,8 @@ const StatWithBottomBorder: React.FC<StatItemComponentProps> = ({
   <Box
     padding="md"
     style={{
-      borderBottom: '2px solid var(--border-subtle)'
+      borderBottom: '3px solid var(--border-accent)',
+      paddingBottom: 'var(--space-md)'
     }}
   >
     <VStack spacing={spacing} align={align}>

@@ -34,6 +34,10 @@ export const sectionTypeConfig = {
   bentoServices: {
     allowedPatterns: ['sectionHeader', 'bentoGrid'],
     requiredPatterns: []
+  },
+  pricing: {
+    allowedPatterns: ['sectionHeader', 'items'],
+    requiredPatterns: []
   }
 } as const;
 
