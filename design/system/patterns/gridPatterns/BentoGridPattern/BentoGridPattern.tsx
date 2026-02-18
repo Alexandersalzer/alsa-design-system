@@ -30,7 +30,7 @@ const LAYOUT_PRESETS: Record<
   'feature-top': {
     columns: 2,
     spans: [
-      { colSpan: 2, rowSpan: 1 },
+      { colSpan: 2, rowSpan: 2 },
       { colSpan: 1, rowSpan: 1 },
       { colSpan: 1, rowSpan: 1 },
       { colSpan: 2, rowSpan: 1 },
