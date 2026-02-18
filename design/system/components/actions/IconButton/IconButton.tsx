@@ -29,7 +29,7 @@ export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
   /** The icon element to render - should be Icon component with heroicon */
   icon: React.ReactNode;
   /** Button style variant - matches Button component exactly */
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive' | 'secondary-glass' | 'ghost-glass' | 'accent-glass';
   /** Button size - matches Button component exactly */
   size?: 'sm' | 'md' | 'lg' | 'xl';
   /** Badge for notifications */
@@ -197,6 +197,11 @@ const createActionIcon = (
         return 'button-secondary'; // Dark text on light background
       case 'ghost':
         return 'button-ghost'; // Secondary text color
+      case 'secondary-glass':
+      case 'ghost-glass':
+        return 'secondary'; // Uses --text-default color
+      case 'accent-glass':
+        return 'accent'; // Accent-colored icon on glass
       default:
         return 'button-secondary';
     }

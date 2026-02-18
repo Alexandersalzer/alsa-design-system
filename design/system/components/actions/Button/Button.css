@@ -280,6 +280,40 @@
   -webkit-backdrop-filter: none;
 }
 
+/* ===== ACCENT-GLASS ===== */
+.btn-accent-glass {
+  background-color: var(--surface-button-accent-glass);
+  color: var(--text-button-accent-glass);
+  border-color: var(--border-button-accent-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.btn-accent-glass:hover:not(:disabled) {
+  background-color: var(--surface-button-accent-glass-hover);
+  border-color: var(--border-button-accent-glass-hover);
+}
+
+.btn-accent-glass:active:not(:disabled) {
+  background-color: var(--surface-button-accent-glass-active);
+  border-color: var(--border-button-accent-glass-active);
+}
+
+.btn-accent-glass:focus-visible {
+  outline: 2px solid var(--border-button-accent-glass-focus);
+  outline-offset: 2px;
+}
+
+.btn-accent-glass:disabled {
+  background-color: color-mix(in srgb, var(--interactive-accent) 5%, transparent);
+  border-color: var(--border-button-accent-glass-disabled);
+  color: var(--text-button-accent-glass-disabled);
+  cursor: not-allowed;
+  opacity: 1;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 /* ===== DESTRUCTIVE ===== */
 .btn-destructive {
   background-color: var(--surface-button-destructive);

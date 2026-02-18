@@ -23,7 +23,7 @@ export interface ButtonProps
   content?: string; // For JSON-driven rendering
   href?: string;
   target?: string;
-  variant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive' | 'secondary-glass' | 'ghost-glass';
+  variant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive' | 'secondary-glass' | 'ghost-glass' | 'accent-glass';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   radius?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   loading?: boolean;

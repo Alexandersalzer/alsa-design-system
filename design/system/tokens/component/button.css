@@ -153,6 +153,26 @@
 }
 
 /* ==========================================================
+   ACCENT-GLASS BUTTON
+   Frosted glass tinted with the accent color — for CTAs over images.
+   ========================================================== */
+
+:root {
+  --surface-button-accent-glass: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
+  --surface-button-accent-glass-hover: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
+  --surface-button-accent-glass-active: color-mix(in srgb, var(--interactive-accent) 28%, transparent);
+
+  --text-button-accent-glass: var(--text-accent);
+  --text-button-accent-glass-disabled: var(--text-disabled);
+
+  --border-button-accent-glass: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
+  --border-button-accent-glass-hover: color-mix(in srgb, var(--interactive-accent) 35%, transparent);
+  --border-button-accent-glass-focus: var(--border-focus);
+  --border-button-accent-glass-active: color-mix(in srgb, var(--interactive-accent) 45%, transparent);
+  --border-button-accent-glass-disabled: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
+}
+
+/* ==========================================================
    DESTRUCTIVE BUTTON
    ========================================================== */
 
