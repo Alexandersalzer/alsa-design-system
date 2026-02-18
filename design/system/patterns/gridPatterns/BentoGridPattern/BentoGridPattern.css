@@ -8,9 +8,11 @@
 
 .bento-grid-pattern {
   width: 100%;
+  min-height: 320px;
+  grid-auto-rows: 1fr;
 }
 
-/* Varje kort fyller sin grid-cell så att alla kort i samma rad blir lika höga */
+/* Varje kort fyller sin grid-cell så att alla kort blir lika höga */
 .bento-grid-pattern > * {
   min-height: 0;
   height: 100%;
