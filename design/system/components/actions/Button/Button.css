@@ -212,6 +212,74 @@
   opacity: 1;
 }
 
+/* ===== SECONDARY-GLASS ===== */
+.btn-secondary-glass {
+  background-color: var(--surface-button-secondary-glass);
+  color: var(--text-button-secondary-glass);
+  border-color: var(--border-button-secondary-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.btn-secondary-glass:hover:not(:disabled) {
+  background-color: var(--surface-button-secondary-glass-hover);
+  border-color: var(--border-button-secondary-glass-hover);
+}
+
+.btn-secondary-glass:active:not(:disabled) {
+  background-color: var(--surface-button-secondary-glass-active);
+  border-color: var(--border-button-secondary-glass-active);
+}
+
+.btn-secondary-glass:focus-visible {
+  outline: 2px solid var(--border-button-secondary-glass-focus);
+  outline-offset: 2px;
+}
+
+.btn-secondary-glass:disabled {
+  background-color: color-mix(in srgb, var(--neutral-0) 6%, transparent);
+  border-color: var(--border-button-secondary-glass-disabled);
+  color: var(--text-button-secondary-glass-disabled);
+  cursor: not-allowed;
+  opacity: 1;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ===== GHOST-GLASS ===== */
+.btn-ghost-glass {
+  background-color: var(--surface-button-ghost-glass);
+  color: var(--text-button-ghost-glass);
+  border-color: var(--border-button-ghost-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.btn-ghost-glass:hover:not(:disabled) {
+  background-color: var(--surface-button-ghost-glass-hover);
+  border-color: var(--border-button-ghost-glass-hover);
+}
+
+.btn-ghost-glass:active:not(:disabled) {
+  background-color: var(--surface-button-ghost-glass-active);
+  border-color: var(--border-button-ghost-glass-active);
+}
+
+.btn-ghost-glass:focus-visible {
+  outline: 2px solid var(--border-button-ghost-glass-focus);
+  outline-offset: 2px;
+}
+
+.btn-ghost-glass:disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--text-button-ghost-glass-disabled);
+  cursor: not-allowed;
+  opacity: 1;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 /* ===== DESTRUCTIVE ===== */
 .btn-destructive {
   background-color: var(--surface-button-destructive);

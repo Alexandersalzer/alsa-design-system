@@ -113,6 +113,46 @@
 }
 
 /* ==========================================================
+   SECONDARY-GLASS BUTTON
+   Frosted glass — for use over images, gradients, transparent areas.
+   Adapts with theme: white-tinted in light mode, dark-tinted in dark mode.
+   ========================================================== */
+
+:root {
+  --surface-button-secondary-glass: color-mix(in srgb, var(--neutral-0) 12%, transparent);
+  --surface-button-secondary-glass-hover: color-mix(in srgb, var(--neutral-0) 22%, transparent);
+  --surface-button-secondary-glass-active: color-mix(in srgb, var(--neutral-0) 30%, transparent);
+
+  --text-button-secondary-glass: var(--text-default);
+  --text-button-secondary-glass-disabled: var(--text-disabled);
+
+  --border-button-secondary-glass: color-mix(in srgb, var(--neutral-0) 25%, transparent);
+  --border-button-secondary-glass-hover: color-mix(in srgb, var(--neutral-0) 45%, transparent);
+  --border-button-secondary-glass-focus: var(--border-focus);
+  --border-button-secondary-glass-active: color-mix(in srgb, var(--neutral-0) 55%, transparent);
+  --border-button-secondary-glass-disabled: color-mix(in srgb, var(--neutral-0) 10%, transparent);
+}
+
+/* ==========================================================
+   GHOST-GLASS BUTTON
+   Border-less glass — minimal footprint over images/gradients.
+   ========================================================== */
+
+:root {
+  --surface-button-ghost-glass: transparent;
+  --surface-button-ghost-glass-hover: color-mix(in srgb, var(--neutral-0) 12%, transparent);
+  --surface-button-ghost-glass-active: color-mix(in srgb, var(--neutral-0) 20%, transparent);
+
+  --text-button-ghost-glass: var(--text-default);
+  --text-button-ghost-glass-disabled: var(--text-disabled);
+
+  --border-button-ghost-glass: transparent;
+  --border-button-ghost-glass-hover: color-mix(in srgb, var(--neutral-0) 25%, transparent);
+  --border-button-ghost-glass-focus: var(--border-focus);
+  --border-button-ghost-glass-active: color-mix(in srgb, var(--neutral-0) 35%, transparent);
+}
+
+/* ==========================================================
    DESTRUCTIVE BUTTON
    ========================================================== */
 
