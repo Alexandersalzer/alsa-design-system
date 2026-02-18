@@ -162,20 +162,14 @@
   font-weight: var(--foundation-weight-semibold);
 }
 
-/* Selected state - hover and active must not override it */
+/* Selected state - hover and active must not override it.
+   !important ensures selected background always wins over hover rules,
+   regardless of specificity in Nav, Menu, or other contexts. */
 .listbox-item--selected:hover,
-.listbox-item--selected:active,
-.listbox-item--interactive.listbox-item--selected:hover,
-.listbox-item--interactive.listbox-item--selected:active,
-.listbox--surface-page .listbox-item--selected:hover,
-.listbox--surface-raised .listbox-item--selected:hover,
-.listbox--surface-elevated .listbox-item--selected:hover,
-[data-surface="page"] .listbox-item--selected:hover,
-[data-surface="raised"] .listbox-item--selected:hover,
-[data-surface="elevated"] .listbox-item--selected:hover {
-  background-color: var(--surface-picker-option-selected);
-  color: var(--text-picker-option-selected);
-  transform: none;
+.listbox-item--selected:active {
+  background-color: var(--surface-picker-option-selected) !important;
+  color: var(--text-picker-option-selected) !important;
+  transform: none !important;
 }
 
 /* Disabled state */
