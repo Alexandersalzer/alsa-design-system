@@ -3,7 +3,7 @@
 // Navigation primitives with variant/size system (Button-style)
 // ===============================================
 
-import React, { createContext, useContext, forwardRef, ReactNode, useState, useCallback } from 'react';
+import React, { createContext, useContext, forwardRef, ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
 import { ListboxItem } from '../../lists/Listbox/ListboxItem';
 import { Icon } from '../../media';
@@ -195,18 +195,6 @@ const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
 }, ref) => {
   const { layout, surface, currentPath, collapsed } = useContext(NavContext);
   const active = isActive ?? (href ? currentPath === href : false);
-  const [optimisticActive, setOptimisticActive] = useState(false);
-
-  // Show active state immediately on click (optimistic) while waiting for route change
-  const effectiveActive = active || optimisticActive;
-
-  const handleClick = useCallback((_e: React.MouseEvent<HTMLLIElement>) => {
-    if (isDisabled) return;
-    setOptimisticActive(true);
-    onClick?.();
-    // Reset optimistic state after a short delay in case navigation doesn't happen
-    setTimeout(() => setOptimisticActive(false), 1500);
-  }, [isDisabled, onClick]);
 
   // Icon wrapped in Icon component for size/weight normalization
   // NO color prop - CSS handles it via currentColor
@@ -218,16 +206,16 @@ const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
   ) : undefined;
 
   // Label weight based on active state
-  const labelWeight: TypographyWeight = effectiveActive ? 'semibold' : 'medium';
+  const labelWeight: TypographyWeight = active ? 'semibold' : 'medium';
   const labelSize = size === 'sm' ? 'sm' : 'md';
 
   return (
     <ListboxItem
       ref={ref}
       role="listitem"
-      selected={effectiveActive}
+      selected={active}
       disabled={isDisabled}
-      onClick={handleClick}
+      onClick={onClick}
       leading={iconElement}
       trailing={badge}
       className={cn(
@@ -236,12 +224,12 @@ const NavItem = forwardRef<HTMLLIElement, NavPrimitiveItemProps>(({
         `nav-item--${variant}`,
         `nav-item--${size}`,
         `nav-item--surface-${surface}`,
-        effectiveActive && 'nav-item--active',
+        active && 'nav-item--active',
         isDisabled && 'nav-item--disabled',
         collapsed && 'nav-item--collapsed',
         className
       )}
-      aria-current={effectiveActive ? 'page' : undefined}
+      aria-current={active ? 'page' : undefined}
       aria-label={collapsed ? String(children) : undefined}
     >
       {/*
