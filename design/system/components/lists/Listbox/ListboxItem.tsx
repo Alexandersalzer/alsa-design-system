@@ -123,8 +123,11 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
 }, ref) => {
   const handleMouseDown = (e: MouseEvent<HTMLLIElement>) => {
     if (disabled) return;
-    // Call onClick directly to allow :active CSS state to show before state updates
-    onClick?.(e);
+    // Delay onClick to allow browser to paint :active CSS state first
+    // requestAnimationFrame ensures the :active state is painted before state updates
+    requestAnimationFrame(() => {
+      onClick?.(e);
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLLIElement>) => {
