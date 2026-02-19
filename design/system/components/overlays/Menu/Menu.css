@@ -1,0 +1,360 @@
+/* ===============================================
+   Menu/Menu.css
+   Menu-specific styles on top of Listbox/ListboxItem base styles.
+   Popover.Content provides: background, border, radius, shadow.
+   This file provides: menu container padding/gap + item interaction.
+   =============================================== */
+
+/* ===== MENU CONTENT CONTAINER ===== */
+/* Popover.Content is the outer shell — we just need inner padding */
+.menu-content {
+  padding: 4px;
+}
+
+.menu-content--sm {
+  padding: 2px;
+}
+
+.menu-content--lg {
+  padding: 6px;
+}
+
+/* ===== MENU ITEM BASE ===== */
+/* ListboxItem handles all interaction states via Listbox.css.
+   Only override what's specific to Menu context. */
+
+.menu-item__content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.menu-item__start-content,
+.menu-item__end-content {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.menu-item__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-item__title {
+  font-size: 14px;
+  font-weight: var(--foundation-weight-medium);
+  line-height: 1.5;
+  color: var(--text-default);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-item__description {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.menu-item__shortcut {
+  margin-left: auto;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: var(--font-mono-family, monospace);
+  color: var(--text-subtle);
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ===== MENU ITEM GROUP ===== */
+.menu-item-group {
+  padding: 4px 0;
+}
+
+.menu-item-group-label {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: var(--foundation-weight-semibold);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.menu-item-group--sm .menu-item-group-label {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.menu-item-group--lg .menu-item-group-label {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+/* ===== MENU SEPARATOR ===== */
+.menu-separator {
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin: 4px 0;
+}
+
+.menu-separator--sm {
+  margin: 2px 0;
+}
+
+.menu-separator--lg {
+  margin: 6px 0;
+}
+
+/* ===== MENU ITEM INDICATOR ===== */
+.menu-item-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.menu-item-indicator--sm {
+  width: 14px;
+  height: 14px;
+}
+
+.menu-item-indicator--lg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== MENU ITEM COMMAND ===== */
+.menu-item-command {
+  margin-left: auto;
+  padding-left: 16px;
+  font-size: 12px;
+  font-family: var(--font-mono-family, monospace);
+  color: var(--text-subtle);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+/* ===== MENU TRIGGER ===== */
+.menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 16px;
+  min-height: 40px;
+  border: 2px solid var(--border-picker);
+  border-radius: var(--radius-button);
+  background-color: var(--surface-picker);
+  color: var(--text-picker);
+  font-family: var(--font-body-family);
+  font-size: 14px;
+  font-weight: var(--foundation-weight-medium);
+  line-height: 1.5;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    background-color var(--foundation-duration-fast) var(--foundation-ease-out),
+    box-shadow var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+.menu-trigger:hover:not(:disabled):not([aria-expanded="true"]) {
+  background-color: var(--surface-picker-hover);
+  border-color: var(--border-picker-hover);
+}
+
+.menu-trigger:active:not(:disabled) {
+  background-color: var(--surface-picker-hover);
+  border-color: var(--border-picker-focus);
+}
+
+.menu-trigger:focus-visible {
+  border-color: var(--border-picker-focus);
+  box-shadow: 0 0 0 3px var(--surface-accent-muted);
+}
+
+.menu-trigger[aria-expanded="true"] {
+  background-color: var(--surface-picker-hover);
+  border-color: var(--border-picker-focus);
+}
+
+.menu-trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: var(--surface-picker-disabled);
+  border-color: var(--border-picker-disabled);
+}
+
+.menu-trigger--sm {
+  height: var(--control-height-sm);
+  padding: 6px 12px;
+  font-size: 13px;
+  gap: 6px;
+}
+
+.menu-trigger--md {
+  height: var(--control-height-md);
+  padding: 8px 16px;
+  font-size: 14px;
+  gap: 8px;
+}
+
+.menu-trigger--lg {
+  height: var(--control-height-lg);
+  padding: 10px 20px;
+  font-size: 15px;
+  gap: 10px;
+}
+
+.menu-trigger-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform var(--foundation-duration-normal) var(--foundation-ease-smooth);
+}
+
+.menu-trigger[aria-expanded="true"] .menu-trigger-icon {
+  transform: rotate(180deg);
+}
+
+/* ===== ITEM ANIMATIONS ===== */
+.menu-item--animated {
+  opacity: 0;
+  animation-duration: 200ms;
+  animation-timing-function: var(--foundation-ease-out);
+  animation-fill-mode: both;
+  animation-delay: var(--menu-item-animation-delay, 0ms);
+}
+
+.menu-item--animated.menu-item--fade {
+  animation-name: menuItemFadeIn;
+}
+
+@keyframes menuItemFadeIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.menu-item--animated.menu-item--opacity {
+  animation-name: menuItemOpacityIn;
+}
+
+@keyframes menuItemOpacityIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.menu-item--animated.menu-item--bounce {
+  animation-name: menuItemBounceIn;
+  animation-duration: 250ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes menuItemBounceIn {
+  0%   { opacity: 0; transform: scale(0.8); }
+  50%  { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.menu-item--animated.menu-item--opacityBounce {
+  animation-name: menuItemOpacityBounceIn;
+  animation-duration: 250ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes menuItemOpacityBounceIn {
+  0%   { opacity: 0; transform: scale(0.9); }
+  50%  { opacity: 0.8; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ===== CONTAINER ANIMATIONS ===== */
+.menu-content--animated {
+  animation-duration: 150ms;
+  animation-timing-function: var(--foundation-ease-out);
+  animation-fill-mode: both;
+}
+
+.menu-content--animated.menu-content--hover {
+  animation-duration: 120ms;
+}
+
+.menu-content--animated.menu-content--closing {
+  animation-direction: reverse;
+  animation-duration: 100ms;
+}
+
+.menu-content--animated.menu-content--hover.menu-content--closing {
+  animation-duration: 80ms;
+}
+
+.menu-content--fade { animation-name: menuFadeIn; }
+
+@keyframes menuFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.menu-content--opacity { animation-name: menuOpacityIn; }
+
+@keyframes menuOpacityIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.menu-content--bounce {
+  animation-name: menuBounceIn;
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.menu-content--bounce.menu-content--hover { animation-duration: 250ms; }
+
+@keyframes menuBounceIn {
+  0%   { opacity: 0; transform: scale(0.85); }
+  50%  { transform: scale(1.03); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.menu-content--opacityBounce {
+  animation-name: menuOpacityBounceIn;
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.menu-content--opacityBounce.menu-content--hover { animation-duration: 250ms; }
+
+@keyframes menuOpacityBounceIn {
+  0%   { opacity: 0; transform: scale(0.92) translateY(-3px); }
+  50%  { opacity: 0.8; transform: scale(1.01) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .menu-trigger,
+  .menu-trigger-icon,
+  .menu-content--animated,
+  .menu-item--animated {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .menu-content--animated {
+    animation: menuReducedMotion 150ms ease !important;
+  }
+
+  @keyframes menuReducedMotion {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}
