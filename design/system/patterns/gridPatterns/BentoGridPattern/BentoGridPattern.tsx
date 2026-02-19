@@ -8,62 +8,90 @@ import { cardsRegistry } from '../../cards/registry';
 import './BentoGridPattern.css';
 
 export type CardLayoutPreset =
-  | 'equal'        // 2×2, alla lika höga
+  | 'equal'        // alla lika (2×2, 3×2, 4×2 beroende på antal)
   | 'feature-top'  // stor topp (2×2), två små, en bred
-  | 'three-col'    // 4×4×4, tre kolumner
-  | 'two-col'      // 6×6, två kolumner (samma som equal)
-  | 'narrow-wide'; // 4+8, smal + bred
+  | 'three-col'    // 4×4×4 eller alla lika i 3 kolumner
+  | 'two-col'      // två kolumner, alla lika
+  | 'narrow-wide'  // 4+8, smal + bred (upprepas)
+  | 'wide-narrow'; // 8+4, bred + smal (upprepas)
 
-const LAYOUT_PRESETS: Record<
-  CardLayoutPreset,
-  { columns: 1 | 2 | 3; spans: Array<{ colSpan: number; rowSpan: number }> }
-> = {
-  equal: {
-    columns: 2,
-    spans: [
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-    ],
-  },
-  'feature-top': {
-    columns: 2,
-    spans: [
-      { colSpan: 2, rowSpan: 2 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 2, rowSpan: 1 },
-    ],
-  },
-  'three-col': {
-    columns: 3,
-    spans: [
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 3, rowSpan: 1 },
-    ],
-  },
-  'two-col': {
-    columns: 2,
-    spans: [
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-    ],
-  },
-  'narrow-wide': {
-    columns: 3,
-    spans: [
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 2, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 2, rowSpan: 1 },
-    ],
-  },
-};
+const MAX_CARDS = 8;
+
+/** Ger colSpan/rowSpan för ett visst antal kort. Presets är definierade för upp till 8 kort. */
+function getPresetSpans(
+  preset: CardLayoutPreset,
+  cardCount: number
+): { columns: 1 | 2 | 3 | 4; spans: Array<{ colSpan: number; rowSpan: number }> } {
+  const n = Math.min(Math.max(1, cardCount), MAX_CARDS);
+
+  switch (preset) {
+    case 'equal': {
+      const columns: 1 | 2 | 3 | 4 = n <= 4 ? 2 : n <= 6 ? 3 : 4;
+      return {
+        columns,
+        spans: Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 })),
+      };
+    }
+    case 'feature-top': {
+      if (n < 4) {
+        return { columns: 2, spans: Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 })) };
+      }
+      return {
+        columns: 2,
+        spans: [
+          { colSpan: 2, rowSpan: 2 },
+          { colSpan: 1, rowSpan: 1 },
+          { colSpan: 1, rowSpan: 1 },
+          { colSpan: 2, rowSpan: 1 },
+          ...Array.from({ length: Math.max(0, n - 4) }, () => ({ colSpan: 1, rowSpan: 1 })),
+        ].slice(0, n),
+      };
+    }
+    case 'three-col': {
+      const spans =
+        n === 4
+          ? [
+              { colSpan: 1, rowSpan: 1 },
+              { colSpan: 1, rowSpan: 1 },
+              { colSpan: 1, rowSpan: 1 },
+              { colSpan: 3, rowSpan: 1 },
+            ]
+          : Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 }));
+      return { columns: 3, spans };
+    }
+    case 'two-col': {
+      return {
+        columns: 2,
+        spans: Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 })),
+      };
+    }
+    case 'narrow-wide': {
+      const pattern = [
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+      ];
+      return {
+        columns: 3,
+        spans: Array.from({ length: n }, (_, i) => pattern[i % pattern.length]),
+      };
+    }
+    case 'wide-narrow': {
+      const pattern = [
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+      ];
+      return {
+        columns: 3,
+        spans: Array.from({ length: n }, (_, i) => pattern[i % pattern.length]),
+      };
+    }
+    default:
+      return {
+        columns: 2,
+        spans: Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 })),
+      };
+  }
+}
 
 export interface BentoGridPatternProps extends PatternNode {
   sectionKey?: string;
@@ -89,9 +117,14 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
   const hasVariantDefault = 'defaultVariant' in patternPropsObj;
   const hasShowImageDefault = 'defaultShowImage' in patternPropsObj;
 
-  const preset = (cardLayout && LAYOUT_PRESETS[cardLayout as CardLayoutPreset]) || LAYOUT_PRESETS.equal;
-  const columns = preset.columns;
-  const spanByIndex = preset.spans;
+  const cardCount = componentOrder.length;
+  const presetKey: CardLayoutPreset =
+    (['equal', 'feature-top', 'three-col', 'two-col', 'narrow-wide', 'wide-narrow'] as const).includes(
+      cardLayout as CardLayoutPreset
+    )
+      ? (cardLayout as CardLayoutPreset)
+      : 'equal';
+  const { columns, spans: spanByIndex } = getPresetSpans(presetKey, cardCount);
 
   return (
     <div className="bento-grid-pattern-container">
