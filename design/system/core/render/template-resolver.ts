@@ -158,6 +158,9 @@ export function resolveTemplateReference(
  * Option 1 (Direct): layout.template = { children: [...] }
  * Option 2 (Reference): layout.template = "pricing-card-three-tier"
  * Option 3 (Reference with config): layout.template = { templateId: "pricing-card-three-tier", variableMapping: {...} }
+ *
+ * NOTE: When called without item context, variables like ${cardVariant} are NOT resolved.
+ * They are left as-is and will be resolved later by resolvePropsWithContext() in the item rendering loop.
  */
 export function resolveLayoutTemplate(
   template: any,
@@ -168,12 +171,30 @@ export function resolveLayoutTemplate(
     return template;
   }
 
-  // Extract variable mapping from the reference object
-  const variableMapping = typeof template === 'object' ? template.variableMapping : undefined;
+  // Extract template ID
+  const templateId = extractTemplateId(template);
+  if (!templateId) {
+    console.warn('Could not extract template ID from reference:', template);
+    return null;
+  }
 
-  // If item has variables (like cardVariant), merge them into variableMapping
-  const mergedVariableMapping = item ? { ...variableMapping, ...item } : variableMapping;
+  // Get template from global registry
+  const patternTemplate = getTemplate(templateId);
+  if (!patternTemplate) {
+    console.warn(`Pattern template "${templateId}" not found in registry. Make sure templates are registered via registerTemplates().`);
+    return null;
+  }
 
-  // Resolve the reference
-  return resolveTemplateReference(template, mergedVariableMapping);
+  // Get the base template structure WITHOUT resolving variables
+  // Variables like ${cardVariant} will be resolved later per-item by resolvePropsWithContext()
+  let resolvedTemplate = { ...patternTemplate.template };
+
+  // Only resolve variables if item context is provided (rarely used)
+  if (item) {
+    const variableMapping = typeof template === 'object' ? template.variableMapping : undefined;
+    const mergedVariableMapping = { ...variableMapping, ...item };
+    resolvedTemplate = resolveTemplateVariables(resolvedTemplate, mergedVariableMapping);
+  }
+
+  return resolvedTemplate;
 }
