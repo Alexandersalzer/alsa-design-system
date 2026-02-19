@@ -1,0 +1,230 @@
+/* ===============================================
+   Nav/Nav.css
+   Navigation layout + sizing + color inheritance.
+   Listbox.css handles all hover/selected/active/disabled states.
+   =============================================== */
+
+/* ===== NAV ROOT ===== */
+.nav-root {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-root--sidebar {
+  width: 100%;
+}
+
+.nav-root--horizontal {
+  flex-direction: row;
+}
+
+.nav-root--tabs {
+  flex-direction: row;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* ===== NAV LIST ===== */
+.nav-list {
+  display: flex;
+  gap: var(--foundation-space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list--sidebar {
+  flex-direction: column;
+}
+
+.nav-list--horizontal,
+.nav-list--tabs {
+  flex-direction: row;
+}
+
+/* ===== NAV SECTION ===== */
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+}
+
+.nav-section__label {
+  padding: var(--foundation-space-1) var(--foundation-space-3);
+  font-size: var(--font-label-xs-size);
+  font-weight: var(--foundation-weight-semibold);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nav-section__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+}
+
+/* Section labels hidden in collapsed mode */
+.nav-root--collapsed .nav-section__label {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ===== NAV ITEM - BASE ===== */
+/* Override ListboxItem defaults for nav sizing/layout.
+   Listbox.css handles all color/interaction states. */
+.nav-item.listbox-item {
+  border-radius: var(--radius-button);
+  gap: var(--foundation-space-2);
+  background-color: transparent;
+  border-color: transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* ===== NAV ITEM - SIZES ===== */
+.nav-item--sm.listbox-item {
+  height: 32px;
+  min-height: 32px;
+  padding: var(--foundation-space-1) var(--foundation-space-2);
+  gap: var(--foundation-space-2);
+}
+
+.nav-item--md.listbox-item {
+  height: 40px;
+  min-height: 40px;
+  padding: var(--foundation-space-2) var(--foundation-space-3);
+  gap: var(--foundation-space-3);
+}
+
+/* ===== NAV ITEM - LAYOUT ===== */
+.nav-item--sidebar.listbox-item {
+  width: 100%;
+}
+
+.nav-item--horizontal.listbox-item {
+  width: auto;
+  min-width: fit-content;
+}
+
+.nav-item--tabs.listbox-item {
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.nav-item--tabs.nav-item--active.listbox-item,
+.nav-item--tabs.nav-item--active.listbox-item:hover {
+  border-bottom-color: var(--border-accent);
+  background-color: transparent;
+}
+
+/* ===== NAV ITEM - ACTIVE STATE ===== */
+/* Active items don't press/scale */
+.nav-item--active.listbox-item,
+.nav-item--active.listbox-item:hover,
+.nav-item--active.listbox-item:active {
+  cursor: default;
+  transform: none !important;
+}
+
+/* ===== NAV ITEM - DISABLED STATE ===== */
+.nav-item--disabled.listbox-item {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ===== NAV ITEM - PRESS FEEDBACK ===== */
+.nav-item.listbox-item:not(.nav-item--disabled):not(.nav-item--active):active {
+  transform: scale(0.97);
+}
+
+/* ===== NAV ITEM - COLOR INHERITANCE ===== */
+/* Icon and label inherit color from the listbox-item (which Listbox.css controls) */
+.nav-item .listbox-item-leading,
+.nav-item .listbox-item-leading svg,
+.nav-item .icon,
+.nav-item .icon svg {
+  color: currentColor;
+}
+
+.nav-item .nav-item__label,
+.nav-item .nav-item__label.text-label,
+.nav-item .nav-item__label.text-label-sm,
+.nav-item .nav-item__label.text-label-md,
+.nav-item .nav-item__label.text-label-lg {
+  color: currentColor;
+}
+
+.nav-item__label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== NAV ITEM - COLLAPSED MODE ===== */
+.nav-item--collapsed.listbox-item {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+
+.nav-item--md.nav-item--collapsed.listbox-item {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+}
+
+.nav-item--collapsed .nav-item__label,
+.nav-item--collapsed .listbox-item-content {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  width: 0;
+  overflow: hidden;
+}
+
+.nav-item--collapsed .listbox-item-leading {
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== FOCUS ===== */
+.nav-item.listbox-item:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.nav-item.listbox-item:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .nav-item--sm.listbox-item {
+    height: 36px;
+    min-height: 36px;
+  }
+
+  .nav-item--md.listbox-item {
+    height: 44px;
+    min-height: 44px;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .nav-item.listbox-item {
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+  }
+}
