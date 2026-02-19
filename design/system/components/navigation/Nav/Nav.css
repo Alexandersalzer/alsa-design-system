@@ -142,19 +142,19 @@
   transform: scale(0.995);
 }
 
-/* ACCENT variant: accent background + accent text/icon on active */
+/* ACCENT variant: subtle accent background + accent text/icon on active */
 .nav-item--accent.listbox-item--selected {
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-accent-subtle);
   color: var(--text-accent);
 }
 
 .nav-item--accent.listbox-item--selected:hover {
-  background-color: var(--surface-accent-muted);
+  background-color: var(--surface-accent-subtle);
   color: var(--text-accent);
 }
 
 .nav-item--accent.listbox-item--selected:active {
-  background-color: var(--surface-accent);
+  background-color: var(--surface-accent-muted);
   transform: scale(0.995);
 }
 
