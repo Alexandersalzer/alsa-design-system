@@ -10,6 +10,7 @@ import React, {
   type HTMLAttributes,
   type MouseEvent
 } from 'react';
+import { flushSync } from 'react-dom';
 import { cn } from '../../../utils/cn';
 
 // ===============================================
@@ -123,9 +124,12 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
 }, ref) => {
   const handleMouseDown = (e: MouseEvent<HTMLLIElement>) => {
     if (disabled) return;
-    // Fire on mousedown so React re-renders with selected=true before mouseup
-    // This prevents hover from briefly showing after click while waiting for re-render
-    onClick?.(e);
+    // flushSync forces the state update (e.g. selected=true) to flush to the DOM
+    // synchronously during mousedown, before mouseup fires and :hover takes over.
+    // Without this, React 18 batching delays the update, causing a hover flash.
+    flushSync(() => {
+      onClick?.(e);
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLLIElement>) => {
