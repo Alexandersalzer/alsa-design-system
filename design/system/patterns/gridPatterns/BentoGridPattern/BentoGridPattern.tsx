@@ -18,126 +18,135 @@ export type CardLayoutPreset =
   | 'stacked';      // 4+8, 6×6, 8+4, 3+3 = 12 kort, fyller 6 kolumner
 
 const MAX_CARDS = 12;
+const ROW_TOTAL = 12; // Varje rad ska summera till 12 – fast 12-kolumnsgrid
 
-type GridColumns = 1 | 2 | 3 | 4 | 5 | 6;
-
-/** Ger colSpan/rowSpan för ett visst antal kort. Presets stödjer upp till 14 kort. */
+/** Ger colSpan/rowSpan för 12-kolumnsgrid. Varje rad summerar alltid till 12. */
 function getPresetSpans(
   preset: CardLayoutPreset,
   cardCount: number
-): { columns: GridColumns; spans: Array<{ colSpan: number; rowSpan: number }> } {
+): { columns: 12; spans: Array<{ colSpan: number; rowSpan: number }> } {
   const n = Math.min(Math.max(1, cardCount), MAX_CARDS);
 
   switch (preset) {
     case 'equal': {
-      // 12 kort: 4×3 eller 6×2 – använd 4 kolumner × 3 rader så det fyller
-      const columns: GridColumns =
-        n <= 4 ? 2 : n <= 6 ? 3 : 4;
-      return {
-        columns,
-        spans: Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 })),
-      };
+      // Varje rad = 12: 2 kort → 6+6, 4 kort → 6+6 per rad, 6 kort → 4+4+4, 8 kort → 3+3+3+3, 12 kort → 3+3+3+3
+      const colSpanPerCard =
+        n <= 2 ? 6 : n <= 4 ? 6 : n <= 6 ? 4 : n <= 8 ? 3 : 3;
+      const cardsPerRow = ROW_TOTAL / colSpanPerCard;
+      const spans = Array.from({ length: n }, () => ({
+        colSpan: colSpanPerCard as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12,
+        rowSpan: 1,
+      }));
+      return { columns: 12, spans };
     }
     case 'feature-top': {
+      // Rad 1–2: ett stort kort 6 colSpan rowSpan 2, två kort 6+6. Rad 2: 6+6. Summa per rad = 12
       if (n < 4) {
-        return { columns: 2, spans: Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 })) };
+        const colSpan = n <= 2 ? 6 : 4;
+        return {
+          columns: 12,
+          spans: Array.from({ length: n }, () => ({ colSpan: colSpan as 6 | 4, rowSpan: 1 })),
+        };
       }
       return {
-        columns: 2,
+        columns: 12,
         spans: [
-          { colSpan: 2, rowSpan: 2 },
-          { colSpan: 1, rowSpan: 1 },
-          { colSpan: 1, rowSpan: 1 },
-          { colSpan: 2, rowSpan: 1 },
-          ...Array.from({ length: Math.max(0, n - 4) }, () => ({ colSpan: 1, rowSpan: 1 })),
-        ].slice(0, n),
+          { colSpan: 6, rowSpan: 2 },
+          { colSpan: 6, rowSpan: 1 },
+          { colSpan: 6, rowSpan: 1 },
+          { colSpan: 6, rowSpan: 1 },
+          ...Array.from({ length: Math.max(0, n - 4) }, () => ({ colSpan: 6, rowSpan: 1 })),
+        ].slice(0, n) as Array<{ colSpan: number; rowSpan: number }>,
       };
     }
     case 'three-col': {
-      // 4 kort: 4×4×4 (en bred). 12 kort: 4 rader × 3 = fyller
+      // 4 kort: 4+4+4, 12.  Övriga: 4+4+4 per rad (= 12)
       const spans =
         n === 4
           ? [
-              { colSpan: 1, rowSpan: 1 },
-              { colSpan: 1, rowSpan: 1 },
-              { colSpan: 1, rowSpan: 1 },
-              { colSpan: 3, rowSpan: 1 },
+              { colSpan: 4, rowSpan: 1 },
+              { colSpan: 4, rowSpan: 1 },
+              { colSpan: 4, rowSpan: 1 },
+              { colSpan: 12, rowSpan: 1 },
             ]
-          : Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 }));
-      return { columns: 3, spans };
+          : Array.from({ length: n }, () => ({ colSpan: 4, rowSpan: 1 }));
+      return { columns: 12, spans };
     }
     case 'two-col': {
+      // 6+6 = 12 per rad
       return {
-        columns: 2,
-        spans: Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 })),
+        columns: 12,
+        spans: Array.from({ length: n }, () => ({ colSpan: 6, rowSpan: 1 })),
       };
     }
     case 'narrow-wide': {
+      // 4+8 = 12 per rad
       const pattern = [
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
       ];
       return {
-        columns: 3,
+        columns: 12,
         spans: Array.from({ length: n }, (_, i) => pattern[i % pattern.length]),
       };
     }
     case 'wide-narrow': {
+      // 8+4 = 12 per rad
       const pattern = [
-        { colSpan: 2, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
       ];
       return {
-        columns: 3,
+        columns: 12,
         spans: Array.from({ length: n }, (_, i) => pattern[i % pattern.length]),
       };
     }
     case 'alternating': {
-      // 12 kort: 6 rader × (4+8 / 8+4), 3 kolumner – fyller helt
+      // Varje rad 12: 4+8, 8+4, 4+8, 8+4, …
       const pattern = [
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 2, rowSpan: 1 },
-        { colSpan: 2, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 2, rowSpan: 1 },
-        { colSpan: 2, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 2, rowSpan: 1 },
-        { colSpan: 2, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
       ];
       return {
-        columns: 3,
+        columns: 12,
         spans: pattern.slice(0, n),
       };
     }
     case 'stacked': {
-      // 12 kort, 6 kolumner: rad 1: 4+8 (2+4), rad 2: 6×6 (6×1), rad 3: 8+4 (4+2), rad 4: 3+3 (2 kort) – fyller
+      // Rad 1: 4+8, rad 2: 2×6, rad 3: 8+4, rad 4: 6+6 – alla rader = 12, totalt 12 kort
       const stackedSpans: Array<{ colSpan: number; rowSpan: number }> = [
-        { colSpan: 2, rowSpan: 1 },
         { colSpan: 4, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 1, rowSpan: 1 },
-        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
         { colSpan: 2, rowSpan: 1 },
-        { colSpan: 3, rowSpan: 1 },
-        { colSpan: 3, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 8, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 6, rowSpan: 1 },
+        { colSpan: 6, rowSpan: 1 },
       ];
       return {
-        columns: 6,
+        columns: 12,
         spans: stackedSpans.slice(0, n),
       };
     }
     default:
       return {
-        columns: 2,
-        spans: Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 })),
+        columns: 12,
+        spans: Array.from({ length: n }, () => ({ colSpan: 6, rowSpan: 1 })),
       };
   }
 }
