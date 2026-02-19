@@ -76,7 +76,7 @@
 .nav-item.listbox-item {
   border-radius: var(--radius-button);
   gap: var(--foundation-space-2);
-  background-color: transparent;
+  /* NO background-color here - let Listbox.css handle it */
   border-color: transparent;
   cursor: pointer;
   transition:
