@@ -126,7 +126,7 @@
 
 /* DEFAULT variant: visible neutral background + default text/icon on active */
 .nav-item--default.listbox-item--selected {
-  background-color: var(--surface-raised);  /* neutral-100 — visible against page/sidebar */
+  background-color: var(--surface-elevated);  /* neutral-200 — clearly visible */
   color: var(--text-default);
 }
 
