@@ -8,25 +8,30 @@ import { cardsRegistry } from '../../cards/registry';
 import './BentoGridPattern.css';
 
 export type CardLayoutPreset =
-  | 'equal'        // alla lika (2×2, 3×2, 4×2 beroende på antal)
-  | 'feature-top'  // stor topp (2×2), två små, en bred
-  | 'three-col'    // 4×4×4 eller alla lika i 3 kolumner
-  | 'two-col'      // två kolumner, alla lika
-  | 'narrow-wide'  // 4+8, smal + bred (upprepas)
-  | 'wide-narrow'; // 8+4, bred + smal (upprepas)
+  | 'equal'         // alla lika (2×2, 3×2, 4×2 beroende på antal)
+  | 'feature-top'   // stor topp (2×2), två små, en bred
+  | 'three-col'     // 4×4×4 eller alla lika i 3 kolumner
+  | 'two-col'       // två kolumner, alla lika
+  | 'narrow-wide'   // 4+8, smal + bred (upprepas)
+  | 'wide-narrow'   // 8+4, bred + smal (upprepas)
+  | 'alternating'   // 4+8, 8+4, 4+8, 8+4 (8 kort)
+  | 'stacked';      // 4+8 rad, 6×6 rad, 8+4 rad, 4×4×4 rad (14 kort)
 
-const MAX_CARDS = 8;
+const MAX_CARDS = 14;
 
-/** Ger colSpan/rowSpan för ett visst antal kort. Presets är definierade för upp till 8 kort. */
+type GridColumns = 1 | 2 | 3 | 4 | 5 | 6;
+
+/** Ger colSpan/rowSpan för ett visst antal kort. Presets stödjer upp till 14 kort. */
 function getPresetSpans(
   preset: CardLayoutPreset,
   cardCount: number
-): { columns: 1 | 2 | 3 | 4; spans: Array<{ colSpan: number; rowSpan: number }> } {
+): { columns: GridColumns; spans: Array<{ colSpan: number; rowSpan: number }> } {
   const n = Math.min(Math.max(1, cardCount), MAX_CARDS);
 
   switch (preset) {
     case 'equal': {
-      const columns: 1 | 2 | 3 | 4 = n <= 4 ? 2 : n <= 6 ? 3 : 4;
+      const columns: GridColumns =
+        n <= 4 ? 2 : n <= 6 ? 3 : n <= 8 ? 4 : n <= 10 ? 5 : 6;
       return {
         columns,
         spans: Array.from({ length: n }, () => ({ colSpan: 1, rowSpan: 1 })),
@@ -85,6 +90,46 @@ function getPresetSpans(
         spans: Array.from({ length: n }, (_, i) => pattern[i % pattern.length]),
       };
     }
+    case 'alternating': {
+      // Rad 1: 4+8, rad 2: 8+4, rad 3: 4+8, rad 4: 8+4 (8 kort, 3 kolumner)
+      const pattern = [
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+      ];
+      return {
+        columns: 3,
+        spans: n <= 8 ? pattern.slice(0, n) : [...pattern, ...Array.from({ length: n - 8 }, () => ({ colSpan: 1, rowSpan: 1 }))],
+      };
+    }
+    case 'stacked': {
+      // 6-kolumnsgrid: rad 1: 4+8 (2+4), rad 2: 6×6 (6×1), rad 3: 8+4 (4+2), rad 4: 4×4×4 (1+1+1+3) = 14 kort
+      const stackedSpans: Array<{ colSpan: number; rowSpan: number }> = [
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 4, rowSpan: 1 },
+        { colSpan: 2, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 1, rowSpan: 1 },
+        { colSpan: 3, rowSpan: 1 },
+      ];
+      return {
+        columns: 6,
+        spans: stackedSpans.slice(0, n),
+      };
+    }
     default:
       return {
         columns: 2,
@@ -119,7 +164,7 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
 
   const cardCount = componentOrder.length;
   const presetKey: CardLayoutPreset =
-    (['equal', 'feature-top', 'three-col', 'two-col', 'narrow-wide', 'wide-narrow'] as const).includes(
+    (['equal', 'feature-top', 'three-col', 'two-col', 'narrow-wide', 'wide-narrow', 'alternating', 'stacked'] as const).includes(
       cardLayout as CardLayoutPreset
     )
       ? (cardLayout as CardLayoutPreset)
