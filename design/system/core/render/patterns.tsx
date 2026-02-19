@@ -244,6 +244,7 @@ export const renderPattern = (
         height="auto"
         useMediaWidth={patternProps.useMediaWidth || false}
         useFormWidth={patternProps.useFormWidth || false}
+        noPadding={patternProps.noPadding || false}
         patternKey={patternKey}
       >
         {animatedContent}
@@ -264,6 +265,7 @@ export const renderPattern = (
       height="auto"
       useMediaWidth={patternProps.useMediaWidth || false}
       useFormWidth={patternProps.useFormWidth || false}
+      noPadding={patternProps.noPadding || false}
       patternKey={patternKey}
     >
       <PatternComponent

@@ -8,9 +8,30 @@
   position: relative;
 }
 
+/* Same thickness as bottom/top border (3px), color overridable via --stat-separator-color */
 .stat-separator {
-  background-color: var(--border-subtle);
   flex-shrink: 0;
+}
+
+/* Hide separator when item is last in row (responsive). Default: 1 col = hide all. */
+.stats-grid--separator .stats-grid-item .stat-separator {
+  display: none;
+}
+@media (min-width: 768px) {
+  .stats-grid--separator[data-cols="2"] .stats-grid-item:not(:nth-child(2n)) .stat-separator {
+    display: block;
+  }
+  .stats-grid--separator[data-cols="4"] .stats-grid-item:not(:nth-child(2n)) .stat-separator {
+    display: block;
+  }
+}
+@media (min-width: 1024px) {
+  .stats-grid--separator[data-cols="3"] .stats-grid-item:not(:nth-child(3n)) .stat-separator {
+    display: block;
+  }
+  .stats-grid--separator[data-cols="4"] .stats-grid-item:not(:nth-child(4n)) .stat-separator {
+    display: block;
+  }
 }
 
 /* ===== STAT WITH LEFT BORDER ===== */
@@ -24,7 +45,7 @@
     border-left: none !important;
     border-top: 4px solid var(--border-accent) !important;
     padding-left: 0 !important;
-    padding-top: var(--space-md) !important;
+    padding-top: var(--foundation-space-6, 24px) !important;
   }
 }
 
