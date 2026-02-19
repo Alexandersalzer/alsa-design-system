@@ -122,11 +122,15 @@
 }
 
 /* ===== NAV ITEM - VARIANTS ===== */
-/* Variant only controls ACTIVE state colors. Listbox.css handles hover/pressed. */
+/* Variant controls ACTIVE/SELECTED state appearance. Listbox.css handles hover/pressed. */
 
-/* DEFAULT variant: neutral active state (inherits Listbox.css selected colors) */
+/* DEFAULT variant: visible neutral background + default text/icon on active */
+.nav-item--default.listbox-item--selected {
+  background-color: var(--surface-raised);  /* neutral-100 — visible against page/sidebar */
+  color: var(--text-default);
+}
 
-/* ACCENT variant: accent background + text/icon on active */
+/* ACCENT variant: accent background + accent text/icon on active */
 .nav-item--accent.listbox-item--selected {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
