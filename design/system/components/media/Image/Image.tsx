@@ -70,6 +70,17 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
    * Example: '#3B82F6' or 'rgb(59, 130, 246)'
    */
   placeholderColor?: string;
+  /**
+   * Temaadaptiv bild: använd normaliserade light/dark-varianter så att bakgrund och accent matchar temat.
+   * Kräver normalizedLightSrc och normalizedDarkSrc (sätts av Image Simplifier).
+   */
+  themeAdaptive?: boolean;
+  /** URL till normaliserad bild för light theme (bakgrund vit, accent systemaccent) */
+  normalizedLightSrc?: string;
+  /** URL till normaliserad bild för dark theme (bakgrund mörk, accent systemaccent) */
+  normalizedDarkSrc?: string;
+  /** Vilket tema som gäller; 'system' = läs från data-theme eller prefers-color-scheme */
+  themeMode?: 'light' | 'dark' | 'system';
 }
 
 // ===== MAIN IMAGE COMPONENT =====
@@ -98,9 +109,48 @@ export const Image: React.FC<ImageProps> = ({
   lqip,
   blurHash,
   placeholderColor,
+  themeAdaptive = false,
+  normalizedLightSrc,
+  normalizedDarkSrc,
+  themeMode = 'system',
   ...props
 }) => {
-  const resolvedSrc = resolveCdnImageUrl(src || '');
+  const useNormalized = themeAdaptive && normalizedLightSrc && normalizedDarkSrc;
+
+  const [effectiveTheme, setEffectiveTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof document === 'undefined') return 'light';
+    const dataTheme = document.documentElement.getAttribute('data-theme');
+    if (dataTheme === 'dark') return 'dark';
+    if (dataTheme === 'light') return 'light';
+    if (themeMode === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+    return 'light';
+  });
+
+  useEffect(() => {
+    if (!useNormalized || themeMode !== 'system') return;
+    const update = () => {
+      const dataTheme = document.documentElement.getAttribute('data-theme');
+      if (dataTheme === 'dark') setEffectiveTheme('dark');
+      else if (dataTheme === 'light') setEffectiveTheme('light');
+      else setEffectiveTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    };
+    update();
+    window.addEventListener('theme-changed', update);
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    media.addEventListener('change', update);
+    return () => {
+      window.removeEventListener('theme-changed', update);
+      media.removeEventListener('change', update);
+    };
+  }, [useNormalized, themeMode]);
+
+  const normalizedSrc = useNormalized
+    ? (effectiveTheme === 'dark' ? normalizedDarkSrc : normalizedLightSrc)
+    : undefined;
+  const resolvedSrc = resolveCdnImageUrl(
+    (normalizedSrc != null ? normalizedSrc : src) || ''
+  );
+
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority || loading === 'eager');
