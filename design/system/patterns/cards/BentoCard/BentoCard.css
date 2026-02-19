@@ -208,12 +208,13 @@
   border: 1px solid var(--border-default);
 }
 
-/* Image container - fixed aspect ratio så att bilden får samma "zoom" (crop) på alla kort oberoende av storlek */
+/* Image container - 16:9 men maxhöjd så att breda kort inte får oproportionerligt hög bild (samma höjd som små kort) */
 .bento-card__image-container {
   flex: none;
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
+  max-height: var(--bento-image-max-height, 240px);
   min-height: 0;
   overflow: hidden;
   position: relative;
