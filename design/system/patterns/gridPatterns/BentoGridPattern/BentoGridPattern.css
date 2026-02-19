@@ -10,7 +10,10 @@
   width: 100%;
 }
 
-/* Varje kort fyller sin grid-cell så att alla kort i samma rad blir lika höga */
+/* Varje kort fyller sin grid-cell; lika radhöjd så att t.ex. 2 kort över inte blir dubbelt så höga som 4 under */
+.bento-grid-pattern {
+  grid-auto-rows: 1fr;
+}
 .bento-grid-pattern > * {
   min-height: 0;
   height: 100%;

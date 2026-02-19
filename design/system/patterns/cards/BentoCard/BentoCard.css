@@ -208,14 +208,15 @@
   border: 1px solid var(--border-default);
 }
 
-/* Image container - 16:9 men maxhöjd så att breda kort inte får oproportionerligt hög bild (samma höjd som små kort) */
+/* Image container - fast höjd så att alla kort blir lika höga oavsett bredd (ingen rad blir dubbelt så hög) */
 .bento-card__image-container {
   flex: none;
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: var(--bento-image-max-height, 240px);
+  min-height: var(--bento-image-max-height, 240px);
   max-height: var(--bento-image-max-height, 240px);
-  min-height: 0;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   position: relative;
   border-top-left-radius: inherit;
