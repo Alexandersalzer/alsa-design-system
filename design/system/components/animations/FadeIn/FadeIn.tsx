@@ -28,6 +28,8 @@ export interface FadeInProps {
   className?: string;
   /** Callback when animation completes */
   onComplete?: () => void;
+  /** Disable animation and render children immediately */
+  disabled?: boolean;
 }
 
 export const FadeIn: React.FC<FadeInProps> = ({
@@ -41,18 +43,22 @@ export const FadeIn: React.FC<FadeInProps> = ({
   easing = 'ease-out',
   className = '',
   onComplete,
+  disabled = false,
 }) => {
+  // Skip animation entirely if disabled
+  if (disabled) {
+    return <>{children}</>;
+  }
+
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!enableScrollTrigger) {
-      // Start animation after brief delay to ensure initial render
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 10);
-      return () => clearTimeout(timer);
+      // Start animation immediately (delay is handled via transition delay)
+      setIsVisible(true);
+      return;
     }
 
     const element = elementRef.current;
@@ -114,12 +120,14 @@ export const FadeIn: React.FC<FadeInProps> = ({
     opacity: isVisible ? 1 : 0,
     transform: isVisible ? 'translate(0, 0)' : getTransform(),
     transition: `opacity ${duration}ms ${easing} ${delay}ms, transform ${duration}ms ${easing} ${delay}ms`,
+    // Ensure hidden state is applied immediately on first render to prevent flash
+    willChange: 'opacity, transform',
   };
 
   return (
     <div
       ref={elementRef}
-      className={`fade-in ${className}`}
+      className={`fade-in ${!isVisible ? 'fade-in-hidden' : ''} ${className}`}
       style={style}
     >
       {children}

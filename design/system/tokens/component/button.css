@@ -113,6 +113,66 @@
 }
 
 /* ==========================================================
+   SECONDARY-GLASS BUTTON
+   Frosted glass — for use over images, gradients, transparent areas.
+   Adapts with theme: white-tinted in light mode, dark-tinted in dark mode.
+   ========================================================== */
+
+:root {
+  --surface-button-secondary-glass: color-mix(in srgb, var(--neutral-1400) 10%, transparent);
+  --surface-button-secondary-glass-hover: color-mix(in srgb, var(--neutral-1400) 18%, transparent);
+  --surface-button-secondary-glass-active: color-mix(in srgb, var(--neutral-1400) 25%, transparent);
+
+  --text-button-secondary-glass: var(--text-default);
+  --text-button-secondary-glass-disabled: var(--text-disabled);
+
+  --border-button-secondary-glass: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  --border-button-secondary-glass-hover: color-mix(in srgb, var(--neutral-1400) 22%, transparent);
+  --border-button-secondary-glass-focus: var(--border-focus);
+  --border-button-secondary-glass-active: color-mix(in srgb, var(--neutral-1400) 28%, transparent);
+  --border-button-secondary-glass-disabled: color-mix(in srgb, var(--neutral-1400) 5%, transparent);
+}
+
+/* ==========================================================
+   GHOST-GLASS BUTTON
+   Border-less glass — minimal footprint over images/gradients.
+   ========================================================== */
+
+:root {
+  --surface-button-ghost-glass: transparent;
+  --surface-button-ghost-glass-hover: color-mix(in srgb, var(--neutral-1400) 10%, transparent);
+  --surface-button-ghost-glass-active: color-mix(in srgb, var(--neutral-1400) 18%, transparent);
+
+  --text-button-ghost-glass: var(--text-default);
+  --text-button-ghost-glass-disabled: var(--text-disabled);
+
+  --border-button-ghost-glass: transparent;
+  --border-button-ghost-glass-hover: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  --border-button-ghost-glass-focus: var(--border-focus);
+  --border-button-ghost-glass-active: color-mix(in srgb, var(--neutral-1400) 18%, transparent);
+}
+
+/* ==========================================================
+   ACCENT-GLASS BUTTON
+   Frosted glass tinted with the accent color — for CTAs over images.
+   ========================================================== */
+
+:root {
+  --surface-button-accent-glass: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
+  --surface-button-accent-glass-hover: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
+  --surface-button-accent-glass-active: color-mix(in srgb, var(--interactive-accent) 28%, transparent);
+
+  --text-button-accent-glass: var(--text-accent);
+  --text-button-accent-glass-disabled: var(--text-disabled);
+
+  --border-button-accent-glass: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
+  --border-button-accent-glass-hover: color-mix(in srgb, var(--interactive-accent) 35%, transparent);
+  --border-button-accent-glass-focus: var(--border-focus);
+  --border-button-accent-glass-active: color-mix(in srgb, var(--interactive-accent) 45%, transparent);
+  --border-button-accent-glass-disabled: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
+}
+
+/* ==========================================================
    DESTRUCTIVE BUTTON
    ========================================================== */
 

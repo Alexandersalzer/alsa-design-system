@@ -1,17 +1,10 @@
 /* ===============================================
-   src/design-system/components/navigation/Nav/Nav.css
-   Navigation styles with variant/size/surface system
-
-   Architecture:
-   - Nav.Item uses ListboxItem internally
-   - Color is set on .nav-item, inherited via currentColor
-   - Variant × Surface matrix controls hover/active surfaces
+   Nav/Nav.css
+   Navigation layout + sizing + color inheritance.
+   Listbox.css handles all hover/selected/active/disabled states.
    =============================================== */
 
-/* ===============================================
-   NAV ROOT
-   =============================================== */
-
+/* ===== NAV ROOT ===== */
 .nav-root {
   display: flex;
   flex-direction: column;
@@ -30,10 +23,7 @@
   border-bottom: 1px solid var(--border-subtle);
 }
 
-/* ===============================================
-   NAV LIST
-   =============================================== */
-
+/* ===== NAV LIST ===== */
 .nav-list {
   display: flex;
   gap: var(--foundation-space-1);
@@ -51,10 +41,7 @@
   flex-direction: row;
 }
 
-/* ===============================================
-   NAV SECTION
-   =============================================== */
-
+/* ===== NAV SECTION ===== */
 .nav-section {
   display: flex;
   flex-direction: column;
@@ -76,42 +63,26 @@
   gap: var(--foundation-space-1);
 }
 
-/* Section labels in collapsed mode */
+/* Section labels hidden in collapsed mode */
 .nav-root--collapsed .nav-section__label {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
-/* ===============================================
-   NAV ITEM - BASE
-   Override ListboxItem defaults for nav context
-   =============================================== */
-
+/* ===== NAV ITEM - BASE ===== */
+/* Override ListboxItem defaults for nav sizing/layout.
+   Listbox.css handles all color/interaction states. */
 .nav-item.listbox-item {
-  /* Layout */
   border-radius: var(--radius-button);
   gap: var(--foundation-space-2);
-
-  /* Base appearance - transparent, no border */
-  background-color: transparent;
+  /* NO background-color here - let Listbox.css handle it */
   border-color: transparent;
-
-  /* Color source - inherited by icon + label */
-  color: var(--text-default);
-
-  /* Interaction */
   cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
+  /* NO transitions - instant feedback for press/select states */
 }
 
-/* ===============================================
-   NAV ITEM - SIZES
-   =============================================== */
-
-/* Small: 32px height, tighter feel */
+/* ===== NAV ITEM - SIZES ===== */
 .nav-item--sm.listbox-item {
   height: 32px;
   min-height: 32px;
@@ -119,7 +90,6 @@
   gap: var(--foundation-space-2);
 }
 
-/* Medium: 40px height, standard */
 .nav-item--md.listbox-item {
   height: 40px;
   min-height: 40px;
@@ -127,141 +97,94 @@
   gap: var(--foundation-space-3);
 }
 
-/* ===============================================
-   NAV ITEM - VARIANT: DEFAULT
-   Subtle hover, NEUTRAL active (no accent colors)
-
-   Surface hierarchy (each hover is one step above):
-   - page (neutral-0) → hover: raised (neutral-100)
-   - raised (neutral-100) → hover: elevated (neutral-200)
-   - sunken (neutral-300) → hover: raised (neutral-100)
-   =============================================== */
-
-/* Default + Page surface (sidebar on page bg: neutral-0) */
-.nav-item--default.nav-item--surface-page.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
-  background-color: var(--surface-raised);
-  color: var(--text-strong);
+/* ===== NAV ITEM - LAYOUT ===== */
+.nav-item--sidebar.listbox-item {
+  width: 100%;
 }
 
-.nav-item--default.nav-item--surface-page.nav-item--active.listbox-item,
-.nav-item--default.nav-item--surface-page.nav-item--active.listbox-item:hover {
-  background-color: var(--surface-raised);
-  color: var(--text-strong);
-  cursor: default;
+.nav-item--horizontal.listbox-item {
+  width: auto;
+  min-width: fit-content;
 }
 
-/* Default + Raised surface (sidebar on raised bg: neutral-100) */
-.nav-item--default.nav-item--surface-raised.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
-  background-color: var(--surface-elevated);
-  color: var(--text-strong);
+.nav-item--tabs.listbox-item {
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background-color: transparent;
 }
 
-.nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item,
-.nav-item--default.nav-item--surface-raised.nav-item--active.listbox-item:hover {
-  background-color: var(--surface-elevated);
-  color: var(--text-strong);
-  cursor: default;
+.nav-item--tabs.nav-item--active.listbox-item,
+.nav-item--tabs.nav-item--active.listbox-item:hover {
+  border-bottom-color: var(--border-accent);
+  background-color: transparent;
 }
 
-/* Default + Sunken surface (sidebar on sunken bg: neutral-300) */
-.nav-item--default.nav-item--surface-sunken.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
-  background-color: var(--surface-raised);
-  color: var(--text-strong);
-}
+/* ===== NAV ITEM - VARIANTS ===== */
+/* Variant controls ACTIVE/SELECTED state appearance. Listbox.css handles hover/pressed. */
 
-.nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item,
-.nav-item--default.nav-item--surface-sunken.nav-item--active.listbox-item:hover {
-  background-color: var(--surface-raised);
-  color: var(--text-strong);
-  cursor: default;
-}
-
-/* ===============================================
-   NAV ITEM - VARIANT: ACCENT
-   Accent background + accent text/icon on active
-   =============================================== */
-
-.nav-item--accent.listbox-item {
+/* DEFAULT variant: visible neutral background + default text/icon on active */
+.nav-item--default.listbox-item--selected {
+  background-color: var(--surface-elevated);  /* neutral-200 — clearly visible */
   color: var(--text-default);
 }
 
-.nav-item--accent.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
+/* Keep selected background even on hover and active - no change on click */
+.nav-item--default.listbox-item--selected:hover,
+.nav-item--default.listbox-item--selected:active {
+  background-color: var(--surface-elevated);
+  color: var(--text-default);
+  transform: none;
+}
+
+/* ACCENT variant: subtle accent background + accent text/icon on active */
+.nav-item--accent.listbox-item--selected {
   background-color: var(--surface-accent-subtle);
   color: var(--text-accent);
 }
 
-.nav-item--accent.nav-item--active.listbox-item,
-.nav-item--accent.nav-item--active.listbox-item:hover {
-  background-color: var(--surface-accent-muted);
-  color: var(--text-accent);
-  cursor: default;
-}
-
-/* ===============================================
-   NAV ITEM - VARIANT: GHOST
-   No background, accent text + icon on active
-   Hover on active shows subtle accent background
-   =============================================== */
-
-.nav-item--ghost.listbox-item {
-  color: var(--text-default);
-}
-
-.nav-item--ghost.listbox-item:hover:not(.nav-item--active):not(.nav-item--disabled) {
-  background-color: transparent;
-  color: var(--text-strong);
-}
-
-.nav-item--ghost.nav-item--active.listbox-item {
-  background-color: transparent;
-  color: var(--text-accent);
-  cursor: pointer;
-}
-
-/* Ghost active items CAN be hovered - shows subtle accent background */
-.nav-item--ghost.nav-item--active.listbox-item:hover {
+.nav-item--accent.listbox-item--selected:hover,
+.nav-item--accent.listbox-item--selected:active {
   background-color: var(--surface-accent-subtle);
   color: var(--text-accent);
+  transform: none;
 }
 
-/* ===============================================
-   NAV ITEM - STATES
-   =============================================== */
+/* GHOST variant: no background, just accent text/icon on active */
+.nav-item--ghost.listbox-item--selected {
+  background-color: transparent;
+  color: var(--text-accent);
+}
 
-/* Disabled */
+.nav-item--ghost.listbox-item--selected:hover,
+.nav-item--ghost.listbox-item--selected:active {
+  background-color: var(--surface-accent-subtle);
+  color: var(--text-accent);
+  transform: none;
+}
+
+/* ===== NAV ITEM - ACTIVE STATE ===== */
+/* Active items don't press/scale */
+.nav-item--active.listbox-item,
+.nav-item--active.listbox-item:hover,
+.nav-item--active.listbox-item:active {
+  cursor: default;
+  transform: none !important;
+}
+
+/* ===== NAV ITEM - DISABLED STATE ===== */
 .nav-item--disabled.listbox-item {
-  color: var(--text-disabled);
-  background-color: transparent;
+  opacity: 0.6;
   cursor: not-allowed;
   pointer-events: none;
-  opacity: 0.6;
 }
 
-/* Active items - no hover change, keep stable */
-.nav-item--active.listbox-item,
-.nav-item--active.listbox-item:hover {
-  /* Active items are not interactive - no hover effect */
-  cursor: default;
-  pointer-events: auto; /* Keep for focus, but prevent visual hover */
+/* ===== NAV ITEM - PRESS FEEDBACK ===== */
+.nav-item.listbox-item:not(.nav-item--disabled):not(.nav-item--active):active {
+  transform: scale(0.97);
 }
 
-/* Focus visible */
-.nav-item.listbox-item:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
-  z-index: 1;
-}
-
-.nav-item.listbox-item:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* ===============================================
-   NAV ITEM - COLOR INHERITANCE
-   Icon and Label inherit from parent
-   Override Typography defaults with higher specificity
-   =============================================== */
-
+/* ===== NAV ITEM - COLOR INHERITANCE ===== */
+/* Icon and label inherit color from the listbox-item (which Listbox.css controls) */
 .nav-item .listbox-item-leading,
 .nav-item .listbox-item-leading svg,
 .nav-item .icon,
@@ -269,7 +192,6 @@
   color: currentColor;
 }
 
-/* Override .text-label default color with higher specificity */
 .nav-item .nav-item__label,
 .nav-item .nav-item__label.text-label,
 .nav-item .nav-item__label.text-label-sm,
@@ -285,39 +207,8 @@
   text-overflow: ellipsis;
 }
 
-/* ===============================================
-   NAV ITEM - LAYOUT VARIANTS
-   =============================================== */
-
-/* Sidebar: full width */
-.nav-item--sidebar.listbox-item {
-  width: 100%;
-}
-
-/* Horizontal: fit content */
-.nav-item--horizontal.listbox-item {
-  width: auto;
-  min-width: fit-content;
-}
-
-/* Tabs: underline indicator */
-.nav-item--tabs.listbox-item {
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  background-color: transparent;
-}
-
-.nav-item--tabs.nav-item--active.listbox-item {
-  border-bottom-color: var(--border-accent);
-  background-color: transparent;
-}
-
-/* ===============================================
-   NAV ITEM - COLLAPSED MODE
-   =============================================== */
-
+/* ===== NAV ITEM - COLLAPSED MODE ===== */
 .nav-item--collapsed.listbox-item {
-  /* Square icon-button appearance */
   width: 32px;
   min-width: 32px;
   height: 32px;
@@ -333,7 +224,6 @@
   height: 40px;
 }
 
-/* Hide label in collapsed mode */
 .nav-item--collapsed .nav-item__label,
 .nav-item--collapsed .listbox-item-content {
   position: absolute;
@@ -344,28 +234,23 @@
   overflow: hidden;
 }
 
-/* Center icon in collapsed mode */
 .nav-item--collapsed .listbox-item-leading {
   margin: 0;
   padding: 0;
 }
 
-/* ===============================================
-   NAV ITEM - PRESS FEEDBACK
-   =============================================== */
-
-.nav-item.listbox-item:not(.nav-item--disabled):active {
-  transform: scale(0.97);
+/* ===== FOCUS ===== */
+.nav-item.listbox-item:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  z-index: 1;
 }
 
-.nav-item--active.listbox-item {
-  transform: none !important;
+.nav-item.listbox-item:focus:not(:focus-visible) {
+  outline: none;
 }
 
-/* ===============================================
-   RESPONSIVE
-   =============================================== */
-
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .nav-item--sm.listbox-item {
     height: 36px;
@@ -378,10 +263,7 @@
   }
 }
 
-/* ===============================================
-   REDUCED MOTION
-   =============================================== */
-
+/* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .nav-item.listbox-item {
     transition: background-color 0.15s ease, color 0.15s ease !important;

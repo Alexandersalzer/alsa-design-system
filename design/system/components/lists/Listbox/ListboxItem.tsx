@@ -4,11 +4,12 @@
 // Use this for: domains, notifications, news, selections, any clickable list
 // ===============================================
 
-import React, { 
+import React, {
   forwardRef,
   type ReactNode,
   type HTMLAttributes,
-  type MouseEvent
+  type MouseEvent,
+  useState
 } from 'react';
 import { cn } from '../../../utils/cn';
 
@@ -121,9 +122,31 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
   role = 'option',
   ...props
 }, ref) => {
-  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
+  const [isPressing, setIsPressing] = useState(false);
+
+  const handleMouseDown = (e: MouseEvent<HTMLLIElement>) => {
     if (disabled) return;
+
+    // Don't show pressing state if already selected
+    if (!selected) {
+      setIsPressing(true);
+    }
+
+    // Call onClick immediately - no delay
     onClick?.(e);
+
+    // Clear pressing state after a delay to show feedback
+    setTimeout(() => {
+      setIsPressing(false);
+    }, 150); // Keep pressed visual for 150ms even after onClick
+  };
+
+  const handleMouseUp = () => {
+    setIsPressing(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPressing(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLLIElement>) => {
@@ -141,7 +164,9 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
       ref={ref}
       role={role}
       tabIndex={disabled ? -1 : interactive ? 0 : -1}
-      onClick={handleClick}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
       onKeyDown={handleKeyDown}
       aria-selected={props['aria-selected'] ?? (selected ? true : undefined)}
       aria-checked={props['aria-checked']}
@@ -154,6 +179,7 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
         disabled && 'listbox-item--disabled',
         focused && 'listbox-item--focused',
         interactive && 'listbox-item--interactive',
+        isPressing && 'listbox-item--pressing',
         hasAccessories && 'listbox-item--with-accessories',
         className
       )}

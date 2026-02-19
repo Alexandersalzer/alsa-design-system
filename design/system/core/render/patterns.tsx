@@ -99,9 +99,34 @@ export const renderPatternDirect = (
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
     
-    // Determine animation config
+    // Determine animation config with global mode support
     const patternAnimation = pattern.animation || patternProps.animation;
-    const animationConfig = patternAnimation || layoutContext?.sectionAnimation;
+    let animationConfig = patternAnimation || layoutContext?.sectionAnimation;
+    
+    // Check global sectionBodyAnimation mode (all/hero/none) if no explicit animation
+    if (!patternAnimation && typeof window !== 'undefined') {
+      const isHero = sectionKey?.startsWith('hero_');
+      const globalMode = getComputedStyle(document.documentElement)
+        .getPropertyValue('--section-body-animation')
+        .replace(/['"`]/g, '')
+        .trim()
+        .toLowerCase() as 'all' | 'hero' | 'none' | '';
+      
+      // If section-level animation exists, respect it
+      // Otherwise check global mode
+      if (!layoutContext?.sectionAnimation) {
+        const shouldAnimate = globalMode === 'all' || (globalMode === 'hero' && isHero);
+        if (shouldAnimate && !animationConfig) {
+          // Provide default fadeIn animation
+          animationConfig = {
+            type: 'fadeIn',
+            settings: { direction: 'up', duration: 600, stagger: 100 }
+          };
+        } else if (!shouldAnimate) {
+          animationConfig = { type: 'none', settings: {} };
+        }
+      }
+    }
     
     // Animations that should wrap each item individually
     const perItemAnimations = ['fadeIn', 'opacity', 'scale', 'slideIn'];
@@ -119,7 +144,7 @@ export const renderPatternDirect = (
     );
 
     return (
-      <div key={patternKey} data-pattern-key={patternKey} style={{ display: 'contents' }}>
+      <div key={patternKey} data-pattern-key={patternKey} style={{ display: 'contents' }} suppressHydrationWarning>
         {layoutContent}
       </div>
     );
@@ -139,6 +164,8 @@ export const renderPatternDirect = (
         props={pattern.props}
         components={pattern.components}
         order={pattern.order}
+        sectionKey={sectionKey}
+        patternKey={patternKey}
         layoutContext={layoutContext}
       />
     </div>
@@ -162,9 +189,28 @@ export const renderPattern = (
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
     
-    // Determine animation config: pattern.animation OR pattern.props.animation, then section-level
+    // Determine animation config with global mode support
     const patternAnimation = pattern.animation || patternProps.animation;
-    const animationConfig = patternAnimation || layoutContext?.sectionAnimation;
+    let animationConfig = patternAnimation || layoutContext?.sectionAnimation;
+    
+    // Check global sectionBodyAnimation mode (all/hero/none) if no explicit animation
+    if (!patternAnimation && typeof window !== 'undefined') {
+      const isHero = sectionKey?.startsWith('hero_');
+      const globalMode = getComputedStyle(document.documentElement)
+        .getPropertyValue('--section-body-animation')
+        .replace(/['"`]/g, '')
+        .trim()
+        .toLowerCase() as 'all' | 'hero' | 'none' | '';
+      
+      // If section-level animation exists, respect it
+      // Otherwise check global mode
+      if (!layoutContext?.sectionAnimation) {
+        const shouldAnimate = globalMode === 'all' || (globalMode === 'hero' && isHero);
+        if (!shouldAnimate) {
+          animationConfig = { type: 'none', settings: {} };
+        }
+      }
+    }
     
     // Animations that should wrap each item individually (with stagger support)
     const perItemAnimations = ['fadeIn', 'opacity', 'scale', 'slideIn'];
@@ -225,6 +271,8 @@ export const renderPattern = (
         props={pattern.props}
         components={pattern.components}
         order={pattern.order}
+        sectionKey={sectionKey}
+        patternKey={patternKey}
         layoutContext={layoutContext}
       />
     </Container>

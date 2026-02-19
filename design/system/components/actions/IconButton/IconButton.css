@@ -157,6 +157,63 @@
   background-color: var(--interactive-destructive-active);
 }
 
+/* SECONDARY-GLASS */
+.icon-btn--secondary-glass {
+  background-color: var(--surface-button-secondary-glass);
+  border-color: var(--border-button-secondary-glass);
+  color: var(--text-button-secondary-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.icon-btn--secondary-glass:hover:not(:disabled) {
+  background-color: var(--surface-button-secondary-glass-hover);
+  border-color: var(--border-button-secondary-glass-hover);
+}
+
+.icon-btn--secondary-glass:active:not(:disabled) {
+  background-color: var(--surface-button-secondary-glass-active);
+  border-color: var(--border-button-secondary-glass-active);
+}
+
+/* GHOST-GLASS */
+.icon-btn--ghost-glass {
+  background-color: var(--surface-button-ghost-glass);
+  border-color: var(--border-button-ghost-glass);
+  color: var(--text-button-ghost-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.icon-btn--ghost-glass:hover:not(:disabled) {
+  background-color: var(--surface-button-ghost-glass-hover);
+  border-color: var(--border-button-ghost-glass-hover);
+}
+
+.icon-btn--ghost-glass:active:not(:disabled) {
+  background-color: var(--surface-button-ghost-glass-active);
+  border-color: var(--border-button-ghost-glass-active);
+}
+
+/* ACCENT-GLASS */
+.icon-btn--accent-glass {
+  background-color: var(--surface-button-accent-glass);
+  border-color: var(--border-button-accent-glass);
+  color: var(--text-button-accent-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.icon-btn--accent-glass:hover:not(:disabled) {
+  background-color: var(--surface-button-accent-glass-hover);
+  border-color: var(--border-button-accent-glass-hover);
+}
+
+.icon-btn--accent-glass:active:not(:disabled) {
+  background-color: var(--surface-button-accent-glass-active);
+  border-color: var(--border-button-accent-glass-active);
+}
+
 /* ==========================================================
    INTERACTION — MATCH BUTTON EXACTLY
 ========================================================== */
