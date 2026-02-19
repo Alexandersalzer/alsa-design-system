@@ -125,17 +125,20 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
   const [isPressing, setIsPressing] = useState(false);
 
   const handleMouseDown = (e: MouseEvent<HTMLLIElement>) => {
-    if (disabled || selected) return;
+    if (disabled) return;
 
-    // Set pressing state immediately to show active surface
-    setIsPressing(true);
+    // Don't show pressing state if already selected
+    if (!selected) {
+      setIsPressing(true);
+    }
 
-    // Delay onClick to allow the pressed state to render
+    // Call onClick immediately - no delay
+    onClick?.(e);
+
+    // Clear pressing state after a delay to show feedback
     setTimeout(() => {
-      onClick?.(e);
-      // Clear pressing state after onClick
       setIsPressing(false);
-    }, 100); // 100ms delay to show the pressed surface
+    }, 150); // Keep pressed visual for 150ms even after onClick
   };
 
   const handleMouseUp = () => {
