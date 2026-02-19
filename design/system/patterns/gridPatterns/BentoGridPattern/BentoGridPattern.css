@@ -9,3 +9,12 @@
 .bento-grid-pattern {
   width: 100%;
 }
+
+/* Varje kort fyller sin grid-cell; min radhöjd så att overlay-kort (glas/transparent) inte kollapsar */
+.bento-grid-pattern {
+  grid-auto-rows: minmax(280px, 1fr);
+}
+.bento-grid-pattern > * {
+  min-height: 0;
+  height: 100%;
+}

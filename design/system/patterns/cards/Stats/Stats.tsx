@@ -20,6 +20,7 @@ import { Icon, IconColor } from '../../../components/media/Icon';
 import { CountUp } from '../../../components/animations/CountUp/CountUp';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { cn } from '../../../utils/cn';
 
 import './Stats.css';
 
@@ -236,11 +237,13 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
     {!isLast && (
       <Box
         style={{
-          width: '1px',
-          height: '48px',
-          backgroundColor: 'var(--border-subtle)'
+          width: 'var(--stat-separator-width, 3px)',
+          minHeight: '40px',
+          alignSelf: 'stretch',
+          backgroundColor: 'var(--stat-separator-color, var(--border-accent))'
         }}
         className="stat-separator"
+        aria-hidden
       />
     )}
   </HStack>
@@ -261,7 +264,8 @@ const StatWithBottomBorder: React.FC<StatItemComponentProps> = ({
   <Box
     padding="md"
     style={{
-      borderBottom: '2px solid var(--border-subtle)'
+      borderBottom: '3px solid var(--border-accent)',
+      paddingBottom: 'var(--foundation-space-6, 24px)'
     }}
   >
     <VStack spacing={spacing} align={align}>
@@ -299,7 +303,7 @@ const StatWithTopBorder: React.FC<StatItemComponentProps> = ({
     padding="md"
     style={{
       borderTop: '3px solid var(--border-accent)',
-      paddingTop: 'var(--space-md)'
+      paddingTop: 'var(--foundation-space-6, 24px)'
     }}
   >
     <VStack spacing={spacing} align={align}>
@@ -338,7 +342,7 @@ const StatWithLeftBorder: React.FC<StatItemComponentProps> = ({
     className="stat--left-border-responsive"
     style={{
       borderLeft: '4px solid var(--border-accent)',
-      paddingLeft: 'var(--space-md)'
+      paddingLeft: 'var(--foundation-space-6, 24px)'
     }}
   >
     <VStack spacing={spacing} align={align}>
@@ -616,7 +620,10 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
             key={key}
             stat={stat}
             {...commonProps}
-            isLast={index === statItems.length - 1}
+            isLast={
+              index === statItems.length - 1 ||
+              (columns != null && columns >= 1 && (index + 1) % columns === 0)
+            }
           />
         );
         
@@ -651,30 +658,31 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     }
   };
 
-  // Choose container based on variant
+  // Choose container based on variant. Separator uses same Grid/columns as others
+  // so layout (e.g. 2x2) stays consistent; only the vertical lines between items differ.
   let content: React.ReactNode;
   
-  if (variant === 'with-separator') {
+  if (columns && columns >= 1) {
+    // If columns prop is set, use Grid component for forced grid layout.
+    // With separator: wrap each stat in .stats-grid-item and set data-cols so CSS
+    // can hide the separator when the item is last in its row (responsive).
+    const isSeparator = variant === 'with-separator';
     content = (
-      <HStack 
-        spacing="xl" 
-        align="center" 
-        justify="center"
-        wrap={true}
-        className={className}
-      >
-        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
-      </HStack>
-    );
-  } else if (columns && columns >= 1) {
-    // If columns prop is set, use Grid component for forced grid layout
-    content = (
-      <Grid 
+      <Grid
         columns={columns}
         gap={gridGap}
-        className={className}
+        className={cn(className, isSeparator && 'stats-grid--separator')}
+        data-cols={isSeparator ? columns : undefined}
       >
-        {statItems.map((stat: StatItem, index: number) => renderStat(stat, index))}
+        {statItems.map((stat: StatItem, index: number) =>
+          isSeparator ? (
+            <div key={stat.id || `stat-${index}`} className="stats-grid-item">
+              {renderStat(stat, index)}
+            </div>
+          ) : (
+            renderStat(stat, index)
+          )
+        )}
       </Grid>
     );
   } else {

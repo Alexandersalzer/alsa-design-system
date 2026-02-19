@@ -104,7 +104,9 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
   if (renderIf('image') && get('image').props.imageSrc) {
     const imageProps = get('image').props;
     const overflowStyles = getOverflowStyles();
-    
+    const radius = imageProps.radius || 'md';
+    const border = imageProps.border;
+
     // Container styles for positioning
     const containerStyles: React.CSSProperties = {
       position: 'relative',
@@ -120,22 +122,31 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
       ...(align === 'center' && { marginLeft: 'auto', marginRight: 'auto' }),
     };
 
+    // Wrapper so border + radius clip the image correctly
+    const wrapperStyles: React.CSSProperties = {
+      overflow: 'hidden',
+      borderRadius: `var(--radius-${radius})`,
+      ...(border && { border }),
+    };
+
     return (
       <div style={containerStyles}>
-        <Image
-          src={resolveCdnImageUrl(imageProps.imageSrc)}
-          alt={imageProps.alt || 'Media image'}
-          width="100%"
-          height={imageProps.height || 'auto'}
-          objectFit={imageProps.objectFit || 'contain'}
-          objectPosition={imageProps.objectPosition || 'center'}
-          radius={imageProps.radius || 'md'}
-          loading="eager"
-          priority={true}
-          aspectRatio={imageProps.aspectRatio}
-          className="media-pattern-image"
-          componentKey={get('image').key}
-        />
+        <div style={wrapperStyles}>
+          <Image
+            src={resolveCdnImageUrl(imageProps.imageSrc)}
+            alt={imageProps.alt || 'Media image'}
+            width="100%"
+            height={imageProps.height || 'auto'}
+            objectFit={imageProps.objectFit || 'contain'}
+            objectPosition={imageProps.objectPosition || 'center'}
+            radius={radius}
+            loading="eager"
+            priority={true}
+            aspectRatio={imageProps.aspectRatio}
+            className="media-pattern-image"
+            componentKey={get('image').key}
+          />
+        </div>
       </div>
     );
   }
