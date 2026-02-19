@@ -188,12 +188,29 @@
   justify-content: center;
 }
 
+/* Hela kortet får samma bakgrund som textrutan när bilder är av (token-baserat) */
+.bento-card--no-image-bg-surface {
+  background-color: var(--surface-card, var(--surface-primary));
+}
+.bento-card--no-image-bg-raised {
+  background-color: var(--surface-raised);
+}
+.bento-card--no-image-bg-elevated {
+  background-color: var(--surface-elevated);
+}
+.bento-card--no-image-bg-secondary {
+  background-color: var(--surface-secondary);
+}
+
 .bento-card--no-image .bento-card__footer {
   border-top: none;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* Samma bakgrund som kortet så att hela kortet ser enhetligt ut */
+  background: transparent !important;
+  box-shadow: none;
 }
 
 /* Tag positioned in top area */

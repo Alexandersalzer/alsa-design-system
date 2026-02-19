@@ -60,6 +60,8 @@ export interface BentoCardProps {
   footerElevated?: boolean;
   /** Scale image to fill the card (may crop/zoom). If false, image keeps proportions without zoom. */
   scaleImageToFill?: boolean;
+  /** När showImage är false: bakgrund över hela kortet (samma som textrutan). Påverkar bara kort utan bild. */
+  noImageBackground?: 'surface' | 'raised' | 'elevated' | 'secondary';
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
@@ -89,6 +91,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   showLink = true,
   footerElevated = false,
   scaleImageToFill,
+  noImageBackground = 'surface',
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
 
@@ -120,6 +123,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
     href && effectiveHoverEffect !== 'none' && `bento-card--hover-${effectiveHoverEffect}`,
     !showFooter && 'bento-card--no-footer',
     !showImage && 'bento-card--no-image',
+    !showImage && `bento-card--no-image-bg-${noImageBackground}`,
     effectiveBorderStyle !== 'none' && `bento-card--border-${effectiveBorderStyle}`,
     isOverlayFooter && 'bento-card--overlay-footer',
     isClickable && 'bento-card--clickable',

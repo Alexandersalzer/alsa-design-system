@@ -169,11 +169,13 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
     defaultFooterStyle,
     defaultVariant,
     defaultShowImage,
+    defaultNoImageBackground,
     cardLayout,
   } = patternPropsObj;
   const hasFooterDefault = 'defaultFooterStyle' in patternPropsObj;
   const hasVariantDefault = 'defaultVariant' in patternPropsObj;
   const hasShowImageDefault = 'defaultShowImage' in patternPropsObj;
+  const hasNoImageBackgroundDefault = 'defaultNoImageBackground' in patternPropsObj;
 
   const cardCount = componentOrder.length;
   const presetKey: CardLayoutPreset =
@@ -218,6 +220,9 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
             ...(hasVariantDefault && { variant: component.props?.variant ?? defaultVariant }),
             ...(hasShowImageDefault && {
               showImage: resolveShowImage(defaultShowImage) ?? resolveShowImage(component.props?.showImage) ?? true,
+            }),
+            ...(hasNoImageBackgroundDefault && {
+              noImageBackground: component.props?.noImageBackground ?? defaultNoImageBackground ?? 'surface',
             }),
           };
 
