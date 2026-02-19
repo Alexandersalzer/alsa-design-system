@@ -130,27 +130,36 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Build logo props with componentKey
+  // Build logo props with componentKey. Text logo: match by key "typography-businessName" (templates use type "typography") or by type "typography-businessName"
+  const businessNameByKey = components['typography-businessName'];
+  const businessNameByType = renderIf('typography-businessName') ? get('typography-businessName') : null;
+  const businessNameComp = businessNameByKey
+    ? { props: businessNameByKey.props ?? {}, key: 'typography-businessName' as string }
+    : businessNameByType
+      ? { props: businessNameByType.props ?? {}, key: businessNameByType.key }
+      : null;
+  const hasBusinessName = Boolean(businessNameComp && !businessNameComp.props?.hidden);
+
   const logoSrc = renderIf('logo') ? get('logo').props.src : undefined;
   const logoProps = {
     src: logoSrc ? (logoSrc.startsWith('http') ? logoSrc : `${CDN_BASE_URL}${logoSrc}`) : undefined,
     alt: renderIf('logo') ? (get('logo').props.alt || 'Logo') : undefined,
-    text: undefined,
+    text: hasBusinessName ? (businessNameComp!.props?.content ?? '') : undefined,
     href: `/${currentLocale}`,
     width: renderIf('logo') ? (get('logo').props.width || 40) : undefined,
     height: renderIf('logo') ? (get('logo').props.height || 40) : undefined,
     color: renderIf('logo') ? (get('logo').props.color || 'auto') : 'auto' as const,
-    textSize: renderIf('typography-businessName') ? (get('typography-businessName').props.size || 'lg') : 'lg' as const,
-    textWeight: renderIf('typography-businessName') ? (get('typography-businessName').props.weight || 'extrabold') : 'extrabold' as const,
-    textTransform: renderIf('typography-businessName') ? (get('typography-businessName').props.transform || 'none') : 'none' as const,
-    textSpacing: renderIf('typography-businessName') ? (get('typography-businessName').props.spacing || 'normal') : 'normal' as const,
-    textGradient: renderIf('typography-businessName') ? (get('typography-businessName').props.gradient || false) : false,
-    gap: renderIf('logo') && renderIf('typography-businessName') ? (getPatternProps().logoGap || 'sm') : 'sm' as const,
+    textSize: hasBusinessName ? (businessNameComp!.props?.size || 'lg') : 'lg' as const,
+    textWeight: hasBusinessName ? (businessNameComp!.props?.weight || 'extrabold') : 'extrabold' as const,
+    textTransform: hasBusinessName ? (businessNameComp!.props?.transform || 'none') : 'none' as const,
+    textSpacing: hasBusinessName ? (businessNameComp!.props?.spacing || 'normal') : 'normal' as const,
+    textGradient: hasBusinessName ? Boolean(businessNameComp!.props?.gradient) : false,
+    gap: renderIf('logo') && hasBusinessName ? (getPatternProps().logoGap || 'sm') : 'sm' as const,
     hideTextOnMobile: getPatternProps().hideLogoTextOnMobile || false,
     loading: 'eager' as const,
     priority: true,
     componentKey: renderIf('logo') ? get('logo').key : undefined,
-    textComponentKey: renderIf('typography-businessName') ? get('typography-businessName').key : undefined,
+    textComponentKey: hasBusinessName ? businessNameComp!.key : undefined,
   };
 
   return (
