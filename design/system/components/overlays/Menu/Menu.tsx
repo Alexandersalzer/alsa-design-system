@@ -475,7 +475,7 @@ export const MenuContent = ({
           className
         )}
       >
-        <Listbox role="menu" size={size} spacing="xs" surface="raised">
+        <Listbox role="menu" size={size} spacing="xs">
           {children}
         </Listbox>
       </Popover.Content>
