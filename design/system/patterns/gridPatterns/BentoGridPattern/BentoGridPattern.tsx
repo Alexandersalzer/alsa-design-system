@@ -217,7 +217,7 @@ export const BentoGridPattern: React.FC<BentoGridPatternProps> = (patternNode) =
             ...(hasFooterDefault && { footerStyle: component.props?.footerStyle ?? defaultFooterStyle }),
             ...(hasVariantDefault && { variant: component.props?.variant ?? defaultVariant }),
             ...(hasShowImageDefault && {
-              showImage: resolveShowImage(component.props?.showImage) ?? resolveShowImage(defaultShowImage) ?? true,
+              showImage: resolveShowImage(defaultShowImage) ?? resolveShowImage(component.props?.showImage) ?? true,
             }),
           };
 
