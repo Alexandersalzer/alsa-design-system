@@ -145,9 +145,10 @@
 }
 
 /* Pressing state - manual class for showing pressed surface before selection */
-.listbox-item--pressing:not(.listbox-item--disabled):not(.listbox-item--selected) {
-  background-color: var(--surface-pressed);
-  transform: scale(0.995);
+/* IMPORTANT: No :not(.listbox-item--selected) guard - pressing state must show even after item becomes selected */
+.listbox-item--pressing:not(.listbox-item--disabled) {
+  background-color: var(--surface-pressed) !important;
+  transform: scale(0.995) !important;
 }
 
 /* Focus state */
