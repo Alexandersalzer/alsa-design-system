@@ -8,7 +8,8 @@ import React, {
   forwardRef,
   type ReactNode,
   type HTMLAttributes,
-  type MouseEvent
+  type MouseEvent,
+  useState
 } from 'react';
 import { cn } from '../../../utils/cn';
 
@@ -121,13 +122,28 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
   role = 'option',
   ...props
 }, ref) => {
+  const [isPressing, setIsPressing] = useState(false);
+
   const handleMouseDown = (e: MouseEvent<HTMLLIElement>) => {
-    if (disabled) return;
-    // Delay onClick to allow browser to paint :active CSS state first
-    // requestAnimationFrame ensures the :active state is painted before state updates
-    requestAnimationFrame(() => {
+    if (disabled || selected) return;
+
+    // Set pressing state immediately to show active surface
+    setIsPressing(true);
+
+    // Delay onClick to allow the pressed state to render
+    setTimeout(() => {
       onClick?.(e);
-    });
+      // Clear pressing state after onClick
+      setIsPressing(false);
+    }, 100); // 100ms delay to show the pressed surface
+  };
+
+  const handleMouseUp = () => {
+    setIsPressing(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPressing(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLLIElement>) => {
@@ -146,6 +162,8 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
       role={role}
       tabIndex={disabled ? -1 : interactive ? 0 : -1}
       onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
       onKeyDown={handleKeyDown}
       aria-selected={props['aria-selected'] ?? (selected ? true : undefined)}
       aria-checked={props['aria-checked']}
@@ -158,6 +176,7 @@ export const ListboxItem = forwardRef<HTMLLIElement, ListboxItemProps>(({
         disabled && 'listbox-item--disabled',
         focused && 'listbox-item--focused',
         interactive && 'listbox-item--interactive',
+        isPressing && 'listbox-item--pressing',
         hasAccessories && 'listbox-item--with-accessories',
         className
       )}
