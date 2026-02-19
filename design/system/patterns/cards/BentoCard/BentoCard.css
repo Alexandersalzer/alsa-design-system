@@ -366,9 +366,9 @@
   color: var(--always-white) !important;
 }
 
-/* When footer overlays image, image fills entire card – ingen fast höjd */
+/* When footer overlays image, image fills entire card – min-höjd så kortet inte kollapsar */
 .bento-card--overlay-footer {
-  min-height: 200px;
+  min-height: 280px;
 }
 
 .bento-card--overlay-footer .bento-card__image-container {

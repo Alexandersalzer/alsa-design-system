@@ -10,9 +10,9 @@
   width: 100%;
 }
 
-/* Varje kort fyller sin grid-cell; lika radhöjd så att t.ex. 2 kort över inte blir dubbelt så höga som 4 under */
+/* Varje kort fyller sin grid-cell; min radhöjd så att overlay-kort (glas/transparent) inte kollapsar */
 .bento-grid-pattern {
-  grid-auto-rows: 1fr;
+  grid-auto-rows: minmax(280px, 1fr);
 }
 .bento-grid-pattern > * {
   min-height: 0;
