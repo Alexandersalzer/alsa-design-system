@@ -130,16 +130,48 @@
   color: var(--text-default);
 }
 
+/* Keep selected background even on hover */
+.nav-item--default.listbox-item--selected:hover {
+  background-color: var(--surface-elevated);
+  color: var(--text-default);
+}
+
+/* Show pressed feedback on selected items when clicking */
+.nav-item--default.listbox-item--selected:active {
+  background-color: var(--surface-pressed);  /* neutral-300 — darker on press */
+  transform: scale(0.995);
+}
+
 /* ACCENT variant: accent background + accent text/icon on active */
 .nav-item--accent.listbox-item--selected {
   background-color: var(--surface-accent-muted);
   color: var(--text-accent);
 }
 
+.nav-item--accent.listbox-item--selected:hover {
+  background-color: var(--surface-accent-muted);
+  color: var(--text-accent);
+}
+
+.nav-item--accent.listbox-item--selected:active {
+  background-color: var(--surface-accent);
+  transform: scale(0.995);
+}
+
 /* GHOST variant: no background, just accent text/icon on active */
 .nav-item--ghost.listbox-item--selected {
   background-color: transparent;
   color: var(--text-accent);
+}
+
+.nav-item--ghost.listbox-item--selected:hover {
+  background-color: var(--surface-accent-subtle);
+  color: var(--text-accent);
+}
+
+.nav-item--ghost.listbox-item--selected:active {
+  background-color: var(--surface-accent-muted);
+  transform: scale(0.995);
 }
 
 /* ===== NAV ITEM - ACTIVE STATE ===== */
