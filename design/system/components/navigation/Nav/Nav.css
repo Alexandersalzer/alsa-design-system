@@ -79,9 +79,7 @@
   /* NO background-color here - let Listbox.css handle it */
   border-color: transparent;
   cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
+  /* NO transitions - instant feedback for press/select states */
 }
 
 /* ===== NAV ITEM - SIZES ===== */
