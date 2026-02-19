@@ -1,21 +1,48 @@
 /**
  * Template Reference Resolution System
  *
- * Detects and resolves template references from the pattern gallery registry.
+ * Detects and resolves template references from a pluggable template registry.
  * Allows templates to be defined once and reused across multiple patterns/sections.
+ *
+ * NOTE: This module doesn't directly import from patternsgallery to avoid circular dependencies.
+ * Instead, it uses a global registry that gets populated at runtime.
  */
 
-import { PatternTemplate, getPatternTemplate } from '@blimpify-im/patternsgallery';
+/**
+ * Global template registry - populated at runtime by consuming applications
+ * This avoids circular dependency between blimpify-ui and patternsgallery
+ */
+let globalTemplateRegistry: Record<string, any> = {};
+
+/**
+ * Register templates from an external source (e.g., patternsgallery)
+ * This should be called once at application startup
+ */
+export function registerTemplates(templates: Record<string, any>): void {
+  globalTemplateRegistry = { ...globalTemplateRegistry, ...templates };
+}
+
+/**
+ * Get a template by ID from the global registry
+ */
+function getTemplate(templateId: string): any {
+  return globalTemplateRegistry[templateId];
+}
 
 /**
  * Checks if a template value is a reference to a pattern template
  * Detection strategies:
  * 1. String starting with "ref:" (e.g., "ref:pricing-card-three-tier")
  * 2. Object with templateId property
- * 3. String matching a known template ID from registry
+ * 3. String that could be a template ID (checked against registry if available)
  */
 export function isTemplateReference(template: any): boolean {
   if (!template) return false;
+
+  // If it's an object with children, it's an inline template
+  if (typeof template === 'object' && template.children && !template.templateId) {
+    return false;
+  }
 
   // Strategy 1: Explicit "ref:" prefix
   if (typeof template === 'string' && template.startsWith('ref:')) {
@@ -29,7 +56,7 @@ export function isTemplateReference(template: any): boolean {
 
   // Strategy 3: String that matches a known template ID
   if (typeof template === 'string') {
-    const matchedTemplate = getPatternTemplate(template);
+    const matchedTemplate = getTemplate(template);
     return matchedTemplate !== undefined;
   }
 
@@ -88,40 +115,15 @@ function resolveTemplateVariables(
 }
 
 /**
- * Resolves component references from template to actual component keys
- *
- * Example:
- * Template has: { component: "${heading}" }
- * componentMapping says: { "heading": "${heading}" }
- * Result: Component reference stays as ${heading} (handled by existing renderer)
- *
- * This allows the template to use generic slots that get filled by item components
- */
-function resolveComponentMapping(
-  template: any,
-  componentMapping?: Record<string, string>
-): any {
-  // Component mapping is optional - if not provided, template uses its own component refs
-  if (!componentMapping) return template;
-
-  // For now, we don't need to modify the template
-  // The existing renderer already handles ${componentType} references
-  // componentMapping is just for documentation/validation
-  return template;
-}
-
-/**
  * Main resolver: Resolves a template reference to actual template structure
  *
  * @param templateRef - Template reference (string ID or object with templateId)
  * @param variableMapping - Optional mapping of variables like ${cardVariant} to actual values
- * @param componentMapping - Optional mapping of component slots (for documentation)
  * @returns Resolved template structure ready for rendering
  */
 export function resolveTemplateReference(
   templateRef: any,
-  variableMapping?: Record<string, any>,
-  componentMapping?: Record<string, string>
+  variableMapping?: Record<string, any>
 ): any {
   // Extract template ID
   const templateId = extractTemplateId(templateRef);
@@ -130,10 +132,10 @@ export function resolveTemplateReference(
     return null;
   }
 
-  // Get template from registry
-  const patternTemplate = getPatternTemplate(templateId);
+  // Get template from global registry
+  const patternTemplate = getTemplate(templateId);
   if (!patternTemplate) {
-    console.warn(`Pattern template "${templateId}" not found in registry`);
+    console.warn(`Pattern template "${templateId}" not found in registry. Make sure templates are registered via registerTemplates().`);
     return null;
   }
 
@@ -144,9 +146,6 @@ export function resolveTemplateReference(
   if (variableMapping) {
     resolvedTemplate = resolveTemplateVariables(resolvedTemplate, variableMapping);
   }
-
-  // Apply component mapping (currently a no-op, for future use)
-  resolvedTemplate = resolveComponentMapping(resolvedTemplate, componentMapping);
 
   return resolvedTemplate;
 }
@@ -169,13 +168,12 @@ export function resolveLayoutTemplate(
     return template;
   }
 
-  // Extract variable and component mappings from the reference object
+  // Extract variable mapping from the reference object
   const variableMapping = typeof template === 'object' ? template.variableMapping : undefined;
-  const componentMapping = typeof template === 'object' ? template.componentMapping : undefined;
 
   // If item has variables (like cardVariant), merge them into variableMapping
   const mergedVariableMapping = item ? { ...variableMapping, ...item } : variableMapping;
 
   // Resolve the reference
-  return resolveTemplateReference(template, mergedVariableMapping, componentMapping);
+  return resolveTemplateReference(template, mergedVariableMapping);
 }

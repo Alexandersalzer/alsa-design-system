@@ -14,3 +14,8 @@ export {
 export {
   renderSectionLayout,
 } from './section-layout';
+export {
+  registerTemplates,
+  isTemplateReference,
+  resolveLayoutTemplate,
+} from './template-resolver';
