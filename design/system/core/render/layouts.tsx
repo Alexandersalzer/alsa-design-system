@@ -18,6 +18,7 @@ import {
   findCategoryItem,
   hasCategories
 } from '../utils/props';
+import { isTemplateReference, resolveLayoutTemplate } from './template-resolver';
 import './layouts.css';
 
 /**
@@ -114,7 +115,7 @@ export const renderLayoutWithTemplate = (
 ): React.ReactElement | null => {
   
   // Destructure layout-system props to prevent them from being passed to DOM elements
-  const {
+  let {
     type: parentType,
     template,
     items,
@@ -166,11 +167,24 @@ export const renderLayoutWithTemplate = (
   if (!template) {
     return renderSimpleLayout(layout, components, order, sectionKey, patternKey, locale);
   }
-  
+
+  // ✨ TEMPLATE REFERENCE RESOLUTION ✨
+  // Check if template is a reference (string ID or object with templateId)
+  // If so, resolve it from the pattern gallery registry and reassign to template variable
+  // This makes it transparent - all existing code works without changes!
+  if (isTemplateReference(template)) {
+    const resolvedTemplate = resolveLayoutTemplate(template);
+    if (!resolvedTemplate) {
+      console.warn('Failed to resolve template reference:', template);
+      return null;
+    }
+    template = resolvedTemplate; // Reassign so all existing code works unchanged
+  }
+
   // Extract animation settings if applicable
   const animationType = animationConfig?.type;
   const animationSettings = (animationConfig?.settings || {}) as Record<string, any>;
-  
+
   // Get animation component from registry (e.g., "fadeIn" -> animationComponents["fadeIn"])
   const AnimationComponent = animationType ? animationComponents[animationType] : null;
 

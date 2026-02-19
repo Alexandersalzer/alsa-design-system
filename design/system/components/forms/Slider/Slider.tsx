@@ -364,7 +364,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     const value =
       state.values.length === 1
         ? numberFormatter.format(state.values[0])
-        : numberFormatter.formatRange(state.values[0], state.values[state.values.length - 1]);
+        : `${numberFormatter.format(state.values[0])} – ${numberFormatter.format(state.values[state.values.length - 1])}`;
 
     const steps = showSteps ? Math.floor((maxValue - minValue) / step) + 1 : 0;
 
