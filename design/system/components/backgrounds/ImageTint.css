@@ -9,17 +9,16 @@
  */
 
 .image-tint-accent {
-  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue, 270)deg) saturate(var(--accent-tint-saturation, 0.85));
+  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue-deg, 270deg)) saturate(var(--accent-tint-saturation, 0.85));
 }
 
-/* In dark mode: invert so black/white roles flip and contrast stays correct */
+/* Base: accent tint without invert */
 .image-tint-accent-theme-aware {
-  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue, 270)deg) saturate(var(--accent-tint-saturation, 0.85));
+  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue-deg, 270deg)) saturate(var(--accent-tint-saturation, 0.85));
 }
 
-[data-theme="dark"] .image-tint-accent-theme-aware,
-:root:not([data-theme="light"]) .image-tint-accent-theme-aware {
-  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue, 270)deg) saturate(var(--accent-tint-saturation, 0.85)) invert(1);
+/* Dark mode: invert so black/white roles flip. Kräver att appen sätter data-theme="dark" på <html> (eller .dark) vid mörkt läge. */
+html[data-theme="dark"] .image-tint-accent-theme-aware,
+html.dark .image-tint-accent-theme-aware {
+  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue-deg, 270deg)) saturate(var(--accent-tint-saturation, 0.85)) invert(1);
 }
-
-/* When using themeMode: 'system', ensure the app sets data-theme on root from prefers-color-scheme */
