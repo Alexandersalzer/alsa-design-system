@@ -8,6 +8,7 @@
   position: relative;
   display: block; /* Default: block for responsive images (width: 100%) */
   overflow: hidden;
+  border: 1px solid var(--border-accent);
 }
 
 /* Fixed-size images (logos, avatars, icons) use inline-block to respect explicit dimensions */

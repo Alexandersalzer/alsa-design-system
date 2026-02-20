@@ -1078,7 +1078,12 @@ const renderLayoutNodeGeneric = (
       const { backgroundImage, backgroundSize, backgroundPosition, ...restStyle } = style;
       const cardProps = {
         ...layoutProps,
-        style: { position: 'relative' as const, overflow: 'hidden', ...restStyle },
+        style: {
+          position: 'relative' as const,
+          overflow: 'hidden',
+          border: '1px solid var(--border-accent)',
+          ...restStyle,
+        },
         backgroundImage: undefined,
         backgroundTint: undefined,
       };
