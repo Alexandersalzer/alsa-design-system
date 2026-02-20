@@ -28,6 +28,7 @@ const propsMappers = {
     src: props.backgroundImage || '',
     size: props.backgroundSize,
     position: props.backgroundPosition,
+    aspectRatio: props.backgroundAspectRatio,
     repeat: props.backgroundRepeat || 'repeat',
     opacity: props.backgroundOpacity,
     overlay: typeof props.backgroundOverlay === 'string' ? props.backgroundOverlay : false,

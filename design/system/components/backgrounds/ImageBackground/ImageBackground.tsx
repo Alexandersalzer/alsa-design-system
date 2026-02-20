@@ -7,11 +7,14 @@ export interface ImageBackgroundProps {
   /** URL to the background image */
   src: string;
 
-  /** Background size (CSS background-size) */
+  /** cover = fyll (kan croppa), contain = hela bilden syns, auto = naturlig storlek */
   size?: 'cover' | 'contain' | 'auto' | string;
 
-  /** Background position (CSS background-position) */
+  /** Background position (CSS background-position): center, top, bottom, "top center" osv. */
   position?: string;
+
+  /** Lås bildramen till ett förhållande (t.ex. "16/9", "21/9"). Bilden anpassas inom ramen. */
+  aspectRatio?: string;
 
   /** Background repeat (CSS background-repeat) */
   repeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y' | 'space' | 'round';
@@ -50,6 +53,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
   src,
   size = 'auto',
   position = 'center',
+  aspectRatio,
   repeat = 'repeat',
   opacity = 1,
   overlay = false,
@@ -62,54 +66,69 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
   const fadeClass = fadeEdge !== 'none' ? styles[`fade${fadeEdge.charAt(0).toUpperCase() + fadeEdge.slice(1)}`] : '';
   const useAccentMask = tint === 'accent' && src;
 
-  return (
-    <>
-      {/* Image Layer: antingen mask-baserad accent eller vanlig bakgrundsbild */}
-      {useAccentMask ? (
+  const imageLayer =
+    useAccentMask ? (
+      <div
+        className={`${styles.imageBackground} ${styles.accentMaskWrapper} ${fadeClass}`.trim()}
+        style={{
+          opacity,
+          // @ts-expect-error CSS custom property
+          '--fade-strength': fadeStrength,
+        }}
+        aria-hidden="true"
+      >
+        <AccentTintSvg
+          src={src}
+          size={size}
+          position={position}
+          svgClassName={styles.accentMaskSvg}
+          darkRectClassName={styles.accentMaskDarkBg}
+        />
+      </div>
+    ) : (
+      <div
+        className={`${styles.imageBackground} ${fadeClass}`.trim()}
+        style={{
+          backgroundImage: `url(${src})`,
+          backgroundSize: size,
+          backgroundPosition: position,
+          backgroundRepeat: repeat,
+          opacity,
+          // @ts-expect-error CSS custom property
+          '--fade-strength': fadeStrength,
+        }}
+        aria-hidden="true"
+      />
+    );
+
+  const overlayEl =
+    overlay && typeof overlay === 'string' ? (
+      <div
+        className={styles.overlay}
+        style={{ backgroundColor: overlay, opacity: overlayOpacity }}
+        aria-hidden="true"
+      />
+    ) : null;
+
+  if (aspectRatio) {
+    return (
+      <>
         <div
-          className={`${styles.imageBackground} ${styles.accentMaskWrapper} ${fadeClass}`.trim()}
-          style={{
-            opacity,
-            // @ts-expect-error CSS custom property
-            '--fade-strength': fadeStrength,
-          }}
+          className={styles.imageBackgroundAspectWrap}
+          style={{ opacity, ['--bg-aspect-ratio' as string]: aspectRatio }}
           aria-hidden="true"
         >
-          <AccentTintSvg
-            src={src}
-            size={size}
-            position={position}
-            svgClassName={styles.accentMaskSvg}
-            darkRectClassName={styles.accentMaskDarkBg}
-          />
+          <div className={styles.imageBackgroundAspectInner}>{imageLayer}</div>
         </div>
-      ) : (
-        <div
-          className={`${styles.imageBackground} ${fadeClass}`.trim()}
-          style={{
-            backgroundImage: `url(${src})`,
-            backgroundSize: size,
-            backgroundPosition: position,
-            backgroundRepeat: repeat,
-            opacity,
-            // @ts-expect-error CSS custom property
-            '--fade-strength': fadeStrength,
-          }}
-          aria-hidden="true"
-        />
-      )}
+        {overlayEl}
+      </>
+    );
+  }
 
-      {/* Optional Overlay */}
-      {overlay && typeof overlay === 'string' && (
-        <div
-          className={styles.overlay}
-          style={{
-            backgroundColor: overlay,
-            opacity: overlayOpacity,
-          }}
-          aria-hidden="true"
-        />
-      )}
+  return (
+    <>
+      {imageLayer}
+      {overlayEl}
     </>
   );
-};
+}
