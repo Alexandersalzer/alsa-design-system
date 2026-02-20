@@ -7,6 +7,18 @@
   height: 100%;
 }
 
+/* Accent tint: bild som mask, fylls med --foundation-accent-500 (valfri färg) */
+.accentMaskWrapper {
+  display: block;
+}
+
+.accentMaskSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .overlay {
   position: absolute;
   inset: 0;

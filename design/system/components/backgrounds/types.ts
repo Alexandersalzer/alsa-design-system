@@ -58,9 +58,9 @@ export interface ImageBackgroundProps {
   backgroundFilter?: string;
   imageFadeEdge?: FadeEdge;
   imageFadeStrength?: number;
-  /** Tint image with accent (B&W source → hue from --accent-hue). Use with themeAware for dark/light. */
+  /** Motiv fylls med exakt accentfärg (--foundation-accent-500). Fungerar för vilken färg som helst. Bäst med vit bakgrund + svart motiv. */
   backgroundTint?: 'accent' | 'none';
-  /** In dark mode invert image so contrast is correct. Use with B&W images (white bg + black motif). */
+  /** Oanvänd (behålls för API). */
   backgroundThemeAware?: boolean;
 }
 
