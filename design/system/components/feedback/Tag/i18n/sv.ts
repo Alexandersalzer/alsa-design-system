@@ -7,7 +7,7 @@ export const tagTranslations_sv = {
   description: 'Märkning för kategorier, status eller filter',
   
   props: {
-    children: {
+    content: {
       displayName: 'Text',
       description: 'Taggens textinnehåll',
     },

@@ -7,7 +7,8 @@ export type TagSize = 'small' | 'medium' | 'large';
 export type TagSurface = 'subtle' | 'muted' | 'vibrant';
 
 export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'onClick'> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  content?: string; // For JSON-driven rendering (CMS)
   variant?: TagVariant;
   size?: TagSize;
   surface?: TagSurface;
@@ -23,6 +24,7 @@ export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'o
 
 export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
   children,
+  content,
   variant = 'default',
   size = 'medium',
   surface = 'subtle',
@@ -36,6 +38,8 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
   componentKey,
   ...props
 }, ref) => {
+  // Use content prop if provided (for JSON-driven rendering), otherwise use children
+  const displayContent = content || children;
   const baseClasses = 'tag';
   const variantClass = `tag--${variant}`;
   const sizeClass = size !== 'medium' ? `tag--${size}` : '';
@@ -92,7 +96,7 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
           {icon}
         </span>
       )}
-      <span>{children}</span>
+      <span>{displayContent}</span>
       {removable && (
         <button
           className="tag__remove"

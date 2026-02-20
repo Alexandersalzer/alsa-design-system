@@ -30,9 +30,9 @@ export const createTagSchema = (locale: SupportedLocale = 'sv'): ComponentSchema
     },
     
     props: {
-      children: createLocalizedProp(
+      content: createLocalizedProp(
         {
-          name: 'children',
+          name: 'content',
           type: 'string',
           required: true,
           editorType: 'text',
@@ -41,7 +41,7 @@ export const createTagSchema = (locale: SupportedLocale = 'sv'): ComponentSchema
           cmsEnabled: true,
           group: 'content',
         },
-        t.props?.children
+        t.props?.content
       ),
       
       variant: createLocalizedProp(
@@ -89,9 +89,9 @@ export const createTagSchema = (locale: SupportedLocale = 'sv'): ComponentSchema
     
     validation: [
       {
-        id: 'tag-children-required',
+        id: 'tag-content-required',
         message: 'Tag text is required',
-        validator: (value: any) => !!value.children,
+        validator: (value: any) => !!value.content,
       },
     ],
     examples: [],

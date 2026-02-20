@@ -7,7 +7,7 @@ export const tagTranslations_en = {
   description: 'Label for categories, status or filters',
   
   props: {
-    children: {
+    content: {
       displayName: 'Text',
       description: 'Tag text content',
     },
