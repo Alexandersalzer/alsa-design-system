@@ -1,28 +1,22 @@
 /**
- * Accent-tint för bakgrundsbilder.
- * - solid: bild som mask, fylls med en platt accentfärg (+ dark mode).
- * - luminance: en accentfärg som "känner av" bilden – mörka partier = mörk accent, ljusa = ljus accent.
- *   Vita (L ≥ 0.6) blir transparensa så sektionens bakgrund syns.
+ * Delad accent-mask: bild som mask, fylls med accentfärg + dark mode (vita delar → surface-page).
+ * Används av ImageBackground och Image när tint="accent".
  * ViewBox sätts dynamiskt efter container så cover ger samma ratio som CSS background-size: cover.
  */
 import React, { useId, useRef, useState, useEffect } from 'react';
 
 export interface AccentTintSvgProps {
   src: string;
-  /** solid = platt färg; luminance = en färg som känner av bildens ljus/mörk */
-  variant?: 'solid' | 'luminance';
   /** T.ex. 'cover' | 'contain' | 'auto' eller objectFit-värde */
   size?: string;
   /** T.ex. 'center' | 'top' eller objectPosition-värde */
   position?: string;
-  /** Styrka: 0–1 = opacity; >1 = full opacity + maskkontrast (solid, 1–10 – högre = starkare tint). Vid luminance = opacity. Default 1.2. */
+  /** Styrka: 0–1 = opacity; >1 = full opacity + maskkontrast (1.5–2 tydlig, 3+ mer posterat/hårt, max 5). Default 1.2. */
   strength?: number;
-  /** Valfri tintfärg (hex, rgb eller var()). Default --accent-500 (theme-aware). */
-  tintColor?: string;
-  /** Klass för wrapper */
+  /** Klass för wrapper (färg sätts via color: var(--foundation-accent-500)) */
   wrapperClassName?: string;
   wrapperStyle?: React.CSSProperties;
-  /** Klass för dark-mode-rect (solid endast) */
+  /** Klass för dark-mode-rect (opacity 0 i light, 1 i dark – sätts av konsumentens CSS) */
   darkRectClassName?: string;
   /** Klass för själva SVG-elementet */
   svgClassName?: string;
@@ -39,16 +33,11 @@ function maskPreserveAspectRatio(size: string, position: string): string {
   return `${x}${y} meet`;
 }
 
-const LUMINANCE_MATRIX =
-  '0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0';
-
 export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
   src,
-  variant = 'solid',
   size = 'cover',
   position = 'center',
   strength = 1.2,
-  tintColor,
   wrapperClassName,
   wrapperStyle,
   darkRectClassName,
@@ -57,17 +46,15 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
   const maskId = useId().replace(/:/g, '-');
   const maskBgId = useId().replace(/:/g, '-');
   const filterId = useId().replace(/:/g, '-');
-  const luminanceFilterId = useId().replace(/:/g, '-');
   const aspect = maskPreserveAspectRatio(size, position);
+  // 0–1: styr opacity på accent; >1: full opacity + maskkontrast (höga värden = mer posterat/hårt)
   const opacity = strength <= 1 ? Math.min(1, Math.max(0, strength)) : 1;
-  /* Vanliga tinten: strength > 1 = maskkontrast (1–10). Högre = starkare, mer posterat. */
-  const maskContrast = strength > 1 ? Math.min(10, Math.max(1, strength)) : 1;
+  const maskContrast = strength > 1 ? Math.min(5, Math.max(1, strength)) : 1;
   const slope = maskContrast;
   const intercept = (1 - slope) * 0.5;
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [viewBox, setViewBox] = useState({ w: 100, h: 100 });
-  const [floodColor, setFloodColor] = useState('rgb(251, 146, 60)');
 
   useEffect(() => {
     const el = wrapperRef.current;
@@ -82,19 +69,12 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
     return () => ro.disconnect();
   }, []);
 
-  useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el) return;
-    const c = getComputedStyle(el).color;
-    if (c) setFloodColor(c);
-  }, [tintColor]);
-
   return (
     <div
       ref={wrapperRef}
       className={wrapperClassName}
       style={{
-        color: tintColor ?? 'var(--accent-500)',
+        color: 'var(--foundation-accent-500)',
         width: '100%',
         height: '100%',
         ...wrapperStyle,
@@ -109,96 +89,53 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
         xmlnsXlink="http://www.w3.org/1999/xlink"
         style={{ display: 'block', width: '100%', height: '100%' }}
       >
-        {variant === 'luminance' ? (
-          <>
-            <defs>
-              <filter id={luminanceFilterId} colorInterpolationFilters="sRGB">
-                <feColorMatrix
-                  in="SourceGraphic"
-                  result="luminance"
-                  type="matrix"
-                  values={LUMINANCE_MATRIX}
-                />
-                {/* Samma princip som solid: strength > 1 = höjd kontrast (tydligare mörk/ljus-skala) */}
-                {maskContrast > 1 && (
-                  <feComponentTransfer in="luminance" result="luminance">
-                    <feFuncR type="linear" slope={slope} intercept={intercept} />
-                    <feFuncG type="linear" slope={slope} intercept={intercept} />
-                    <feFuncB type="linear" slope={slope} intercept={intercept} />
-                    <feFuncA type="linear" slope={1} intercept={0} />
-                  </feComponentTransfer>
-                )}
-                {/* L 0–0.6 behålls (känner av), L≥0.7 = transparens */}
-                <feComponentTransfer in="luminance" result="darkOnly">
-                  <feFuncR type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0 0 0 0" />
-                  <feFuncG type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0 0 0 0" />
-                  <feFuncB type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0 0 0 0" />
-                  <feFuncA type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0 0 0 0" />
-                </feComponentTransfer>
-                <feFlood result="accent" floodColor={floodColor} />
-                <feBlend in="darkOnly" in2="accent" result="tinted" mode="multiply" />
-              </filter>
-            </defs>
+        <defs>
+          <filter id={filterId} colorInterpolationFilters="sRGB">
+            <feColorMatrix
+              type="matrix"
+              values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0"
+            />
+            {maskContrast > 1 && (
+              <feComponentTransfer>
+                <feFuncR type="linear" slope={slope} intercept={intercept} />
+                <feFuncG type="linear" slope={slope} intercept={intercept} />
+                <feFuncB type="linear" slope={slope} intercept={intercept} />
+                <feFuncA type="linear" slope={slope} intercept={intercept} />
+              </feComponentTransfer>
+            )}
+          </filter>
+          <mask id={maskId}>
             <image
               href={src}
               width="100%"
               height="100%"
               preserveAspectRatio={aspect}
-              filter={`url(#${luminanceFilterId})`}
-              style={{ opacity }}
+              filter={`url(#${filterId})`}
             />
-          </>
-        ) : (
-          <>
-            <defs>
-              <filter id={filterId} colorInterpolationFilters="sRGB">
-                <feColorMatrix
-                  type="matrix"
-                  values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0"
-                />
-                {maskContrast > 1 && (
-                  <feComponentTransfer>
-                    <feFuncR type="linear" slope={slope} intercept={intercept} />
-                    <feFuncG type="linear" slope={slope} intercept={intercept} />
-                    <feFuncB type="linear" slope={slope} intercept={intercept} />
-                    <feFuncA type="linear" slope={slope} intercept={intercept} />
-                  </feComponentTransfer>
-                )}
-              </filter>
-              <mask id={maskId}>
-                <image
-                  href={src}
-                  width="100%"
-                  height="100%"
-                  preserveAspectRatio={aspect}
-                  filter={`url(#${filterId})`}
-                />
-              </mask>
-              <mask id={maskBgId}>
-                <image
-                  href={src}
-                  width="100%"
-                  height="100%"
-                  preserveAspectRatio={aspect}
-                />
-              </mask>
-            </defs>
-            <rect
+          </mask>
+          <mask id={maskBgId}>
+            <image
+              href={src}
               width="100%"
               height="100%"
-              fill="var(--surface-page)"
-              mask={`url(#${maskBgId})`}
-              className={darkRectClassName}
+              preserveAspectRatio={aspect}
             />
-            <rect
-              width="100%"
-              height="100%"
-              fill="currentColor"
-              mask={`url(#${maskId})`}
-              opacity={opacity}
-            />
-          </>
-        )}
+          </mask>
+        </defs>
+        <rect
+          width="100%"
+          height="100%"
+          fill="var(--surface-page)"
+          mask={`url(#${maskBgId})`}
+          className={darkRectClassName}
+        />
+        <rect
+          width="100%"
+          height="100%"
+          fill="currentColor"
+          mask={`url(#${maskId})`}
+          opacity={opacity}
+        />
       </svg>
     </div>
   );

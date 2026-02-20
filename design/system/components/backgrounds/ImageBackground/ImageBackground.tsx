@@ -35,15 +35,13 @@ export interface ImageBackgroundProps {
   fadeStrength?: number;
 
   /**
-   * accent = platt färg (en nyans). accent-luminance = bildens ljus/mörk-skala bevaras, accent som nyans.
+   * accent = motivet fylls med exakt accentfärg (--foundation-accent-500).
+   * Fungerar för vilken färg som helst. Kräver bild med vit bakgrund + svart motiv (eller tydlig kontrast).
    */
-  tint?: 'accent' | 'accent-luminance' | 'none';
+  tint?: 'accent' | 'none';
 
   /** Styrka på accent-masken. 0–1 = opacity; >1 = full opacity + maskkontrast. Default 1.2. */
   tintStrength?: number;
-
-  /** Valfri tintfärg (hex, rgb eller var()) för varmare accent-tint. Om ej satt används --foundation-accent-500. */
-  tintColor?: string;
 
   /** Oanvänd (behålls för API). Accent använder alltid samma färg i light/dark. */
   themeAware?: boolean;
@@ -67,16 +65,14 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
   fadeStrength = 0.15,
   tint = 'none',
   tintStrength = 1.2,
-  tintColor,
   themeAware = false,
 }) => {
   const fadeClass = fadeEdge !== 'none' ? styles[`fade${fadeEdge.charAt(0).toUpperCase() + fadeEdge.slice(1)}`] : '';
-  const useAccentTint = (tint === 'accent' || tint === 'accent-luminance') && src;
-  const tintVariant = tint === 'accent-luminance' ? 'luminance' : 'solid';
+  const useAccentMask = tint === 'accent' && src;
   const sizeClass = size === 'contain' ? styles.accentMaskWrapperContain : '';
 
   const imageLayer =
-    useAccentTint ? (
+    useAccentMask ? (
       <div
         className={`${styles.imageBackground} ${styles.accentMaskWrapper} ${sizeClass} ${fadeClass}`.trim()}
         style={{
@@ -88,13 +84,11 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
       >
         <AccentTintSvg
           src={src}
-          variant={tintVariant}
           size={size}
           position={position}
           strength={tintStrength}
-          tintColor={tintColor}
           svgClassName={styles.accentMaskSvg}
-          darkRectClassName={tintVariant === 'solid' ? styles.accentMaskDarkBg : undefined}
+          darkRectClassName={styles.accentMaskDarkBg}
         />
       </div>
     ) : (
