@@ -1,24 +1,12 @@
 /**
- * Image tint utilities – accent-tinted and theme-aware B&W images.
- * Uses --accent-hue and --accent-tint-saturation from design tokens.
+ * Image tint – enbart hue för att matcha accentfärg.
+ * Använder --accent-hue-deg och --accent-tint-saturation från design tokens.
+ * Ingen light/dark-invertering; samma färgton i båda lägena.
  *
- * BILDSPEC (för konsekvent resultat):
- * - Använd bilder med VIT BAKGRUND och SVART MÖNSTER/MOTIV (eller ren gråskala).
- * - Då ger grayscale + sepia + hue-rotate accentfärg på motivet.
- * - Med themeAware: i dark mode inverteras bilden så kontrasten behålls.
+ * BILDSPEC: Vit bakgrund + svart motiv (eller gråskala) ger bäst resultat.
  */
 
-.image-tint-accent {
-  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue-deg, 270deg)) saturate(var(--accent-tint-saturation, 0.85));
-}
-
-/* Base: accent tint without invert */
+.image-tint-accent,
 .image-tint-accent-theme-aware {
   filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue-deg, 270deg)) saturate(var(--accent-tint-saturation, 0.85));
-}
-
-/* Dark mode: invert so black/white roles flip. Kräver att appen sätter data-theme="dark" på <html> (eller .dark) vid mörkt läge. */
-html[data-theme="dark"] .image-tint-accent-theme-aware,
-html.dark .image-tint-accent-theme-aware {
-  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue-deg, 270deg)) saturate(var(--accent-tint-saturation, 0.85)) invert(1);
 }
