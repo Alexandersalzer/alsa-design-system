@@ -36,7 +36,7 @@ const propsMappers = {
     fadeEdge: props.imageFadeEdge,
     fadeStrength: props.imageFadeStrength,
     tint: props.backgroundTint ?? 'none',
-    tintStrength: props.backgroundTintStrength ?? 1,
+    tintStrength: props.backgroundTintStrength ?? 1.2,
     themeAware: props.backgroundThemeAware ?? false,
   }),
   pattern: (props: BackgroundProps) => ({

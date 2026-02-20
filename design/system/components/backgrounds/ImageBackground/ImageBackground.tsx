@@ -40,7 +40,7 @@ export interface ImageBackgroundProps {
    */
   tint?: 'accent' | 'none';
 
-  /** Styrka på accent-masken 0–1 (default 1). Högre = starkare accent. */
+  /** Styrka på accent-masken. 0–1 = opacity; >1 = full opacity + maskkontrast. Default 1.2. */
   tintStrength?: number;
 
   /** Oanvänd (behålls för API). Accent använder alltid samma färg i light/dark. */
@@ -64,7 +64,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
   fadeEdge = 'none',
   fadeStrength = 0.15,
   tint = 'none',
-  tintStrength = 1,
+  tintStrength = 1.2,
   themeAware = false,
 }) => {
   const fadeClass = fadeEdge !== 'none' ? styles[`fade${fadeEdge.charAt(0).toUpperCase() + fadeEdge.slice(1)}`] : '';

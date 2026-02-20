@@ -10,7 +10,7 @@ export interface AccentTintSvgProps {
   size?: string;
   /** T.ex. 'center' | 'top' eller objectPosition-värde */
   position?: string;
-  /** Styrka på accentfyllningen 0–1 (default 1). Högre = starkare accent. */
+  /** Styrka på accentfyllningen. 0–1 = opacity på accent; >1 (t.ex. 1.5) = full opacity + höjd maskkontrast så accenten blir mer solid. Default 1.2. */
   strength?: number;
   /** Klass för wrapper (färg sätts via color: var(--foundation-accent-500)) */
   wrapperClassName?: string;
@@ -36,7 +36,7 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
   src,
   size = 'cover',
   position = 'center',
-  strength = 1,
+  strength = 1.2,
   wrapperClassName,
   wrapperStyle,
   darkRectClassName,
@@ -46,7 +46,11 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
   const maskBgId = useId().replace(/:/g, '-');
   const filterId = useId().replace(/:/g, '-');
   const aspect = maskPreserveAspectRatio(size, position);
-  const clampedStrength = Math.min(1, Math.max(0, strength));
+  // 0–1: styr opacity på accent; >1: full opacity, använd resten som maskkontrast
+  const opacity = strength <= 1 ? Math.min(1, Math.max(0, strength)) : 1;
+  const maskContrast = strength > 1 ? Math.min(3, Math.max(1, strength)) : 1;
+  const slope = maskContrast;
+  const intercept = (1 - slope) * 0.5;
 
   return (
     <div
@@ -73,6 +77,14 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
               type="matrix"
               values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0"
             />
+            {maskContrast > 1 && (
+              <feComponentTransfer>
+                <feFuncR type="linear" slope={slope} intercept={intercept} />
+                <feFuncG type="linear" slope={slope} intercept={intercept} />
+                <feFuncB type="linear" slope={slope} intercept={intercept} />
+                <feFuncA type="linear" slope={slope} intercept={intercept} />
+              </feComponentTransfer>
+            )}
           </filter>
           <mask id={maskId}>
             <image
@@ -104,7 +116,7 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
           height="100%"
           fill="currentColor"
           mask={`url(#${maskId})`}
-          opacity={clampedStrength}
+          opacity={opacity}
         />
       </svg>
     </div>
