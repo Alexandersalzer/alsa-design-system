@@ -144,9 +144,10 @@ export async function buildCssVars(tokens: DesignTokens): Promise<string> {
 
       /* ===== Accent Color Selection ===== */
       /* Hue in degrees for CSS filter (hue-rotate) – used by image tint / duotone. Unit in variable so filter never gets invalid "270) deg". */
-      --accent-hue: ${getAccentHue(accentColor)};
-      --accent-hue-deg: ${getAccentHue(accentColor)}deg;
-      --accent-tint-saturation: 0.85;
+      /* Inverse = vit/svart, ingen färgton: grayscale only (hue 0, saturation 0). */
+      --accent-hue: ${isInverseAccent ? 0 : getAccentHue(accentColor)};
+      --accent-hue-deg: ${isInverseAccent ? 0 : getAccentHue(accentColor)}deg;
+      --accent-tint-saturation: ${isInverseAccent ? 0 : 0.85};
       /* Set foundation colors - these will be used by color-mix() in colors.css for auto-inversion */
       ${isInverseAccent ? `
         --foundation-accent-100: var(--foundation-gray-100);
