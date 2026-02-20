@@ -62,8 +62,13 @@ export interface ImageBackgroundProps {
   backgroundFilter?: string;
   imageFadeEdge?: FadeEdge;
   imageFadeStrength?: number;
-  /** Motiv fylls med exakt accentfärg (--foundation-accent-500). Fungerar för vilken färg som helst. Bäst med vit bakgrund + svart motiv. */
-  backgroundTint?: 'accent' | 'none';
+  /**
+   * accent = platt färg (bilden som mask, en färg).
+   * accent-luminance = bildens ljus/mörk-skala bevaras, accent som nyans (mörka partier = mörk accent, ljusa = ljus accent). Fungerar för alla färger.
+   */
+  backgroundTint?: 'accent' | 'accent-luminance' | 'none';
+  /** Valfri färg för tint (hex, rgb eller var()). Används vid accent och accent-luminance. */
+  backgroundTintColor?: string;
   /** Styrka på accent-masken. 0–1 = opacity; >1 (t.ex. 1.2–2) = full opacity + höjd maskkontrast. Default 1.2. */
   backgroundTintStrength?: number;
   /** Oanvänd (behålls för API). */

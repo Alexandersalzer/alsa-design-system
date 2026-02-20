@@ -121,6 +121,7 @@ export const Section = ({
   imageFadeEdge,
   imageFadeStrength,
   backgroundTint,
+  backgroundTintColor,
   backgroundTintStrength,
   backgroundThemeAware,
   // Generative props
@@ -286,6 +287,7 @@ export const Section = ({
     imageFadeEdge,
     imageFadeStrength,
     backgroundTint,
+    backgroundTintColor,
     backgroundTintStrength,
     backgroundThemeAware,
     generativeVariant,

@@ -31,7 +31,7 @@ function extractBackgroundImageUrl(style: Record<string, any> | undefined): stri
 
 /** Props som bara Section/ImageBackground ska få – skicka aldrig till layout-primitiver (Box/Card → DOM) */
 const SECTION_BACKGROUND_PROPS = [
-  'backgroundImage', 'backgroundTint', 'backgroundSize', 'backgroundPosition', 'backgroundAspectRatio',
+  'backgroundImage', 'backgroundTint', 'backgroundTintColor', 'backgroundTintStrength', 'backgroundSize', 'backgroundPosition', 'backgroundAspectRatio',
   'backgroundRepeat', 'backgroundOpacity', 'backgroundOverlay', 'backgroundOverlayOpacity',
   'backgroundThemeAware', 'imageFadeEdge', 'imageFadeStrength',
 ];
