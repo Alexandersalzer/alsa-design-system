@@ -18,6 +18,8 @@ interface ContentCardProps {
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   imageObjectPosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right' | string;
+  /** Accent-tint: motiv i accentfärg, dark mode fyller vita delar med surface-page */
+  imageTint?: 'accent' | 'none';
   // Image container padding - creates space between container edge and image
   imagePadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   // Image overflow behavior - whether overflowing image is visible or clipped
@@ -43,6 +45,7 @@ export function ContentCard({
   imageRadius = 'md',
   imageObjectFit = 'cover',
   imageObjectPosition = 'center',
+  imageTint = 'none',
   imagePadding = 'none',
   imageOverflow = 'hidden',
   cardVariant = 'bordered',
@@ -123,6 +126,7 @@ export function ContentCard({
           objectFit={imageObjectFit}
           objectPosition={imageObjectPosition}
           radius={imageRadius}
+          tint={imageTint}
           loading="lazy"
           showSkeleton={true}
           className="content-card-image"

@@ -1,6 +1,7 @@
-import React, { useId } from 'react';
+import React from 'react';
 import styles from './ImageBackground.module.css';
 import { FadeEdge } from '../types';
+import { AccentTintSvg } from '../AccentTintSvg';
 
 export interface ImageBackgroundProps {
   /** URL to the background image */
@@ -40,16 +41,6 @@ export interface ImageBackgroundProps {
   themeAware?: boolean;
 }
 
-/** SVG preserveAspectRatio som motsvarar background-size/position */
-function maskPreserveAspectRatio(size: string, position: string): string {
-  if (size === 'cover') return 'xMidYMid slice';
-  if (size === 'contain') return 'xMidYMid meet';
-  const pos = position.toLowerCase();
-  const x = pos.includes('left') ? 'Min' : pos.includes('right') ? 'Max' : 'Mid';
-  const y = pos.includes('top') ? 'Min' : pos.includes('bottom') ? 'Max' : 'Mid';
-  return `${x}${y} meet`;
-}
-
 /**
  * ImageBackground - Static image background for sections and pages
  *
@@ -69,9 +60,6 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
   themeAware = false,
 }) => {
   const fadeClass = fadeEdge !== 'none' ? styles[`fade${fadeEdge.charAt(0).toUpperCase() + fadeEdge.slice(1)}`] : '';
-  const maskId = useId().replace(/:/g, '-');
-  const maskBgId = useId().replace(/:/g, '-');
-  const filterId = useId().replace(/:/g, '-');
   const useAccentMask = tint === 'accent' && src;
 
   return (
@@ -82,57 +70,18 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
           className={`${styles.imageBackground} ${styles.accentMaskWrapper} ${fadeClass}`.trim()}
           style={{
             opacity,
-            color: 'var(--foundation-accent-500)',
             // @ts-expect-error CSS custom property
             '--fade-strength': fadeStrength,
           }}
           aria-hidden="true"
         >
-          <svg
-            className={styles.accentMaskSvg}
-            preserveAspectRatio="none"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          >
-            <defs>
-              <filter id={filterId} colorInterpolationFilters="sRGB">
-                <feColorMatrix
-                  type="matrix"
-                  values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0"
-                />
-              </filter>
-              {/* Mask: inverterad bild → motiv = opaque (accent syns där) */}
-              <mask id={maskId}>
-                <image
-                  href={src}
-                  width="100%"
-                  height="100%"
-                  preserveAspectRatio={maskPreserveAspectRatio(size, position)}
-                  filter={`url(#${filterId})`}
-                />
-              </mask>
-              {/* Mask: original bild → vit bakgrund = opaque (dark layer syns där i dark mode) */}
-              <mask id={maskBgId}>
-                <image
-                  href={src}
-                  width="100%"
-                  height="100%"
-                  preserveAspectRatio={maskPreserveAspectRatio(size, position)}
-                />
-              </mask>
-            </defs>
-            {/* Dark mode: fyll de vita delarna med sidans bakgrundsfärg så det smälter in */}
-            <rect
-              width="100%"
-              height="100%"
-              fill="var(--surface-page)"
-              mask={`url(#${maskBgId})`}
-              className={styles.accentMaskDarkBg}
-            />
-            {/* Accent-färgad motiv (alltid synlig) */}
-            <rect width="100%" height="100%" fill="currentColor" mask={`url(#${maskId})`} />
-          </svg>
+          <AccentTintSvg
+            src={src}
+            size={size}
+            position={position}
+            svgClassName={styles.accentMaskSvg}
+            darkRectClassName={styles.accentMaskDarkBg}
+          />
         </div>
       ) : (
         <div

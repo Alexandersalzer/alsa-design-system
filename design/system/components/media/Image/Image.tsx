@@ -9,7 +9,7 @@ import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import { resolveCdnImageUrl } from '../../../core/utils/env';
-import '../../backgrounds/ImageTint.css';
+import { AccentTintSvg } from '../../backgrounds/AccentTintSvg';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -82,9 +82,9 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   normalizedDarkSrc?: string;
   /** Vilket tema som gäller; 'system' = läs från data-theme eller prefers-color-scheme */
   themeMode?: 'light' | 'dark' | 'system';
-  /** Tint image with accent (grayscale + hue from --accent-hue). Use B&W source images (white bg + black motif). */
+  /** Motiv fylls med accentfärg (samma som ImageBackground). Vit bakgrund + svart motiv. Dark mode: vita delar → surface-page. */
   tint?: 'accent' | 'none';
-  /** In dark mode invert so contrast stays correct. Use with tint="accent". */
+  /** Oanvänd (behålls för API). */
   themeAware?: boolean;
 }
 
@@ -258,6 +258,8 @@ export const Image: React.FC<ImageProps> = ({
   // Determine if this is a fixed-size image (explicit dimensions) or responsive (percentage/auto)
   const isFixedSize = typeof width === 'number' || (typeof width === 'string' && !width.includes('%'));
 
+  const useAccentMask = tint === 'accent' && !!resolvedSrc;
+
   // Build container classes
   const containerClasses = cn(
     'image-container',
@@ -265,7 +267,7 @@ export const Image: React.FC<ImageProps> = ({
     `image-container--radius-${radius}`,
     hoverZoom && 'image-container--hover-zoom',
     (isLoading && !isCached && !isLoaded) && 'image-container--loading',
-    tint === 'accent' && (themeAware ? 'image-tint-accent-theme-aware' : 'image-tint-accent'),
+    useAccentMask && 'image-container--accent-tint',
     className
   );
 
@@ -392,8 +394,36 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Actual image */}
-        {shouldLoad && (
+        {/* Actual image: accent-mask (kort, kortbilder) eller vanlig img */}
+        {shouldLoad && useAccentMask && (
+          <>
+            <img
+              ref={imgRef}
+              src={currentSrc}
+              alt=""
+              aria-hidden="true"
+              style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }}
+              onLoad={handleLoad}
+              onError={handleError}
+              loading={priority || isCached ? 'eager' : 'lazy'}
+            />
+            {isLoaded && !hasError && (
+              <div
+                className="image-accent-mask-wrapper"
+                role="img"
+                aria-label={alt}
+              >
+                <AccentTintSvg
+                  src={currentSrc}
+                  size={objectFit}
+                  position={objectPosition}
+                  darkRectClassName="image-accent-mask-dark"
+                />
+              </div>
+            )}
+          </>
+        )}
+        {shouldLoad && !useAccentMask && (
           <img
             ref={imgRef}
             src={currentSrc}
