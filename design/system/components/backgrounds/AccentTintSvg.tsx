@@ -15,7 +15,7 @@ export interface AccentTintSvgProps {
   size?: string;
   /** T.ex. 'center' | 'top' eller objectPosition-värde */
   position?: string;
-  /** Styrka: 0–1 = opacity; >1 = full opacity + maskkontrast (solid). Vid luminance = opacity. Default 1.2. */
+  /** Styrka: 0–1 = opacity; >1 = full opacity + maskkontrast (solid, 1–10 – högre = starkare tint). Vid luminance = opacity. Default 1.2. */
   strength?: number;
   /** Valfri tintfärg (hex, rgb eller var()). Default --accent-500 (theme-aware). */
   tintColor?: string;
@@ -60,7 +60,8 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
   const luminanceFilterId = useId().replace(/:/g, '-');
   const aspect = maskPreserveAspectRatio(size, position);
   const opacity = strength <= 1 ? Math.min(1, Math.max(0, strength)) : 1;
-  const maskContrast = strength > 1 ? Math.min(5, Math.max(1, strength)) : 1;
+  /* Vanliga tinten: strength > 1 = maskkontrast (1–10). Högre = starkare, mer posterat. */
+  const maskContrast = strength > 1 ? Math.min(10, Math.max(1, strength)) : 1;
   const slope = maskContrast;
   const intercept = (1 - slope) * 0.5;
 
