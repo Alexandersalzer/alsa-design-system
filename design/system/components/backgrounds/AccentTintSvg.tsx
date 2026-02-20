@@ -1,8 +1,9 @@
 /**
  * Delad accent-mask: bild som mask, fylls med accentfärg + dark mode (vita delar → surface-page).
  * Används av ImageBackground och Image när tint="accent".
+ * ViewBox sätts dynamiskt efter container så cover ger samma ratio som CSS background-size: cover.
  */
-import React, { useId } from 'react';
+import React, { useId, useRef, useState, useEffect } from 'react';
 
 export interface AccentTintSvgProps {
   src: string;
@@ -52,8 +53,25 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
   const slope = maskContrast;
   const intercept = (1 - slope) * 0.5;
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [viewBox, setViewBox] = useState({ w: 100, h: 100 });
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => {
+      const { width, height } = entries[0]?.contentRect ?? { width: 100, height: 100 };
+      if (width > 0 && height > 0) {
+        setViewBox({ w: 100, h: (100 * height) / width });
+      }
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <div
+      ref={wrapperRef}
       className={wrapperClassName}
       style={{
         color: 'var(--foundation-accent-500)',
@@ -65,8 +83,8 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
     >
       <svg
         className={svgClassName}
-        preserveAspectRatio="xMidYMid slice"
-        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        viewBox={`0 0 ${viewBox.w} ${viewBox.h}`}
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         style={{ display: 'block', width: '100%', height: '100%' }}
