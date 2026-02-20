@@ -160,11 +160,14 @@ export const Image: React.FC<ImageProps> = ({
 
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
+  const objectUrlRef = useRef<string | null>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority || loading === 'eager');
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [corsImageUrl, setCorsImageUrl] = useState<string | null>(null);
+  const [accentFetchFailed, setAccentFetchFailed] = useState(false);
 
   // ✅ OPTIMIZATION 1: Check if image is already cached (CloudFront/CDN)
   useEffect(() => {
@@ -179,13 +182,13 @@ export const Image: React.FC<ImageProps> = ({
       const loadTime = Date.now() - startTime;
       if (loadTime < 10) {
         setIsCached(true);
-        setIsLoaded(true);
         setIsIntersecting(true);
+        if (tint !== 'accent') setIsLoaded(true);
       }
     };
     testImg.onload = checkCache;
     if (testImg.complete) checkCache();
-  }, [resolvedSrc, priority, loading]);
+  }, [resolvedSrc, priority, loading, tint]);
 
   // Intersection Observer for lazy loading (skip if cached or priority)
   useEffect(() => {
@@ -245,8 +248,41 @@ export const Image: React.FC<ImageProps> = ({
     }
   }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
 
-  // Accent = samma som hero/pricing/contact/footer: AccentTintSvg med bild-URL direkt (ingen CORS-fetch)
+  // Accent i kort (bento/result): SVG-mask med extern URL blockeras i nested DOM. Vi måste använda object URL (CORS-fetch).
+  // Hero/pricing/contact/footer använder ImageBackground som toppnivå – där fungerar URL direkt.
   const useAccentMask = tint === 'accent' && !!resolvedSrc;
+  useEffect(() => {
+    if (!useAccentMask || !resolvedSrc || !shouldLoad || corsImageUrl || accentFetchFailed) return;
+
+    let cancelled = false;
+    const t = window.setTimeout(() => {
+      if (!cancelled) setAccentFetchFailed(true);
+    }, 8000);
+
+    fetch(resolvedSrc, { mode: 'cors' })
+      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error('Fetch failed'))))
+      .then((blob) => {
+        if (cancelled) return;
+        if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+        const url = URL.createObjectURL(blob);
+        objectUrlRef.current = url;
+        setCorsImageUrl(url);
+        setIsLoaded(true);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        if (!cancelled) setAccentFetchFailed(true);
+      });
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = null;
+      }
+    };
+  }, [useAccentMask, resolvedSrc, shouldLoad, corsImageUrl, accentFetchFailed]);
 
   // Determine if this is a fixed-size image (explicit dimensions) or responsive (percentage/auto)
   const isFixedSize = typeof width === 'number' || (typeof width === 'string' && !width.includes('%'));
@@ -385,34 +421,29 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Accent = samma flöde som ImageBackground (hero, pricing, contact, footer): dold img för load, sedan AccentTintSvg med URL */}
-        {shouldLoad && useAccentMask && (
-          <>
-            <img
-              ref={imgRef}
-              src={currentSrc}
-              alt=""
-              aria-hidden="true"
-              style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }}
-              onLoad={handleLoad}
-              onError={handleError}
-              loading={priority || isCached ? 'eager' : 'lazy'}
+        {/* Accent i kort: object URL så SVG-mask fungerar (extern URL blockeras i nested). Vid fetch-fel: vanlig img så bilden syns. */}
+        {shouldLoad && useAccentMask && corsImageUrl && (
+          <div className="image-accent-mask-wrapper" role="img" aria-label={alt}>
+            <AccentTintSvg
+              src={corsImageUrl}
+              size={objectFit}
+              position={objectPosition}
+              darkRectClassName="image-accent-mask-dark"
             />
-            {isLoaded && !hasError && (
-              <div
-                className="image-accent-mask-wrapper"
-                role="img"
-                aria-label={alt}
-              >
-                <AccentTintSvg
-                  src={currentSrc}
-                  size={objectFit}
-                  position={objectPosition}
-                  darkRectClassName="image-accent-mask-dark"
-                />
-              </div>
-            )}
-          </>
+          </div>
+        )}
+        {shouldLoad && useAccentMask && accentFetchFailed && (
+          <img
+            ref={imgRef}
+            src={currentSrc}
+            alt={alt}
+            className={imageClasses}
+            style={{ ...imageStyles, ...style }}
+            onLoad={handleLoad}
+            onError={handleError}
+            loading={priority || isCached ? 'eager' : 'lazy'}
+            {...props}
+          />
         )}
         {shouldLoad && !useAccentMask && (
           <img
