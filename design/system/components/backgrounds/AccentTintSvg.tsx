@@ -10,6 +10,8 @@ export interface AccentTintSvgProps {
   size?: string;
   /** T.ex. 'center' | 'top' eller objectPosition-värde */
   position?: string;
+  /** Styrka på accentfyllningen 0–1 (default 1). Högre = starkare accent. */
+  strength?: number;
   /** Klass för wrapper (färg sätts via color: var(--foundation-accent-500)) */
   wrapperClassName?: string;
   wrapperStyle?: React.CSSProperties;
@@ -34,6 +36,7 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
   src,
   size = 'cover',
   position = 'center',
+  strength = 1,
   wrapperClassName,
   wrapperStyle,
   darkRectClassName,
@@ -43,6 +46,7 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
   const maskBgId = useId().replace(/:/g, '-');
   const filterId = useId().replace(/:/g, '-');
   const aspect = maskPreserveAspectRatio(size, position);
+  const clampedStrength = Math.min(1, Math.max(0, strength));
 
   return (
     <div
@@ -95,7 +99,13 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
           mask={`url(#${maskBgId})`}
           className={darkRectClassName}
         />
-        <rect width="100%" height="100%" fill="currentColor" mask={`url(#${maskId})`} />
+        <rect
+          width="100%"
+          height="100%"
+          fill="currentColor"
+          mask={`url(#${maskId})`}
+          opacity={clampedStrength}
+        />
       </svg>
     </div>
   );

@@ -64,6 +64,8 @@ export interface ImageBackgroundProps {
   imageFadeStrength?: number;
   /** Motiv fylls med exakt accentfärg (--foundation-accent-500). Fungerar för vilken färg som helst. Bäst med vit bakgrund + svart motiv. */
   backgroundTint?: 'accent' | 'none';
+  /** Styrka på accent-masken 0–1 (default 1). Högre = starkare accentfärg. */
+  backgroundTintStrength?: number;
   /** Oanvänd (behålls för API). */
   backgroundThemeAware?: boolean;
 }
