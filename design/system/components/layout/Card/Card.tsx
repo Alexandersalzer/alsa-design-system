@@ -89,18 +89,19 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       className
     );
 
-    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-      if (disabled) return;
+    const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+      if (!isClickable) return;
+
+      setIsPressing(true);
+
+      // Fire the action immediately on mousedown (same as ListboxItem)
       if (onCardClick) {
         onCardClick();
       } else if (onClick) {
         onClick(event);
       }
-    };
 
-    const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-      if (!isClickable) return;
-      setIsPressing(true);
+      // Keep pressing visual for 150ms after action
       setTimeout(() => setIsPressing(false), 150);
       onMouseDownProp?.(event);
     };
@@ -119,7 +120,6 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cardClasses}
-        onClick={isClickable ? handleClick : onClick}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
@@ -129,7 +129,11 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         onKeyDown={isClickable ? (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            handleClick(e as any);
+            if (onCardClick) {
+              onCardClick();
+            } else if (onClick) {
+              onClick(e as any);
+            }
           }
         } : undefined}
         {...props}
