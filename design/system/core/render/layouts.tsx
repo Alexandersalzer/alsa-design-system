@@ -18,7 +18,16 @@ import {
   findCategoryItem,
   hasCategories
 } from '../utils/props';
+import { ImageBackground } from '../../components/backgrounds/ImageBackground/ImageBackground';
 import './layouts.css';
+
+/** Extrahera URL från style.backgroundImage (t.ex. "url(https://...)" eller "url('...')") */
+function extractBackgroundImageUrl(style: Record<string, any> | undefined): string | null {
+  const bg = style?.backgroundImage;
+  if (typeof bg !== 'string') return null;
+  const m = bg.match(/url\s*\(\s*['"]?([^'")\s]+)['"]?\s*\)/);
+  return m ? m[1] : null;
+}
 
 /**
  * Type for responsive maxItems value
@@ -1060,6 +1069,33 @@ const renderLayoutNodeGeneric = (
       {renderTemplateNode(child, itemComponents, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
     </React.Fragment>
   ));
+
+  // Kort med style.backgroundImage: använd ImageBackground med accent-tint istället för rå CSS
+  if (layoutType === 'card') {
+    const style = layoutProps.style || {};
+    const bgUrl = extractBackgroundImageUrl(style) || (typeof layoutProps.backgroundImage === 'string' ? layoutProps.backgroundImage : null);
+    if (bgUrl) {
+      const { backgroundImage, backgroundSize, backgroundPosition, ...restStyle } = style;
+      const cardProps = {
+        ...layoutProps,
+        style: { position: 'relative' as const, overflow: 'hidden', ...restStyle },
+        backgroundImage: undefined,
+        backgroundTint: undefined,
+      };
+      const tint = layoutProps.backgroundTint ?? 'accent';
+      return (
+        <LayoutComponent {...cardProps}>
+          <ImageBackground
+            src={bgUrl}
+            size={layoutProps.backgroundSize || style.backgroundSize || 'cover'}
+            position={layoutProps.backgroundPosition || style.backgroundPosition || 'center'}
+            tint={tint}
+          />
+          {renderedChildren}
+        </LayoutComponent>
+      );
+    }
+  }
 
   // Layout component takes care of its own props (colSpan for GridItem, spacing for VStack, etc)
   return (
