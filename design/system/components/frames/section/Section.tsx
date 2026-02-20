@@ -119,6 +119,8 @@ export const Section = ({
   backgroundOverlayOpacity = 0.5,
   imageFadeEdge,
   imageFadeStrength,
+  backgroundTint,
+  backgroundThemeAware,
   // Generative props
   generativeVariant = 'subtle',
   generativeColorScheme = 'accent',
@@ -280,6 +282,8 @@ export const Section = ({
     backgroundOverlayOpacity,
     imageFadeEdge,
     imageFadeStrength,
+    backgroundTint,
+    backgroundThemeAware,
     generativeVariant,
     generativeColorScheme,
     generativeSeed,

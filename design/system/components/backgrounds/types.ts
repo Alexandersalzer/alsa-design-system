@@ -58,6 +58,10 @@ export interface ImageBackgroundProps {
   backgroundFilter?: string;
   imageFadeEdge?: FadeEdge;
   imageFadeStrength?: number;
+  /** Tint image with accent (B&W source → hue from --accent-hue). Use with themeAware for dark/light. */
+  backgroundTint?: 'accent' | 'none';
+  /** In dark mode invert image so contrast is correct. Use with B&W images (white bg + black motif). */
+  backgroundThemeAware?: boolean;
 }
 
 // ===== PATTERN BACKGROUND =====

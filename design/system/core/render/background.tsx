@@ -34,6 +34,8 @@ const propsMappers = {
     overlayOpacity: props.backgroundOverlayOpacity,
     fadeEdge: props.imageFadeEdge,
     fadeStrength: props.imageFadeStrength,
+    tint: props.backgroundTint ?? 'none',
+    themeAware: props.backgroundThemeAware ?? false,
   }),
   pattern: (props: BackgroundProps) => ({
     type: props.patternType || 'dots',

@@ -9,6 +9,7 @@ import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import { resolveCdnImageUrl } from '../../../core/utils/env';
+import '../../backgrounds/ImageTint.css';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -81,6 +82,10 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   normalizedDarkSrc?: string;
   /** Vilket tema som gäller; 'system' = läs från data-theme eller prefers-color-scheme */
   themeMode?: 'light' | 'dark' | 'system';
+  /** Tint image with accent (grayscale + hue from --accent-hue). Use B&W source images (white bg + black motif). */
+  tint?: 'accent' | 'none';
+  /** In dark mode invert so contrast stays correct. Use with tint="accent". */
+  themeAware?: boolean;
 }
 
 // ===== MAIN IMAGE COMPONENT =====
@@ -113,6 +118,8 @@ export const Image: React.FC<ImageProps> = ({
   normalizedLightSrc,
   normalizedDarkSrc,
   themeMode = 'system',
+  tint = 'none',
+  themeAware = false,
   ...props
 }) => {
   const useNormalized = themeAdaptive && normalizedLightSrc && normalizedDarkSrc;
@@ -258,6 +265,7 @@ export const Image: React.FC<ImageProps> = ({
     `image-container--radius-${radius}`,
     hoverZoom && 'image-container--hover-zoom',
     (isLoading && !isCached && !isLoaded) && 'image-container--loading',
+    tint === 'accent' && (themeAware ? 'image-tint-accent-theme-aware' : 'image-tint-accent'),
     className
   );
 

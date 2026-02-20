@@ -1,0 +1,25 @@
+/**
+ * Image tint utilities – accent-tinted and theme-aware B&W images.
+ * Uses --accent-hue and --accent-tint-saturation from design tokens.
+ *
+ * BILDSPEC (för konsekvent resultat):
+ * - Använd bilder med VIT BAKGRUND och SVART MÖNSTER/MOTIV (eller ren gråskala).
+ * - Då ger grayscale + sepia + hue-rotate accentfärg på motivet.
+ * - Med themeAware: i dark mode inverteras bilden så kontrasten behålls.
+ */
+
+.image-tint-accent {
+  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue, 270)deg) saturate(var(--accent-tint-saturation, 0.85));
+}
+
+/* In dark mode: invert so black/white roles flip and contrast stays correct */
+.image-tint-accent-theme-aware {
+  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue, 270)deg) saturate(var(--accent-tint-saturation, 0.85));
+}
+
+[data-theme="dark"] .image-tint-accent-theme-aware,
+:root:not([data-theme="light"]) .image-tint-accent-theme-aware {
+  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue, 270)deg) saturate(var(--accent-tint-saturation, 0.85)) invert(1);
+}
+
+/* When using themeMode: 'system', ensure the app sets data-theme on root from prefers-color-scheme */
