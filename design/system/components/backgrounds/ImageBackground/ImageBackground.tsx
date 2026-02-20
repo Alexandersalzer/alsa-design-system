@@ -122,11 +122,11 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
                 />
               </mask>
             </defs>
-            {/* Dark mode: fyll bara de vita delarna med mörk färg; döljs i light */}
+            {/* Dark mode: fyll de vita delarna med sidans bakgrundsfärg så det smälter in */}
             <rect
               width="100%"
               height="100%"
-              fill="var(--foundation-gray-900)"
+              fill="var(--surface-page)"
               mask={`url(#${maskBgId})`}
               className={styles.accentMaskDarkBg}
             />
