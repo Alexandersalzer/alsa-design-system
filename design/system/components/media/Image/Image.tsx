@@ -385,16 +385,38 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Accent: direkt URL i AccentTintSvg (samma som ImageBackground) – ingen CORS-fetch. */}
+        {/* Accent: alltid visa vanlig img som bottenlager (så bilden aldrig försvinner). AccentTintSvg ovanpå – om masken fungerar ser vi accent, annars bilden under. */}
         {shouldLoad && useAccentMask && (
-          <div className="image-accent-mask-wrapper" role="img" aria-label={alt}>
-            <AccentTintSvg
-              src={resolvedSrc}
-              size={objectFit}
-              position={objectPosition}
-              darkRectClassName="image-accent-mask-dark"
+          <>
+            <img
+              ref={imgRef}
+              src={currentSrc}
+              alt={alt}
+              className={imageClasses}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: objectFit,
+                objectPosition: objectPosition,
+                ...style,
+              }}
+              onLoad={handleLoad}
+              onError={handleError}
+              loading={priority || isCached ? 'eager' : 'lazy'}
+              {...props}
             />
-          </div>
+            <div className="image-accent-mask-wrapper" style={{ zIndex: 1 }} role="img" aria-label={alt}>
+              <AccentTintSvg
+                src={resolvedSrc}
+                size={objectFit}
+                position={objectPosition}
+                darkRectClassName="image-accent-mask-dark"
+              />
+            </div>
+          </>
         )}
         {shouldLoad && !useAccentMask && (
           <img
