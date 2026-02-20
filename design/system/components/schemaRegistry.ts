@@ -72,6 +72,7 @@ import { createStickySchema } from './layout/Sticky/schema';
 
 // Feedback
 import { createBadgeSchema } from './feedback/Badge/schema';
+import { createTagSchema } from './feedback/Tag/schema';
 
 /**
  * Schema factory functions
@@ -124,6 +125,7 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   
   // Feedback
   badge: createBadgeSchema,
+  tag: createTagSchema,
 };
 
 /**

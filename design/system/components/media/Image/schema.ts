@@ -38,7 +38,7 @@ export const createImageSchema = (locale: SupportedLocale = 'sv'): ComponentSche
           type: 'string',
           required: true,
           editorType: 'url',
-          cmsEnabled: true,
+          cmsEnabled: false, // Hidden - use Media Gallery instead
           group: 'content',
         },
         t.props?.src
