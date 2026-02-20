@@ -36,7 +36,7 @@ export function ResultsCard({
   imageRadius = 'sm',
   imageObjectFit = 'contain',
   imageAspectRatio = '2/3',
-  imageTint = 'none',
+  imageTint = 'accent',
   cardVariant = 'elevated',
   cardPadding = 'md',
   spacing = 'sm'

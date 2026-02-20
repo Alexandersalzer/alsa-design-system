@@ -45,7 +45,7 @@ export function ContentCard({
   imageRadius = 'md',
   imageObjectFit = 'cover',
   imageObjectPosition = 'center',
-  imageTint = 'none',
+  imageTint = 'accent',
   imagePadding = 'none',
   imageOverflow = 'hidden',
   cardVariant = 'bordered',

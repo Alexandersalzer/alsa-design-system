@@ -46,7 +46,7 @@ export function ProcessCard({
   imageAspectRatio = '16/9',
   imageRadius = 'md',
   imageObjectFit = 'cover',
-  imageTint = 'none',
+  imageTint = 'accent',
   // Card defaults
   cardVariant = 'raised',
   cardPadding = 'md',

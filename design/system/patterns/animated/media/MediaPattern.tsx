@@ -140,7 +140,7 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
             objectFit={imageProps.objectFit || 'contain'}
             objectPosition={imageProps.objectPosition || 'center'}
             radius={radius}
-            tint={imageProps.tint ?? imageProps.imageTint ?? 'none'}
+            tint={imageProps.tint ?? imageProps.imageTint ?? 'accent'}
             loading="eager"
             priority={true}
             aspectRatio={imageProps.aspectRatio}

@@ -26,6 +26,8 @@ export interface NewsCardProps {
   
   // Layout variants
   variant?: 'featured' | 'compact';
+  /** Accent-tint på bild (default accent). */
+  imageTint?: 'accent' | 'none';
   
   // Interaction
   onClick?: () => void;
@@ -55,6 +57,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
   featured = false,
   authorUsername,
   variant = 'compact',
+  imageTint = 'accent',
   onClick,
   className
 }) => {
@@ -79,6 +82,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
                 alt={title}
                 aspectRatio="16/9"
                 objectFit="cover"
+                tint={imageTint}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </Box>
@@ -160,6 +164,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
               height="72px"
               aspectRatio="1/1"
               objectFit="cover"
+              tint={imageTint}
               sizes="72px"
             />
           </Box>
