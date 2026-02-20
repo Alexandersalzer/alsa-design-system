@@ -37,6 +37,11 @@
   background-color: transparent;
 }
 
+/* Wrapper för ImageBackground (position absolute fyller denna) */
+.content-card-image-wrap {
+  display: block;
+}
+
 /* ===== IMAGE ITSELF ===== */
 .content-card-image {
   width: 100%;

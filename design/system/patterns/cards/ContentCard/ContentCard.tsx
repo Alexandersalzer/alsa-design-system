@@ -1,6 +1,6 @@
 import { Card, VStack, Typography } from '../../../components';
-import { Image } from '../../../components/media/Image';
 import { SquareImageContainer } from '../../../components/media/SquareImageContainer';
+import { ImageBackground } from '../../../components/backgrounds/ImageBackground/ImageBackground';
 import { resolveCdnImageUrl } from '../../../core/utils/env';
 import './ContentCard.css';
 
@@ -108,29 +108,30 @@ export function ContentCard({
     );
   }
 
-  // Default mode - original behavior
+  // Default mode – ImageBackground (samma som pricing/hero) så accent fungerar utan CORS/Image-problem
   return (
     <div className="content-card" data-component-key={componentKey}>
-      {/* Image Card - separate container with background */}
       <Card
         variant={cardVariant}
         padding="none"
         className="content-card-image-container"
       >
-        <Image
-          src={fullImageSrc}
-          alt={imageAlt}
-          width="100%"
-          height="100%"
-          aspectRatio={finalAspectRatio}
-          objectFit={imageObjectFit}
-          objectPosition={imageObjectPosition}
-          radius={imageRadius}
-          tint={imageTint}
-          loading="lazy"
-          showSkeleton={true}
-          className="content-card-image"
-        />
+        <div
+          className="content-card-image-wrap"
+          style={{
+            position: 'relative',
+            width: '100%',
+            overflow: 'hidden',
+            ...(finalAspectRatio ? { aspectRatio: finalAspectRatio } : { minHeight: 120 }),
+          }}
+        >
+          <ImageBackground
+            src={fullImageSrc}
+            size={imageObjectFit}
+            position={imageObjectPosition}
+            tint={imageTint}
+          />
+        </div>
       </Card>
 
       {/* Text Content - VStack with no background, left aligned */}

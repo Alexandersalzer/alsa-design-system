@@ -335,6 +335,14 @@ const resolvePropsWithContext = (
   return resolved;
 };
 
+/** Hämtar första image-komponentens src från ett item (för ${imageSrc} i kort-bakgrund). */
+function getItemImageSrc(item: Record<string, any>): string | undefined {
+  const comps = item?.components;
+  if (!comps || typeof comps !== 'object') return undefined;
+  const entry = Object.values(comps).find((c: any) => (c as any)?.type === 'image');
+  return (entry as any)?.props?.src;
+}
+
 /**
  * Renders a template node in filter context
  * Smart detection:
@@ -368,8 +376,8 @@ const renderFilterTemplateNode = (
       const item = findLayoutItem(layout, itemId);
       if (!item) return null;
 
-      const { components: _, ...itemProps } = item;
-      const itemContext = { index, id: itemId, ...itemProps };
+      const { components: __, ...itemProps } = item;
+      const itemContext = { index, id: itemId, imageSrc: getItemImageSrc(item), ...itemProps };
       const usedComponents = new Set<string>();
 
       const templateContent = template.children?.map((child: any, childIndex: number) => (
@@ -508,11 +516,12 @@ const renderItems = (
     const globalIndex = indexOffset + localIndex;
 
     // Create item context with index and any item-level props (excluding 'components')
-    const { components: _, ...itemProps } = item;
+    const { components: __, ...itemProps } = item;
     const itemContext = {
       index: globalIndex,
       localIndex,
       id: itemId,
+      imageSrc: getItemImageSrc(item),
       ...itemProps
     };
 
@@ -829,11 +838,12 @@ const renderCategoryTemplateNode = (
       }
 
       const globalIndex = globalItemIndexOffset + localIndex;
-      const { components: _, ...itemProps } = item;
+      const { components: __, ...itemProps } = item;
       const itemContext = {
         index: globalIndex,
         localIndex,
         id: itemId,
+        imageSrc: getItemImageSrc(item),
         ...itemProps
       };
 
