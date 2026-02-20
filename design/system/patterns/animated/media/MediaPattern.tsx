@@ -145,9 +145,6 @@ const MediaPattern = ({ components = {}, props = {}, sectionKey, patternKey }: M
             aspectRatio={imageProps.aspectRatio}
             className="media-pattern-image"
             componentKey={get('image').key}
-            themeAdaptive={!!imageProps.themeAdaptive}
-            normalizedLightSrc={imageProps.normalizedLightSrc}
-            normalizedDarkSrc={imageProps.normalizedDarkSrc}
           />
         </div>
       </div>
