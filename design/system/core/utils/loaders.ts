@@ -203,6 +203,15 @@ export async function getPageWithContent(
 }
 
 /**
+ * Get page for rendering (used by blimpify-core).
+ * Loads structure from pages/{pageId}.json (sections, props) and merges with content from content/{locale}/pages/{pageId}.json.
+ * Signature (locale, slug) for backwards compatibility.
+ */
+export async function getPageContent(locale: string, pageSlug: string): Promise<any> {
+  return getPageWithContent(pageSlug, locale);
+}
+
+/**
  * Get page content by page ID (when you already know the ID)
  * Useful for direct page access without slug lookup
  */

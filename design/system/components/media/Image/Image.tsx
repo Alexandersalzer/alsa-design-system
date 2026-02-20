@@ -373,7 +373,7 @@ export const Image: React.FC<ImageProps> = ({
                 style={{
                   width: '100%',
                   height: '100%',
-                  backgroundColor: placeholderColor || '#e5e7eb',
+                  backgroundColor: placeholderColor || 'var(--surface-muted)',
                   borderRadius: 'inherit'
                 }}
                 data-blurhash={blurHash}
@@ -435,17 +435,21 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
         {shouldLoad && useAccentMask && accentFetchFailed && (
-          <img
-            ref={imgRef}
-            src={currentSrc}
-            alt={alt}
-            className={imageClasses}
-            style={{ ...imageStyles, ...style }}
-            onLoad={handleLoad}
-            onError={handleError}
-            loading={priority || isCached ? 'eager' : 'lazy'}
-            {...props}
-          />
+          <div className="image-accent-css-fallback" role="img" aria-label={alt}>
+            <img
+              ref={imgRef}
+              src={currentSrc}
+              alt=""
+              aria-hidden="true"
+              className={imageClasses}
+              style={{ ...imageStyles, ...style }}
+              onLoad={handleLoad}
+              onError={handleError}
+              loading={priority || isCached ? 'eager' : 'lazy'}
+              {...props}
+            />
+            <div className="image-accent-overlay" aria-hidden="true" />
+          </div>
         )}
         {shouldLoad && !useAccentMask && (
           <img

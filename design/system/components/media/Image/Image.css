@@ -42,6 +42,32 @@ html.dark .image-accent-mask-dark {
   opacity: 1;
 }
 
+/* Fallback när CORS misslyckas: bild + accent-overlay med mix-blend för att få accentton */
+.image-accent-css-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
+}
+.image-accent-css-fallback img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: inherit;
+  object-position: inherit;
+}
+.image-accent-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--foundation-accent-500);
+  mix-blend-mode: color;
+  pointer-events: none;
+}
+
 /* ===== IMAGE ===== */
 .image {
   display: block;
