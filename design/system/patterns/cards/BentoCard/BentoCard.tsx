@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Typography, Label } from '../../../components';
 import { TextLink } from '../../../components/actions/TextLink/TextLink';
+import { Image } from '../../../components/media/Image';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import './BentoCard.css';
@@ -62,6 +63,8 @@ export interface BentoCardProps {
   scaleImageToFill?: boolean;
   /** När showImage är false: bakgrund över hela kortet (samma som textrutan). Påverkar bara kort utan bild. */
   noImageBackground?: 'surface' | 'raised' | 'elevated' | 'secondary';
+  /** Accent-tint: motiv i accentfärg (samma som hero). Default accent så alla kortbilder anpassas. */
+  imageTint?: 'accent' | 'none';
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
@@ -92,6 +95,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   footerElevated = false,
   scaleImageToFill,
   noImageBackground = 'surface',
+  imageTint = 'accent',
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
 
@@ -163,11 +167,16 @@ export const BentoCard: React.FC<BentoCardProps> = ({
           className={`bento-card__image-container bento-card__image-padding--${imagePadding}`}
           style={imageContainerStyle}
         >
-          <img
+          <Image
             src={fullImageSrc}
             alt={imageAlt || title || 'Bento card image'}
-            className={`bento-card__image bento-card__image--${effectiveImageObjectFit}`}
+            width="100%"
+            height="100%"
+            objectFit={effectiveImageObjectFit}
+            radius="none"
             loading="lazy"
+            tint={imageTint}
+            className={`bento-card__image bento-card__image--${effectiveImageObjectFit}`}
           />
         </div>
       )}
