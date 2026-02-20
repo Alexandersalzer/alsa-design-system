@@ -163,10 +163,16 @@
 }
 
 /* Active state (when pressed) */
-.card--clickable:active {
+.card--clickable:active,
+.card--pressing {
   box-shadow: var(--foundation-shadow-sm);
-  transition-duration: 0.1s;
+  transition-duration: 0.05s;
   background-color: var(--surface-active);
+}
+
+.card--outlined.card--pressing {
+  border-color: var(--border-emphasis);
+  box-shadow: none;
 }
 
 /* Selected state */
