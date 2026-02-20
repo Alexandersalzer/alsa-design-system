@@ -82,8 +82,8 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   normalizedDarkSrc?: string;
   /** Vilket tema som gäller; 'system' = läs från data-theme eller prefers-color-scheme */
   themeMode?: 'light' | 'dark' | 'system';
-  /** Motiv fylls med accentfärg (samma som ImageBackground). Vit bakgrund + svart motiv. Dark mode: vita delar → surface-page. */
-  tint?: 'accent' | 'none';
+  /** accent = platt accentfärg; accent-luminance = bildens ljus/mörk-skala bevaras med accent som nyans. */
+  tint?: 'accent' | 'accent-luminance' | 'none';
   /** Oanvänd (behålls för API). */
   themeAware?: boolean;
 }
@@ -246,7 +246,7 @@ export const Image: React.FC<ImageProps> = ({
   }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
 
   // Accent: samma som ImageBackground – använd bild-URL direkt i AccentTintSvg (ingen fetch/CORS).
-  const useAccentMask = tint === 'accent' && !!resolvedSrc;
+  const useAccentMask = (tint === 'accent' || tint === 'accent-luminance') && !!resolvedSrc;
 
   // Determine if this is a fixed-size image (explicit dimensions) or responsive (percentage/auto)
   const isFixedSize = typeof width === 'number' || (typeof width === 'string' && !width.includes('%'));
@@ -411,6 +411,7 @@ export const Image: React.FC<ImageProps> = ({
             <div className="image-accent-mask-wrapper" style={{ zIndex: 1 }} role="img" aria-label={alt}>
               <AccentTintSvg
                 src={resolvedSrc}
+                variant={tint === 'accent-luminance' ? 'luminance' : 'solid'}
                 size={objectFit}
                 position={objectPosition}
                 darkRectClassName="image-accent-mask-dark"
