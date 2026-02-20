@@ -249,7 +249,7 @@ export const Image: React.FC<ImageProps> = ({
   }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
 
   // Accent i kort (bento/result): SVG-mask med extern URL blockeras i nested DOM. Vi måste använda object URL (CORS-fetch).
-  // Hero/pricing/contact/footer använder ImageBackground som toppnivå – där fungerar URL direkt.
+  // Pricing/hero använder ImageBackground direkt på kortet (inga Image inuti) – där fungerar URL i AccentTintSvg.
   const useAccentMask = tint === 'accent' && !!resolvedSrc;
   useEffect(() => {
     if (!useAccentMask || !resolvedSrc || !shouldLoad || corsImageUrl || accentFetchFailed) return;
@@ -257,7 +257,7 @@ export const Image: React.FC<ImageProps> = ({
     let cancelled = false;
     const t = window.setTimeout(() => {
       if (!cancelled) setAccentFetchFailed(true);
-    }, 8000);
+    }, 2000);
 
     fetch(resolvedSrc, { mode: 'cors' })
       .then((r) => (r.ok ? r.blob() : Promise.reject(new Error('Fetch failed'))))
@@ -421,6 +421,16 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
+        {/* Preload vanlig bild när vi väntar på CORS – så fallback efter timeout visar direkt om cache träffar */}
+        {shouldLoad && useAccentMask && !corsImageUrl && !accentFetchFailed && (
+          <img
+            src={currentSrc}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }}
+          />
+        )}
         {/* Accent i kort: object URL så SVG-mask fungerar (extern URL blockeras i nested). Vid fetch-fel: vanlig img så bilden syns. */}
         {shouldLoad && useAccentMask && corsImageUrl && (
           <div className="image-accent-mask-wrapper" role="img" aria-label={alt}>

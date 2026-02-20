@@ -1085,7 +1085,8 @@ const renderLayoutNodeGeneric = (
     </React.Fragment>
   ));
 
-  // Kort med style.backgroundImage: använd ImageBackground med accent-tint istället för rå CSS
+  // Kort med style.backgroundImage: använd ImageBackground med accent-tint (samma som pricing/hero).
+  // OBS: I bento ligger en Image (${image}) ovanpå – det som syns är Image, inte denna bakgrund.
   if (layoutType === 'card') {
     const style = layoutProps.style || {};
     const bgUrl = extractBackgroundImageUrl(style) || (typeof layoutProps.backgroundImage === 'string' ? layoutProps.backgroundImage : null);
