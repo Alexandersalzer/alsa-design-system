@@ -43,7 +43,7 @@ export function useHref() {
     const slugMap = iframeSlugMap || pageSlugMap;
     
     if (!slugMap || !slugMap[pageId]) {
-      console.warn(`Page slug map not found for pageId: ${pageId}`);
+      // Silently return null without warning if map is not available
       return null;
     }
     return slugMap[pageId][currentLocale] || null;
@@ -68,7 +68,6 @@ export function useHref() {
       } else {
         // Fallback: use pageId as slug (remove page_ prefix)
         const fallbackSlug = pageId.replace(/^page_/, '');
-        console.warn(`Using fallback slug for pageId: ${pageId} -> ${fallbackSlug}`);
         finalHref = `/${currentLocale}/${fallbackSlug}`;
       }
     } else if (href) {
