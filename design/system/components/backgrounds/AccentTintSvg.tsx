@@ -1,7 +1,8 @@
 /**
  * Accent-tint för bakgrundsbilder.
  * - solid: bild som mask, fylls med en platt accentfärg (+ dark mode).
- * - luminance: bildens ljus/mörk-skala bevaras, accent som nyans (mörk = mörk accent, ljus = ljus accent).
+ * - luminance: bildens ljus/mörk-skala bevaras, accent som nyans. Vita/ljusa pixlar (L ≥ tröskel)
+ *   tintas INTE så att sektionens bakgrund (--surface-page) syns – text och neutrala ytor förblir opåverkade.
  * ViewBox sätts dynamiskt efter container så cover ger samma ratio som CSS background-size: cover.
  */
 import React, { useId, useRef, useState, useEffect } from 'react';
@@ -111,14 +112,22 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
           <>
             <defs>
               <filter id={luminanceFilterId} colorInterpolationFilters="sRGB">
+                {/* Bild → luminans (L,L,L,A) */}
                 <feColorMatrix
                   in="SourceGraphic"
                   result="luminance"
                   type="matrix"
                   values={LUMINANCE_MATRIX}
                 />
+                {/* Nollställ luminans ≥ 0.8 så vita/ljusa ytor blir transparensa – sektionens bakgrund (vit/neutral) syns */}
+                <feComponentTransfer in="luminance" result="darkOnly">
+                  <feFuncR type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0 0 0" />
+                  <feFuncG type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0 0 0" />
+                  <feFuncB type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0 0 0" />
+                  <feFuncA type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0 0 0" />
+                </feComponentTransfer>
                 <feFlood result="accent" floodColor={floodColor} />
-                <feBlend in="luminance" in2="accent" result="tinted" mode="multiply" />
+                <feBlend in="darkOnly" in2="accent" result="tinted" mode="multiply" />
               </filter>
             </defs>
             <image
