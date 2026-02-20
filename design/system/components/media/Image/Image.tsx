@@ -221,17 +221,17 @@ export const Image: React.FC<ImageProps> = ({
   );
 
   // Container styles
-  // ✅ FIX: Prioritize aspect-ratio for space reservation, avoid conflicting height values
-  // If no height or aspectRatio is provided, default to 4/3 to ensure space reservation
+  // ✅ FIX: Ensure container always has height - use explicit height, aspectRatio, or minimum fallback
   const containerStyles: React.CSSProperties = {
     width: width || '100%',
-    // Only set height if explicitly provided AND no aspectRatio (avoid conflicts)
-    ...(height && !aspectRatio ? { height } : {}),
-    // Aspect ratio takes priority for proper space reservation
-    // Default to 4/3 if neither height nor aspectRatio is provided (prevents collapsed containers)
-    aspectRatio: aspectRatio || (!height ? '4/3' : undefined),
+    // Set height if explicitly provided
+    ...(height ? { height } : {}),
+    // Set aspect ratio if provided (takes precedence over default height)
+    ...(aspectRatio ? { aspectRatio } : {}),
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    // Fallback: ensure minimum height when no dimensions provided (prevents invisible error states)
+    ...(!height && !aspectRatio ? { minHeight: '200px', aspectRatio: '4/3' } : {})
   };
 
   // ✅ FIX: Priority/eager images should ALWAYS be visible, even before onLoad fires
