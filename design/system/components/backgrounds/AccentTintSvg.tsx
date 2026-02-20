@@ -10,7 +10,7 @@ export interface AccentTintSvgProps {
   size?: string;
   /** T.ex. 'center' | 'top' eller objectPosition-värde */
   position?: string;
-  /** Styrka på accentfyllningen. 0–1 = opacity på accent; >1 (t.ex. 1.5) = full opacity + höjd maskkontrast så accenten blir mer solid. Default 1.2. */
+  /** Styrka: 0–1 = opacity; >1 = full opacity + maskkontrast (1.5–2 tydlig, 3+ mer posterat/hårt, max 5). Default 1.2. */
   strength?: number;
   /** Klass för wrapper (färg sätts via color: var(--foundation-accent-500)) */
   wrapperClassName?: string;
@@ -46,9 +46,9 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
   const maskBgId = useId().replace(/:/g, '-');
   const filterId = useId().replace(/:/g, '-');
   const aspect = maskPreserveAspectRatio(size, position);
-  // 0–1: styr opacity på accent; >1: full opacity, använd resten som maskkontrast
+  // 0–1: styr opacity på accent; >1: full opacity + maskkontrast (höga värden = mer posterat/hårt)
   const opacity = strength <= 1 ? Math.min(1, Math.max(0, strength)) : 1;
-  const maskContrast = strength > 1 ? Math.min(3, Math.max(1, strength)) : 1;
+  const maskContrast = strength > 1 ? Math.min(5, Math.max(1, strength)) : 1;
   const slope = maskContrast;
   const intercept = (1 - slope) * 0.5;
 
