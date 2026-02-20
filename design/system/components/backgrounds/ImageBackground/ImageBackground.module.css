@@ -19,6 +19,15 @@
   object-fit: cover;
 }
 
+/* Dark mode: visa mörk fyllning i de delar som var vita (stör inte motivet) */
+.accentMaskDarkBg {
+  opacity: 0;
+}
+html[data-theme="dark"] .accentMaskDarkBg,
+html.dark .accentMaskDarkBg {
+  opacity: 1;
+}
+
 .overlay {
   position: absolute;
   inset: 0;

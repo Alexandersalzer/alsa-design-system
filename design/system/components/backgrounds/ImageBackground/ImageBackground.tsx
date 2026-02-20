@@ -70,6 +70,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
 }) => {
   const fadeClass = fadeEdge !== 'none' ? styles[`fade${fadeEdge.charAt(0).toUpperCase() + fadeEdge.slice(1)}`] : '';
   const maskId = useId().replace(/:/g, '-');
+  const maskBgId = useId().replace(/:/g, '-');
   const filterId = useId().replace(/:/g, '-');
   const useAccentMask = tint === 'accent' && src;
 
@@ -101,6 +102,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
                   values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0"
                 />
               </filter>
+              {/* Mask: inverterad bild → motiv = opaque (accent syns där) */}
               <mask id={maskId}>
                 <image
                   href={src}
@@ -110,7 +112,25 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
                   filter={`url(#${filterId})`}
                 />
               </mask>
+              {/* Mask: original bild → vit bakgrund = opaque (dark layer syns där i dark mode) */}
+              <mask id={maskBgId}>
+                <image
+                  href={src}
+                  width="100%"
+                  height="100%"
+                  preserveAspectRatio={maskPreserveAspectRatio(size, position)}
+                />
+              </mask>
             </defs>
+            {/* Dark mode: fyll bara de vita delarna med mörk färg; döljs i light */}
+            <rect
+              width="100%"
+              height="100%"
+              fill="var(--foundation-gray-900)"
+              mask={`url(#${maskBgId})`}
+              className={styles.accentMaskDarkBg}
+            />
+            {/* Accent-färgad motiv (alltid synlig) */}
             <rect width="100%" height="100%" fill="currentColor" mask={`url(#${maskId})`} />
           </svg>
         </div>
