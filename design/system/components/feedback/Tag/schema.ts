@@ -52,7 +52,7 @@ export const createTagSchema = (locale: SupportedLocale = 'sv'): ComponentSchema
           default: 'default',
           editorType: 'select',
           values: ['success', 'error', 'warning', 'info', 'accent', 'default'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'appearance',
         },
         t.props?.variant
@@ -66,7 +66,7 @@ export const createTagSchema = (locale: SupportedLocale = 'sv'): ComponentSchema
           default: 'medium',
           editorType: 'segmented',
           values: ['small', 'medium', 'large'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'appearance',
         },
         t.props?.size
@@ -80,7 +80,7 @@ export const createTagSchema = (locale: SupportedLocale = 'sv'): ComponentSchema
           default: 'subtle',
           editorType: 'segmented',
           values: ['subtle', 'muted', 'vibrant'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'appearance',
         },
         t.props?.surface
