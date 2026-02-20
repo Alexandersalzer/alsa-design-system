@@ -49,6 +49,11 @@
   object-fit: cover;
 }
 
+/* När backgroundSize är "contain" – hela bilden syns, ingen inzoomning */
+.accentMaskWrapperContain .accentMaskSvg {
+  object-fit: contain;
+}
+
 /* Dark mode: visa mörk fyllning i de delar som var vita (stör inte motivet) */
 .accentMaskDarkBg {
   opacity: 0;

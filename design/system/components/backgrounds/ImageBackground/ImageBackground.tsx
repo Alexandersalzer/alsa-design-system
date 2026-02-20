@@ -65,11 +65,12 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
 }) => {
   const fadeClass = fadeEdge !== 'none' ? styles[`fade${fadeEdge.charAt(0).toUpperCase() + fadeEdge.slice(1)}`] : '';
   const useAccentMask = tint === 'accent' && src;
+  const sizeClass = size === 'contain' ? styles.accentMaskWrapperContain : '';
 
   const imageLayer =
     useAccentMask ? (
       <div
-        className={`${styles.imageBackground} ${styles.accentMaskWrapper} ${fadeClass}`.trim()}
+        className={`${styles.imageBackground} ${styles.accentMaskWrapper} ${sizeClass} ${fadeClass}`.trim()}
         style={{
           opacity,
           // @ts-expect-error CSS custom property
