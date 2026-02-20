@@ -119,12 +119,21 @@ export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({
                   type="matrix"
                   values={LUMINANCE_MATRIX}
                 />
-                {/* L 0–0.5 behålls (känner av), L≥0.6 = transparens så sektionens bakgrund syns */}
+                {/* Samma princip som solid: strength > 1 = höjd kontrast (tydligare mörk/ljus-skala) */}
+                {maskContrast > 1 && (
+                  <feComponentTransfer in="luminance" result="luminance">
+                    <feFuncR type="linear" slope={slope} intercept={intercept} />
+                    <feFuncG type="linear" slope={slope} intercept={intercept} />
+                    <feFuncB type="linear" slope={slope} intercept={intercept} />
+                    <feFuncA type="linear" slope={1} intercept={0} />
+                  </feComponentTransfer>
+                )}
+                {/* L 0–0.6 behålls (känner av), L≥0.7 = transparens */}
                 <feComponentTransfer in="luminance" result="darkOnly">
-                  <feFuncR type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0 0 0 0 0" />
-                  <feFuncG type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0 0 0 0 0" />
-                  <feFuncB type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0 0 0 0 0" />
-                  <feFuncA type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0 0 0 0 0" />
+                  <feFuncR type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0 0 0 0" />
+                  <feFuncG type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0 0 0 0" />
+                  <feFuncB type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0 0 0 0" />
+                  <feFuncA type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0 0 0 0" />
                 </feComponentTransfer>
                 <feFlood result="accent" floodColor={floodColor} />
                 <feBlend in="darkOnly" in2="accent" result="tinted" mode="multiply" />

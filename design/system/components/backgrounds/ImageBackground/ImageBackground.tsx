@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './ImageBackground.module.css';
 import { FadeEdge } from '../types';
 import { AccentTintSvg } from '../AccentTintSvg';
-import { AccentTintCanvas } from '../AccentTintCanvas';
 
 export interface ImageBackgroundProps {
   /** URL to the background image */
@@ -73,7 +72,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
 }) => {
   const fadeClass = fadeEdge !== 'none' ? styles[`fade${fadeEdge.charAt(0).toUpperCase() + fadeEdge.slice(1)}`] : '';
   const useAccentTint = (tint === 'accent' || tint === 'accent-luminance') && src;
-  const useLuminanceCanvas = tint === 'accent-luminance';
+  const tintVariant = tint === 'accent-luminance' ? 'luminance' : 'solid';
   const sizeClass = size === 'contain' ? styles.accentMaskWrapperContain : '';
 
   const imageLayer =
@@ -87,38 +86,16 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
         }}
         aria-hidden="true"
       >
-        {useLuminanceCanvas ? (
-          <AccentTintCanvas
-            src={src}
-            size={size}
-            position={position}
-            strength={tintStrength}
-            wrapperClassName={sizeClass}
-            wrapperStyle={{}}
-            fallback={
-              <AccentTintSvg
-                src={src}
-                variant="luminance"
-                size={size}
-                position={position}
-                strength={tintStrength}
-                tintColor={tintColor}
-                svgClassName={styles.accentMaskSvg}
-              />
-            }
-          />
-        ) : (
-          <AccentTintSvg
-            src={src}
-            variant="solid"
-            size={size}
-            position={position}
-            strength={tintStrength}
-            tintColor={tintColor}
-            svgClassName={styles.accentMaskSvg}
-            darkRectClassName={styles.accentMaskDarkBg}
-          />
-        )}
+        <AccentTintSvg
+          src={src}
+          variant={tintVariant}
+          size={size}
+          position={position}
+          strength={tintStrength}
+          tintColor={tintColor}
+          svgClassName={styles.accentMaskSvg}
+          darkRectClassName={tintVariant === 'solid' ? styles.accentMaskDarkBg : undefined}
+        />
       </div>
     ) : (
       <div
