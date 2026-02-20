@@ -29,6 +29,21 @@ function extractBackgroundImageUrl(style: Record<string, any> | undefined): stri
   return m ? m[1] : null;
 }
 
+/** Props som bara Section/ImageBackground ska få – skicka aldrig till layout-primitiver (Box/Card → DOM) */
+const SECTION_BACKGROUND_PROPS = [
+  'backgroundImage', 'backgroundTint', 'backgroundSize', 'backgroundPosition', 'backgroundAspectRatio',
+  'backgroundRepeat', 'backgroundOpacity', 'backgroundOverlay', 'backgroundOverlayOpacity',
+  'backgroundThemeAware', 'imageFadeEdge', 'imageFadeStrength',
+];
+
+function stripSectionBackgroundProps<T extends Record<string, any>>(props: T): T {
+  const out = { ...props };
+  SECTION_BACKGROUND_PROPS.forEach((key) => {
+    delete out[key];
+  });
+  return out;
+}
+
 /**
  * Type for responsive maxItems value
  */
@@ -237,7 +252,7 @@ export const renderLayoutWithTemplate = (
   );
 
   return (
-    <ParentLayout {...mergedLayoutProps}>
+    <ParentLayout {...stripSectionBackgroundProps(mergedLayoutProps)}>
       {renderedItems}
     </ParentLayout>
   );
@@ -287,7 +302,7 @@ const renderFilterLayout = (
 
   return (
     <FilterProvider categories={categories} allItemIds={allItemIds}>
-      <ParentLayout {...layoutProps}>
+      <ParentLayout {...stripSectionBackgroundProps(layoutProps)}>
         {renderedChildren}
       </ParentLayout>
     </FilterProvider>
@@ -685,7 +700,7 @@ const renderCategorizedLayout = (
   }).filter(Boolean);
 
   return (
-    <ParentLayout {...layoutProps}>
+    <ParentLayout {...stripSectionBackgroundProps(layoutProps)}>
       {renderedCategories}
     </ParentLayout>
   );
@@ -780,7 +795,7 @@ const renderCategorizedLayoutLegacy = (
   }).filter(Boolean);
 
   return (
-    <ParentLayout {...layoutProps}>
+    <ParentLayout {...stripSectionBackgroundProps(layoutProps)}>
       {renderedCategories}
     </ParentLayout>
   );
@@ -863,7 +878,7 @@ const renderCategoryTemplateNode = (
       }
 
       return (
-        <LayoutComponent {...layoutProps}>
+        <LayoutComponent {...stripSectionBackgroundProps(layoutProps)}>
           {renderedItems}
         </LayoutComponent>
       );
@@ -906,7 +921,7 @@ const renderCategoryTemplateNode = (
     ));
 
     return (
-      <LayoutComponent {...layoutProps}>
+      <LayoutComponent {...stripSectionBackgroundProps(layoutProps)}>
         {renderedChildren}
       </LayoutComponent>
     );
@@ -952,7 +967,7 @@ const renderSimpleLayout = (
   }).filter(Boolean);
 
   return (
-    <LayoutComponent {...layoutProps}>
+    <LayoutComponent {...stripSectionBackgroundProps(layoutProps)}>
       {renderedComponents}
     </LayoutComponent>
   );
@@ -1060,7 +1075,7 @@ const renderLayoutNodeGeneric = (
   // Self-closing components (like divider/hr) cannot have children
   const isSelfClosing = layoutType === 'divider';
   if (isSelfClosing) {
-    return <LayoutComponent {...layoutProps} />;
+    return <LayoutComponent {...stripSectionBackgroundProps(layoutProps)} />;
   }
 
   // Recursively render children for components that support them
@@ -1076,12 +1091,10 @@ const renderLayoutNodeGeneric = (
     const bgUrl = extractBackgroundImageUrl(style) || (typeof layoutProps.backgroundImage === 'string' ? layoutProps.backgroundImage : null);
     if (bgUrl) {
       const { backgroundImage, backgroundSize, backgroundPosition, ...restStyle } = style;
-      const cardProps = {
+      const cardProps = stripSectionBackgroundProps({
         ...layoutProps,
         style: { position: 'relative' as const, overflow: 'hidden', ...restStyle },
-        backgroundImage: undefined,
-        backgroundTint: undefined,
-      };
+      });
       const tint = layoutProps.backgroundTint ?? 'accent';
       return (
         <LayoutComponent {...cardProps}>
@@ -1099,7 +1112,7 @@ const renderLayoutNodeGeneric = (
 
   // Layout component takes care of its own props (colSpan for GridItem, spacing for VStack, etc)
   return (
-    <LayoutComponent {...layoutProps}>
+    <LayoutComponent {...stripSectionBackgroundProps(layoutProps)}>
       {renderedChildren}
     </LayoutComponent>
   );
