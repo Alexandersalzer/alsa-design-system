@@ -47,6 +47,7 @@ import { createSliderSchema } from './forms/Slider/schema';
 
 // Media
 import { createImageSchema } from './media/Image/schema';
+import { createVideoShowcaseSchema } from './media/VideoShowcase/schema';
 
 // Typography
 import { createHeadingSchema } from './Typography/headingSchema';
@@ -100,6 +101,7 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   
   // Media
   image: createImageSchema,
+  videoShowcase: createVideoShowcaseSchema,
   
   // Typography
   heading: createHeadingSchema,
