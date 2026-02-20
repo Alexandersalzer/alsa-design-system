@@ -160,13 +160,17 @@ export const Image: React.FC<ImageProps> = ({
 
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
+  const objectUrlRef = useRef<string | null>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority || loading === 'eager');
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [corsImageUrl, setCorsImageUrl] = useState<string | null>(null);
+  const [accentFetchFailed, setAccentFetchFailed] = useState(false);
 
   // ✅ OPTIMIZATION 1: Check if image is already cached (CloudFront/CDN)
+  // För accent-tint använder vi fetch + object URL, så sätt inte isLoaded från cache då
   useEffect(() => {
     if (!resolvedSrc || priority || loading === 'eager') {
       return;
@@ -176,26 +180,19 @@ export const Image: React.FC<ImageProps> = ({
     const testImg = new window.Image();
     testImg.src = resolvedSrc;
 
-    // If image loads super fast (< 10ms), it's cached
     const startTime = Date.now();
-    
     const checkCache = () => {
       const loadTime = Date.now() - startTime;
       if (loadTime < 10) {
-        // Image is in browser cache or CDN cache - show immediately!
         setIsCached(true);
-        setIsLoaded(true);
         setIsIntersecting(true);
+        if (tint !== 'accent') setIsLoaded(true);
       }
     };
 
     testImg.onload = checkCache;
-    
-    // Also check if already complete (sync load from cache)
-    if (testImg.complete) {
-      checkCache();
-    }
-  }, [resolvedSrc, priority, loading]);
+    if (testImg.complete) checkCache();
+  }, [resolvedSrc, priority, loading, tint]);
 
   // Intersection Observer for lazy loading (skip if cached or priority)
   useEffect(() => {
@@ -255,10 +252,38 @@ export const Image: React.FC<ImageProps> = ({
     }
   }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
 
+  // Accent-mask med CDN: hämta bild med CORS och använd object URL i SVG (samma origin → mask fungerar)
+  const useAccentMask = tint === 'accent' && !!resolvedSrc;
+  useEffect(() => {
+    if (!useAccentMask || !resolvedSrc || !shouldLoad || corsImageUrl || accentFetchFailed) return;
+
+    let cancelled = false;
+    fetch(resolvedSrc, { mode: 'cors' })
+      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error('Fetch failed'))))
+      .then((blob) => {
+        if (cancelled) return;
+        if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+        const url = URL.createObjectURL(blob);
+        objectUrlRef.current = url;
+        setCorsImageUrl(url);
+        setIsLoaded(true);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        if (!cancelled) setAccentFetchFailed(true);
+      });
+
+    return () => {
+      cancelled = true;
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = null;
+      }
+    };
+  }, [useAccentMask, resolvedSrc, shouldLoad, corsImageUrl, accentFetchFailed]);
+
   // Determine if this is a fixed-size image (explicit dimensions) or responsive (percentage/auto)
   const isFixedSize = typeof width === 'number' || (typeof width === 'string' && !width.includes('%'));
-
-  const useAccentMask = tint === 'accent' && !!resolvedSrc;
 
   // Build container classes
   const containerClasses = cn(
@@ -394,34 +419,33 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Actual image: accent-mask (kort, kortbilder) eller vanlig img */}
-        {shouldLoad && useAccentMask && (
-          <>
-            <img
-              ref={imgRef}
-              src={currentSrc}
-              alt=""
-              aria-hidden="true"
-              style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }}
-              onLoad={handleLoad}
-              onError={handleError}
-              loading={priority || isCached ? 'eager' : 'lazy'}
+        {/* Actual image: accent-mask (CORS object URL så CDN-bilder fungerar) eller vanlig img */}
+        {shouldLoad && useAccentMask && corsImageUrl && (
+          <div
+            className="image-accent-mask-wrapper"
+            role="img"
+            aria-label={alt}
+          >
+            <AccentTintSvg
+              src={corsImageUrl}
+              size={objectFit}
+              position={objectPosition}
+              darkRectClassName="image-accent-mask-dark"
             />
-            {isLoaded && !hasError && (
-              <div
-                className="image-accent-mask-wrapper"
-                role="img"
-                aria-label={alt}
-              >
-                <AccentTintSvg
-                  src={currentSrc}
-                  size={objectFit}
-                  position={objectPosition}
-                  darkRectClassName="image-accent-mask-dark"
-                />
-              </div>
-            )}
-          </>
+          </div>
+        )}
+        {shouldLoad && useAccentMask && accentFetchFailed && (
+          <img
+            ref={imgRef}
+            src={currentSrc}
+            alt={alt}
+            className={imageClasses}
+            style={{ ...imageStyles, ...style }}
+            onLoad={handleLoad}
+            onError={handleError}
+            loading={priority || isCached ? 'eager' : 'lazy'}
+            {...props}
+          />
         )}
         {shouldLoad && !useAccentMask && (
           <img
