@@ -30,13 +30,35 @@ export function useAction(config: ActionConfig) {
     // Handle navigation action (client-side only, no API call)
     if (config.type === 'navigation') {
       const navConfig = config as NavigationActionConfig;
-      const { href, pageId } = navConfig.settings;
+      const { href, pageId, sectionId } = navConfig.settings;
+      
+      // Handle section navigation (scroll to section on same page)
+      if (sectionId) {
+        const sectionElement = document.getElementById(sectionId);
+        if (sectionElement) {
+          sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setLoading(false);
+          setSuccess(true);
+          
+          // Trigger pixel events from settings (if any)
+          if (navConfig.settings.pixelEvents && consent.marketing) {
+            triggerPixelEvents(navConfig.settings.pixelEvents);
+          }
+          
+          return { success: true };
+        } else {
+          console.warn(`[Action] Section with id "${sectionId}" not found`);
+          setLoading(false);
+          setError(`Section "${sectionId}" not found`);
+          return { success: false, error: `Section "${sectionId}" not found` };
+        }
+      }
       
       // Resolve href from pageId or use direct href
       const localeAwareHref = buildHref(href, pageId);
       
       if (!localeAwareHref) {
-        console.error('[Action] Navigation action missing href or pageId');
+        console.error('[Action] Navigation action missing href, pageId, or sectionId');
         setLoading(false);
         setError('Navigation target missing');
         return { success: false, error: 'Navigation target missing' };

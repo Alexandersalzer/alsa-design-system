@@ -142,6 +142,16 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   const videoSrc = typeof props.src === 'string' ? props.src : '';
   const videoUrl = videoSrc.startsWith('http') ? videoSrc : `${CDN_BASE_URL}${videoSrc}`;
 
+  // Debug logging
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[VideoShowcase] Processing video URL:', {
+      originalSrc: props.src,
+      videoSrc,
+      videoUrl,
+      CDN_BASE_URL
+    });
+  }
+
   // Priority 1: Use hardcoded poster if provided
   let derivedPosterUrl = poster ? (poster.startsWith('http') ? poster : `${CDN_BASE_URL}${poster}`) : undefined;
 
