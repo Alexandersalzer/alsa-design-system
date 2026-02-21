@@ -66,5 +66,13 @@ export const imageTranslations_en = {
       displayName: 'Hover Zoom',
       description: 'Enable zoom on hover',
     },
+    tint: {
+      displayName: 'Tint',
+      description: 'Accent color tint over image',
+      valueLabels: {
+        none: 'None',
+        accent: 'Accent',
+      },
+    },
   },
 };
