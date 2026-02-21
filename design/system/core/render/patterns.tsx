@@ -175,29 +175,11 @@ export const renderPattern = (
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
     
-    // Determine animation config with global mode support
+    // Determine animation config. Same on server and client to avoid hydration mismatch.
+    // Do NOT read window/getComputedStyle here – that would differ server vs client.
     const patternAnimation = pattern.animation || patternProps.animation;
-    let animationConfig = patternAnimation || layoutContext?.sectionAnimation;
-    
-    // Check global sectionBodyAnimation mode (all/hero/none) if no explicit animation
-    if (!patternAnimation && typeof window !== 'undefined') {
-      const isHero = sectionKey?.startsWith('hero_');
-      const globalMode = getComputedStyle(document.documentElement)
-        .getPropertyValue('--section-body-animation')
-        .replace(/['"`]/g, '')
-        .trim()
-        .toLowerCase() as 'all' | 'hero' | 'none' | '';
-      
-      // If section-level animation exists, respect it
-      // Otherwise check global mode
-      if (!layoutContext?.sectionAnimation) {
-        const shouldAnimate = globalMode === 'all' || (globalMode === 'hero' && isHero);
-        if (!shouldAnimate) {
-          animationConfig = { type: 'none', settings: {} };
-        }
-      }
-    }
-    
+    const animationConfig = patternAnimation || layoutContext?.sectionAnimation;
+
     // Animations that should wrap each item individually (with stagger support)
     const perItemAnimations = ['fadeIn', 'opacity', 'scale', 'slideIn'];
     

@@ -9,7 +9,6 @@ import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import { resolveCdnImageUrl } from '../../../core/utils/env';
-import { AccentTintSvg } from '../../backgrounds/AccentTintSvg';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -383,38 +382,36 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Accent: alltid visa vanlig img som bottenlager (så bilden aldrig försvinner). AccentTintSvg ovanpå – om masken fungerar ser vi accent, annars bilden under. */}
+        {/* Accent: CSS overlay med mix-blend-mode. In-flow wrapper med aspect-ratio så behållaren får höjd i flex/karusell. */}
         {shouldLoad && useAccentMask && (
-          <>
-            <img
-              ref={imgRef}
-              src={currentSrc}
-              alt={alt}
-              className={imageClasses}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                zIndex: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: objectFit,
-                objectPosition: objectPosition,
-                ...style,
-              }}
-              onLoad={handleLoad}
-              onError={handleError}
-              loading={priority || isCached ? 'eager' : 'lazy'}
-              {...props}
-            />
-            <div className="image-accent-mask-wrapper" style={{ zIndex: 1 }} role="img" aria-label={alt}>
-              <AccentTintSvg
-                src={resolvedSrc}
-                size={objectFit}
-                position={objectPosition}
-                darkRectClassName="image-accent-mask-dark"
+          <div
+            style={{
+              width: '100%',
+              aspectRatio: aspectRatio || undefined,
+              position: 'relative' as const,
+              minHeight: 0,
+            }}
+            aria-hidden="true"
+          >
+            <div className="image-accent-css-fallback" role="img" aria-label={alt}>
+              <img
+                ref={imgRef}
+                src={currentSrc}
+                alt={alt}
+                className={imageClasses}
+                style={{
+                  objectFit: objectFit,
+                  objectPosition: objectPosition,
+                  ...style,
+                }}
+                onLoad={handleLoad}
+                onError={handleError}
+                loading={priority || isCached ? 'eager' : 'lazy'}
+                {...props}
               />
+              <div className="image-accent-overlay" aria-hidden="true" />
             </div>
-          </>
+          </div>
         )}
         {shouldLoad && !useAccentMask && (
           <img
