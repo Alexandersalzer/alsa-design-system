@@ -77,33 +77,10 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
     ? sectionAnimationConfig.settings.stagger
     : props?.animationStagger) ?? 100; // Delay between elements
 
-  // Read animation mode from CSS variable
-  // Note: This causes a harmless hydration mismatch in dev mode because the CSS variable
-  // is read at runtime. The mismatch is suppressed and doesn't affect functionality.
-  const getAnimationMode = (): 'all' | 'hero' | 'none' => {
-    if (typeof window === 'undefined') {
-      // During SSR, return 'all' as default
-      // This will cause a brief hydration mismatch but animations will work correctly
-      return 'all';
-    }
-
-    const rawValue = getComputedStyle(document.documentElement)
-      .getPropertyValue('--section-body-animation')
-      .replace(/['"`]/g, '')
-      .trim();
-
-    const lowerValue = rawValue.toLowerCase();
-
-    // Check both lowercase and original value for backwards compatibility
-    if (rawValue && (rawValue === 'all' || rawValue === 'hero' || rawValue === 'none' ||
-        rawValue === 'All' || rawValue === 'Hero' || rawValue === 'None')) {
-      return lowerValue as 'all' | 'hero' | 'none';
-    }
-
-    return 'all'; // Default fallback
-  };
-
-  const animationMode = getAnimationMode();
+  // Använd samma värde på server och klient för att undvika hydration-fel.
+  // Vi läser inte getComputedStyle/--section-body-animation här eftersom det
+  // bara finns på klienten och ger server: FadeIn vs client: ingen FadeIn.
+  const animationMode: 'all' | 'hero' | 'none' = 'all';
 
   // Determine if animation should be enabled for this section
   // Priority: section animation > global animation mode
