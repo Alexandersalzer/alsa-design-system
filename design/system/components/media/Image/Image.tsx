@@ -18,7 +18,7 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   /** Image source URL */
   src: string;
   /** Alt text for accessibility */
-  alt: string;
+  alt?: string;
   /** Image width */
   width?: number | string;
   /** Image height */
@@ -92,7 +92,7 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
 
 export const Image: React.FC<ImageProps> = ({
   src,
-  alt,
+  alt = '',
   width,
   height,
   objectFit = 'cover',
@@ -245,8 +245,10 @@ export const Image: React.FC<ImageProps> = ({
     }
   }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
 
-  // Accent: samma som ImageBackground – använd bild-URL direkt i AccentTintSvg (ingen fetch/CORS).
+  // Accent: för externa (CDN) URL:er använd CSS mix-blend (CORS-säkert). Annars AccentTintSvg.
   const useAccentMask = tint === 'accent' && !!resolvedSrc;
+  const isExternalSrc = typeof resolvedSrc === 'string' && /^https?:\/\//i.test(resolvedSrc);
+  const useCssAccentFallback = useAccentMask && isExternalSrc;
 
   // Determine if this is a fixed-size image (explicit dimensions) or responsive (percentage/auto)
   const isFixedSize = typeof width === 'number' || (typeof width === 'string' && !width.includes('%'));
@@ -385,8 +387,33 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Accent: alltid visa vanlig img som bottenlager (så bilden aldrig försvinner). AccentTintSvg ovanpå – om masken fungerar ser vi accent, annars bilden under. */}
-        {shouldLoad && useAccentMask && (
+        {/* Accent: externa URL:er (CDN) → CSS mix-blend (CORS-säkert, en bild). Samma origin → AccentTintSvg. */}
+        {shouldLoad && useCssAccentFallback && (
+          <div className="image-accent-css-fallback" role="img" aria-label={alt}>
+            <img
+              ref={imgRef}
+              src={currentSrc}
+              alt={alt}
+              className={imageClasses}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: objectFit,
+                objectPosition: objectPosition,
+                ...style,
+              }}
+              onLoad={handleLoad}
+              onError={handleError}
+              loading={priority || isCached ? 'eager' : 'lazy'}
+              {...props}
+            />
+            <div className="image-accent-overlay" />
+          </div>
+        )}
+        {/* Accent same-origin: SVG-mask (bättre kvalitet när CORS tillåter). */}
+        {shouldLoad && useAccentMask && !useCssAccentFallback && (
           <>
             <img
               ref={imgRef}
