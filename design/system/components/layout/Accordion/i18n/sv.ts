@@ -75,3 +75,35 @@ export const accordionTranslations_sv = {
     },
   },
 };
+
+export const accordionItemTranslations_sv = {
+  displayName: 'Dragspelselement',
+  description: 'Ett enskilt hopfällbart element i ett dragspel',
+  
+  props: {
+    itemKey: {
+      displayName: 'Nyckel',
+      description: 'Unik identifierare för elementet',
+    },
+    title: {
+      displayName: 'Titel',
+      description: 'Huvudtitel som alltid visas',
+    },
+    subtitle: {
+      displayName: 'Underrubrik',
+      description: 'Valfri underrubrik under titeln',
+    },
+    content: {
+      displayName: 'Innehåll',
+      description: 'Innehåll som visas när elementet expanderas',
+    },
+    disabled: {
+      displayName: 'Inaktiverad',
+      description: 'Inaktivera elementet',
+    },
+    disableIndicator: {
+      displayName: 'Dölj indikator',
+      description: 'Dölj chevron-indikatorn för detta element',
+    },
+  },
+};

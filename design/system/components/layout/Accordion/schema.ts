@@ -4,7 +4,7 @@
 
 import { ComponentSchema } from '../../../core/schemas/component.types';
 import { getTranslation, createLocalizedProp } from '../../../core/schemas/i18n';
-import { accordionTranslations } from './i18n';
+import { accordionTranslations, accordionItemTranslations } from './i18n';
 import type { SupportedLocale } from '../../../core/schemas/i18n/types';
 
 export const createAccordionSchema = (locale: SupportedLocale = 'sv'): ComponentSchema => {
@@ -131,4 +131,113 @@ export const createAccordionSchema = (locale: SupportedLocale = 'sv'): Component
 };
 
 export const accordionSchema = createAccordionSchema('sv');
+
+// ===== ACCORDION ITEM SCHEMA =====
+export const createAccordionItemSchema = (locale: SupportedLocale = 'sv'): ComponentSchema => {
+  const t = getTranslation(accordionItemTranslations, locale);
+  
+  return {
+    $id: 'accordionItem',
+    displayName: t.displayName,
+    category: 'layout',
+    description: t.description,
+    icon: 'ChevronDown',
+    tags: ['accordion', 'item', 'collapsible', 'disclosure'],
+    version: '1.0.0',
+    cmsEnabled: true,
+    
+    defaultProps: {
+      itemKey: '',
+      title: '',
+      content: '',
+    },
+    
+    props: {
+      itemKey: createLocalizedProp(
+        {
+          name: 'itemKey',
+          type: 'string',
+          required: true,
+          default: '',
+          editorType: 'text',
+          group: 'content',
+          cmsEnabled: false,
+        },
+        t.props?.itemKey
+      ),
+      
+      title: createLocalizedProp(
+        {
+          name: 'title',
+          type: 'string',
+          required: true,
+          default: '',
+          editorType: 'text',
+          group: 'content',
+          cmsEnabled: true,
+        },
+        t.props?.title
+      ),
+      
+      subtitle: createLocalizedProp(
+        {
+          name: 'subtitle',
+          type: 'string',
+          required: false,
+          editorType: 'text',
+          group: 'content',
+          cmsEnabled: false,
+        },
+        t.props?.subtitle
+      ),
+      
+      content: createLocalizedProp(
+        {
+          name: 'content',
+          type: 'string',
+          required: false,
+          default: '',
+          editorType: 'richtext',
+          group: 'content',
+          cmsEnabled: true,
+        },
+        t.props?.content
+      ),
+      
+      disabled: createLocalizedProp(
+        {
+          name: 'disabled',
+          type: 'boolean',
+          required: false,
+          default: false,
+          editorType: 'toggle',
+          group: 'behavior',
+          cmsEnabled: false,
+        },
+        t.props?.disabled
+      ),
+      
+      disableIndicator: createLocalizedProp(
+        {
+          name: 'disableIndicator',
+          type: 'boolean',
+          required: false,
+          default: false,
+          editorType: 'toggle',
+          group: 'appearance',
+          cmsEnabled: false,
+        },
+        t.props?.disableIndicator
+      ),
+    },
+    
+    validation: [],
+    examples: [],
+    
+    related: ['accordion'],
+    docsUrl: '/docs/components/accordion-item',
+  };
+};
+
+export const accordionItemSchema = createAccordionItemSchema('sv');
 export default accordionSchema;

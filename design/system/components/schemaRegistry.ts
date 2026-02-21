@@ -64,7 +64,7 @@ import { createGridSchema } from './layout/grid/schema';
 import { createSpacerSchema } from './layout/Spacer/schema';
 import { createBoxSchema } from './layout/box/schema';
 import { createDividerSchema } from './layout/divider/schema';
-import { createAccordionSchema } from './layout/Accordion/schema';
+import { createAccordionSchema, createAccordionItemSchema } from './layout/Accordion/schema';
 import { createBleedSchema } from './layout/bleed/schema';
 import { createRhythmSchema } from './layout/rhythm/schema';
 import { createBentoGridSchema } from './layout/BentoGrid/schema';
@@ -119,6 +119,7 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   box: createBoxSchema,
   divider: createDividerSchema,
   accordion: createAccordionSchema,
+  accordionItem: createAccordionItemSchema,
   bleed: createBleedSchema,
   rhythm: createRhythmSchema,
   bentoGrid: createBentoGridSchema,
