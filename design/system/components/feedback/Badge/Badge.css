@@ -120,10 +120,42 @@
 }
 
 /* ===== IMAGE BADGE ===== */
+/* Fully overrides size/shape to enforce a perfect circle */
 .badge--image {
   background-color: var(--surface-page);
-  padding: 0;
+  padding: 0 !important;
+  min-width: unset !important;
   overflow: hidden;
+  border-radius: 9999px !important;
+  width: 28px;
+  height: 28px;
+}
+
+.badge--image.badge--sm {
+  width: 20px;
+  height: 20px;
+}
+
+.badge--image.badge--lg {
+  width: 36px;
+  height: 36px;
+}
+
+/* Image badge placement — sits on the edge, not floating outside */
+.badge--image.badge--bottom-right {
+  transform: translate(25%, 25%);
+}
+
+.badge--image.badge--bottom-left {
+  transform: translate(-25%, 25%);
+}
+
+.badge--image.badge--top-right {
+  transform: translate(25%, -25%);
+}
+
+.badge--image.badge--top-left {
+  transform: translate(-25%, -25%);
 }
 
 .badge__image {
