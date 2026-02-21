@@ -120,8 +120,11 @@ export const Image: React.FC<ImageProps> = ({
   themeMode = 'system',
   tint = 'none',
   themeAware = false,
-  ...props
+  ...restProps
 }) => {
+  // Don't pass Blimpify/template props to <img> – React 19 reserves "action" for <form>
+  const { action: _action, ...imgProps } = restProps as { action?: unknown; [key: string]: unknown };
+
   const useNormalized = themeAdaptive && normalizedLightSrc && normalizedDarkSrc;
 
   const [effectiveTheme, setEffectiveTheme] = useState<'light' | 'dark'>(() => {
@@ -407,7 +410,7 @@ export const Image: React.FC<ImageProps> = ({
               onLoad={handleLoad}
               onError={handleError}
               loading={priority || isCached ? 'eager' : 'lazy'}
-              {...props}
+              {...imgProps}
             />
             <div className="image-accent-overlay" />
           </div>
@@ -433,7 +436,7 @@ export const Image: React.FC<ImageProps> = ({
               onLoad={handleLoad}
               onError={handleError}
               loading={priority || isCached ? 'eager' : 'lazy'}
-              {...props}
+              {...imgProps}
             />
             <div className="image-accent-mask-wrapper" style={{ zIndex: 1 }} role="img" aria-label={alt}>
               <AccentTintSvg
@@ -455,7 +458,7 @@ export const Image: React.FC<ImageProps> = ({
             onLoad={handleLoad}
             onError={handleError}
             loading={priority || isCached ? 'eager' : 'lazy'}
-            {...props}
+            {...imgProps}
           />
         )}
 
