@@ -99,33 +99,19 @@ export const renderPatternDirect = (
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
     
-    // Determine animation config with global mode support
+    // Determine animation config. Use explicit config or default so server and client
+    // render the same structure (avoids hydration mismatch from reading getComputedStyle only on client).
     const patternAnimation = pattern.animation || patternProps.animation;
     let animationConfig = patternAnimation || layoutContext?.sectionAnimation;
-    
-    // Check global sectionBodyAnimation mode (all/hero/none) if no explicit animation
-    if (!patternAnimation && typeof window !== 'undefined') {
-      const isHero = sectionKey?.startsWith('hero_');
-      const globalMode = getComputedStyle(document.documentElement)
-        .getPropertyValue('--section-body-animation')
-        .replace(/['"`]/g, '')
-        .trim()
-        .toLowerCase() as 'all' | 'hero' | 'none' | '';
-      
-      // If section-level animation exists, respect it
-      // Otherwise check global mode
-      if (!layoutContext?.sectionAnimation) {
-        const shouldAnimate = globalMode === 'all' || (globalMode === 'hero' && isHero);
-        if (shouldAnimate && !animationConfig) {
-          // Provide default fadeIn animation
-          animationConfig = {
-            type: 'fadeIn',
-            settings: { direction: 'up', duration: 600, stagger: 100 }
-          };
-        } else if (!shouldAnimate) {
-          animationConfig = { type: 'none', settings: {} };
-        }
-      }
+
+    if (!animationConfig) {
+      // Default to fadeIn so layout always wraps items in FadeIn on both server and client.
+      // Do not read --section-body-animation here (window/getComputedStyle); that would
+      // differ on server vs client and cause "server: form, client: FadeIn > form" mismatch.
+      animationConfig = {
+        type: 'fadeIn',
+        settings: { direction: 'up', duration: 600, stagger: 100 }
+      };
     }
     
     // Animations that should wrap each item individually

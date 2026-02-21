@@ -20,6 +20,7 @@ interface AlternatingCardsRowProps {
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   imageObjectPosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right' | string;
+  imageTint?: 'accent' | 'none';
   // Layout customization
   rowGap?: 'sm' | 'md' | 'lg' | 'xl'; // Gap between rows
   columnGap?: 'xs' | 'sm' | 'md' | 'lg'; // Gap between image and text in each row
@@ -36,6 +37,7 @@ export function AlternatingCardsRow({
   imageRadius = 'md',
   imageObjectFit = 'cover',
   imageObjectPosition = 'center',
+  imageTint = 'accent',
   rowGap = 'xl',
   columnGap = 'lg',
   textSpacing = 'sm',
@@ -85,6 +87,7 @@ export function AlternatingCardsRow({
                   objectFit={imageObjectFit}
                   objectPosition={imageObjectPosition}
                   radius={imageRadius}
+                  tint={imageTint}
                   loading="lazy"
                   showSkeleton={true}
                   className="alternating-cards-row__image"

@@ -15,6 +15,7 @@ interface ResultsCardProps {
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   imageAspectRatio?: string;
+  imageTint?: 'accent' | 'none';
   // Card customization
   cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
   cardPadding?: 'sm' | 'md' | 'lg';
@@ -35,6 +36,7 @@ export function ResultsCard({
   imageRadius = 'sm',
   imageObjectFit = 'contain',
   imageAspectRatio = '2/3',
+  imageTint = 'accent',
   cardVariant = 'elevated',
   cardPadding = 'md',
   spacing = 'sm'
@@ -60,6 +62,7 @@ export function ResultsCard({
           aspectRatio={imageAspectRatio}
           objectFit={imageObjectFit}
           radius={imageRadius}
+          tint={imageTint}
           loading="lazy"
           showSkeleton={true}
           className="results-card-image"

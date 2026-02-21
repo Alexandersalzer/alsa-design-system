@@ -45,8 +45,12 @@ export interface GradientBackgroundProps {
 // ===== IMAGE BACKGROUND =====
 export interface ImageBackgroundProps {
   backgroundImage?: string;
+  /** cover = fyll området (kan croppa/inzooma), contain = hela bilden syns (ingen zoom), auto = naturlig storlek */
   backgroundSize?: 'cover' | 'contain' | 'auto' | string;
+  /** CSS background-position: center, top, bottom, left, right, eller t.ex. "top center", "50% 25%" */
   backgroundPosition?: string;
+  /** Lås bakgrundens "ram" till ett bildförhållande (t.ex. "16/9", "21/9", "4/3"). Bilden (cover/contain) anpassas inom ramen. */
+  backgroundAspectRatio?: string;
   backgroundRepeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y' | 'space' | 'round';
   backgroundOpacity?: number;
   backgroundOverlay?: string | false;
@@ -58,6 +62,12 @@ export interface ImageBackgroundProps {
   backgroundFilter?: string;
   imageFadeEdge?: FadeEdge;
   imageFadeStrength?: number;
+  /** Motiv fylls med exakt accentfärg (--foundation-accent-500). Fungerar för vilken färg som helst. Bäst med vit bakgrund + svart motiv. */
+  backgroundTint?: 'accent' | 'none';
+  /** Styrka på accent-masken. 0–1 = opacity; >1 (t.ex. 1.2–2) = full opacity + höjd maskkontrast. Default 1.2. */
+  backgroundTintStrength?: number;
+  /** Oanvänd (behålls för API). */
+  backgroundThemeAware?: boolean;
 }
 
 // ===== PATTERN BACKGROUND =====

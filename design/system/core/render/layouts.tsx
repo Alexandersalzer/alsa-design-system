@@ -19,7 +19,31 @@ import {
   hasCategories
 } from '../utils/props';
 import { isTemplateReference, resolveLayoutTemplate } from './template-resolver';
+import { ImageBackground } from '../../components/backgrounds/ImageBackground/ImageBackground';
 import './layouts.css';
+
+/** Extrahera URL från style.backgroundImage (t.ex. "url(https://...)" eller "url('...')") */
+function extractBackgroundImageUrl(style: Record<string, any> | undefined): string | null {
+  const bg = style?.backgroundImage;
+  if (typeof bg !== 'string') return null;
+  const m = bg.match(/url\s*\(\s*['"]?([^'")\s]+)['"]?\s*\)/);
+  return m ? m[1] : null;
+}
+
+/** Props som bara Section/ImageBackground ska få – skicka aldrig till layout-primitiver (Box/Card → DOM) */
+const SECTION_BACKGROUND_PROPS = [
+  'backgroundImage', 'backgroundTint', 'backgroundSize', 'backgroundPosition', 'backgroundAspectRatio',
+  'backgroundRepeat', 'backgroundOpacity', 'backgroundOverlay', 'backgroundOverlayOpacity',
+  'backgroundThemeAware', 'imageFadeEdge', 'imageFadeStrength',
+];
+
+function stripSectionBackgroundProps<T extends Record<string, any>>(props: T): T {
+  const out = { ...props };
+  SECTION_BACKGROUND_PROPS.forEach((key) => {
+    delete out[key];
+  });
+  return out;
+}
 
 /**
  * Type for responsive maxItems value
@@ -242,7 +266,7 @@ export const renderLayoutWithTemplate = (
   );
 
   return (
-    <ParentLayout {...mergedLayoutProps}>
+    <ParentLayout {...stripSectionBackgroundProps(mergedLayoutProps)}>
       {renderedItems}
     </ParentLayout>
   );
@@ -292,7 +316,7 @@ const renderFilterLayout = (
 
   return (
     <FilterProvider categories={categories} allItemIds={allItemIds}>
-      <ParentLayout {...layoutProps}>
+      <ParentLayout {...stripSectionBackgroundProps(layoutProps)}>
         {renderedChildren}
       </ParentLayout>
     </FilterProvider>
@@ -324,6 +348,14 @@ const resolvePropsWithContext = (
   
   return resolved;
 };
+
+/** Hämtar första image-komponentens src från ett item (för ${imageSrc} i kort-bakgrund). */
+function getItemImageSrc(item: Record<string, any>): string | undefined {
+  const comps = item?.components;
+  if (!comps || typeof comps !== 'object') return undefined;
+  const entry = Object.values(comps).find((c: any) => (c as any)?.type === 'image');
+  return (entry as any)?.props?.src;
+}
 
 /**
  * Renders a template node in filter context
@@ -358,8 +390,8 @@ const renderFilterTemplateNode = (
       const item = findLayoutItem(layout, itemId);
       if (!item) return null;
 
-      const { components: _, ...itemProps } = item;
-      const itemContext = { index, id: itemId, ...itemProps };
+      const { components: __, ...itemProps } = item;
+      const itemContext = { index, id: itemId, imageSrc: getItemImageSrc(item), ...itemProps };
       const usedComponents = new Set<string>();
 
       const templateContent = template.children?.map((child: any, childIndex: number) => (
@@ -498,11 +530,12 @@ const renderItems = (
     const globalIndex = indexOffset + localIndex;
 
     // Create item context with index and any item-level props (excluding 'components')
-    const { components: _, ...itemProps } = item;
+    const { components: __, ...itemProps } = item;
     const itemContext = {
       index: globalIndex,
       localIndex,
       id: itemId,
+      imageSrc: getItemImageSrc(item),
       ...itemProps
     };
 
@@ -690,7 +723,7 @@ const renderCategorizedLayout = (
   }).filter(Boolean);
 
   return (
-    <ParentLayout {...layoutProps}>
+    <ParentLayout {...stripSectionBackgroundProps(layoutProps)}>
       {renderedCategories}
     </ParentLayout>
   );
@@ -785,7 +818,7 @@ const renderCategorizedLayoutLegacy = (
   }).filter(Boolean);
 
   return (
-    <ParentLayout {...layoutProps}>
+    <ParentLayout {...stripSectionBackgroundProps(layoutProps)}>
       {renderedCategories}
     </ParentLayout>
   );
@@ -819,11 +852,12 @@ const renderCategoryTemplateNode = (
       }
 
       const globalIndex = globalItemIndexOffset + localIndex;
-      const { components: _, ...itemProps } = item;
+      const { components: __, ...itemProps } = item;
       const itemContext = {
         index: globalIndex,
         localIndex,
         id: itemId,
+        imageSrc: getItemImageSrc(item),
         ...itemProps
       };
 
@@ -868,7 +902,7 @@ const renderCategoryTemplateNode = (
       }
 
       return (
-        <LayoutComponent {...layoutProps}>
+        <LayoutComponent {...stripSectionBackgroundProps(layoutProps)}>
           {renderedItems}
         </LayoutComponent>
       );
@@ -911,7 +945,7 @@ const renderCategoryTemplateNode = (
     ));
 
     return (
-      <LayoutComponent {...layoutProps}>
+      <LayoutComponent {...stripSectionBackgroundProps(layoutProps)}>
         {renderedChildren}
       </LayoutComponent>
     );
@@ -957,7 +991,7 @@ const renderSimpleLayout = (
   }).filter(Boolean);
 
   return (
-    <LayoutComponent {...layoutProps}>
+    <LayoutComponent {...stripSectionBackgroundProps(layoutProps)}>
       {renderedComponents}
     </LayoutComponent>
   );
@@ -1065,7 +1099,7 @@ const renderLayoutNodeGeneric = (
   // Self-closing components (like divider/hr) cannot have children
   const isSelfClosing = layoutType === 'divider';
   if (isSelfClosing) {
-    return <LayoutComponent {...layoutProps} />;
+    return <LayoutComponent {...stripSectionBackgroundProps(layoutProps)} />;
   }
 
   // Recursively render children for components that support them
@@ -1075,9 +1109,35 @@ const renderLayoutNodeGeneric = (
     </React.Fragment>
   ));
 
+  // Kort med style.backgroundImage: använd ImageBackground med accent-tint (samma som pricing/hero).
+  // OBS: I bento ligger en Image (${image}) ovanpå – det som syns är Image, inte denna bakgrund.
+  if (layoutType === 'card') {
+    const style = layoutProps.style || {};
+    const bgUrl = extractBackgroundImageUrl(style) || (typeof layoutProps.backgroundImage === 'string' ? layoutProps.backgroundImage : null);
+    if (bgUrl) {
+      const { backgroundImage, backgroundSize, backgroundPosition, ...restStyle } = style;
+      const cardProps = stripSectionBackgroundProps({
+        ...layoutProps,
+        style: { position: 'relative' as const, overflow: 'hidden', ...restStyle },
+      });
+      const tint = layoutProps.backgroundTint ?? 'accent';
+      return (
+        <LayoutComponent {...cardProps}>
+          <ImageBackground
+            src={bgUrl}
+            size={layoutProps.backgroundSize || style.backgroundSize || 'cover'}
+            position={layoutProps.backgroundPosition || style.backgroundPosition || 'center'}
+            tint={tint}
+          />
+          {renderedChildren}
+        </LayoutComponent>
+      );
+    }
+  }
+
   // Layout component takes care of its own props (colSpan for GridItem, spacing for VStack, etc)
   return (
-    <LayoutComponent {...layoutProps}>
+    <LayoutComponent {...stripSectionBackgroundProps(layoutProps)}>
       {renderedChildren}
     </LayoutComponent>
   );

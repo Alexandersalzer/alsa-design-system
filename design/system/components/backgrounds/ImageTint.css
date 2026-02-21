@@ -1,0 +1,12 @@
+/**
+ * Image tint – enbart hue för att matcha accentfärg.
+ * Använder --accent-hue-deg och --accent-tint-saturation från design tokens.
+ * Ingen light/dark-invertering; samma färgton i båda lägena.
+ *
+ * BILDSPEC: Vit bakgrund + svart motiv (eller gråskala) ger bäst resultat.
+ */
+
+.image-tint-accent,
+.image-tint-accent-theme-aware {
+  filter: grayscale(1) sepia(1) hue-rotate(var(--accent-hue-deg, 270deg)) saturate(var(--accent-tint-saturation, 0.85));
+}

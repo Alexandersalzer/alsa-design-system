@@ -118,6 +118,17 @@ Ett komplett, skalbart system för bakgrunder i Blimpify. Stödjer 4 typer av ba
 
 ---
 
+### 6. ImageBackground med accent-tint (valfri färg)
+
+Motivet fylls med **exakt accentfärg** (`--foundation-accent-500`) via mask – fungerar för **vilken färg som helst** (blå, orange, hex, etc.), inte bara hue-rotate.
+
+- **Sektion:** `background: "image"` + `backgroundTint: "accent"`.
+- Bilden används som mask (inverterad): svart motiv → färgad form, vit bakgrund → transparent.
+
+**Bildspec:** Använd bilder med **vit bakgrund** och **svart mönster/motiv** (eller tydlig kontrast). Då blir motivet exakt i vald accentfärg.
+
+---
+
 ## 🎯 Background Presets
 
 Fördefinierade kombinationer för snabb implementation:

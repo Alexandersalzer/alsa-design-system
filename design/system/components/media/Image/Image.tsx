@@ -9,6 +9,7 @@ import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import { resolveCdnImageUrl } from '../../../core/utils/env';
+import { AccentTintSvg } from '../../backgrounds/AccentTintSvg';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -70,6 +71,21 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
    * Example: '#3B82F6' or 'rgb(59, 130, 246)'
    */
   placeholderColor?: string;
+  /**
+   * Temaadaptiv bild: använd normaliserade light/dark-varianter så att bakgrund och accent matchar temat.
+   * Kräver normalizedLightSrc och normalizedDarkSrc (sätts av Image Simplifier).
+   */
+  themeAdaptive?: boolean;
+  /** URL till normaliserad bild för light theme (bakgrund vit, accent systemaccent) */
+  normalizedLightSrc?: string;
+  /** URL till normaliserad bild för dark theme (bakgrund mörk, accent systemaccent) */
+  normalizedDarkSrc?: string;
+  /** Vilket tema som gäller; 'system' = läs från data-theme eller prefers-color-scheme */
+  themeMode?: 'light' | 'dark' | 'system';
+  /** Motiv fylls med accentfärg (samma som ImageBackground). Vit bakgrund + svart motiv. Dark mode: vita delar → surface-page. */
+  tint?: 'accent' | 'none';
+  /** Oanvänd (behålls för API). */
+  themeAware?: boolean;
 }
 
 // ===== MAIN IMAGE COMPONENT =====
@@ -98,9 +114,50 @@ export const Image: React.FC<ImageProps> = ({
   lqip,
   blurHash,
   placeholderColor,
+  themeAdaptive = false,
+  normalizedLightSrc,
+  normalizedDarkSrc,
+  themeMode = 'system',
+  tint = 'none',
+  themeAware = false,
   ...props
 }) => {
-  const resolvedSrc = resolveCdnImageUrl(src || '');
+  const useNormalized = themeAdaptive && normalizedLightSrc && normalizedDarkSrc;
+
+  const [effectiveTheme, setEffectiveTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof document === 'undefined') return 'light';
+    const dataTheme = document.documentElement.getAttribute('data-theme');
+    if (dataTheme === 'dark') return 'dark';
+    if (dataTheme === 'light') return 'light';
+    if (themeMode === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+    return 'light';
+  });
+
+  useEffect(() => {
+    if (!useNormalized || themeMode !== 'system') return;
+    const update = () => {
+      const dataTheme = document.documentElement.getAttribute('data-theme');
+      if (dataTheme === 'dark') setEffectiveTheme('dark');
+      else if (dataTheme === 'light') setEffectiveTheme('light');
+      else setEffectiveTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    };
+    update();
+    window.addEventListener('theme-changed', update);
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    media.addEventListener('change', update);
+    return () => {
+      window.removeEventListener('theme-changed', update);
+      media.removeEventListener('change', update);
+    };
+  }, [useNormalized, themeMode]);
+
+  const normalizedSrc = useNormalized
+    ? (effectiveTheme === 'dark' ? normalizedDarkSrc : normalizedLightSrc)
+    : undefined;
+  const resolvedSrc = resolveCdnImageUrl(
+    (normalizedSrc != null ? normalizedSrc : src) || ''
+  );
+
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(priority || loading === 'eager');
@@ -115,29 +172,19 @@ export const Image: React.FC<ImageProps> = ({
       return;
     }
 
-    // Create a test image to check cache
     const testImg = new window.Image();
     testImg.src = resolvedSrc;
-
-    // If image loads super fast (< 10ms), it's cached
     const startTime = Date.now();
-    
     const checkCache = () => {
       const loadTime = Date.now() - startTime;
       if (loadTime < 10) {
-        // Image is in browser cache or CDN cache - show immediately!
         setIsCached(true);
-        setIsLoaded(true);
         setIsIntersecting(true);
+        setIsLoaded(true);
       }
     };
-
     testImg.onload = checkCache;
-    
-    // Also check if already complete (sync load from cache)
-    if (testImg.complete) {
-      checkCache();
-    }
+    if (testImg.complete) checkCache();
   }, [resolvedSrc, priority, loading]);
 
   // Intersection Observer for lazy loading (skip if cached or priority)
@@ -198,6 +245,9 @@ export const Image: React.FC<ImageProps> = ({
     }
   }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
 
+  // Accent: samma som ImageBackground – använd bild-URL direkt i AccentTintSvg (ingen fetch/CORS).
+  const useAccentMask = tint === 'accent' && !!resolvedSrc;
+
   // Determine if this is a fixed-size image (explicit dimensions) or responsive (percentage/auto)
   const isFixedSize = typeof width === 'number' || (typeof width === 'string' && !width.includes('%'));
 
@@ -208,6 +258,7 @@ export const Image: React.FC<ImageProps> = ({
     `image-container--radius-${radius}`,
     hoverZoom && 'image-container--hover-zoom',
     (isLoading && !isCached && !isLoaded) && 'image-container--loading',
+    useAccentMask && 'image-container--accent-tint',
     className
   );
 
@@ -286,7 +337,7 @@ export const Image: React.FC<ImageProps> = ({
                 style={{
                   width: '100%',
                   height: '100%',
-                  backgroundColor: placeholderColor || '#e5e7eb',
+                  backgroundColor: placeholderColor || 'var(--surface-muted)',
                   borderRadius: 'inherit'
                 }}
                 data-blurhash={blurHash}
@@ -310,8 +361,8 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Loading overlay - skeleton (default) or spinner (only if no progressive placeholder) */}
-        {!hasProgressivePlaceholder && isLoading && !isCached && !shouldBeVisible && !hasError && (
+        {/* Loading overlay - skeleton (default) or spinner (only if no progressive placeholder). Ej när accent visas (AccentTintSvg laddar eget). */}
+        {!hasProgressivePlaceholder && isLoading && !isCached && !shouldBeVisible && !hasError && !(useAccentMask && shouldLoad) && (
           <div className="image-loading-overlay">
             {loadingType === 'skeleton' ? (
               <Skeleton
@@ -332,8 +383,40 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Actual image - only render if no error */}
-        {shouldLoad && !hasError && (
+        {/* Accent: alltid visa vanlig img som bottenlager (så bilden aldrig försvinner). AccentTintSvg ovanpå – om masken fungerar ser vi accent, annars bilden under. */}
+        {shouldLoad && useAccentMask && (
+          <>
+            <img
+              ref={imgRef}
+              src={currentSrc}
+              alt={alt}
+              className={imageClasses}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: objectFit,
+                objectPosition: objectPosition,
+                ...style,
+              }}
+              onLoad={handleLoad}
+              onError={handleError}
+              loading={priority || isCached ? 'eager' : 'lazy'}
+              {...props}
+            />
+            <div className="image-accent-mask-wrapper" style={{ zIndex: 1 }} role="img" aria-label={alt}>
+              <AccentTintSvg
+                src={resolvedSrc}
+                size={objectFit}
+                position={objectPosition}
+                darkRectClassName="image-accent-mask-dark"
+              />
+            </div>
+          </>
+        )}
+        {shouldLoad && !useAccentMask && (
           <img
             ref={imgRef}
             src={currentSrc}

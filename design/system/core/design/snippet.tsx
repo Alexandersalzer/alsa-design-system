@@ -3,6 +3,16 @@ import { getDesignConfig } from "./loaders";
 import { normalizeWeights, getWeightValue, normalizeNumericWeights } from "./weights";
 import { getFontMetadata } from "./googleFontsUtils";
 
+/** Hue in degrees for accent (used by image tint / hue-rotate). Matches foundation color names. */
+function getAccentHue(accentColor: string): number {
+  const hueMap: Record<string, number> = {
+    blue: 220, purple: 270, violet: 270, pink: 330, red: 0, rose: 350,
+    orange: 30, amber: 45, yellow: 50, lime: 120, green: 142, emerald: 160,
+    teal: 166, cyan: 190, sky: 200, indigo: 238, fuchsia: 292, slate: 215, gray: 220
+  };
+  return hueMap[accentColor?.toLowerCase()] ?? 270;
+}
+
 /**
  * Generates CSS variables from design.json
  * Injects design tokens dynamically into <head>.
@@ -133,6 +143,11 @@ export async function buildCssVars(tokens: DesignTokens): Promise<string> {
       --selected-navbar-spacing:    var(--foundation-navbar-spacing-${navbarSpacing});
 
       /* ===== Accent Color Selection ===== */
+      /* Hue in degrees for CSS filter (hue-rotate) – used by image tint / duotone. Unit in variable so filter never gets invalid "270) deg". */
+      /* Inverse = vit/svart, ingen färgton: grayscale only (hue 0, saturation 0). */
+      --accent-hue: ${isInverseAccent ? 0 : getAccentHue(accentColor)};
+      --accent-hue-deg: ${isInverseAccent ? 0 : getAccentHue(accentColor)}deg;
+      --accent-tint-saturation: ${isInverseAccent ? 0 : 0.85};
       /* Set foundation colors - these will be used by color-mix() in colors.css for auto-inversion */
       ${isInverseAccent ? `
         --foundation-accent-100: var(--foundation-gray-100);

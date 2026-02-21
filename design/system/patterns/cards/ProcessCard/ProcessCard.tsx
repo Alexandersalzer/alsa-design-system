@@ -21,6 +21,7 @@ interface ProcessCardProps {
   imageAspectRatio?: '1/1' | '3/2' | '2/3' | '4/3' | '3/4' | '16/9' | '9/16' | string;
   imageRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  imageTint?: 'accent' | 'none';
   // Card customization
   cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid' | 'raised';
   cardPadding?: 'sm' | 'md' | 'lg';
@@ -45,12 +46,12 @@ export function ProcessCard({
   imageAspectRatio = '16/9',
   imageRadius = 'md',
   imageObjectFit = 'cover',
+  imageTint = 'accent',
   // Card defaults
   cardVariant = 'raised',
   cardPadding = 'md',
   // Layout defaults
   spacing = 'lg'
-  
 }: ProcessCardProps) {
   return (
     <Card
@@ -87,6 +88,7 @@ export function ProcessCard({
             aspectRatio={imageAspectRatio}
             objectFit={imageObjectFit}
             radius={imageRadius}
+            tint={imageTint}
             loading="lazy"
             showSkeleton={true}
             className="process-card-image"
