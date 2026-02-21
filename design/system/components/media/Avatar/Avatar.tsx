@@ -17,7 +17,9 @@ export type AvatarSize =
   | 'md'
   | 'lg'
   | 'xl'
-  | '2xl';
+  | '2xl'
+  | '3xl'
+  | '4xl';
 
 export type AvatarVariant = 'solid' | 'subtle' | 'outline';
 export type AvatarShape = 'square' | 'rounded' | 'full';
@@ -59,6 +61,8 @@ const SIZE_MAP: Record<
   lg: { width: 56, height: 56, fontSize: 18 },
   xl: { width: 64, height: 64, fontSize: 20 },
   '2xl': { width: 80, height: 80, fontSize: 24 },
+  '3xl': { width: 112, height: 112, fontSize: 32 },
+  '4xl': { width: 140, height: 140, fontSize: 40 },
 };
 
 const RADIUS_MAP = {
