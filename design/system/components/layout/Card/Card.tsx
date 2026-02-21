@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode, useState } from 'react';
 import { cn } from '../../../utils/cn';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -37,14 +37,18 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     disabled = false,
     selected = false,
     onCardClick,
-    children, 
+    children,
     onClick,
-    ...props 
+    onMouseDown: onMouseDownProp,
+    onMouseUp: onMouseUpProp,
+    onMouseLeave: onMouseLeaveProp,
+    ...props
   }, ref) => {
-    
+    const [isPressing, setIsPressing] = useState(false);
+
     // Determine if card should be clickable
     const isClickable = interactive && (onCardClick || onClick) && !disabled;
-    
+
     const cardClasses = cn(
       'card',
       // Variant classes
@@ -67,12 +71,12 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       radius === 'sm' && 'card--radius-sm',
       radius === 'lg' && 'card--radius-lg',
 
-      // ✅ NEW: Width constraint classes
+      // Width constraint classes
       width === 'constrained' && 'card--constrained',
       width === 'compact' && 'card--compact',
       width === 'spacious' && 'card--spacious',
 
-      // ✅ NEW: Height classes
+      // Height classes
       height === 'full' && 'card--height-full',
 
       // Interactive state classes
@@ -80,33 +84,56 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       isClickable && 'card--clickable',
       disabled && 'card--disabled',
       selected && 'card--selected',
+      isPressing && 'card--pressing',
 
       className
     );
 
-    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-      if (disabled) return;
-      
-      // Call onCardClick if provided, otherwise fall back to onClick
+    const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+      if (!isClickable) return;
+
+      setIsPressing(true);
+
+      // Fire the action immediately on mousedown (same as ListboxItem)
       if (onCardClick) {
         onCardClick();
       } else if (onClick) {
         onClick(event);
       }
+
+      // Keep pressing visual for 150ms after action
+      setTimeout(() => setIsPressing(false), 150);
+      onMouseDownProp?.(event);
+    };
+
+    const handleMouseUp = (event: React.MouseEvent<HTMLDivElement>) => {
+      setIsPressing(false);
+      onMouseUpProp?.(event);
+    };
+
+    const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+      setIsPressing(false);
+      onMouseLeaveProp?.(event);
     };
 
     return (
-      <div 
-        ref={ref} 
-        className={cardClasses} 
-        onClick={isClickable ? handleClick : onClick}
+      <div
+        ref={ref}
+        className={cardClasses}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
         role={isClickable ? 'button' : undefined}
         tabIndex={isClickable ? 0 : undefined}
         aria-disabled={disabled}
         onKeyDown={isClickable ? (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            handleClick(e as any);
+            if (onCardClick) {
+              onCardClick();
+            } else if (onClick) {
+              onClick(e as any);
+            }
           }
         } : undefined}
         {...props}
