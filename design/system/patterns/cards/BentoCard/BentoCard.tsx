@@ -65,6 +65,8 @@ export interface BentoCardProps {
   noImageBackground?: 'surface' | 'raised' | 'elevated' | 'secondary';
   /** Accent-tint: motiv i accentfärg (samma som hero). Default accent så alla kortbilder anpassas. */
   imageTint?: 'accent' | 'none';
+  /** Styrka på accent-tint (0–2, default 1.2). Högre = tydligare färg. */
+  imageTintStrength?: number;
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
@@ -96,6 +98,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   scaleImageToFill,
   noImageBackground = 'surface',
   imageTint = 'accent',
+  imageTintStrength = 1.2,
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
 
@@ -176,6 +179,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
             radius="none"
             loading="lazy"
             tint={imageTint}
+            tintStrength={imageTintStrength}
             className={`bento-card__image bento-card__image--${effectiveImageObjectFit}`}
           />
         </div>

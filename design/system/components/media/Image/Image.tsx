@@ -83,6 +83,8 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   themeMode?: 'light' | 'dark' | 'system';
   /** Motiv fylls med accentfärg (samma som ImageBackground). Vit bakgrund + svart motiv. Dark mode: vita delar → surface-page. */
   tint?: 'accent' | 'none';
+  /** Styrka på accent-tint: 0–1 = opacity; 1.2 = default; 1.5–2 = tydligare. Påverkar overlay-opacity. */
+  tintStrength?: number;
   /** Oanvänd (behålls för API). */
   themeAware?: boolean;
 }
@@ -118,6 +120,7 @@ export const Image: React.FC<ImageProps> = ({
   normalizedDarkSrc,
   themeMode = 'system',
   tint = 'none',
+  tintStrength = 1.2,
   themeAware = false,
   ...props
 }) => {
@@ -409,7 +412,13 @@ export const Image: React.FC<ImageProps> = ({
                 loading={priority || isCached ? 'eager' : 'lazy'}
                 {...props}
               />
-              <div className="image-accent-overlay" aria-hidden="true" />
+              <div
+                className="image-accent-overlay"
+                aria-hidden="true"
+                style={{
+                  opacity: Math.min(0.85, 0.25 + Math.max(0, Math.min(2, Number(tintStrength))) * 0.3),
+                }}
+              />
             </div>
           </div>
         )}
