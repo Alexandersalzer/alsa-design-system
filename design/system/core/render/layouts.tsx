@@ -182,7 +182,7 @@ export const renderLayoutWithTemplate = (
   // Get parent layout component
   const ParentLayout = componentRegistry[parentType];
   if (!ParentLayout) {
-    console.warn(`Layout type "${parentType}" not found in registry`);
+    console.warn(`[renderLayoutWithTemplate] Layout type "${parentType}" not found (sectionKey=${sectionKey}, patternKey=${patternKey})`);
     return null;
   }
 

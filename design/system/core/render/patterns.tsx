@@ -14,30 +14,19 @@ import React from 'react';
  */
 const animationTransformers: Record<string, (content: React.ReactNode, layoutConfig?: any) => any> = {
   carousel: (content: React.ReactNode, layoutConfig?: any) => {
+    // Samma som andra items-karuseller (t.ex. hero logoCarousel): plocka children från layout-noden
     let childrenToAnimate: React.ReactNode = content;
-
     if (React.isValidElement(content)) {
       const props = content.props as { children?: React.ReactNode };
       if (props.children != null) {
         childrenToAnimate = props.children;
       }
     }
-
-    // Flatten Fragment(s) so we get the real list of items
-    const raw = React.Children.toArray(childrenToAnimate);
-    const flattened = raw.flatMap((child) =>
-      React.isValidElement(child) &&
-      (child.type as unknown) === React.Fragment &&
-      (child.props as { children?: React.ReactNode }).children != null
-        ? React.Children.toArray((child.props as { children: React.ReactNode }).children)
-        : [child]
-    );
-
-    const items = flattened.map((child, index) => ({
+    const list = React.Children.toArray(childrenToAnimate);
+    const items = list.map((child, index) => ({
       id: `item-${index}`,
       content: child
     }));
-
     return { items };
   },
   // Add more transformers here as needed
@@ -204,14 +193,19 @@ export const renderPattern = (
     const isLayoutWrapAnimation = animationType && layoutWrapAnimations.includes(animationType);
     
     const layoutContent = renderLayoutWithTemplate(
-      layoutConfig, 
-      pattern.components || {}, 
-      sectionKey, 
+      layoutConfig,
+      pattern.components || {},
+      sectionKey,
       patternKey,
-      patternProps, // Pass pattern props for align, etc
-      isPerItemAnimation ? animationConfig : undefined, // Pass per-item animations to layout renderer
+      patternProps,
+      isPerItemAnimation ? animationConfig : undefined,
       locale
     );
+
+    if (!layoutContent) {
+      console.warn(`[renderPattern] layoutContent null for patternKey=${patternKey}, sectionKey=${sectionKey} (type=${(pattern as any).type})`);
+      return null;
+    }
 
     // Wrap with animation if pattern has layout-wrap animation config (carousel, etc)
     // Pass layout config so animation can extract children and apply proper spacing
