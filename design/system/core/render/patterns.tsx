@@ -14,20 +14,30 @@ import React from 'react';
  */
 const animationTransformers: Record<string, (content: React.ReactNode, layoutConfig?: any) => any> = {
   carousel: (content: React.ReactNode, layoutConfig?: any) => {
-    let childrenToAnimate = content;
-    
-    // If content is wrapped in a layout component (HStack, Grid, etc), extract its children
-    // This prevents the entire layout from being duplicated as one item
-    if (React.isValidElement(content) && (content.props as any).children) {
-      childrenToAnimate = (content.props as any).children;
+    let childrenToAnimate: React.ReactNode = content;
+
+    if (React.isValidElement(content)) {
+      const props = content.props as { children?: React.ReactNode };
+      if (props.children != null) {
+        childrenToAnimate = props.children;
+      }
     }
-    
-    const items = React.Children.toArray(childrenToAnimate).map((child, index) => ({
+
+    // Flatten Fragment(s) so we get the real list of items
+    const raw = React.Children.toArray(childrenToAnimate);
+    const flattened = raw.flatMap((child) =>
+      React.isValidElement(child) &&
+      (child.type as unknown) === React.Fragment &&
+      (child.props as { children?: React.ReactNode }).children != null
+        ? React.Children.toArray((child.props as { children: React.ReactNode }).children)
+        : [child]
+    );
+
+    const items = flattened.map((child, index) => ({
       id: `item-${index}`,
       content: child
     }));
-    
-    // Return just items - CarouselAnimation handles all spacing via its own props
+
     return { items };
   },
   // Add more transformers here as needed
@@ -57,6 +67,10 @@ const wrapWithAnimation = (
   const transformer = animationTransformers[animation.type];
   if (transformer) {
     const transformedProps = transformer(content, layoutConfig);
+    const items = transformedProps?.items;
+    if (animation.type === 'carousel' && (!items || items.length === 0)) {
+      return content as React.ReactElement;
+    }
     return <AnimationComponent {...transformedProps} {...animation.settings} />;
   }
 

@@ -55,6 +55,20 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
 }) => {
   const animationRef = useRef<HTMLDivElement>(null);
 
+  if (!items || items.length === 0) {
+    return (
+      <div
+        className={`Carousel-animation-container ${className}`}
+        style={{
+          height: containerHeight,
+          minHeight: itemHeight !== 'auto' ? itemHeight : undefined,
+          backgroundColor,
+          padding,
+        }}
+      />
+    );
+  }
+
   const duplicatedItems = Array.from({ length: duplicateCount }, () => items).flat();
 
   // Preload all images in carousel to prevent white flashes
