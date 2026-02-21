@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { cn } from '../../../utils/cn';
 import { Label, TypographyWeight } from '../../Typography';
 import { useHref } from '../../../hooks/useHref';
+import { useAction } from '../../../core/actions/useAction';
 import { Component } from '../../frames/component/Component';
 import { ActionConfig } from '../../../core/actions/types';
 import './TextLink.css';
@@ -47,20 +48,42 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
 
   const { buildHref } = useHref();
 
-  // Extract href and pageId from action or use direct href prop
+  // Extract href, pageId, and sectionId from action or use direct href prop
   let finalHref = href;
   let pageId: string | undefined;
+  let sectionId: string | undefined;
 
   if (action && action.type === 'navigation') {
     finalHref = action.settings.href;
     pageId = action.settings.pageId;
+    sectionId = action.settings.sectionId;
   }
+
+  // Use action system for sectionId navigation
+  const { execute: executeAction } = action ? useAction(action) : { execute: () => {} };
 
   // Build locale-aware href (pageId takes precedence if provided)
   // Skip buildHref if skipClient is true (for dashboard internal navigation)
   const localeAwareHref = skipClient
     ? finalHref
     : ((finalHref || pageId) ? buildHref(finalHref, pageId) : undefined);
+  
+  // Handle click for sectionId navigation
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (disabled) {
+      e.preventDefault();
+      return;
+    }
+
+    // If sectionId is provided, use action system for scrolling
+    if (sectionId) {
+      e.preventDefault();
+      executeAction({});
+      return;
+    }
+
+    // Otherwise, let default navigation happen
+  };
   
   // Use content if provided, otherwise use children
   const displayContent = content || children;
@@ -134,6 +157,26 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
           className={textLinkClasses}
           aria-disabled={disabled}
           tabIndex={disabled ? -1 : undefined}
+          onClick={handleClick}
+          {...domProps}
+        >
+          {linkContent}
+        </a>
+      </Component>
+    );
+  }
+
+  // For sectionId navigation, use anchor tag with onClick
+  if (sectionId) {
+    return (
+      <Component componentKey={componentKey}>
+        <a
+          ref={ref}
+          href="#"
+          className={textLinkClasses}
+          aria-disabled={disabled}
+          tabIndex={disabled ? -1 : undefined}
+          onClick={handleClick}
           {...domProps}
         >
           {linkContent}
