@@ -179,17 +179,11 @@ export const renderLayoutWithTemplate = (
     ...(parentType !== 'hstack' && patternProps?.align && { align: patternProps.align })
   };
 
-  // Get parent layout component; fallback till enkel flex-div om typ saknas i registry (t.ex. tree-shaking)
-  let ParentLayout = componentRegistry[parentType];
+  // Get parent layout component
+  const ParentLayout = componentRegistry[parentType];
   if (!ParentLayout) {
-    console.warn(`[renderLayoutWithTemplate] Layout type "${parentType}" not found, using flex fallback (sectionKey=${sectionKey}, patternKey=${patternKey})`);
-    const gapMap: Record<string, string> = { xs: '4px', sm: '8px', md: '12px', lg: '16px', xl: '24px' };
-    const gapVal = (parentLayoutProps as any).gap ? gapMap[(parentLayoutProps as any).gap] || '12px' : '12px';
-    ParentLayout = (({ children }: { children?: React.ReactNode }) => (
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: gapVal, flexWrap: 'nowrap' }}>
-        {children}
-      </div>
-    )) as React.ComponentType<any>;
+    console.warn(`Layout type "${parentType}" not found in registry`);
+    return null;
   }
 
   // If no template, render simple layout (fallback to old system)

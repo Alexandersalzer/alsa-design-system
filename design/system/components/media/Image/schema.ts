@@ -29,8 +29,6 @@ export const createImageSchema = (locale: SupportedLocale = 'sv'): ComponentSche
       loading: 'lazy',
       priority: false,
       hoverZoom: false,
-      tint: 'none',
-      alt: '',
     },
     
     props: {
@@ -153,18 +151,6 @@ export const createImageSchema = (locale: SupportedLocale = 'sv'): ComponentSche
           group: 'behavior',
         },
         t.props?.hoverZoom
-      ),
-      tint: createLocalizedProp(
-        {
-          name: 'tint',
-          type: 'enum',
-          required: false,
-          default: 'none',
-          editorType: 'segmented',
-          values: ['none', 'accent'] as const,
-          group: 'appearance',
-        },
-        t.props?.tint
       ),
     },
     

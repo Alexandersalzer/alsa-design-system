@@ -14,19 +14,20 @@ import React from 'react';
  */
 const animationTransformers: Record<string, (content: React.ReactNode, layoutConfig?: any) => any> = {
   carousel: (content: React.ReactNode, layoutConfig?: any) => {
-    // Samma som andra items-karuseller (t.ex. hero logoCarousel): plocka children från layout-noden
-    let childrenToAnimate: React.ReactNode = content;
-    if (React.isValidElement(content)) {
-      const props = content.props as { children?: React.ReactNode };
-      if (props.children != null) {
-        childrenToAnimate = props.children;
-      }
+    let childrenToAnimate = content;
+    
+    // If content is wrapped in a layout component (HStack, Grid, etc), extract its children
+    // This prevents the entire layout from being duplicated as one item
+    if (React.isValidElement(content) && (content.props as any).children) {
+      childrenToAnimate = (content.props as any).children;
     }
-    const list = React.Children.toArray(childrenToAnimate);
-    const items = list.map((child, index) => ({
+    
+    const items = React.Children.toArray(childrenToAnimate).map((child, index) => ({
       id: `item-${index}`,
       content: child
     }));
+    
+    // Return just items - CarouselAnimation handles all spacing via its own props
     return { items };
   },
   // Add more transformers here as needed
@@ -56,10 +57,6 @@ const wrapWithAnimation = (
   const transformer = animationTransformers[animation.type];
   if (transformer) {
     const transformedProps = transformer(content, layoutConfig);
-    const items = transformedProps?.items;
-    if (animation.type === 'carousel' && (!items || items.length === 0)) {
-      return content as React.ReactElement;
-    }
     return <AnimationComponent {...transformedProps} {...animation.settings} />;
   }
 
@@ -178,9 +175,28 @@ export const renderPattern = (
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
     
-    // Determine animation config (do not read window/getComputedStyle – causes server/client hydration mismatch)
+    // Determine animation config with global mode support
     const patternAnimation = pattern.animation || patternProps.animation;
-    const animationConfig = patternAnimation || layoutContext?.sectionAnimation;
+    let animationConfig = patternAnimation || layoutContext?.sectionAnimation;
+    
+    // Check global sectionBodyAnimation mode (all/hero/none) if no explicit animation
+    if (!patternAnimation && typeof window !== 'undefined') {
+      const isHero = sectionKey?.startsWith('hero_');
+      const globalMode = getComputedStyle(document.documentElement)
+        .getPropertyValue('--section-body-animation')
+        .replace(/['"`]/g, '')
+        .trim()
+        .toLowerCase() as 'all' | 'hero' | 'none' | '';
+      
+      // If section-level animation exists, respect it
+      // Otherwise check global mode
+      if (!layoutContext?.sectionAnimation) {
+        const shouldAnimate = globalMode === 'all' || (globalMode === 'hero' && isHero);
+        if (!shouldAnimate) {
+          animationConfig = { type: 'none', settings: {} };
+        }
+      }
+    }
     
     // Animations that should wrap each item individually (with stagger support)
     const perItemAnimations = ['fadeIn', 'opacity', 'scale', 'slideIn'];
@@ -193,19 +209,14 @@ export const renderPattern = (
     const isLayoutWrapAnimation = animationType && layoutWrapAnimations.includes(animationType);
     
     const layoutContent = renderLayoutWithTemplate(
-      layoutConfig,
-      pattern.components || {},
-      sectionKey,
+      layoutConfig, 
+      pattern.components || {}, 
+      sectionKey, 
       patternKey,
-      patternProps,
-      isPerItemAnimation ? animationConfig : undefined,
+      patternProps, // Pass pattern props for align, etc
+      isPerItemAnimation ? animationConfig : undefined, // Pass per-item animations to layout renderer
       locale
     );
-
-    if (!layoutContent) {
-      console.warn(`[renderPattern] layoutContent null for patternKey=${patternKey}, sectionKey=${sectionKey} (type=${(pattern as any).type})`);
-      return null;
-    }
 
     // Wrap with animation if pattern has layout-wrap animation config (carousel, etc)
     // Pass layout config so animation can extract children and apply proper spacing

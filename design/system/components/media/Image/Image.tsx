@@ -9,7 +9,6 @@ import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import { resolveCdnImageUrl } from '../../../core/utils/env';
-import { AccentTintSvg } from '../../backgrounds/AccentTintSvg';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -18,7 +17,7 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   /** Image source URL */
   src: string;
   /** Alt text for accessibility */
-  alt?: string;
+  alt: string;
   /** Image width */
   width?: number | string;
   /** Image height */
@@ -92,7 +91,7 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
 
 export const Image: React.FC<ImageProps> = ({
   src,
-  alt = '',
+  alt,
   width,
   height,
   objectFit = 'cover',
@@ -120,11 +119,8 @@ export const Image: React.FC<ImageProps> = ({
   themeMode = 'system',
   tint = 'none',
   themeAware = false,
-  ...restProps
+  ...props
 }) => {
-  // Don't pass Blimpify/template props to <img> – React 19 reserves "action" for <form>
-  const { action: _action, ...imgProps } = restProps as { action?: unknown; [key: string]: unknown };
-
   const useNormalized = themeAdaptive && normalizedLightSrc && normalizedDarkSrc;
 
   const [effectiveTheme, setEffectiveTheme] = useState<'light' | 'dark'>(() => {
@@ -248,10 +244,8 @@ export const Image: React.FC<ImageProps> = ({
     }
   }, [shouldLoad, isCached, isLoaded, hasError, priority, loading]);
 
-  // Accent: för externa (CDN) URL:er använd CSS mix-blend (CORS-säkert). Annars AccentTintSvg.
+  // Accent: samma som ImageBackground – använd bild-URL direkt i AccentTintSvg (ingen fetch/CORS).
   const useAccentMask = tint === 'accent' && !!resolvedSrc;
-  const isExternalSrc = typeof resolvedSrc === 'string' && /^https?:\/\//i.test(resolvedSrc);
-  const useCssAccentFallback = useAccentMask && isExternalSrc;
 
   // Determine if this is a fixed-size image (explicit dimensions) or responsive (percentage/auto)
   const isFixedSize = typeof width === 'number' || (typeof width === 'string' && !width.includes('%'));
@@ -390,8 +384,8 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Accent: externa URL:er (CDN) → CSS mix-blend (CORS-säkert, en bild). Samma origin → AccentTintSvg. */}
-        {shouldLoad && useCssAccentFallback && (
+        {/* Accent: CSS overlay med mix-blend-mode (fungerar med CDN/CORS, ingen SVG-mask). En bild + accentfärg ovanpå. */}
+        {shouldLoad && useAccentMask && (
           <div className="image-accent-css-fallback" role="img" aria-label={alt}>
             <img
               ref={imgRef}
@@ -399,10 +393,6 @@ export const Image: React.FC<ImageProps> = ({
               alt={alt}
               className={imageClasses}
               style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
                 objectFit: objectFit,
                 objectPosition: objectPosition,
                 ...style,
@@ -410,43 +400,10 @@ export const Image: React.FC<ImageProps> = ({
               onLoad={handleLoad}
               onError={handleError}
               loading={priority || isCached ? 'eager' : 'lazy'}
-              {...imgProps}
+              {...props}
             />
-            <div className="image-accent-overlay" />
+            <div className="image-accent-overlay" aria-hidden="true" />
           </div>
-        )}
-        {/* Accent same-origin: SVG-mask (bättre kvalitet när CORS tillåter). */}
-        {shouldLoad && useAccentMask && !useCssAccentFallback && (
-          <>
-            <img
-              ref={imgRef}
-              src={currentSrc}
-              alt={alt}
-              className={imageClasses}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                zIndex: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: objectFit,
-                objectPosition: objectPosition,
-                ...style,
-              }}
-              onLoad={handleLoad}
-              onError={handleError}
-              loading={priority || isCached ? 'eager' : 'lazy'}
-              {...imgProps}
-            />
-            <div className="image-accent-mask-wrapper" style={{ zIndex: 1 }} role="img" aria-label={alt}>
-              <AccentTintSvg
-                src={resolvedSrc}
-                size={objectFit}
-                position={objectPosition}
-                darkRectClassName="image-accent-mask-dark"
-              />
-            </div>
-          </>
         )}
         {shouldLoad && !useAccentMask && (
           <img
@@ -458,7 +415,7 @@ export const Image: React.FC<ImageProps> = ({
             onLoad={handleLoad}
             onError={handleError}
             loading={priority || isCached ? 'eager' : 'lazy'}
-            {...imgProps}
+            {...props}
           />
         )}
 

@@ -66,13 +66,5 @@ export const imageTranslations_sv = {
       displayName: 'Hover-zoom',
       description: 'Aktivera zoom vid hovring',
     },
-    tint: {
-      displayName: 'Färgton',
-      description: 'Accentfärgton över bilden',
-      valueLabels: {
-        none: 'Ingen',
-        accent: 'Accent',
-      },
-    },
   },
 };
