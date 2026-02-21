@@ -26,6 +26,7 @@
 
 .card--padding-none {
   padding: 0;
+  overflow: hidden;
 }
 .card--padding-xs {
   padding: var(--foundation-space-2);

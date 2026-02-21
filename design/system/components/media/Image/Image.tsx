@@ -226,7 +226,8 @@ export const Image: React.FC<ImageProps> = ({
     ...(height ? { height } : {}),
     ...(aspectRatio ? { aspectRatio } : {}),
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRadius: radius === 'none' ? 'inherit' : undefined,
   };
 
   // ✅ FIX: Priority/eager images should ALWAYS be visible, even before onLoad fires
