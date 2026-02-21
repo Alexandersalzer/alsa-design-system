@@ -144,7 +144,7 @@ const NavbarBar = ({ components = {}, sectionKey, patternKey, ...patternNode }: 
   const logoProps = {
     src: logoSrc ? (logoSrc.startsWith('http') ? logoSrc : `${CDN_BASE_URL}${logoSrc}`) : undefined,
     alt: renderIf('logo') ? (get('logo').props.alt || 'Logo') : undefined,
-    text: hasBusinessName ? (businessNameComp!.props?.content ?? '') : undefined,
+    text: renderIf('typography-businessName') ? (get('typography-businessName').props.content || undefined) : undefined,
     href: `/${currentLocale}`,
     width: renderIf('logo') ? (get('logo').props.width || 40) : undefined,
     height: renderIf('logo') ? (get('logo').props.height || 40) : undefined,

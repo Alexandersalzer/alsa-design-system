@@ -103,7 +103,10 @@ export const Video: React.FC<VideoProps> = ({
 
   // Handle video error
   const handleVideoError = () => {
-    console.warn('Video error:', src);
+    console.error('[Video] Failed to load video:', {
+      src,
+      error: 'Video loading error - check if file exists and is accessible'
+    });
     setHasError(true);
     setIsLoading(false);
     onVideoError?.();

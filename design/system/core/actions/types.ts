@@ -35,6 +35,7 @@ export interface NavigationActionConfig extends BaseActionConfig {
   settings: {
     href?: string;           // Direct URL (for external, anchor, or fallback)
     pageId?: string;         // Page ID reference - resolves to locale-aware slug
+    sectionId?: string;      // Section ID for scrolling to section on same page
     openInNewTab?: boolean;
     scrollToTop?: boolean;
     pixelEvents?: PixelEvent[];

@@ -271,15 +271,13 @@ export const Image: React.FC<ImageProps> = ({
   );
 
   // Container styles
-  // ✅ FIX: Prioritize aspect-ratio for space reservation, avoid conflicting height values
   const containerStyles: React.CSSProperties = {
     width: width || '100%',
-    // Only set height if explicitly provided AND no aspectRatio (avoid conflicts)
-    ...(height && !aspectRatio ? { height } : {}),
-    // Aspect ratio takes priority for proper space reservation
+    ...(height ? { height } : {}),
     ...(aspectRatio ? { aspectRatio } : {}),
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRadius: radius === 'none' ? 'inherit' : undefined,
   };
 
   // ✅ FIX: Priority/eager images should ALWAYS be visible, even before onLoad fires
@@ -431,7 +429,22 @@ export const Image: React.FC<ImageProps> = ({
 
         {/* Error state */}
         {hasError && !fallbackSrc && (
-          <div className="image-error">
+          <div 
+            className="image-error"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'var(--color-surface-secondary)',
+              borderRadius: 'inherit'
+            }}
+          >
             <svg
               width="40"
               height="40"
@@ -441,6 +454,7 @@ export const Image: React.FC<ImageProps> = ({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              style={{ opacity: 0.3 }}
             >
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
               <circle cx="8.5" cy="8.5" r="1.5" />

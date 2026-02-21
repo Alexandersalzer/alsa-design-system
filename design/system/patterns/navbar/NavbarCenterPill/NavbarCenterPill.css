@@ -355,7 +355,7 @@
   transform: scaleX(1);
 }
 
-/* Reduce motion */
+/* Reduce motion */ 
 @media (prefers-reduced-motion: reduce) {
   .navbar-center-pill,
   .navbar-center-pill__middle-pill,

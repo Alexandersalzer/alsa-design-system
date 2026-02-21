@@ -33,11 +33,20 @@ export function useHref() {
    * Uses the injected page slug map
    */
   const resolvePageId = (pageId: string): string | null => {
-    if (!pageSlugMap || !pageSlugMap[pageId]) {
-      console.warn(`Page slug map not found for pageId: ${pageId}`);
+    // Try to get pageSlugMap from iframe global object (editor environment)
+    // This is injected by WebsiteRenderer in editor
+    const iframeSlugMap = typeof window !== 'undefined' 
+      ? (window as any).__BLIMPIFY_PAGE_SLUG_MAP__ 
+      : null;
+    
+    // Use iframe slug map if available, otherwise fall back to module-level pageSlugMap
+    const slugMap = iframeSlugMap || pageSlugMap;
+    
+    if (!slugMap || !slugMap[pageId]) {
+      // Silently return null without warning if map is not available
       return null;
     }
-    return pageSlugMap[pageId][currentLocale] || null;
+    return slugMap[pageId][currentLocale] || null;
   };
 
   /**
@@ -59,7 +68,6 @@ export function useHref() {
       } else {
         // Fallback: use pageId as slug (remove page_ prefix)
         const fallbackSlug = pageId.replace(/^page_/, '');
-        console.warn(`Using fallback slug for pageId: ${pageId} -> ${fallbackSlug}`);
         finalHref = `/${currentLocale}/${fallbackSlug}`;
       }
     } else if (href) {

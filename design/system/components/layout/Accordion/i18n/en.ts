@@ -75,3 +75,35 @@ export const accordionTranslations_en = {
     },
   },
 };
+
+export const accordionItemTranslations_en = {
+  displayName: 'Accordion Item',
+  description: 'A single collapsible item within an accordion',
+  
+  props: {
+    itemKey: {
+      displayName: 'Key',
+      description: 'Unique identifier for the item',
+    },
+    title: {
+      displayName: 'Title',
+      description: 'Main title always visible',
+    },
+    subtitle: {
+      displayName: 'Subtitle',
+      description: 'Optional subtitle below the title',
+    },
+    content: {
+      displayName: 'Content',
+      description: 'Content shown when item is expanded',
+    },
+    disabled: {
+      displayName: 'Disabled',
+      description: 'Disable the item',
+    },
+    disableIndicator: {
+      displayName: 'Hide Indicator',
+      description: 'Hide the chevron indicator for this item',
+    },
+  },
+};

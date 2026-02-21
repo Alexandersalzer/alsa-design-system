@@ -19,7 +19,7 @@ import {
 import { Icon, IconColor } from '../../../components/media/Icon';
 import { CountUp } from '../../../components/animations/CountUp/CountUp';
 import { PatternNode } from '../../../core/types/nodes';
-import { componentProps, patternProps, useMapComponents, getPatternOrder } from '../../../core/utils/props';
+import { patternProps, getPatternOrder } from '../../../core/utils/props';
 import { cn } from '../../../utils/cn';
 
 import './Stats.css';
@@ -91,7 +91,10 @@ export interface StatsProps {
   
   // Grid gap when using columns
   gridGap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  
+
+  // Disable all per-stat animations globally
+  animationEnabled?: boolean;
+
   // Card options (for with-card variant)
   cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
   cardPadding?: 'sm' | 'md' | 'lg';
@@ -120,6 +123,7 @@ interface StatItemComponentProps {
   align: NonNullable<StatsProps['align']>;
   iconSize?: NonNullable<StatsProps['iconSize']>;
   iconColor?: IconColor;
+  animationEnabled?: boolean;
 }
 
 // Helper to render stat value with optional CountUp animation
@@ -128,9 +132,10 @@ const StatValue: React.FC<{
   valueVariant: NonNullable<StatsProps['valueVariant']>;
   valueWeight: NonNullable<StatsProps['valueWeight']>;
   valueColor: TypographyColor;
-}> = ({ stat, valueVariant, valueWeight, valueColor }) => {
+  animationEnabled?: boolean;
+}> = ({ stat, valueVariant, valueWeight, valueColor, animationEnabled = true }) => {
   // If animation is configured, use CountUp
-  if (stat.animation?.type === 'countUp') {
+  if (animationEnabled && stat.animation?.type === 'countUp') {
     const { settings } = stat.animation;
     return (
       <CountUp
@@ -175,7 +180,8 @@ const StatCentered: React.FC<StatItemComponentProps> = ({
   descriptionVariant,
   descriptionColor,
   spacing,
-  align
+  align,
+  animationEnabled,
 }) => (
   <VStack spacing={spacing} align={align}>
     <StatValue
@@ -183,6 +189,7 @@ const StatCentered: React.FC<StatItemComponentProps> = ({
       valueVariant={valueVariant}
       valueWeight={valueWeight}
       valueColor={valueColor}
+      animationEnabled={animationEnabled}
     />
     <Typography
       variant={labelVariant}
@@ -215,7 +222,8 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
   labelColor,
   spacing,
   align,
-  isLast
+  isLast,
+  animationEnabled,
 }) => (
   <HStack spacing="lg" align="center" className="stat-with-separator">
     <VStack spacing={spacing} align={align}>
@@ -224,6 +232,7 @@ const StatWithSeparator: React.FC<StatItemComponentProps & { isLast?: boolean }>
         valueVariant={valueVariant}
         valueWeight={valueWeight}
         valueColor={valueColor}
+        animationEnabled={animationEnabled}
       />
       <Typography
         variant={labelVariant}
@@ -533,9 +542,7 @@ const StatWithLogo: React.FC<StatItemComponentProps> = ({
 
 export const Stats: React.FC<PatternNode> = (patternNode) => {
   const { components = {} } = patternNode;
-  const getComponent = componentProps(components);
   const getPatternProps = patternProps(patternNode);
-  const mapComponentsOfType = useMapComponents(components);
   const componentOrder = getPatternOrder(patternNode);
 
   // Extract pattern props with defaults
@@ -559,6 +566,7 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     iconSize = 'lg',
     iconColor = 'accent',
     marginBottom = 'none',
+    animationEnabled = true,
   } = getPatternProps();
   
   // Map marginBottom to CSS variable
@@ -586,7 +594,8 @@ export const Stats: React.FC<PatternNode> = (patternNode) => {
     spacing,
     align,
     iconSize,
-    iconColor
+    iconColor,
+    animationEnabled,
   };
 
   // Get stat items from components
