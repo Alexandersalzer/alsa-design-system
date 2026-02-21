@@ -384,25 +384,35 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Accent: CSS overlay med mix-blend-mode (fungerar med CDN/CORS, ingen SVG-mask). En bild + accentfärg ovanpå. */}
+        {/* Accent: CSS overlay med mix-blend-mode. In-flow wrapper med aspect-ratio så behållaren får höjd i flex/karusell. */}
         {shouldLoad && useAccentMask && (
-          <div className="image-accent-css-fallback" role="img" aria-label={alt}>
-            <img
-              ref={imgRef}
-              src={currentSrc}
-              alt={alt}
-              className={imageClasses}
-              style={{
-                objectFit: objectFit,
-                objectPosition: objectPosition,
-                ...style,
-              }}
-              onLoad={handleLoad}
-              onError={handleError}
-              loading={priority || isCached ? 'eager' : 'lazy'}
-              {...props}
-            />
-            <div className="image-accent-overlay" aria-hidden="true" />
+          <div
+            style={{
+              width: '100%',
+              aspectRatio: aspectRatio || undefined,
+              position: 'relative' as const,
+              minHeight: 0,
+            }}
+            aria-hidden="true"
+          >
+            <div className="image-accent-css-fallback" role="img" aria-label={alt}>
+              <img
+                ref={imgRef}
+                src={currentSrc}
+                alt={alt}
+                className={imageClasses}
+                style={{
+                  objectFit: objectFit,
+                  objectPosition: objectPosition,
+                  ...style,
+                }}
+                onLoad={handleLoad}
+                onError={handleError}
+                loading={priority || isCached ? 'eager' : 'lazy'}
+                {...props}
+              />
+              <div className="image-accent-overlay" aria-hidden="true" />
+            </div>
           </div>
         )}
         {shouldLoad && !useAccentMask && (
