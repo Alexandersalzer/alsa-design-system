@@ -4,7 +4,7 @@
 // ===============================================
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
@@ -74,24 +74,8 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
   const animationDelay = props?.animationDelay || 0;
   const animationStagger = props?.animationStagger || 100; // Delay between elements
 
-  // Read animation mode from CSS variable (set in design.json)
-  // 'all' = animate all sections, 'hero' = only hero sections, 'none' = no animations
-  const [animationMode, setAnimationMode] = useState<'all' | 'hero' | 'none'>('all');
-
-  useEffect(() => {
-    // Read CSS variable on client-side after mount to avoid hydration mismatch
-    const cssValue = getComputedStyle(document.documentElement)
-      .getPropertyValue('--section-body-animation')
-      .replace(/['"`]/g, '')
-      .trim() as 'all' | 'hero' | 'none';
-    
-    if (cssValue && (cssValue === 'all' || cssValue === 'hero' || cssValue === 'none')) {
-      setAnimationMode(cssValue);
-    }
-  }, []);
-
-  // Determine if animation should be enabled for this section
-  const shouldAnimate = animationMode === 'all' || (animationMode === 'hero' && isHero);
+  // Use static default so server and client match (no getComputedStyle = no hydration mismatch).
+  const shouldAnimate = true;
 
   // Helper to wrap content with animation
   // Checks if component has its own animation prop - if so, skip FadeIn wrapper
