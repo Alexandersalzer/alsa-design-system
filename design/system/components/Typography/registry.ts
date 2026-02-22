@@ -5,6 +5,7 @@ import {
   Label,
   Display
 } from './Typography';
+import { CountUp } from '../animations/CountUp/CountUp';
 
 export const typographyComponents: Record<string, React.ComponentType<any>> = {
   body: Body,
@@ -12,4 +13,5 @@ export const typographyComponents: Record<string, React.ComponentType<any>> = {
   label: Label,
   typography: Typography,
   display: Display,
+  countup: CountUp,
 };
