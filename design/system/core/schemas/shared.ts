@@ -210,7 +210,7 @@ export type EditorType =
   // Enum editors
   | 'select' | 'radio' | 'segmented' | 'buttonGroup' | 'dropdown'
   // Object/Complex editors
-  | 'group' | 'modal' | 'builder' | 'json'
+  | 'group' | 'modal' | 'builder' | 'action-builder' | 'json'
   // Array editors
   | 'list' | 'tags' | 'multiselect' | 'repeater';
 
@@ -329,7 +329,7 @@ export interface EnumPropConfig extends BasePropConfig {
  */
 export interface ObjectPropConfig extends BasePropConfig {
   type: 'object';
-  editorType?: 'group' | 'modal' | 'builder' | 'json';
+  editorType?: 'group' | 'modal' | 'builder' | 'action-builder' | 'json';
   $ref?: string;
   properties?: Record<string, PropConfig>;
   requiredProperties?: string[];

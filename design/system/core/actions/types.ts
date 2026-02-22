@@ -33,6 +33,7 @@ export interface BaseActionConfig {
 export interface NavigationActionConfig extends BaseActionConfig {
   type: 'navigation';
   settings: {
+    navigationType?: 'section' | 'page' | 'external'; // Type of navigation
     href?: string;           // Direct URL (for external, anchor, or fallback)
     pageId?: string;         // Page ID reference - resolves to locale-aware slug
     sectionId?: string;      // Section ID for scrolling to section on same page
