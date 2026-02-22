@@ -61,6 +61,9 @@ export const CountUp: React.FC<CountUpProps> = ({
   const animationRef = useRef<number | null>(null);
   const hasStartedRef = useRef(false);
   const hasCompletedRef = useRef(false);
+  
+  // Check if we're in editor mode
+  const isEditorMode = !!typographyProps.componentKey;
 
   const resetAnimation = () => {
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
@@ -115,6 +118,15 @@ export const CountUp: React.FC<CountUpProps> = ({
 
   // Scroll-trigger observer
   useEffect(() => {
+    // In editor mode, skip scroll trigger and run animation immediately
+    if (isEditorMode) {
+      resetAnimation();
+      const timer = setTimeout(() => {
+        startAnimation();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+
     if (!enableScrollTrigger) {
       startAnimation();
       return;
@@ -144,7 +156,7 @@ export const CountUp: React.FC<CountUpProps> = ({
       observer.disconnect();
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [enableScrollTrigger, triggerOffset, startAnimation]);
+  }, [enableScrollTrigger, triggerOffset, startAnimation, isEditorMode, start, end, suffix, prefix]);
 
   // Reset when important props change
   useEffect(() => {
