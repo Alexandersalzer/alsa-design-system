@@ -366,11 +366,12 @@
    Uses CSS grid 1fr auto 1fr to keep pill truly centered
 ----------------------------------------------- */
 
-/* Center-pill unified wrapper: same as pill but no pill border on the outer wrapper
-   (the pill is only on the links group) */
+/* Center-pill unified wrapper: no outer pill border or radius — the pill is only on the links group */
 .navbar-container__unified-wrapper--center-pill {
   border: none;
   background: transparent;
+  border-radius: 0;
+  overflow: visible;
   max-width: var(--width-navbar);
   margin: var(--space-navbar) auto;
 }
