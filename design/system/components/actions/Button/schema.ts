@@ -10,6 +10,7 @@
 
 import { ComponentSchema } from '../../../core/schemas/component.types';
 import { getTranslation, createLocalizedProp } from '../../../core/schemas/i18n';
+import { createActionPropConfig } from '../../../core/actions/schema';
 import { buttonTranslations } from './i18n';
 import type { SupportedLocale } from '../../../core/schemas/i18n/types';
 
@@ -165,38 +166,9 @@ export const createButtonSchema = (locale: SupportedLocale = 'sv'): ComponentSch
         t.props?.target
       ),
       
+      // Use shared action configuration
       action: createLocalizedProp(
-        {
-          name: 'action',
-          type: 'object',
-          required: false,
-          editorType: 'builder',
-          properties: {
-            type: {
-              name: 'type',
-              type: 'enum',
-              displayName: 'Action Type',
-              required: true,
-              values: ['navigation', 'booking', 'contact', 'newsletter'] as const,
-              valueLabels: {
-                navigation: 'Navigate to Page',
-                booking: 'Open Booking Modal',
-                contact: 'Submit Contact Form',
-                newsletter: 'Newsletter Signup',
-              },
-            },
-            settings: {
-              name: 'settings',
-              type: 'object',
-              displayName: 'Action Settings',
-              required: true,
-              editorType: 'group',
-              additionalProperties: true,
-            },
-          },
-          group: 'behavior',
-          cmsEnabled: true,
-        },
+        createActionPropConfig(),
         t.props?.action
       ),
     },
