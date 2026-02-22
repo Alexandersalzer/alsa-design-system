@@ -153,9 +153,10 @@
 
 /* Responsive behavior */
 @media (max-width: 1024px) {
-  /* Desktop content structure: .navbar-container__desktop contains outer HStack with 3 HStack children */
-  /* On mobile: hide everything except the first child (logo/brand group) */
-  .navbar-container__desktop .hStack > .hStack:not(:first-child) {
+  /* Hide the links (middle) and actions (right) groups from the desktop bar.
+     The 3 groups sit inside a display:contents [data-item-key] wrapper.
+     Keep only the first child (logo group); hide the rest. */
+  .navbar-container__desktop [data-item-key] > .hStack:not(:first-child) {
     display: none !important;
   }
 
@@ -203,6 +204,16 @@
   display: flex;
   flex-direction: column;
   gap: var(--foundation-space-4);
+}
+
+/* The mobile drawer renders the same outer HStack (ParentLayout) as desktop.
+   Force it to stack vertically so links/buttons appear in a column, not a row. */
+.navbar-container__drawer-content > .hStack,
+.navbar-container__drawer-content > .hStack > [data-item-key] {
+  flex-direction: column !important;
+  align-items: stretch;
+  gap: var(--foundation-space-4);
+  width: 100%;
 }
 
 .navbar-container__drawer-content--align-left {
