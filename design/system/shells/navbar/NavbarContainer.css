@@ -279,19 +279,30 @@
     width: 95%;
   }
 
-  /* Center-pill on mobile: show as a simple pill wrapper */
+  /* Center-pill on mobile: go full-width like the bar variant */
   .navbar-container__unified-wrapper--center-pill {
-    width: 95%;
-    background: var(--surface-nav);
-    border: 1px solid var(--border-nav);
-    border-radius: var(--radius-navbar-pill);
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
     overflow: hidden;
+    background: var(--surface-nav);
+    border: none;
+    border-bottom: 1px solid var(--border-nav);
   }
 
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
+    max-width: var(--width-navbar);
+    margin: 0 auto;
     padding: var(--space-navbar);
     justify-content: space-between;
     gap: 0;
+  }
+
+  /* Drawer content inside center-pill: constrain to max-width so links align with the bar */
+  .navbar-container__unified-wrapper--center-pill .navbar-container__drawer-content {
+    max-width: var(--width-navbar);
+    margin: 0 auto;
   }
 
   /* Center-pill mobile desktop area: just show the logo group */
