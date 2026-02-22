@@ -1,14 +1,12 @@
 /**
  * NavbarContainer Styles
- * 
- * Matches NavbarPill structure exactly:
- * - Unified wrapper (pill border containing both navbar and drawer)
- * - Glass/transparent background variants
- * - Scrolled state transitions
- * - Mobile drawer inside same border
- * - Hide on scroll animation
+ * Modelled after NavbarPill — unified wrapper with pill border,
+ * glass/transparent variants, scrolled transitions, mobile drawer inside border.
  */
 
+/* -----------------------------------------------
+   Outer nav wrapper
+----------------------------------------------- */
 .navbar-container {
   position: relative;
   width: 100%;
@@ -18,7 +16,19 @@
   background: transparent;
 }
 
-/* Backdrop overlay */
+/* Hide on scroll behavior (matches NavbarPill) */
+.navbar-container--hide-on-scroll {
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.navbar-container--hide-on-scroll.navbar-container--hidden {
+  transform: translateY(-100%);
+}
+
+/* -----------------------------------------------
+   Backdrop overlay (mobile only)
+----------------------------------------------- */
 .navbar-container-backdrop {
   position: fixed;
   top: 0;
@@ -27,15 +37,17 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.15);
   z-index: 39;
-  animation: fadeIn 300ms ease-out;
+  animation: navbarContainerFadeIn 300ms ease-out;
 }
 
-@keyframes fadeIn {
+@keyframes navbarContainerFadeIn {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
 
-/* Unified wrapper - pill + drawer share same border */
+/* -----------------------------------------------
+   Unified wrapper — pill border shared by bar + drawer
+----------------------------------------------- */
 .navbar-container__unified-wrapper {
   max-width: var(--width-navbar);
   width: 100%;
@@ -52,7 +64,7 @@
   overflow: hidden;
 }
 
-/* Background Variants */
+/* Background variants */
 .navbar-container__unified-wrapper--glass {
   background: color-mix(in srgb, var(--surface-page) 85%, transparent);
   backdrop-filter: blur(16px);
@@ -74,14 +86,13 @@
   border-color: var(--border-subtle);
 }
 
-/* Glass-transparent becomes more solid when drawer is expanded */
+/* Glass-transparent becomes more opaque when drawer is open */
 .navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--expanded {
   background: color-mix(in srgb, var(--surface-page) 92%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
-/* Fully transparent variant - completely clear initial, glass on scroll */
 .navbar-container__unified-wrapper--transparent {
   background: transparent;
   backdrop-filter: none;
@@ -101,85 +112,181 @@
   border-color: transparent;
 }
 
-/* Hide on scroll behavior */
-.navbar-container--hide-on-scroll {
-  transform: translateY(0);
-  transition: transform 0.3s ease;
+/* -----------------------------------------------
+   Bar variant — full-width, no pill border-radius
+   Uses a bottom border instead of full border
+----------------------------------------------- */
+.navbar-container__unified-wrapper--bar {
+  border-radius: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--border-nav);
 }
 
-.navbar-container--hide-on-scroll.navbar-container--hidden {
-  transform: translateY(-100%);
+/* Bar + no-border = no bottom border either */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--no-border {
+  border-bottom-color: transparent;
 }
 
-/* Top bar - always visible */
+/* Bar variant background transitions on scroll */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 90%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--border-subtle);
+}
+
+/* Bar + glass */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass {
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  border-radius: 0;
+}
+
+/* Bar + transparent */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--transparent {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: var(--border-subtle);
+}
+
+/* Bar inner content — constrained width like NavbarBar */
+.navbar-container__unified-wrapper--bar .navbar-container__bar {
+  max-width: var(--width-navbar);
+  margin: 0 auto;
+}
+
+/* -----------------------------------------------
+   Top bar — always visible
+----------------------------------------------- */
 .navbar-container__bar {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Space between desktop content and hamburger */
-  gap: var(--foundation-space-4);
+  justify-content: flex-start;
+  gap: var(--foundation-space-8);
   width: 100%;
   padding: var(--space-navbar);
   position: relative;
   z-index: 2;
   background: transparent;
-  border: none;
-  box-shadow: none;
 }
 
-/* Desktop content - takes full width to allow justify-between to work */
+/* -----------------------------------------------
+   Desktop content area
+   The 3-group HStack (logo / links / actions) lives here.
+   It needs full width so justify-between can distribute the groups.
+----------------------------------------------- */
 .navbar-container__desktop {
   display: flex;
   align-items: center;
-  width: 100%;
-  flex-grow: 1;
-  flex-shrink: 1;
-  min-width: 0; /* Prevent overflow */
+  flex: 1;
+  min-width: 0;
 }
 
-/* Mobile toggle button - hidden on desktop */
+/* Outer HStack rendered by the layout engine must fill the desktop area */
+.navbar-container__desktop > .hStack {
+  width: 100%;
+  min-width: 0;
+}
+
+/* -----------------------------------------------
+   3-group layout inside desktop area
+   The layout engine wraps items in a display:contents [data-item-key] div,
+   so the 3 group HStacks are children of that div, not of the outer HStack.
+   Group 1 (logo/brand) — flex-shrink: 0, left
+   Group 2 (links)      — flex-grow: 1, centred
+   Group 3 (actions)    — flex-shrink: 0, right
+----------------------------------------------- */
+
+/* First child group = logo + brand — never shrinks */
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(1) {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+/* Second child group = links — grows to fill middle space, alignment via data-menu-align */
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2) {
+  flex-grow: 1;
+  flex-shrink: 0;
+  justify-content: center; /* default */
+  min-width: 0;
+}
+
+/* menuAlign controls: applied via data-menu-align on .navbar-container__desktop */
+.navbar-container__desktop[data-menu-align="left"]   > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-start; }
+.navbar-container__desktop[data-menu-align="center"] > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: center; }
+.navbar-container__desktop[data-menu-align="right"]  > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-end; }
+
+/* Third child group = actions — never shrinks, pushed to end */
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
+  flex-shrink: 0;
+  flex-grow: 0;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+/* -----------------------------------------------
+   Mobile toggle — hidden on desktop
+----------------------------------------------- */
 .navbar-container__mobile-toggle {
   display: none;
   color: var(--icon-strong);
-  transition: color 0.2s var(--foundation-ease-out);
   flex-shrink: 0;
+  transition: color 0.2s var(--foundation-ease-out);
 }
 
-/* Responsive behavior */
+/* -----------------------------------------------
+   Responsive — ≤ 1024px
+----------------------------------------------- */
 @media (max-width: 1024px) {
-  /* Desktop content structure: .navbar-container__desktop contains outer HStack with 3 HStack children */
-  /* On mobile: hide everything except the first child (logo/brand group) */
-  .navbar-container__desktop .hStack > .hStack:not(:first-child) {
+  /* Hide links (2nd) and actions (3rd) groups from the bar on mobile.
+     Groups live inside the display:contents [data-item-key] wrapper. */
+  .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
+  .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
     display: none !important;
   }
 
-  /* Show mobile toggle button - force visibility */
+  /* Show hamburger */
   .navbar-container__mobile-toggle {
     display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
   }
 
-  /* Adjust unified wrapper for mobile */
+  /* Narrow the pill on mobile */
   .navbar-container__unified-wrapper {
     width: 95%;
   }
 
-  /* Adjust bar for mobile layout - space between logo and hamburger */
+  /* Bar: logo left, hamburger right */
   .navbar-container__bar {
     justify-content: space-between;
+    gap: 0;
   }
 }
 
-/* ==========================================================
-   MOBILE DRAWER SECTION (unified within same border)
-   ========================================================== */
-
+/* -----------------------------------------------
+   Mobile drawer — inside unified border
+----------------------------------------------- */
 .navbar-container__drawer-section {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
-              opacity 400ms ease-out;
+  transition:
+    max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity    400ms ease-out;
 }
 
 .navbar-container__drawer-section--open {
@@ -188,7 +295,7 @@
   padding-bottom: var(--foundation-space-6);
 }
 
-/* Drawer content styling */
+/* Drawer content wrapper */
 .navbar-container__drawer-content {
   padding: 0 var(--space-navbar) var(--foundation-space-6);
   width: 100%;
@@ -198,19 +305,32 @@
   gap: var(--foundation-space-4);
 }
 
-.navbar-container__drawer-content--align-left {
-  align-items: flex-start;
+/* The mobile layout is rendered from the same layout engine as desktop
+   but using the mobile template (vstack of vstacks). Force column layout
+   on whatever the engine wraps it in so it always stacks vertically. */
+.navbar-container__drawer-content > *,
+.navbar-container__drawer-content > * > * {
+  flex-direction: column !important;
+  width: 100%;
 }
 
-.navbar-container__drawer-content--align-center {
-  align-items: center;
+/* mobileMenuAlign: controls alignment of links and buttons in the drawer.
+   Uses !important to override VStack's own align-items class. */
+.navbar-container__drawer-content--align-left * {
+  align-items: flex-start !important;
 }
 
-.navbar-container__drawer-content--align-right {
-  align-items: flex-end;
+.navbar-container__drawer-content--align-center * {
+  align-items: center !important;
 }
 
-/* Hide drawer section on desktop */
+.navbar-container__drawer-content--align-right * {
+  align-items: flex-end !important;
+}
+
+/* -----------------------------------------------
+   Desktop: hide drawer + backdrop
+----------------------------------------------- */
 @media (min-width: 1025px) {
   .navbar-container__drawer-section {
     display: none;

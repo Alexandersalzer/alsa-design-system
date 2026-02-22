@@ -1182,7 +1182,7 @@ const renderComponentReference = (
   itemId?: string,
   locale?: string
 ): React.ReactElement | null => {
-  const { component: componentRef, animation: templateAnimation, optional, ...extraProps } = reference;
+  const { component: componentRef, animation: templateAnimation, optional, action: _action, ...extraProps } = reference;
 
   // Extract type from ${componentType} syntax
   const componentType = extractSlotName(componentRef);
