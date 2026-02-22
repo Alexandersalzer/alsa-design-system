@@ -8,7 +8,8 @@ export type ActionType =
   | 'newsletter' 
   | 'booking'
   | 'download'
-  | 'external-link';
+  | 'external-link'
+  | 'thirdparty';
 
 export interface PixelEvent {
   provider?: 'meta' | 'google' | 'tiktok'; // Optional för universal events
@@ -102,6 +103,17 @@ export interface ExternalLinkActionConfig extends BaseActionConfig {
   };
 }
 
+export interface ThirdPartyActionConfig extends BaseActionConfig {
+  type: 'thirdparty';
+  settings: {
+    serviceType?: 'calendly' | 'cal' | 'typeform' | 'custom';
+    url?: string;
+    openInNewTab?: boolean;
+    primaryColor?: string;
+    pixelEvents?: PixelEvent[];
+  };
+}
+
 // ===== UNION TYPE =====
 export type ActionConfig = 
   | NavigationActionConfig 
@@ -109,4 +121,5 @@ export type ActionConfig =
   | NewsletterActionConfig
   | BookingActionConfig
   | DownloadActionConfig
-  | ExternalLinkActionConfig;
+  | ExternalLinkActionConfig
+  | ThirdPartyActionConfig;

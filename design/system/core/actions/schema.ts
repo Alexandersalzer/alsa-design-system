@@ -42,9 +42,10 @@ export function createActionPropConfig(): ObjectPropConfig {
         description: 'Type of action to trigger',
         type: 'enum',
         required: true,
-        values: ['navigation', 'booking', 'contact', 'newsletter'] as const,
+        values: ['navigation', 'thirdparty', 'booking', 'contact', 'newsletter'] as const,
         valueLabels: {
           navigation: 'Navigate',
+          thirdparty: 'Third Party Integration',
           booking: 'Open Booking Modal',
           contact: 'Submit Contact Form',
           newsletter: 'Newsletter Signup',
