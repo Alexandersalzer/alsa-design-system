@@ -1,0 +1,222 @@
+/**
+ * NavbarContainer Styles
+ * 
+ * Matches NavbarPill structure exactly:
+ * - Unified wrapper (pill border containing both navbar and drawer)
+ * - Glass/transparent background variants
+ * - Scrolled state transitions
+ * - Mobile drawer inside same border
+ * - Hide on scroll animation
+ */
+
+.navbar-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 50;
+  background: transparent;
+}
+
+/* Backdrop overlay */
+.navbar-container-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 39;
+  animation: fadeIn 300ms ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Unified wrapper - pill + drawer share same border */
+.navbar-container__unified-wrapper {
+  max-width: var(--width-navbar);
+  width: 100%;
+  margin: var(--space-navbar) auto;
+  background: var(--surface-nav);
+  border-radius: var(--radius-navbar-pill);
+  border: solid 1px var(--border-nav);
+  transition: all 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  overflow: hidden;
+}
+
+/* Background Variants */
+.navbar-container__unified-wrapper--glass {
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-container__unified-wrapper--glass-transparent {
+  background: color-mix(in srgb, var(--surface-page) 30%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 75%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+/* Glass-transparent becomes more solid when drawer is expanded */
+.navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--expanded {
+  background: color-mix(in srgb, var(--surface-page) 92%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Fully transparent variant - completely clear initial, glass on scroll */
+.navbar-container__unified-wrapper--transparent {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-container__unified-wrapper--no-border {
+  border-color: transparent;
+}
+
+/* Hide on scroll behavior */
+.navbar-container--hide-on-scroll {
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.navbar-container--hide-on-scroll.navbar-container--hidden {
+  transform: translateY(-100%);
+}
+
+/* Top bar - always visible */
+.navbar-container__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space between desktop content and hamburger */
+  gap: var(--foundation-space-4);
+  width: 100%;
+  padding: var(--space-navbar);
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Desktop content - takes full width to allow justify-between to work */
+.navbar-container__desktop {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0; /* Prevent overflow */
+}
+
+/* Mobile toggle button - hidden on desktop */
+.navbar-container__mobile-toggle {
+  display: none;
+  color: var(--icon-strong);
+  transition: color 0.2s var(--foundation-ease-out);
+  flex-shrink: 0;
+}
+
+/* Responsive behavior */
+@media (max-width: 1024px) {
+  /* Desktop content structure: .navbar-container__desktop contains outer HStack with 3 HStack children */
+  /* On mobile: hide everything except the first child (logo/brand group) */
+  .navbar-container__desktop .hStack > .hStack:not(:first-child) {
+    display: none !important;
+  }
+
+  /* Show mobile toggle button - force visibility */
+  .navbar-container__mobile-toggle {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Adjust unified wrapper for mobile */
+  .navbar-container__unified-wrapper {
+    width: 95%;
+  }
+
+  /* Adjust bar for mobile layout - space between logo and hamburger */
+  .navbar-container__bar {
+    justify-content: space-between;
+  }
+}
+
+/* ==========================================================
+   MOBILE DRAWER SECTION (unified within same border)
+   ========================================================== */
+
+.navbar-container__drawer-section {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 400ms ease-out;
+}
+
+.navbar-container__drawer-section--open {
+  max-height: 80vh;
+  opacity: 1;
+  padding-bottom: var(--foundation-space-6);
+}
+
+/* Drawer content styling */
+.navbar-container__drawer-content {
+  padding: 0 var(--space-navbar) var(--foundation-space-6);
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-4);
+}
+
+.navbar-container__drawer-content--align-left {
+  align-items: flex-start;
+}
+
+.navbar-container__drawer-content--align-center {
+  align-items: center;
+}
+
+.navbar-container__drawer-content--align-right {
+  align-items: flex-end;
+}
+
+/* Hide drawer section on desktop */
+@media (min-width: 1025px) {
+  .navbar-container__drawer-section {
+    display: none;
+  }
+
+  .navbar-container-backdrop {
+    display: none;
+  }
+}

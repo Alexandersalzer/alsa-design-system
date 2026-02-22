@@ -166,9 +166,38 @@ export const createButtonSchema = (locale: SupportedLocale = 'sv'): ComponentSch
         t.props?.target
       ),
       
-      // Use shared action configuration
       action: createLocalizedProp(
-        createActionPropConfig(),
+        {
+          name: 'action',
+          type: 'object',
+          required: false,
+          editorType: 'builder',
+          properties: {
+            type: {
+              name: 'type',
+              type: 'enum',
+              displayName: 'Action Type',
+              required: true,
+              values: ['navigation', 'booking', 'contact', 'newsletter'] as const,
+              valueLabels: {
+                navigation: 'Navigate to Page',
+                booking: 'Open Booking Modal',
+                contact: 'Submit Contact Form',
+                newsletter: 'Newsletter Signup',
+              },
+            },
+            settings: {
+              name: 'settings',
+              type: 'object',
+              displayName: 'Action Settings',
+              required: true,
+              editorType: 'group',
+              additionalProperties: true,
+            },
+          },
+          group: 'behavior',
+          cmsEnabled: true,
+        },
         t.props?.action
       ),
     },
