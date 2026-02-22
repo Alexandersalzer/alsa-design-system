@@ -33,7 +33,18 @@ const Navbar = ({ section }: NavbarProps) => {
   if ((pattern as any).layout) {
     const patternProps = pattern.props || {};
     const layout = (pattern as any).layout;
-    const components = pattern.components || {};
+    
+    // Extract components from layout.items (layout-driven) or fallback to pattern.components (legacy)
+    let components = pattern.components || {};
+    if (layout.items && Array.isArray(layout.items)) {
+      // Merge all components from all items into a single object
+      components = layout.items.reduce((acc: Record<string, any>, item: any) => {
+        if (item.components) {
+          return { ...acc, ...item.components };
+        }
+        return acc;
+      }, {});
+    }
     
     // Render desktop layout (default template or explicit desktop template)
     const desktopTemplate = layout.template?.desktop || layout.template;
