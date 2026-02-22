@@ -48,5 +48,56 @@ export const displayTranslations_sv = {
         justify: 'Marginaljusterad',
       },
     },
+    animation: {
+      displayName: 'Animation',
+      description: 'Animationsinställningar för display-text',
+      props: {
+        type: {
+          displayName: 'Animationstyp',
+          description: 'Typ av animation',
+          valueLabels: {
+            countUp: 'Räkna upp',
+            none: 'Ingen',
+          },
+        },
+        settings: {
+          displayName: 'CountUp-inställningar',
+          description: 'Inställningar för uppräkningsanimation',
+          props: {
+            start: {
+              displayName: 'Startvärde',
+              description: 'Värdet att börja räkna från',
+            },
+            end: {
+              displayName: 'Slutvärde',
+              description: 'Värdet att räkna till',
+            },
+            suffix: {
+              displayName: 'Suffix',
+              description: 'Tecken efter numret',
+              valueLabels: {
+                '': 'Inget',
+                '+': '+',
+                'k+': 'k+',
+                '%': '%',
+                'kr': 'kr',
+              },
+            },
+            duration: {
+              displayName: 'Varaktighet',
+              description: 'Animationens längd i millisekunder',
+            },
+            enableScrollTrigger: {
+              displayName: 'Aktivera scroll-trigger',
+              description: 'Starta animation när elementet syns',
+            },
+            triggerOffset: {
+              displayName: 'Trigger-offset',
+              description: 'Pixlar från botten av viewporten',
+            },
+          },
+        },
+      },
+    },
   },
 };

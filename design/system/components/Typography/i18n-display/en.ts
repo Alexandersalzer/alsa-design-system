@@ -48,5 +48,56 @@ export const displayTranslations_en = {
         justify: 'Justify',
       },
     },
+    animation: {
+      displayName: 'Animation',
+      description: 'Animation settings for display text',
+      props: {
+        type: {
+          displayName: 'Animation Type',
+          description: 'Type of animation',
+          valueLabels: {
+            countUp: 'Count Up',
+            none: 'None',
+          },
+        },
+        settings: {
+          displayName: 'CountUp Settings',
+          description: 'Settings for count up animation',
+          props: {
+            start: {
+              displayName: 'Start Value',
+              description: 'The value to start counting from',
+            },
+            end: {
+              displayName: 'End Value',
+              description: 'The value to count to',
+            },
+            suffix: {
+              displayName: 'Suffix',
+              description: 'Character after the number',
+              valueLabels: {
+                '': 'None',
+                '+': '+',
+                'k+': 'k+',
+                '%': '%',
+                'kr': 'kr',
+              },
+            },
+            duration: {
+              displayName: 'Duration',
+              description: 'Animation duration in milliseconds',
+            },
+            enableScrollTrigger: {
+              displayName: 'Enable Scroll Trigger',
+              description: 'Start animation when element is visible',
+            },
+            triggerOffset: {
+              displayName: 'Trigger Offset',
+              description: 'Pixels from bottom of viewport',
+            },
+          },
+        },
+      },
+    },
   },
 };
