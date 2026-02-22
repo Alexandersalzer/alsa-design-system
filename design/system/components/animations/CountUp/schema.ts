@@ -40,7 +40,7 @@ export const createCountUpSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           required: false,
           default: 0,
           editorType: 'number',
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'content',
         },
         t.props?.start
@@ -79,7 +79,7 @@ export const createCountUpSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           required: false,
           default: 2000,
           editorType: 'number',
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'behavior',
         },
         t.props?.duration
@@ -92,7 +92,7 @@ export const createCountUpSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           required: false,
           default: true,
           editorType: 'toggle',
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'behavior',
         },
         t.props?.enableScrollTrigger
@@ -105,7 +105,7 @@ export const createCountUpSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           required: false,
           default: 100,
           editorType: 'number',
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'behavior',
           visibleWhen: {
             property: 'enableScrollTrigger',
