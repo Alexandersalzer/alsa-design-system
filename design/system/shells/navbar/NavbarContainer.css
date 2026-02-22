@@ -115,8 +115,8 @@
 .navbar-container__bar {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: var(--foundation-space-8);
+  justify-content: space-between; /* Space between desktop content and hamburger */
+  gap: var(--foundation-space-4);
   width: 100%;
   padding: var(--space-navbar);
   position: relative;
@@ -126,19 +126,20 @@
   box-shadow: none;
 }
 
-/* Desktop content */
+/* Desktop content - takes full width to allow justify-between to work */
 .navbar-container__desktop {
   display: flex;
   align-items: center;
   width: 100%;
   flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0; /* Prevent overflow */
 }
 
-/* Mobile toggle button */
+/* Mobile toggle button - hidden on desktop */
 .navbar-container__mobile-toggle {
   display: none;
   color: var(--icon-strong);
-  margin-left: auto;
   transition: color 0.2s var(--foundation-ease-out);
   flex-shrink: 0;
 }
@@ -147,14 +148,14 @@
 @media (max-width: 1024px) {
   /* Desktop layout renders as: HStack > [HStack (logo/brand), HStack (menu), HStack (actions)] */
   /* Hide menu (2nd child) and actions (3rd child) on mobile */
-  .navbar-container__desktop > *:first-child > *:nth-child(2),
-  .navbar-container__desktop > *:first-child > *:nth-child(3) {
+  .navbar-container__desktop > div > div:nth-child(2),
+  .navbar-container__desktop > div > div:nth-child(3) {
     display: none !important;
   }
 
   /* Show mobile toggle button */
   .navbar-container__mobile-toggle {
-    display: flex;
+    display: flex !important;
   }
 
   /* Adjust unified wrapper for mobile */
