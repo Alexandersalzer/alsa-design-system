@@ -37,6 +37,12 @@
 }
 
 /* ----- SIZE VARIANTS ----- */
+.icon-btn--xs {
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+}
+
 .icon-btn--sm {
   width: var(--control-height-sm);
   height: var(--control-height-sm);
