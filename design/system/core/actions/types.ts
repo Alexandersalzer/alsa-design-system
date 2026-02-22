@@ -105,11 +105,12 @@ export interface ExternalLinkActionConfig extends BaseActionConfig {
 
 export interface ThirdPartyActionConfig extends BaseActionConfig {
   type: 'thirdparty';
-  settings: {
+  settings?: {
     serviceType?: 'calendly' | 'cal' | 'typeform' | 'custom';
     url?: string;
     openInNewTab?: boolean;
     primaryColor?: string;
+    redirectAfterSubmit?: string; // Redirect user after third-party action
     pixelEvents?: PixelEvent[];
   };
 }
