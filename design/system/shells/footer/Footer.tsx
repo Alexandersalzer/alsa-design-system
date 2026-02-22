@@ -18,7 +18,7 @@ const Footer = ({ section }: FooterProps) => {
   const footerSection = Object.values(section)[0];
   if (!footerSection?.patterns) return null;
 
-  const { patterns, order, props: sectionProps = {} } = footerSection;
+  const { patterns, order, props: sectionProps } = footerSection;
   const patternOrder = order || Object.keys(patterns);
 
   // Get sectionKey from the first section
@@ -39,22 +39,11 @@ const Footer = ({ section }: FooterProps) => {
 
   if (renderedPatterns.length === 0) return null;
 
-  // Samma bakgrundsstöd som sektioner – spread sectionProps (background, backgroundImage, overlay, tint osv.)
-  // Explicit så att bakgrund alltid används när den finns i shells/footer.json
   return (
     <Section
       as="footer"
       sectionKey={sectionKey}
-      id={sectionKey}
       className={hasTopBorder ? 'footer-with-top-border' : ''}
-      background={sectionProps?.background}
-      backgroundImage={sectionProps?.backgroundImage}
-      backgroundSize={sectionProps?.backgroundSize}
-      backgroundPosition={sectionProps?.backgroundPosition}
-      backgroundOverlay={sectionProps?.backgroundOverlay}
-      backgroundOverlayOpacity={sectionProps?.backgroundOverlayOpacity}
-      backgroundTint={sectionProps?.backgroundTint}
-      backgroundTintStrength={sectionProps?.backgroundTintStrength}
       {...sectionProps}
     >
       <VStack spacing="xl" align="center" className="footer__content">
