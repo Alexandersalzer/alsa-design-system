@@ -147,20 +147,21 @@
 
 /* -----------------------------------------------
    3-group layout inside desktop area
+   The layout engine wraps items in a display:contents [data-item-key] div,
+   so the 3 group HStacks are children of that div, not of the outer HStack.
    Group 1 (logo/brand) — flex-shrink: 0, left
-   Group 2 (links)      — flex-grow: 1, centred by default
+   Group 2 (links)      — flex-grow: 1, centred
    Group 3 (actions)    — flex-shrink: 0, right
-   Mirrors .navbar-pill__left / __middle / __right
 ----------------------------------------------- */
 
 /* First child group = logo + brand — never shrinks */
-.navbar-container__desktop > .hStack > .hStack:nth-child(1) {
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(1) {
   flex-shrink: 0;
   flex-grow: 0;
 }
 
 /* Second child group = links — grows to fill middle space */
-.navbar-container__desktop > .hStack > .hStack:nth-child(2) {
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2) {
   flex-grow: 1;
   flex-shrink: 0;
   justify-content: center;
@@ -168,7 +169,7 @@
 }
 
 /* Third child group = actions — never shrinks, pushed to end */
-.navbar-container__desktop > .hStack > .hStack:nth-child(3) {
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
   flex-shrink: 0;
   flex-grow: 0;
   justify-content: flex-end;
@@ -189,9 +190,10 @@
    Responsive — ≤ 1024px
 ----------------------------------------------- */
 @media (max-width: 1024px) {
-  /* Hide links (2nd) and actions (3rd) groups from the desktop bar */
-  .navbar-container__desktop > .hStack > .hStack:nth-child(2),
-  .navbar-container__desktop > .hStack > .hStack:nth-child(3) {
+  /* Hide links (2nd) and actions (3rd) groups from the bar on mobile.
+     Groups live inside the display:contents [data-item-key] wrapper. */
+  .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
+  .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
     display: none !important;
   }
 
