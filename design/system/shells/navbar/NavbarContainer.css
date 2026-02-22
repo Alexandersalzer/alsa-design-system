@@ -146,16 +146,18 @@
 
 /* Responsive behavior */
 @media (max-width: 1024px) {
-  /* Desktop layout renders as: HStack > [HStack (logo/brand), HStack (menu), HStack (actions)] */
-  /* Hide menu (2nd child) and actions (3rd child) on mobile */
-  .navbar-container__desktop > div > div:nth-child(2),
-  .navbar-container__desktop > div > div:nth-child(3) {
+  /* Desktop content structure: .navbar-container__desktop > HStack outer > [HStack, HStack, HStack] */
+  /* Target the outer HStack's children: hide 2nd (menu) and 3rd (actions) child */
+  .navbar-container__desktop > div:first-child > div:nth-child(2),
+  .navbar-container__desktop > div:first-child > div:nth-child(3) {
     display: none !important;
   }
 
-  /* Show mobile toggle button */
+  /* Show mobile toggle button - force visibility */
   .navbar-container__mobile-toggle {
     display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   /* Adjust unified wrapper for mobile */
@@ -163,10 +165,9 @@
     width: 95%;
   }
 
-  /* Adjust bar for mobile layout */
+  /* Adjust bar for mobile layout - space between logo and hamburger */
   .navbar-container__bar {
-    gap: 0;
-    justify-content: flex-start;
+    justify-content: space-between;
   }
 }
 

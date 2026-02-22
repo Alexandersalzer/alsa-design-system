@@ -15,7 +15,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { IconButton } from '../../components/actions/IconButton';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Menu as MenuIcon, X as XIcon } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import './NavbarContainer.css';
 
@@ -157,7 +157,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
               aria-label="Toggle menu"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="navbar-container__mobile-toggle"
-              icon={isMobileMenuOpen ? <XMarkIcon /> : <Bars3Icon />}
+              icon={isMobileMenuOpen ? <XIcon /> : <MenuIcon />}
             />
           </div>
 
