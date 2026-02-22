@@ -27,8 +27,8 @@ interface NavbarContainerProps {
   backgroundVariant?: 'default' | 'glass' | 'glass-transparent' | 'transparent';
   showBorder?: boolean;
   hideOnScroll?: boolean;
-  /** 'pill' = rounded pill with border (default), 'bar' = full-width bar with bottom border */
-  navbarStyle?: 'pill' | 'bar';
+  /** 'pill' = rounded pill with border, 'bar' = full-width bar, 'center-pill' = logo left + centered pill + actions right */
+  navbarStyle?: 'pill' | 'bar' | 'center-pill';
   drawerAnimation?: {
     type: 'fadeIn' | 'none';
     settings?: {
@@ -142,6 +142,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
         <div className={cn(
           "navbar-container__unified-wrapper",
           navbarStyle === 'bar' && "navbar-container__unified-wrapper--bar",
+          navbarStyle === 'center-pill' && "navbar-container__unified-wrapper--center-pill",
           isMobileMenuOpen && "navbar-container__unified-wrapper--expanded",
           backgroundVariant !== 'default' && `navbar-container__unified-wrapper--${backgroundVariant}`,
           !showBorder && "navbar-container__unified-wrapper--no-border",
@@ -150,7 +151,13 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
           {/* Top bar - always visible */}
           <div className="navbar-container__bar">
             {/* Desktop content */}
-            <div className="navbar-container__desktop" data-menu-align={menuAlign}>
+            <div
+              className={cn(
+                "navbar-container__desktop",
+                navbarStyle === 'center-pill' && "navbar-container__desktop--center-pill"
+              )}
+              data-menu-align={menuAlign}
+            >
               {children}
             </div>
 

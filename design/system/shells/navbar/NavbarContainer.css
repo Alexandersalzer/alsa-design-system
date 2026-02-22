@@ -203,6 +203,13 @@
   min-width: 0;
 }
 
+/* Force all HStacks inside the bar to center-align children vertically.
+   This prevents the default align-items: flex-start from the hStack base
+   adding apparent padding-top above buttons. */
+.navbar-container__bar .hStack {
+  align-items: center;
+}
+
 /* -----------------------------------------------
    3-group layout inside desktop area
    The layout engine wraps items in a display:contents [data-item-key] div,
@@ -256,7 +263,9 @@
   /* Hide links (2nd) and actions (3rd) groups from the bar on mobile.
      Groups live inside the display:contents [data-item-key] wrapper. */
   .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
-  .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
+  .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3),
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3) {
     display: none !important;
   }
 
@@ -268,6 +277,29 @@
   /* Narrow the pill on mobile */
   .navbar-container__unified-wrapper {
     width: 95%;
+  }
+
+  /* Center-pill on mobile: show as a simple pill wrapper */
+  .navbar-container__unified-wrapper--center-pill {
+    width: 95%;
+    background: var(--surface-nav);
+    border: 1px solid var(--border-nav);
+    border-radius: var(--radius-navbar-pill);
+    overflow: hidden;
+  }
+
+  .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
+    padding: var(--space-navbar);
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  /* Center-pill mobile desktop area: just show the logo group */
+  .navbar-container__desktop--center-pill {
+    display: flex !important;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
   }
 
   /* Bar: logo left, hamburger right */
@@ -326,6 +358,89 @@
 
 .navbar-container__drawer-content--align-right * {
   align-items: flex-end !important;
+}
+
+/* -----------------------------------------------
+   Center-pill variant
+   Logo left | pill center (links) | actions right
+   Uses CSS grid 1fr auto 1fr to keep pill truly centered
+----------------------------------------------- */
+
+/* Center-pill unified wrapper: same as pill but no pill border on the outer wrapper
+   (the pill is only on the links group) */
+.navbar-container__unified-wrapper--center-pill {
+  border: none;
+  background: transparent;
+  max-width: var(--width-navbar);
+  margin: var(--space-navbar) auto;
+}
+
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border {
+  border: none;
+}
+
+/* Center-pill bar: constrain width like the pill wrapper */
+.navbar-container__unified-wrapper--center-pill .navbar-container__bar {
+  max-width: var(--width-navbar);
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Desktop layout: CSS grid 1fr auto 1fr to keep center truly centered */
+.navbar-container__desktop--center-pill {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--foundation-space-6);
+  width: 100%;
+}
+
+/* The outer HStack from layout engine fills the grid */
+.navbar-container__desktop--center-pill > .hStack {
+  display: contents;
+}
+
+/* 3-group layout in center-pill mode:
+   Group 1 (logo/brand) — left cell, flex-start
+   Group 2 (links)      — center cell, pill-styled
+   Group 3 (actions)    — right cell, flex-end */
+
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(1) {
+  flex-shrink: 0;
+  justify-self: start;
+  align-items: center;
+}
+
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  justify-self: center;
+  align-items: center;
+  /* Pill styling on the links group */
+  background: var(--surface-nav);
+  border: 1px solid var(--border-nav);
+  border-radius: var(--radius-navbar-pill);
+  padding: var(--foundation-space-2) var(--foundation-space-4);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+}
+
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3) {
+  justify-self: end;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Background variants: apply to the outer wrapper for center-pill */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-transparent .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  background: color-mix(in srgb, var(--surface-page) 70%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Scrolled: enhance pill shadow */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  box-shadow: var(--shadow-md);
 }
 
 /* -----------------------------------------------
