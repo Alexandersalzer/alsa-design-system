@@ -135,9 +135,10 @@ export interface SectionLayoutSchema {
 // ============================================
 
 /**
- * Background types
+ * Background types (section schema – för SectionSchema.allowedTypes).
+ * Namnet SectionBackgroundType undviker krock med components/backgrounds/types BackgroundType.
  */
-export type BackgroundType = 
+export type SectionBackgroundType = 
   | 'none'
   | 'solid'
   | 'gradient'
@@ -150,10 +151,10 @@ export type BackgroundType =
  */
 export interface BackgroundSchema {
   /** Allowed background types for this section */
-  allowedTypes?: BackgroundType[];
+  allowedTypes?: SectionBackgroundType[];
   
   /** Default background type */
-  defaultType?: BackgroundType;
+  defaultType?: SectionBackgroundType;
   
   /** Background-specific props */
   props?: Record<string, PropConfig>;
