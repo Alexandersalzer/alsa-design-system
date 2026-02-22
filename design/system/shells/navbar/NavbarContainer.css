@@ -1,0 +1,202 @@
+/**
+ * NavbarContainer Styles
+ * 
+ * Handles:
+ * - Fixed positioning
+ * - Background variants (transparent, blur, solid)
+ * - Hide on scroll animation
+ * - Mobile hamburger visibility
+ * - Mobile drawer menu & overlay
+ * - Responsive breakpoints
+ */
+
+.navbar-container {
+  position: relative;
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+  padding: var(--spacing-md) 0;
+}
+
+.navbar-container--hidden {
+  transform: translateY(-100%);
+}
+
+.navbar-container--default {
+  background: transparent;
+}
+
+.navbar-container--blur {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .navbar-container--blur {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.navbar-container--solid {
+  background: var(--surface-base);
+}
+
+.navbar-container--bordered {
+  border-bottom: 1px solid var(--border-default);
+}
+
+.navbar-container__content {
+  max-width: var(--container-max-width, 1280px);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* Desktop layout - show everything */
+.navbar-container__desktop {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Hamburger hidden on desktop */
+.navbar-container__hamburger {
+  display: none;
+}
+
+/* ===== MOBILE BREAKPOINT ===== */
+@media (max-width: 767px) {
+  .navbar-container__desktop {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+  
+  /* Hide menu items and buttons on mobile in navbar, show only logo/brand */
+  .navbar-container__desktop > *:not(:first-child):not(:nth-child(2)) {
+    display: none;
+  }
+  
+  /* Show hamburger on mobile */
+  .navbar-container__hamburger {
+    display: flex;
+  }
+}
+
+/* ===== MOBILE DRAWER MENU ===== */
+.navbar-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--surface-base);
+  z-index: 1001;
+  overflow-y: auto;
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-drawer--fadeIn {
+  animation: fadeIn forwards;
+}
+
+.navbar-drawer--slideIn {
+  animation: slideInDown forwards;
+}
+
+.navbar-drawer__header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--spacing-lg);
+}
+
+.navbar-drawer__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding-top: var(--spacing-xl);
+}
+
+/* Mobile menu alignment */
+.navbar-drawer--align-left .navbar-drawer__content {
+  align-items: flex-start;
+}
+
+.navbar-drawer--align-center .navbar-drawer__content {
+  align-items: center;
+}
+
+.navbar-drawer--align-right .navbar-drawer__content {
+  align-items: flex-end;
+}
+
+/* Make drawer content items full-width for better touch targets */
+.navbar-drawer__content > * {
+  width: 100%;
+}
+
+/* ===== OVERLAY ===== */
+.navbar-drawer__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s forwards;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

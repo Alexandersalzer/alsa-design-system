@@ -2,7 +2,9 @@
 
 import { Section } from '../../components/frames/section';
 import { renderShellPattern } from '../../core/render/shells';
+import { renderLayoutWithTemplate } from '../../core/render/layouts';
 import { SectionNode } from '../../core/types/nodes';
+import { NavbarContainer } from './NavbarContainer';
 
 interface NavbarProps {
   section?: Record<string, SectionNode>;
@@ -21,7 +23,72 @@ const Navbar = ({ section }: NavbarProps) => {
   // Get sectionKey from the first section
   const sectionKey = Object.keys(section)[0];
   
-  // Render patterns using shared renderShellPattern function
+  // Get first pattern (navbar typically has only one pattern)
+  const firstPatternKey = patternOrder[0];
+  const pattern = patterns[firstPatternKey];
+  
+  if (!pattern) return null;
+
+  // Check if pattern uses NEW layout-driven structure
+  if ((pattern as any).layout) {
+    const patternProps = pattern.props || {};
+    const layout = (pattern as any).layout;
+    const components = pattern.components || {};
+    
+    // Render desktop layout (default template or explicit desktop template)
+    const desktopTemplate = layout.template?.desktop || layout.template;
+    const desktopLayout = desktopTemplate ? { ...layout, template: desktopTemplate } : layout;
+    const desktopContent = renderLayoutWithTemplate(
+      desktopLayout,
+      components,
+      sectionKey,
+      firstPatternKey,
+      patternProps
+    );
+
+    // Render mobile menu layout (use mobile template if available, otherwise same as desktop)
+    const mobileTemplate = layout.template?.mobile || layout.template;
+    const mobileLayout = mobileTemplate ? { ...layout, template: mobileTemplate } : layout;
+    const mobileContent = renderLayoutWithTemplate(
+      mobileLayout,
+      components,
+      sectionKey,
+      firstPatternKey,
+      patternProps
+    );
+
+    return (
+      <Section
+        as="nav"
+        sectionKey={sectionKey}
+        {...sectionProps}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          paddingTop: '0',
+          paddingBottom: '0',
+          ...sectionProps?.style,
+        }}
+      >
+        <NavbarContainer
+          menuAlign={patternProps.menuAlign}
+          mobileMenuAlign={patternProps.mobileMenuAlign}
+          backgroundVariant={patternProps.backgroundVariant}
+          showBorder={patternProps.showBorder}
+          hideOnScroll={patternProps.hideOnScroll}
+          drawerAnimation={patternProps.drawerAnimation}
+          mobileMenu={mobileContent}
+        >
+          {desktopContent}
+        </NavbarContainer>
+      </Section>
+    );
+  }
+
+  // LEGACY: Use old pattern rendering (NavbarPill, NavbarBar, NavbarCenterPill)
   const renderedPatterns = patternOrder
     .map((patternKey) => {
       const pattern = patterns[patternKey];
