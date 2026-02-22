@@ -134,11 +134,6 @@
   flex-grow: 1;
 }
 
-/* Hide all children on mobile except the first (logo/brand group) */
-.navbar-container__desktop > * > *:not(:first-child) {
-  display: flex;
-}
-
 /* Mobile toggle button */
 .navbar-container__mobile-toggle {
   display: none;
@@ -150,8 +145,10 @@
 
 /* Responsive behavior */
 @media (max-width: 1024px) {
-  /* Hide all HStack children except first (logo/brand) on mobile */
-  .navbar-container__desktop > * > *:not(:first-child) {
+  /* Desktop layout renders as: HStack > [HStack (logo/brand), HStack (menu), HStack (actions)] */
+  /* Hide menu (2nd child) and actions (3rd child) on mobile */
+  .navbar-container__desktop > *:first-child > *:nth-child(2),
+  .navbar-container__desktop > *:first-child > *:nth-child(3) {
     display: none !important;
   }
 
