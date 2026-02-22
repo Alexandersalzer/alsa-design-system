@@ -4,6 +4,7 @@ import { Avatar } from './Avatar/Avatar';
 import { Icon } from './Icon/Icon';
 import { IconByName } from './IconByName/IconByName';
 import { Logo } from './Logo/Logo';
+import { BrandName } from './Logo/LogoText';
 import { SocialIcon } from './SocialIcon/SocialIcon';
 import { SquareImageContainer } from './SquareImageContainer/SquareImageContainer';
 import { VideoShowcase } from './VideoShowcase/VideoShowcase';
@@ -16,6 +17,7 @@ export const mediaComponents: Record<string, React.ComponentType<any>> = {
   icon: Icon,
   iconByName: IconByName,
   logo: Logo,
+  logotext: BrandName,
   socialIcon: SocialIcon,
   squareImageContainer: SquareImageContainer,
   videoShowcase: VideoShowcase,
