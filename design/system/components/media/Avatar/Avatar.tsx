@@ -7,6 +7,7 @@ import React, { forwardRef, ReactElement } from 'react';
 import { cn } from '../../../utils/cn';
 import { UserIcon } from '@heroicons/react/24/outline';
 import { Image } from '../../media/Image';
+import { Badge, BadgePlacement, BadgeSize } from '../../feedback/Badge';
 
 // ===== TYPE DEFINITIONS =====
 export type AvatarSize =
@@ -17,7 +18,9 @@ export type AvatarSize =
   | 'md'
   | 'lg'
   | 'xl'
-  | '2xl';
+  | '2xl'
+  | '3xl'
+  | '4xl';
 
 export type AvatarVariant = 'solid' | 'subtle' | 'outline';
 export type AvatarShape = 'square' | 'rounded' | 'full';
@@ -59,6 +62,8 @@ const SIZE_MAP: Record<
   lg: { width: 56, height: 56, fontSize: 18 },
   xl: { width: 64, height: 64, fontSize: 20 },
   '2xl': { width: 80, height: 80, fontSize: 24 },
+  '3xl': { width: 112, height: 112, fontSize: 32 },
+  '4xl': { width: 140, height: 140, fontSize: 40 },
 };
 
 const RADIUS_MAP = {
@@ -254,6 +259,14 @@ export interface AvatarProps extends AvatarRootProps {
   fallback?: React.ReactNode;
   fallbackMode?: AvatarFallbackMode;
   backgroundColor?: string;
+  /** Image URL to show as a badge overlay on the avatar (e.g. a logo) */
+  badgeImageSrc?: string;
+  /** Alt text for the badge image */
+  badgeImageAlt?: string;
+  /** Where to place the badge (default: bottom-right) */
+  badgePlacement?: BadgePlacement;
+  /** Size of the badge (default: md) */
+  badgeSize?: BadgeSize;
 }
 
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(props, ref) {
@@ -266,6 +279,10 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(pr
     fallback,
     fallbackMode,
     backgroundColor,
+    badgeImageSrc,
+    badgeImageAlt = '',
+    badgePlacement = 'bottom-right',
+    badgeSize = 'md',
     children,
     size = 'md',
     variant = 'subtle',
@@ -291,7 +308,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(pr
     ...(style || {}),
   };
 
-  return (
+  const avatarEl = (
     <AvatarRoot
       ref={ref}
       size={size}
@@ -342,6 +359,23 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(pr
       {children}
     </AvatarRoot>
   );
+
+  if (badgeImageSrc) {
+    return (
+      <Badge
+        imageSrc={badgeImageSrc}
+        imageAlt={badgeImageAlt}
+        placement={badgePlacement}
+        size={badgeSize}
+        shape="circle"
+        showOutline
+      >
+        {avatarEl}
+      </Badge>
+    );
+  }
+
+  return avatarEl;
 });
 
 Avatar.displayName = 'Avatar';

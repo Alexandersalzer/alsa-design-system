@@ -34,7 +34,7 @@ import {
   // Objects
   HeartIcon, StarIcon, SparklesIcon, FireIcon, LightBulbIcon, GiftIcon,
   ShoppingCartIcon, ShoppingBagIcon, CreditCardIcon, BanknotesIcon, TagIcon,
-  KeyIcon, LockClosedIcon, LockOpenIcon, ShieldCheckIcon,
+  KeyIcon, LockClosedIcon, LockOpenIcon, ShieldCheckIcon, BoltIcon,
   
   // Users
   UserIcon, UserCircleIcon, UserGroupIcon, UsersIcon,
@@ -140,6 +140,8 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   'lock': LockClosedIcon,
   'unlock': LockOpenIcon,
   'shield': ShieldCheckIcon,
+  'zap': BoltIcon,
+  'bolt': BoltIcon,
   
   // Users
   'user': UserIcon,

@@ -16,6 +16,10 @@ export interface BadgeProps {
   children: React.ReactNode;
   /** Badge content - can be number, string, or React node */
   content?: React.ReactNode;
+  /** Image URL to display inside the badge instead of text content */
+  imageSrc?: string;
+  /** Alt text for the badge image */
+  imageAlt?: string;
   /** Visual variant */
   variant?: BadgeVariant;
   /** Badge size */
@@ -43,6 +47,8 @@ export interface BadgeProps {
 export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   children,
   content,
+  imageSrc,
+  imageAlt = '',
   variant = 'default',
   size = 'md',
   placement = 'top-right',
@@ -55,12 +61,14 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   badgeClassName = '',
   'aria-label': ariaLabel,
 }, ref) => {
+  const isImageBadge = !!imageSrc;
+
   // Determine if content is a single character
-  const isSingleChar = isOneChar || (
+  const isSingleChar = !isImageBadge && (isOneChar || (
     typeof content === 'string' && content.length === 1
   ) || (
     typeof content === 'number' && content < 10
-  );
+  ));
 
   // Format number content (99+ for large numbers)
   const formattedContent = typeof content === 'number' && content > 99
@@ -69,7 +77,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
 
   const badgeClasses = [
     'badge',
-    `badge--${variant}`,
+    isImageBadge ? 'badge--image' : `badge--${variant}`,
     `badge--${size}`,
     `badge--${placement}`,
     `badge--${shape}`,
@@ -94,7 +102,15 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
           aria-label={ariaLabel}
           role={ariaLabel ? 'status' : undefined}
         >
-          {!isDot && formattedContent}
+          {isImageBadge ? (
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              className="badge__image"
+            />
+          ) : (
+            !isDot && formattedContent
+          )}
         </span>
       )}
     </div>
