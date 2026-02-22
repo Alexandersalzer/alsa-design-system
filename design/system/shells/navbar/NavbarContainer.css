@@ -136,6 +136,13 @@
   min-width: 0; /* Prevent overflow */
 }
 
+/* The outer HStack (ParentLayout) inside the desktop container must fill full width
+   so justify-between has room to distribute the 3 nav groups correctly. */
+.navbar-container__desktop > .hStack {
+  width: 100%;
+  min-width: 0;
+}
+
 /* Mobile toggle button - hidden on desktop */
 .navbar-container__mobile-toggle {
   display: none;
