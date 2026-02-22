@@ -160,13 +160,18 @@
   flex-grow: 0;
 }
 
-/* Second child group = links — grows to fill middle space */
+/* Second child group = links — grows to fill middle space, alignment via data-menu-align */
 .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2) {
   flex-grow: 1;
   flex-shrink: 0;
-  justify-content: center;
+  justify-content: center; /* default */
   min-width: 0;
 }
+
+/* menuAlign controls: applied via data-menu-align on .navbar-container__desktop */
+.navbar-container__desktop[data-menu-align="left"]   > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-start; }
+.navbar-container__desktop[data-menu-align="center"] > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: center; }
+.navbar-container__desktop[data-menu-align="right"]  > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-end; }
 
 /* Third child group = actions — never shrinks, pushed to end */
 .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
@@ -248,14 +253,28 @@
 .navbar-container__drawer-content > *,
 .navbar-container__drawer-content > * > * {
   flex-direction: column !important;
-  align-items: stretch;
   width: 100%;
 }
 
-/* Alignment modifiers (applied to .navbar-container__drawer-content itself) */
-.navbar-container__drawer-content--align-left   { align-items: flex-start; }
-.navbar-container__drawer-content--align-center { align-items: center; }
-.navbar-container__drawer-content--align-right  { align-items: flex-end; }
+/* mobileMenuAlign: controls alignment of links and buttons in the drawer.
+   Propagated through all levels of the rendered layout tree. */
+.navbar-container__drawer-content--align-left > *,
+.navbar-container__drawer-content--align-left > * > *,
+.navbar-container__drawer-content--align-left > * > * > * {
+  align-items: flex-start;
+}
+
+.navbar-container__drawer-content--align-center > *,
+.navbar-container__drawer-content--align-center > * > *,
+.navbar-container__drawer-content--align-center > * > * > * {
+  align-items: center;
+}
+
+.navbar-container__drawer-content--align-right > *,
+.navbar-container__drawer-content--align-right > * > *,
+.navbar-container__drawer-content--align-right > * > * > * {
+  align-items: flex-end;
+}
 
 /* -----------------------------------------------
    Desktop: hide drawer + backdrop

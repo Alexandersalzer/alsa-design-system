@@ -146,7 +146,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
           {/* Top bar - always visible */}
           <div className="navbar-container__bar">
             {/* Desktop content */}
-            <div className="navbar-container__desktop">
+            <div className="navbar-container__desktop" data-menu-align={menuAlign}>
               {children}
             </div>
 
