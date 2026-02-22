@@ -27,6 +27,8 @@ interface NavbarContainerProps {
   backgroundVariant?: 'default' | 'glass' | 'glass-transparent' | 'transparent';
   showBorder?: boolean;
   hideOnScroll?: boolean;
+  /** 'pill' = rounded pill with border (default), 'bar' = full-width bar with bottom border */
+  navbarStyle?: 'pill' | 'bar';
   drawerAnimation?: {
     type: 'fadeIn' | 'none';
     settings?: {
@@ -45,6 +47,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
   backgroundVariant = 'default',
   showBorder = true,
   hideOnScroll = false,
+  navbarStyle = 'pill',
   drawerAnimation = { type: 'fadeIn', settings: { duration: 400, stagger: 50 } }
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -138,6 +141,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
       >
         <div className={cn(
           "navbar-container__unified-wrapper",
+          navbarStyle === 'bar' && "navbar-container__unified-wrapper--bar",
           isMobileMenuOpen && "navbar-container__unified-wrapper--expanded",
           backgroundVariant !== 'default' && `navbar-container__unified-wrapper--${backgroundVariant}`,
           !showBorder && "navbar-container__unified-wrapper--no-border",

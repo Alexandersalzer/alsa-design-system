@@ -113,6 +113,64 @@
 }
 
 /* -----------------------------------------------
+   Bar variant — full-width, no pill border-radius
+   Uses a bottom border instead of full border
+----------------------------------------------- */
+.navbar-container__unified-wrapper--bar {
+  border-radius: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--border-nav);
+}
+
+/* Bar + no-border = no bottom border either */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--no-border {
+  border-bottom-color: transparent;
+}
+
+/* Bar variant background transitions on scroll */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 90%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--border-subtle);
+}
+
+/* Bar + glass */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass {
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  border-radius: 0;
+}
+
+/* Bar + transparent */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--transparent {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: var(--border-subtle);
+}
+
+/* Bar inner content — constrained width like NavbarBar */
+.navbar-container__unified-wrapper--bar .navbar-container__bar {
+  max-width: var(--width-navbar);
+  margin: 0 auto;
+}
+
+/* -----------------------------------------------
    Top bar — always visible
 ----------------------------------------------- */
 .navbar-container__bar {
@@ -257,23 +315,17 @@
 }
 
 /* mobileMenuAlign: controls alignment of links and buttons in the drawer.
-   Propagated through all levels of the rendered layout tree. */
-.navbar-container__drawer-content--align-left > *,
-.navbar-container__drawer-content--align-left > * > *,
-.navbar-container__drawer-content--align-left > * > * > * {
-  align-items: flex-start;
+   Uses !important to override VStack's own align-items class. */
+.navbar-container__drawer-content--align-left * {
+  align-items: flex-start !important;
 }
 
-.navbar-container__drawer-content--align-center > *,
-.navbar-container__drawer-content--align-center > * > *,
-.navbar-container__drawer-content--align-center > * > * > * {
-  align-items: center;
+.navbar-container__drawer-content--align-center * {
+  align-items: center !important;
 }
 
-.navbar-container__drawer-content--align-right > *,
-.navbar-container__drawer-content--align-right > * > *,
-.navbar-container__drawer-content--align-right > * > * > * {
-  align-items: flex-end;
+.navbar-container__drawer-content--align-right * {
+  align-items: flex-end !important;
 }
 
 /* -----------------------------------------------
