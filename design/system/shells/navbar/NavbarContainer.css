@@ -146,10 +146,9 @@
 
 /* Responsive behavior */
 @media (max-width: 1024px) {
-  /* Desktop content structure: .navbar-container__desktop > HStack outer > [HStack, HStack, HStack] */
-  /* Target the outer HStack's children: hide 2nd (menu) and 3rd (actions) child */
-  .navbar-container__desktop > div:first-child > div:nth-child(2),
-  .navbar-container__desktop > div:first-child > div:nth-child(3) {
+  /* Desktop content structure: .navbar-container__desktop contains outer HStack with 3 HStack children */
+  /* On mobile: hide everything except the first child (logo/brand group) */
+  .navbar-container__desktop .hStack > .hStack:not(:first-child) {
     display: none !important;
   }
 
