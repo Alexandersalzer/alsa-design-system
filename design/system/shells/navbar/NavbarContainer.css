@@ -1,202 +1,218 @@
 /**
  * NavbarContainer Styles
  * 
- * Handles:
- * - Fixed positioning
- * - Background variants (transparent, blur, solid)
+ * Matches NavbarPill structure exactly:
+ * - Unified wrapper (pill border containing both navbar and drawer)
+ * - Glass/transparent background variants
+ * - Scrolled state transitions
+ * - Mobile drawer inside same border
  * - Hide on scroll animation
- * - Mobile hamburger visibility
- * - Mobile drawer menu & overlay
- * - Responsive breakpoints
  */
 
 .navbar-container {
   position: relative;
   width: 100%;
-  transition: transform 0.3s ease-in-out;
-  padding: var(--spacing-md) 0;
-}
-
-.navbar-container--hidden {
-  transform: translateY(-100%);
-}
-
-.navbar-container--default {
+  display: flex;
+  justify-content: center;
+  z-index: 50;
   background: transparent;
 }
 
-.navbar-container--blur {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+/* Backdrop overlay */
+.navbar-container-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 39;
+  animation: fadeIn 300ms ease-out;
 }
 
-[data-theme="dark"] .navbar-container--blur {
-  background: rgba(0, 0, 0, 0.8);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.navbar-container--solid {
-  background: var(--surface-base);
+/* Unified wrapper - pill + drawer share same border */
+.navbar-container__unified-wrapper {
+  max-width: var(--width-navbar);
+  width: 100%;
+  margin: var(--space-navbar) auto;
+  background: var(--surface-nav);
+  border-radius: var(--radius-navbar-pill);
+  border: solid 1px var(--border-nav);
+  transition: all 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  overflow: hidden;
 }
 
-.navbar-container--bordered {
-  border-bottom: 1px solid var(--border-default);
+/* Background Variants */
+.navbar-container__unified-wrapper--glass {
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
 }
 
-.navbar-container__content {
-  max-width: var(--container-max-width, 1280px);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
+.navbar-container__unified-wrapper--glass-transparent {
+  background: color-mix(in srgb, var(--surface-page) 30%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-color: var(--border-subtle);
 }
 
-/* Desktop layout - show everything */
+.navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 75%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+/* Glass-transparent becomes more solid when drawer is expanded */
+.navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--expanded {
+  background: color-mix(in srgb, var(--surface-page) 92%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Fully transparent variant - completely clear initial, glass on scroll */
+.navbar-container__unified-wrapper--transparent {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-container__unified-wrapper--no-border {
+  border-color: transparent;
+}
+
+/* Hide on scroll behavior */
+.navbar-container--hide-on-scroll {
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.navbar-container--hide-on-scroll.navbar-container--hidden {
+  transform: translateY(-100%);
+}
+
+/* Top bar - always visible */
+.navbar-container__bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--foundation-space-8);
+  width: 100%;
+  padding: var(--space-navbar);
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Desktop content */
 .navbar-container__desktop {
   display: flex;
   align-items: center;
   width: 100%;
+  flex-grow: 1;
 }
 
-/* Hamburger hidden on desktop */
-.navbar-container__hamburger {
+/* Mobile toggle button */
+.navbar-container__mobile-toggle {
   display: none;
+  color: var(--icon-strong);
+  margin-left: auto;
+  transition: color 0.2s var(--foundation-ease-out);
 }
 
-/* ===== MOBILE BREAKPOINT ===== */
-@media (max-width: 767px) {
-  .navbar-container__desktop {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-  }
-  
-  /* Hide menu items and buttons on mobile in navbar, show only logo/brand */
-  .navbar-container__desktop > *:not(:first-child):not(:nth-child(2)) {
+/* Responsive behavior */
+@media (max-width: 1024px) {
+  /* Hide desktop content except first elements (logo + brand) */
+  .navbar-container__desktop > *:nth-child(n+3) {
     display: none;
   }
-  
-  /* Show hamburger on mobile */
-  .navbar-container__hamburger {
+
+  /* Show mobile toggle button */
+  .navbar-container__mobile-toggle {
     display: flex;
+  }
+
+  /* Adjust unified wrapper for mobile */
+  .navbar-container__unified-wrapper {
+    width: 95%;
+  }
+
+  /* Adjust bar for mobile layout */
+  .navbar-container__bar {
+    gap: 0;
+    justify-content: flex-start;
   }
 }
 
-/* ===== MOBILE DRAWER MENU ===== */
-.navbar-drawer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--surface-base);
-  z-index: 1001;
-  overflow-y: auto;
-  padding: var(--spacing-xl);
+/* ==========================================================
+   MOBILE DRAWER SECTION (unified within same border)
+   ========================================================== */
+
+.navbar-container__drawer-section {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 400ms ease-out;
+}
+
+.navbar-container__drawer-section--open {
+  max-height: 80vh;
+  opacity: 1;
+  padding-bottom: var(--foundation-space-6);
+}
+
+/* Drawer content styling */
+.navbar-container__drawer-content {
+  padding: 0 var(--space-navbar) var(--foundation-space-6);
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  gap: var(--foundation-space-4);
 }
 
-.navbar-drawer--fadeIn {
-  animation: fadeIn forwards;
-}
-
-.navbar-drawer--slideIn {
-  animation: slideInDown forwards;
-}
-
-.navbar-drawer__header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: var(--spacing-lg);
-}
-
-.navbar-drawer__content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-  padding-top: var(--spacing-xl);
-}
-
-/* Mobile menu alignment */
-.navbar-drawer--align-left .navbar-drawer__content {
+.navbar-container__drawer-content--align-left {
   align-items: flex-start;
 }
 
-.navbar-drawer--align-center .navbar-drawer__content {
+.navbar-container__drawer-content--align-center {
   align-items: center;
 }
 
-.navbar-drawer--align-right .navbar-drawer__content {
+.navbar-container__drawer-content--align-right {
   align-items: flex-end;
 }
 
-/* Make drawer content items full-width for better touch targets */
-.navbar-drawer__content > * {
-  width: 100%;
-}
+/* Hide drawer section on desktop */
+@media (min-width: 1025px) {
+  .navbar-container__drawer-section {
+    display: none;
+  }
 
-/* ===== OVERLAY ===== */
-.navbar-drawer__overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  animation: fadeIn 0.3s forwards;
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideInDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
+  .navbar-container-backdrop {
+    display: none;
   }
 }
