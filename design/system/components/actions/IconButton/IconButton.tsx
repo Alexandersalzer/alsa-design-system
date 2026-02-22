@@ -31,7 +31,7 @@ export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
   /** Button style variant - matches Button component exactly */
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive' | 'secondary-glass' | 'ghost-glass' | 'accent-glass';
   /** Button size - matches Button component exactly */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   /** Badge for notifications */
   badge?: number | string;
   /** Required accessibility label */
@@ -172,14 +172,15 @@ interface SmartIconButtonProps extends Omit<IconButtonProps, 'icon' | 'aria-labe
 
 // 🎯 FIXED: Helper function that uses appropriate icon color based on button variant
 const createActionIcon = (
-  IconComponent: React.ComponentType<any>, 
+  IconComponent: React.ComponentType<any>,
   variant: IconButtonProps['variant'] = 'secondary',
   size: IconButtonProps['size'] = 'lg'
 ) => {
   // Map IconButton size to Icon size
   const iconSizeMap = {
+    'xs': 'xs' as const,  // xs IconButton uses xs Icon
     'sm': 'sm' as const,
-    'md': 'md' as const, 
+    'md': 'md' as const,
     'lg': 'md' as const,  // lg IconButton uses md Icon
     'xl': 'lg' as const   // xl IconButton uses lg Icon
   };

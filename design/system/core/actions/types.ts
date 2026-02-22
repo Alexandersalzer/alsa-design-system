@@ -8,7 +8,8 @@ export type ActionType =
   | 'newsletter' 
   | 'booking'
   | 'download'
-  | 'external-link';
+  | 'external-link'
+  | 'thirdparty';
 
 export interface PixelEvent {
   provider?: 'meta' | 'google' | 'tiktok'; // Optional för universal events
@@ -33,6 +34,7 @@ export interface BaseActionConfig {
 export interface NavigationActionConfig extends BaseActionConfig {
   type: 'navigation';
   settings: {
+    navigationType?: 'section' | 'page' | 'external'; // Type of navigation
     href?: string;           // Direct URL (for external, anchor, or fallback)
     pageId?: string;         // Page ID reference - resolves to locale-aware slug
     sectionId?: string;      // Section ID for scrolling to section on same page
@@ -101,6 +103,18 @@ export interface ExternalLinkActionConfig extends BaseActionConfig {
   };
 }
 
+export interface ThirdPartyActionConfig extends BaseActionConfig {
+  type: 'thirdparty';
+  settings?: {
+    serviceType?: 'calendly' | 'cal' | 'typeform' | 'custom';
+    url?: string;
+    openInNewTab?: boolean;
+    primaryColor?: string;
+    redirectAfterSubmit?: string; // Redirect user after third-party action
+    pixelEvents?: PixelEvent[];
+  };
+}
+
 // ===== UNION TYPE =====
 export type ActionConfig = 
   | NavigationActionConfig 
@@ -108,4 +122,5 @@ export type ActionConfig =
   | NewsletterActionConfig
   | BookingActionConfig
   | DownloadActionConfig
-  | ExternalLinkActionConfig;
+  | ExternalLinkActionConfig
+  | ThirdPartyActionConfig;
