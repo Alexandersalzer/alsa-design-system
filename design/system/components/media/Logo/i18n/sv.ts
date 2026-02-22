@@ -3,7 +3,7 @@
  */
 
 export const logotextTranslations_sv = {
-  displayName: 'Logotyptext',
+  displayName: 'Logotyp text',
   description: 'Brandad text för logotyper och rubriker',
   
   props: {
