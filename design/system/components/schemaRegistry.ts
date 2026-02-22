@@ -58,6 +58,9 @@ import { createBodySchema } from './Typography/bodySchema';
 import { createLabelSchema } from './Typography/labelSchema';
 import { createCodeSchema } from './Typography/codeSchema';
 
+// Animations
+import { createCountUpSchema } from './animations/CountUp/schema';
+
 // Layout
 import { createCardSchema } from './layout/Card/schema';
 import { createHStackSchema } from './layout/hStack/schema';
@@ -113,6 +116,9 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   body: createBodySchema,
   label: createLabelSchema,
   code: createCodeSchema,
+  
+  // Animations
+  countup: createCountUpSchema,
   
   // Layout
   card: createCardSchema,
