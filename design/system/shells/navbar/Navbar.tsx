@@ -84,20 +84,23 @@ const Navbar = ({ section }: NavbarProps) => {
           ...sectionProps?.style,
         }}
       >
-        <NavbarContainer
-          menuAlign={patternProps.menuAlign}
-          mobileMenuAlign={patternProps.mobileMenuAlign}
-          backgroundVariant={patternProps.backgroundVariant}
-          showBorder={patternProps.showBorder}
-          hideOnScroll={patternProps.hideOnScroll}
-          navbarStyle={patternProps.navbarStyle ?? (pattern as any).type}
-          pillWidth={patternProps.pillWidth}
-          drawerStyle={patternProps.drawerStyle}
-          drawerAnimation={patternProps.drawerAnimation}
-          mobileMenu={mobileContent}
-        >
-          {desktopContent}
-        </NavbarContainer>
+        {/* data-pattern-key wrapper lets EditorOverlay identify pattern context for inline editing */}
+        <div data-pattern-key={firstPatternKey} style={{ display: 'contents' }}>
+          <NavbarContainer
+            menuAlign={patternProps.menuAlign}
+            mobileMenuAlign={patternProps.mobileMenuAlign}
+            backgroundVariant={patternProps.backgroundVariant}
+            showBorder={patternProps.showBorder}
+            hideOnScroll={patternProps.hideOnScroll}
+            navbarStyle={patternProps.navbarStyle ?? (pattern as any).type}
+            pillWidth={patternProps.pillWidth}
+            drawerStyle={patternProps.drawerStyle}
+            drawerAnimation={patternProps.drawerAnimation}
+            mobileMenu={mobileContent}
+          >
+            {desktopContent}
+          </NavbarContainer>
+        </div>
       </Section>
     );
   }
