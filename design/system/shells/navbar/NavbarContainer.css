@@ -56,7 +56,13 @@
   background: var(--surface-nav);
   border-radius: var(--radius-navbar-pill);
   border: solid 1px var(--border-nav);
-  transition: all 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Never transition transform/position — the translateX(-50%) centering trick on
+     fullscreen-open must not be animated or the pill slides in from the side */
+  transition:
+    background 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-radius 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
   position: absolute;
   top: 0;
   left: 0;

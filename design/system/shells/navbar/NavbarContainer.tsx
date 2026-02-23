@@ -15,6 +15,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { IconButton } from '../../components/actions/IconButton';
+import { FadeIn } from '../../components/animations/FadeIn';
 import { Menu as MenuIcon, X as XIcon } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import './NavbarContainer.css';
@@ -210,7 +211,18 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
                 "navbar-container__drawer-content",
                 `navbar-container__drawer-content--align-${mobileMenuAlign}`
               )}>
-                {mobileMenu}
+                {drawerStyle === 'fullscreen' && navbarStyle !== 'bar' && isMobileMenuOpen && drawerAnimation?.type === 'fadeIn' ? (
+                  <FadeIn
+                    key="fullscreen-drawer"
+                    direction={drawerAnimation.settings?.direction ?? 'down'}
+                    duration={drawerAnimation.settings?.duration ?? 400}
+                    distance={16}
+                    enableScrollTrigger={false}
+                    easing="ease-out"
+                  >
+                    {mobileMenu}
+                  </FadeIn>
+                ) : mobileMenu}
               </div>
             </div>
           )}
