@@ -274,11 +274,6 @@
     display: flex !important;
   }
 
-  /* Narrow the pill on mobile */
-  .navbar-container__unified-wrapper {
-    width: 95%;
-  }
-
   /* Center-pill on mobile: go full-width like the bar variant */
   .navbar-container__unified-wrapper--center-pill {
     width: 100%;
@@ -292,11 +287,9 @@
   }
 
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
-    max-width: var(--width-navbar);
-    margin: 0 auto;
     padding: var(--space-navbar);
     justify-content: space-between;
-    gap: 0;
+    gap: var(--foundation-space-4);
   }
 
   /* Drawer content inside center-pill: constrain to max-width so links align with the bar */
