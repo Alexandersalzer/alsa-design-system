@@ -544,7 +544,8 @@ export const MenuItem = ({
     disabledKeys,
     onSelectionChange,
     onAction: rootOnAction,
-    getAndIncrementItemIndex
+    getAndIncrementItemIndex,
+    setIsOpen
   } = useMenuContext();
 
   // Track this item's index for stagger animation (using useMemo is safe with ref mutation)
@@ -560,6 +561,12 @@ export const MenuItem = ({
 
   const handleClick = () => {
     if (isDisabled) return;
+
+    // Close menu first if closeOnSelect is enabled (before calling onClick)
+    // This ensures menu starts closing animation immediately
+    if (shouldClose) {
+      setIsOpen(false);
+    }
 
     // Handle selection
     if (selectionMode !== 'none' && finalItemKey) {
