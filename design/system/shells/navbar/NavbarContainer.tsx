@@ -167,6 +167,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
             navbarStyle === 'bar' && "navbar-container__unified-wrapper--bar",
             navbarStyle === 'center-pill' && "navbar-container__unified-wrapper--center-pill",
             isMobileMenuOpen && "navbar-container__unified-wrapper--expanded",
+            drawerStyle === 'fullscreen' && navbarStyle !== 'bar' && isMobileMenuOpen && "navbar-container__unified-wrapper--fullscreen-open",
             backgroundVariant !== 'default' && `navbar-container__unified-wrapper--${backgroundVariant}`,
             !showBorder && "navbar-container__unified-wrapper--no-border",
             isScrolled && "navbar-container__unified-wrapper--scrolled"

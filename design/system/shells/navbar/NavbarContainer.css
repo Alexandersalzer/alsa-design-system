@@ -99,6 +99,38 @@
   border-bottom-right-radius: var(--radius-md);
 }
 
+/* Fullscreen-pill: when fullscreen drawer is open for pill/center-pill,
+   fix the wrapper in place and extend it to fill most of the screen height.
+   The pill border stretches to contain the tall drawer — like a floating panel. */
+@media (max-width: 1024px) {
+  .navbar-container__unified-wrapper--fullscreen-open {
+    position: fixed !important;
+    top: var(--foundation-space-3);
+    left: var(--foundation-space-3);
+    right: var(--foundation-space-3);
+    bottom: var(--foundation-space-3);
+    margin: 0;
+    max-width: none;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-bottom-left-radius: var(--radius-md) !important;
+    border-bottom-right-radius: var(--radius-md) !important;
+  }
+
+  .navbar-container__unified-wrapper--fullscreen-open .navbar-container__bar {
+    flex-shrink: 0;
+  }
+
+  .navbar-container__unified-wrapper--fullscreen-open .navbar-container__drawer-section {
+    flex: 1;
+    max-height: none !important;
+    overflow-y: auto;
+    opacity: 1 !important;
+  }
+}
+
 .navbar-container__unified-wrapper--transparent {
   background: transparent;
   backdrop-filter: none;
