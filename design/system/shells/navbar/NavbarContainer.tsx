@@ -30,6 +30,8 @@ interface NavbarContainerProps {
   hideOnScroll?: boolean;
   /** 'pill' = rounded pill with border, 'bar' = full-width bar, 'center-pill' = logo left + centered pill + actions right */
   navbarStyle?: 'pill' | 'bar' | 'center-pill';
+  /** 'full' = stretches to max content width (default), 'compact' = shrinks to fit content */
+  pillWidth?: 'full' | 'compact';
   /** 'sheet' = short dropdown below the bar (default), 'fullscreen' = takes full viewport height */
   drawerStyle?: 'sheet' | 'fullscreen';
   drawerAnimation?: {
@@ -51,6 +53,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
   showBorder = true,
   hideOnScroll = false,
   navbarStyle = 'bar',
+  pillWidth = 'full',
   drawerStyle = 'fullscreen',
   drawerAnimation = { type: 'fadeIn', settings: { duration: 400, stagger: 50 } }
 }) => {
@@ -167,6 +170,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
             "navbar-container__unified-wrapper",
             navbarStyle === 'bar' && "navbar-container__unified-wrapper--bar",
             navbarStyle === 'center-pill' && "navbar-container__unified-wrapper--center-pill",
+            pillWidth === 'compact' && navbarStyle !== 'bar' && "navbar-container__unified-wrapper--compact",
             isMobileMenuOpen && "navbar-container__unified-wrapper--expanded",
             drawerStyle === 'fullscreen' && navbarStyle !== 'bar' && isMobileMenuOpen && "navbar-container__unified-wrapper--fullscreen-open",
             backgroundVariant !== 'default' && `navbar-container__unified-wrapper--${backgroundVariant}`,

@@ -70,6 +70,25 @@
   z-index: 40;
 }
 
+/* Compact pill: shrinks to fit content instead of stretching to max-width */
+.navbar-container__unified-wrapper--compact {
+  width: fit-content;
+  max-width: none;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* On mobile, compact pill goes full-width like the normal pill */
+@media (max-width: 1024px) {
+  .navbar-container__unified-wrapper--compact {
+    width: calc(100% - var(--foundation-space-8));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
 /* Background variants */
 .navbar-container__unified-wrapper--glass {
   background: color-mix(in srgb, var(--surface-page) 85%, transparent);
