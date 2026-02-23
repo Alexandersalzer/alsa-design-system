@@ -99,7 +99,7 @@ export interface PortfolioCardProps {
   
   // Layout spacing
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  /** Accent-tint på bild (default accent). */
+  /** Accent-tint på bild (default none; sätt till "accent" om du vill). */
   imageTint?: 'accent' | 'none';
 }
 
@@ -142,7 +142,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   
   // Layout defaults
   spacing = 'sm',
-  imageTint = 'accent'
+  imageTint = 'none'
 }) => {
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';

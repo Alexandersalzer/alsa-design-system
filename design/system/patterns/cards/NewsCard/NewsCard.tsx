@@ -26,7 +26,7 @@ export interface NewsCardProps {
   
   // Layout variants
   variant?: 'featured' | 'compact';
-  /** Accent-tint på bild (default accent). */
+  /** Accent-tint på bild (default none; sätt till "accent" om du vill). */
   imageTint?: 'accent' | 'none';
   
   // Interaction
@@ -57,7 +57,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
   featured = false,
   authorUsername,
   variant = 'compact',
-  imageTint = 'accent',
+  imageTint = 'none',
   onClick,
   className
 }) => {

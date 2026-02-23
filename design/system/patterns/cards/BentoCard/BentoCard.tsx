@@ -63,7 +63,7 @@ export interface BentoCardProps {
   scaleImageToFill?: boolean;
   /** När showImage är false: bakgrund över hela kortet (samma som textrutan). Påverkar bara kort utan bild. */
   noImageBackground?: 'surface' | 'raised' | 'elevated' | 'secondary';
-  /** Accent-tint: motiv i accentfärg (samma som hero). Default accent så alla kortbilder anpassas. */
+  /** Accent-tint: motiv i accentfärg (default none; sätt till "accent" om du vill). */
   imageTint?: 'accent' | 'none';
   /** Styrka på accent-tint (0–2, default 1.2). Högre = tydligare färg. */
   imageTintStrength?: number;
@@ -97,7 +97,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   footerElevated = false,
   scaleImageToFill,
   noImageBackground = 'surface',
-  imageTint = 'accent',
+  imageTint = 'none',
   imageTintStrength = 1.2,
 }) => {
   const fullImageSrc = imageSrc?.startsWith('http') ? imageSrc : imageSrc ? `${CDN_BASE_URL}${imageSrc}` : '';
