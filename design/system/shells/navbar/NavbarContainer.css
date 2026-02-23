@@ -93,6 +93,12 @@
   -webkit-backdrop-filter: blur(20px);
 }
 
+/* Pill + drawer open: flatten bottom corners so the expanded pill looks like a container */
+.navbar-container__unified-wrapper--expanded:not(.navbar-container__unified-wrapper--bar):not(.navbar-container__unified-wrapper--center-pill) {
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+}
+
 .navbar-container__unified-wrapper--transparent {
   background: transparent;
   backdrop-filter: none;
@@ -280,12 +286,14 @@
   }
 
   /* Center-pill on mobile: pill-shaped, transparent when closed, surface+border when open.
-     Mirrors NavbarCenterPill's __mobile-pill behaviour exactly. */
+     No overflow:hidden — the wrapper is a flex column and the drawer expands inside it.
+     border-radius paints the border as a pill, which is purely cosmetic (doesn't clip children).
+     When open the wrapper naturally grows taller to contain the drawer, keeping the pill border
+     around the entire expanded block. */
   .navbar-container__unified-wrapper--center-pill {
     background: transparent;
     border: 1px solid transparent;
     border-radius: var(--radius-navbar-pill);
-    overflow: hidden;
     transition: background 350ms ease, border-color 350ms ease, box-shadow 350ms ease;
   }
 
@@ -293,6 +301,9 @@
     background: var(--surface-nav);
     border-color: var(--border-nav);
     box-shadow: var(--shadow-md);
+    /* Flatten bottom corners slightly so the pill looks more like a container when open */
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
   }
 
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
@@ -440,11 +451,13 @@
   border: none;
 }
 
-/* Center-pill bar: constrain width like the pill wrapper */
-.navbar-container__unified-wrapper--center-pill .navbar-container__bar {
-  max-width: var(--width-navbar);
-  margin: 0 auto;
-  padding: 0;
+/* Center-pill bar: desktop — constrain width, no extra padding (bar already has var(--space-navbar)) */
+@media (min-width: 1025px) {
+  .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
+    max-width: var(--width-navbar);
+    margin: 0 auto;
+    padding: 0;
+  }
 }
 
 /* Desktop layout: CSS grid 1fr auto 1fr to keep center truly centered */
