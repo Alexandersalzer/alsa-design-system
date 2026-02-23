@@ -568,7 +568,7 @@ export const MenuItem = ({
       setIsOpen(false);
     }
 
-    // Handle selection
+    // Handle selection 
     if (selectionMode !== 'none' && finalItemKey) {
       const newKeys = new Set(selectedKeys);
       if (selectionMode === 'single') {
