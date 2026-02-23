@@ -134,10 +134,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   const errorId = error ? `${id}-error` : undefined;
   const successId = success ? `${id}-success` : undefined;
 
-  // Character count state
-  const [characterCount, setCharacterCount] = useState(
-    value?.toString().length || defaultValue?.toString().length || 0
-  );
+  // Character count — derived directly from value so it's always accurate
+  const characterCount = value !== undefined
+    ? value.toString().length
+    : (defaultValue?.toString().length ?? 0);
 
   // Focus state for data attributes
   const [isFocused, setIsFocused] = useState(false);
@@ -168,9 +168,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
 
-    // Update character count
-    setCharacterCount(newValue.length);
-
     // Auto-resize if enabled
     if (autoResize) {
       adjustHeight();
@@ -189,8 +186,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
 
   // Handle clear button
   const handleClear = () => {
-    setCharacterCount(0);
-
     if (onClear) {
       onClear();
     }
@@ -216,7 +211,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     if (!form) return;
     
     const handleReset = () => {
-      setCharacterCount(defaultValue?.toString().length || 0);
       if (autoResize) {
         // Small delay to let the form reset first
         setTimeout(adjustHeight, 0);

@@ -197,7 +197,7 @@ export const createAccordionItemSchema = (locale: SupportedLocale = 'sv'): Compo
           type: 'string',
           required: false,
           default: '',
-          editorType: 'richtext',
+          editorType: 'textarea',
           group: 'content',
           cmsEnabled: true,
         },
