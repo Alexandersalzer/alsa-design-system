@@ -137,8 +137,6 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
     measureWrapper();
   });
 
-  const isFullscreen = drawerStyle === 'fullscreen';
-
   return (
     <>
       {/* Backdrop overlay - only when drawer is open (mobile only) */}
@@ -194,38 +192,22 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
             />
           </div>
 
-          {/* Sheet drawer — stays inside the bordered wrapper */}
-          {!isFullscreen && (
-            <div className={cn(
-              "navbar-container__drawer-section",
-              "navbar-container__drawer-section--sheet",
-              isMobileMenuOpen && "navbar-container__drawer-section--open"
-            )}>
-              <div className={cn(
-                "navbar-container__drawer-content",
-                `navbar-container__drawer-content--align-${mobileMenuAlign}`
-              )}>
-                {mobileMenu}
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Fullscreen drawer — outside the wrapper so overflow:hidden doesn't clip it */}
-        {isFullscreen && (
+        {/* Drawer — outside the wrapper for both sheet and fullscreen */}
+        <div className={cn(
+          "navbar-container__drawer-section",
+          drawerStyle === 'fullscreen' && "navbar-container__drawer-section--fullscreen",
+          drawerStyle === 'sheet' && "navbar-container__drawer-section--sheet",
+          isMobileMenuOpen && "navbar-container__drawer-section--open"
+        )}>
           <div className={cn(
-            "navbar-container__drawer-section",
-            "navbar-container__drawer-section--fullscreen",
-            isMobileMenuOpen && "navbar-container__drawer-section--open"
+            "navbar-container__drawer-content",
+            `navbar-container__drawer-content--align-${mobileMenuAlign}`
           )}>
-            <div className={cn(
-              "navbar-container__drawer-content",
-              `navbar-container__drawer-content--align-${mobileMenuAlign}`
-            )}>
-              {mobileMenu}
-            </div>
+            {mobileMenu}
           </div>
-        )}
+        </div>
       </nav>
     </>
   );
