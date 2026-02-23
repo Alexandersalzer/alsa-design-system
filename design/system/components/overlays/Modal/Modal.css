@@ -87,6 +87,10 @@
   flex-shrink: 0;
 }
 
+.modal__header--no-title {
+  justify-content: flex-end;
+}
+
 /* ===== MODAL CONTENT ===== */
 .modal__content {
   padding: var(--space-modal-content-padding);
