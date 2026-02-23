@@ -16,14 +16,6 @@
   background: transparent;
 }
 
-/* Center-pill: when mobile menu is open, surface the full-width nav element
-   so there are no transparent gaps at the edges */
-@media (max-width: 1024px) {
-  .navbar-container--menu-open[data-navbar-style="center-pill"] {
-    background: var(--surface-nav);
-    border-bottom: 1px solid var(--border-nav);
-  }
-}
 
 /* Hide on scroll behavior (matches NavbarPill) */
 .navbar-container--hide-on-scroll {
@@ -287,19 +279,21 @@
     display: flex !important;
   }
 
-  /* Center-pill on mobile: transparent by default, surface when drawer is open */
+  /* Center-pill on mobile: pill-shaped, transparent when closed, surface+border when open.
+     Mirrors NavbarCenterPill's __mobile-pill behaviour exactly. */
   .navbar-container__unified-wrapper--center-pill {
     background: transparent;
-    border: none;
-    border-radius: 0;
-    max-width: 100%;
-    margin: 0;
-    top: 0;
-    left: 0;
-    right: 0;
+    border: 1px solid transparent;
+    border-radius: var(--radius-navbar-pill);
+    overflow: hidden;
+    transition: background 350ms ease, border-color 350ms ease, box-shadow 350ms ease;
   }
 
-  /* Surface is on the nav element itself when expanded — wrapper stays transparent */
+  .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--expanded {
+    background: var(--surface-nav);
+    border-color: var(--border-nav);
+    box-shadow: var(--shadow-md);
+  }
 
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
     justify-content: space-between;
@@ -413,14 +407,17 @@
    Uses CSS grid 1fr auto 1fr to keep pill truly centered
 ----------------------------------------------- */
 
-/* Center-pill unified wrapper: no outer pill border or radius — the pill is only on the links group */
-.navbar-container__unified-wrapper--center-pill {
-  border: none;
-  background: transparent;
-  border-radius: 0;
-  overflow: visible;
-  max-width: var(--width-navbar);
-  margin: var(--space-navbar) auto;
+/* Center-pill unified wrapper: desktop only styles (transparent floating, no border).
+   Mobile styles live in the @media (max-width: 1024px) block above. */
+@media (min-width: 1025px) {
+  .navbar-container__unified-wrapper--center-pill {
+    border: none;
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+    max-width: var(--width-navbar);
+    margin: var(--space-navbar) auto;
+  }
 }
 
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border {
