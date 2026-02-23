@@ -5,6 +5,7 @@
 
 import React, { ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
+import { Component } from '../../frames/component/Component';
 import './LogoText.css';
 
 // ===== INLINE MARKUP PROCESSOR =====
@@ -94,6 +95,8 @@ export interface LogoTextProps {
   className?: string;
   /** Click handler */
   onClick?: () => void;
+  /** Component key for editing */
+  componentKey?: string;
 }
 
 // ===== LOGO TEXT COMPONENT =====
@@ -112,6 +115,7 @@ export const LogoText: React.FC<LogoTextProps> = ({
   hover = true,
   className,
   onClick,
+  componentKey,
 }) => {
   const classes = cn(
     'logo-text',
@@ -133,17 +137,21 @@ export const LogoText: React.FC<LogoTextProps> = ({
   // If href is provided, render as link
   if (href) {
     return (
-      <a href={href} className={classes} onClick={onClick}>
-        {processedContent}
-      </a>
+      <Component componentKey={componentKey}>
+        <a href={href} className={classes} onClick={onClick}>
+          {processedContent}
+        </a>
+      </Component>
     );
   }
 
   // Otherwise render as span
   return (
-    <span className={classes} onClick={onClick}>
-      {processedContent}
-    </span>
+    <Component componentKey={componentKey}>
+      <span className={classes} onClick={onClick}>
+        {processedContent}
+      </span>
+    </Component>
   );
 };
 
@@ -153,7 +161,9 @@ LogoText.displayName = 'LogoText';
 
 export interface BrandNameProps {
   /** Brand name text */
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  /** Text content (for JSON-driven rendering) */
+  content?: string;
   /** Link href */
   href?: string;
   /** Size variant */
@@ -172,6 +182,8 @@ export interface BrandNameProps {
   className?: string;
   /** Click handler */
   onClick?: () => void;
+  /** Component key for editing */
+  componentKey?: string;
 }
 
 /**
@@ -185,8 +197,13 @@ export const BrandName: React.FC<BrandNameProps> = ({
   spacing = 'normal',
   color = 'primary',
   gradient = false,
+  children,
+  content,
   ...props
 }) => {
+  // Use content prop if provided, otherwise use children (for JSON-driven rendering)
+  const displayContent = content || children;
+  
   return (
     <LogoText
       {...props}
@@ -197,7 +214,9 @@ export const BrandName: React.FC<BrandNameProps> = ({
       color={color}
       gradient={gradient}
       font="brand"
-    />
+    >
+      {displayContent}
+    </LogoText>
   );
 };
 
@@ -205,7 +224,9 @@ BrandName.displayName = 'BrandName';
 
 export interface ProductNameProps {
   /** Product name text */
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  /** Text content (for JSON-driven rendering) */
+  content?: string;
   /** Link href */
   href?: string;
   /** Size variant */
@@ -218,6 +239,8 @@ export interface ProductNameProps {
   spacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
   /** Custom className */
   className?: string;
+  /** Component key for editing */
+  componentKey?: string;
 }
 
 /**
@@ -228,8 +251,12 @@ export const ProductName: React.FC<ProductNameProps> = ({
   size = 'md',
   weight = 'bold',
   spacing = 'tight',
+  children,
+  content,
   ...props
 }) => {
+  const displayContent = content || children;
+  
   return (
     <LogoText
       {...props}
@@ -237,7 +264,9 @@ export const ProductName: React.FC<ProductNameProps> = ({
       weight={weight}
       spacing={spacing}
       font="heading"
-    />
+    >
+      {displayContent}
+    </LogoText>
   );
 };
 
@@ -245,7 +274,9 @@ ProductName.displayName = 'ProductName';
 
 export interface SectionTitleProps {
   /** Section title text */
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  /** Text content (for JSON-driven rendering) */
+  content?: string;
   /** Link href */
   href?: string;
   /** Size variant */
@@ -260,6 +291,8 @@ export interface SectionTitleProps {
   color?: 'primary' | 'secondary' | 'inverse' | 'inherit';
   /** Custom className */
   className?: string;
+  /** Component key for editing */
+  componentKey?: string;
 }
 
 /**
@@ -271,8 +304,12 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
   weight = 'semibold',
   transform = 'uppercase',
   spacing = 'wide',
+  children,
+  content,
   ...props
 }) => {
+  const displayContent = content || children;
+  
   return (
     <LogoText
       {...props}
@@ -281,7 +318,9 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
       transform={transform}
       spacing={spacing}
       font="heading"
-    />
+    >
+      {displayContent}
+    </LogoText>
   );
 };
 

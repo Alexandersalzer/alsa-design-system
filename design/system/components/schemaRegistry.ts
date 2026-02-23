@@ -49,6 +49,7 @@ import { createSliderSchema } from './forms/Slider/schema';
 import { createImageSchema } from './media/Image/schema';
 import { createVideoShowcaseSchema } from './media/VideoShowcase/schema';
 import { createAvatarSchema } from './media/Avatar/schema';
+import { createLogotextSchema } from './media/Logo/schema';
 
 // Typography
 import { createHeadingSchema } from './Typography/headingSchema';
@@ -56,6 +57,9 @@ import { createDisplaySchema } from './Typography/displaySchema';
 import { createBodySchema } from './Typography/bodySchema';
 import { createLabelSchema } from './Typography/labelSchema';
 import { createCodeSchema } from './Typography/codeSchema';
+
+// Animations
+import { createCountUpSchema } from './animations/CountUp/schema';
 
 // Layout
 import { createCardSchema } from './layout/Card/schema';
@@ -104,6 +108,7 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   image: createImageSchema,
   videoShowcase: createVideoShowcaseSchema,
   avatar: createAvatarSchema,
+  logotext: createLogotextSchema,
   
   // Typography
   heading: createHeadingSchema,
@@ -111,6 +116,9 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   body: createBodySchema,
   label: createLabelSchema,
   code: createCodeSchema,
+  
+  // Animations
+  countup: createCountUpSchema,
   
   // Layout
   card: createCardSchema,

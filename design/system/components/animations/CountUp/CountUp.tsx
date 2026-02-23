@@ -1,7 +1,8 @@
-// design/system/components/primitives/CountUp/CountUp.tsx
+// design/system/components/animations/CountUp/CountUp.tsx
 
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Typography, TypographyProps } from '../../Typography';
+import { Component } from '../../frames/component/Component';
 
 export type EasingType =
   | "linear"
@@ -60,6 +61,9 @@ export const CountUp: React.FC<CountUpProps> = ({
   const animationRef = useRef<number | null>(null);
   const hasStartedRef = useRef(false);
   const hasCompletedRef = useRef(false);
+  
+  // Check if we're in editor mode
+  const isEditorMode = !!typographyProps.componentKey;
 
   const resetAnimation = () => {
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
@@ -114,6 +118,15 @@ export const CountUp: React.FC<CountUpProps> = ({
 
   // Scroll-trigger observer
   useEffect(() => {
+    // In editor mode, skip scroll trigger and run animation immediately
+    if (isEditorMode) {
+      resetAnimation();
+      const timer = setTimeout(() => {
+        startAnimation();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+
     if (!enableScrollTrigger) {
       startAnimation();
       return;
@@ -143,7 +156,7 @@ export const CountUp: React.FC<CountUpProps> = ({
       observer.disconnect();
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [enableScrollTrigger, triggerOffset, startAnimation]);
+  }, [enableScrollTrigger, triggerOffset, startAnimation, isEditorMode, start, end, suffix, prefix]);
 
   // Reset when important props change
   useEffect(() => {
@@ -154,22 +167,23 @@ export const CountUp: React.FC<CountUpProps> = ({
   }, [start, end, duration, delay, resetOnPropsChange]);
 
   return (
-    <Typography
-      ref={countRef}
-      variant={variant}
-      weight={weight}
-      color={color}
-      align={typographyProps.align}
-      truncate={typographyProps.truncate}
-      noWrap={typographyProps.noWrap}
-      uppercase={typographyProps.uppercase}
-      italic={typographyProps.italic}
-      className={typographyProps.className}
-      style={typographyProps.style}
-      as={typographyProps.as}
-      componentKey={typographyProps.componentKey}
-    >
-      {formatNumber(count)}
-    </Typography>
+    <Component componentKey={typographyProps.componentKey}>
+      <Typography
+        ref={countRef}
+        variant={variant}
+        weight={weight}
+        color={color}
+        align={typographyProps.align}
+        truncate={typographyProps.truncate}
+        noWrap={typographyProps.noWrap}
+        uppercase={typographyProps.uppercase}
+        italic={typographyProps.italic}
+        className={typographyProps.className}
+        style={typographyProps.style}
+        as={typographyProps.as}
+      >
+        {formatNumber(count)}
+      </Typography>
+    </Component>
   );
 };
