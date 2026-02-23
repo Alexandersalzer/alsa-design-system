@@ -15,6 +15,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { IconButton } from '../../components/actions/IconButton';
+import { FadeIn } from '../../components/animations/FadeIn';
 import { Menu as MenuIcon, X as XIcon } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import './NavbarContainer.css';
@@ -27,8 +28,12 @@ interface NavbarContainerProps {
   backgroundVariant?: 'default' | 'glass' | 'glass-transparent' | 'transparent';
   showBorder?: boolean;
   hideOnScroll?: boolean;
-  /** 'pill' = rounded pill with border (default), 'bar' = full-width bar with bottom border */
-  navbarStyle?: 'pill' | 'bar';
+  /** 'pill' = rounded pill with border, 'bar' = full-width bar, 'center-pill' = logo left + centered pill + actions right */
+  navbarStyle?: 'pill' | 'bar' | 'center-pill';
+  /** 'full' = stretches to max content width (default), 'compact' = shrinks to fit content */
+  pillWidth?: 'full' | 'compact';
+  /** 'sheet' = short dropdown below the bar (default), 'fullscreen' = takes full viewport height */
+  drawerStyle?: 'sheet' | 'fullscreen';
   drawerAnimation?: {
     type: 'fadeIn' | 'none';
     settings?: {
@@ -47,7 +52,9 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
   backgroundVariant = 'default',
   showBorder = true,
   hideOnScroll = false,
-  navbarStyle = 'pill',
+  navbarStyle = 'bar',
+  pillWidth = 'full',
+  drawerStyle = 'fullscreen',
   drawerAnimation = { type: 'fadeIn', settings: { duration: 400, stagger: 50 } }
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -55,6 +62,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Handle scroll behavior - both scrolled state and hide on scroll
   useEffect(() => {
@@ -114,11 +122,26 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
         if (window.innerWidth > 1024) {
           setIsMobileMenuOpen(false);
         }
+        measureWrapper();
       }, 50);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Measure wrapper bottom so fullscreen drawer can offset below it
+  const measureWrapper = () => {
+    if (wrapperRef.current) {
+      const rect = wrapperRef.current.getBoundingClientRect();
+      // Use bottom (distance from top of viewport to bottom of wrapper) so the
+      // drawer starts exactly below the pill/bar regardless of margin/offset.
+      containerRef.current?.style.setProperty('--navbar-wrapper-height', `${rect.bottom}px`);
+    }
+  };
+
+  useEffect(() => {
+    measureWrapper();
+  });
 
   return (
     <>
@@ -131,26 +154,40 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
       )}
 
       {/* Unified container - pill + drawer share same border */}
-      <nav 
+      <nav
         className={cn(
           "navbar-container",
           hideOnScroll && "navbar-container--hide-on-scroll",
-          isHidden && "navbar-container--hidden"
-        )} 
+          isHidden && "navbar-container--hidden",
+          isMobileMenuOpen && "navbar-container--menu-open"
+        )}
+        data-navbar-style={navbarStyle}
         ref={containerRef}
       >
-        <div className={cn(
-          "navbar-container__unified-wrapper",
-          navbarStyle === 'bar' && "navbar-container__unified-wrapper--bar",
-          isMobileMenuOpen && "navbar-container__unified-wrapper--expanded",
-          backgroundVariant !== 'default' && `navbar-container__unified-wrapper--${backgroundVariant}`,
-          !showBorder && "navbar-container__unified-wrapper--no-border",
-          isScrolled && "navbar-container__unified-wrapper--scrolled"
-        )}>
+        <div
+          ref={wrapperRef}
+          className={cn(
+            "navbar-container__unified-wrapper",
+            navbarStyle === 'bar' && "navbar-container__unified-wrapper--bar",
+            navbarStyle === 'center-pill' && "navbar-container__unified-wrapper--center-pill",
+            pillWidth === 'compact' && navbarStyle !== 'bar' && "navbar-container__unified-wrapper--compact",
+            isMobileMenuOpen && "navbar-container__unified-wrapper--expanded",
+            drawerStyle === 'fullscreen' && navbarStyle !== 'bar' && isMobileMenuOpen && "navbar-container__unified-wrapper--fullscreen-open",
+            backgroundVariant !== 'default' && `navbar-container__unified-wrapper--${backgroundVariant}`,
+            !showBorder && "navbar-container__unified-wrapper--no-border",
+            isScrolled && "navbar-container__unified-wrapper--scrolled"
+          )}
+        >
           {/* Top bar - always visible */}
           <div className="navbar-container__bar">
             {/* Desktop content */}
-            <div className="navbar-container__desktop" data-menu-align={menuAlign}>
+            <div
+              className={cn(
+                "navbar-container__desktop",
+                navbarStyle === 'center-pill' && "navbar-container__desktop--center-pill"
+              )}
+              data-menu-align={menuAlign}
+            >
               {children}
             </div>
 
@@ -165,9 +202,41 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
             />
           </div>
 
-          {/* Mobile drawer content - inside same bordered container */}
+          {/* Drawer inside wrapper: sheet always, fullscreen for pill/center-pill */}
+          {(drawerStyle !== 'fullscreen' || navbarStyle !== 'bar') && (
+            <div className={cn(
+              "navbar-container__drawer-section",
+              drawerStyle === 'fullscreen'
+                ? "navbar-container__drawer-section--fullscreen-pill"
+                : "navbar-container__drawer-section--sheet",
+              isMobileMenuOpen && "navbar-container__drawer-section--open"
+            )}>
+              <div className={cn(
+                "navbar-container__drawer-content",
+                `navbar-container__drawer-content--align-${mobileMenuAlign}`
+              )}>
+                {drawerStyle === 'fullscreen' && navbarStyle !== 'bar' && isMobileMenuOpen && drawerAnimation?.type === 'fadeIn' ? (
+                  <FadeIn
+                    key="fullscreen-drawer"
+                    direction={drawerAnimation.settings?.direction ?? 'down'}
+                    duration={drawerAnimation.settings?.duration ?? 400}
+                    distance={16}
+                    enableScrollTrigger={false}
+                    easing="ease-out"
+                  >
+                    {mobileMenu}
+                  </FadeIn>
+                ) : mobileMenu}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Bar fullscreen drawer — fixed overlay outside wrapper */}
+        {drawerStyle === 'fullscreen' && navbarStyle === 'bar' && (
           <div className={cn(
             "navbar-container__drawer-section",
+            "navbar-container__drawer-section--fullscreen",
             isMobileMenuOpen && "navbar-container__drawer-section--open"
           )}>
             <div className={cn(
@@ -177,7 +246,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
               {mobileMenu}
             </div>
           </div>
-        </div>
+        )}
       </nav>
     </>
   );

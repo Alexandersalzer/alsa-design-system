@@ -16,6 +16,7 @@
   background: transparent;
 }
 
+
 /* Hide on scroll behavior (matches NavbarPill) */
 .navbar-container--hide-on-scroll {
   transform: translateY(0);
@@ -55,13 +56,37 @@
   background: var(--surface-nav);
   border-radius: var(--radius-navbar-pill);
   border: solid 1px var(--border-nav);
-  transition: all 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Never transition transform/position — the translateX(-50%) centering trick on
+     fullscreen-open must not be animated or the pill slides in from the side */
+  transition:
+    background 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-radius 400ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 40;
-  overflow: hidden;
+}
+
+/* Compact pill: shrinks to fit content instead of stretching to max-width */
+.navbar-container__unified-wrapper--compact {
+  width: fit-content;
+  max-width: none;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* On mobile, compact pill goes full-width like the normal pill */
+@media (max-width: 1024px) {
+  .navbar-container__unified-wrapper--compact {
+    width: calc(100% - var(--foundation-space-8));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
 }
 
 /* Background variants */
@@ -91,6 +116,47 @@
   background: color-mix(in srgb, var(--surface-page) 92%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+}
+
+/* Pill + drawer open: flatten bottom corners so the expanded pill looks like a container */
+.navbar-container__unified-wrapper--expanded:not(.navbar-container__unified-wrapper--bar):not(.navbar-container__unified-wrapper--center-pill) {
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+}
+
+/* Fullscreen-pill: when fullscreen drawer is open for pill/center-pill,
+   fix the wrapper in place and extend it to fill most of the screen height.
+   The pill border stretches to contain the tall drawer — like a floating panel. */
+@media (max-width: 1024px) {
+  .navbar-container__unified-wrapper--fullscreen-open {
+    position: fixed !important;
+    /* Align to same horizontal bounds as the pill's normal position */
+    top: var(--space-navbar);
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - var(--foundation-space-8));
+    max-width: var(--width-navbar);
+    /* Leave ~20% breathing room at the bottom */
+    bottom: 20vh;
+    margin: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-bottom-left-radius: var(--radius-md) !important;
+    border-bottom-right-radius: var(--radius-md) !important;
+  }
+
+  .navbar-container__unified-wrapper--fullscreen-open .navbar-container__bar {
+    flex-shrink: 0;
+  }
+
+  .navbar-container__unified-wrapper--fullscreen-open .navbar-container__drawer-section {
+    flex: 1;
+    max-height: none !important;
+    overflow-y: auto;
+    opacity: 1 !important;
+  }
 }
 
 .navbar-container__unified-wrapper--transparent {
@@ -131,6 +197,11 @@
 
 /* Bar + no-border = no bottom border either */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--no-border {
+  border-bottom-color: transparent;
+}
+
+/* Bar: remove bottom border when drawer is open so bar and drawer merge into one surface */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--expanded {
   border-bottom-color: transparent;
 }
 
@@ -203,6 +274,13 @@
   min-width: 0;
 }
 
+/* Force all HStacks inside the bar to center-align children vertically.
+   This prevents the default align-items: flex-start from the hStack base
+   adding apparent padding-top above buttons. */
+.navbar-container__bar .hStack {
+  align-items: center;
+}
+
 /* -----------------------------------------------
    3-group layout inside desktop area
    The layout engine wraps items in a display:contents [data-item-key] div,
@@ -226,6 +304,11 @@
   min-width: 0;
 }
 
+/* Compact pill: links group doesn't grow, just takes its natural width */
+.navbar-container__unified-wrapper--compact .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2) {
+  flex-grow: 0;
+}
+
 /* menuAlign controls: applied via data-menu-align on .navbar-container__desktop */
 .navbar-container__desktop[data-menu-align="left"]   > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-start; }
 .navbar-container__desktop[data-menu-align="center"] > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: center; }
@@ -236,6 +319,10 @@
   flex-shrink: 0;
   flex-grow: 0;
   justify-content: flex-end;
+}
+
+/* Full-width pill: push actions to far right */
+.navbar-container__unified-wrapper:not(.navbar-container__unified-wrapper--compact) .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
   margin-left: auto;
 }
 
@@ -256,7 +343,9 @@
   /* Hide links (2nd) and actions (3rd) groups from the bar on mobile.
      Groups live inside the display:contents [data-item-key] wrapper. */
   .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
-  .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
+  .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3),
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3) {
     display: none !important;
   }
 
@@ -265,9 +354,39 @@
     display: flex !important;
   }
 
-  /* Narrow the pill on mobile */
-  .navbar-container__unified-wrapper {
-    width: 95%;
+  /* Center-pill on mobile: pill-shaped, transparent when closed, surface+border when open.
+     No overflow:hidden — the wrapper is a flex column and the drawer expands inside it.
+     border-radius paints the border as a pill, which is purely cosmetic (doesn't clip children).
+     When open the wrapper naturally grows taller to contain the drawer, keeping the pill border
+     around the entire expanded block. */
+  .navbar-container__unified-wrapper--center-pill {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-navbar-pill);
+    transition: background 350ms ease, border-color 350ms ease, box-shadow 350ms ease;
+  }
+
+  .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--expanded {
+    background: var(--surface-nav);
+    border-color: var(--border-nav);
+    box-shadow: var(--shadow-md);
+    /* Flatten bottom corners slightly so the pill looks more like a container when open */
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+  }
+
+  .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
+    justify-content: space-between;
+    gap: var(--foundation-space-4);
+    padding: var(--space-navbar);
+  }
+
+  /* Center-pill mobile desktop area: just show the logo group */
+  .navbar-container__desktop--center-pill {
+    display: flex !important;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
   }
 
   /* Bar: logo left, hamburger right */
@@ -278,31 +397,81 @@
 }
 
 /* -----------------------------------------------
-   Mobile drawer — inside unified border
+   Mobile drawer — sheet stays inside the wrapper (max-height animation),
+   fullscreen is position:fixed outside the wrapper.
 ----------------------------------------------- */
-.navbar-container__drawer-section {
+
+/* Sheet: inside the wrapper, animates with max-height */
+.navbar-container__drawer-section--sheet {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
   transition:
     max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    opacity    400ms ease-out;
+    opacity 400ms ease-out;
 }
 
-.navbar-container__drawer-section--open {
+.navbar-container__drawer-section--sheet.navbar-container__drawer-section--open {
   max-height: 80vh;
   opacity: 1;
-  padding-bottom: var(--foundation-space-6);
+}
+
+/* Fullscreen-pill: pill/center-pill fullscreen — extends inside the wrapper to ~90vh */
+.navbar-container__drawer-section--fullscreen-pill {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 400ms ease-out;
+}
+
+.navbar-container__drawer-section--fullscreen-pill.navbar-container__drawer-section--open {
+  max-height: 90vh;
+  opacity: 1;
+}
+
+/* Fullscreen: fixed overlay outside the wrapper, fills screen below the bar */
+.navbar-container__drawer-section--fullscreen {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: var(--navbar-wrapper-height, 80px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-nav);
+  z-index: 39;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 300ms ease-out,
+    transform 300ms ease-out;
+}
+
+.navbar-container__drawer-section--fullscreen.navbar-container__drawer-section--open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 /* Drawer content wrapper */
 .navbar-container__drawer-content {
-  padding: 0 var(--space-navbar) var(--foundation-space-6);
   width: 100%;
+  max-width: var(--width-navbar);
+  margin: 0 auto;
+  padding: var(--foundation-space-6) var(--space-navbar) var(--foundation-space-8);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--foundation-space-4);
+  gap: var(--foundation-space-6);
+}
+
+/* Fullscreen: content area scrolls */
+.navbar-container__drawer-section--fullscreen .navbar-container__drawer-content {
+  flex: 1;
+  overflow-y: auto;
 }
 
 /* The mobile layout is rendered from the same layout engine as desktop
@@ -326,6 +495,95 @@
 
 .navbar-container__drawer-content--align-right * {
   align-items: flex-end !important;
+}
+
+/* -----------------------------------------------
+   Center-pill variant
+   Logo left | pill center (links) | actions right
+   Uses CSS grid 1fr auto 1fr to keep pill truly centered
+----------------------------------------------- */
+
+/* Center-pill unified wrapper: desktop only styles (transparent floating, no border).
+   Mobile styles live in the @media (max-width: 1024px) block above. */
+@media (min-width: 1025px) {
+  .navbar-container__unified-wrapper--center-pill {
+    border: none;
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+    max-width: var(--width-navbar);
+    margin: var(--space-navbar) auto;
+  }
+}
+
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border {
+  border: none;
+}
+
+/* Center-pill bar: desktop — constrain width, no extra padding (bar already has var(--space-navbar)) */
+@media (min-width: 1025px) {
+  .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
+    max-width: var(--width-navbar);
+    margin: 0 auto;
+    padding: 0;
+  }
+}
+
+/* Desktop layout: CSS grid 1fr auto 1fr to keep center truly centered */
+.navbar-container__desktop--center-pill {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--foundation-space-6);
+  width: 100%;
+}
+
+/* The outer HStack from layout engine fills the grid */
+.navbar-container__desktop--center-pill > .hStack {
+  display: contents;
+}
+
+/* 3-group layout in center-pill mode:
+   Group 1 (logo/brand) — left cell, flex-start
+   Group 2 (links)      — center cell, pill-styled
+   Group 3 (actions)    — right cell, flex-end */
+
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(1) {
+  flex-shrink: 0;
+  justify-self: start;
+  align-items: center;
+}
+
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  justify-self: center;
+  align-items: center;
+  /* Pill styling on the links group */
+  background: var(--surface-nav);
+  border: 1px solid var(--border-nav);
+  border-radius: var(--radius-navbar-pill);
+  padding: var(--foundation-space-2) var(--foundation-space-4);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+}
+
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3) {
+  justify-self: end;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Background variants: apply to the outer wrapper for center-pill */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-transparent .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  background: color-mix(in srgb, var(--surface-page) 70%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Scrolled: enhance pill shadow */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  box-shadow: var(--shadow-md);
 }
 
 /* -----------------------------------------------
