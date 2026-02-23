@@ -278,12 +278,21 @@
     display: flex !important;
   }
 
-  /* Center-pill on mobile: behave like the pill — keep pill border/radius/surface,
-     show logo left + hamburger right */
+  /* Center-pill on mobile: transparent by default, surface when drawer is open */
   .navbar-container__unified-wrapper--center-pill {
-    background: var(--surface-nav);
-    border: 1px solid var(--border-nav);
-    border-radius: var(--radius-navbar-pill);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    max-width: 100%;
+    margin: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--expanded {
+    background: var(--surface-nav) !important;
+    border-bottom: 1px solid var(--border-nav) !important;
   }
 
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
