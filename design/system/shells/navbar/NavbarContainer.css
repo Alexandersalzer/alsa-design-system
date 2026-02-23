@@ -341,14 +341,12 @@
   pointer-events: auto;
 }
 
-/* Sheet: glass/blurred background, doesn't fill full screen height —
-   sits below the navbar bar and expands naturally with content */
+/* Sheet: solid surface background, sits below the navbar bar and expands with content.
+   Does NOT fill the full screen height — bottom is auto so it shrinks to fit content. */
 .navbar-container__drawer-section--sheet {
   bottom: auto;
-  background: color-mix(in srgb, var(--surface-page) 92%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-subtle);
+  background: var(--surface-nav);
+  border-bottom: 1px solid var(--border-nav);
 }
 
 /* Fullscreen: solid background, fills entire screen below the bar */
