@@ -129,7 +129,9 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
   const measureWrapper = () => {
     if (wrapperRef.current) {
       const rect = wrapperRef.current.getBoundingClientRect();
-      containerRef.current?.style.setProperty('--navbar-wrapper-height', `${rect.height}px`);
+      // Use bottom (distance from top of viewport to bottom of wrapper) so the
+      // drawer starts exactly below the pill/bar regardless of margin/offset.
+      containerRef.current?.style.setProperty('--navbar-wrapper-height', `${rect.bottom}px`);
     }
   };
 

@@ -311,8 +311,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* Start just below the navbar bar */
-  top: calc(var(--navbar-wrapper-height, 64px) + var(--space-navbar, 12px) * 2);
+  /* Start exactly at the bottom edge of the wrapper (pill margin + height included) */
+  top: calc(var(--navbar-wrapper-height, 80px) + var(--foundation-space-2, 8px));
   display: flex;
   flex-direction: column;
   background: var(--surface-nav);
