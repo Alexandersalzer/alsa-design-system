@@ -109,7 +109,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(({
       <div ref={ref} className={modalClasses} {...props}>
         {/* Header */}
         {(title || showCloseButton) && (
-          <div className="modal__header">
+          <div className={`modal__header${!title ? ' modal__header--no-title' : ''}`}>
             {title && (
               <H3 id="modal-title" className="modal__title">
                 {title}
