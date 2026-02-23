@@ -327,7 +327,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  top: calc(var(--navbar-wrapper-height, 80px) + var(--foundation-space-2, 8px));
+  top: var(--navbar-wrapper-height, 80px);
   display: flex;
   flex-direction: column;
   background: var(--surface-nav);
