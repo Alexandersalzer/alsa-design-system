@@ -29,6 +29,8 @@ interface NavbarContainerProps {
   hideOnScroll?: boolean;
   /** 'pill' = rounded pill with border, 'bar' = full-width bar, 'center-pill' = logo left + centered pill + actions right */
   navbarStyle?: 'pill' | 'bar' | 'center-pill';
+  /** 'sheet' = short dropdown below the bar (default), 'fullscreen' = takes full viewport height */
+  drawerStyle?: 'sheet' | 'fullscreen';
   drawerAnimation?: {
     type: 'fadeIn' | 'none';
     settings?: {
@@ -48,6 +50,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
   showBorder = true,
   hideOnScroll = false,
   navbarStyle = 'bar',
+  drawerStyle = 'fullscreen',
   drawerAnimation = { type: 'fadeIn', settings: { duration: 400, stagger: 50 } }
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -175,7 +178,9 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
           {/* Mobile drawer content - inside same bordered container */}
           <div className={cn(
             "navbar-container__drawer-section",
-            isMobileMenuOpen && "navbar-container__drawer-section--open"
+            isMobileMenuOpen && "navbar-container__drawer-section--open",
+            drawerStyle === 'fullscreen' && "navbar-container__drawer-section--fullscreen",
+            drawerStyle === 'sheet' && "navbar-container__drawer-section--sheet"
           )}>
             <div className={cn(
               "navbar-container__drawer-content",
