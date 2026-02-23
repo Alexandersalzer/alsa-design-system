@@ -335,25 +335,54 @@
   max-height: 60vh;
 }
 
-/* Fullscreen: takes entire viewport height below the navbar bar */
-.navbar-container__drawer-section--fullscreen.navbar-container__drawer-section--open {
-  max-height: 100vh;
-  padding-bottom: 0;
+/* Fullscreen: fixed overlay that fills the entire screen.
+   Sits outside the unified-wrapper so overflow:hidden never clips it.
+   Padding-top pushes content below the navbar bar (measured via --navbar-wrapper-height). */
+.navbar-container__drawer-section--fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
+  background: var(--surface-nav);
+  z-index: 39;
+  pointer-events: none;
+  /* Override the max-height animation — use opacity + transform instead */
+  max-height: none !important;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 300ms ease-out,
+    transform 300ms ease-out;
 }
 
-.navbar-container__drawer-section--fullscreen.navbar-container__drawer-section--open .navbar-container__drawer-content {
+.navbar-container__drawer-section--fullscreen.navbar-container__drawer-section--open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.navbar-container__drawer-section--fullscreen .navbar-container__drawer-content {
   flex: 1;
   overflow-y: auto;
+  max-width: var(--width-navbar);
+  margin: 0 auto;
+  /* Offset below the navbar bar */
+  padding-top: calc(var(--navbar-wrapper-height, 64px) + var(--foundation-space-6));
+  padding-left: var(--space-navbar);
+  padding-right: var(--space-navbar);
+  padding-bottom: var(--foundation-space-8);
+  box-sizing: border-box;
 }
 
-/* Drawer content wrapper */
+/* Drawer content wrapper (sheet style) */
 .navbar-container__drawer-content {
   width: 100%;
   max-width: var(--width-navbar);
   margin: 0 auto;
-  padding: var(--foundation-space-6) var(--space-navbar) 0;
+  padding: var(--foundation-space-6) var(--space-navbar) var(--foundation-space-8);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
