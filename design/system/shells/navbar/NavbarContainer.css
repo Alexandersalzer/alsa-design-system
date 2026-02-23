@@ -304,6 +304,11 @@
   min-width: 0;
 }
 
+/* Compact pill: links group doesn't grow, just takes its natural width */
+.navbar-container__unified-wrapper--compact .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2) {
+  flex-grow: 0;
+}
+
 /* menuAlign controls: applied via data-menu-align on .navbar-container__desktop */
 .navbar-container__desktop[data-menu-align="left"]   > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-start; }
 .navbar-container__desktop[data-menu-align="center"] > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: center; }
@@ -314,6 +319,10 @@
   flex-shrink: 0;
   flex-grow: 0;
   justify-content: flex-end;
+}
+
+/* Full-width pill: push actions to far right */
+.navbar-container__unified-wrapper:not(.navbar-container__unified-wrapper--compact) .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
   margin-left: auto;
 }
 
