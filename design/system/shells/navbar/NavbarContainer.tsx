@@ -196,11 +196,13 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
             />
           </div>
 
-          {/* Sheet drawer — inside the wrapper, animates via max-height */}
-          {drawerStyle !== 'fullscreen' && (
+          {/* Drawer inside wrapper: sheet always, fullscreen for pill/center-pill */}
+          {(drawerStyle !== 'fullscreen' || navbarStyle !== 'bar') && (
             <div className={cn(
               "navbar-container__drawer-section",
-              "navbar-container__drawer-section--sheet",
+              drawerStyle === 'fullscreen'
+                ? "navbar-container__drawer-section--fullscreen-pill"
+                : "navbar-container__drawer-section--sheet",
               isMobileMenuOpen && "navbar-container__drawer-section--open"
             )}>
               <div className={cn(
@@ -213,8 +215,8 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
           )}
         </div>
 
-        {/* Fullscreen drawer — outside the wrapper so it can fill the viewport */}
-        {drawerStyle === 'fullscreen' && (
+        {/* Bar fullscreen drawer — fixed overlay outside wrapper */}
+        {drawerStyle === 'fullscreen' && navbarStyle === 'bar' && (
           <div className={cn(
             "navbar-container__drawer-section",
             "navbar-container__drawer-section--fullscreen",
