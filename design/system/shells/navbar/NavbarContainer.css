@@ -133,6 +133,11 @@
   border-bottom-color: transparent;
 }
 
+/* Bar: remove bottom border when drawer is open so bar and drawer merge into one surface */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--expanded {
+  border-bottom-color: transparent;
+}
+
 /* Bar variant background transitions on scroll */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--scrolled {
   background: color-mix(in srgb, var(--surface-page) 90%, transparent);
