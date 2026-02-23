@@ -105,12 +105,15 @@
 @media (max-width: 1024px) {
   .navbar-container__unified-wrapper--fullscreen-open {
     position: fixed !important;
-    top: var(--foundation-space-3);
-    left: var(--foundation-space-3);
-    right: var(--foundation-space-3);
-    bottom: var(--foundation-space-3);
+    /* Align to same horizontal bounds as the pill's normal position */
+    top: var(--space-navbar);
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - var(--foundation-space-8));
+    max-width: var(--width-navbar);
+    /* Leave ~20% breathing room at the bottom */
+    bottom: 20vh;
     margin: 0;
-    max-width: none;
     z-index: 50;
     display: flex;
     flex-direction: column;
