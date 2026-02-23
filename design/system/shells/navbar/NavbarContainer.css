@@ -273,35 +273,17 @@
     display: flex !important;
   }
 
-  /* Center-pill on mobile: go full-width like the bar variant */
+  /* Center-pill on mobile: behave like the pill — keep pill border/radius/surface,
+     show logo left + hamburger right */
   .navbar-container__unified-wrapper--center-pill {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    left: 0;
-    right: 0;
-    border-radius: 0;
-    background: transparent;
-    border: none;
-    border-bottom-color: transparent;
-  }
-
-  /* Only show background + border when the drawer is open */
-  .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--expanded {
     background: var(--surface-nav);
-    border-bottom: 1px solid var(--border-nav);
+    border: 1px solid var(--border-nav);
+    border-radius: var(--radius-navbar-pill);
   }
 
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
-    padding: var(--space-navbar);
     justify-content: space-between;
     gap: var(--foundation-space-4);
-  }
-
-  /* Drawer content inside center-pill: constrain to max-width so links align with the bar */
-  .navbar-container__unified-wrapper--center-pill .navbar-container__drawer-content {
-    max-width: var(--width-navbar);
-    margin: 0 auto;
   }
 
   /* Center-pill mobile desktop area: just show the logo group */
