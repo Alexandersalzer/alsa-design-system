@@ -333,8 +333,10 @@
 
 /* Drawer content wrapper */
 .navbar-container__drawer-content {
-  padding: 0 var(--space-navbar) var(--foundation-space-6);
   width: 100%;
+  max-width: var(--width-navbar);
+  margin: 0 auto;
+  padding: 0 var(--space-navbar) var(--foundation-space-6);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

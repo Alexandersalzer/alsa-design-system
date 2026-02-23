@@ -90,7 +90,7 @@ const Navbar = ({ section }: NavbarProps) => {
           backgroundVariant={patternProps.backgroundVariant}
           showBorder={patternProps.showBorder}
           hideOnScroll={patternProps.hideOnScroll}
-          navbarStyle={patternProps.navbarStyle}
+          navbarStyle={patternProps.navbarStyle ?? (pattern as any).type}
           drawerAnimation={patternProps.drawerAnimation}
           mobileMenu={mobileContent}
         >
