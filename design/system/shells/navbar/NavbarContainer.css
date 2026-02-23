@@ -302,16 +302,31 @@
 }
 
 /* -----------------------------------------------
-   Mobile drawer — fixed overlay, outside the unified-wrapper
-   Both sheet and fullscreen use position:fixed so overflow:hidden
-   on the pill/center-pill wrapper never clips them.
+   Mobile drawer — sheet stays inside the wrapper (max-height animation),
+   fullscreen is position:fixed outside the wrapper.
 ----------------------------------------------- */
-.navbar-container__drawer-section {
+
+/* Sheet: inside the wrapper, animates with max-height */
+.navbar-container__drawer-section--sheet {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 400ms ease-out;
+}
+
+.navbar-container__drawer-section--sheet.navbar-container__drawer-section--open {
+  max-height: 80vh;
+  opacity: 1;
+}
+
+/* Fullscreen: fixed overlay outside the wrapper, fills screen below the bar */
+.navbar-container__drawer-section--fullscreen {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  /* Start exactly at the bottom edge of the wrapper (pill margin + height included) */
   top: calc(var(--navbar-wrapper-height, 80px) + var(--foundation-space-2, 8px));
   display: flex;
   flex-direction: column;
@@ -325,23 +340,10 @@
     transform 300ms ease-out;
 }
 
-.navbar-container__drawer-section--open {
+.navbar-container__drawer-section--fullscreen.navbar-container__drawer-section--open {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
-}
-
-/* Sheet: solid surface background, sits below the navbar bar and expands with content.
-   Does NOT fill the full screen height — bottom is auto so it shrinks to fit content. */
-.navbar-container__drawer-section--sheet {
-  bottom: auto;
-  background: var(--surface-nav);
-  border-bottom: 1px solid var(--border-nav);
-}
-
-/* Fullscreen: solid background, fills entire screen below the bar */
-.navbar-container__drawer-section--fullscreen {
-  background: var(--surface-nav);
 }
 
 /* Drawer content wrapper */

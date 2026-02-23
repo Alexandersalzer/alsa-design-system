@@ -194,22 +194,38 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
             />
           </div>
 
+          {/* Sheet drawer — inside the wrapper, animates via max-height */}
+          {drawerStyle !== 'fullscreen' && (
+            <div className={cn(
+              "navbar-container__drawer-section",
+              "navbar-container__drawer-section--sheet",
+              isMobileMenuOpen && "navbar-container__drawer-section--open"
+            )}>
+              <div className={cn(
+                "navbar-container__drawer-content",
+                `navbar-container__drawer-content--align-${mobileMenuAlign}`
+              )}>
+                {mobileMenu}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Drawer — outside the wrapper for both sheet and fullscreen */}
-        <div className={cn(
-          "navbar-container__drawer-section",
-          drawerStyle === 'fullscreen' && "navbar-container__drawer-section--fullscreen",
-          drawerStyle === 'sheet' && "navbar-container__drawer-section--sheet",
-          isMobileMenuOpen && "navbar-container__drawer-section--open"
-        )}>
+        {/* Fullscreen drawer — outside the wrapper so it can fill the viewport */}
+        {drawerStyle === 'fullscreen' && (
           <div className={cn(
-            "navbar-container__drawer-content",
-            `navbar-container__drawer-content--align-${mobileMenuAlign}`
+            "navbar-container__drawer-section",
+            "navbar-container__drawer-section--fullscreen",
+            isMobileMenuOpen && "navbar-container__drawer-section--open"
           )}>
-            {mobileMenu}
+            <div className={cn(
+              "navbar-container__drawer-content",
+              `navbar-container__drawer-content--align-${mobileMenuAlign}`
+            )}>
+              {mobileMenu}
+            </div>
           </div>
-        </div>
+        )}
       </nav>
     </>
   );
