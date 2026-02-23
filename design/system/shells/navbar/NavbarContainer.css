@@ -16,6 +16,15 @@
   background: transparent;
 }
 
+/* Center-pill: when mobile menu is open, surface the full-width nav element
+   so there are no transparent gaps at the edges */
+@media (max-width: 1024px) {
+  .navbar-container--menu-open[data-navbar-style="center-pill"] {
+    background: var(--surface-nav);
+    border-bottom: 1px solid var(--border-nav);
+  }
+}
+
 /* Hide on scroll behavior (matches NavbarPill) */
 .navbar-container--hide-on-scroll {
   transform: translateY(0);
@@ -290,10 +299,7 @@
     right: 0;
   }
 
-  .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--expanded {
-    background: var(--surface-nav) !important;
-    border-bottom: 1px solid var(--border-nav) !important;
-  }
+  /* Surface is on the nav element itself when expanded — wrapper stays transparent */
 
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
     justify-content: space-between;

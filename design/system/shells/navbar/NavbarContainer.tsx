@@ -154,8 +154,10 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
         className={cn(
           "navbar-container",
           hideOnScroll && "navbar-container--hide-on-scroll",
-          isHidden && "navbar-container--hidden"
+          isHidden && "navbar-container--hidden",
+          isMobileMenuOpen && "navbar-container--menu-open"
         )}
+        data-navbar-style={navbarStyle}
         ref={containerRef}
       >
         <div
