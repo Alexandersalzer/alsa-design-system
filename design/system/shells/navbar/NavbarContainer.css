@@ -401,14 +401,22 @@
    Uses CSS grid 1fr auto 1fr to keep pill truly centered
 ----------------------------------------------- */
 
-/* Center-pill unified wrapper: no outer pill border or radius — the pill is only on the links group */
+/* Center-pill unified wrapper: no outer pill border or radius — the pill is only on the links group.
+   Default: solid surface so mobile bar row has a background.
+   On desktop (1025px+): transparent so it floats over the page. */
 .navbar-container__unified-wrapper--center-pill {
   border: none;
-  background: transparent;
+  background: var(--surface-nav);
   border-radius: 0;
   overflow: visible;
   max-width: var(--width-navbar);
   margin: var(--space-navbar) auto;
+}
+
+@media (min-width: 1025px) {
+  .navbar-container__unified-wrapper--center-pill {
+    background: transparent;
+  }
 }
 
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border {
