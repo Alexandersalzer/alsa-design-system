@@ -338,11 +338,14 @@ export const Section = ({
         renderBackgroundComponent(background, backgroundProps)
       )}
 
-      {/* Media Background Overlay (legacy) - only for non-split */}
-      {backgroundImage && background === 'media' && backgroundOverlay && !backgroundSplit && (
+      {/* Background overlay for image + media - darkens the background */}
+      {backgroundImage && (background === 'media' || background === 'image') && backgroundOverlay && !backgroundSplit && (
         <div
           className={styles.backgroundOverlay}
-          style={{ opacity: backgroundOverlayOpacity }}
+          style={{
+            opacity: backgroundOverlayOpacity,
+            ...(typeof backgroundOverlay === 'string' && { backgroundColor: backgroundOverlay }),
+          }}
         />
       )}
 
