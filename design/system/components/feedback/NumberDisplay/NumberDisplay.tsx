@@ -6,10 +6,10 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Box } from '../../layout/box/Box';
-import { Label } from '../../Typography/Typography';
+import { Label, Display } from '../../Typography/Typography';
 
 export type NumberDisplaySize = 'sm' | 'md' | 'lg' | 'xl';
-export type NumberDisplayVariant = 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'raised';
+export type NumberDisplayVariant = 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'raised' | 'bare';
 export type NumberDisplayShape = 'square' | 'rounded' | 'circle';
 
 export interface NumberDisplayProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -34,6 +34,23 @@ const SIZE_MAP: Record<NumberDisplaySize, {
 
 export const NumberDisplay = forwardRef<HTMLDivElement, NumberDisplayProps>(
   ({ value, size = 'md', variant = 'raised', shape = 'rounded', className, ...props }, ref) => {
+    // bare variant: no box, no border — just a large decorative character
+    if (variant === 'bare') {
+      return (
+        <div
+          ref={ref}
+          className={cn('number-display-bare', className)}
+          role="img"
+          aria-label={String(value)}
+          {...props}
+        >
+          <Display size="lg" weight="bold" className="number-display-bare-value">
+            {value}
+          </Display>
+        </div>
+      );
+    }
+
     const sizeConfig = SIZE_MAP[size];
 
     const classes = cn(
