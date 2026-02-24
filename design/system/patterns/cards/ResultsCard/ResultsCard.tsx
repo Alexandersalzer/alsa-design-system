@@ -16,6 +16,8 @@ interface ResultsCardProps {
   imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   imageAspectRatio?: string;
   imageTint?: 'accent' | 'none';
+  /** Styrka på accent-tint (0–2, default 1.2). Högre = tydligare färg. */
+  imageTintStrength?: number;
   // Card customization
   cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid';
   cardPadding?: 'sm' | 'md' | 'lg';
@@ -36,7 +38,8 @@ export function ResultsCard({
   imageRadius = 'sm',
   imageObjectFit = 'contain',
   imageAspectRatio = '2/3',
-  imageTint = 'accent',
+  imageTint = 'none',
+  imageTintStrength = 1.2,
   cardVariant = 'elevated',
   cardPadding = 'md',
   spacing = 'sm'
@@ -63,6 +66,7 @@ export function ResultsCard({
           objectFit={imageObjectFit}
           radius={imageRadius}
           tint={imageTint}
+          tintStrength={imageTintStrength}
           loading="lazy"
           showSkeleton={true}
           className="results-card-image"

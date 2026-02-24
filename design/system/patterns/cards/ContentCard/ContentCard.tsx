@@ -20,6 +20,8 @@ interface ContentCardProps {
   imageObjectPosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right' | string;
   /** Accent-tint: motiv i accentfärg, dark mode fyller vita delar med surface-page */
   imageTint?: 'accent' | 'none';
+  /** Styrka på accent-tint (0–2, default 1.2). Högre = tydligare färg. */
+  imageTintStrength?: number;
   // Image container padding - creates space between container edge and image
   imagePadding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   // Image overflow behavior - whether overflowing image is visible or clipped
@@ -45,7 +47,8 @@ export function ContentCard({
   imageRadius = 'md',
   imageObjectFit = 'cover',
   imageObjectPosition = 'center',
-  imageTint = 'accent',
+  imageTint = 'none',
+  imageTintStrength = 1.2,
   imagePadding = 'none',
   imageOverflow = 'hidden',
   cardVariant = 'bordered',
@@ -130,6 +133,7 @@ export function ContentCard({
             size={imageObjectFit}
             position={imageObjectPosition}
             tint={imageTint}
+            tintStrength={imageTintStrength}
           />
         </div>
       </Card>
