@@ -16,7 +16,7 @@ import {
   DocumentIcon, DocumentTextIcon, FolderIcon, ClipboardIcon, NewspaperIcon, BookOpenIcon,
   
   // Communication
-  ChatBubbleLeftRightIcon, EnvelopeIcon, PhoneIcon, BellIcon, MegaphoneIcon,
+  ChatBubbleLeftRightIcon, ChatBubbleLeftIcon, EnvelopeIcon, PhoneIcon, BellIcon, MegaphoneIcon,
   
   // Actions
   PencilIcon, PlusIcon, MinusIcon, CheckIcon, TrashIcon, ShareIcon, LinkIcon,
@@ -86,6 +86,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   
   // Communication
   'chat': ChatBubbleLeftRightIcon,
+  'quote': ChatBubbleLeftIcon,
   'envelope': EnvelopeIcon,
   'phone': PhoneIcon,
   'bell': BellIcon,
