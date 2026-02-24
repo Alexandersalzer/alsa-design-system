@@ -76,6 +76,18 @@
   letter-spacing: -0.01em;
 }
 
+/* ===== BARE VARIANT — no box, no border, just a large decorative character ===== */
+.number-display-bare {
+  display: inline-flex;
+  line-height: 1;
+  user-select: none;
+}
+
+.number-display-bare-value {
+  line-height: 1;
+  color: var(--text-accent);
+}
+
 /* Mobile-only step indicator - hides on desktop (md and above) */
 @media (min-width: 768px) {
   .mobile-only-step-indicator {
