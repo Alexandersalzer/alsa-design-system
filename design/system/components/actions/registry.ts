@@ -6,6 +6,7 @@ import { SegmentedControl } from './SegmentedControl/SegmentedControl';
 import { SelectionCard } from './SelectionCard/SelectionCard';
 import { BulkActionBar } from './BulkActionBar/BulkActionBar';
 import { Kbd } from './Kbd/Kbd';
+import { SocialLinkButton } from './SocialLinkButton/SocialLinkButton';
 
 export const actionComponents: Record<string, React.ComponentType<any>> = {
   button: Button,
@@ -16,4 +17,5 @@ export const actionComponents: Record<string, React.ComponentType<any>> = {
   selectionCard: SelectionCard,
   bulkActionBar: BulkActionBar,
   kbd: Kbd,
+  socialLinkButton: SocialLinkButton,
 };
