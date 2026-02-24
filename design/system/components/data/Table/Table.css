@@ -20,7 +20,7 @@
   width: 100%;
   border-collapse: collapse;
   background-color: var(--surface-table);
-  font-family: inherit;
+  font-family: var(--font-body-family);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -38,6 +38,7 @@
 .table-header-cell {
   padding: var(--padding-table-header-md);
   text-align: left;
+  font-family: var(--font-body-family);
   font-weight: 600;
   font-size: 13px;
   color: var(--text-table-header);
