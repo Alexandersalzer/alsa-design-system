@@ -20,6 +20,7 @@
   width: 100%;
   border-collapse: collapse;
   background-color: var(--surface-table);
+  font-family: inherit;
   font-size: 14px;
   line-height: 1.5;
 }
