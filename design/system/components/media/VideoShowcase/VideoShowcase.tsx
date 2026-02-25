@@ -53,6 +53,10 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   overlay?: React.ReactNode;
   /** Country code or emoji for flag badge overlay (e.g., 'de', '🇩🇪', 'germany') */
   flagCountry?: string;
+  /** When set, clicking the video/thumbnail opens this URL (e.g. YouTube) instead of playing inline. Opens in new tab when openInNewTab is true. */
+  href?: string;
+  /** When href is set, open link in new tab. Default true. */
+  openInNewTab?: boolean;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -79,6 +83,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   mobileMaxWidth,
   overlay,
   flagCountry,
+  href,
+  openInNewTab = true,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -200,6 +206,14 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   }, [instanceId]);
 
   const handlePlayClick = () => {
+    if (href) {
+      if (openInNewTab) {
+        window.open(href, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = href;
+      }
+      return;
+    }
     if (videoRef.current) {
       if (videoRef.current.paused) {
         // Dispatch event to pause all other videos
@@ -290,7 +304,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       <div 
         className="video-container__click-overlay"
         onClick={handlePlayClick}
-        aria-label={isPlaying ? "Pause video" : "Play video"}
+        aria-label={href ? "Öppna video" : (isPlaying ? "Pause video" : "Play video")}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
@@ -300,8 +314,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           }
         }}
       />
-      {showPlayButton && !isPlaying && (
-        <button className="play-button" aria-label="Play video" onClick={handlePlayClick}>
+      {showPlayButton && (!isPlaying || href) && (
+        <button className="play-button" aria-label={href ? "Öppna video" : "Play video"} onClick={handlePlayClick}>
           <span className="play-button-icon" />
         </button>
       )}
@@ -459,8 +473,9 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     return wrappedContent;
   };
 
+  const rootStyle = 'style' in props && props.style && typeof props.style === 'object' ? props.style as React.CSSProperties : undefined;
   return (
-    <Component componentKey={componentKey}>
+    <Component componentKey={componentKey} className={className} style={rootStyle}>
       {renderWithAnimation()}
     </Component>
   );
