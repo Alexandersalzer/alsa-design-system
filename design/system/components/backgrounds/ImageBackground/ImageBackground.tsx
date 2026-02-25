@@ -79,6 +79,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
     useAccentMask ? (
       <div
         className={`${styles.imageBackground} ${styles.accentMaskWrapper} ${sizeClass} ${fadeClass}`.trim()}
+        data-background-layer
         style={{
           opacity,
           // @ts-expect-error CSS custom property
@@ -98,6 +99,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
     ) : (
       <div
         className={`${styles.imageBackground} ${fadeClass}`.trim()}
+        data-background-layer
         style={{
           backgroundImage: `url(${src})`,
           backgroundSize: size,
@@ -117,6 +119,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
       <div
         className={styles.overlay}
         style={{ backgroundColor: overlay, opacity: overlayOpacity }}
+        data-background-layer
         aria-hidden="true"
       />
     ) : null;
