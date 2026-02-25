@@ -35,6 +35,7 @@ import { createSegmentedControlSchema } from './actions/SegmentedControl/schema'
 import { createSelectionCardSchema } from './actions/SelectionCard/schema';
 import { createBulkActionBarSchema } from './actions/BulkActionBar/schema';
 import { createKbdSchema } from './actions/Kbd/schema';
+import { createSocialLinkButtonSchema } from './actions/SocialLinkButton/schema';
 
 // Forms
 import { createInputSchema } from './forms/Input/schema';
@@ -94,7 +95,8 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   selectionCard: createSelectionCardSchema,
   bulkActionBar: createBulkActionBarSchema,
   kbd: createKbdSchema,
-  
+  socialLinkButton: createSocialLinkButtonSchema,
+
   // Forms
   input: createInputSchema,
   textarea: createTextareaSchema,

@@ -309,6 +309,11 @@
   flex-grow: 0;
 }
 
+/* Compact pill: override justify-content to use gap spacing instead of space-between */
+.navbar-container__unified-wrapper--compact .navbar-container__desktop > .hStack {
+  justify-content: center;
+}
+
 /* menuAlign controls: applied via data-menu-align on .navbar-container__desktop */
 .navbar-container__desktop[data-menu-align="left"]   > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-start; }
 .navbar-container__desktop[data-menu-align="center"] > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: center; }
@@ -520,12 +525,12 @@
   border: none;
 }
 
-/* Center-pill bar: desktop — constrain width, no extra padding (bar already has var(--space-navbar)) */
+/* Center-pill bar: desktop — constrain width, vertical padding matches pill, no horizontal padding (wrapper margin handles that) */
 @media (min-width: 1025px) {
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
     max-width: var(--width-navbar);
     margin: 0 auto;
-    padding: 0;
+    padding: var(--space-navbar) 0;
   }
 }
 

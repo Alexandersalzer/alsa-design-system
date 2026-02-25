@@ -98,6 +98,8 @@
 /* ===== CARD HEIGHT VARIANTS ===== */
 .card--height-full {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ===== INTERACTIVE CARD STATES ===== */

@@ -64,8 +64,11 @@ export const Button = forwardRef<
   ) => {
     const { buildHref } = useHref();
     const [internalLoading, setInternalLoading] = useState(false);
-    
-    const actionHook = action ? useAction(action) : null;
+
+    // useAction must always be called (Rules of Hooks — no conditional calls).
+    // Pass a dummy no-op config when action is absent so hooks run unconditionally.
+    const _actionHook = useAction(action ?? { type: 'navigation' as const, settings: { href: '' } });
+    const actionHook = action ? _actionHook : null;
     const isDisabled = disabled || loading || internalLoading;
     
     // Success state from action hook - only for form actions (contact, newsletter)
