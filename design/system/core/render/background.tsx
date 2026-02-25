@@ -31,6 +31,7 @@ const propsMappers = {
     aspectRatio: props.backgroundAspectRatio,
     repeat: props.backgroundRepeat || 'repeat',
     opacity: props.backgroundOpacity,
+    filter: props.backgroundFilter,
     overlay: typeof props.backgroundOverlay === 'string' ? props.backgroundOverlay : false,
     overlayOpacity: props.backgroundOverlayOpacity,
     fadeEdge: props.imageFadeEdge,

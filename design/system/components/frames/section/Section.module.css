@@ -120,7 +120,7 @@
 
 .backgroundImage {
   background-color: var(--surface-page);
-  overflow: hidden;
+  overflow: visible; /* visible så att blur() inte klipps av kanten */
 }
 
 .backgroundSolid {
