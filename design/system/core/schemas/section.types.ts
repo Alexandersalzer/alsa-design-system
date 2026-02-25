@@ -109,6 +109,9 @@ export interface SectionLayoutConfig {
   /** Patterns in second column (for split layouts) */
   secondColumn?: string[];
   
+  /** When true, render second column as media column (stretch/flex) regardless of pattern types */
+  secondColumnAsMedia?: boolean;
+  
   /** Column ratio for split layout (e.g., "1:1", "2:1", "1:2") */
   columnRatio?: string;
 }

@@ -57,6 +57,7 @@ export function renderSectionLayout({
     alignSectionHeader = 'center',
     firstColumn = [],
     secondColumn = [],
+    secondColumnAsMedia,
     distanceAction = false,
     gap = 'xl',
     ratio = '1:1',
@@ -164,8 +165,12 @@ export function renderSectionLayout({
   };
 
   // Check if second column contains only media patterns (for stretch behavior)
-  const isSecondColumnMediaOnly = secondColumnPatterns.length > 0 &&
+  const derivedSecondColumnMediaOnly = secondColumnPatterns.length > 0 &&
     secondColumnPatterns.every(key => patterns[key]?.type === 'media');
+  // Explicit prop overrides: när satt styrs mediakolumn-layout utan att bryta befintliga sidor
+  const isSecondColumnMediaOnly = typeof secondColumnAsMedia === 'boolean'
+    ? secondColumnAsMedia
+    : derivedSecondColumnMediaOnly;
 
   // ===== HELPER FUNCTIONS =====
   // Map alignSectionHeader to VStack align prop
