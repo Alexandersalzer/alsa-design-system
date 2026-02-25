@@ -163,9 +163,12 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
 
   // Priority 2: Auto-derive thumbnail from video path
   // Backend stores thumbnails at: user-{id}/thumbnails/{video-name}.jpg
-  if (!derivedPosterUrl) {
+  if (!derivedPosterUrl && videoSrc) {
     derivedPosterUrl = getVideoThumbnailUrl(videoUrl);
   }
+
+  // Poster-only mode: no video src – show only thumbnail (no "video missing")
+  const hasNoVideo = !videoSrc || String(videoSrc).trim() === '';
 
   // Find the video element inside the container and control it
   // Also listen to native play/pause events to keep state in sync
@@ -271,6 +274,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     };
   }, []);
 
+  const aspectRatioCss = aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto';
+
   const videoContent = (
     <div
       ref={containerRef}
@@ -282,24 +287,57 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       )}
       style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
     >
-      <Video
-        src={videoUrl}
-        poster={derivedPosterUrl}
-        width="100%"
-        maxHeight={maxHeight}
-        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
-        objectFit={objectFit}
-        radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
-        loading="eager"
-        priority={true}
-        autoPlay={autoPlay}
-        muted={isMuted}
-        loop={loop}
-        controls={false}
-        playsInline={playsInline}
-        preload="metadata"
-        className={videoClasses}
-      />
+      {hasNoVideo ? (
+        /* Poster-only: no video src – show thumbnail only, no "video missing" */
+        <div
+          className={cn(videoClasses, "video-showcase--poster-only")}
+          style={{
+            width: '100%',
+            aspectRatio: aspectRatioCss,
+            maxHeight: maxHeight ?? undefined,
+            position: 'relative',
+            overflow: 'hidden',
+            borderRadius: 'var(--radius-lg)',
+            background: derivedPosterUrl ? undefined : 'var(--surface-muted)'
+          }}
+        >
+          {derivedPosterUrl ? (
+            <img
+              src={derivedPosterUrl}
+              alt=""
+              className={cn(
+                `video-element--object-fit-${objectFit}`,
+                frame !== 'none' ? '' : (radius === 'full' ? 'video-element--radius-xl' : `video-element--radius-${radius}`)
+              )}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: objectFit,
+                display: 'block'
+              }}
+            />
+          ) : null}
+        </div>
+      ) : (
+        <Video
+          src={videoUrl}
+          poster={derivedPosterUrl}
+          width="100%"
+          maxHeight={maxHeight}
+          aspectRatio={aspectRatioCss}
+          objectFit={objectFit}
+          radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
+          loading="eager"
+          priority={true}
+          autoPlay={autoPlay}
+          muted={isMuted}
+          loop={loop}
+          controls={false}
+          playsInline={playsInline}
+          preload="metadata"
+          className={videoClasses}
+        />
+      )}
       {/* Clickable overlay for play/pause - covers entire video */}
       <div 
         className="video-container__click-overlay"
@@ -314,7 +352,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           }
         }}
       />
-      {showPlayButton && (!isPlaying || href) && (
+      {showPlayButton && (!isPlaying || href || hasNoVideo) && (
         <button className="play-button" aria-label={href ? "Öppna video" : "Play video"} onClick={handlePlayClick}>
           <span className="play-button-icon" />
         </button>
