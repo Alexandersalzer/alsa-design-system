@@ -1129,7 +1129,7 @@ const renderLayoutNodeGeneric = (
             position={layoutProps.backgroundPosition || style.backgroundPosition || 'center'}
             tint={tint}
           />
-          {renderedChildren}
+          <div style={{ position: 'relative', zIndex: 1 }}>{renderedChildren}</div>
         </LayoutComponent>
       );
     }
