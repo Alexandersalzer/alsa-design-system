@@ -280,13 +280,24 @@ html.dark .image-accent-mask-dark {
 }
 
 .logo-image--dark {
-  /* Dark logo: designed for dark backgrounds, inverts in light mode */
+  /* Dark logo: designed for dark backgrounds. Light mode: theme ton (--text-heading), dark mode: vit */
+  background-color: var(--text-heading);
+}
+
+.logo-image--dark .image {
   filter: invert(1);
+  mix-blend-mode: screen;
 }
 
 [data-theme="dark"] .logo-image--dark,
 .dark .logo-image--dark {
+  background-color: transparent;
+}
+
+[data-theme="dark"] .logo-image--dark .image,
+.dark .logo-image--dark .image {
   filter: invert(0);
+  mix-blend-mode: normal;
 }
 
 .logo-image--color {
