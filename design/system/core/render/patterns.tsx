@@ -79,6 +79,8 @@ export interface LayoutContext {
   sectionAnimation?: AnimationConfig;
   /** Locale for language-specific defaults */
   locale?: string;
+  /** Whether to show the tag in the section header (default false) */
+  showTag?: boolean;
 }
 
 /**

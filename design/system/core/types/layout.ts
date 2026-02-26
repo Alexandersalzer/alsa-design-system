@@ -142,4 +142,11 @@ export interface LayoutConfig {
    * Gäller bara när wrapInCard är true. Andra sections använder sectionHeaderVerticalAlign + verticalAlign.
    */
   cardColumnVerticalAlign?: 'start' | 'center' | 'end';
+
+  /**
+   * Whether to show the tag component in SectionHeader patterns.
+   * When true, the tag is rendered above the heading if tag component has content.
+   * Default: false
+   */
+  showTag?: boolean;
 }

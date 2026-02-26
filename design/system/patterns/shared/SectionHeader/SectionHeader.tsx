@@ -171,8 +171,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
           }
         `}</style>
       )}
-      {/* Tag - optional (hidden when props.isHidden is true or "true") */}
-      {renderIf('tag') && get('tag').props.content && get('tag').props.isHidden !== true && get('tag').props.isHidden !== 'true' && withAnimation(
+      {/* Tag - shown when layoutContext.showTag is true and tag component has content */}
+      {layoutContext?.showTag && renderIf('tag') && get('tag').props.content && withAnimation(
         <Box>
           <Tag
             size="medium"
