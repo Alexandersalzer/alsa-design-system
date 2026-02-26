@@ -97,10 +97,16 @@
   }
 }
 
+/* Använd longhands för animation så att animation-play-state inte återställs.
+   Shorthand "animation" sätter play-state till initial (running) och överskriver .Carousel-animation-track--paused. */
 .Carousel-animation-track {
   display: flex;
   align-items: stretch;
-  animation: CarouselScroll var(--animation-duration, 30s) linear infinite var(--animation-direction, normal);
+  animation-name: CarouselScroll;
+  animation-duration: var(--animation-duration, 30s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: var(--animation-direction, normal);
   width: fit-content;
 
   /* ===== GPU ACCELERATION & SMOOTH RENDERING ===== */
