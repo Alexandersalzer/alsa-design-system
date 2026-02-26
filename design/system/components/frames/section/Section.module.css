@@ -197,12 +197,6 @@
   }
 }
 
-/* ===== IMAGE BACKGROUND LIGHT MODE OPACITY ===== */
-/* När --section-bg-image-light-opacity sätts (Section eller card i section-layout) blir bilden ljusare i light mode. */
-html:not([data-theme="dark"]) [style*="--section-bg-image-light-opacity"] [data-background-layer]:first-of-type {
-  opacity: var(--section-bg-image-light-opacity);
-}
-
 /* ===== UNIVERSAL RESET ===== */
 .section * {
   box-sizing: border-box;
