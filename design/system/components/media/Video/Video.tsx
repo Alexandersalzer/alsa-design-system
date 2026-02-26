@@ -62,6 +62,8 @@ export const Video: React.FC<VideoProps> = ({
   playsInline = true,
   preload = 'metadata',
   poster,
+  onPlay,
+  onPause,
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -183,6 +185,8 @@ export const Video: React.FC<VideoProps> = ({
           onError={handleVideoError}
           onLoadedData={handleLoadedData}
           onLoadStart={handleLoadStart}
+          onPlay={onPlay}
+          onPause={onPause}
           controls={controls}
           playsInline={playsInline}
           preload={preload}
