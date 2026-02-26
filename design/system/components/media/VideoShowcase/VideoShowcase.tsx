@@ -153,16 +153,17 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       originalSrc: props.src,
       videoSrc,
       videoUrl,
-      CDN_BASE_URL
+      CDN_BASE_URL,
+      youtubeUrl
     });
   }
 
   // Priority 1: Use hardcoded poster if provided
   let derivedPosterUrl = poster ? (poster.startsWith('http') ? poster : `${CDN_BASE_URL}${poster}`) : undefined;
 
-  // Priority 2: Auto-derive thumbnail from video path
+  // Priority 2: Auto-derive thumbnail from video path (only if not using YouTube)
   // Backend stores thumbnails at: user-{id}/thumbnails/{video-name}.jpg
-  if (!derivedPosterUrl) {
+  if (!derivedPosterUrl && !youtubeUrl) {
     derivedPosterUrl = getVideoThumbnailUrl(videoUrl);
   }
 
@@ -366,24 +367,43 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       )}
       style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
     >
-      <Video
-        src={videoUrl}
-        poster={derivedPosterUrl}
-        width="100%"
-        maxHeight={maxHeight}
-        aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
-        objectFit={objectFit}
-        radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
-        loading="eager"
-        priority={true}
-        autoPlay={autoPlay}
-        muted={isMuted}
-        loop={loop}
-        controls={false}
-        playsInline={playsInline}
-        preload="metadata"
-        className={videoClasses}
-      />
+      {youtubeUrl ? (
+        // When YouTube URL is provided, only show thumbnail image
+        <div style={getAspectRatioStyle()}>
+          <img
+            src={derivedPosterUrl}
+            alt="Video thumbnail"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: objectFit,
+              borderRadius: frame !== 'none' ? '0' : radius === 'full' ? 'var(--radius-xl)' : `var(--radius-${radius})`,
+            }}
+          />
+        </div>
+      ) : (
+        <Video
+          src={videoUrl}
+          poster={derivedPosterUrl}
+          width="100%"
+          maxHeight={maxHeight}
+          aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
+          objectFit={objectFit}
+          radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
+          loading="eager"
+          priority={true}
+          autoPlay={autoPlay}
+          muted={isMuted}
+          loop={loop}
+          controls={false}
+          playsInline={playsInline}
+          preload="metadata"
+          className={videoClasses}
+        />
+      )}
       {/* Clickable overlay for play/pause - covers entire video */}
       <div 
         className="video-container__click-overlay"
