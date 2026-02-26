@@ -269,30 +269,37 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     };
   }, []);
 
-  // Convert aspectRatio to size for IframeEmbed
-  const getIframeSize = (): 'video' | 'calendar' | 'md' => {
-    if (aspectRatio === '16-9' || aspectRatio === '4-3') return 'video';
-    return 'md';
-  };
-
-  // Map aspectRatio to height for YouTube embed
-  const getYouTubeHeight = (): string => {
-    switch (aspectRatio) {
-      case '16-9': return '56.25%'; // padding-bottom trick for 16:9
-      case '9-16': return '177.78%'; // 9:16 aspect ratio
-      case '4-3': return '75%';
-      case '4-5': return '125%';
-      case '1-1': return '100%';
-      case '2-3': return '150%';
-      default: return '600px';
-    }
-  };
-
   // Map radius to IframeEmbed compatible radius
   const getIframeRadius = (): 'none' | 'sm' | 'md' | 'lg' => {
     if (frame !== 'none') return 'none';
     if (radius === 'xl' || radius === 'full') return 'lg';
     return radius as 'none' | 'sm' | 'md' | 'lg';
+  };
+
+  // Get aspect ratio for iframe container
+  const getAspectRatioStyle = (): React.CSSProperties => {
+    const ratioMap: Record<string, string> = {
+      '16-9': '56.25%',
+      '9-16': '177.78%',
+      '4-3': '75%',
+      '4-5': '125%',
+      '1-1': '100%',
+      '2-3': '150%',
+    };
+    
+    const paddingBottom = ratioMap[aspectRatio] || 'auto';
+    
+    if (paddingBottom === 'auto') {
+      return { height: maxHeight || '600px' };
+    }
+    
+    return {
+      position: 'relative',
+      width: '100%',
+      paddingBottom,
+      height: 0,
+      overflow: 'hidden',
+    };
   };
 
   const videoContent = showYouTube && youtubeUrl ? (
@@ -305,16 +312,26 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       )}
       style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
     >
-      <IframeEmbed
-        src={youtubeUrl}
-        size={getIframeSize()}
-        height={getYouTubeHeight()}
-        radius={getIframeRadius()}
-        border={false}
-        title="Video showcase"
-        allowFullscreen={true}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      />
+      <div style={getAspectRatioStyle()}>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+        }}>
+          <IframeEmbed
+            src={youtubeUrl}
+            width="100%"
+            height="100%"
+            radius={getIframeRadius()}
+            border={false}
+            title="Video showcase"
+            allowFullscreen={true}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          />
+        </div>
+      </div>
       {(overlay || flagCountry) && (
         <div
           className="video-container__overlay"
