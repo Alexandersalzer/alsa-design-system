@@ -50,9 +50,15 @@ export const FadeIn: React.FC<FadeInProps> = ({
     return <>{children}</>;
   }
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(!enableScrollTrigger); // Start visible if no scroll trigger
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
+
+  // Track if component is mounted (client-side only)
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!enableScrollTrigger) {
@@ -116,19 +122,26 @@ export const FadeIn: React.FC<FadeInProps> = ({
     }
   };
 
-  const style: React.CSSProperties = {
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? 'translate(0, 0)' : getTransform(),
-    transition: `opacity ${duration}ms ${easing} ${delay}ms, transform ${duration}ms ${easing} ${delay}ms`,
-    // Ensure hidden state is applied immediately on first render to prevent flash
-    willChange: 'opacity, transform',
-  };
+  // Only apply animation styles when mounted on client
+  const style: React.CSSProperties = isMounted
+    ? {
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translate(0, 0)' : getTransform(),
+        transition: `opacity ${duration}ms ${easing} ${delay}ms, transform ${duration}ms ${easing} ${delay}ms`,
+        willChange: 'opacity, transform',
+      }
+    : {
+        // Server-side: render visible without animation
+        opacity: 1,
+        transform: 'translate(0, 0)',
+      };
 
   return (
     <div
       ref={elementRef}
-      className={`fade-in ${!isVisible ? 'fade-in-hidden' : ''} ${className}`}
+      className={`fade-in ${!isVisible && isMounted ? 'fade-in-hidden' : ''} ${className}`}
       style={style}
+      suppressHydrationWarning
     >
       {children}
     </div>
