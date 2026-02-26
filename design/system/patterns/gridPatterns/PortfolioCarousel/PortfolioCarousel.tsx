@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { CarouselAnimation } from '../../../components/animations/CarouselAnimation/CarouselAnimation';
 import { PatternNode } from '../../../core/types/nodes';
@@ -87,13 +87,16 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
     );
   }
 
+  const [carouselPaused, setCarouselPaused] = useState(false);
+  const handleVideoPlay = useCallback(() => setCarouselPaused(true), []);
+  const handleVideoPause = useCallback(() => setCarouselPaused(false), []);
+
   const carouselItems = allItems.map((item) => ({
     id: item.key,
     componentKey: item.componentKey,
     content: (
-      <div className="portfolio-carousel__card-wrapper">
+      <div key={item.key} className="portfolio-carousel__card-wrapper">
         <PortfolioCard
-          key={item.key}
           componentKey={item.componentKey}
           title={item.title}
           mediaSrc={item.mediaSrc}
@@ -105,6 +108,9 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
           category={item.category}
           countryCode={item.countryCode}
           showFlags={showFlags}
+          previewOnly={true}
+          onVideoPlay={handleVideoPlay}
+          onVideoPause={handleVideoPause}
         />
       </div>
     ),
@@ -126,6 +132,7 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
       backgroundColor={backgroundColor}
       padding="0"
       className="portfolio-carousel"
+      paused={carouselPaused}
     />
   );
 };

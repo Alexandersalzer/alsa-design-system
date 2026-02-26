@@ -101,6 +101,12 @@ export interface PortfolioCardProps {
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   /** Accent-tint på bild (default none; sätt till "accent" om du vill). */
   imageTint?: 'accent' | 'none';
+  /** Visa bara media (ingen titel/kategori/beskrivning) – t.ex. för karusell-preview. */
+  previewOnly?: boolean;
+  /** Callback när video börjar spela (t.ex. för att pausa karusell). */
+  onVideoPlay?: () => void;
+  /** Callback när video pausas. */
+  onVideoPause?: () => void;
 }
 
 // ===== MAIN PORTFOLIO CARD COMPONENT =====
@@ -142,7 +148,10 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   
   // Layout defaults
   spacing = 'sm',
-  imageTint = 'none'
+  imageTint = 'none',
+  previewOnly = false,
+  onVideoPlay,
+  onVideoPause,
 }) => {
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';
@@ -150,16 +159,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   // Get the flag component dynamically
   const FlagComponent = countryCode ? FLAG_COMPONENTS[countryCode.toLowerCase()] : null;
 
-  return (
-    <Card
-      className={`portfolio-card ${className || ''}`}
-      variant={variant}
-      padding="sm"
-      radius={radius}
-      data-component-key={componentKey}
-    >
-      <VStack spacing={spacing}>
-        <div className="portfolio-media-container">
+  const mediaContent = (
+    <div className="portfolio-media-container">
           {showFlags && countryCode && FlagComponent && (
             <div className="portfolio-flag">
               <FlagComponent />
@@ -167,20 +168,19 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
           )}
 
           {isVideo && (
-            <>
-              {posterSrc && console.log('[PortfolioCard] Video:', title, 'Poster:', posterSrc)}
-              <Video
-                src={mediaSrc}
-                poster={posterSrc}
-                aspectRatio="2/3"
-                radius="sm"
-                loading="lazy"
-                rootMargin="800px"
-                controlsList="nodownload"
-                disablePictureInPicture
-                className="portfolio-video"
-              />
-            </>
+            <Video
+              src={mediaSrc}
+              poster={posterSrc}
+              aspectRatio="2/3"
+              radius="sm"
+              loading="lazy"
+              rootMargin="800px"
+              controlsList="nodownload"
+              disablePictureInPicture
+              className="portfolio-video"
+              onPlay={onVideoPlay}
+              onPause={onVideoPause}
+            />
           )}
           
           {isImage && (
@@ -198,8 +198,27 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               className="portfolio-image"
             />
           )}
-        </div>
-        
+    </div>
+  );
+
+  if (previewOnly) {
+    return (
+      <div className={`portfolio-card portfolio-card--preview-only ${className || ''}`} data-component-key={componentKey}>
+        {mediaContent}
+      </div>
+    );
+  }
+
+  return (
+    <Card
+      className={`portfolio-card ${className || ''}`}
+      variant={variant}
+      padding="sm"
+      radius={radius}
+      data-component-key={componentKey}
+    >
+      <VStack spacing={spacing}>
+        {mediaContent}
         <div className="portfolio-content">
           <VStack spacing="sm">
             {category && (
@@ -212,7 +231,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 {Array.isArray(category) ? category[0] : category}
               </Typography>
             )}
-            
             <Typography
               variant={titleVariant}
               weight={titleWeight}
@@ -221,7 +239,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             >
               {title}
             </Typography>
-            
             {description && (
               <Typography
                 variant={descriptionVariant}
@@ -232,7 +249,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 {description}
               </Typography>
             )}
-            
             {views && (
               <HStack spacing="xs" align="center">
                 <div className="eye-icon">
