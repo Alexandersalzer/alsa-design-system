@@ -369,18 +369,24 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     >
       {youtubeUrl ? (
         // When YouTube URL is provided, only show thumbnail image
-        <div style={getAspectRatioStyle()}>
+        <div
+          style={{
+            width: '100%',
+            aspectRatio: aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto',
+            maxHeight: maxHeight,
+            position: 'relative',
+            overflow: 'hidden',
+            borderRadius: frame !== 'none' ? '0' : radius === 'full' ? 'var(--radius-xl)' : `var(--radius-${radius})`,
+          }}
+        >
           <img
             src={derivedPosterUrl}
             alt="Video thumbnail"
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
               width: '100%',
               height: '100%',
               objectFit: objectFit,
-              borderRadius: frame !== 'none' ? '0' : radius === 'full' ? 'var(--radius-xl)' : `var(--radius-${radius})`,
+              display: 'block',
             }}
           />
         </div>
