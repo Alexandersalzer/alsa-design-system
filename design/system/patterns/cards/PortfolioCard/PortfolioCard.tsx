@@ -180,10 +180,10 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               aspectRatio="2/3"
               objectFit="cover"
               radius="sm"
-              loading="lazy"
+              loading={previewOnly ? 'eager' : 'lazy'}
               rootMargin="800px"
               showSkeleton={true}
-              priority={false}
+              priority={previewOnly}
               className="portfolio-image"
             />
           ) : isVideo && previewOnly ? (
@@ -225,10 +225,10 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               objectFit="cover"
               radius="sm"
               tint={imageTint}
-              loading="lazy"
+              loading={previewOnly ? 'eager' : 'lazy'}
               rootMargin="800px"
               showSkeleton={true}
-              priority={false}
+              priority={previewOnly}
               className="portfolio-image"
             />
           )}

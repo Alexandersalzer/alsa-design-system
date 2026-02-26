@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useMemo, useState, useCallback } from 'react';
-import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { CarouselAnimation } from '../../../components/animations/CarouselAnimation/CarouselAnimation';
+import { Image } from '../../../components/media/Image';
+import { VideoShowcase } from '../../../components/media/VideoShowcase';
 import { PatternNode } from '../../../core/types/nodes';
 import { patternProps, getPatternOrder } from '../../../core/utils/props';
 import { getVideoThumbnailUrl } from '../../../core/utils/media';
@@ -101,31 +102,61 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
   const onVideoPause = useCallback(() => setCarouselPaused(false), []);
   const showVideoAsThumbnailOnly = mediaDisplay === 'thumbnailsOnly';
 
-  const carouselItems = allItems.map((item) => ({
-    id: item.key,
-    componentKey: item.componentKey,
-    content: (
-      <div key={item.key} className="portfolio-carousel__card-wrapper">
-        <PortfolioCard
-          componentKey={item.componentKey}
-          title={item.title}
-          mediaSrc={item.mediaSrc}
-          mediaAlt={item.mediaAlt}
-          mediaType={item.mediaType}
-          posterSrc={item.posterSrc}
-          description={item.description}
-          views={item.views}
-          category={item.category}
-          countryCode={item.countryCode}
-          showFlags={showFlags}
-          previewOnly={true}
-          onVideoPlay={onVideoPlay}
-          onVideoPause={onVideoPause}
-          showVideoAsThumbnailOnly={showVideoAsThumbnailOnly}
-        />
-      </div>
-    ),
-  }));
+  const carouselItems = allItems.map((item) => {
+    const isVideo = item.mediaType === 'video';
+    const showAsThumbnailOnly = isVideo && showVideoAsThumbnailOnly;
+
+    const mediaContent = showAsThumbnailOnly ? (
+      <Image
+        src={item.posterSrc || item.mediaSrc}
+        alt={item.mediaAlt}
+        aspectRatio="2/3"
+        objectFit="cover"
+        radius="sm"
+        loading="eager"
+        priority={true}
+        className="portfolio-carousel-media portfolio-carousel-media--image"
+      />
+    ) : isVideo ? (
+      <VideoShowcase
+        src={item.mediaSrc}
+        poster={item.posterSrc}
+        aspectRatio="2-3"
+        variant="rounded"
+        size="md"
+        radius="md"
+        showPlayButton={true}
+        controls={false}
+        frame="none"
+        className="portfolio-carousel-media portfolio-carousel-media--video"
+        onPlay={onVideoPlay}
+        onPause={onVideoPause}
+      />
+    ) : (
+      <Image
+        src={item.mediaSrc}
+        alt={item.mediaAlt}
+        aspectRatio="2/3"
+        objectFit="cover"
+        radius="sm"
+        loading="eager"
+        priority={true}
+        className="portfolio-carousel-media portfolio-carousel-media--image"
+      />
+    );
+
+    return {
+      id: item.key,
+      componentKey: item.componentKey,
+      content: (
+        <div key={item.key} className="portfolio-carousel__card-wrapper">
+          <div className="portfolio-carousel__media-wrap">
+            {mediaContent}
+          </div>
+        </div>
+      ),
+    };
+  });
 
   return (
     <div className="portfolio-carousel-wrapper">
