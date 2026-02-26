@@ -302,7 +302,14 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     };
   };
 
-  const videoContent = showYouTube && youtubeUrl ? (
+  // Add autoplay parameter to YouTube URL when showing
+  const youtubeEmbedUrl = youtubeUrl && showYouTube
+    ? youtubeUrl.includes('?')
+      ? `${youtubeUrl}&autoplay=1`
+      : `${youtubeUrl}?autoplay=1`
+    : youtubeUrl;
+
+  const videoContent = showYouTube && youtubeEmbedUrl ? (
     <div
       ref={containerRef}
       className={cn(
@@ -321,7 +328,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           height: '100%',
         }}>
           <IframeEmbed
-            src={youtubeUrl}
+            src={youtubeEmbedUrl}
             width="100%"
             height="100%"
             radius={getIframeRadius()}
