@@ -57,6 +57,7 @@ export function renderSectionLayout({
     alignSectionHeader = 'center',
     firstColumn = [],
     secondColumn = [],
+    secondColumnAsMedia,
     distanceAction = false,
     gap = 'xl',
     ratio = '1:1',
@@ -164,8 +165,12 @@ export function renderSectionLayout({
   };
 
   // Check if second column contains only media patterns (for stretch behavior)
-  const isSecondColumnMediaOnly = secondColumnPatterns.length > 0 &&
+  const derivedSecondColumnMediaOnly = secondColumnPatterns.length > 0 &&
     secondColumnPatterns.every(key => patterns[key]?.type === 'media');
+  // Explicit prop overrides: när satt styrs mediakolumn-layout utan att bryta befintliga sidor
+  const isSecondColumnMediaOnly = typeof secondColumnAsMedia === 'boolean'
+    ? secondColumnAsMedia
+    : derivedSecondColumnMediaOnly;
 
   // ===== HELPER FUNCTIONS =====
   // Map alignSectionHeader to VStack align prop
@@ -364,6 +369,9 @@ export function renderSectionLayout({
 
         #${layoutId} .mobile-stack {
           display: none;
+          flex-direction: column;
+          width: 100%;
+          min-width: 0;
         }
 
         #${layoutId} .desktop-only {
@@ -376,6 +384,9 @@ export function renderSectionLayout({
           }
           #${layoutId} .mobile-stack {
             display: flex !important;
+            flex-direction: column;
+            width: 100%;
+            min-width: 0;
           }
           #${layoutId} .desktop-only {
             display: none !important;
@@ -515,12 +526,14 @@ export function renderSectionLayout({
           </VStack>
         </Box>
 
-        {/* Below Split: All remaining patterns with their own containers - Only on desktop */}
+        {/* Below Split: remaining patterns (t.ex. portfolio-karusell) med Container så karusellen får bredd */}
         {remainingPatterns.length > 0 && (
-          <Box className="desktop-only">
-            <VStack spacing="none" align="center">
-              {renderPatterns(remainingPatterns)}
-            </VStack>
+          <Box className="desktop-only" style={{ width: '100%' }}>
+            <Container height="auto">
+              <VStack spacing="none" align="stretch">
+                {renderPatterns(remainingPatterns)}
+              </VStack>
+            </Container>
           </Box>
         )}
         
@@ -551,11 +564,13 @@ export function renderSectionLayout({
                   : undefined;
 
           if (hasCardBackground) {
+            const cardBgLightOpacity = cardBackgroundSettings?.backgroundImageLightModeOpacity;
             return (
               <Card
                 variant="ghost"
                 padding="none"
                 radius={cardRadius}
+                data-card-has-image-bg="true"
                 style={{
                   width: '100%',
                   boxSizing: 'border-box',
@@ -565,7 +580,16 @@ export function renderSectionLayout({
                   ...(cardBorderCss && { border: cardBorderCss }),
                 }}
               >
-                <Box style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+                <Box
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    overflow: 'hidden',
+                    ...(cardBgLightOpacity != null && {
+                      ['--section-bg-image-light-opacity' as string]: String(cardBgLightOpacity),
+                    }),
+                  }}
+                >
                   {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
                 </Box>
                 <Box

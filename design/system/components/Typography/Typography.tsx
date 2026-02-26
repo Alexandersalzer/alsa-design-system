@@ -461,7 +461,7 @@ export interface LabelProps extends Omit<TypographyProps, 'variant'> {
 }
 
 export const Label = forwardRef<HTMLSpanElement, LabelProps>(
-  ({ size = 'md', color = 'label', ...props }, ref) => (
+  ({ size = 'md', color = 'secondary', ...props }, ref) => (
     <Typography
       ref={ref}
       variant={`label-${size}` as TypographyVariant}

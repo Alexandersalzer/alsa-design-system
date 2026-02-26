@@ -55,6 +55,31 @@
   --foundation-gray-1400: #0a0c10;  /* L=5.0% */
 }
 
+/* ========== NAVY (DEEP BLUE / SLATE) ========== */
+:root[data-theme-tone="navy"] {
+  --foundation-white: #f4f6f9;
+  --foundation-black: #0f172a;
+
+  /* SYMMETRIC SCALE – mörkblå/slate, sidbakgrund i dark = #0f172a */
+  /* HSL: H=222°, S=28%, L: 97% → 12% (dark end = slate-900) */
+  /* Character: Deep blue, stabil, passar employer branding / Luceria */
+  --foundation-gray-0:    #f4f6f9;  /* L=97.0% */
+  --foundation-gray-100:  #e8ecf1;  /* L=93.0% */
+  --foundation-gray-200:  #d8dfe8;  /* L=88.0% */
+  --foundation-gray-300:  #c5cfdc;  /* L=82.0% */
+  --foundation-gray-400:  #b0becf;  /* L=75.0% */
+  --foundation-gray-500:  #9aacc1;  /* L=67.0% */
+  --foundation-gray-600:  #8399b3;  /* L=58.0% */
+  --foundation-gray-700:  #738aa6;  /* L=54.0% */
+  --foundation-gray-800:  #5c6f85;  /* L=44.0% */
+  --foundation-gray-900:  #475569;  /* L=35.0% */
+  --foundation-gray-1000: #334155;  /* L=27.0% */
+  --foundation-gray-1100: #1e293b;  /* L=20.0% */
+  --foundation-gray-1200: #172033;  /* L=14.0% */
+  --foundation-gray-1300: #131922;  /* L=10.0% */
+  --foundation-gray-1400: #0f172a;  /* L=12% – slate-900, sidbakgrund dark */
+}
+
 /* ========== FROST (CYAN-TINTED GRAY) ========== */
 :root[data-theme-tone="frost"] {
   --foundation-white: #f6f8f9;

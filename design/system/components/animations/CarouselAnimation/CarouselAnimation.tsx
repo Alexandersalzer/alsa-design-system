@@ -32,6 +32,8 @@ export interface CarouselAnimationProps {
   fadeWidth?: string;
   duplicateCount?: number;
   enableHover?: boolean;
+  /** När true pausas karusell-animationen (t.ex. vid video play). */
+  paused?: boolean;
 }
 
 export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
@@ -51,7 +53,8 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
   enableFadeEdges = true,
   fadeWidth = '200px',
   duplicateCount = 6,
-  enableHover = false
+  enableHover = false,
+  paused = false,
 }) => {
   const animationRef = useRef<HTMLDivElement>(null);
 
@@ -158,7 +161,7 @@ export const CarouselAnimation: React.FC<CarouselAnimationProps> = ({
     >
       <div 
         ref={animationRef} 
-        className="Carousel-animation-track"
+        className={`Carousel-animation-track${paused ? ' Carousel-animation-track--paused' : ''}`}
         style={trackStyle}
       >
         {duplicatedItems.map((item, index) => (

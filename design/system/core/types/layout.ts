@@ -31,6 +31,16 @@ export interface LayoutConfig {
   secondColumn?: string[];
 
   /**
+   * When true, second column is always rendered as "media column" (stretch, flex, min-height: 0)
+   * – samma layout som när alla secondColumn-patterns har type "media".
+   * Använd när secondColumn innehåller video/bild (t.ex. hero videoShowcase i items-pattern)
+   * så att media får konsekvent utseende oavsett pattern-typ.
+   * When false, second column uses normal VStack layout.
+   * When undefined, beteendet härleds från pattern-typer (backward compatible).
+   */
+  secondColumnAsMedia?: boolean;
+
+  /**
    * When true, ButtonGroup is placed at the bottom of the entire section
    * When false, ButtonGroup stays with SectionHeader in the same VStack (default)
    */

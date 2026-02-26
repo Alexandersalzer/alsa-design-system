@@ -9,6 +9,7 @@ import { Typography, TypographyColor } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Video } from '../../../components/media/Video';
+import { VideoShowcase } from '../../../components/media/VideoShowcase';
 import { Image } from '../../../components/media/Image';
 import {
   GB, SE, DE, DK, US, NO, FI, FR, ES, IT, NL, BE, AT, CH, PL,
@@ -99,8 +100,16 @@ export interface PortfolioCardProps {
   
   // Layout spacing
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  /** Accent-tint på bild (default accent). */
+  /** Accent-tint på bild (default none; sätt till "accent" om du vill). */
   imageTint?: 'accent' | 'none';
+  /** Visa bara media (ingen titel/kategori/beskrivning) – t.ex. för karusell-preview. */
+  previewOnly?: boolean;
+  /** Callback när video börjar spela (t.ex. för att pausa karusell). */
+  onVideoPlay?: () => void;
+  /** Callback när video pausas. */
+  onVideoPause?: () => void;
+  /** När true: visa video som enbart thumbnail (ingen play-knapp). Används t.ex. när karusellen sätts till "thumbnailsOnly". */
+  showVideoAsThumbnailOnly?: boolean;
 }
 
 // ===== MAIN PORTFOLIO CARD COMPONENT =====
@@ -142,13 +151,97 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   
   // Layout defaults
   spacing = 'sm',
-  imageTint = 'accent'
+  imageTint = 'none',
+  previewOnly = false,
+  onVideoPlay,
+  onVideoPause,
+  showVideoAsThumbnailOnly = false,
 }) => {
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';
+  /** Videor som ska visas som enbart thumbnail (bild) – använd poster eller thumbnail-URL */
+  const showVideoAsImage = isVideo && showVideoAsThumbnailOnly;
 
   // Get the flag component dynamically
   const FlagComponent = countryCode ? FLAG_COMPONENTS[countryCode.toLowerCase()] : null;
+
+  const mediaContent = (
+    <div className="portfolio-media-container">
+          {showFlags && countryCode && FlagComponent && (
+            <div className="portfolio-flag">
+              <FlagComponent />
+            </div>
+          )}
+
+          {showVideoAsImage ? (
+            <Image
+              src={posterSrc || mediaSrc}
+              alt={mediaAlt || title}
+              aspectRatio="2/3"
+              objectFit="cover"
+              radius="sm"
+              loading={previewOnly ? 'eager' : 'lazy'}
+              rootMargin="800px"
+              showSkeleton={true}
+              priority={previewOnly}
+              className="portfolio-image"
+            />
+          ) : isVideo && previewOnly ? (
+            <VideoShowcase
+              src={mediaSrc}
+              poster={posterSrc}
+              aspectRatio="2-3"
+              variant="rounded"
+              size="md"
+              radius="md"
+              showPlayButton={true}
+              controls={false}
+              frame="none"
+              className="portfolio-video portfolio-video--showcase"
+              onPlay={onVideoPlay}
+              onPause={onVideoPause}
+            />
+          ) : isVideo ? (
+            <Video
+              src={mediaSrc}
+              poster={posterSrc}
+              aspectRatio="2/3"
+              radius="sm"
+              loading="lazy"
+              rootMargin="800px"
+              controlsList="nodownload"
+              disablePictureInPicture
+              className="portfolio-video"
+              onPlay={onVideoPlay}
+              onPause={onVideoPause}
+            />
+          ) : null}
+          
+          {isImage && (
+            <Image
+              src={mediaSrc}
+              alt={mediaAlt || title}
+              aspectRatio="2/3"
+              objectFit="cover"
+              radius="sm"
+              tint={imageTint}
+              loading={previewOnly ? 'eager' : 'lazy'}
+              rootMargin="800px"
+              showSkeleton={true}
+              priority={previewOnly}
+              className="portfolio-image"
+            />
+          )}
+    </div>
+  );
+
+  if (previewOnly) {
+    return (
+      <div className={`portfolio-card portfolio-card--preview-only ${className || ''}`} data-component-key={componentKey}>
+        {mediaContent}
+      </div>
+    );
+  }
 
   return (
     <Card
@@ -159,47 +252,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
       data-component-key={componentKey}
     >
       <VStack spacing={spacing}>
-        <div className="portfolio-media-container">
-          {showFlags && countryCode && FlagComponent && (
-            <div className="portfolio-flag">
-              <FlagComponent />
-            </div>
-          )}
-
-          {isVideo && (
-            <>
-              {posterSrc && console.log('[PortfolioCard] Video:', title, 'Poster:', posterSrc)}
-              <Video
-                src={mediaSrc}
-                poster={posterSrc}
-                aspectRatio="2/3"
-                radius="sm"
-                loading="lazy"
-                rootMargin="800px"
-                controlsList="nodownload"
-                disablePictureInPicture
-                className="portfolio-video"
-              />
-            </>
-          )}
-          
-          {isImage && (
-            <Image
-              src={mediaSrc}
-              alt={mediaAlt || title}
-              aspectRatio="2/3"
-              objectFit="cover"
-              radius="sm"
-              tint={imageTint}
-              loading="lazy"
-              rootMargin="800px"
-              showSkeleton={true}
-              priority={false}
-              className="portfolio-image"
-            />
-          )}
-        </div>
-        
+        {mediaContent}
         <div className="portfolio-content">
           <VStack spacing="sm">
             {category && (
@@ -212,7 +265,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 {Array.isArray(category) ? category[0] : category}
               </Typography>
             )}
-            
             <Typography
               variant={titleVariant}
               weight={titleWeight}
@@ -221,7 +273,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             >
               {title}
             </Typography>
-            
             {description && (
               <Typography
                 variant={descriptionVariant}
@@ -232,7 +283,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 {description}
               </Typography>
             )}
-            
             {views && (
               <HStack spacing="xs" align="center">
                 <div className="eye-icon">

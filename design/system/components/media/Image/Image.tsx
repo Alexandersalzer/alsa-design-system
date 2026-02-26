@@ -9,6 +9,7 @@ import { Component } from '../../frames/component/Component';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Skeleton } from '../../feedback/LoadingSkeleton/LoadingSkeleton';
 import { resolveCdnImageUrl } from '../../../core/utils/env';
+import { AccentTintSvg } from '../../backgrounds/AccentTintSvg';
 import './Image.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -83,6 +84,8 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   themeMode?: 'light' | 'dark' | 'system';
   /** Motiv fylls med accentfärg (samma som ImageBackground). Vit bakgrund + svart motiv. Dark mode: vita delar → surface-page. */
   tint?: 'accent' | 'none';
+  /** Styrka på accent-tint: 0–1 = opacity; 1.2 = default; 1.5–2 = tydligare. Påverkar overlay-opacity. */
+  tintStrength?: number;
   /** Oanvänd (behålls för API). */
   themeAware?: boolean;
 }
@@ -118,6 +121,7 @@ export const Image: React.FC<ImageProps> = ({
   normalizedDarkSrc,
   themeMode = 'system',
   tint = 'none',
+  tintStrength = 1.2,
   themeAware = false,
   ...props
 }) => {
@@ -382,7 +386,7 @@ export const Image: React.FC<ImageProps> = ({
           </div>
         )}
 
-        {/* Accent: CSS overlay med mix-blend-mode. In-flow wrapper med aspect-ratio så behållaren får höjd i flex/karusell. */}
+        {/* Accent: samma som ImageBackground – AccentTintSvg använder bilden som mask, fylls med accentfärg (ingen kvarvarande bildfärg). */}
         {shouldLoad && useAccentMask && (
           <div
             style={{
@@ -393,23 +397,15 @@ export const Image: React.FC<ImageProps> = ({
             }}
             aria-hidden="true"
           >
-            <div className="image-accent-css-fallback" role="img" aria-label={alt}>
-              <img
-                ref={imgRef}
+            <div className="image-accent-mask-wrapper" role="img" aria-label={alt}>
+              <AccentTintSvg
                 src={currentSrc}
-                alt={alt}
-                className={imageClasses}
-                style={{
-                  objectFit: objectFit,
-                  objectPosition: objectPosition,
-                  ...style,
-                }}
-                onLoad={handleLoad}
-                onError={handleError}
-                loading={priority || isCached ? 'eager' : 'lazy'}
-                {...props}
+                size={objectFit}
+                position={objectPosition}
+                strength={tintStrength}
+                svgClassName="image-accent-svg"
+                darkRectClassName="image-accent-mask-dark"
               />
-              <div className="image-accent-overlay" aria-hidden="true" />
             </div>
           </div>
         )}

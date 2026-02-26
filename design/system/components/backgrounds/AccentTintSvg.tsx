@@ -22,15 +22,29 @@ export interface AccentTintSvgProps {
   svgClassName?: string;
 }
 
-function maskPreserveAspectRatio(size: string, position: string): string {
-  const s = (size || 'cover').toLowerCase();
-  if (s === 'cover' || s === 'fill') return 'xMidYMid slice';
-  if (s === 'contain') return 'xMidYMid meet';
-  if (s === 'none' || s === 'scale-down') return 'xMidYMid meet';
-  const pos = (position || 'center').toLowerCase();
+function parsePosition(position: string): { x: 'Min' | 'Mid' | 'Max'; y: 'Min' | 'Mid' | 'Max' } {
+  const pos = (position || 'center').trim().toLowerCase();
+  // Percentage: "50% -25%" or "50% 0%" – first = x, second = y (y < 0 or small = top)
+  const percentMatch = pos.match(/(\d+|-\d+)\s*%\s+(\d+|-\d+)\s*%/);
+  if (percentMatch) {
+    const xPct = parseInt(percentMatch[1], 10);
+    const yPct = parseInt(percentMatch[2], 10);
+    const x = xPct <= 33 ? 'Min' : xPct >= 66 ? 'Max' : 'Mid';
+    const y = yPct <= 25 ? 'Min' : yPct >= 75 ? 'Max' : 'Mid';
+    return { x, y };
+  }
   const x = pos.includes('left') ? 'Min' : pos.includes('right') ? 'Max' : 'Mid';
   const y = pos.includes('top') ? 'Min' : pos.includes('bottom') ? 'Max' : 'Mid';
-  return `${x}${y} meet`;
+  return { x, y };
+}
+
+function maskPreserveAspectRatio(size: string, position: string): string {
+  const s = (size || 'cover').toLowerCase();
+  const { x, y } = parsePosition(position);
+  if (s === 'cover' || s === 'fill') return `x${x}Y${y} slice`;
+  if (s === 'contain') return `x${x}Y${y} meet`;
+  if (s === 'none' || s === 'scale-down') return `x${x}Y${y} meet`;
+  return `x${x}Y${y} meet`;
 }
 
 export const AccentTintSvg: React.FC<AccentTintSvgProps> = ({

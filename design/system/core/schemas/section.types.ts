@@ -109,6 +109,9 @@ export interface SectionLayoutConfig {
   /** Patterns in second column (for split layouts) */
   secondColumn?: string[];
   
+  /** When true, render second column as media column (stretch/flex) regardless of pattern types */
+  secondColumnAsMedia?: boolean;
+  
   /** Column ratio for split layout (e.g., "1:1", "2:1", "1:2") */
   columnRatio?: string;
 }
@@ -135,9 +138,10 @@ export interface SectionLayoutSchema {
 // ============================================
 
 /**
- * Background types
+ * Background types (section schema – för SectionSchema.allowedTypes).
+ * Namnet SectionBackgroundType undviker krock med components/backgrounds/types BackgroundType.
  */
-export type BackgroundType = 
+export type SectionBackgroundType = 
   | 'none'
   | 'solid'
   | 'gradient'
@@ -150,10 +154,10 @@ export type BackgroundType =
  */
 export interface BackgroundSchema {
   /** Allowed background types for this section */
-  allowedTypes?: BackgroundType[];
+  allowedTypes?: SectionBackgroundType[];
   
   /** Default background type */
-  defaultType?: BackgroundType;
+  defaultType?: SectionBackgroundType;
   
   /** Background-specific props */
   props?: Record<string, PropConfig>;

@@ -45,6 +45,9 @@ export interface ImageBackgroundProps {
 
   /** Oanvänd (behålls för API). Accent använder alltid samma färg i light/dark. */
   themeAware?: boolean;
+
+  /** CSS filter på bilden, t.ex. "blur(6px)" för mjuk suddig bakgrund */
+  filter?: string;
 }
 
 /**
@@ -66,6 +69,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
   tint = 'none',
   tintStrength = 1.2,
   themeAware = false,
+  filter,
 }) => {
   const fadeClass = fadeEdge !== 'none' ? styles[`fade${fadeEdge.charAt(0).toUpperCase() + fadeEdge.slice(1)}`] : '';
   const useAccentMask = tint === 'accent' && src;
@@ -75,6 +79,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
     useAccentMask ? (
       <div
         className={`${styles.imageBackground} ${styles.accentMaskWrapper} ${sizeClass} ${fadeClass}`.trim()}
+        data-background-layer
         style={{
           opacity,
           // @ts-expect-error CSS custom property
@@ -94,12 +99,14 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
     ) : (
       <div
         className={`${styles.imageBackground} ${fadeClass}`.trim()}
+        data-background-layer
         style={{
           backgroundImage: `url(${src})`,
           backgroundSize: size,
           backgroundPosition: position,
           backgroundRepeat: repeat,
           opacity,
+          ...(filter && { filter, isolation: 'isolate' as const }),
           // @ts-expect-error CSS custom property
           '--fade-strength': fadeStrength,
         }}
@@ -112,6 +119,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
       <div
         className={styles.overlay}
         style={{ backgroundColor: overlay, opacity: overlayOpacity }}
+        data-background-layer
         aria-hidden="true"
       />
     ) : null;

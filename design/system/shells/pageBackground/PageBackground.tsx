@@ -102,6 +102,30 @@ export function PageBackground({ pageProps, children }: PageBackgroundProps) {
           }}
         />
       );
+
+      // Accent-driven mask: overlay so user's accent color tints the image (tydlig och intuitiv styrka)
+      // tintStrength: 0 = av, 0.5 = lätt, 1 = medium, 1.2 = default synlig, 1.5 = stark, 2 = mycket tydlig
+      const tint = pageProps.backgroundTint ?? 'none';
+      const tintStrength = pageProps.backgroundTintStrength ?? 1.2;
+      if (tint === 'accent') {
+        const strength = Math.max(0, Math.min(2, Number(tintStrength)));
+        const opacity = 0.25 + strength * 0.3; // 0.5 → 0.4, 1 → 0.55, 1.2 → 0.61, 2 → 0.85
+        layers.push(
+          <div
+            key="bg-accent-tint"
+            aria-hidden="true"
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: 'var(--foundation-accent-500, var(--accent-500))',
+              opacity,
+              mixBlendMode: 'overlay',
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          />
+        );
+      }
     }
     
     // Layer 2: Glow/spotlight effect (radial gradient with smooth steps to avoid banding)

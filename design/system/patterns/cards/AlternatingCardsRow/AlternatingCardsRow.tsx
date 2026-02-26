@@ -37,7 +37,7 @@ export function AlternatingCardsRow({
   imageRadius = 'md',
   imageObjectFit = 'cover',
   imageObjectPosition = 'center',
-  imageTint = 'accent',
+  imageTint = 'none',
   rowGap = 'xl',
   columnGap = 'lg',
   textSpacing = 'sm',

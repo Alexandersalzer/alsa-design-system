@@ -90,3 +90,21 @@
     height: auto !important;
   }
 }
+
+/* Kort med bildbakgrund (contact m.m.): opacity i light mode + ljus text i vänsterkolumn */
+html:not([data-theme="dark"]) [style*="--section-bg-image-light-opacity"] [data-background-layer]:first-of-type {
+  opacity: var(--section-bg-image-light-opacity);
+}
+[data-card-has-image-bg="true"] .split-grid > *:first-child {
+  color: var(--text-on-inverse, #fff) !important;
+}
+[data-card-has-image-bg="true"] .split-grid > *:first-child h1,
+[data-card-has-image-bg="true"] .split-grid > *:first-child h2,
+[data-card-has-image-bg="true"] .split-grid > *:first-child h3,
+[data-card-has-image-bg="true"] .split-grid > *:first-child h4,
+[data-card-has-image-bg="true"] .split-grid > *:first-child p,
+[data-card-has-image-bg="true"] .split-grid > *:first-child [class*="Typography"],
+[data-card-has-image-bg="true"] .split-grid > *:first-child [class*="Heading"],
+[data-card-has-image-bg="true"] .split-grid > *:first-child [class*="Body"] {
+  color: inherit !important;
+}

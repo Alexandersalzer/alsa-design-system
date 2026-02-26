@@ -68,6 +68,8 @@ export interface ImageBackgroundProps {
   backgroundTintStrength?: number;
   /** Oanvänd (behålls för API). */
   backgroundThemeAware?: boolean;
+  /** Opacity (0–1) för bilden i light mode. Används av Section och av layout-kort (t.ex. contact). Sätt för att aktivera ljusare bild. */
+  backgroundImageLightModeOpacity?: number;
 }
 
 // ===== PATTERN BACKGROUND =====

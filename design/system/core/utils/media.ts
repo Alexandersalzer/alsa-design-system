@@ -14,29 +14,47 @@
  * Thumbnails are stored at: cdn.blimpify-im.com/members/2194716412/thumbnails/swaelee.jpg
  *
  * This function transforms the video URL to the thumbnail URL by:
- * 1. Replacing '/videos/' with '/thumbnails/'
+ * 1. Replacing '/videos/' with '/thumbnails/' (or /media/ -> /thumbnails/ som fallback)
  * 2. Replacing the video extension (.mp4, .webm, .mov, etc.) with .jpg
  *
- * @param videoUrl - Full video URL or S3 key
- * @returns Derived thumbnail URL, or undefined if not a valid video URL
+ * Stöder både full CDN-URL och relativ sökväg (t.ex. /members/xxx/videos/file.mp4)
+ * så att editor och live-preview får giltig thumbnail även när URL-format skiljer sig.
  *
- * @example
- * ```ts
- * const videoUrl = 'https://cdn.blimpify-im.com/members/2194716412/videos/swaelee.mp4';
- * const thumbnailUrl = getVideoThumbnailUrl(videoUrl);
- * // Returns: 'https://cdn.blimpify-im.com/members/2194716412/thumbnails/swaelee.jpg'
- * ```
+ * @param videoUrl - Full video URL or S3 key / relativ path
+ * @returns Derived thumbnail URL, or undefined if not a valid video URL
  */
 export function getVideoThumbnailUrl(videoUrl: string | undefined): string | undefined {
-  if (!videoUrl) return undefined;
+  if (!videoUrl || typeof videoUrl !== 'string') return undefined;
 
-  // Check if URL contains /videos/ path
-  if (!videoUrl.includes('/videos/')) return undefined;
+  const trimmed = videoUrl.trim();
+  if (!trimmed) return undefined;
 
-  // Replace /videos/ with /thumbnails/ and change extension to .jpg
-  return videoUrl
-    .replace('/videos/', '/thumbnails/')
-    .replace(/\.(mp4|webm|mov|avi|mkv)$/i, '.jpg');
+  // Video-ändelse krävs
+  const extMatch = trimmed.match(/\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i);
+  if (!extMatch) return undefined;
+
+  // Primär: samma konvention som CDN – /videos/ -> /thumbnails/
+  if (trimmed.includes('/videos/')) {
+    return trimmed
+      .replace('/videos/', '/thumbnails/')
+      .replace(/\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i, '.jpg');
+  }
+
+  // Fallback: path innehåller /media/ (t.ex. vissa S3-struktur) -> /thumbnails/
+  if (trimmed.includes('/media/')) {
+    return trimmed
+      .replace(/\/media\//, '/thumbnails/')
+      .replace(/\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i, '.jpg');
+  }
+
+  // Sista fallback: filnamn med video-ändelse men ingen videos/media-mapp –
+  // byt bara ändelse till .jpg (thumbnail kan ligga i samma mapp eller under thumbnails/)
+  const withoutQuery = trimmed.split('?')[0];
+  if (/\.(mp4|webm|mov|avi|mkv)$/i.test(withoutQuery)) {
+    return withoutQuery.replace(/\.(mp4|webm|mov|avi|mkv)$/i, '.jpg');
+  }
+
+  return undefined;
 }
 
 

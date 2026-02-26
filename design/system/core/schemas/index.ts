@@ -23,7 +23,7 @@ export type {
   GapSize,
   SectionLayoutConfig,
   SectionLayoutSchema,
-  BackgroundType,
+  SectionBackgroundType,
   BackgroundSchema,
   PatternConstraints,
   PatternOrderConstraint,
