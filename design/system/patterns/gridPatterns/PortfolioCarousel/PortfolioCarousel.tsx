@@ -91,19 +91,23 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
     const onPlay = (e: Event) => {
-      if (e.target instanceof HTMLVideoElement) setCarouselPaused(true);
+      const target = e.target;
+      if (target instanceof HTMLVideoElement && containerRef.current?.contains(target)) {
+        setCarouselPaused(true);
+      }
     };
     const onPause = (e: Event) => {
-      if (e.target instanceof HTMLVideoElement) setCarouselPaused(false);
+      const target = e.target;
+      if (target instanceof HTMLVideoElement && containerRef.current?.contains(target)) {
+        setCarouselPaused(false);
+      }
     };
-    el.addEventListener('play', onPlay, true);
-    el.addEventListener('pause', onPause, true);
+    window.addEventListener('play', onPlay, true);
+    window.addEventListener('pause', onPause, true);
     return () => {
-      el.removeEventListener('play', onPlay, true);
-      el.removeEventListener('pause', onPause, true);
+      window.removeEventListener('play', onPlay, true);
+      window.removeEventListener('pause', onPause, true);
     };
   }, []);
 
