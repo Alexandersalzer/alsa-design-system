@@ -2,11 +2,6 @@
    Footer Shell - Section-level styling
    =============================================== */
 
-/* Global: bildbakgrund blir ljusare i light mode när --section-bg-image-light-opacity sätts (footer, contact-kort m.m.). Måste ligga i vanlig CSS (inte module). */
-html:not([data-theme="dark"]) [style*="--section-bg-image-light-opacity"] [data-background-layer]:first-of-type {
-  opacity: var(--section-bg-image-light-opacity);
-}
-
 .footer-with-top-border {
   border-top: 1px solid var(--border-default);
   padding-top: var(--foundation-space-10);

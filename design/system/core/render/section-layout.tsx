@@ -562,6 +562,7 @@ export function renderSectionLayout({
                 variant="ghost"
                 padding="none"
                 radius={cardRadius}
+                data-card-has-image-bg="true"
                 style={{
                   width: '100%',
                   boxSizing: 'border-box',
