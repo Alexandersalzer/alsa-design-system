@@ -2,6 +2,12 @@
    PortfolioCarousel - Portfolio cards in carousel
 ============================================== */
 
+.portfolio-carousel-wrapper {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
 .portfolio-carousel__card-wrapper {
   width: 100%;
   min-width: 0;

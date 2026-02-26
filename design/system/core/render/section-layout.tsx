@@ -369,6 +369,9 @@ export function renderSectionLayout({
 
         #${layoutId} .mobile-stack {
           display: none;
+          flex-direction: column;
+          width: 100%;
+          min-width: 0;
         }
 
         #${layoutId} .desktop-only {
@@ -381,6 +384,9 @@ export function renderSectionLayout({
           }
           #${layoutId} .mobile-stack {
             display: flex !important;
+            flex-direction: column;
+            width: 100%;
+            min-width: 0;
           }
           #${layoutId} .desktop-only {
             display: none !important;
@@ -520,12 +526,14 @@ export function renderSectionLayout({
           </VStack>
         </Box>
 
-        {/* Below Split: All remaining patterns with their own containers - Only on desktop */}
+        {/* Below Split: remaining patterns (t.ex. portfolio-karusell) med Container så karusellen får bredd */}
         {remainingPatterns.length > 0 && (
-          <Box className="desktop-only">
-            <VStack spacing="none" align="center">
-              {renderPatterns(remainingPatterns)}
-            </VStack>
+          <Box className="desktop-only" style={{ width: '100%' }}>
+            <Container height="auto">
+              <VStack spacing="none" align="stretch">
+                {renderPatterns(remainingPatterns)}
+              </VStack>
+            </Container>
           </Box>
         )}
         
