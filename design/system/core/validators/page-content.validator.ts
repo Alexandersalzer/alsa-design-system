@@ -202,6 +202,32 @@ export function validateStructureFile(
             errors.push(`Section "${sectionKey}": order references non-existent pattern "${key}"`);
           }
         }
+
+        // Check for required sectionHeader pattern
+        let hasSectionHeader = false;
+        let sectionHeaderKey: string | null = null;
+
+        for (const [patternKey, pattern] of Object.entries(sectionData.patterns)) {
+          const patternData = pattern as any;
+          if (patternData && patternData.type === 'sectionHeader') {
+            hasSectionHeader = true;
+            sectionHeaderKey = patternKey;
+            break;
+          }
+        }
+
+        if (!hasSectionHeader) {
+          errors.push(
+            `Section "${sectionKey}" missing required pattern with type "sectionHeader". ` +
+            `Every section must have a sectionHeader pattern.`
+          );
+        } else if (sectionHeaderKey && patternOrder.length > 0 && patternOrder[0] !== sectionHeaderKey) {
+          errors.push(
+            `Section "${sectionKey}" has sectionHeader pattern "${sectionHeaderKey}" but it's not first in order. ` +
+            `SectionHeader must be the first pattern in the section. ` +
+            `Current first: "${patternOrder[0]}"`
+          );
+        }
       }
     }
 

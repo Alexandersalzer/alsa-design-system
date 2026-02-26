@@ -76,6 +76,18 @@ export const SectionOccurrenceRules = {
   }
 } as const;
 
+/**
+ * Pattern structure rules
+ */
+export const PatternStructureRules = {
+  /** Every section must have a sectionHeader pattern and it must be first */
+  sectionHeaderRequired: {
+    rule: 'section-header-required' as const,
+    position: 'first' as const,
+    message: 'Every section must have a pattern with type "sectionHeader" and it must be the first pattern in the section order'
+  }
+} as const;
+
 // ============================================
 // SECTION VALIDATION SCHEMA
 // ============================================
@@ -92,6 +104,9 @@ export interface SectionValidationConfig {
   
   /** Occurrence rules */
   occurrenceRules: typeof SectionOccurrenceRules;
+
+  /** Pattern structure rules */
+  patternStructureRules: typeof PatternStructureRules;
 }
 
 /**
@@ -100,7 +115,8 @@ export interface SectionValidationConfig {
 export const sectionValidationConfig: SectionValidationConfig = {
   allowedTypes: AllowedSectionTypes,
   positioningRules: SectionPositioningRules,
-  occurrenceRules: SectionOccurrenceRules
+  occurrenceRules: SectionOccurrenceRules,
+  patternStructureRules: PatternStructureRules
 };
 
 // ============================================
