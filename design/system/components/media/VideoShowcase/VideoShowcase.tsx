@@ -15,6 +15,7 @@ import { Scale } from '../../animations/Scale/Scale';
 import { AnimationConfig } from '../../animations/types';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { getVideoThumbnailUrl } from '../../../core/utils/media';
+import { IframeEmbed } from '../../thirdparty/embed/IframeEmbed';
 import './VideoShowcase.css';
 import './PlayButton.css';
 import './DeviceFrames.css';
@@ -53,7 +54,9 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   overlay?: React.ReactNode;
   /** Country code or emoji for flag badge overlay (e.g., 'de', '🇩🇪', 'germany') */
   flagCountry?: string;
-  /** When set, clicking the video/thumbnail opens this URL (e.g. YouTube) instead of playing inline. Opens in new tab when openInNewTab is true. */
+  /** YouTube embed URL - when provided, clicking the thumbnail will load YouTube video instead of native video */
+  youtubeUrl?: string;
+  /** When set, clicking the video/thumbnail opens this URL instead of playing inline. Opens in new tab when openInNewTab is true. */
   href?: string;
   /** When href is set, open link in new tab. Default true. */
   openInNewTab?: boolean;
@@ -87,6 +90,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   mobileMaxWidth,
   overlay,
   flagCountry,
+  youtubeUrl,
   href,
   openInNewTab = true,
   onPlay: onPlayCallback,
@@ -97,6 +101,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   const [isMuted, setIsMuted] = useState(initialMuted);
   const [volume, setVolume] = useState(0.7); // Default 70%
   const [showVolumeIndicator, setShowVolumeIndicator] = useState(false);
+  const [showYouTube, setShowYouTube] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const volumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -163,9 +168,9 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   // Priority 1: Use hardcoded poster if provided
   let derivedPosterUrl = poster ? (poster.startsWith('http') ? poster : `${CDN_BASE_URL}${poster}`) : undefined;
 
-  // Priority 2: Auto-derive thumbnail from video path
+  // Priority 2: Auto-derive thumbnail from video path (only if not using YouTube)
   // Backend stores thumbnails at: user-{id}/thumbnails/{video-name}.jpg
-  if (!derivedPosterUrl && videoSrc) {
+  if (!derivedPosterUrl && !youtubeUrl && videoSrc) {
     derivedPosterUrl = getVideoThumbnailUrl(videoUrl);
   }
 
@@ -213,6 +218,11 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   }, [instanceId, onPlayCallback, onPauseCallback]);
 
   const handlePlayClick = () => {
+    if (youtubeUrl) {
+      setShowYouTube(true);
+      setIsPlaying(true);
+      return;
+    }
     if (href) {
       if (openInNewTab) {
         window.open(href, '_blank', 'noopener,noreferrer');
@@ -221,26 +231,20 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       }
       return;
     }
-    // Hämta video på behov (kan saknas tills effect körts eller Video lazy-renderat)
     const video = videoRef.current ?? (containerRef.current?.querySelector('video') as HTMLVideoElement | null);
     if (video) {
       if (!videoRef.current) videoRef.current = video;
       if (video.paused) {
-        // Pausa karusell direkt vid klick – inte bara vid native play-event
         onPlayCallback?.();
-        // Dispatch event to pause all other videos
         window.dispatchEvent(new CustomEvent<VideoPlayEventDetail>(VIDEO_PLAY_EVENT, {
           detail: { instanceId }
         }));
-        // Avoid IntersectionObserver pausing us right after play (prevents "play() interrupted by pause()")
         allowPauseByIntersectionRef.current = false;
         setTimeout(() => {
           allowPauseByIntersectionRef.current = true;
         }, 500);
-
         video.play();
         setIsPlaying(true);
-        // Unmute when starting to play
         if (isMuted) {
           video.muted = false;
           setIsMuted(false);
@@ -291,7 +295,87 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
 
   const aspectRatioCss = aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto';
 
-  const videoContent = (
+  const getIframeRadius = (): 'none' | 'sm' | 'md' | 'lg' => {
+    if (frame !== 'none') return 'none';
+    if (radius === 'xl' || radius === 'full') return 'lg';
+    return radius as 'none' | 'sm' | 'md' | 'lg';
+  };
+
+  const getAspectRatioStyle = (): React.CSSProperties => {
+    const ratioMap: Record<string, string> = {
+      '16-9': '56.25%',
+      '9-16': '177.78%',
+      '4-3': '75%',
+      '4-5': '125%',
+      '1-1': '100%',
+      '2-3': '150%',
+    };
+    const paddingBottom = ratioMap[aspectRatio] || 'auto';
+    if (paddingBottom === 'auto') {
+      return { height: maxHeight || '600px' };
+    }
+    return {
+      position: 'relative',
+      width: '100%',
+      paddingBottom,
+      height: 0,
+      overflow: 'hidden',
+    };
+  };
+
+  const youtubeEmbedUrl = youtubeUrl && showYouTube
+    ? youtubeUrl.includes('?')
+      ? `${youtubeUrl}&autoplay=1`
+      : `${youtubeUrl}?autoplay=1`
+    : youtubeUrl;
+
+  const videoContent = showYouTube && youtubeEmbedUrl ? (
+    <div
+      ref={containerRef}
+      className={cn(
+        "video-container",
+        `video-container--radius-${radius}`,
+        mobileMaxWidth !== undefined && "video-container--mobile-max-width"
+      )}
+      style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
+    >
+      <div style={getAspectRatioStyle()}>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+        }}>
+          <IframeEmbed
+            src={youtubeEmbedUrl}
+            width="100%"
+            height="100%"
+            radius={getIframeRadius()}
+            border={false}
+            title="Video showcase"
+            allowFullscreen={true}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          />
+        </div>
+      </div>
+      {(overlay || flagCountry) && (
+        <div
+          className="video-container__overlay"
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            pointerEvents: 'none'
+          }}
+        >
+          {overlay}
+          {flagCountry && <Flag country={flagCountry} size="sm" variant="rounded" />}
+        </div>
+      )}
+    </div>
+  ) : (
     <div
       ref={containerRef}
       className={cn(
@@ -302,8 +386,29 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       )}
       style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
     >
-      {hasNoVideo ? (
-        /* Poster-only: no video src – show thumbnail only, no "video missing" */
+      {youtubeUrl && !showYouTube ? (
+        <div
+          style={{
+            width: '100%',
+            aspectRatio: aspectRatioCss,
+            maxHeight: maxHeight,
+            position: 'relative',
+            overflow: 'hidden',
+            borderRadius: frame !== 'none' ? '0' : radius === 'full' ? 'var(--radius-xl)' : `var(--radius-${radius})`,
+          }}
+        >
+          <img
+            src={derivedPosterUrl}
+            alt="Video thumbnail"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: objectFit,
+              display: 'block',
+            }}
+          />
+        </div>
+      ) : hasNoVideo ? (
         <div
           className={cn(videoClasses, "video-showcase--poster-only")}
           style={{
@@ -357,7 +462,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       <div 
         className="video-container__click-overlay"
         onClick={handlePlayClick}
-        aria-label={href ? "Öppna video" : (isPlaying ? "Pause video" : "Play video")}
+        aria-label={href || youtubeUrl ? "Öppna video" : (isPlaying ? "Pause video" : "Play video")}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
@@ -367,8 +472,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           }
         }}
       />
-      {showPlayButton && (!isPlaying || href || hasNoVideo) && (
-        <button className="play-button" aria-label={href ? "Öppna video" : "Play video"} onClick={handlePlayClick}>
+      {showPlayButton && (!isPlaying || href || youtubeUrl || hasNoVideo) && (
+        <button className="play-button" aria-label={href || youtubeUrl ? "Öppna video" : "Play video"} onClick={handlePlayClick}>
           <span className="play-button-icon" />
         </button>
       )}

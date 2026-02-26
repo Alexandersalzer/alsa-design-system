@@ -46,8 +46,8 @@ export const IframeEmbed: React.FC<IframeEmbedProps> = ({
   border = false,
   borderColor = '#e0e0e0',
   title = 'Embedded content',
-  allowFullscreen = false,
-  allow,
+  allowFullscreen = true,
+  allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
 }) => {
   const preset = PRESET_SIZES[size];
   const finalWidth = width || preset.width;
