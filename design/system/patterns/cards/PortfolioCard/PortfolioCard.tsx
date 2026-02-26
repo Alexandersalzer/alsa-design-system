@@ -108,6 +108,8 @@ export interface PortfolioCardProps {
   onVideoPlay?: () => void;
   /** Callback när video pausas. */
   onVideoPause?: () => void;
+  /** När true: visa video som enbart thumbnail (ingen play-knapp). Används t.ex. när karusellen sätts till "thumbnailsOnly". */
+  showVideoAsThumbnailOnly?: boolean;
 }
 
 // ===== MAIN PORTFOLIO CARD COMPONENT =====
@@ -153,9 +155,12 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   previewOnly = false,
   onVideoPlay,
   onVideoPause,
+  showVideoAsThumbnailOnly = false,
 }) => {
   const isVideo = mediaType === 'video';
   const isImage = mediaType === 'image';
+  /** Videor som ska visas som enbart thumbnail (bild) – använd poster eller thumbnail-URL */
+  const showVideoAsImage = isVideo && showVideoAsThumbnailOnly;
 
   // Get the flag component dynamically
   const FlagComponent = countryCode ? FLAG_COMPONENTS[countryCode.toLowerCase()] : null;
@@ -168,7 +173,20 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             </div>
           )}
 
-          {isVideo && previewOnly ? (
+          {showVideoAsImage ? (
+            <Image
+              src={posterSrc || mediaSrc}
+              alt={mediaAlt || title}
+              aspectRatio="2/3"
+              objectFit="cover"
+              radius="sm"
+              loading="lazy"
+              rootMargin="800px"
+              showSkeleton={true}
+              priority={false}
+              className="portfolio-image"
+            />
+          ) : isVideo && previewOnly ? (
             <VideoShowcase
               src={mediaSrc}
               poster={posterSrc}

@@ -31,9 +31,14 @@ interface PortfolioNormalizedItem {
 // =====================================================
 
 export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
-  const { components = {} } = patternNode;
+  // Stöd både pattern.components och pattern.props.components (olika datakällor)
+  const components = patternNode.components ?? patternNode.props?.components ?? {};
   const getPatternProps = patternProps(patternNode);
-  const componentOrder = getPatternOrder(patternNode);
+  const orderFromPattern =
+    getPatternOrder(patternNode) ??
+    (patternNode.props as { order?: string[] } | undefined)?.order;
+  const componentOrder =
+    orderFromPattern?.length > 0 ? orderFromPattern : Object.keys(components);
 
   const {
     speed = 40,
@@ -47,6 +52,8 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
     duplicateCount: rawDuplicateCount = 2,
     backgroundColor = 'transparent',
     showFlags = true,
+    /** "mixed" = videor spelbara + bilder (default). "thumbnailsOnly" = alla som statiska thumbnails (inga play-knappar). */
+    mediaDisplay = 'mixed',
   } = getPatternProps();
   // Max 2 kopior för portfolio – färre tomma rutor, lättare att klicka
   const duplicateCount = Math.min(rawDuplicateCount, 2);
@@ -92,6 +99,7 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
   const [carouselPaused, setCarouselPaused] = useState(false);
   const onVideoPlay = useCallback(() => setCarouselPaused(true), []);
   const onVideoPause = useCallback(() => setCarouselPaused(false), []);
+  const showVideoAsThumbnailOnly = mediaDisplay === 'thumbnailsOnly';
 
   const carouselItems = allItems.map((item) => ({
     id: item.key,
@@ -113,6 +121,7 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
           previewOnly={true}
           onVideoPlay={onVideoPlay}
           onVideoPause={onVideoPause}
+          showVideoAsThumbnailOnly={showVideoAsThumbnailOnly}
         />
       </div>
     ),
