@@ -94,6 +94,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const volumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const allowPauseByIntersectionRef = useRef(true);
   const instanceId = useId();
 
   // Listen for other videos starting to play and pause this one
@@ -112,14 +113,19 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     };
   }, [handleOtherVideoPlay]);
 
-  // Pause video when it scrolls out of view
+  // Pause video when it scrolls out of view (skip right after user clicks play to avoid play() interrupted by pause())
   useEffect(() => {
     if (!containerRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting && videoRef.current && !videoRef.current.paused) {
+          if (
+            allowPauseByIntersectionRef.current &&
+            !entry.isIntersecting &&
+            videoRef.current &&
+            !videoRef.current.paused
+          ) {
             videoRef.current.pause();
             setIsPlaying(false);
           }
@@ -213,7 +219,12 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         window.dispatchEvent(new CustomEvent<VideoPlayEventDetail>(VIDEO_PLAY_EVENT, {
           detail: { instanceId }
         }));
-        
+        // Avoid IntersectionObserver pausing us right after play (prevents "play() interrupted by pause()")
+        allowPauseByIntersectionRef.current = false;
+        setTimeout(() => {
+          allowPauseByIntersectionRef.current = true;
+        }, 500);
+
         videoRef.current.play();
         setIsPlaying(true);
         // Unmute when starting to play
