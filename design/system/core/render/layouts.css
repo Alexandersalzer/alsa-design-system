@@ -96,7 +96,7 @@ html:not([data-theme="dark"]) [style*="--section-bg-image-light-opacity"] [data-
   opacity: var(--section-bg-image-light-opacity);
 }
 [data-card-has-image-bg="true"] .split-grid > *:first-child {
-  color: var(--text-on-inverse, #fff);
+  color: var(--text-on-inverse, #fff) !important;
 }
 [data-card-has-image-bg="true"] .split-grid > *:first-child h1,
 [data-card-has-image-bg="true"] .split-grid > *:first-child h2,
@@ -106,5 +106,5 @@ html:not([data-theme="dark"]) [style*="--section-bg-image-light-opacity"] [data-
 [data-card-has-image-bg="true"] .split-grid > *:first-child [class*="Typography"],
 [data-card-has-image-bg="true"] .split-grid > *:first-child [class*="Heading"],
 [data-card-has-image-bg="true"] .split-grid > *:first-child [class*="Body"] {
-  color: inherit;
+  color: inherit !important;
 }
