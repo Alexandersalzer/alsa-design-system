@@ -32,6 +32,23 @@ export {
   getSectionPositionRequirement
 } from './section.types';
 
+// Section layout schema - validation rules for section layouts
+export type {
+  SectionHeaderAlignment,
+  VerticalAlignment,
+  ColumnRatio,
+  LayoutGap,
+  StackBreakpoint,
+  SectionLayoutRules
+} from './section-layout.schema';
+
+export {
+  sectionLayoutRules,
+  sectionSpecificLayoutRules,
+  getSectionLayoutRules,
+  validateSectionLayout
+} from './section-layout.schema';
+
 // i18n system
 export * from './i18n';
 
