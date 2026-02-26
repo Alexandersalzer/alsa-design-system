@@ -5,4 +5,5 @@
 .portfolio-carousel__card-wrapper {
   width: 100%;
   min-width: 0;
+  pointer-events: auto; /* Säkerställ att klick når video/play-knapp */
 }

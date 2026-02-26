@@ -44,10 +44,12 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
     gap = '24px',
     enableFadeEdges = true,
     fadeWidth = '100px',
-    duplicateCount = 2,
+    duplicateCount: rawDuplicateCount = 2,
     backgroundColor = 'transparent',
     showFlags = true,
   } = getPatternProps();
+  // Max 2 kopior för portfolio – färre tomma rutor, lättare att klicka
+  const duplicateCount = Math.min(rawDuplicateCount, 2);
 
   const allItems: PortfolioNormalizedItem[] = useMemo(() => {
     return componentOrder
@@ -88,8 +90,11 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
   }
 
   const [carouselPaused, setCarouselPaused] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const onVideoPlay = useCallback(() => setCarouselPaused(true), []);
   const onVideoPause = useCallback(() => setCarouselPaused(false), []);
+  // Pausa vid hover så användaren hinner klicka på video/kort
+  const paused = carouselPaused || isHovering;
 
   const carouselItems = allItems.map((item) => ({
     id: item.key,
@@ -117,7 +122,11 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
   }));
 
   return (
-    <div className="portfolio-carousel-wrapper">
+    <div
+      className="portfolio-carousel-wrapper"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
     <CarouselAnimation
       items={carouselItems}
       speed={speed}
@@ -133,7 +142,7 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
       backgroundColor={backgroundColor}
       padding="0"
       className="portfolio-carousel"
-      paused={carouselPaused}
+      paused={paused}
     />
     </div>
   );

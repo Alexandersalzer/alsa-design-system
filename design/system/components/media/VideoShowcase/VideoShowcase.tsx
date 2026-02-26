@@ -221,8 +221,13 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       }
       return;
     }
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
+    // Hämta video på behov (kan saknas tills effect körts eller Video lazy-renderat)
+    const video = videoRef.current ?? (containerRef.current?.querySelector('video') as HTMLVideoElement | null);
+    if (video) {
+      if (!videoRef.current) videoRef.current = video;
+      if (video.paused) {
+        // Pausa karusell direkt vid klick – inte bara vid native play-event
+        onPlayCallback?.();
         // Dispatch event to pause all other videos
         window.dispatchEvent(new CustomEvent<VideoPlayEventDetail>(VIDEO_PLAY_EVENT, {
           detail: { instanceId }
@@ -233,15 +238,16 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           allowPauseByIntersectionRef.current = true;
         }, 500);
 
-        videoRef.current.play();
+        video.play();
         setIsPlaying(true);
         // Unmute when starting to play
         if (isMuted) {
-          videoRef.current.muted = false;
+          video.muted = false;
           setIsMuted(false);
         }
       } else {
-        videoRef.current.pause();
+        onPauseCallback?.();
+        video.pause();
         setIsPlaying(false);
       }
     }
