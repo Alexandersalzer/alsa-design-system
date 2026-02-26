@@ -54,8 +54,15 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   overlay?: React.ReactNode;
   /** Country code or emoji for flag badge overlay (e.g., 'de', '🇩🇪', 'germany') */
   flagCountry?: string;
+<<<<<<< HEAD
   /** YouTube embed URL - when provided, clicking the thumbnail will load YouTube video instead of native video */
   youtubeUrl?: string;
+=======
+  /** When set, clicking the video/thumbnail opens this URL (e.g. YouTube) instead of playing inline. Opens in new tab when openInNewTab is true. */
+  href?: string;
+  /** When href is set, open link in new tab. Default true. */
+  openInNewTab?: boolean;
+>>>>>>> modin
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -82,7 +89,12 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   mobileMaxWidth,
   overlay,
   flagCountry,
+<<<<<<< HEAD
   youtubeUrl,
+=======
+  href,
+  openInNewTab = true,
+>>>>>>> modin
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -163,9 +175,16 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
 
   // Priority 2: Auto-derive thumbnail from video path (only if not using YouTube)
   // Backend stores thumbnails at: user-{id}/thumbnails/{video-name}.jpg
+<<<<<<< HEAD
   if (!derivedPosterUrl && !youtubeUrl) {
+=======
+  if (!derivedPosterUrl && videoSrc) {
+>>>>>>> modin
     derivedPosterUrl = getVideoThumbnailUrl(videoUrl);
   }
+
+  // Poster-only mode: no video src – show only thumbnail (no "video missing")
+  const hasNoVideo = !videoSrc || String(videoSrc).trim() === '';
 
   // Find the video element inside the container and control it
   // Also listen to native play/pause events to keep state in sync
@@ -206,6 +225,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   }, [instanceId]);
 
   const handlePlayClick = () => {
+<<<<<<< HEAD
     // If YouTube URL is provided, show YouTube iframe instead
     if (youtubeUrl) {
       setShowYouTube(true);
@@ -213,6 +233,16 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       return;
     }
 
+=======
+    if (href) {
+      if (openInNewTab) {
+        window.open(href, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = href;
+      }
+      return;
+    }
+>>>>>>> modin
     if (videoRef.current) {
       if (videoRef.current.paused) {
         // Dispatch event to pause all other videos
@@ -270,6 +300,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     };
   }, []);
 
+<<<<<<< HEAD
   // Map radius to IframeEmbed compatible radius
   const getIframeRadius = (): 'none' | 'sm' | 'md' | 'lg' => {
     if (frame !== 'none') return 'none';
@@ -357,6 +388,11 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       )}
     </div>
   ) : (
+=======
+  const aspectRatioCss = aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto';
+
+  const videoContent = (
+>>>>>>> modin
     <div
       ref={containerRef}
       className={cn(
@@ -367,6 +403,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       )}
       style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
     >
+<<<<<<< HEAD
       {youtubeUrl ? (
         // When YouTube URL is provided, only show thumbnail image
         <div
@@ -389,6 +426,38 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
               display: 'block',
             }}
           />
+=======
+      {hasNoVideo ? (
+        /* Poster-only: no video src – show thumbnail only, no "video missing" */
+        <div
+          className={cn(videoClasses, "video-showcase--poster-only")}
+          style={{
+            width: '100%',
+            aspectRatio: aspectRatioCss,
+            maxHeight: maxHeight ?? undefined,
+            position: 'relative',
+            overflow: 'hidden',
+            borderRadius: 'var(--radius-lg)',
+            background: derivedPosterUrl ? undefined : 'var(--surface-muted)'
+          }}
+        >
+          {derivedPosterUrl ? (
+            <img
+              src={derivedPosterUrl}
+              alt=""
+              className={cn(
+                `video-element--object-fit-${objectFit}`,
+                frame !== 'none' ? '' : (radius === 'full' ? 'video-element--radius-xl' : `video-element--radius-${radius}`)
+              )}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: objectFit,
+                display: 'block'
+              }}
+            />
+          ) : null}
+>>>>>>> modin
         </div>
       ) : (
         <Video
@@ -396,7 +465,11 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           poster={derivedPosterUrl}
           width="100%"
           maxHeight={maxHeight}
+<<<<<<< HEAD
           aspectRatio={aspectRatio === '16-9' ? '16/9' : aspectRatio === '9-16' ? '9/16' : aspectRatio === '4-3' ? '4/3' : aspectRatio === '4-5' ? '4/5' : aspectRatio === '1-1' ? '1/1' : aspectRatio === '2-3' ? '2/3' : 'auto'}
+=======
+          aspectRatio={aspectRatioCss}
+>>>>>>> modin
           objectFit={objectFit}
           radius={frame !== 'none' ? 'none' : (radius === 'full' ? 'xl' : radius)}
           loading="eager"
@@ -414,7 +487,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
       <div 
         className="video-container__click-overlay"
         onClick={handlePlayClick}
-        aria-label={isPlaying ? "Pause video" : "Play video"}
+        aria-label={href ? "Öppna video" : (isPlaying ? "Pause video" : "Play video")}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
@@ -424,8 +497,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
           }
         }}
       />
-      {showPlayButton && !isPlaying && (
-        <button className="play-button" aria-label="Play video" onClick={handlePlayClick}>
+      {showPlayButton && (!isPlaying || href || hasNoVideo) && (
+        <button className="play-button" aria-label={href ? "Öppna video" : "Play video"} onClick={handlePlayClick}>
           <span className="play-button-icon" />
         </button>
       )}
@@ -583,8 +656,9 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     return wrappedContent;
   };
 
+  const rootStyle = 'style' in props && props.style && typeof props.style === 'object' ? props.style as React.CSSProperties : undefined;
   return (
-    <Component componentKey={componentKey}>
+    <Component componentKey={componentKey} className={className} style={rootStyle}>
       {renderWithAnimation()}
     </Component>
   );

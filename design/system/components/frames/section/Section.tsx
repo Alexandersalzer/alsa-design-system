@@ -116,6 +116,7 @@ export const Section = ({
   backgroundAspectRatio,
   backgroundRepeat,
   backgroundOpacity,
+  backgroundFilter,
   backgroundOverlay = false,
   backgroundOverlayOpacity = 0.5,
   imageFadeEdge,
@@ -281,6 +282,7 @@ export const Section = ({
     backgroundAspectRatio,
     backgroundRepeat,
     backgroundOpacity,
+    backgroundFilter,
     backgroundOverlay,
     backgroundOverlayOpacity,
     imageFadeEdge,
@@ -338,11 +340,14 @@ export const Section = ({
         renderBackgroundComponent(background, backgroundProps)
       )}
 
-      {/* Media Background Overlay (legacy) - only for non-split */}
+      {/* Background overlay för media (image använder ImageBackgrounds egen overlay) */}
       {backgroundImage && background === 'media' && backgroundOverlay && !backgroundSplit && (
         <div
           className={styles.backgroundOverlay}
-          style={{ opacity: backgroundOverlayOpacity }}
+          style={{
+            opacity: backgroundOverlayOpacity,
+            ...(typeof backgroundOverlay === 'string' && { backgroundColor: backgroundOverlay }),
+          }}
         />
       )}
 

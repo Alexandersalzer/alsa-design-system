@@ -120,7 +120,7 @@
 
 .backgroundImage {
   background-color: var(--surface-page);
-  overflow: hidden;
+  overflow: visible; /* visible så att blur() inte klipps av kanten */
 }
 
 .backgroundSolid {
@@ -170,7 +170,7 @@
 .backgroundGradient > *:not(div[class*="gradientBackground"]):not(.splitBackgroundContainer),
 .backgroundPattern > *:not(div[class*="patternBackground"]):not(.splitBackgroundContainer),
 .backgroundVideo > *:not(div[class*="container"]):not(.splitBackgroundContainer),
-.backgroundImage > *:not(.splitBackgroundContainer):not(div[class*="imageBackground"]),
+.backgroundImage > *:not(.splitBackgroundContainer):not(div[class*="imageBackground"]):not([data-background-layer]),
 .backgroundSolid > *:not(.splitBackgroundContainer):not(div[class*="solidBackground"]),
 .backgroundParticle > *:not(.splitBackgroundContainer):not(canvas) {
   position: relative;
