@@ -57,6 +57,10 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   href?: string;
   /** When href is set, open link in new tab. Default true. */
   openInNewTab?: boolean;
+  /** Callback när videon börjar spela (t.ex. för att pausa karusell). */
+  onPlay?: () => void;
+  /** Callback när videon pausas. */
+  onPause?: () => void;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -85,6 +89,8 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   flagCountry,
   href,
   openInNewTab = true,
+  onPlay: onPlayCallback,
+  onPause: onPauseCallback,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -181,6 +187,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
             detail: { instanceId }
           }));
           setIsPlaying(true);
+          onPlayCallback?.();
           // Unmute when starting to play
           if (videoElement.muted) {
             videoElement.muted = false;
@@ -191,6 +198,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         // Handle native pause event (from browser controls)
         const handleNativePause = () => {
           setIsPlaying(false);
+          onPauseCallback?.();
         };
         
         videoElement.addEventListener('play', handleNativePlay);
@@ -202,7 +210,7 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
         };
       }
     }
-  }, [instanceId]);
+  }, [instanceId, onPlayCallback, onPauseCallback]);
 
   const handlePlayClick = () => {
     if (href) {

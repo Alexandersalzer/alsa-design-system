@@ -180,6 +180,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               controls={false}
               frame="none"
               className="portfolio-video portfolio-video--showcase"
+              onPlay={onVideoPlay}
+              onPause={onVideoPause}
             />
           ) : isVideo ? (
             <Video

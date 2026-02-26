@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState, useRef, useEffect } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { CarouselAnimation } from '../../../components/animations/CarouselAnimation/CarouselAnimation';
 import { PatternNode } from '../../../core/types/nodes';
@@ -88,28 +88,8 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
   }
 
   const [carouselPaused, setCarouselPaused] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const onPlay = (e: Event) => {
-      const target = e.target;
-      if (target instanceof HTMLVideoElement && containerRef.current?.contains(target)) {
-        setCarouselPaused(true);
-      }
-    };
-    const onPause = (e: Event) => {
-      const target = e.target;
-      if (target instanceof HTMLVideoElement && containerRef.current?.contains(target)) {
-        setCarouselPaused(false);
-      }
-    };
-    window.addEventListener('play', onPlay, true);
-    window.addEventListener('pause', onPause, true);
-    return () => {
-      window.removeEventListener('play', onPlay, true);
-      window.removeEventListener('pause', onPause, true);
-    };
-  }, []);
+  const onVideoPlay = useCallback(() => setCarouselPaused(true), []);
+  const onVideoPause = useCallback(() => setCarouselPaused(false), []);
 
   const carouselItems = allItems.map((item) => ({
     id: item.key,
@@ -129,13 +109,15 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
           countryCode={item.countryCode}
           showFlags={showFlags}
           previewOnly={true}
+          onVideoPlay={onVideoPlay}
+          onVideoPause={onVideoPause}
         />
       </div>
     ),
   }));
 
   return (
-    <div ref={containerRef} className="portfolio-carousel-wrapper">
+    <div className="portfolio-carousel-wrapper">
     <CarouselAnimation
       items={carouselItems}
       speed={speed}
