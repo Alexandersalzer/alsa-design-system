@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { PortfolioCard } from '../../cards/PortfolioCard/PortfolioCard';
 import { CarouselAnimation } from '../../../components/animations/CarouselAnimation/CarouselAnimation';
 import { PatternNode } from '../../../core/types/nodes';
@@ -88,8 +88,24 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
   }
 
   const [carouselPaused, setCarouselPaused] = useState(false);
-  const handleVideoPlay = useCallback(() => setCarouselPaused(true), []);
-  const handleVideoPause = useCallback(() => setCarouselPaused(false), []);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onPlay = (e: Event) => {
+      if (e.target instanceof HTMLVideoElement) setCarouselPaused(true);
+    };
+    const onPause = (e: Event) => {
+      if (e.target instanceof HTMLVideoElement) setCarouselPaused(false);
+    };
+    el.addEventListener('play', onPlay, true);
+    el.addEventListener('pause', onPause, true);
+    return () => {
+      el.removeEventListener('play', onPlay, true);
+      el.removeEventListener('pause', onPause, true);
+    };
+  }, []);
 
   const carouselItems = allItems.map((item) => ({
     id: item.key,
@@ -109,14 +125,13 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
           countryCode={item.countryCode}
           showFlags={showFlags}
           previewOnly={true}
-          onVideoPlay={handleVideoPlay}
-          onVideoPause={handleVideoPause}
         />
       </div>
     ),
   }));
 
   return (
+    <div ref={containerRef} className="portfolio-carousel-wrapper">
     <CarouselAnimation
       items={carouselItems}
       speed={speed}
@@ -134,6 +149,7 @@ export const PortfolioCarousel: React.FC<PatternNode> = (patternNode) => {
       className="portfolio-carousel"
       paused={carouselPaused}
     />
+    </div>
   );
 };
 

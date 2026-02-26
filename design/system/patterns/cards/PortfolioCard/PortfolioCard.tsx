@@ -9,6 +9,7 @@ import { Typography, TypographyColor } from '../../../components/Typography';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Video } from '../../../components/media/Video';
+import { VideoShowcase } from '../../../components/media/VideoShowcase';
 import { Image } from '../../../components/media/Image';
 import {
   GB, SE, DE, DK, US, NO, FI, FR, ES, IT, NL, BE, AT, CH, PL,
@@ -167,7 +168,20 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
             </div>
           )}
 
-          {isVideo && (
+          {isVideo && previewOnly ? (
+            <VideoShowcase
+              src={mediaSrc}
+              poster={posterSrc}
+              aspectRatio="2-3"
+              variant="rounded"
+              size="md"
+              radius="md"
+              showPlayButton={true}
+              controls={false}
+              frame="none"
+              className="portfolio-video portfolio-video--showcase"
+            />
+          ) : isVideo ? (
             <Video
               src={mediaSrc}
               poster={posterSrc}
@@ -181,7 +195,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               onPlay={onVideoPlay}
               onPause={onVideoPause}
             />
-          )}
+          ) : null}
           
           {isImage && (
             <Image
