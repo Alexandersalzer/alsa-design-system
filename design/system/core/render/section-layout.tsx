@@ -556,6 +556,7 @@ export function renderSectionLayout({
                   : undefined;
 
           if (hasCardBackground) {
+            const cardBgLightOpacity = cardBackgroundSettings?.backgroundImageLightModeOpacity;
             return (
               <Card
                 variant="ghost"
@@ -570,7 +571,16 @@ export function renderSectionLayout({
                   ...(cardBorderCss && { border: cardBorderCss }),
                 }}
               >
-                <Box style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+                <Box
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    overflow: 'hidden',
+                    ...(cardBgLightOpacity != null && {
+                      ['--section-bg-image-light-opacity' as string]: String(cardBgLightOpacity),
+                    }),
+                  }}
+                >
                   {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
                 </Box>
                 <Box

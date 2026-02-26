@@ -43,6 +43,8 @@ interface SectionProps extends BackgroundProps {
   backgroundSplitPercentage?: number;
   /** Mobile-specific background opacity (0-1) - only affects mobile screens */
   mobileBackgroundOpacity?: number;
+  /** Image background opacity in light mode (0-1). Används t.ex. i footer så bilden blir ljusare. Default i footer: 0.55. */
+  backgroundImageLightModeOpacity?: number;
 }
 
 const getHeightClass = (height: Height): string => {
@@ -169,6 +171,7 @@ export const Section = ({
   backgroundSplit = false,
   backgroundSplitPercentage = 50,
   mobileBackgroundOpacity,
+  backgroundImageLightModeOpacity,
 }: SectionProps) => {
   // Media-half height calculation
   const [mediaHeight, setMediaHeight] = React.useState<number | null>(null);
@@ -271,6 +274,10 @@ export const Section = ({
     customProperties['--mobile-bg-opacity'] = `${mobileBackgroundOpacity}`;
   }
 
+  if (backgroundImageLightModeOpacity !== undefined) {
+    customProperties['--section-bg-image-light-opacity'] = String(backgroundImageLightModeOpacity);
+  }
+
   const allStyles = { ...finalStyles, ...customProperties } as React.CSSProperties;
 
   // Create background props object for renderBackgroundComponent
@@ -330,6 +337,7 @@ export const Section = ({
       className={combinedClassName}
       style={allStyles}
       data-section-key={sectionKey}
+      {...(background && background !== 'default' && { 'data-background': background })}
     >
       {/* Render background - wrapped in split container if needed */}
       {backgroundSplit && background && background !== 'default' ? (
