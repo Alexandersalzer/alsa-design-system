@@ -7,3 +7,4 @@ export { StickyTextContent } from './StickyTextContent';
 
 // Specialized patterns with unique features
 export { PortfolioGrid } from './PortfolioGrid';
+export { PortfolioCarousel } from './PortfolioCarousel';

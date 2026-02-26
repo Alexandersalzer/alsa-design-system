@@ -1,0 +1,8 @@
+/* ===============================================
+   PortfolioCarousel - Portfolio cards in carousel
+============================================== */
+
+.portfolio-carousel__card-wrapper {
+  width: 100%;
+  min-width: 0;
+}

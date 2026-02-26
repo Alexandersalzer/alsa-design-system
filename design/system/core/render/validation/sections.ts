@@ -8,7 +8,7 @@ export const sectionTypeConfig = {
     requiredPatterns: ['sectionBody']
   },
   portfolio: {
-    allowedPatterns: ['sectionBody', 'spinningCarousel', 'portfolioGrid', 'stats'],
+    allowedPatterns: ['sectionBody', 'spinningCarousel', 'portfolioGrid', 'portfolioCarousel', 'stats'],
     requiredPatterns: ['sectionBody']
   },
   testimonials: {
