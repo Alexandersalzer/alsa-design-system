@@ -20,6 +20,7 @@ import {
   detectLocales,
   type FileValidationResult,
 } from '../validators/page-files.validator';
+import { validatePageContent } from '../validators/page-content.validator';
 
 // ANSI color codes for terminal output
 const colors = {
@@ -31,10 +32,12 @@ const colors = {
   yellow: '\x1b[33m',
   blue: '\x1b[34m',
   cyan: '\x1b[36m',
+  magenta: '\x1b[35m',
 };
 
 export interface ValidationSummary {
   totalPages: number;
+  validPages: number;
   totalErrors: number;
   totalWarnings: number;
   duration: number;
@@ -79,6 +82,7 @@ export async function validatePages(
 
   let totalErrors = 0;
   let totalWarnings = 0;
+  let validPages = 0;
 
   // Step 1: Validate directory structure
   console.log(`\n${colors.bright}📁 Step 1: Directory Structure${colors.reset}`);
@@ -91,6 +95,7 @@ export async function validatePages(
     console.log(`\n${colors.red}❌ Cannot continue - required directories missing${colors.reset}\n`);
     return {
       totalPages: 0,
+      validPages: 0,
       totalErrors,
       totalWarnings,
       duration: Date.now() - startTime,
@@ -112,6 +117,7 @@ export async function validatePages(
     console.log(`\n${colors.red}❌ No locales found in /public/content${colors.reset}\n`);
     return {
       totalPages: 0,
+      validPages: 0,
       totalErrors: totalErrors + 1,
       totalWarnings,
       duration: Date.now() - startTime,
@@ -148,20 +154,66 @@ export async function validatePages(
   totalErrors += consistencyResult.errors.length;
   totalWarnings += consistencyResult.warnings.length;
 
+  // Step 7: Validate page JSON content structure
+  if (foundPages.length > 0) {
+    console.log(`\n${colors.bright}📋 Step 6: Page Content Validation${colors.reset}`);
+    console.log(`${colors.dim}Validating section types, structure, and positioning rules...${colors.reset}\n`);
+    
+    for (const slug of foundPages) {
+      const pageResult = validatePageContent(publicDir, slug, locales);
+      
+      const status = pageResult.valid ? '✅' : '❌';
+      const color = pageResult.valid ? colors.green : colors.red;
+      
+      // Page header with details
+      let header = `${color}${status} ${colors.bright}${slug}${colors.reset}`;
+      
+      if (pageResult.details) {
+        const { sectionCount, sectionTypes } = pageResult.details;
+        if (sectionCount !== undefined && sectionTypes) {
+          header += ` ${colors.dim}(${sectionCount} sections: ${sectionTypes.join(', ')})${colors.reset}`;
+        }
+      }
+      
+      console.log(header);
+      
+      if (pageResult.errors.length > 0) {
+        console.log(`${colors.red}  Errors:${colors.reset}`);
+        pageResult.errors.forEach(err => console.log(`    - ${err}`));
+      }
+      
+      if (pageResult.warnings.length > 0) {
+        console.log(`${colors.yellow}  Warnings:${colors.reset}`);
+        pageResult.warnings.forEach(warn => console.log(`    - ${warn}`));
+      }
+      
+      totalErrors += pageResult.errors.length;
+      totalWarnings += pageResult.warnings.length;
+      
+      if (pageResult.valid) {
+        validPages++;
+      }
+      
+      console.log(''); // Empty line between pages
+    }
+  }
+
   // Summary
   const duration = Date.now() - startTime;
   const success = totalErrors === 0;
   
-  console.log('\n' + '─'.repeat(60));
+  console.log('─'.repeat(60));
   console.log(`\n${colors.bright}${colors.cyan}📊 Validation Summary${colors.reset}`);
   console.log(`  ${colors.dim}Project:${colors.reset} ${path.basename(path.dirname(publicDir))}`);
-  console.log(`  ${colors.dim}Pages found:${colors.reset} ${foundPages.length}`);
+  console.log(`  ${colors.dim}Pages validated:${colors.reset} ${foundPages.length}`);
+  console.log(`  ${colors.dim}Pages valid:${colors.reset} ${colors.green}${validPages}${colors.reset}`);
+  console.log(`  ${colors.dim}Pages invalid:${colors.reset} ${colors.red}${foundPages.length - validPages}${colors.reset}`);
   console.log(`  ${colors.dim}Locales:${colors.reset} ${locales.join(', ')}`);
   
   if (success) {
-    console.log(`  ${colors.green}✅ Status: PASSED${colors.reset}`);
+    console.log(`  ${colors.green}${colors.bright}✅ Status: PASSED${colors.reset}`);
   } else {
-    console.log(`  ${colors.red}❌ Status: FAILED${colors.reset}`);
+    console.log(`  ${colors.red}${colors.bright}❌ Status: FAILED${colors.reset}`);
   }
   
   console.log(`  ${colors.red}Errors: ${totalErrors}${colors.reset}`);
@@ -171,6 +223,7 @@ export async function validatePages(
 
   return {
     totalPages: foundPages.length,
+    validPages,
     totalErrors,
     totalWarnings,
     duration,
