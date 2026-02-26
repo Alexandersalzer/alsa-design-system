@@ -34,6 +34,7 @@ export const createPortfolioSchema = (locale: SupportedLocale = 'sv'): Component
           editorType: 'segmented',
           values: ['image', 'video'] as const,
           group: 'content',
+          cmsEnabled: true,
           editorHint: 'Välj om detta objekt är en bild eller en video.',
         },
         undefined
@@ -44,7 +45,7 @@ export const createPortfolioSchema = (locale: SupportedLocale = 'sv'): Component
           type: 'string',
           required: true,
           editorType: 'url',
-          cmsEnabled: false, // Hanteras via Media Gallery i dashboard
+          cmsEnabled: false, // Sätts via Media Gallery (Byta media)
           group: 'content',
         },
         undefined
@@ -55,9 +56,9 @@ export const createPortfolioSchema = (locale: SupportedLocale = 'sv'): Component
           type: 'string',
           required: false,
           editorType: 'url',
-          cmsEnabled: false,
+          cmsEnabled: true, // Synlig i editor så man kan välja thumbnail för video
           group: 'content',
-          editorHint: 'Thumbnail för video (lämna tom för auto).',
+          editorHint: 'Omslagsbild för video. Lämna tom för auto, eller välj bild nedan.',
         },
         undefined
       ),
@@ -68,6 +69,7 @@ export const createPortfolioSchema = (locale: SupportedLocale = 'sv'): Component
           required: false,
           editorType: 'text',
           group: 'content',
+          cmsEnabled: true,
         },
         undefined
       ),
@@ -79,6 +81,7 @@ export const createPortfolioSchema = (locale: SupportedLocale = 'sv'): Component
           editorType: 'text',
           maxLength: 150,
           group: 'content',
+          cmsEnabled: true,
         },
         undefined
       ),

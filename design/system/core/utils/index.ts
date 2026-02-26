@@ -6,6 +6,7 @@
 export * from './props';
 export * from './env';
 export * from './loaders';
+export * from './media';
 
 // Context providers
 export { PageSlugProvider } from '../context/PageSlugProvider';
