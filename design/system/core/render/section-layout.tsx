@@ -74,7 +74,6 @@ export function renderSectionLayout({
     cardBackgroundSettings = {},
     cardBorderStyle = 'none',
     cardColumnVerticalAlign,
-    showTag = false,
   } = layout || {};
 
   // När wrapInCard: samma vertikala alignment för båda kolumnerna (default center så det inte sitter i hörnet)
@@ -154,7 +153,6 @@ export function renderSectionLayout({
     isInSecondColumn: false,
     verticalAlign,
     sectionAnimation,
-    showTag,
   };
 
   // Context for patterns in the second column (uses opposite alignment by default)
