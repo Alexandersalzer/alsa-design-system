@@ -139,9 +139,9 @@ export function validateStructureFile(
     
     // Get ordered section types
     const orderedSectionTypes = orderKeys
-      .map(key => content.sections[key])
-      .filter(s => s && s.type)
-      .map(s => s.type);
+      .map((key: string) => content.sections[key])
+      .filter((s: any) => s && s.type)
+      .map((s: any) => s.type);
 
     // Rule: Hero must be first (if present)
     const heroIndex = orderedSectionTypes.indexOf('hero');

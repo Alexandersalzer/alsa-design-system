@@ -95,6 +95,7 @@ export async function validatePages(
     console.log(`\n${colors.red}❌ Cannot continue - required directories missing${colors.reset}\n`);
     return {
       totalPages: 0,
+      validPages: 0,
       totalErrors,
       totalWarnings,
       duration: Date.now() - startTime,
@@ -116,6 +117,7 @@ export async function validatePages(
     console.log(`\n${colors.red}❌ No locales found in /public/content${colors.reset}\n`);
     return {
       totalPages: 0,
+      validPages: 0,
       totalErrors: totalErrors + 1,
       totalWarnings,
       duration: Date.now() - startTime,
