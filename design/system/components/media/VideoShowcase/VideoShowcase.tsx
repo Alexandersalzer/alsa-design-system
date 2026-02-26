@@ -15,6 +15,7 @@ import { Scale } from '../../animations/Scale/Scale';
 import { AnimationConfig } from '../../animations/types';
 import { CDN_BASE_URL } from '../../../core/utils/env';
 import { getVideoThumbnailUrl } from '../../../core/utils/media';
+import { IframeEmbed } from '../../thirdparty/embed/IframeEmbed';
 import './VideoShowcase.css';
 import './PlayButton.css';
 import './DeviceFrames.css';
@@ -53,6 +54,8 @@ export interface VideoShowcaseProps extends React.VideoHTMLAttributes<HTMLVideoE
   overlay?: React.ReactNode;
   /** Country code or emoji for flag badge overlay (e.g., 'de', '🇩🇪', 'germany') */
   flagCountry?: string;
+  /** YouTube embed URL - when provided, clicking the thumbnail will load YouTube video instead of native video */
+  youtubeUrl?: string;
 }
 
 export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
@@ -79,12 +82,14 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   mobileMaxWidth,
   overlay,
   flagCountry,
+  youtubeUrl,
   ...props
 }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(initialMuted);
   const [volume, setVolume] = useState(0.7); // Default 70%
   const [showVolumeIndicator, setShowVolumeIndicator] = useState(false);
+  const [showYouTube, setShowYouTube] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const volumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -200,6 +205,13 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
   }, [instanceId]);
 
   const handlePlayClick = () => {
+    // If YouTube URL is provided, show YouTube iframe instead
+    if (youtubeUrl) {
+      setShowYouTube(true);
+      setIsPlaying(true);
+      return;
+    }
+
     if (videoRef.current) {
       if (videoRef.current.paused) {
         // Dispatch event to pause all other videos
@@ -257,7 +269,69 @@ export const VideoShowcase = forwardRef<HTMLVideoElement, VideoShowcaseProps>(({
     };
   }, []);
 
-  const videoContent = (
+  // Convert aspectRatio to size for IframeEmbed
+  const getIframeSize = (): 'video' | 'calendar' | 'md' => {
+    if (aspectRatio === '16-9' || aspectRatio === '4-3') return 'video';
+    return 'md';
+  };
+
+  // Map aspectRatio to height for YouTube embed
+  const getYouTubeHeight = (): string => {
+    switch (aspectRatio) {
+      case '16-9': return '56.25%'; // padding-bottom trick for 16:9
+      case '9-16': return '177.78%'; // 9:16 aspect ratio
+      case '4-3': return '75%';
+      case '4-5': return '125%';
+      case '1-1': return '100%';
+      case '2-3': return '150%';
+      default: return '600px';
+    }
+  };
+
+  // Map radius to IframeEmbed compatible radius
+  const getIframeRadius = (): 'none' | 'sm' | 'md' | 'lg' => {
+    if (frame !== 'none') return 'none';
+    if (radius === 'xl' || radius === 'full') return 'lg';
+    return radius as 'none' | 'sm' | 'md' | 'lg';
+  };
+
+  const videoContent = showYouTube && youtubeUrl ? (
+    <div
+      ref={containerRef}
+      className={cn(
+        "video-container",
+        `video-container--radius-${radius}`,
+        mobileMaxWidth !== undefined && "video-container--mobile-max-width"
+      )}
+      style={mobileMaxWidth ? { '--mobile-max-width': `${mobileMaxWidth}px` } as React.CSSProperties : undefined}
+    >
+      <IframeEmbed
+        src={youtubeUrl}
+        size={getIframeSize()}
+        height={getYouTubeHeight()}
+        radius={getIframeRadius()}
+        border={false}
+        title="Video showcase"
+        allowFullscreen={true}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      />
+      {(overlay || flagCountry) && (
+        <div
+          className="video-container__overlay"
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            pointerEvents: 'none'
+          }}
+        >
+          {overlay}
+          {flagCountry && <Flag country={flagCountry} size="sm" variant="rounded" />}
+        </div>
+      )}
+    </div>
+  ) : (
     <div
       ref={containerRef}
       className={cn(
