@@ -209,7 +209,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     },
     default: 'default',
     group: 'background',
-    cmsEnabled: true
+    cmsEnabled: false
   },
   
   backgroundImage: {
