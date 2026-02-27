@@ -11,8 +11,8 @@ import {
   isValidSectionType,
   getSectionPositionRequirement,
   type SectionType
-} from '../schemas/section.types';
-import { validateSectionLayout } from '../schemas/section-layout.schema';
+} from '../schemas/sections/section.types';
+import { validateSectionLayout } from '../schemas/sections/section-layout.schema';
 
 export interface ContentValidationResult {
   valid: boolean;

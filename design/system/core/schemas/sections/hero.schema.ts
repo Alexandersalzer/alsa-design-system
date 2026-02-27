@@ -5,8 +5,8 @@
  * Heroes are landing sections with primary call-to-action.
  */
 
-import type { SectionSchema } from '../section-schema.types';
-import { defaultSectionLayoutProps, defaultSectionSchemaBase } from '../section-layout.schema';
+import type { SectionSchema } from './section-schema.types';
+import { defaultSectionLayoutProps, defaultSectionSchemaBase } from './section-layout.schema';
 
 export const heroSectionSchema: SectionSchema = {
   $id: 'hero',

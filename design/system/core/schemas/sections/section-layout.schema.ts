@@ -6,7 +6,7 @@
  */
 
 import type { SectionSchema } from './section-schema.types';
-import type { PropConfig } from './shared';
+import type { PropConfig } from '../shared';
 import type { SectionType } from './section.types';
 
 /**

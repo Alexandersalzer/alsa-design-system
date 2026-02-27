@@ -18,7 +18,7 @@ export type {
   SectionType,
   SectionMetadata,
   SectionValidationConfig
-} from './section.types';
+} from './sections/section.types';
 
 export {
   AllowedSectionTypes,
@@ -30,7 +30,7 @@ export {
   getSectionMetadata,
   getSectionsByCategory,
   getSectionPositionRequirement
-} from './section.types';
+} from './sections/section.types';
 
 // Section schema system - complete schema definitions for sections
 export type {
@@ -39,17 +39,17 @@ export type {
   SectionSchema,
   LayoutPropNames,
   RequiredLayoutPropNames
-} from './section-schema.types';
+} from './sections/section-schema.types';
 
 export {
   defaultSectionLayoutProps,
   defaultSectionSchemaBase,
   validateSectionLayout
-} from './section-layout.schema';
+} from './sections/section-layout.schema';
 
 export type {
   SectionLayoutValidationResult
-} from './section-layout.schema';
+} from './sections/section-layout.schema';
 
 // Section schema registry
 export {
@@ -59,7 +59,7 @@ export {
   hasSectionSchema,
   getDefaultSectionLayout,
   getSectionLayoutProp
-} from './section-schema.registry';
+} from './sections/section-schema.registry';
 
 // Individual section schemas
 export { heroSectionSchema } from './sections/hero.schema';

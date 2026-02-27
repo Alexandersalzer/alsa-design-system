@@ -7,7 +7,7 @@
 
 import type { SectionSchema } from './section-schema.types';
 import type { SectionType } from './section.types';
-import { heroSectionSchema } from './sections/hero.schema';
+import { heroSectionSchema } from './hero.schema';
 import { defaultSectionLayoutProps, defaultSectionSchemaBase } from './section-layout.schema';
 
 /**

@@ -9,7 +9,7 @@ import type {
   PropConfig,
   ValidationRule,
   BaseExample
-} from './shared';
+} from '../shared';
 import type { SectionType } from './section.types';
 
 // ============================================
