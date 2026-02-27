@@ -12,12 +12,12 @@ export const videoShowcaseTranslations_sv = {
       description: 'Video-URL eller sökväg',
     },
     poster: {
-      displayName: 'Miniatyrbild',
-      description: 'Miniatyrbild som visas innan video spelar',
+      displayName: 'Förhandsvisning',
+      description: 'Bild som visas innan video spelar. Välj från galleri.',
     },
     youtubeUrl: {
       displayName: 'YouTube-video (valfritt)',
-      description: 'YouTube embed-URL (t.ex. https://www.youtube.com/embed/...) – lämna tom om du bara vill visa miniatyrbild',
+      description: 'YouTube embed-URL (t.ex. https://www.youtube.com/embed/...) – lämna tom om du bara vill visa förhandsvisningsbild',
     },
     aspectRatio: {
       displayName: 'Bildförhållande',

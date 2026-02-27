@@ -13,7 +13,7 @@ export const videoShowcaseTranslations_en = {
     },
     poster: {
       displayName: 'Thumbnail',
-      description: 'Thumbnail image shown before video plays',
+      description: 'Image shown before video plays. Select from gallery.',
     },
     youtubeUrl: {
       displayName: 'YouTube video (optional)',
