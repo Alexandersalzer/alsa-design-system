@@ -167,11 +167,13 @@ export function renderSectionLayout({
   };
 
   // Context for patterns in the second column (uses opposite alignment by default)
+  // When action patterns are in secondColumn, force 'end' alignment for better UX
   const secondColumnContext = {
     alignSectionHeader: getOppositeAlign(alignSectionHeader),
     isInSecondColumn: true,
     verticalAlign,
     sectionAnimation,
+    ...(actionPatternsInSecondColumn.length > 0 && { forcedAlignment: 'end' as const }),
   };
   
   // ===== ENFORCE CENTER ALIGNMENT CASCADE RULE =====
@@ -522,6 +524,10 @@ export function renderSectionLayout({
   
   // Determine which column SectionHeader should be in based on alignSectionHeader
   const isSectionHeaderInRightColumn = alignSectionHeader === 'right';
+
+  // Smart default alignment for secondColumn: use 'end' if action patterns present, else 'start'
+  const hasActionInSecondColumn = actionPatternsInSecondColumn.length > 0;
+  const defaultSecondColumnAlign = hasActionInSecondColumn ? 'end' : 'start';
 
   // Get SectionHeader maxWidth and align if it exists  
   const sectionHeaderMaxWidth = sectionHeaderKey ? patterns[sectionHeaderKey]?.props?.maxWidth || '650px' : '650px';
