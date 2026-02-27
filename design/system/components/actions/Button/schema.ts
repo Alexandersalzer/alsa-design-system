@@ -49,7 +49,8 @@ export const createButtonSchema = (locale: SupportedLocale = 'sv'): ComponentSch
           required: true,
           default: t.defaultContent,
           editorType: 'text',
-          maxLength: 50,
+          minLength: 1,
+          maxLength: 25,
           group: 'content',
           cmsEnabled: true,
         },
@@ -215,10 +216,10 @@ export const createButtonSchema = (locale: SupportedLocale = 'sv'): ComponentSch
       },
       {
         id: 'content-length',
-        message: t.validation?.['content-length'] || 'Button text should be concise (max 50 characters recommended)',
+        message: t.validation?.['content-length'] || 'Button text should be concise (max 25 characters recommended)',
         validator: (value, allProps) => {
           const content = allProps.content || '';
-          return content.length <= 50;
+          return content.length <= 25;
         },
         severity: 'warning',
       },
