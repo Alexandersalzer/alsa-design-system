@@ -1,235 +1,231 @@
 /**
- * Section Layout Schema
+ * Default Section Layout Schema
  * 
- * Defines validation rules for section layouts.
- * Used for:
- * - Validating section layout in page files
- * - Providing type safety and documentation
+ * Base layout props available to all sections.
+ * Individual sections can override/extend these.
  */
 
-import type { SectionType } from './section.types';
-
-// ============================================
-// LAYOUT FIELD TYPES
-// ============================================
-
-export type SectionHeaderAlignment = 'left' | 'center';
-export type VerticalAlignment = 'start' | 'center' | 'end';
-export type ColumnRatio = '1:1' | '1:2' | '2:1' | '2:3' | '3:2';
-export type LayoutGap = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-export type StackBreakpoint = 'tablet' | 'desktop';
-
-// ============================================
-// SECTION LAYOUT RULES
-// ============================================
+import type { SectionSchema } from './section-schema.types';
+import type { PropConfig } from './shared';
 
 /**
- * Layout field validation rules
+ * Common layout props available to most sections
  */
-export interface SectionLayoutRules {
-  // SectionHeader alignment - only 'left' and 'center' allowed
+export const defaultSectionLayoutProps: Record<string, PropConfig> = {
+  // ============================================
+  // HEADER GROUP
+  // ============================================
+  
   alignSectionHeader: {
-    allowedValues: SectionHeaderAlignment[];
-    default: SectionHeaderAlignment;
-    rule: string;
-    message: string;
-  };
-  
-  // Vertical align for columns
-  verticalAlign: {
-    allowedValues: VerticalAlignment[];
-    default: VerticalAlignment;
-  };
-  
-  // SectionHeader vertical align
-  sectionHeaderVerticalAlign: {
-    allowedValues: VerticalAlignment[];
-    default: VerticalAlignment;
-  };
-  
-  // Column ratio
-  ratio: {
-    allowedValues: ColumnRatio[];
-    default: ColumnRatio;
-  };
-  
-  // Gap between patterns/columns
-  gap: {
-    allowedValues: LayoutGap[];
-    default: LayoutGap;
-  };
-  
-  // Stack breakpoint
-  stackAt: {
-    allowedValues: StackBreakpoint[];
-    default: StackBreakpoint;
-  };
-}
-
-/**
- * Default section layout rules
- */
-export const sectionLayoutRules: SectionLayoutRules = {
-  alignSectionHeader: {
-    allowedValues: ['left', 'center'],
+    name: 'alignSectionHeader',
+    type: 'enum',
+    displayName: 'Header Alignment',
+    description: 'Alignment of section header. "left" enables split layout with right column.',
+    editorType: 'segmented',
+    values: ['left', 'center'],
+    valueLabels: {
+      left: 'Left',
+      center: 'Center'
+    },
     default: 'center',
-    rule: 'alignment-restriction',
-    message: 'Section header alignment must be either "left" or "center". "right" is not allowed.'
+    group: 'header',
+    cmsEnabled: true
   },
   
-  verticalAlign: {
-    allowedValues: ['start', 'center', 'end'],
-    default: 'center'
+  distanceAction: {
+    name: 'distanceAction',
+    type: 'boolean',
+    displayName: 'Distance Action',
+    description: 'Move action buttons to bottom of section',
+    editorType: 'toggle',
+    default: false,
+    group: 'header',
+    cmsEnabled: true,
+    visibleWhen: {
+      // Only show if section has action patterns
+      property: '_hasActionPattern',
+      operator: 'equals',
+      value: true
+    }
   },
   
-  sectionHeaderVerticalAlign: {
-    allowedValues: ['start', 'center', 'end'],
-    default: 'start'
+  // ============================================
+  // COLUMNS GROUP
+  // ============================================
+  
+  secondColumn: {
+    name: 'secondColumn',
+    type: 'array',
+    displayName: 'Right Column Patterns',
+    description: 'Select patterns to display in right column',
+    editorType: 'list', // Custom pattern selector handled in SectionLayoutEditor
+    items: {
+      name: 'pattern',
+      type: 'string',
+      displayName: 'Pattern'
+    },
+    default: [],
+    group: 'columns',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: 'alignSectionHeader',
+      operator: 'equals',
+      value: 'left'
+    }
   },
   
   ratio: {
-    allowedValues: ['1:1', '1:2', '2:1', '2:3', '3:2'],
-    default: '1:1'
+    name: 'ratio',
+    type: 'enum',
+    displayName: 'Column Ratio',
+    description: 'Width ratio between first and second column',
+    editorType: 'segmented',
+    values: ['1:1', '1:2', '2:1', '2:3', '3:2'],
+    valueLabels: {
+      '1:1': '1:1',
+      '1:2': '1:2',
+      '2:1': '2:1',
+      '2:3': '2:3',
+      '3:2': '3:2'
+    },
+    default: '1:1',
+    group: 'columns',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: '_hasActiveSecondColumn',
+      operator: 'equals',
+      value: true
+    }
   },
   
-  gap: {
-    allowedValues: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
-    default: 'xl'
+  verticalAlign: {
+    name: 'verticalAlign',
+    type: 'enum',
+    displayName: 'Vertical Alignment',
+    description: 'Vertical alignment between columns',
+    editorType: 'segmented',
+    values: ['start', 'center', 'end'],
+    valueLabels: {
+      start: 'Top',
+      center: 'Middle',
+      end: 'Bottom'
+    },
+    default: 'center',
+    group: 'columns',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: '_hasActiveSecondColumn',
+      operator: 'equals',
+      value: true
+    }
+  },
+  
+  sectionHeaderVerticalAlign: {
+    name: 'sectionHeaderVerticalAlign',
+    type: 'enum',
+    displayName: 'Header Column Alignment',
+    description: 'Vertical alignment of section header within its column',
+    editorType: 'segmented',
+    values: ['start', 'center', 'end'],
+    valueLabels: {
+      start: 'Top',
+      center: 'Middle',
+      end: 'Bottom'
+    },
+    default: 'start',
+    group: 'columns',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: '_hasActiveSecondColumn',
+      operator: 'equals',
+      value: true
+    }
   },
   
   stackAt: {
-    allowedValues: ['tablet', 'desktop'],
-    default: 'desktop'
-  }
-};
-
-// ============================================
-// SECTION-SPECIFIC LAYOUT RULES
-// ============================================
-
-/**
- * Some sections may have specific layout requirements
- * Override default rules per section type
- */
-export const sectionSpecificLayoutRules: Partial<Record<SectionType, Partial<SectionLayoutRules>>> = {
-  hero: {
-    alignSectionHeader: {
-      ...sectionLayoutRules.alignSectionHeader,
-      default: 'center'
+    name: 'stackAt',
+    type: 'enum',
+    displayName: 'Stack At',
+    description: 'Breakpoint when split layout collapses to single column',
+    editorType: 'segmented',
+    values: ['tablet', 'desktop'],
+    valueLabels: {
+      tablet: 'Tablet',
+      desktop: 'Desktop'
+    },
+    default: 'desktop',
+    group: 'columns',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: '_hasActiveSecondColumn',
+      operator: 'equals',
+      value: true
     }
   },
   
-  contact: {
-    alignSectionHeader: {
-      ...sectionLayoutRules.alignSectionHeader,
-      default: 'center'
+  // ============================================
+  // MOBILE GROUP
+  // ============================================
+  
+  mobileAlign: {
+    name: 'mobileAlign',
+    type: 'enum',
+    displayName: 'Mobile Alignment',
+    description: 'Alignment override for mobile screens',
+    editorType: 'segmented',
+    values: ['left', 'center'],
+    valueLabels: {
+      left: 'Left',
+      center: 'Center'
+    },
+    group: 'mobile',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: '_viewport',
+      operator: 'equals',
+      value: 'mobile'
     }
   }
 };
 
 /**
- * Get layout rules for specific section type
+ * Default section schema (base for all sections)
  */
-export function getSectionLayoutRules(sectionType?: SectionType): SectionLayoutRules {
-  if (!sectionType) return sectionLayoutRules;
+export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 'displayName'> = {
+  description: 'Base section configuration',
+  version: '1.0.0',
+  layoutProps: defaultSectionLayoutProps,
+  cmsEnabled: true,
   
-  const specificRules = sectionSpecificLayoutRules[sectionType];
-  if (!specificRules) return sectionLayoutRules;
+  defaultLayout: {
+    alignSectionHeader: 'center',
+    distanceAction: false,
+    secondColumn: [],
+    ratio: '1:1',
+    verticalAlign: 'center',
+    sectionHeaderVerticalAlign: 'start',
+    stackAt: 'desktop'
+  },
   
-  // Merge specific rules with default rules
-  return {
-    ...sectionLayoutRules,
-    ...specificRules
-  };
-}
-
-// ============================================
-// VALIDATION HELPERS
-// ============================================
-
-/**
- * Validate section layout configuration
- */
-export function validateSectionLayout(
-  layout: any,
-  sectionType?: SectionType
-): { valid: boolean; errors: string[]; warnings: string[] } {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  const rules = getSectionLayoutRules(sectionType);
-  
-  // Validate alignSectionHeader - ONLY 'left' and 'center' allowed
-  if (layout.alignSectionHeader) {
-    if (!rules.alignSectionHeader.allowedValues.includes(layout.alignSectionHeader)) {
-      errors.push(
-        `Invalid alignSectionHeader: "${layout.alignSectionHeader}". ${rules.alignSectionHeader.message}`
-      );
+  validation: [
+    {
+      id: 'alignment-restriction',
+      message: 'Section header alignment must be either "left" or "center"',
+      validator: (value: any, allProps: any) => {
+        const align = allProps.alignSectionHeader;
+        return !align || align === 'left' || align === 'center';
+      },
+      severity: 'error'
+    },
+    {
+      id: 'second-column-requires-left-align',
+      message: 'secondColumn requires alignSectionHeader to be "left"',
+      validator: (value: any, allProps: any) => {
+        const hasSecondColumn = allProps.secondColumn?.length > 0;
+        const isLeftAligned = allProps.alignSectionHeader === 'left';
+        return !hasSecondColumn || isLeftAligned;
+      },
+      severity: 'warning'
     }
-  }
-  
-  // Validate verticalAlign
-  if (layout.verticalAlign) {
-    if (!rules.verticalAlign.allowedValues.includes(layout.verticalAlign)) {
-      errors.push(
-        `Invalid verticalAlign: "${layout.verticalAlign}". ` +
-        `Allowed: ${rules.verticalAlign.allowedValues.join(', ')}`
-      );
-    }
-  }
-  
-  // Validate sectionHeaderVerticalAlign
-  if (layout.sectionHeaderVerticalAlign) {
-    if (!rules.sectionHeaderVerticalAlign.allowedValues.includes(layout.sectionHeaderVerticalAlign)) {
-      errors.push(
-        `Invalid sectionHeaderVerticalAlign: "${layout.sectionHeaderVerticalAlign}". ` +
-        `Allowed: ${rules.sectionHeaderVerticalAlign.allowedValues.join(', ')}`
-      );
-    }
-  }
-  
-  // Validate ratio
-  if (layout.ratio) {
-    if (!rules.ratio.allowedValues.includes(layout.ratio)) {
-      errors.push(
-        `Invalid ratio: "${layout.ratio}". ` +
-        `Allowed: ${rules.ratio.allowedValues.join(', ')}`
-      );
-    }
-  }
-  
-  // Validate gap
-  if (layout.gap) {
-    if (!rules.gap.allowedValues.includes(layout.gap)) {
-      errors.push(
-        `Invalid gap: "${layout.gap}". ` +
-        `Allowed: ${rules.gap.allowedValues.join(', ')}`
-      );
-    }
-  }
-  
-  // Validate stackAt
-  if (layout.stackAt) {
-    if (!rules.stackAt.allowedValues.includes(layout.stackAt)) {
-      errors.push(
-        `Invalid stackAt: "${layout.stackAt}". ` +
-        `Allowed: ${rules.stackAt.allowedValues.join(', ')}`
-      );
-    }
-  }
-  
-  // Warning: secondColumn without alignSectionHeader = 'left'
-  if (layout.secondColumn && Array.isArray(layout.secondColumn) && layout.secondColumn.length > 0) {
-    if (layout.alignSectionHeader !== 'left') {
-      warnings.push(
-        'secondColumn is defined but alignSectionHeader is not "left". ' +
-        'Split layout requires alignSectionHeader to be "left"'
-      );
-    }
-  }
-  
-  return {
-    valid: errors.length === 0,
-    errors,
-    warnings
-  };
-}
+  ]
+};

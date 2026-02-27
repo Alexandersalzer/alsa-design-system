@@ -32,22 +32,32 @@ export {
   getSectionPositionRequirement
 } from './section.types';
 
-// Section layout schema - validation rules for section layouts
+// Section schema system - complete schema definitions for sections
 export type {
-  SectionHeaderAlignment,
-  VerticalAlignment,
-  ColumnRatio,
-  LayoutGap,
-  StackBreakpoint,
-  SectionLayoutRules
-} from './section-layout.schema';
+  SectionLayoutPropGroup,
+  SectionLayoutExample,
+  SectionSchema,
+  LayoutPropNames,
+  RequiredLayoutPropNames
+} from './section-schema.types';
 
 export {
-  sectionLayoutRules,
-  sectionSpecificLayoutRules,
-  getSectionLayoutRules,
-  validateSectionLayout
+  defaultSectionLayoutProps,
+  defaultSectionSchemaBase
 } from './section-layout.schema';
+
+// Section schema registry
+export {
+  getSectionSchema,
+  getAllSectionSchemas,
+  getSectionSchemasByCategory,
+  hasSectionSchema,
+  getDefaultSectionLayout,
+  getSectionLayoutProp
+} from './section-schema.registry';
+
+// Individual section schemas
+export { heroSectionSchema } from './sections/hero.schema';
 
 // i18n system
 export * from './i18n';
