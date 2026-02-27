@@ -90,6 +90,14 @@
 }
 
 /* Background variants */
+
+/* Raised — solid elevated surface with a top-down inset shadow (depth without glass) */
+.navbar-container__unified-wrapper--raised {
+  background: var(--surface-raised);
+  box-shadow: inset 0 2px 8px 0 rgba(0, 0, 0, 0.08), inset 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  border-color: var(--border-subtle);
+}
+
 .navbar-container__unified-wrapper--glass {
   background: color-mix(in srgb, var(--surface-page) 85%, transparent);
   backdrop-filter: blur(16px);
@@ -97,6 +105,29 @@
   border-color: var(--border-subtle);
 }
 
+/* glass-clear: barely visible at rest, solidifies on scroll / drawer open */
+.navbar-container__unified-wrapper--glass-clear {
+  background: color-mix(in srgb, var(--surface-page) 30%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 75%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+/* glass-clear becomes more opaque when drawer is open */
+.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--expanded {
+  background: color-mix(in srgb, var(--surface-page) 92%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Legacy alias — keep glass-transparent working if any existing JSON uses it */
 .navbar-container__unified-wrapper--glass-transparent {
   background: color-mix(in srgb, var(--surface-page) 30%, transparent);
   backdrop-filter: blur(8px);
@@ -111,7 +142,6 @@
   border-color: var(--border-subtle);
 }
 
-/* Glass-transparent becomes more opaque when drawer is open */
 .navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--expanded {
   background: color-mix(in srgb, var(--surface-page) 92%, transparent);
   backdrop-filter: blur(20px);
@@ -220,6 +250,28 @@
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
   border-radius: 0;
+}
+
+/* Bar + raised */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--raised {
+  background: var(--surface-raised);
+  box-shadow: inset 0 -2px 8px 0 rgba(0, 0, 0, 0.06);
+  border-bottom-color: var(--border-subtle);
+  border-radius: 0;
+}
+
+/* Bar + glass-clear */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-clear {
+  background: color-mix(in srgb, var(--surface-page) 30%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom-color: var(--border-subtle);
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--surface-page) 75%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 /* Bar + transparent */
