@@ -42,14 +42,14 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
   
   about: createBasicSectionSchema(
     'about',
-    'About Section',
+    'About',
     'content',
     'Section describing company or service overview'
   ),
   
   services: createBasicSectionSchema(
     'services',
-    'Services Section',
+    'Services',
     'content',
     'Showcase of services or features'
   ),
@@ -57,7 +57,7 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
   testimonials: {
     ...createBasicSectionSchema(
       'testimonials',
-      'Testimonials Section',
+      'Testimonials',
       'social-proof',
       'Customer testimonials and reviews'
     ),
@@ -70,14 +70,14 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
   
   faq: createBasicSectionSchema(
     'faq',
-    'FAQ Section',
+    'FAQ',
     'utility',
     'Frequently asked questions'
   ),
   
   pricing: createBasicSectionSchema(
     'pricing',
-    'Pricing Section',
+    'Pricing',
     'conversion',
     'Pricing plans and packages'
   ),
@@ -85,7 +85,7 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
   cta: {
     ...createBasicSectionSchema(
       'cta',
-      'Call-to-Action Section',
+      'CTA',
       'conversion',
       'Conversion-focused call-to-action'
     ),
@@ -98,7 +98,7 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
   logos: {
     ...createBasicSectionSchema(
       'logos',
-      'Logo Section',
+      'Logos',
       'social-proof',
       'Client or partner logos showcase'
     ),
@@ -110,21 +110,21 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
   
   stats: createBasicSectionSchema(
     'stats',
-    'Statistics Section',
+    'Stats',
     'social-proof',
     'Key metrics and statistics'
   ),
   
   team: createBasicSectionSchema(
     'team',
-    'Team Section',
+    'Team',
     'content',
     'Team member profiles'
   ),
   
   process: createBasicSectionSchema(
     'process',
-    'Process Section',
+    'Process',
     'content',
     'Step-by-step process or workflow'
   ),
@@ -132,7 +132,7 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
   contact: {
     ...createBasicSectionSchema(
       'contact',
-      'Contact Section',
+      'Contact',
       'conversion',
       'Contact form and information'
     ),

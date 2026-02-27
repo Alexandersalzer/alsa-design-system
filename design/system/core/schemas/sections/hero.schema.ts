@@ -10,7 +10,7 @@ import { defaultSectionLayoutProps, defaultSectionSchemaBase } from './section-l
 
 export const heroSectionSchema: SectionSchema = {
   $id: 'hero',
-  displayName: 'Hero Section',
+  displayName: 'Hero',
   category: 'hero',
   description: 'Landing section with primary call-to-action',
   icon: 'Sparkles',
@@ -26,6 +26,12 @@ export const heroSectionSchema: SectionSchema = {
       ...defaultSectionLayoutProps.alignSectionHeader,
       default: 'center',
       description: 'Hero sections typically center-align for maximum impact'
+    },
+    
+    // Disable distanceAction for hero sections
+    distanceAction: {
+      ...defaultSectionLayoutProps.distanceAction,
+      cmsEnabled: false
     }
   },
   
