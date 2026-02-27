@@ -24,6 +24,7 @@ interface SectionLayoutProps {
   order: string[];
   sectionKey: string;
   sectionAnimation?: AnimationConfig;
+  sectionProps?: Record<string, any>; // Section props (may contain background)
   locale?: string;
 }
 
@@ -43,6 +44,10 @@ interface SectionLayoutProps {
  * 
  * 3. distanceAction = true:
  *    - ButtonGroup moved to bottom of section (after all patterns)
+ * 
+ * 4. wrapInCard = true with section background:
+ *    - When wrapInCard is enabled AND section has background props,
+ *    - Background is moved from Section to Card wrapper
  */
 export function renderSectionLayout({ 
   layout, 
@@ -50,6 +55,7 @@ export function renderSectionLayout({
   order,
   sectionKey,
   sectionAnimation,
+  sectionProps,
   locale
 }: SectionLayoutProps) {
   
@@ -285,8 +291,18 @@ export function renderSectionLayout({
 
     // Wrap in Card if enabled
     if (wrapInCard) {
-      const hasCardBackground = Boolean(cardBackground);
-      const cardBackgroundProps: BackgroundProps = { ...(cardBackgroundSettings || {}) } as BackgroundProps;
+      // Use section background if no explicit cardBackground is set
+      const effectiveCardBackground = cardBackground || sectionProps?.background;
+      const effectiveCardBackgroundSettings = cardBackground 
+        ? cardBackgroundSettings 
+        : sectionProps || {};
+      
+      const hasCardBackground = Boolean(effectiveCardBackground);
+      const cardBackgroundProps: BackgroundProps = { 
+        ...effectiveCardBackgroundSettings,
+        background: effectiveCardBackground
+      } as BackgroundProps;
+      
       const cardBorderCss =
         cardBorderStyle === 'subtle'
           ? '1px solid var(--border-subtle)'
@@ -297,7 +313,7 @@ export function renderSectionLayout({
               : undefined;
 
       if (hasCardBackground) {
-        const cardBgLightOpacity = cardBackgroundSettings?.backgroundImageLightModeOpacity;
+        const cardBgLightOpacity = effectiveCardBackgroundSettings?.backgroundImageLightModeOpacity;
         return (
           <Container height="auto">
             <Card
@@ -324,7 +340,7 @@ export function renderSectionLayout({
                   }),
                 }}
               >
-                {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
+                {renderBackgroundComponent(effectiveCardBackground as any, cardBackgroundProps)}
               </Box>
               <Box
                 style={{
@@ -399,8 +415,18 @@ export function renderSectionLayout({
 
     // Wrap in Card if enabled
     if (wrapInCard) {
-      const hasCardBackground = Boolean(cardBackground);
-      const cardBackgroundProps: BackgroundProps = { ...(cardBackgroundSettings || {}) } as BackgroundProps;
+      // Use section background if no explicit cardBackground is set
+      const effectiveCardBackground = cardBackground || sectionProps?.background;
+      const effectiveCardBackgroundSettings = cardBackground 
+        ? cardBackgroundSettings 
+        : sectionProps || {};
+      
+      const hasCardBackground = Boolean(effectiveCardBackground);
+      const cardBackgroundProps: BackgroundProps = { 
+        ...effectiveCardBackgroundSettings,
+        background: effectiveCardBackground
+      } as BackgroundProps;
+      
       const cardBorderCss =
         cardBorderStyle === 'subtle'
           ? '1px solid var(--border-subtle)'
@@ -411,7 +437,7 @@ export function renderSectionLayout({
               : undefined;
 
       if (hasCardBackground) {
-        const cardBgLightOpacity = cardBackgroundSettings?.backgroundImageLightModeOpacity;
+        const cardBgLightOpacity = effectiveCardBackgroundSettings?.backgroundImageLightModeOpacity;
         return (
           <Container height="auto">
             <Card
@@ -438,7 +464,7 @@ export function renderSectionLayout({
                   }),
                 }}
               >
-                {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
+                {renderBackgroundComponent(effectiveCardBackground as any, cardBackgroundProps)}
               </Box>
               <Box
                 style={{
@@ -706,8 +732,17 @@ export function renderSectionLayout({
           );
           if (!wrapInCard) return layoutContent;
 
-          const hasCardBackground = Boolean(cardBackground);
-          const cardBackgroundProps: BackgroundProps = { ...(cardBackgroundSettings || {}) } as BackgroundProps;
+          // Use section background if no explicit cardBackground is set
+          const effectiveCardBackground = cardBackground || sectionProps?.background;
+          const effectiveCardBackgroundSettings = cardBackground 
+            ? cardBackgroundSettings 
+            : sectionProps || {};
+          
+          const hasCardBackground = Boolean(effectiveCardBackground);
+          const cardBackgroundProps: BackgroundProps = { 
+            ...effectiveCardBackgroundSettings,
+            background: effectiveCardBackground
+          } as BackgroundProps;
 
           const cardBorderCss =
             cardBorderStyle === 'subtle'
@@ -719,7 +754,7 @@ export function renderSectionLayout({
                   : undefined;
 
           if (hasCardBackground) {
-            const cardBgLightOpacity = cardBackgroundSettings?.backgroundImageLightModeOpacity;
+            const cardBgLightOpacity = effectiveCardBackgroundSettings?.backgroundImageLightModeOpacity;
             return (
               <Card
                 variant="ghost"
@@ -745,7 +780,7 @@ export function renderSectionLayout({
                     }),
                   }}
                 >
-                  {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
+                  {renderBackgroundComponent(effectiveCardBackground as any, cardBackgroundProps)}
                 </Box>
                 <Box
                   style={{

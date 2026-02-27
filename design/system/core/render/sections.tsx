@@ -33,8 +33,32 @@ export function renderSection(
   // Auto-detect hero: first section + key starts with "hero_"
   const isHero = sectionIndex === 0 && sectionKey.startsWith('hero_');
 
+  // Check if background should be moved from Section to Card
+  const wrapInCard = layout?.wrapInCard;
+  const hasBackground = props?.background && props.background !== 'default';
+  const moveBackgroundToCard = wrapInCard && hasBackground;
+
   // If layout config exists, use LayoutRenderer
   if (layout) {
+    // Filter out background props when they should be in card instead
+    const sectionProps = moveBackgroundToCard 
+      ? Object.keys(props || {}).reduce((acc, key) => {
+          // Remove all background-related props
+          if (key.startsWith('background') || 
+              key.startsWith('generative') || 
+              key.startsWith('gradient') ||
+              key.startsWith('pattern') ||
+              key.startsWith('video') ||
+              key.startsWith('solid') ||
+              key.startsWith('image') ||
+              key === 'videoSrc' ||
+              key === 'videoPoster') {
+            return acc;
+          }
+          return { ...acc, [key]: props[key] };
+        }, {})
+      : props;
+
     return (
       <Section
         key={sectionKey}
@@ -42,7 +66,7 @@ export function renderSection(
         height="auto"
         sectionKey={sectionKey}
         applyNavbarVoid={isHero}
-        {...props}
+        {...sectionProps}
       >
         {renderSectionLayout({
           layout,
@@ -50,6 +74,7 @@ export function renderSection(
           order: patternOrder,
           sectionKey,
           sectionAnimation: props?.animation,
+          sectionProps: props, // Pass full props to layout renderer
           locale,
         })}
       </Section>
