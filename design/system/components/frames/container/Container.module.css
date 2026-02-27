@@ -12,8 +12,9 @@
   /* Internal layout - uses global selected spacing */
   gap: var(--space-container);
 
-  /* Width constraints */
+  /* Width and centering */
   max-width: var(--width-container);
+  margin-inline: auto;
 
   /* Horizontal breathing room (edge padding) */
   padding-inline: var(--foundation-space-4);
@@ -52,23 +53,9 @@
 .heightFit  { height: fit-content; }
 
 /* ===== ALIGNMENT VARIANTS ===== */
-.alignLeft   { 
-  align-items: flex-start; 
-  text-align: left;
-  margin-inline-start: 0;
-  margin-inline-end: auto;
-}
-.alignCenter { 
-  align-items: center; 
-  text-align: center;
-  margin-inline: auto;
-}
-.alignRight  { 
-  align-items: flex-end; 
-  text-align: right;
-  margin-inline-start: auto;
-  margin-inline-end: 0;
-}
+.alignLeft   { align-items: flex-start; text-align: left; }
+.alignCenter { align-items: center; text-align: center; }
+.alignRight  { align-items: flex-end; text-align: right; }
 
 /* ===== PADDING VARIANTS ===== */
 .noPadding {

@@ -210,19 +210,10 @@ export const renderPattern = (
       ? wrapWithAnimation(layoutContent, animationConfig, layoutConfig)
       : layoutContent;
 
-    // Determine container alignment from layoutContext
-    // forcedAlignment takes precedence (e.g., center alignment cascade)
-    // Otherwise use pattern's explicit align prop, falling back to alignSectionHeader
-    const containerAlign = layoutContext?.forcedAlignment 
-      || patternProps.align 
-      || layoutContext?.alignSectionHeader 
-      || 'center';
-
     return (
       <Container
         key={patternKey}
         height="auto"
-        align={containerAlign}
         useMediaWidth={patternProps.useMediaWidth || false}
         useFormWidth={patternProps.useFormWidth || false}
         noPadding={patternProps.noPadding || false}
@@ -240,17 +231,10 @@ export const renderPattern = (
     return null;
   }
 
-  // Determine container alignment from layoutContext (same logic as layout path)
-  const containerAlign = layoutContext?.forcedAlignment 
-    || patternProps.align 
-    || layoutContext?.alignSectionHeader 
-    || 'center';
-
   return (
     <Container
       key={patternKey}
       height="auto"
-      align={containerAlign}
       useMediaWidth={patternProps.useMediaWidth || false}
       useFormWidth={patternProps.useFormWidth || false}
       noPadding={patternProps.noPadding || false}
