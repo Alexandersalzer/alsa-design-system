@@ -1,0 +1,278 @@
+/**
+ * Navbar Pattern Schema
+ *
+ * Defines editable props for each navbar pattern type (bar, pill, center-pill).
+ * Used by NavbarLayoutEditor in im-dashboard to render schema-driven controls.
+ *
+ * IMPORTANT: This schema only describes props that are already read by the
+ * navbar pattern components via getPatternProps(). It does NOT modify those
+ * components in any way.
+ *
+ * Props live at: navbar.patterns[patternKey].props
+ */
+
+import type { PropConfig } from '../../core/schemas/shared';
+
+export interface NavbarPatternSchema {
+  $id: string;
+  displayName: string;
+  layoutProps: Record<string, PropConfig>;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Shared props — common across bar, pill and center-pill
+// ─────────────────────────────────────────────────────────────────────────────
+
+const sharedNavbarProps: Record<string, PropConfig> = {
+  // ── STYLE ──────────────────────────────────────────────────────────────────
+  backgroundVariant: {
+    name: 'backgroundVariant',
+    type: 'enum',
+    displayName: 'Background',
+    description: 'Visual background style of the navbar',
+    editorType: 'select',
+    values: ['default', 'glass', 'glass-transparent', 'transparent'],
+    valueLabels: {
+      default: 'Default',
+      glass: 'Glass',
+      'glass-transparent': 'Glass Clear',
+      transparent: 'Transparent',
+    },
+    default: 'default',
+    group: 'style',
+    cmsEnabled: true,
+  },
+
+  showBorder: {
+    name: 'showBorder',
+    type: 'boolean',
+    displayName: 'Show Border',
+    description: 'Show a border around the navbar',
+    editorType: 'toggle',
+    default: true,
+    group: 'style',
+    cmsEnabled: true,
+  },
+
+  hideOnScroll: {
+    name: 'hideOnScroll',
+    type: 'boolean',
+    displayName: 'Hide on Scroll',
+    description: 'Hide navbar when scrolling down, show on scroll up',
+    editorType: 'toggle',
+    default: false,
+    group: 'behavior',
+    cmsEnabled: true,
+  },
+
+  // ── MOBILE ─────────────────────────────────────────────────────────────────
+  mobileMenuAlign: {
+    name: 'mobileMenuAlign',
+    type: 'enum',
+    displayName: 'Mobile Menu Align',
+    description: 'Alignment of links inside the mobile drawer',
+    editorType: 'segmented',
+    values: ['left', 'center', 'right'],
+    valueLabels: { left: 'Left', center: 'Center', right: 'Right' },
+    default: 'left',
+    group: 'mobile',
+    cmsEnabled: true,
+  },
+
+  hideLogoTextOnMobile: {
+    name: 'hideLogoTextOnMobile',
+    type: 'boolean',
+    displayName: 'Hide Logo Text on Mobile',
+    description: 'Hide the text next to the logo on mobile screens',
+    editorType: 'toggle',
+    default: false,
+    group: 'mobile',
+    cmsEnabled: true,
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Bar schema — full-width bar navbar
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const navbarBarSchema: NavbarPatternSchema = {
+  $id: 'bar',
+  displayName: 'Navbar',
+
+  layoutProps: {
+    // ── LAYOUT ───────────────────────────────────────────────────────────────
+    menuAlign: {
+      name: 'menuAlign',
+      type: 'enum',
+      displayName: 'Menu Alignment',
+      description: 'Horizontal alignment of navigation links on desktop',
+      editorType: 'segmented',
+      values: ['left', 'center', 'right'],
+      valueLabels: { left: 'Left', center: 'Center', right: 'Right' },
+      default: 'right',
+      group: 'layout',
+      cmsEnabled: true,
+    },
+
+    maxMenuItems: {
+      name: 'maxMenuItems',
+      type: 'number',
+      displayName: 'Max Menu Items',
+      description: 'Maximum number of menu links to show',
+      editorType: 'number',
+      min: 1,
+      max: 10,
+      default: 5,
+      group: 'layout',
+      cmsEnabled: true,
+    },
+
+    logoGap: {
+      name: 'logoGap',
+      type: 'enum',
+      displayName: 'Logo Gap',
+      description: 'Space between logo image and logo text',
+      editorType: 'segmented',
+      values: ['xs', 'sm', 'md', 'lg'],
+      valueLabels: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG' },
+      default: 'sm',
+      group: 'layout',
+      cmsEnabled: true,
+    },
+
+    ...sharedNavbarProps,
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Pill schema — floating pill navbar
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const navbarPillSchema: NavbarPatternSchema = {
+  $id: 'pill',
+  displayName: 'Navbar',
+
+  layoutProps: {
+    // ── LAYOUT ───────────────────────────────────────────────────────────────
+    menuAlign: {
+      name: 'menuAlign',
+      type: 'enum',
+      displayName: 'Menu Alignment',
+      description: 'Horizontal alignment of navigation links on desktop',
+      editorType: 'segmented',
+      values: ['left', 'center', 'right'],
+      valueLabels: { left: 'Left', center: 'Center', right: 'Right' },
+      default: 'right',
+      group: 'layout',
+      cmsEnabled: true,
+    },
+
+    maxMenuItems: {
+      name: 'maxMenuItems',
+      type: 'number',
+      displayName: 'Max Menu Items',
+      description: 'Maximum number of menu links to show',
+      editorType: 'number',
+      min: 1,
+      max: 10,
+      default: 5,
+      group: 'layout',
+      cmsEnabled: true,
+    },
+
+    logoGap: {
+      name: 'logoGap',
+      type: 'enum',
+      displayName: 'Logo Gap',
+      description: 'Space between logo image and logo text',
+      editorType: 'segmented',
+      values: ['xs', 'sm', 'md', 'lg'],
+      valueLabels: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG' },
+      default: 'sm',
+      group: 'layout',
+      cmsEnabled: true,
+    },
+
+    mobileMenuVariant: {
+      name: 'mobileMenuVariant',
+      type: 'enum',
+      displayName: 'Drawer Style',
+      description: 'How the mobile menu expands',
+      editorType: 'segmented',
+      values: ['sheet', 'fullscreen'],
+      valueLabels: { sheet: 'Sheet', fullscreen: 'Full Screen' },
+      default: 'sheet',
+      group: 'mobile',
+      cmsEnabled: true,
+    },
+
+    ...sharedNavbarProps,
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Center-pill schema — logo left + centered pill + actions right
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const navbarCenterPillSchema: NavbarPatternSchema = {
+  $id: 'center-pill',
+  displayName: 'Navbar',
+
+  layoutProps: {
+    // ── LAYOUT ───────────────────────────────────────────────────────────────
+    maxMenuItems: {
+      name: 'maxMenuItems',
+      type: 'number',
+      displayName: 'Max Menu Items',
+      description: 'Maximum number of menu links to show',
+      editorType: 'number',
+      min: 1,
+      max: 10,
+      default: 5,
+      group: 'layout',
+      cmsEnabled: true,
+    },
+
+    logoGap: {
+      name: 'logoGap',
+      type: 'enum',
+      displayName: 'Logo Gap',
+      description: 'Space between logo image and logo text',
+      editorType: 'segmented',
+      values: ['xs', 'sm', 'md', 'lg'],
+      valueLabels: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG' },
+      default: 'sm',
+      group: 'layout',
+      cmsEnabled: true,
+    },
+
+    mobileMenuVariant: {
+      name: 'mobileMenuVariant',
+      type: 'enum',
+      displayName: 'Drawer Style',
+      description: 'How the mobile menu expands',
+      editorType: 'segmented',
+      values: ['sheet', 'fullscreen'],
+      valueLabels: { sheet: 'Sheet', fullscreen: 'Full Screen' },
+      default: 'fullscreen',
+      group: 'mobile',
+      cmsEnabled: true,
+    },
+
+    ...sharedNavbarProps,
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Registry — look up schema by pattern type
+// ─────────────────────────────────────────────────────────────────────────────
+
+const navbarSchemaRegistry: Record<string, NavbarPatternSchema> = {
+  bar: navbarBarSchema,
+  pill: navbarPillSchema,
+  'center-pill': navbarCenterPillSchema,
+};
+
+export function getNavbarPatternSchema(patternType: string): NavbarPatternSchema | null {
+  return navbarSchemaRegistry[patternType] ?? null;
+}
