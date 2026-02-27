@@ -12,7 +12,7 @@ import { Container } from '../../components/frames/container/Container';
 import { Card } from '../../components/layout/Card/Card';
 import { LayoutConfig } from '../types/layout';
 import { PatternNode } from '../types/nodes';
-import { renderPattern, renderPatternDirect } from './patterns';
+import { renderPattern, renderPatternDirect, type LayoutContext } from './patterns';
 import { renderBackgroundComponent } from './background';
 import { actionsRegistry } from '../../patterns/actions/registry';
 import { AnimationConfig } from '../../components/animations/types';
@@ -167,12 +167,23 @@ export function renderSectionLayout({
   };
 
   // Context for patterns in the second column (uses opposite alignment by default)
+  // When action patterns are in secondColumn, force 'end' alignment for better UX
   const secondColumnContext = {
     alignSectionHeader: getOppositeAlign(alignSectionHeader),
     isInSecondColumn: true,
     verticalAlign,
     sectionAnimation,
+    ...(actionPatternsInSecondColumn.length > 0 && { forcedAlignment: 'end' as const }),
   };
+  
+  // ===== ENFORCE CENTER ALIGNMENT CASCADE RULE =====
+  // When alignSectionHeader is 'center', all patterns must be center-aligned
+  // This overrides any pattern-specific alignment settings
+  const centeredLayoutContext = alignSectionHeader === 'center' ? {
+    ...layoutContext,
+    alignSectionHeader: 'center' as const,
+    forcedAlignment: 'center' as const, // Explicit flag for patterns to respect
+  } : layoutContext;
 
   // Check if second column contains only media patterns (for stretch behavior)
   const derivedSecondColumnMediaOnly = secondColumnPatterns.length > 0 &&
@@ -276,17 +287,19 @@ export function renderSectionLayout({
             <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: '0 auto', width: '100%' }}>
               <VStack spacing="lg" align="center">
                 {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, centeredLayoutContext, locale))}
               </VStack>
             </Box>
           </Container>
         )}
-        {renderPatterns(otherPatternKeys)}
-        {renderPatterns(actionPatternsInSecondColumn)}
+        {renderPatterns(otherPatternKeys, centeredLayoutContext)}
+        {renderPatterns(actionPatternsInSecondColumn, centeredLayoutContext)}
         {distancedActionPatterns.length > 0 && (
           <Container height="auto">
             <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+              <VStack spacing="lg" align="center">
+                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, centeredLayoutContext, locale))}
+              </VStack>
             </Box>
           </Container>
         )}
@@ -410,7 +423,9 @@ export function renderSectionLayout({
         {distancedActionPatterns.length > 0 && (
           <Container height="auto">
             <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+              <VStack spacing="lg" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
+                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+              </VStack>
             </Box>
           </Container>
         )}
@@ -509,6 +524,10 @@ export function renderSectionLayout({
   
   // Determine which column SectionHeader should be in based on alignSectionHeader
   const isSectionHeaderInRightColumn = alignSectionHeader === 'right';
+
+  // Smart default alignment for secondColumn: use 'end' if action patterns present, else 'start'
+  const hasActionInSecondColumn = actionPatternsInSecondColumn.length > 0;
+  const defaultSecondColumnAlign = hasActionInSecondColumn ? 'end' : 'start';
 
   // Get SectionHeader maxWidth and align if it exists  
   const sectionHeaderMaxWidth = sectionHeaderKey ? patterns[sectionHeaderKey]?.props?.maxWidth || '650px' : '650px';
@@ -727,7 +746,9 @@ export function renderSectionLayout({
           <Box className="desktop-only">
             <Container height="auto">
               <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                <VStack spacing="lg" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
+                  {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                </VStack>
               </Box>
             </Container>
           </Box>

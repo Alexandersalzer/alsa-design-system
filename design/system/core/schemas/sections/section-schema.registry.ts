@@ -141,7 +141,14 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
       alignSectionHeader: 'center',
       distanceAction: false // Keep form actions close
     }
-  }
+  },
+
+  results: createBasicSectionSchema(
+    'results',
+    'Results',
+    'content',
+    'Search results or case studies'
+   )
 };
 
 /**

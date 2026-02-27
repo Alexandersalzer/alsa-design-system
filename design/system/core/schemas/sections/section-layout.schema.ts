@@ -21,7 +21,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     name: 'alignSectionHeader',
     type: 'enum',
     displayName: 'Header Alignment',
-    description: 'Alignment of section header. "left" enables split layout with right column.',
+    description: 'Alignment of section header. "center" stacks all patterns vertically with center alignment. "left" enables split layout with right column.',
     editorType: 'segmented',
     values: ['left', 'center'],
     valueLabels: {
@@ -209,7 +209,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     },
     default: 'default',
     group: 'background',
-    cmsEnabled: true
+    cmsEnabled: false
   },
   
   backgroundImage: {
@@ -305,6 +305,19 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
         return !hasSecondColumn || isLeftAligned;
       },
       severity: 'warning'
+    },
+    {
+      id: 'center-alignment-cascade',
+      message: 'When alignSectionHeader is "center", all patterns are center-aligned and stacked vertically',
+      validator: (value: any, allProps: any) => {
+        // This rule is enforced automatically by the renderer
+        // When alignSectionHeader === 'center':
+        // - All patterns rendered in single VStack with align="center"
+        // - secondColumn is cleared
+        // - Layout context passes align: 'center' to all patterns
+        return true; // Always valid - this is informational/enforcement note
+      },
+      severity: 'info'
     }
   ]
 };
