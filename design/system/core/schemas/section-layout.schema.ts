@@ -7,6 +7,7 @@
 
 import type { SectionSchema } from './section-schema.types';
 import type { PropConfig } from './shared';
+import type { SectionType } from './section.types';
 
 /**
  * Common layout props available to most sections
@@ -229,3 +230,50 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     }
   ]
 };
+
+/**
+ * Validation result for section layout
+ */
+export interface SectionLayoutValidationResult {
+  valid: boolean;
+  errors: string[];
+  warnings: string[];
+}
+
+/**
+ * Validate section layout against schema rules
+ * @param layout - Layout configuration to validate
+ * @param sectionType - Type of section being validated
+ * @returns Validation result with errors and warnings
+ */
+export function validateSectionLayout(
+  layout: any,
+  sectionType: SectionType
+): SectionLayoutValidationResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  
+  // Run validation rules from schema
+  for (const rule of defaultSectionSchemaBase.validation || []) {
+    // Skip string validators (expressions not supported yet)
+    if (typeof rule.validator === 'string') {
+      continue;
+    }
+    
+    const isValid = rule.validator(layout, layout);
+    
+    if (!isValid) {
+      if (rule.severity === 'error') {
+        errors.push(rule.message);
+      } else if (rule.severity === 'warning') {
+        warnings.push(rule.message);
+      }
+    }
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors,
+    warnings
+  };
+}

@@ -43,7 +43,12 @@ export type {
 
 export {
   defaultSectionLayoutProps,
-  defaultSectionSchemaBase
+  defaultSectionSchemaBase,
+  validateSectionLayout
+} from './section-layout.schema';
+
+export type {
+  SectionLayoutValidationResult
 } from './section-layout.schema';
 
 // Section schema registry

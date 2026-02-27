@@ -242,12 +242,12 @@ export function validateStructureFile(
         );
         
         if (!layoutValidation.valid) {
-          layoutValidation.errors.forEach(err => 
+          layoutValidation.errors.forEach((err: string) => 
             errors.push(`Section "${sectionKey}" layout: ${err}`)
           );
         }
         
-        layoutValidation.warnings.forEach(warn => 
+        layoutValidation.warnings.forEach((warn: string) => 
           warnings.push(`Section "${sectionKey}" layout: ${warn}`)
         );
       }
