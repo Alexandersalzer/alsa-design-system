@@ -25,7 +25,8 @@ export const AllowedSectionTypes = [
   'stats',
   'team',
   'process',
-  'contact'
+  'contact',
+  'results'
 ] as const;
 
 /**
@@ -221,6 +222,13 @@ export const sectionMetadata: Record<SectionType, SectionMetadata> = {
     description: 'Contact form and information',
     icon: 'Mail',
     category: 'conversion'
+  },
+  results: {
+    type: 'results',
+    displayName: 'Results',
+    description: 'Search results or case studies',
+    icon: 'CheckCircle',
+    category: 'content'
   }
 };
 
