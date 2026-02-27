@@ -79,6 +79,8 @@ export interface LayoutContext {
   sectionAnimation?: AnimationConfig;
   /** Locale for language-specific defaults */
   locale?: string;
+  /** Forced alignment that overrides pattern-specific alignment (enforced by section layout rules) */
+  forcedAlignment?: 'left' | 'center' | 'right';
 }
 
 /**

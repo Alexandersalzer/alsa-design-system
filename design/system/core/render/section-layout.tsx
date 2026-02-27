@@ -12,7 +12,7 @@ import { Container } from '../../components/frames/container/Container';
 import { Card } from '../../components/layout/Card/Card';
 import { LayoutConfig } from '../types/layout';
 import { PatternNode } from '../types/nodes';
-import { renderPattern, renderPatternDirect } from './patterns';
+import { renderPattern, renderPatternDirect, type LayoutContext } from './patterns';
 import { renderBackgroundComponent } from './background';
 import { actionsRegistry } from '../../patterns/actions/registry';
 import { AnimationConfig } from '../../components/animations/types';
@@ -173,6 +173,15 @@ export function renderSectionLayout({
     verticalAlign,
     sectionAnimation,
   };
+  
+  // ===== ENFORCE CENTER ALIGNMENT CASCADE RULE =====
+  // When alignSectionHeader is 'center', all patterns must be center-aligned
+  // This overrides any pattern-specific alignment settings
+  const centeredLayoutContext = alignSectionHeader === 'center' ? {
+    ...layoutContext,
+    alignSectionHeader: 'center' as const,
+    forcedAlignment: 'center' as const, // Explicit flag for patterns to respect
+  } : layoutContext;
 
   // Check if second column contains only media patterns (for stretch behavior)
   const derivedSecondColumnMediaOnly = secondColumnPatterns.length > 0 &&
@@ -276,17 +285,17 @@ export function renderSectionLayout({
             <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: '0 auto', width: '100%' }}>
               <VStack spacing="lg" align="center">
                 {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, centeredLayoutContext, locale))}
               </VStack>
             </Box>
           </Container>
         )}
-        {renderPatterns(otherPatternKeys)}
-        {renderPatterns(actionPatternsInSecondColumn)}
+        {renderPatterns(otherPatternKeys, centeredLayoutContext)}
+        {renderPatterns(actionPatternsInSecondColumn, centeredLayoutContext)}
         {distancedActionPatterns.length > 0 && (
           <Container height="auto">
             <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, centeredLayoutContext, locale))}
             </Box>
           </Container>
         )}
