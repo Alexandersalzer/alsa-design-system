@@ -15,6 +15,10 @@ export const videoShowcaseTranslations_en = {
       displayName: 'Thumbnail',
       description: 'Thumbnail image shown before video plays',
     },
+    youtubeUrl: {
+      displayName: 'YouTube video (optional)',
+      description: 'YouTube embed URL (e.g. https://www.youtube.com/embed/...) – leave empty to show thumbnail only',
+    },
     aspectRatio: {
       displayName: 'Aspect Ratio',
       description: 'Video aspect ratio',

@@ -15,6 +15,10 @@ export const videoShowcaseTranslations_sv = {
       displayName: 'Miniatyrbild',
       description: 'Miniatyrbild som visas innan video spelar',
     },
+    youtubeUrl: {
+      displayName: 'YouTube-video (valfritt)',
+      description: 'YouTube embed-URL (t.ex. https://www.youtube.com/embed/...) – lämna tom om du bara vill visa miniatyrbild',
+    },
     aspectRatio: {
       displayName: 'Bildförhållande',
       description: 'Videons bildförhållande',

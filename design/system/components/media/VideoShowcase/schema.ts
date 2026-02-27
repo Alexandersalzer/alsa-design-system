@@ -7,6 +7,7 @@
 
 import { ComponentSchema } from '../../../core/schemas/component.types';
 import { getTranslation, createLocalizedProp } from '../../../core/schemas/i18n';
+import type { PropTranslation } from '../../../core/schemas/i18n/types';
 import { videoShowcaseTranslations } from './i18n';
 import type { SupportedLocale } from '../../../core/schemas/i18n/types';
 
@@ -39,9 +40,9 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
         {
           name: 'src',
           type: 'string',
-          required: true,
+          required: false,
           editorType: 'url',
-          cmsEnabled: false, // Hidden - use Media Gallery instead
+          cmsEnabled: true,
           group: 'content',
         },
         t.props?.src
@@ -53,10 +54,22 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
           type: 'string',
           required: false,
           editorType: 'url',
-          cmsEnabled: false, // Hidden - auto-generated from video
+          cmsEnabled: true,
           group: 'content',
         },
         t.props?.poster
+      ),
+      
+      youtubeUrl: createLocalizedProp(
+        {
+          name: 'youtubeUrl',
+          type: 'string',
+          required: false,
+          editorType: 'url',
+          cmsEnabled: true,
+          group: 'content',
+        },
+        (t.props as Record<string, PropTranslation> | undefined)?.youtubeUrl
       ),
       
       aspectRatio: createLocalizedProp(
@@ -214,9 +227,9 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
     
     validation: [
       {
-        id: 'videoShowcase-src-required',
-        message: 'Video source is required',
-        validator: (value: any) => !!value.src,
+        id: 'videoShowcase-src-or-poster',
+        message: 'Ange minst miniatyrbild (poster) eller video-URL',
+        validator: (value: any) => !!(value?.poster || value?.src || value?.youtubeUrl),
       },
     ],
     examples: [],
