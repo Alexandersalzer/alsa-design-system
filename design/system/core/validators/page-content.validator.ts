@@ -11,7 +11,8 @@ import {
   isValidSectionType,
   getSectionPositionRequirement,
   type SectionType
-} from '../schemas/section.types';
+} from '../schemas/sections/section.types';
+import { validateSectionLayout } from '../schemas/sections/section-layout.schema';
 
 export interface ContentValidationResult {
   valid: boolean;
@@ -228,6 +229,27 @@ export function validateStructureFile(
             `Current first: "${patternOrder[0]}"`
           );
         }
+      }
+
+      // ============================================
+      // 6b. VALIDATE SECTION LAYOUT
+      // ============================================
+      
+      if (sectionData.layout) {
+        const layoutValidation = validateSectionLayout(
+          sectionData.layout,
+          sectionData.type as SectionType
+        );
+        
+        if (!layoutValidation.valid) {
+          layoutValidation.errors.forEach((err: string) => 
+            errors.push(`Section "${sectionKey}" layout: ${err}`)
+          );
+        }
+        
+        layoutValidation.warnings.forEach((warn: string) => 
+          warnings.push(`Section "${sectionKey}" layout: ${warn}`)
+        );
       }
     }
 

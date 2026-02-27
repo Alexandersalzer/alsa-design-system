@@ -154,9 +154,18 @@ export interface LayoutConfig {
   cardColumnVerticalAlign?: 'start' | 'center' | 'end';
 
   /**
-   * Whether to show the tag component in SectionHeader patterns.
-   * When true, the tag is rendered above the heading if tag component has content.
-   * Default: false
+   * Background type för hela sektionen
+   * När wrapInCard är true, flyttas bakgrunden till kortet istället för section-elementet
    */
-  showTag?: boolean;
+  background?: 'default' | 'image' | 'gradient' | 'generative' | 'pattern' | 'solid';
+
+  /**
+   * Background image URL när background är 'image'
+   */
+  backgroundImage?: string;
+
+  /**
+   * Opacity för background image i light mode (0-1)
+   */
+  backgroundImageLightModeOpacity?: number;
 }
