@@ -24,7 +24,8 @@ export type SectionLayoutPropGroup =
   | 'columns'      // Split layout and column configuration
   | 'spacing'      // Gap, padding
   | 'mobile'       // Mobile-specific overrides
-  | 'card'         // Card wrapper settings
+  | 'container'    // Container wrapper settings (wrap in card, elevation)
+  | 'card'         // Card wrapper settings (deprecated - use container)
   | 'background'   // Background settings
   | 'animation';   // Animation settings
 

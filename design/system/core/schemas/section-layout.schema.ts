@@ -186,6 +186,21 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       operator: 'equals',
       value: 'mobile'
     }
+  },
+  
+  // ============================================
+  // CONTAINER GROUP
+  // ============================================
+  
+  wrapInCard: {
+    name: 'wrapInCard',
+    type: 'boolean',
+    displayName: 'Wrap in Card',
+    description: 'Wrap section content in a card container with elevation and border',
+    editorType: 'toggle',
+    default: false,
+    group: 'container',
+    cmsEnabled: true
   }
 };
 
@@ -205,7 +220,8 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     ratio: '1:1',
     verticalAlign: 'center',
     sectionHeaderVerticalAlign: 'start',
-    stackAt: 'desktop'
+    stackAt: 'desktop',
+    wrapInCard: false
   },
   
   validation: [
