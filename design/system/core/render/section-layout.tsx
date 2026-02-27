@@ -405,13 +405,7 @@ export function renderSectionLayout({
     const marginValue = effectiveAlign === 'center' ? '0 auto' : effectiveAlign === 'end' ? '0 0 0 auto' : '0 auto 0 0';
     
     const alignedContent = (
-      <VStack 
-        spacing="none" 
-        align="stretch"
-        style={{
-          alignItems: alignSectionHeader === 'left' ? 'flex-start' : 'flex-end'
-        }}
-      >
+      <VStack spacing="none" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
         {/* SectionHeader + Action Patterns together in one Container with shared VStack */}
         {(sectionHeaderKey || actionPatternsWithHeader.length > 0) && (
           <Container height="auto">
@@ -734,13 +728,7 @@ export function renderSectionLayout({
         {remainingPatterns.length > 0 && (
           <Box className="desktop-only" style={{ width: '100%' }}>
             <Container height="auto">
-              <VStack 
-                spacing="none" 
-                align="stretch"
-                style={{
-                  alignItems: alignSectionHeader === 'left' ? 'flex-start' : 'flex-end'
-                }}
-              >
+              <VStack spacing="none" align="stretch">
                 {renderPatterns(remainingPatterns)}
               </VStack>
             </Container>
