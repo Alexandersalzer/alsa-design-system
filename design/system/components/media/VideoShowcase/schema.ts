@@ -41,8 +41,8 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
           name: 'src',
           type: 'string',
           required: false,
-          editorType: 'video',
-          cmsEnabled: true,
+          editorType: 'url',
+          cmsEnabled: false, // Sätts via Media Gallery (Byta media) i preview – som Portfolio mediaSrc
           group: 'content',
         },
         t.props?.src
@@ -53,8 +53,8 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
           name: 'poster',
           type: 'string',
           required: false,
-          editorType: 'image',
-          cmsEnabled: true,
+          editorType: 'url',
+          cmsEnabled: true, // Synlig i editor med knapp "Välj omslagsbild" – som Portfolio posterSrc
           group: 'content',
         },
         t.props?.poster
