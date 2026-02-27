@@ -26,6 +26,12 @@ export const heroSectionSchema: SectionSchema = {
       ...defaultSectionLayoutProps.alignSectionHeader,
       default: 'center',
       description: 'Hero sections typically center-align for maximum impact'
+    },
+    
+    // Disable distanceAction for hero sections
+    distanceAction: {
+      ...defaultSectionLayoutProps.distanceAction,
+      cmsEnabled: false
     }
   },
   
