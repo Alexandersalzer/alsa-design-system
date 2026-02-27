@@ -189,7 +189,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
   },
   
   // ============================================
-  // CONTAINER GROUP
+  // CARD GROUP
   // ============================================
   
   wrapInCard: {
@@ -199,7 +199,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     description: 'Wrap section content in a card container with elevation and border',
     editorType: 'toggle',
     default: false,
-    group: 'container',
+    group: 'card',
     cmsEnabled: true
   }
 };
