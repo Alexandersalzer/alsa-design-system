@@ -10,7 +10,7 @@ import { defaultSectionLayoutProps, defaultSectionSchemaBase } from './section-l
 
 export const heroSectionSchema: SectionSchema = {
   $id: 'hero',
-  displayName: 'Hero Section',
+  displayName: 'Hero',
   category: 'hero',
   description: 'Landing section with primary call-to-action',
   icon: 'Sparkles',
