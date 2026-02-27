@@ -149,7 +149,6 @@
 /* Raised variant */
 .navbar-bar--raised {
   background: var(--surface-raised);
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
   border-bottom-color: var(--border-subtle);
 }
 

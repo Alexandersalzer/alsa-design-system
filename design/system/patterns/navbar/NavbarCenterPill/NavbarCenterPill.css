@@ -51,13 +51,12 @@
 .navbar-center-pill__middle-pill {
   display: none;
   justify-self: center;
-  padding: var(--space-navbar);
-  background: var(--surface-raised);
-  border: 1px solid var(--border-default);
+  padding: var(--space-navbar) var(--foundation-space-4);
+  background: var(--surface-nav);
+  border: 1px solid var(--border-nav);
   border-radius: var(--radius-navbar-pill);
-  backdrop-filter: blur(12px);
   box-shadow: var(--shadow-sm);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .navbar-center-pill__middle-pill--no-border {
@@ -144,18 +143,15 @@
    Background Variants
    =============================================== */
 
-/* Raised variant */
-.navbar-center-pill--raised {
-  background: var(--surface-raised);
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
-}
+/* ── Background variants — all target only the middle pill, outer nav stays transparent ── */
 
+/* Raised — solid elevated surface in the pill */
 .navbar-center-pill--raised .navbar-center-pill__middle-pill {
-  background: var(--surface-nav);
-  border-color: var(--border-nav);
+  background: var(--surface-raised);
+  border-color: var(--border-subtle);
 }
 
-/* Glass variant - tinted with neutral-1000 */
+/* Glass — tinted frosted pill */
 .navbar-center-pill--glass .navbar-center-pill__middle-pill {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
@@ -163,7 +159,7 @@
   border-color: var(--border-subtle);
 }
 
-/* Glass-clear variant - barely visible at rest, solidifies on scroll */
+/* Glass-clear — barely visible at rest, solidifies on scroll */
 .navbar-center-pill--glass-clear .navbar-center-pill__middle-pill {
   background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   backdrop-filter: blur(12px);
@@ -177,18 +173,19 @@
   -webkit-backdrop-filter: blur(16px);
 }
 
-/* Transparent variant - clear pill at rest, glass on scroll */
+/* Transparent — clear pill at rest, glass on scroll */
 .navbar-center-pill--transparent .navbar-center-pill__middle-pill {
-  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: var(--border-subtle);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: transparent;
 }
 
 .navbar-center-pill--scrolled.navbar-center-pill--transparent .navbar-center-pill__middle-pill {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
 }
 
 /* ===============================================

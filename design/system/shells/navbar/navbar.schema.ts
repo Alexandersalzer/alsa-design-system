@@ -115,32 +115,6 @@ export const navbarBarSchema: NavbarPatternSchema = {
       cmsEnabled: true,
     },
 
-    maxMenuItems: {
-      name: 'maxMenuItems',
-      type: 'number',
-      displayName: 'Max Menu Items',
-      description: 'Maximum number of menu links to show',
-      editorType: 'number',
-      min: 1,
-      max: 10,
-      default: 5,
-      group: 'layout',
-      cmsEnabled: true,
-    },
-
-    logoGap: {
-      name: 'logoGap',
-      type: 'enum',
-      displayName: 'Logo Gap',
-      description: 'Space between logo image and logo text',
-      editorType: 'segmented',
-      values: ['xs', 'sm', 'md', 'lg'],
-      valueLabels: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG' },
-      default: 'sm',
-      group: 'layout',
-      cmsEnabled: true,
-    },
-
     pillWidth: {
       name: 'pillWidth',
       type: 'enum',
@@ -177,32 +151,6 @@ export const navbarPillSchema: NavbarPatternSchema = {
       values: ['left', 'center', 'right'],
       valueLabels: { left: 'Left', center: 'Center', right: 'Right' },
       default: 'right',
-      group: 'layout',
-      cmsEnabled: true,
-    },
-
-    maxMenuItems: {
-      name: 'maxMenuItems',
-      type: 'number',
-      displayName: 'Max Menu Items',
-      description: 'Maximum number of menu links to show',
-      editorType: 'number',
-      min: 1,
-      max: 10,
-      default: 5,
-      group: 'layout',
-      cmsEnabled: true,
-    },
-
-    logoGap: {
-      name: 'logoGap',
-      type: 'enum',
-      displayName: 'Logo Gap',
-      description: 'Space between logo image and logo text',
-      editorType: 'segmented',
-      values: ['xs', 'sm', 'md', 'lg'],
-      valueLabels: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG' },
-      default: 'sm',
       group: 'layout',
       cmsEnabled: true,
     },
@@ -247,32 +195,6 @@ export const navbarCenterPillSchema: NavbarPatternSchema = {
 
   layoutProps: {
     // ── LAYOUT ───────────────────────────────────────────────────────────────
-    maxMenuItems: {
-      name: 'maxMenuItems',
-      type: 'number',
-      displayName: 'Max Menu Items',
-      description: 'Maximum number of menu links to show',
-      editorType: 'number',
-      min: 1,
-      max: 10,
-      default: 5,
-      group: 'layout',
-      cmsEnabled: true,
-    },
-
-    logoGap: {
-      name: 'logoGap',
-      type: 'enum',
-      displayName: 'Logo Gap',
-      description: 'Space between logo image and logo text',
-      editorType: 'segmented',
-      values: ['xs', 'sm', 'md', 'lg'],
-      valueLabels: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG' },
-      default: 'sm',
-      group: 'layout',
-      cmsEnabled: true,
-    },
-
     mobileMenuVariant: {
       name: 'mobileMenuVariant',
       type: 'enum',
