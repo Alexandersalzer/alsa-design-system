@@ -36,7 +36,7 @@ const sharedNavbarProps: Record<string, PropConfig> = {
       default: 'Solid',
       raised: 'Raised',
       glass: 'Glass',
-      'glass-clear': 'Glass Clear',
+      'glass-clear': 'Glass Faint',
       transparent: 'Transparent',
     },
     default: 'default',
