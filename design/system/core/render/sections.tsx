@@ -44,24 +44,37 @@ export function renderSection(
 
   // If layout config exists, use LayoutRenderer
   if (layout) {
-    // Filter out background props when they should be in card instead
-    const sectionProps = moveBackgroundToCard || hasLayoutBackground
-      ? Object.keys(props || {}).reduce((acc, key) => {
-          // Remove all background-related props when layout handles background
-          if (key.startsWith('background') || 
-              key.startsWith('generative') || 
-              key.startsWith('gradient') ||
-              key.startsWith('pattern') ||
-              key.startsWith('video') ||
-              key.startsWith('solid') ||
-              key.startsWith('image') ||
-              key === 'videoSrc' ||
-              key === 'videoPoster') {
-            return acc;
-          }
-          return { ...acc, [key]: (props || {})[key] };
-        }, {})
-      : props;
+    // Build section props
+    let sectionProps = props;
+    
+    // If wrapInCard is true and layout has background, filter out background props (they go to card)
+    if (moveBackgroundToCard) {
+      sectionProps = Object.keys(props || {}).reduce((acc, key) => {
+        // Remove all background-related props when card handles background
+        if (key.startsWith('background') || 
+            key.startsWith('generative') || 
+            key.startsWith('gradient') ||
+            key.startsWith('pattern') ||
+            key.startsWith('video') ||
+            key.startsWith('solid') ||
+            key.startsWith('image') ||
+            key === 'videoSrc' ||
+            key === 'videoPoster') {
+          return acc;
+        }
+        return { ...acc, [key]: (props || {})[key] };
+      }, {});
+    }
+    
+    // If wrapInCard is false but layout has background, use layout background on section
+    if (!wrapInCard && hasLayoutBackground) {
+      sectionProps = {
+        ...sectionProps,
+        background: layout.background,
+        backgroundImage: layout.backgroundImage,
+        backgroundImageLightModeOpacity: layout.backgroundImageLightModeOpacity
+      };
+    }
 
     return (
       <Section
