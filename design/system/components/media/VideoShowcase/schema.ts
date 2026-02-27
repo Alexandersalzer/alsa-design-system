@@ -54,7 +54,7 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
           type: 'string',
           required: false,
           editorType: 'url',
-          cmsEnabled: true, // Synlig i editor med knapp "Välj omslagsbild" – som Portfolio posterSrc
+          cmsEnabled: false, // Sätts via thumbnail-blocket i editor (Förhandsvisning – Välj bild)
           group: 'content',
         },
         t.props?.poster
