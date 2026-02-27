@@ -97,6 +97,12 @@ export const renderPatternDirect = (
 ) => {
   const patternProps = getPatternProps(pattern);
 
+  // Apply forced alignment from layout context if present
+  // This enforces section-level alignment rules (e.g., center alignment cascade)
+  const effectivePatternProps = layoutContext?.forcedAlignment
+    ? { ...patternProps, align: layoutContext.forcedAlignment }
+    : patternProps;
+
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop (like action patterns)
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
@@ -126,7 +132,7 @@ export const renderPatternDirect = (
       pattern.components || {}, 
       sectionKey, 
       patternKey,
-      patternProps,
+      effectivePatternProps, // Use effective props with forced alignment
       isPerItemAnimation ? animationConfig : undefined,
       locale
     );
@@ -173,6 +179,12 @@ export const renderPattern = (
 ) => {
   const patternProps = getPatternProps(pattern);
 
+  // Apply forced alignment from layout context if present
+  // This enforces section-level alignment rules (e.g., center alignment cascade)
+  const effectivePatternProps = layoutContext?.forcedAlignment
+    ? { ...patternProps, align: layoutContext.forcedAlignment }
+    : patternProps;
+
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop (on pattern level, not in props)
   if ((pattern as any).layout) {
     const layoutConfig = (pattern as any).layout;
@@ -197,7 +209,7 @@ export const renderPattern = (
       pattern.components || {}, 
       sectionKey, 
       patternKey,
-      patternProps, // Pass pattern props for align, etc
+      effectivePatternProps, // Use effective props with forced alignment
       isPerItemAnimation ? animationConfig : undefined, // Pass per-item animations to layout renderer
       locale
     );
@@ -212,9 +224,9 @@ export const renderPattern = (
       <Container
         key={patternKey}
         height="auto"
-        useMediaWidth={patternProps.useMediaWidth || false}
-        useFormWidth={patternProps.useFormWidth || false}
-        noPadding={patternProps.noPadding || false}
+        useMediaWidth={effectivePatternProps.useMediaWidth || false}
+        useFormWidth={effectivePatternProps.useFormWidth || false}
+        noPadding={effectivePatternProps.noPadding || false}
         patternKey={patternKey}
       >
         {animatedContent}
@@ -233,9 +245,9 @@ export const renderPattern = (
     <Container
       key={patternKey}
       height="auto"
-      useMediaWidth={patternProps.useMediaWidth || false}
-      useFormWidth={patternProps.useFormWidth || false}
-      noPadding={patternProps.noPadding || false}
+      useMediaWidth={effectivePatternProps.useMediaWidth || false}
+      useFormWidth={effectivePatternProps.useFormWidth || false}
+      noPadding={effectivePatternProps.noPadding || false}
       patternKey={patternKey}
     >
       <PatternComponent
