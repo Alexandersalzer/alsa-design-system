@@ -295,7 +295,9 @@ export function renderSectionLayout({
         {distancedActionPatterns.length > 0 && (
           <Container height="auto">
             <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, centeredLayoutContext, locale))}
+              <VStack spacing="lg" align="center">
+                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, centeredLayoutContext, locale))}
+              </VStack>
             </Box>
           </Container>
         )}
@@ -419,7 +421,9 @@ export function renderSectionLayout({
         {distancedActionPatterns.length > 0 && (
           <Container height="auto">
             <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+              <VStack spacing="lg" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
+                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+              </VStack>
             </Box>
           </Container>
         )}
@@ -736,7 +740,9 @@ export function renderSectionLayout({
           <Box className="desktop-only">
             <Container height="auto">
               <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                <VStack spacing="lg" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
+                  {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                </VStack>
               </Box>
             </Container>
           </Box>
