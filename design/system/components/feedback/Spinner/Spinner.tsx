@@ -17,7 +17,7 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   trackColor?: string;
 
   /** Variant context — matches button variant */
-  variant?: "brand" | "primary" | "secondary" | "accent" | "ghost" | "destructive" | "secondary-glass" | "ghost-glass" | "accent-glass";
+  variant?: "brand" | "primary" | "secondary" | "accent" | "ghost" | "outline" | "destructive" | "secondary-glass" | "ghost-glass" | "accent-glass";
 
   /** Disabled state (used to pick softer contrasts) */
   disabled?: boolean;
@@ -117,6 +117,13 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
             trackColor ||
             "color-mix(in srgb, var(--text-button-ghost) 8%, transparent)";
           spinnerColor = color || "var(--text-button-ghost)";
+          break;
+
+        case "outline":
+          spinnerTrack =
+            trackColor ||
+            "color-mix(in srgb, var(--interactive-primary) 10%, transparent)";
+          spinnerColor = color || "var(--interactive-primary)";
           break;
 
         case "secondary-glass":
