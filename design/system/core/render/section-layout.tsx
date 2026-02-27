@@ -240,13 +240,25 @@ export function renderSectionLayout({
     return defaultOrder;
   };
 
+  // Card padding mapping
+  const cardPaddingToFoundationToken: Record<string, string> = {
+    xs: '2',
+    sm: '4',
+    md: '6',
+    lg: '8',
+    xl: '10',
+    '2xl': '12',
+  };
+  const cardPaddingToken =
+    cardPadding && cardPadding !== 'none' ? cardPaddingToFoundationToken[cardPadding] ?? '8' : null;
+
   // ===== CENTERED LAYOUT (Default) =====
   // No split, everything stacked vertically
   if (alignSectionHeader === 'center') {
     // Get SectionHeader maxWidth if it exists
     const sectionHeaderMaxWidth = sectionHeaderKey ? patterns[sectionHeaderKey]?.props?.maxWidth || '650px' : '650px';
     
-    return (
+    const centeredContent = (
       <VStack spacing="none" align="center">
         {/* SectionHeader + Action Patterns together in one Container with shared VStack */}
         {(sectionHeaderKey || actionPatternsWithHeader.length > 0) && (
@@ -270,6 +282,83 @@ export function renderSectionLayout({
         )}
       </VStack>
     );
+
+    // Wrap in Card if enabled
+    if (wrapInCard) {
+      const hasCardBackground = Boolean(cardBackground);
+      const cardBackgroundProps: BackgroundProps = { ...(cardBackgroundSettings || {}) } as BackgroundProps;
+      const cardBorderCss =
+        cardBorderStyle === 'subtle'
+          ? '1px solid var(--border-subtle)'
+          : cardBorderStyle === 'solid'
+            ? '2px solid var(--border-default)'
+            : cardBorderStyle === 'accent'
+              ? '1px solid var(--accent-500)'
+              : undefined;
+
+      if (hasCardBackground) {
+        const cardBgLightOpacity = cardBackgroundSettings?.backgroundImageLightModeOpacity;
+        return (
+          <Container height="auto">
+            <Card
+              variant="ghost"
+              padding="none"
+              radius={cardRadius}
+              data-card-has-image-bg="true"
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+                position: 'relative',
+                overflow: 'hidden',
+                background: 'transparent',
+                ...(cardBorderCss && { border: cardBorderCss }),
+              }}
+            >
+              <Box
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  ...(cardBgLightOpacity != null && {
+                    ['--section-bg-image-light-opacity' as string]: String(cardBgLightOpacity),
+                  }),
+                }}
+              >
+                {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
+              </Box>
+              <Box
+                style={{
+                  position: 'relative',
+                  padding: cardPaddingToken ? `var(--foundation-space-${cardPaddingToken})` : 0,
+                }}
+              >
+                {centeredContent}
+              </Box>
+            </Card>
+          </Container>
+        );
+      }
+
+      const cardPaddingForCard = (cardPadding === 'xl' || cardPadding === '2xl') ? 'lg' : cardPadding;
+      return (
+        <Container height="auto">
+          <Card
+            variant={cardVariant}
+            padding={cardPaddingForCard}
+            radius={cardRadius}
+            style={{
+              width: '100%',
+              boxSizing: 'border-box',
+              ...(cardBorderCss && { border: cardBorderCss }),
+            }}
+          >
+            {centeredContent}
+          </Card>
+        </Container>
+      );
+    }
+
+    return centeredContent;
   }
 
   // ===== SPLIT LAYOUT (Left or Right aligned SectionHeader) =====
@@ -284,7 +373,7 @@ export function renderSectionLayout({
     const effectiveAlign = sectionHeaderAlign || (alignSectionHeader === 'left' ? 'start' : 'end');
     const marginValue = effectiveAlign === 'center' ? '0 auto' : effectiveAlign === 'end' ? '0 0 0 auto' : '0 auto 0 0';
     
-    return (
+    const alignedContent = (
       <VStack spacing="none" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
         {/* SectionHeader + Action Patterns together in one Container with shared VStack */}
         {(sectionHeaderKey || actionPatternsWithHeader.length > 0) && (
@@ -307,6 +396,83 @@ export function renderSectionLayout({
         )}
       </VStack>
     );
+
+    // Wrap in Card if enabled
+    if (wrapInCard) {
+      const hasCardBackground = Boolean(cardBackground);
+      const cardBackgroundProps: BackgroundProps = { ...(cardBackgroundSettings || {}) } as BackgroundProps;
+      const cardBorderCss =
+        cardBorderStyle === 'subtle'
+          ? '1px solid var(--border-subtle)'
+          : cardBorderStyle === 'solid'
+            ? '2px solid var(--border-default)'
+            : cardBorderStyle === 'accent'
+              ? '1px solid var(--accent-500)'
+              : undefined;
+
+      if (hasCardBackground) {
+        const cardBgLightOpacity = cardBackgroundSettings?.backgroundImageLightModeOpacity;
+        return (
+          <Container height="auto">
+            <Card
+              variant="ghost"
+              padding="none"
+              radius={cardRadius}
+              data-card-has-image-bg="true"
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+                position: 'relative',
+                overflow: 'hidden',
+                background: 'transparent',
+                ...(cardBorderCss && { border: cardBorderCss }),
+              }}
+            >
+              <Box
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  ...(cardBgLightOpacity != null && {
+                    ['--section-bg-image-light-opacity' as string]: String(cardBgLightOpacity),
+                  }),
+                }}
+              >
+                {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
+              </Box>
+              <Box
+                style={{
+                  position: 'relative',
+                  padding: cardPaddingToken ? `var(--foundation-space-${cardPaddingToken})` : 0,
+                }}
+              >
+                {alignedContent}
+              </Box>
+            </Card>
+          </Container>
+        );
+      }
+
+      const cardPaddingForCard = (cardPadding === 'xl' || cardPadding === '2xl') ? 'lg' : cardPadding;
+      return (
+        <Container height="auto">
+          <Card
+            variant={cardVariant}
+            padding={cardPaddingForCard}
+            radius={cardRadius}
+            style={{
+              width: '100%',
+              boxSizing: 'border-box',
+              ...(cardBorderCss && { border: cardBorderCss }),
+            }}
+          >
+            {alignedContent}
+          </Card>
+        </Container>
+      );
+    }
+
+    return alignedContent;
   }
 
   // ===== SPLIT LAYOUT WITH SECOND COLUMN (even if empty) =====
@@ -321,17 +487,6 @@ export function renderSectionLayout({
   const marginValue = effectiveAlign === 'center' ? '0 auto' : effectiveAlign === 'end' ? '0 0 0 auto' : '0 auto 0 0';
 
   // Layout cardPadding (xs/lg/xl) -> foundation numeric token (--foundation-space-2, -8, -10, etc.)
-  const cardPaddingToFoundationToken: Record<string, string> = {
-    xs: '2',
-    sm: '4',
-    md: '6',
-    lg: '8',
-    xl: '10',
-    '2xl': '12',
-  };
-  const cardPaddingToken =
-    cardPadding && cardPadding !== 'none' ? cardPaddingToFoundationToken[cardPadding] ?? '8' : null;
-
   // When wrapInCard: same inner padding for both columns so they align; use real foundation token so spacing to card edge works
   const columnInnerPadding =
     wrapInCard && cardPaddingToken
