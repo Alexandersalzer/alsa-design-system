@@ -30,6 +30,7 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
       aspectRatio: '16-9',
       objectFit: 'contain',
       radius: 'lg',
+      autoPlay: true,
       showPlayButton: true,
       frame: 'none',
       frameColor: 'black',
@@ -112,6 +113,19 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
           group: 'appearance',
         },
         t.props?.radius
+      ),
+      
+      autoPlay: createLocalizedProp(
+        {
+          name: 'autoPlay',
+          type: 'boolean',
+          required: false,
+          default: true,
+          editorType: 'toggle',
+          cmsEnabled: true,
+          group: 'behavior',
+        },
+        (t.props as Record<string, PropTranslation> | undefined)?.autoPlay
       ),
       
       showPlayButton: createLocalizedProp(

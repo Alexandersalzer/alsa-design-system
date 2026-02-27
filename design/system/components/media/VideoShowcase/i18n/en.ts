@@ -54,9 +54,17 @@ export const videoShowcaseTranslations_en = {
         full: 'Full',
       },
     },
+    autoPlay: {
+      displayName: 'Auto play',
+      description: 'Start video automatically',
+      trueLabel: 'Yes',
+      falseLabel: 'No',
+    },
     showPlayButton: {
       displayName: 'Show Play Button',
       description: 'Show play button overlay',
+      trueLabel: 'Yes',
+      falseLabel: 'No',
     },
     maxHeight: {
       displayName: 'Max Height',
