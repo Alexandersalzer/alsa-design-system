@@ -128,7 +128,8 @@ export const renderPatternDirect = (
       patternKey,
       patternProps,
       isPerItemAnimation ? animationConfig : undefined,
-      locale
+      locale,
+      layoutContext
     );
 
     return (
@@ -199,7 +200,8 @@ export const renderPattern = (
       patternKey,
       patternProps, // Pass pattern props for align, etc
       isPerItemAnimation ? animationConfig : undefined, // Pass per-item animations to layout renderer
-      locale
+      locale,
+      layoutContext
     );
 
     // Wrap with animation if pattern has layout-wrap animation config (carousel, etc)

@@ -126,6 +126,7 @@ const getMaxItemsClasses = (
  * @param patternProps - Pattern-level props (align, etc) to merge with layout config
  * @param animationConfig - Optional animation config for items (fadeIn with stagger)
  * @param locale - Optional locale for internationalization
+ * @param layoutContext - Layout context from section (contains forcedAlignment, etc)
  * @returns Rendered React element tree
  */
 export const renderLayoutWithTemplate = (
@@ -135,7 +136,8 @@ export const renderLayoutWithTemplate = (
   patternKey?: string,
   patternProps?: Record<string, any>,
   animationConfig?: AnimationConfig,
-  locale?: string
+  locale?: string,
+  layoutContext?: { forcedAlignment?: 'left' | 'center' | 'right'; [key: string]: any }
 ): React.ReactElement | null => {
   
   // Destructure layout-system props to prevent them from being passed to DOM elements
@@ -168,16 +170,19 @@ export const renderLayoutWithTemplate = (
     ? alignToJustifyMap[patternProps.mobileAlign] || patternProps.mobileAlign
     : undefined;
 
+  // Use forcedAlignment from layoutContext if available, otherwise use patternProps.align
+  const effectiveAlign = layoutContext?.forcedAlignment || patternProps?.align;
+
   // Merge pattern props with layout props
   // For hstack: map align to justify for horizontal alignment
   const mergedLayoutProps = {
     ...parentLayoutProps,
-    ...(parentType === 'hstack' && patternProps?.align && { 
-      justify: alignToJustifyMap[patternProps.align] || patternProps.align 
+    ...(parentType === 'hstack' && effectiveAlign && { 
+      justify: alignToJustifyMap[effectiveAlign] || effectiveAlign 
     }),
     ...(parentType === 'hstack' && mobileJustify && { mobileJustify }),
     // For other layout types, pass align directly
-    ...(parentType !== 'hstack' && patternProps?.align && { align: patternProps.align })
+    ...(parentType !== 'hstack' && effectiveAlign && { align: effectiveAlign })
   };
 
   // Get parent layout component
