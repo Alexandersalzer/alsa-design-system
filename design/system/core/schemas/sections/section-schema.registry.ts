@@ -85,7 +85,7 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
   cta: {
     ...createBasicSectionSchema(
       'cta',
-      'Call-to-Action Section',
+      'CTA Section',
       'conversion',
       'Conversion-focused call-to-action'
     ),
@@ -110,7 +110,7 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
   
   stats: createBasicSectionSchema(
     'stats',
-    'Statistics Section',
+    'Stats Section',
     'social-proof',
     'Key metrics and statistics'
   ),
