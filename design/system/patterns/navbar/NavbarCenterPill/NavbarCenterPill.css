@@ -20,9 +20,6 @@
   transform: translateY(-100%);
 }
 
-.navbar-center-pill--scrolled {
-  /* Optional: Add backdrop blur on scroll */
-}
 
 /* Unified wrapper - pill + mobile drawer share same border/background */
 .navbar-center-pill__unified-wrapper {
@@ -147,48 +144,51 @@
    Background Variants
    =============================================== */
 
-/* Transparent - No background */
-.navbar-center-pill--transparent {
-  background: transparent;
-}
-
-.navbar-center-pill--transparent .navbar-center-pill__middle-pill {
-  background: rgba(var(--surface-raised-rgb), 0.7);
-  backdrop-filter: blur(12px);
-}
-
-/* Glass - Frosted glass effect */
-.navbar-center-pill--glass {
-  background: rgba(var(--surface-base-rgb), 0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.navbar-center-pill--glass .navbar-center-pill__middle-pill {
-  background: rgba(var(--surface-raised-rgb), 0.9);
-  backdrop-filter: blur(16px);
-}
-
-/* Solid - Full background */
-.navbar-center-pill--solid {
-  background: var(--surface-base);
-  border-bottom: 1px solid var(--border-default);
-}
-
-.navbar-center-pill--solid .navbar-center-pill__middle-pill {
+/* Raised variant */
+.navbar-center-pill--raised {
   background: var(--surface-raised);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
 }
 
-/* Scrolled state enhancement */
-.navbar-center-pill--scrolled.navbar-center-pill--transparent {
-  background: rgba(var(--surface-base-rgb), 0.8);
+.navbar-center-pill--raised .navbar-center-pill__middle-pill {
+  background: var(--surface-nav);
+  border-color: var(--border-nav);
+}
+
+/* Glass variant - tinted with neutral-1000 */
+.navbar-center-pill--glass .navbar-center-pill__middle-pill {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+/* Glass-clear variant - barely visible at rest, solidifies on scroll */
+.navbar-center-pill--glass-clear .navbar-center-pill__middle-pill {
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-subtle);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: var(--border-subtle);
 }
 
-.navbar-center-pill--scrolled.navbar-center-pill--glass {
-  background: rgba(var(--surface-base-rgb), 0.95);
-  border-bottom-color: var(--border-default);
+.navbar-center-pill--scrolled.navbar-center-pill--glass-clear .navbar-center-pill__middle-pill {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Transparent variant - clear pill at rest, glass on scroll */
+.navbar-center-pill--transparent .navbar-center-pill__middle-pill {
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-center-pill--scrolled.navbar-center-pill--transparent .navbar-center-pill__middle-pill {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 /* ===============================================

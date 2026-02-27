@@ -100,27 +100,27 @@
   border-color: var(--border-subtle);
 }
 
-/* GLASS — always visible frosted surface, like secondary-glass button (~10% neutral + blur) */
+/* GLASS — always visible frosted surface (~12% neutral-1000 + blur) */
 .navbar-container__unified-wrapper--glass {
-  background: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-color: color-mix(in srgb, var(--neutral-1400) 15%, transparent);
+  border-color: var(--border-subtle);
 }
 
-/* GLASS-CLEAR — barely visible at rest (~4%), fully solidifies on scroll */
+/* GLASS-CLEAR — barely visible at rest (~4%), solidifies on scroll */
 .navbar-container__unified-wrapper--glass-clear {
-  background: color-mix(in srgb, var(--neutral-1400) 4%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-color: color-mix(in srgb, var(--neutral-1400) 8%, transparent);
+  border-color: var(--border-subtle);
 }
 
 .navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-color: color-mix(in srgb, var(--neutral-1400) 15%, transparent);
+  border-color: var(--border-subtle);
 }
 
 .navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--expanded {
@@ -138,10 +138,10 @@
 }
 
 .navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-color: color-mix(in srgb, var(--neutral-1400) 15%, transparent);
+  border-color: var(--border-subtle);
 }
 
 /* Transparent + drawer open: show surface so links are readable */
@@ -154,14 +154,14 @@
 
 /* Legacy alias — keep glass-transparent working for any existing JSON */
 .navbar-container__unified-wrapper--glass-transparent {
-  background: color-mix(in srgb, var(--neutral-1400) 4%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-color: color-mix(in srgb, var(--neutral-1400) 8%, transparent);
+  border-color: var(--border-subtle);
 }
 
 .navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -246,7 +246,7 @@
 
 /* Bar: default surface materializes on scroll (default variant) */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom-color: var(--border-subtle);
@@ -262,26 +262,26 @@
 
 /* Bar + glass */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass {
-  background: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid color-mix(in srgb, var(--neutral-1400) 15%, transparent);
+  border-bottom: 1px solid var(--border-subtle);
   border-radius: 0;
 }
 
 /* Bar + glass-clear */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-clear {
-  background: color-mix(in srgb, var(--neutral-1400) 4%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom-color: color-mix(in srgb, var(--neutral-1400) 8%, transparent);
+  border-bottom-color: var(--border-subtle);
 }
 
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom-color: color-mix(in srgb, var(--neutral-1400) 15%, transparent);
+  border-bottom-color: var(--border-subtle);
 }
 
 /* Bar + transparent */
@@ -291,10 +291,10 @@
 }
 
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--neutral-1400) 12%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom-color: color-mix(in srgb, var(--neutral-1400) 15%, transparent);
+  border-bottom-color: var(--border-subtle);
 }
 
 /* Bar inner content — constrained width like NavbarBar */

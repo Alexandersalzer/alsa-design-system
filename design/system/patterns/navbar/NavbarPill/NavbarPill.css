@@ -43,45 +43,73 @@
 }
 
 /* Background Variants */
+
+/* Raised variant */
+.navbar-pill__unified-wrapper--raised {
+  background: var(--surface-raised);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+  border-color: var(--border-subtle);
+}
+
+/* Glass variant - tinted with neutral-1000 */
 .navbar-pill__unified-wrapper--glass {
-  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-color: var(--border-subtle);
 }
 
+/* Glass-clear variant - barely visible at rest, solidifies on scroll */
+.navbar-pill__unified-wrapper--glass-clear {
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-pill__unified-wrapper--glass-clear.navbar-pill__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.navbar-pill__unified-wrapper--glass-clear.navbar-pill__unified-wrapper--expanded {
+  background: color-mix(in srgb, var(--neutral-1000) 20%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Glass-transparent (legacy) */
 .navbar-pill__unified-wrapper--glass-transparent {
-  background: color-mix(in srgb, var(--surface-page) 30%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-color: var(--border-subtle);
 }
 
 .navbar-pill__unified-wrapper--glass-transparent.navbar-pill__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--surface-page) 75%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-color: var(--border-subtle);
 }
 
-/* Glass-transparent becomes more solid when drawer is expanded */
 .navbar-pill__unified-wrapper--glass-transparent.navbar-pill__unified-wrapper--expanded {
-  background: color-mix(in srgb, var(--surface-page) 92%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 20%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
-/* Fully transparent variant - completely clear initial, glass on scroll */
+/* Transparent variant - clear at rest, glass on scroll */
 .navbar-pill__unified-wrapper--transparent {
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border-color: transparent;
-  transition: all 0.3s ease;
 }
 
 .navbar-pill__unified-wrapper--transparent.navbar-pill__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-color: var(--border-subtle);
