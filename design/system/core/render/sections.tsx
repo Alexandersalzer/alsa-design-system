@@ -35,15 +35,19 @@ export function renderSection(
 
   // Check if background should be moved from Section to Card
   const wrapInCard = layout?.wrapInCard;
-  const hasBackground = props?.background && props.background !== 'default';
-  const moveBackgroundToCard = wrapInCard && hasBackground;
+  const hasLayoutBackground = layout?.background && layout.background !== 'default';
+  const hasSectionPropsBackground = props?.background && props.background !== 'default';
+  // Background is in card if wrapInCard is true AND there's a layout background
+  const moveBackgroundToCard = wrapInCard && hasLayoutBackground;
+  // Show section background only if there's no layout background and section has one
+  const showSectionBackground = !hasLayoutBackground && hasSectionPropsBackground;
 
   // If layout config exists, use LayoutRenderer
   if (layout) {
     // Filter out background props when they should be in card instead
-    const sectionProps = moveBackgroundToCard 
+    const sectionProps = moveBackgroundToCard || hasLayoutBackground
       ? Object.keys(props || {}).reduce((acc, key) => {
-          // Remove all background-related props
+          // Remove all background-related props when layout handles background
           if (key.startsWith('background') || 
               key.startsWith('generative') || 
               key.startsWith('gradient') ||
@@ -55,7 +59,7 @@ export function renderSection(
               key === 'videoPoster') {
             return acc;
           }
-          return { ...acc, [key]: props[key] };
+          return { ...acc, [key]: (props || {})[key] };
         }, {})
       : props;
 
@@ -74,7 +78,6 @@ export function renderSection(
           order: patternOrder,
           sectionKey,
           sectionAnimation: props?.animation,
-          sectionProps: props, // Pass full props to layout renderer
           locale,
         })}
       </Section>

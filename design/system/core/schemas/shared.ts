@@ -210,7 +210,7 @@ export type EditorType =
   // Enum editors
   | 'select' | 'radio' | 'segmented' | 'buttonGroup' | 'dropdown'
   // Object/Complex editors
-  | 'group' | 'modal' | 'builder' | 'action-builder' | 'json'
+  | 'group' | 'modal' | 'builder' | 'action-builder' | 'json' | 'media'
   // Array editors
   | 'list' | 'tags' | 'multiselect' | 'repeater';
 

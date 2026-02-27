@@ -152,4 +152,20 @@ export interface LayoutConfig {
    * Gäller bara när wrapInCard är true. Andra sections använder sectionHeaderVerticalAlign + verticalAlign.
    */
   cardColumnVerticalAlign?: 'start' | 'center' | 'end';
+
+  /**
+   * Background type för hela sektionen
+   * När wrapInCard är true, flyttas bakgrunden till kortet istället för section-elementet
+   */
+  background?: 'default' | 'image' | 'gradient' | 'generative' | 'pattern' | 'solid';
+
+  /**
+   * Background image URL när background är 'image'
+   */
+  backgroundImage?: string;
+
+  /**
+   * Opacity för background image i light mode (0-1)
+   */
+  backgroundImageLightModeOpacity?: number;
 }

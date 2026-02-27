@@ -189,6 +189,65 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
   },
   
   // ============================================
+  // BACKGROUND GROUP
+  // ============================================
+  
+  background: {
+    name: 'background',
+    type: 'enum',
+    displayName: 'Background Type',
+    description: 'Type of background for the section (or card if wrapInCard is enabled)',
+    editorType: 'select',
+    values: ['default', 'image', 'gradient', 'generative', 'pattern', 'solid'],
+    valueLabels: {
+      default: 'Default',
+      image: 'Image',
+      gradient: 'Gradient',
+      generative: 'Generative',
+      pattern: 'Pattern',
+      solid: 'Solid Color'
+    },
+    default: 'default',
+    group: 'background',
+    cmsEnabled: true
+  },
+  
+  backgroundImage: {
+    name: 'backgroundImage',
+    type: 'string',
+    displayName: 'Background Image',
+    description: 'URL to background image',
+    editorType: 'url',
+    default: '',
+    group: 'background',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'image'
+    }
+  },
+  
+  backgroundImageLightModeOpacity: {
+    name: 'backgroundImageLightModeOpacity',
+    type: 'number',
+    displayName: 'Light Mode Opacity',
+    description: 'Image opacity in light mode (0-1)',
+    editorType: 'slider',
+    min: 0,
+    max: 1,
+    step: 0.05,
+    default: 1,
+    group: 'background',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'image'
+    }
+  },
+  
+  // ============================================
   // CARD GROUP
   // ============================================
   
@@ -221,6 +280,9 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     verticalAlign: 'center',
     sectionHeaderVerticalAlign: 'start',
     stackAt: 'desktop',
+    background: 'default',
+    backgroundImage: '',
+    backgroundImageLightModeOpacity: 1,
     wrapInCard: false
   },
   

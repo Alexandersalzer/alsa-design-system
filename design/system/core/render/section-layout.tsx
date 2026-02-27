@@ -81,6 +81,10 @@ export function renderSectionLayout({
     cardBackgroundSettings = {},
     cardBorderStyle = 'none',
     cardColumnVerticalAlign,
+    // Background props from layout
+    background,
+    backgroundImage,
+    backgroundImageLightModeOpacity,
   } = layout || {};
 
   // När wrapInCard: samma vertikala alignment för båda kolumnerna (default center så det inte sitter i hörnet)
@@ -291,11 +295,11 @@ export function renderSectionLayout({
 
     // Wrap in Card if enabled
     if (wrapInCard) {
-      // Use section background if no explicit cardBackground is set
-      const effectiveCardBackground = cardBackground || sectionProps?.background;
-      const effectiveCardBackgroundSettings = cardBackground 
-        ? cardBackgroundSettings 
-        : sectionProps || {};
+      // Use layout background for card (layout.background takes precedence)
+      const effectiveCardBackground = background && background !== 'default' ? background : cardBackground;
+      const effectiveCardBackgroundSettings = background && background !== 'default'
+        ? { backgroundImage, backgroundImageLightModeOpacity }
+        : cardBackgroundSettings;
       
       const hasCardBackground = Boolean(effectiveCardBackground);
       const cardBackgroundProps: BackgroundProps = { 
@@ -415,11 +419,11 @@ export function renderSectionLayout({
 
     // Wrap in Card if enabled
     if (wrapInCard) {
-      // Use section background if no explicit cardBackground is set
-      const effectiveCardBackground = cardBackground || sectionProps?.background;
-      const effectiveCardBackgroundSettings = cardBackground 
-        ? cardBackgroundSettings 
-        : sectionProps || {};
+      // Use layout background for card (layout.background takes precedence)
+      const effectiveCardBackground = background && background !== 'default' ? background : cardBackground;
+      const effectiveCardBackgroundSettings = background && background !== 'default'
+        ? { backgroundImage, backgroundImageLightModeOpacity }
+        : cardBackgroundSettings;
       
       const hasCardBackground = Boolean(effectiveCardBackground);
       const cardBackgroundProps: BackgroundProps = { 
@@ -732,11 +736,11 @@ export function renderSectionLayout({
           );
           if (!wrapInCard) return layoutContent;
 
-          // Use section background if no explicit cardBackground is set
-          const effectiveCardBackground = cardBackground || sectionProps?.background;
-          const effectiveCardBackgroundSettings = cardBackground 
-            ? cardBackgroundSettings 
-            : sectionProps || {};
+          // Use layout background for card (layout.background takes precedence)
+          const effectiveCardBackground = background && background !== 'default' ? background : cardBackground;
+          const effectiveCardBackgroundSettings = background && background !== 'default'
+            ? { backgroundImage, backgroundImageLightModeOpacity }
+            : cardBackgroundSettings;
           
           const hasCardBackground = Boolean(effectiveCardBackground);
           const cardBackgroundProps: BackgroundProps = { 
