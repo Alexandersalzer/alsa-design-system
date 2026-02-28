@@ -600,13 +600,13 @@
   }
 }
 
-/* Center-pill bar: constrain width, zero padding — groups carry their own horizontal padding. */
+/* Center-pill bar: constrain width, top padding only — horizontal padding lives on groups. */
 @media (min-width: 1025px) {
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
     max-width: var(--width-navbar);
     width: 100%;
     margin: 0 auto;
-    padding: 0;
+    padding: var(--space-navbar) 0 0 0;
     gap: 0;
   }
 }
