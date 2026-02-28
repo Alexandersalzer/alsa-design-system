@@ -150,7 +150,9 @@ export function renderSectionLayout({
     return 'center'; // center stays center
   };
 
-  // Pass layout alignment to patterns so they can inherit it
+  // Pass layout context to patterns
+  // Note: forcedAlignment (when set) tells section-layout HOW TO PLACE patterns,
+  // but does NOT affect how components inside patterns are aligned
   const layoutContext = {
     alignSectionHeader,
     isInSecondColumn: false,
@@ -168,6 +170,7 @@ export function renderSectionLayout({
 
   // Context for patterns in the second column (uses opposite alignment by default)
   // When action patterns are in secondColumn, force 'end' alignment for better UX
+  // forcedAlignment: 'end' only affects PATTERN PLACEMENT in section, not internal components
   const secondColumnContext = {
     alignSectionHeader: getOppositeAlign(alignSectionHeader),
     isInSecondColumn: true,
@@ -177,12 +180,13 @@ export function renderSectionLayout({
   };
   
   // ===== ENFORCE CENTER ALIGNMENT CASCADE RULE =====
-  // When alignSectionHeader is 'center', all patterns must be center-aligned
-  // This overrides any pattern-specific alignment settings
+  // When alignSectionHeader is 'center', all patterns are centered in the section
+  // forcedAlignment: 'center' only affects PATTERN PLACEMENT (how patterns stack in VStack),
+  // NOT how components inside patterns are aligned - patterns keep their internal layout
   const centeredLayoutContext = alignSectionHeader === 'center' ? {
     ...layoutContext,
     alignSectionHeader: 'center' as const,
-    forcedAlignment: 'center' as const, // Explicit flag for patterns to respect
+    forcedAlignment: 'center' as const, // Used only for stacking patterns in section center
   } : layoutContext;
 
   // Check if second column contains only media patterns (for stretch behavior)

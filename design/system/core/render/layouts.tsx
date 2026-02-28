@@ -170,8 +170,9 @@ export const renderLayoutWithTemplate = (
     ? alignToJustifyMap[patternProps.mobileAlign] || patternProps.mobileAlign
     : undefined;
 
-  // Use forcedAlignment from layoutContext if available, otherwise use patternProps.align
-  const effectiveAlign = layoutContext?.forcedAlignment || patternProps?.align;
+  // Use pattern's own align prop, NOT forcedAlignment
+  // forcedAlignment is only for section-level pattern placement, not internal layout
+  const effectiveAlign = patternProps?.align;
 
   // Merge pattern props with layout props
   // For hstack: map align to justify for horizontal alignment
