@@ -182,19 +182,6 @@ export const navbarCenterPillSchema: NavbarPatternSchema = {
 
   layoutProps: {
     // ── LAYOUT ───────────────────────────────────────────────────────────────
-    pillSize: {
-      name: 'pillSize',
-      type: 'enum',
-      displayName: 'Pill Size',
-      description: 'Controls the inner padding of the center pill',
-      editorType: 'segmented',
-      values: ['sm', 'md', 'lg'],
-      valueLabels: { sm: 'S', md: 'M', lg: 'L' },
-      default: 'md',
-      group: 'layout',
-      cmsEnabled: true,
-    },
-
     mobileMenuVariant: {
       name: 'mobileMenuVariant',
       type: 'enum',

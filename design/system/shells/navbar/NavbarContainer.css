@@ -634,8 +634,7 @@
 }
 
 /* ── Group 2: Links pill — center cell, NO outer padding.
-   The pill border and background sit directly on this group.
-   Inner padding controls the pill's visual size. ── */
+   Inner padding uses --space-navbar so it scales with navbarSpacing in design.json. ── */
 .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
   justify-self: center;
   align-self: center;
@@ -644,27 +643,11 @@
   background: var(--surface-nav);
   border: 1px solid var(--border-nav);
   border-radius: var(--radius-navbar-pill);
-  /* Inner padding — vertical gives pill its height, horizontal gives breathing room around links */
-  padding: var(--foundation-space-3) var(--foundation-space-6);
+  /* Scales automatically with --space-navbar (set by navbarSpacing in design.json) */
+  padding: var(--space-navbar);
   box-shadow: var(--shadow-sm);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-}
-
-/* Pill size variants — control inner padding of the center pill */
-.navbar-container__unified-wrapper--center-pill.navbar-container__pill-size--sm
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
-  padding: var(--space-navbar-xs) var(--space-navbar-sm);
-}
-
-.navbar-container__unified-wrapper--center-pill.navbar-container__pill-size--md
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
-  padding: var(--space-navbar-sm) var(--space-navbar-md);
-}
-
-.navbar-container__unified-wrapper--center-pill.navbar-container__pill-size--lg
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
-  padding: var(--space-navbar-md) var(--space-navbar-lg);
 }
 
 /* ── Group 3: Actions — right cell, horizontal padding only (no vertical) ── */
