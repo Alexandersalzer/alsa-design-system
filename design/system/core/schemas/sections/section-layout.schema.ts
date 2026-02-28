@@ -143,27 +143,6 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     }
   },
   
-  stackAt: {
-    name: 'stackAt',
-    type: 'enum',
-    displayName: 'Stack At',
-    description: 'Breakpoint when split layout collapses to single column',
-    editorType: 'segmented',
-    values: ['tablet', 'desktop'],
-    valueLabels: {
-      tablet: 'Tablet',
-      desktop: 'Desktop'
-    },
-    default: 'desktop',
-    group: 'columns',
-    cmsEnabled: true,
-    visibleWhen: {
-      property: '_hasActiveSecondColumn',
-      operator: 'equals',
-      value: true
-    }
-  },
-  
   // ============================================
   // MOBILE GROUP
   // ============================================
@@ -279,7 +258,6 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     ratio: '1:1',
     verticalAlign: 'center',
     sectionHeaderVerticalAlign: 'start',
-    stackAt: 'desktop',
     background: 'default',
     backgroundImage: '',
     backgroundImageLightModeOpacity: 1,
