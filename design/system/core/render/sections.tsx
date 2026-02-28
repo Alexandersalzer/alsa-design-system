@@ -72,8 +72,7 @@ export function renderSection(
         ...sectionProps,
         background: layout.background,
         backgroundImage: layout.backgroundImage,
-        // For hero sections (background='image'), always use 'cover' if not explicitly set
-        backgroundSize: layout.backgroundSize || (layout.background === 'image' ? 'cover' : undefined),
+        backgroundSize: layout.backgroundSize,
         backgroundPosition: layout.backgroundPosition,
         backgroundOpacity: layout.backgroundOpacity,
         backgroundTint: layout.backgroundTint,

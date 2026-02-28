@@ -46,10 +46,10 @@ export const heroSectionSchema: SectionSchema = {
       cmsEnabled: true
     },
     
-    // Disable size control - always use 'cover' for hero images
+    // Enable all image styling options
     backgroundSize: {
       ...defaultSectionLayoutProps.backgroundSize,
-      cmsEnabled: false // Always use 'cover' for hero images
+      cmsEnabled: true
     },
     
     backgroundPosition: {
