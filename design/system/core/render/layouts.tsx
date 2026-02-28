@@ -137,7 +137,7 @@ export const renderLayoutWithTemplate = (
   patternProps?: Record<string, any>,
   animationConfig?: AnimationConfig,
   locale?: string,
-  layoutContext?: { forcedAlignment?: 'left' | 'center' | 'right'; [key: string]: any }
+  layoutContext?: { forcedAlignment?: 'left' | 'center' | 'right' | 'start' | 'end'; [key: string]: any }
 ): React.ReactElement | null => {
   
   // Destructure layout-system props to prevent them from being passed to DOM elements
@@ -170,9 +170,10 @@ export const renderLayoutWithTemplate = (
     ? alignToJustifyMap[patternProps.mobileAlign] || patternProps.mobileAlign
     : undefined;
 
-  // Use pattern's own align prop, NOT forcedAlignment
-  // forcedAlignment is only for section-level pattern placement, not internal layout
-  const effectiveAlign = patternProps?.align;
+  // Determine effective alignment for the pattern
+  // Priority: forcedAlignment (from section layout rules for action patterns) > pattern's own align prop
+  // forcedAlignment is set by section-layout.tsx for action patterns in secondColumn
+  const effectiveAlign = layoutContext?.forcedAlignment || patternProps?.align;
 
   // Merge pattern props with layout props
   // For hstack: map align to justify for horizontal alignment

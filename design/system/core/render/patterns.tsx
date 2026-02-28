@@ -82,7 +82,7 @@ export interface LayoutContext {
   /** Whether to show the tag in the section header (default false) */
   showTag?: boolean;
   /** Forced alignment that overrides pattern-specific alignment (enforced by section layout rules) */
-  forcedAlignment?: 'left' | 'center' | 'right';
+  forcedAlignment?: 'left' | 'center' | 'right' | 'start' | 'end';
 }
 
 /**
