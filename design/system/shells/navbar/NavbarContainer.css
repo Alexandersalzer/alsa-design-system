@@ -600,12 +600,12 @@
   }
 }
 
-/* Center-pill bar: no padding — padding lives on individual groups instead. */
+/* Center-pill bar: constrain width, zero padding — groups carry their own horizontal padding. */
 @media (min-width: 1025px) {
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
-    max-width: 100%;
+    max-width: var(--width-navbar);
     width: 100%;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     gap: 0;
   }
@@ -625,41 +625,39 @@
   display: contents;
 }
 
-/* ── Group 1: Logo/brand — left cell, padding from screen edge ── */
+/* ── Group 1: Logo/brand — left cell, horizontal padding only (no vertical) ── */
 .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(1) {
   flex-shrink: 0;
   justify-self: start;
   align-items: center;
-  padding: var(--space-navbar);
+  padding: 0 var(--space-navbar);
 }
 
 /* ── Group 2: Links pill — center cell, NO outer padding.
    The pill border and background sit directly on this group.
-   Height is natural (grows with content + inner padding).
-   backgroundVariant classes below override background/border. ── */
+   Inner padding controls the pill's visual size. ── */
 .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
   justify-self: center;
+  align-self: center;
   align-items: center;
   /* Default pill surface */
   background: var(--surface-nav);
   border: 1px solid var(--border-nav);
   border-radius: var(--radius-navbar-pill);
-  /* Inner padding only — no outer margin or padding */
-  padding: var(--foundation-space-2) var(--foundation-space-4);
+  /* Inner padding — vertical gives pill its height, horizontal gives breathing room around links */
+  padding: var(--foundation-space-3) var(--foundation-space-6);
   box-shadow: var(--shadow-sm);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  /* Allow pill to grow vertically freely */
-  align-self: center;
 }
 
-/* ── Group 3: Actions — right cell, padding from screen edge ── */
+/* ── Group 3: Actions — right cell, horizontal padding only (no vertical) ── */
 .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3) {
   justify-self: end;
   justify-content: flex-end;
   align-items: center;
   flex-shrink: 0;
-  padding: var(--space-navbar);
+  padding: 0 var(--space-navbar);
 }
 
 /* ══════════════════════════════════════════════════════════════
