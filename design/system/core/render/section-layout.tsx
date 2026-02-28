@@ -168,15 +168,15 @@ export function renderSectionLayout({
     sectionAnimation,
   };
 
-  // Context for patterns in the second column
-  // forcedAlignment: 'end' ensures ALL patterns in right column are right-aligned
-  // This only affects PATTERN PLACEMENT in section, not internal components
+  // Context for patterns in the second column (uses opposite alignment by default)
+  // When action patterns are in secondColumn, force 'end' alignment for better UX
+  // forcedAlignment: 'end' only affects PATTERN PLACEMENT in section, not internal components
   const secondColumnContext = {
     alignSectionHeader: getOppositeAlign(alignSectionHeader),
     isInSecondColumn: true,
     verticalAlign,
     sectionAnimation,
-    forcedAlignment: 'end' as const, // ALL patterns in secondColumn are right-aligned
+    ...(actionPatternsInSecondColumn.length > 0 && { forcedAlignment: 'end' as const }),
   };
   
   // ===== ENFORCE CENTER ALIGNMENT CASCADE RULE =====
@@ -695,12 +695,12 @@ export function renderSectionLayout({
               </Box>
             ) : wrapInCard && columnInnerPadding ? (
               <Box style={{ ...columnInnerPadding, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: cardColumnAlignCss }}>
-                <VStack spacing={gap} align="end">
+                <VStack spacing={gap} align="stretch">
                   {renderPatterns(secondColumnPatterns, secondColumnContext)}
                 </VStack>
               </Box>
             ) : (
-              <VStack spacing={gap} align="end">
+              <VStack spacing={gap} align="stretch">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </VStack>
             )
