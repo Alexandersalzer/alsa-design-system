@@ -212,15 +212,10 @@ export const renderPattern = (
       ? wrapWithAnimation(layoutContent, animationConfig, layoutConfig)
       : layoutContent;
 
-    // Use forcedAlignment from layoutContext to align pattern in section
-    // forcedAlignment controls how the pattern is placed in the section, not internal layout
-    const containerAlign = layoutContext?.forcedAlignment || 'left';
-
     return (
       <Container
         key={patternKey}
         height="auto"
-        align={containerAlign as 'left' | 'center' | 'right'}
         useMediaWidth={patternProps.useMediaWidth || false}
         useFormWidth={patternProps.useFormWidth || false}
         noPadding={patternProps.noPadding || false}
@@ -238,14 +233,10 @@ export const renderPattern = (
     return null;
   }
 
-  // Use forcedAlignment from layoutContext to align pattern in section
-  const containerAlign = layoutContext?.forcedAlignment || 'left';
-
   return (
     <Container
       key={patternKey}
       height="auto"
-      align={containerAlign as 'left' | 'center' | 'right'}
       useMediaWidth={patternProps.useMediaWidth || false}
       useFormWidth={patternProps.useFormWidth || false}
       noPadding={patternProps.noPadding || false}
