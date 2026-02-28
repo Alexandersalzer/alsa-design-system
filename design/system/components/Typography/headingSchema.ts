@@ -36,7 +36,7 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           type: 'string',
           required: true,
           editorType: 'textarea',
-          minLength: 2,
+          minLength: 3,
           maxLength: 60,
           cmsEnabled: true,
           group: 'content',

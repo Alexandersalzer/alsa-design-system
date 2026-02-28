@@ -33,6 +33,8 @@ export const createLabelSchema = (locale: SupportedLocale = 'sv'): ComponentSche
           type: 'string',
           required: true,
           editorType: 'input',
+          minLength: 2,
+          maxLength: 50,
           cmsEnabled: true,
           group: 'content',
         },
