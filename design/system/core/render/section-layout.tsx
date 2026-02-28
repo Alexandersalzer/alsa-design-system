@@ -67,7 +67,7 @@ export function renderSectionLayout({
     distanceAction = false,
     gap = 'xl',
     ratio = '1:1',
-    verticalAlign = 'center', // Default to center for better visual balance
+    verticalAlign = 'end', // Default to bottom for better layout balance
     sectionHeaderVerticalAlign = 'start', // Default to start for sectionHeader alignment
     stackAt = 'desktop', // Default to 1024px breakpoint
     mobileOrder,
