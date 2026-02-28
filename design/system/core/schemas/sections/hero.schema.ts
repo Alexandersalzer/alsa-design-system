@@ -46,10 +46,41 @@ export const heroSectionSchema: SectionSchema = {
       cmsEnabled: true
     },
     
-    // Enable opacity control for hero
+    // Enable all image styling options
+    backgroundSize: {
+      ...defaultSectionLayoutProps.backgroundSize,
+      cmsEnabled: true
+    },
+    
+    backgroundPosition: {
+      ...defaultSectionLayoutProps.backgroundPosition,
+      cmsEnabled: true
+    },
+    
+    backgroundOpacity: {
+      ...defaultSectionLayoutProps.backgroundOpacity,
+      cmsEnabled: true
+    },
+    
+    backgroundTint: {
+      ...defaultSectionLayoutProps.backgroundTint,
+      cmsEnabled: true
+    },
+    
+    imageFadeEdge: {
+      ...defaultSectionLayoutProps.imageFadeEdge,
+      cmsEnabled: true
+    },
+    
+    imageFadeStrength: {
+      ...defaultSectionLayoutProps.imageFadeStrength,
+      cmsEnabled: true
+    },
+    
+    // Legacy prop - kept for backward compatibility (deprecated)
     backgroundImageLightModeOpacity: {
       ...defaultSectionLayoutProps.backgroundImageLightModeOpacity,
-      cmsEnabled: true
+      cmsEnabled: false // Deprecated - use backgroundOpacity
     }
   },
   
