@@ -111,7 +111,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     },
     default: 'start',
     group: 'columns',
-    cmsEnabled: true,
+    cmsEnabled: false,
     visibleWhen: {
       property: '_hasActiveSecondColumn',
       operator: 'equals',
