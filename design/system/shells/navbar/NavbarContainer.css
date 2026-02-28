@@ -568,7 +568,9 @@
    Uses CSS grid 1fr auto 1fr to keep pill truly centered
 ----------------------------------------------- */
 
-/* Center-pill unified wrapper: desktop only styles (transparent floating, no border).
+/* Center-pill unified wrapper: desktop only styles.
+   Stretches full-width (like bar) — transparent, no border, no outer margin.
+   The visible pill border lives only on the inner links group (nth-child(2)).
    Mobile styles live in the @media (max-width: 1024px) block above. */
 @media (min-width: 1025px) {
   .navbar-container__unified-wrapper--center-pill {
@@ -576,8 +578,10 @@
     background: transparent;
     border-radius: 0;
     overflow: visible;
-    max-width: var(--width-navbar);
-    margin: var(--space-navbar) auto;
+    /* Full-width: match bar behaviour — top:0 left:0 right:0 already set in base class */
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
 }
 
@@ -585,12 +589,14 @@
   border: none;
 }
 
-/* Center-pill bar: desktop — constrain width, vertical padding matches pill, no horizontal padding (wrapper margin handles that) */
+/* Center-pill bar: desktop — constrain inner content width, use space-navbar for vertical rhythm only.
+   Horizontal padding uses space-navbar so content stays off screen edges at the same visual distance as other navbars. */
 @media (min-width: 1025px) {
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
     max-width: var(--width-navbar);
+    width: 100%;
     margin: 0 auto;
-    padding: var(--space-navbar) 0;
+    padding: var(--space-navbar);
   }
 }
 
