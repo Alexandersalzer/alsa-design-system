@@ -419,9 +419,10 @@ export function renderSectionLayout({
 
   // ===== SPLIT LAYOUT (Left or Right aligned SectionHeader) =====
   // Split layout is active when secondColumn array exists (even if empty)
+  // Note: alignSectionHeader is guaranteed to be 'left' or 'right' here since 'center' returns early above
   const hasSecondColumnDefined = secondColumn && secondColumn.length >= 0;
   
-  // If no secondColumn defined at all, simple aligned layout
+  // If no secondColumn defined, use simple aligned layout
   if (!hasSecondColumnDefined) {
     // Get SectionHeader maxWidth and align if it exists
     const sectionHeaderMaxWidth = sectionHeaderKey ? patterns[sectionHeaderKey]?.props?.maxWidth || '650px' : '650px';
@@ -651,7 +652,7 @@ export function renderSectionLayout({
                 {renderSecondColumnPatterns(secondColumnPatterns)}
               </Box>
             ) : (
-              <VStack spacing="none" align="start" justify="center">
+              <VStack spacing="none" align={vstackAlign} justify="center">
                 {renderSecondColumnPatterns(secondColumnPatterns)}
               </VStack>
             )
@@ -723,12 +724,12 @@ export function renderSectionLayout({
               </Box>
             ) : wrapInCard && columnInnerPadding ? (
               <Box style={{ ...columnInnerPadding, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: cardColumnAlignCss }}>
-                <VStack spacing={gap} align="stretch">
+                <VStack spacing={gap} align={vstackAlign}>
                   {renderSecondColumnPatterns(secondColumnPatterns)}
                 </VStack>
               </Box>
             ) : (
-              <VStack spacing={gap} align="stretch">
+              <VStack spacing={gap} align={vstackAlign}>
                 {renderSecondColumnPatterns(secondColumnPatterns)}
               </VStack>
             )
