@@ -187,12 +187,12 @@ export function renderSectionLayout({
   
   // ===== ENFORCE CENTER ALIGNMENT CASCADE RULE =====
   // When alignSectionHeader is 'center', all patterns are centered in the section
-  // forcedAlignment: 'center' only affects PATTERN PLACEMENT (how patterns stack in VStack),
-  // NOT how components inside patterns are aligned - patterns keep their internal layout
+  // This is handled by the outer VStack with align="center" (line 293)
+  // We don't need forcedAlignment: 'center' here as it would incorrectly center content inside patterns (like body text in cards)
   const centeredLayoutContext = alignSectionHeader === 'center' ? {
     ...layoutContext,
     alignSectionHeader: 'center' as const,
-    forcedAlignment: 'center' as const, // Used only for stacking patterns in section center
+    // DO NOT set forcedAlignment: 'center' - it would center content inside patterns
   } : layoutContext;
 
   // Check if second column contains only media patterns (for stretch behavior)
