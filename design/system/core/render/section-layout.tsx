@@ -174,21 +174,15 @@ export function renderSectionLayout({
     sectionAnimation,
   };
 
-  // Context for patterns in the second column
-  // Only sectionHeader gets opposite alignment for visual balance
-  // Other patterns (stats, items, etc.) keep original alignment
-  const getSecondColumnContext = (patternKey: string) => {
-    const pattern = patterns[patternKey];
-    const isSectionHeader = pattern?.type === 'sectionHeader';
-    const isActionPattern = actionPatternsInSecondColumn.includes(patternKey);
-    
-    return {
-      alignSectionHeader: isSectionHeader ? getOppositeAlign(alignSectionHeader) : alignSectionHeader,
-      isInSecondColumn: true,
-      verticalAlign,
-      sectionAnimation,
-      ...(isActionPattern && { forcedAlignment: 'end' as const }),
-    };
+  // Context for patterns in the second column (uses opposite alignment by default)
+  // When action patterns are in secondColumn, force 'end' alignment for better UX
+  // forcedAlignment: 'end' only affects PATTERN PLACEMENT in section, not internal components
+  const secondColumnContext = {
+    alignSectionHeader: getOppositeAlign(alignSectionHeader),
+    isInSecondColumn: true,
+    verticalAlign,
+    sectionAnimation,
+    ...(actionPatternsInSecondColumn.length > 0 && { forcedAlignment: 'end' as const }),
   };
   
   // ===== ENFORCE CENTER ALIGNMENT CASCADE RULE =====
@@ -221,13 +215,6 @@ export function renderSectionLayout({
   const renderPatterns = (keys: string[], context = layoutContext) => {
     return keys
       .map(key => renderPattern(patterns[key], key, sectionKey, context, locale))
-      .filter(Boolean);
-  };
-
-  // Render patterns in second column with context specific to each pattern
-  const renderSecondColumnPatterns = (keys: string[]) => {
-    return keys
-      .map(key => renderPattern(patterns[key], key, sectionKey, getSecondColumnContext(key), locale))
       .filter(Boolean);
   };
 
@@ -419,10 +406,9 @@ export function renderSectionLayout({
 
   // ===== SPLIT LAYOUT (Left or Right aligned SectionHeader) =====
   // Split layout is active when secondColumn array exists (even if empty)
-  // Note: alignSectionHeader is guaranteed to be 'left' or 'right' here since 'center' returns early above
   const hasSecondColumnDefined = secondColumn && secondColumn.length >= 0;
   
-  // If no secondColumn defined, use simple aligned layout
+  // If no secondColumn defined at all, simple aligned layout
   if (!hasSecondColumnDefined) {
     // Get SectionHeader maxWidth and align if it exists
     const sectionHeaderMaxWidth = sectionHeaderKey ? patterns[sectionHeaderKey]?.props?.maxWidth || '650px' : '650px';
@@ -649,11 +635,11 @@ export function renderSectionLayout({
             // When SectionHeader is on right, left column has secondColumn patterns
             isSecondColumnMediaOnly ? (
               <Box className="media-column">
-                {renderSecondColumnPatterns(secondColumnPatterns)}
+                {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : (
-              <VStack spacing="none" align={vstackAlign} justify="center">
-                {renderSecondColumnPatterns(secondColumnPatterns)}
+              <VStack spacing="none" align="start" justify="center">
+                {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </VStack>
             )
           ) : (
@@ -720,17 +706,17 @@ export function renderSectionLayout({
             // When SectionHeader is on left, right column has secondColumn patterns
             isSecondColumnMediaOnly ? (
               <Box className="media-column">
-                {renderSecondColumnPatterns(secondColumnPatterns)}
+                {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </Box>
             ) : wrapInCard && columnInnerPadding ? (
               <Box style={{ ...columnInnerPadding, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: cardColumnAlignCss }}>
-                <VStack spacing={gap} align={vstackAlign}>
-                  {renderSecondColumnPatterns(secondColumnPatterns)}
+                <VStack spacing={gap} align="stretch">
+                  {renderPatterns(secondColumnPatterns, secondColumnContext)}
                 </VStack>
               </Box>
             ) : (
-              <VStack spacing={gap} align={vstackAlign}>
-                {renderSecondColumnPatterns(secondColumnPatterns)}
+              <VStack spacing={gap} align="stretch">
+                {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </VStack>
             )
           )}
