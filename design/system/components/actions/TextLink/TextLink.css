@@ -58,17 +58,17 @@
   color: var(--text-accent) ;                    /* Accent on active */
 }
 
-/* Secondary variant - Medium contrast by default, higher on hover */
+/* Secondary variant - Muted by default, higher contrast on hover */
 .textlink-secondary {
-  color: var(--text-default) ;                 /* Medium contrast (text-muted) */
+  color: var(--text-muted);                      /* Muted contrast */
 }
 
 .textlink-secondary:hover {
-  color: var(--text-strong) ;                    /* High contrast on hover */
+  color: var(--text-default);                    /* Default contrast on hover */
 }
 
 .textlink-secondary:active {
-  color: var(--text-accent) ;                    /* Accent on active */
+  color: var(--text-accent);                     /* Accent on active */
 }
 
 /* Accent variant - Accent color by default, stronger on hover */
