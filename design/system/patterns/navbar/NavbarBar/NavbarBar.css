@@ -1,3 +1,13 @@
+/* ================================================================
+   DEPRECATED — DO NOT EDIT FOR CMS/PRODUCTION USE
+   This legacy component is no longer used for new sites.
+   All navbar variants are now rendered via:
+     shells/navbar/NavbarContainer.tsx + NavbarContainer.css
+   Controlled via:
+     shells/navbar/navbar.schema.ts  (editor schema)
+     shells/navbar/Navbar.tsx        (renderer — requires layout key in JSON)
+   ================================================================ */
+
 /* =====================================================
    NavbarBar.css — Clean Sticky Header with Drawer Integration (Fixed)
    ===================================================== */
