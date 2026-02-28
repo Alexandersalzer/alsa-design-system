@@ -43,9 +43,23 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
     return null;
   }
 
+  // Apply linkVariant from pattern props to all textlink-menuItem components
+  let components = pattern.components || {};
+  const linkVariant = (pattern.props as any)?.linkVariant;
+  if (linkVariant && linkVariant !== 'default') {
+    components = Object.fromEntries(
+      Object.entries(components).map(([key, comp]: [string, any]) => {
+        if (comp.type === 'textlink-menuItem' && !comp.props?.variant) {
+          return [key, { ...comp, props: { ...comp.props, variant: linkVariant } }];
+        }
+        return [key, comp];
+      })
+    );
+  }
+
   // Container utan padding, full width för navbar/footer
   return (
-    <Container 
+    <Container
       key={`${patternKey}`}
       align="center"
       height="auto"
@@ -53,10 +67,10 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
       noPadding={true}
       patternKey={patternKey}
     >
-      <PatternComponent 
+      <PatternComponent
         type={pattern.type}
         props={pattern.props}
-        components={pattern.components}
+        components={components}
       />
     </Container>
   );

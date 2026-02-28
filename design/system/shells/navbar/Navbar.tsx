@@ -45,6 +45,19 @@ const Navbar = ({ section }: NavbarProps) => {
         return acc;
       }, {});
     }
+
+    // Apply linkVariant from pattern props to all link components (TextLink)
+    const linkVariant = (patternProps as any)?.linkVariant;
+    if (linkVariant && linkVariant !== 'default') {
+      components = Object.fromEntries(
+        Object.entries(components).map(([key, comp]: [string, any]) => {
+          if ((comp.type === 'link' || comp.type === 'textlink-menuItem') && !comp.props?.variant) {
+            return [key, { ...comp, props: { ...comp.props, variant: linkVariant } }];
+          }
+          return [key, comp];
+        })
+      );
+    }
     
     // Render desktop layout (default template or explicit desktop template)
     const desktopTemplate = layout.template?.desktop || layout.template;
