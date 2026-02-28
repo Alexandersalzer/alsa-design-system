@@ -137,7 +137,7 @@ export const renderLayoutWithTemplate = (
   patternProps?: Record<string, any>,
   animationConfig?: AnimationConfig,
   locale?: string,
-  layoutContext?: { forcedAlignment?: 'left' | 'center' | 'right' | 'start' | 'end'; [key: string]: any }
+  layoutContext?: { forcedAlignment?: 'left' | 'center' | 'right' | 'start' | 'end'; noItemKeys?: boolean; [key: string]: any }
 ): React.ReactElement | null => {
   
   // Destructure layout-system props to prevent them from being passed to DOM elements
@@ -269,7 +269,8 @@ export const renderLayoutWithTemplate = (
     patternKey,
     0,
     maxItems,
-    locale
+    locale,
+    layoutContext?.noItemKeys
   );
 
   return (
@@ -525,7 +526,8 @@ const renderItems = (
   patternKey?: string,
   indexOffset: number = 0,
   maxItems?: number | ResponsiveMaxItems,
-  locale?: string
+  locale?: string,
+  noItemKeys?: boolean
 ): React.ReactNode[] => {
   return itemOrder.map((itemId, localIndex) => {
     const item = findItem(itemId);
@@ -564,9 +566,13 @@ const renderItems = (
 
     // Wrap in <form> if item contains form-action buttons
     // Use display:contents so form doesn't break grid/flex layouts
-    // Add data-item-key for EditorOverlay detection
+    // Add data-item-key for EditorOverlay detection (skipped for shells like navbar)
     // Add maxItems classes for responsive hiding
-    const itemContent = isFormItem ? (
+    const itemContent = noItemKeys ? (
+      <React.Fragment key={itemId}>
+        {templateContent}
+      </React.Fragment>
+    ) : isFormItem ? (
       <form
         key={itemId}
         data-item-key={itemId}

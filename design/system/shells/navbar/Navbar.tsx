@@ -67,7 +67,10 @@ const Navbar = ({ section }: NavbarProps) => {
       components,
       sectionKey,
       firstPatternKey,
-      patternProps
+      patternProps,
+      undefined,
+      undefined,
+      { noItemKeys: true }
     );
 
     // Render mobile menu layout (use mobile template if available, otherwise same as desktop)
@@ -78,7 +81,10 @@ const Navbar = ({ section }: NavbarProps) => {
       components,
       sectionKey,
       firstPatternKey,
-      patternProps
+      patternProps,
+      undefined,
+      undefined,
+      { noItemKeys: true }
     );
 
     return (
