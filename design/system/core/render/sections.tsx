@@ -72,6 +72,12 @@ export function renderSection(
         ...sectionProps,
         background: layout.background,
         backgroundImage: layout.backgroundImage,
+        backgroundSize: layout.backgroundSize,
+        backgroundPosition: layout.backgroundPosition,
+        backgroundOpacity: layout.backgroundOpacity,
+        backgroundTint: layout.backgroundTint,
+        imageFadeEdge: layout.imageFadeEdge,
+        imageFadeStrength: layout.imageFadeStrength,
         backgroundImageLightModeOpacity: layout.backgroundImageLightModeOpacity
       };
     }
