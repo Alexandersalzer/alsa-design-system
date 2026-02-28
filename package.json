@@ -1,6 +1,6 @@
 {
   "name": "@blimpify-im/ui",
-  "version": "3.2.1090",
+  "version": "3.2.1091",
   "description": "Blimpify Design System - Reusable React components for client websites",
   "main": "dist/index.js",
   "module": "dist/index.js",
