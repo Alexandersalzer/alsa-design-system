@@ -12,7 +12,7 @@
   /* Internal layout - uses global selected spacing */
   gap: var(--space-container);
 
-  /* Width and centering */
+  /* Width and centering (default, overridden by alignment classes) */
   max-width: var(--width-container);
   margin-inline: auto;
 
@@ -53,9 +53,21 @@
 .heightFit  { height: fit-content; }
 
 /* ===== ALIGNMENT VARIANTS ===== */
-.alignLeft   { align-items: flex-start; text-align: left; }
-.alignCenter { align-items: center; text-align: center; }
-.alignRight  { align-items: flex-end; text-align: right; }
+.alignLeft   { 
+  align-items: flex-start; 
+  text-align: left; 
+  margin-inline: 0 auto 0 0; /* Left-aligned: no left margin, auto right margin */
+}
+.alignCenter { 
+  align-items: center; 
+  text-align: center; 
+  margin-inline: auto; /* Centered: auto both sides */
+}
+.alignRight  { 
+  align-items: flex-end; 
+  text-align: right; 
+  margin-inline: 0 0 0 auto; /* Right-aligned: auto left margin, no right margin */
+}
 
 /* ===== PADDING VARIANTS ===== */
 .noPadding {
