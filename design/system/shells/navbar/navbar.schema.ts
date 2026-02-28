@@ -24,27 +24,6 @@ export interface NavbarPatternSchema {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const sharedNavbarProps: Record<string, PropConfig> = {
-  // ── LAYOUT ─────────────────────────────────────────────────────────────────
-  linkVariant: {
-    name: 'linkVariant',
-    type: 'enum',
-    displayName: 'Link Style',
-    description: 'Visual style of navigation links in the navbar',
-    editorType: 'select',
-    values: ['default', 'primary', 'secondary', 'ghost', 'button-ghost', 'accent'],
-    valueLabels: {
-      default: 'Default',
-      primary: 'Primary',
-      secondary: 'Secondary',
-      ghost: 'Ghost',
-      'button-ghost': 'Button Ghost',
-      accent: 'Accent',
-    },
-    default: 'default',
-    group: 'style',
-    cmsEnabled: true,
-  },
-
   // ── STYLE ──────────────────────────────────────────────────────────────────
   backgroundVariant: {
     name: 'backgroundVariant',
