@@ -21,6 +21,7 @@ export type { SolidBackgroundProps, FadeEdge as SolidFadeEdge, ColorPreset as So
 
 export { ImageBackground } from './ImageBackground/ImageBackground';
 export type { ImageBackgroundProps } from './ImageBackground/ImageBackground';
+export { imageBackgroundSchema } from './ImageBackground/schema';
 
 export { ParticleBackground } from './ParticleBackground/ParticleBackground';
 export type { ParticleBackgroundProps, ParticleColorScheme } from './ParticleBackground/ParticleBackground';

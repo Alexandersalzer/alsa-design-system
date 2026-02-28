@@ -164,7 +164,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     },
     default: 'default',
     group: 'background',
-    cmsEnabled: false
+    cmsEnabled: false // Hidden by default, enabled only for specific sections like hero
   },
   
   backgroundImage: {
@@ -175,7 +175,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     editorType: 'url',
     default: '',
     group: 'background',
-    cmsEnabled: true,
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
     visibleWhen: {
       property: 'background',
       operator: 'equals',
@@ -183,18 +183,151 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     }
   },
   
-  backgroundImageLightModeOpacity: {
-    name: 'backgroundImageLightModeOpacity',
+  backgroundSize: {
+    name: 'backgroundSize',
+    type: 'enum',
+    displayName: 'Size',
+    description: 'How the image should fit in the container',
+    editorType: 'segmented',
+    values: ['cover', 'contain'],
+    valueLabels: {
+      cover: 'Cover',
+      contain: 'Contain'
+    },
+    default: 'cover',
+    group: 'background',
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'image'
+    }
+  },
+  
+  backgroundPosition: {
+    name: 'backgroundPosition',
+    type: 'enum',
+    displayName: 'Position',
+    description: 'Position of the image within the container',
+    editorType: 'select',
+    values: ['center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right'],
+    valueLabels: {
+      center: 'Center',
+      top: 'Top',
+      bottom: 'Bottom',
+      left: 'Left',
+      right: 'Right',
+      'top left': 'Top Left',
+      'top right': 'Top Right',
+      'bottom left': 'Bottom Left',
+      'bottom right': 'Bottom Right'
+    },
+    default: 'center',
+    group: 'background',
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'image'
+    }
+  },
+  
+  backgroundOpacity: {
+    name: 'backgroundOpacity',
     type: 'number',
-    displayName: 'Light Mode Opacity',
-    description: 'Image opacity in light mode (0-1)',
+    displayName: 'Opacity',
+    description: 'Image opacity (0 = transparent, 1 = fully opaque)',
     editorType: 'slider',
     min: 0,
     max: 1,
     step: 0.05,
     default: 1,
     group: 'background',
-    cmsEnabled: true,
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'image'
+    }
+  },
+  
+  backgroundTint: {
+    name: 'backgroundTint',
+    type: 'enum',
+    displayName: 'Accent Tint',
+    description: 'Apply accent color tint to the image',
+    editorType: 'segmented',
+    values: ['none', 'accent'],
+    valueLabels: {
+      none: 'No tint',
+      accent: 'Accent color'
+    },
+    default: 'none',
+    group: 'background',
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'image'
+    }
+  },
+  
+  imageFadeEdge: {
+    name: 'imageFadeEdge',
+    type: 'enum',
+    displayName: 'Fade Edge',
+    description: 'Add a gradient fade to an edge of the image',
+    editorType: 'select',
+    values: ['none', 'top', 'bottom', 'left', 'right'],
+    valueLabels: {
+      none: 'No fade',
+      top: 'Top',
+      bottom: 'Bottom',
+      left: 'Left',
+      right: 'Right'
+    },
+    default: 'none',
+    group: 'background',
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'image'
+    }
+  },
+  
+  imageFadeStrength: {
+    name: 'imageFadeStrength',
+    type: 'number',
+    displayName: 'Fade Strength',
+    description: 'Strength of the fade effect (0-1)',
+    editorType: 'slider',
+    min: 0,
+    max: 1,
+    step: 0.05,
+    default: 0.15,
+    group: 'background',
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
+    visibleWhen: {
+      property: 'imageFadeEdge',
+      operator: 'notEquals',
+      value: 'none'
+    }
+  },
+  
+  // Legacy prop - kept for backward compatibility
+  backgroundImageLightModeOpacity: {
+    name: 'backgroundImageLightModeOpacity',
+    type: 'number',
+    displayName: 'Light Mode Opacity (Legacy)',
+    description: 'Image opacity in light mode (0-1) - use backgroundOpacity instead',
+    editorType: 'slider',
+    min: 0,
+    max: 1,
+    step: 0.05,
+    default: 1,
+    group: 'background',
+    cmsEnabled: false, // Deprecated - use backgroundOpacity
     visibleWhen: {
       property: 'background',
       operator: 'equals',
@@ -235,7 +368,13 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     sectionHeaderVerticalAlign: 'start',
     background: 'default',
     backgroundImage: '',
-    backgroundImageLightModeOpacity: 1,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundOpacity: 1,
+    backgroundTint: 'none',
+    imageFadeEdge: 'none',
+    imageFadeStrength: 0.15,
+    backgroundImageLightModeOpacity: 1, // Legacy - use backgroundOpacity
     wrapInCard: false
   },
   

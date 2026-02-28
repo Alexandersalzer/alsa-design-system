@@ -32,6 +32,61 @@ export const heroSectionSchema: SectionSchema = {
     distanceAction: {
       ...defaultSectionLayoutProps.distanceAction,
       cmsEnabled: false
+    },
+    
+    // Enable background for hero sections
+    background: {
+      ...defaultSectionLayoutProps.background,
+      cmsEnabled: true
+    },
+    
+    // Enable background image selection for hero
+    backgroundImage: {
+      ...defaultSectionLayoutProps.backgroundImage,
+      cmsEnabled: true
+    },
+    
+    // Enable all image styling options
+    backgroundSize: {
+      ...defaultSectionLayoutProps.backgroundSize,
+      cmsEnabled: true
+    },
+    
+    backgroundPosition: {
+      ...defaultSectionLayoutProps.backgroundPosition,
+      cmsEnabled: true
+    },
+    
+    backgroundOpacity: {
+      ...defaultSectionLayoutProps.backgroundOpacity,
+      cmsEnabled: true
+    },
+    
+    backgroundTint: {
+      ...defaultSectionLayoutProps.backgroundTint,
+      cmsEnabled: true
+    },
+    
+    imageFadeEdge: {
+      ...defaultSectionLayoutProps.imageFadeEdge,
+      cmsEnabled: true
+    },
+    
+    imageFadeStrength: {
+      ...defaultSectionLayoutProps.imageFadeStrength,
+      cmsEnabled: true
+    },
+    
+    // Legacy prop - kept for backward compatibility (deprecated)
+    backgroundImageLightModeOpacity: {
+      ...defaultSectionLayoutProps.backgroundImageLightModeOpacity,
+      cmsEnabled: false // Deprecated - use backgroundOpacity
+    },
+    
+    // Disable wrap in card for hero sections
+    wrapInCard: {
+      ...defaultSectionLayoutProps.wrapInCard,
+      cmsEnabled: false // Heroes should not be wrapped in cards
     }
   },
   

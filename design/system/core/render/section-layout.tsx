@@ -84,6 +84,12 @@ export function renderSectionLayout({
     // Background props from layout
     background,
     backgroundImage,
+    backgroundSize,
+    backgroundPosition,
+    backgroundOpacity,
+    backgroundTint,
+    imageFadeEdge,
+    imageFadeStrength,
     backgroundImageLightModeOpacity,
   } = layout || {};
 
@@ -441,7 +447,16 @@ export function renderSectionLayout({
       // Use layout background for card (layout.background takes precedence)
       const effectiveCardBackground = background && background !== 'default' ? background : cardBackground;
       const effectiveCardBackgroundSettings = background && background !== 'default'
-        ? { backgroundImage, backgroundImageLightModeOpacity }
+        ? { 
+            backgroundImage, 
+            backgroundSize,
+            backgroundPosition,
+            backgroundOpacity,
+            backgroundTint,
+            imageFadeEdge,
+            imageFadeStrength,
+            backgroundImageLightModeOpacity 
+          }
         : cardBackgroundSettings;
       
       const hasCardBackground = Boolean(effectiveCardBackground);
@@ -764,7 +779,16 @@ export function renderSectionLayout({
           // Use layout background for card (layout.background takes precedence)
           const effectiveCardBackground = background && background !== 'default' ? background : cardBackground;
           const effectiveCardBackgroundSettings = background && background !== 'default'
-            ? { backgroundImage, backgroundImageLightModeOpacity }
+            ? { 
+                backgroundImage, 
+                backgroundSize,
+                backgroundPosition,
+                backgroundOpacity,
+                backgroundTint,
+                imageFadeEdge,
+                imageFadeStrength,
+                backgroundImageLightModeOpacity 
+              }
             : cardBackgroundSettings;
           
           const hasCardBackground = Boolean(effectiveCardBackground);
