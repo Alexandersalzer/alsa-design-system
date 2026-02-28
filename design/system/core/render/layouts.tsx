@@ -137,7 +137,7 @@ export const renderLayoutWithTemplate = (
   patternProps?: Record<string, any>,
   animationConfig?: AnimationConfig,
   locale?: string,
-  layoutContext?: { forcedAlignment?: 'left' | 'center' | 'right'; [key: string]: any }
+  layoutContext?: { forcedAlignment?: 'left' | 'center' | 'right' | 'start' | 'end'; [key: string]: any }
 ): React.ReactElement | null => {
   
   // Destructure layout-system props to prevent them from being passed to DOM elements

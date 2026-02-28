@@ -82,7 +82,7 @@ export interface LayoutContext {
   /** Whether to show the tag in the section header (default false) */
   showTag?: boolean;
   /** Forced alignment that overrides pattern-specific alignment (enforced by section layout rules) */
-  forcedAlignment?: 'left' | 'center' | 'right';
+  forcedAlignment?: 'left' | 'center' | 'right' | 'start' | 'end';
 }
 
 /**
@@ -101,7 +101,23 @@ export const renderPatternDirect = (
 
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop (like action patterns)
   if ((pattern as any).layout) {
-    const layoutConfig = (pattern as any).layout;
+    let layoutConfig = (pattern as any).layout;
+    
+    // ===== FORCED ALIGNMENT FOR ACTION PATTERNS IN SECOND COLUMN =====
+    // When action patterns are placed in the right column (secondColumn),
+    // force their alignment to 'end' (right) for consistent UX
+    const isActionPattern = pattern.type === 'action';
+    const forcedAlign = layoutContext?.forcedAlignment;
+    const isInSecondColumn = layoutContext?.isInSecondColumn;
+    
+    if (isActionPattern && forcedAlign && isInSecondColumn) {
+      // Override layout alignment with forced alignment
+      layoutConfig = {
+        ...layoutConfig,
+        align: forcedAlign === 'left' ? 'start' : forcedAlign === 'right' ? 'end' : forcedAlign,
+      };
+    }
+    // =================================================================
     
     // Determine animation config. Use explicit config or default so server and client
     // render the same structure (avoids hydration mismatch from reading getComputedStyle only on client).
@@ -178,7 +194,23 @@ export const renderPattern = (
 
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop (on pattern level, not in props)
   if ((pattern as any).layout) {
-    const layoutConfig = (pattern as any).layout;
+    let layoutConfig = (pattern as any).layout;
+    
+    // ===== FORCED ALIGNMENT FOR ACTION PATTERNS IN SECOND COLUMN =====
+    // When action patterns are placed in the right column (secondColumn),
+    // force their alignment to 'end' (right) for consistent UX
+    const isActionPattern = pattern.type === 'action';
+    const forcedAlign = layoutContext?.forcedAlignment;
+    const isInSecondColumn = layoutContext?.isInSecondColumn;
+    
+    if (isActionPattern && forcedAlign && isInSecondColumn) {
+      // Override layout alignment with forced alignment
+      layoutConfig = {
+        ...layoutConfig,
+        align: forcedAlign === 'left' ? 'start' : forcedAlign === 'right' ? 'end' : forcedAlign,
+      };
+    }
+    // =================================================================
     
     // Determine animation config. Same on server and client to avoid hydration mismatch.
     // Do NOT read window/getComputedStyle here – that would differ server vs client.
