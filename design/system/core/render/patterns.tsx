@@ -212,10 +212,17 @@ export const renderPattern = (
       ? wrapWithAnimation(layoutContent, animationConfig, layoutConfig)
       : layoutContent;
 
+    // When useFormWidth is true, respect alignSectionHeader from layoutContext
+    // This ensures forms align with section headers (left/center/right)
+    const containerAlign = (patternProps.useFormWidth && layoutContext?.alignSectionHeader) 
+      ? layoutContext.alignSectionHeader 
+      : undefined;
+
     return (
       <Container
         key={patternKey}
         height="auto"
+        align={containerAlign}
         useMediaWidth={patternProps.useMediaWidth || false}
         useFormWidth={patternProps.useFormWidth || false}
         noPadding={patternProps.noPadding || false}
@@ -233,10 +240,17 @@ export const renderPattern = (
     return null;
   }
 
+  // When useFormWidth is true, respect alignSectionHeader from layoutContext
+  // This ensures forms align with section headers (left/center/right)
+  const containerAlign = (patternProps.useFormWidth && layoutContext?.alignSectionHeader) 
+    ? layoutContext.alignSectionHeader 
+    : undefined;
+
   return (
     <Container
       key={patternKey}
       height="auto"
+      align={containerAlign}
       useMediaWidth={patternProps.useMediaWidth || false}
       useFormWidth={patternProps.useFormWidth || false}
       noPadding={patternProps.noPadding || false}
