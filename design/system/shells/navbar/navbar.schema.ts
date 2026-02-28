@@ -115,19 +115,6 @@ export const navbarBarSchema: NavbarPatternSchema = {
       cmsEnabled: true,
     },
 
-    pillWidth: {
-      name: 'pillWidth',
-      type: 'enum',
-      displayName: 'Width',
-      description: 'Full stretches to max content width; Compact shrinks to fit content',
-      editorType: 'segmented',
-      values: ['full', 'compact'],
-      valueLabels: { full: 'Full', compact: 'Compact' },
-      default: 'full',
-      group: 'layout',
-      cmsEnabled: true,
-    },
-
     ...sharedNavbarProps,
   },
 };
