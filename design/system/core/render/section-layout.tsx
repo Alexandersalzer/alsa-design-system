@@ -695,12 +695,12 @@ export function renderSectionLayout({
               </Box>
             ) : wrapInCard && columnInnerPadding ? (
               <Box style={{ ...columnInnerPadding, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: cardColumnAlignCss }}>
-                <VStack spacing={gap} align="stretch">
+                <VStack spacing={gap} align="end">
                   {renderPatterns(secondColumnPatterns, secondColumnContext)}
                 </VStack>
               </Box>
             ) : (
-              <VStack spacing={gap} align="stretch">
+              <VStack spacing={gap} align="end">
                 {renderPatterns(secondColumnPatterns, secondColumnContext)}
               </VStack>
             )
