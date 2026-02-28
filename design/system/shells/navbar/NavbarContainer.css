@@ -587,8 +587,17 @@
   }
 }
 
+/* no-border on wrapper → remove border from the inner pill too */
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border {
   border: none;
+}
+
+@media (min-width: 1025px) {
+  .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border
+    .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+    border-color: transparent;
+    box-shadow: none;
+  }
 }
 
 /* Center-pill bar: no padding — padding lives on individual groups instead. */
