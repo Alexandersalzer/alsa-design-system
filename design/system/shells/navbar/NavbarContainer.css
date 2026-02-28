@@ -600,13 +600,13 @@
   }
 }
 
-/* Center-pill bar: constrain width, top padding only — horizontal padding lives on groups. */
+/* Center-pill bar: constrain width, vertical padding top+bottom — horizontal padding lives on groups. */
 @media (min-width: 1025px) {
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
     max-width: var(--width-navbar);
     width: 100%;
     margin: 0 auto;
-    padding: var(--space-navbar) 0 0 0;
+    padding: var(--space-navbar) 0;
     gap: 0;
   }
 }
@@ -649,6 +649,22 @@
   box-shadow: var(--shadow-sm);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* Pill size variants — control inner padding of the center pill */
+.navbar-container__unified-wrapper--center-pill.navbar-container__pill-size--sm
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  padding: var(--space-navbar-xs) var(--space-navbar-sm);
+}
+
+.navbar-container__unified-wrapper--center-pill.navbar-container__pill-size--md
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  padding: var(--space-navbar-sm) var(--space-navbar-md);
+}
+
+.navbar-container__unified-wrapper--center-pill.navbar-container__pill-size--lg
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  padding: var(--space-navbar-md) var(--space-navbar-lg);
 }
 
 /* ── Group 3: Actions — right cell, horizontal padding only (no vertical) ── */

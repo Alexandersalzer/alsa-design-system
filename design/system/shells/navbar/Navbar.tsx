@@ -95,6 +95,7 @@ const Navbar = ({ section }: NavbarProps) => {
             navbarStyle={patternProps.navbarStyle ?? (pattern as any).type}
             pillWidth={patternProps.pillWidth}
             drawerStyle={patternProps.drawerStyle}
+            pillSize={patternProps.pillSize}
             drawerAnimation={patternProps.drawerAnimation}
             mobileMenu={mobileContent}
           >

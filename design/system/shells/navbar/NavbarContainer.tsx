@@ -34,6 +34,8 @@ interface NavbarContainerProps {
   pillWidth?: 'full' | 'compact';
   /** 'sheet' = short dropdown below the bar (default), 'fullscreen' = takes full viewport height */
   drawerStyle?: 'sheet' | 'fullscreen';
+  /** Center-pill only: controls inner padding of the pill. 'sm' | 'md' | 'lg' */
+  pillSize?: 'sm' | 'md' | 'lg';
   drawerAnimation?: {
     type: 'fadeIn' | 'none';
     settings?: {
@@ -55,6 +57,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
   navbarStyle = 'bar',
   pillWidth = 'full',
   drawerStyle = 'fullscreen',
+  pillSize,
   drawerAnimation = { type: 'fadeIn', settings: { duration: 400, stagger: 50 } }
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -175,7 +178,8 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
             drawerStyle === 'fullscreen' && navbarStyle !== 'bar' && isMobileMenuOpen && "navbar-container__unified-wrapper--fullscreen-open",
             backgroundVariant !== 'default' && `navbar-container__unified-wrapper--${backgroundVariant}`,
             !showBorder && "navbar-container__unified-wrapper--no-border",
-            isScrolled && "navbar-container__unified-wrapper--scrolled"
+            isScrolled && "navbar-container__unified-wrapper--scrolled",
+            navbarStyle === 'center-pill' && pillSize && `navbar-container__pill-size--${pillSize}`
           )}
         >
           {/* Top bar - always visible */}
