@@ -164,7 +164,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     },
     default: 'default',
     group: 'background',
-    cmsEnabled: false
+    cmsEnabled: false // Hidden by default, enabled only for specific sections like hero
   },
   
   backgroundImage: {
@@ -175,7 +175,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     editorType: 'url',
     default: '',
     group: 'background',
-    cmsEnabled: true,
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
     visibleWhen: {
       property: 'background',
       operator: 'equals',
@@ -194,7 +194,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     step: 0.05,
     default: 1,
     group: 'background',
-    cmsEnabled: true,
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
     visibleWhen: {
       property: 'background',
       operator: 'equals',

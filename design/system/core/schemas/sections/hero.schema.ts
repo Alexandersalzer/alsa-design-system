@@ -32,6 +32,24 @@ export const heroSectionSchema: SectionSchema = {
     distanceAction: {
       ...defaultSectionLayoutProps.distanceAction,
       cmsEnabled: false
+    },
+    
+    // Enable background for hero sections
+    background: {
+      ...defaultSectionLayoutProps.background,
+      cmsEnabled: true
+    },
+    
+    // Enable background image selection for hero
+    backgroundImage: {
+      ...defaultSectionLayoutProps.backgroundImage,
+      cmsEnabled: true
+    },
+    
+    // Enable opacity control for hero
+    backgroundImageLightModeOpacity: {
+      ...defaultSectionLayoutProps.backgroundImageLightModeOpacity,
+      cmsEnabled: true
     }
   },
   
