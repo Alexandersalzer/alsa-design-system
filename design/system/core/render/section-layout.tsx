@@ -168,15 +168,15 @@ export function renderSectionLayout({
     sectionAnimation,
   };
 
-  // Context for patterns in the second column (uses opposite alignment by default)
-  // When action patterns are in secondColumn, force 'end' alignment for better UX
-  // forcedAlignment: 'end' only affects PATTERN PLACEMENT in section, not internal components
+  // Context for patterns in the second column
+  // forcedAlignment: 'end' ensures ALL patterns in right column are right-aligned
+  // This only affects PATTERN PLACEMENT in section, not internal components
   const secondColumnContext = {
     alignSectionHeader: getOppositeAlign(alignSectionHeader),
     isInSecondColumn: true,
     verticalAlign,
     sectionAnimation,
-    ...(actionPatternsInSecondColumn.length > 0 && { forcedAlignment: 'end' as const }),
+    forcedAlignment: 'end' as const, // ALL patterns in secondColumn are right-aligned
   };
   
   // ===== ENFORCE CENTER ALIGNMENT CASCADE RULE =====
