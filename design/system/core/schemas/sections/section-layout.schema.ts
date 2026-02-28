@@ -75,30 +75,6 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     }
   },
   
-  ratio: {
-    name: 'ratio',
-    type: 'enum',
-    displayName: 'Column Ratio',
-    description: 'Width ratio between first and second column',
-    editorType: 'segmented',
-    values: ['1:1', '1:2', '2:1', '2:3', '3:2'],
-    valueLabels: {
-      '1:1': '1:1',
-      '1:2': '1:2',
-      '2:1': '2:1',
-      '2:3': '2:3',
-      '3:2': '3:2'
-    },
-    default: '1:1',
-    group: 'columns',
-    cmsEnabled: true,
-    visibleWhen: {
-      property: '_hasActiveSecondColumn',
-      operator: 'equals',
-      value: true
-    }
-  },
-  
   verticalAlign: {
     name: 'verticalAlign',
     type: 'enum',
@@ -255,7 +231,6 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     alignSectionHeader: 'center',
     distanceAction: false,
     secondColumn: [],
-    ratio: '1:1',
     verticalAlign: 'center',
     sectionHeaderVerticalAlign: 'start',
     background: 'default',
