@@ -40,6 +40,17 @@
   max-width: var(--width-form);
 }
 
+/* When width variants are used with left/right alignment, remove centering margin */
+.maxWidthMedia.alignLeft,
+.maxWidthForm.alignLeft {
+  margin-inline: 0 auto;
+}
+
+.maxWidthMedia.alignRight,
+.maxWidthForm.alignRight {
+  margin-inline: auto 0;
+}
+
 /* NEW: full-width variant for navbar/footer shells */
 .maxWidthNavbar {
   width: 100%;
