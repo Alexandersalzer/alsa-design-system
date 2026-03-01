@@ -29,7 +29,7 @@ const propsMappers = {
     size: props.backgroundSize,
     position: props.backgroundPosition,
     aspectRatio: props.backgroundAspectRatio,
-    repeat: props.backgroundRepeat || 'repeat',
+    repeat: props.backgroundRepeat || 'no-repeat',
     opacity: props.backgroundOpacity,
     filter: props.backgroundFilter,
     overlay: typeof props.backgroundOverlay === 'string' ? props.backgroundOverlay : false,
