@@ -351,13 +351,15 @@
 ----------------------------------------------- */
 
 /* First child group = logo + brand — never shrinks */
-.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(1) {
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(1),
+.navbar-container__desktop > .hStack > .hStack:nth-child(1) {
   flex-shrink: 0;
   flex-grow: 0;
 }
 
 /* Second child group = links — grows to fill middle space, alignment via data-menu-align */
-.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2) {
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop > .hStack > .hStack:nth-child(2) {
   flex-grow: 1;
   flex-shrink: 0;
   justify-content: center; /* default */
@@ -365,7 +367,8 @@
 }
 
 /* Compact pill: links group doesn't grow, just takes its natural width */
-.navbar-container__unified-wrapper--compact .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2) {
+.navbar-container__unified-wrapper--compact .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--compact .navbar-container__desktop > .hStack > .hStack:nth-child(2) {
   flex-grow: 0;
 }
 
@@ -375,19 +378,24 @@
 }
 
 /* menuAlign controls: applied via data-menu-align on .navbar-container__desktop */
-.navbar-container__desktop[data-menu-align="left"]   > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-start; }
-.navbar-container__desktop[data-menu-align="center"] > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: center; }
-.navbar-container__desktop[data-menu-align="right"]  > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-end; }
+.navbar-container__desktop[data-menu-align="left"]   > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop[data-menu-align="left"]   > .hStack > .hStack:nth-child(2) { justify-content: flex-start; }
+.navbar-container__desktop[data-menu-align="center"] > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop[data-menu-align="center"] > .hStack > .hStack:nth-child(2) { justify-content: center; }
+.navbar-container__desktop[data-menu-align="right"]  > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop[data-menu-align="right"]  > .hStack > .hStack:nth-child(2) { justify-content: flex-end; }
 
 /* Third child group = actions — never shrinks, pushed to end */
-.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3),
+.navbar-container__desktop > .hStack > .hStack:nth-child(3) {
   flex-shrink: 0;
   flex-grow: 0;
   justify-content: flex-end;
 }
 
 /* Full-width pill: push actions to far right */
-.navbar-container__unified-wrapper:not(.navbar-container__unified-wrapper--compact) .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
+.navbar-container__unified-wrapper:not(.navbar-container__unified-wrapper--compact) .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3),
+.navbar-container__unified-wrapper:not(.navbar-container__unified-wrapper--compact) .navbar-container__desktop > .hStack > .hStack:nth-child(3) {
   margin-left: auto;
 }
 
@@ -406,11 +414,15 @@
 ----------------------------------------------- */
 @media (max-width: 1024px) {
   /* Hide links (2nd) and actions (3rd) groups from the bar on mobile.
-     Groups live inside the display:contents [data-item-key] wrapper. */
+     Groups live inside the display:contents [data-item-key] wrapper (or directly when noItemKeys). */
   .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
   .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3),
+  .navbar-container__desktop > .hStack > .hStack:nth-child(2),
+  .navbar-container__desktop > .hStack > .hStack:nth-child(3),
   .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3) {
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3),
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2),
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(3) {
     display: none !important;
   }
 
@@ -594,7 +606,9 @@
 
 @media (min-width: 1025px) {
   .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border
-    .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+    .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+  .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border
+    .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
     border-color: transparent;
     box-shadow: none;
   }
@@ -626,7 +640,8 @@
 }
 
 /* ── Group 1: Logo/brand — left cell, horizontal padding only (no vertical) ── */
-.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(1) {
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(1),
+.navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(1) {
   flex-shrink: 0;
   justify-self: start;
   align-items: center;
@@ -635,7 +650,8 @@
 
 /* ── Group 2: Links pill — center cell, NO outer padding.
    Inner padding uses --space-navbar so it scales with navbarSpacing in design.json. ── */
-.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   justify-self: center;
   align-self: center;
   align-items: center;
@@ -651,7 +667,8 @@
 }
 
 /* ── Group 3: Actions — right cell, horizontal padding only (no vertical) ── */
-.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3) {
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3),
+.navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(3) {
   justify-self: end;
   justify-content: flex-end;
   align-items: center;
@@ -665,7 +682,9 @@
 
 /* RAISED — elevated solid surface */
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--raised
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--raised
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: var(--surface-raised);
   border-color: var(--border-subtle);
   backdrop-filter: none;
@@ -674,7 +693,9 @@
 
 /* GLASS — always visible frosted */
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   border-color: var(--border-subtle);
   backdrop-filter: blur(16px);
@@ -683,7 +704,9 @@
 
 /* GLASS-CLEAR — faint at rest */
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   border-color: var(--border-subtle);
   backdrop-filter: blur(12px);
@@ -692,7 +715,9 @@
 
 /* GLASS-CLEAR scrolled: solidify */
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -700,7 +725,9 @@
 
 /* TRANSPARENT — invisible pill at rest */
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--transparent
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--transparent
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: transparent;
   border-color: transparent;
   backdrop-filter: none;
@@ -710,7 +737,9 @@
 
 /* TRANSPARENT scrolled: materialize */
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   border-color: var(--border-subtle);
   backdrop-filter: blur(16px);
@@ -719,7 +748,9 @@
 
 /* Scrolled: enhance pill shadow (all variants) */
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   box-shadow: var(--shadow-md);
 }
 

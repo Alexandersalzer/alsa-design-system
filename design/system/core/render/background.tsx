@@ -26,8 +26,8 @@ const propsMappers = {
   }),
   image: (props: BackgroundProps) => ({
     src: props.backgroundImage || '',
-    size: props.backgroundSize,
-    position: props.backgroundPosition,
+    size: props.backgroundSize ?? 'cover',
+    position: props.backgroundPosition ?? 'center',
     aspectRatio: props.backgroundAspectRatio,
     repeat: props.backgroundRepeat || 'no-repeat',
     opacity: props.backgroundOpacity,
