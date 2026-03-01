@@ -212,10 +212,10 @@ export const renderPattern = (
       ? wrapWithAnimation(layoutContent, animationConfig, layoutConfig)
       : layoutContent;
 
-    // When useFormWidth is true, respect alignSectionHeader from layoutContext
-    // This ensures forms align with section headers (left/center/right)
-    const containerAlign = (patternProps.useFormWidth && layoutContext?.alignSectionHeader) 
-      ? layoutContext.alignSectionHeader 
+    // For forms with useFormWidth in aligned layouts (left/right), pass alignment to Container
+    // This prevents margin: auto from centering the form when parent expects left/right align
+    const containerAlign = patternProps.useFormWidth && layoutContext?.alignSectionHeader
+      ? layoutContext.alignSectionHeader
       : undefined;
 
     return (
@@ -240,10 +240,9 @@ export const renderPattern = (
     return null;
   }
 
-  // When useFormWidth is true, respect alignSectionHeader from layoutContext
-  // This ensures forms align with section headers (left/center/right)
-  const containerAlign = (patternProps.useFormWidth && layoutContext?.alignSectionHeader) 
-    ? layoutContext.alignSectionHeader 
+  // For forms with useFormWidth in aligned layouts (left/right), pass alignment to Container
+  const containerAlign = patternProps.useFormWidth && layoutContext?.alignSectionHeader
+    ? layoutContext.alignSectionHeader
     : undefined;
 
   return (

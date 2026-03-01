@@ -87,9 +87,9 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       center: 'Middle',
       end: 'Bottom'
     },
-    default: 'center',
+    default: 'end',
     group: 'columns',
-    cmsEnabled: true,
+    cmsEnabled: false,
     visibleWhen: {
       property: '_hasActiveSecondColumn',
       operator: 'equals',
@@ -111,7 +111,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     },
     default: 'start',
     group: 'columns',
-    cmsEnabled: true,
+    cmsEnabled: false,
     visibleWhen: {
       property: '_hasActiveSecondColumn',
       operator: 'equals',
@@ -384,7 +384,7 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     alignSectionHeader: 'center',
     distanceAction: false,
     secondColumn: [],
-    verticalAlign: 'center',
+    verticalAlign: 'end',
     sectionHeaderVerticalAlign: 'start',
     background: 'default',
     backgroundImage: '',
