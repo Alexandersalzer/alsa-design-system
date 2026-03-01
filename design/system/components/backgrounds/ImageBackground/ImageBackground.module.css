@@ -63,6 +63,20 @@ html.dark .accentMaskDarkBg {
   opacity: 1;
 }
 
+/* Fit mode: <img> drives the section height, no cropping, no empty space */
+.imageFitWrapper {
+  position: relative;
+  width: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.imageFit {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .overlay {
   position: absolute;
   inset: 0;

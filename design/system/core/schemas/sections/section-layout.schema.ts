@@ -189,10 +189,11 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     displayName: 'Size',
     description: 'How the image should fit in the container',
     editorType: 'segmented',
-    values: ['cover', 'contain'],
+    values: ['cover', 'contain', 'fit'],
     valueLabels: {
       cover: 'Cover',
-      contain: 'Contain'
+      contain: 'Contain',
+      fit: 'Fit'
     },
     default: 'cover',
     group: 'background',

@@ -75,6 +75,32 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
   const useAccentMask = tint === 'accent' && src;
   const sizeClass = size === 'contain' ? styles.accentMaskWrapperContain : '';
 
+  // "fit" mode: uses an <img> so the section grows to the image's natural height
+  if (size === 'fit' && !useAccentMask) {
+    return (
+      <div
+        className={`${styles.imageFitWrapper} ${fadeClass}`.trim()}
+        data-background-layer
+        style={{
+          opacity,
+          // @ts-expect-error CSS custom property
+          '--fade-strength': fadeStrength,
+        }}
+        aria-hidden="true"
+      >
+        <img
+          src={src}
+          alt=""
+          className={styles.imageFit}
+          style={{ ...(filter && { filter }) }}
+        />
+        {overlay && typeof overlay === 'string' && (
+          <div className={styles.overlay} style={{ backgroundColor: overlay, opacity: overlayOpacity }} />
+        )}
+      </div>
+    );
+  }
+
   const imageLayer =
     useAccentMask ? (
       <div

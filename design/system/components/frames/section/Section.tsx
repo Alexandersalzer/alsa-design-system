@@ -359,7 +359,14 @@ export const Section = ({
         />
       )}
 
-      {children}
+      {/* Fit mode: image drives height, content overlays on top */}
+      {backgroundSize === 'fit' && background === 'image' ? (
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}>
+          {children}
+        </div>
+      ) : (
+        children
+      )}
     </Component>
   );
 };
