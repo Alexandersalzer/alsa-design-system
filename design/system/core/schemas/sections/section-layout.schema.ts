@@ -394,6 +394,7 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     backgroundTint: 'none',
     imageFadeEdge: 'none',
     imageFadeStrength: 0.15,
+    imageFadeColor: 'page',
     backgroundImageLightModeOpacity: 1, // Legacy - use backgroundOpacity
     wrapInCard: false
   },
