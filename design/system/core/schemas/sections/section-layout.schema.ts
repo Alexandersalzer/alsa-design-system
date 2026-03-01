@@ -189,10 +189,9 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     displayName: 'Size',
     description: 'How the image should fit in the container',
     editorType: 'segmented',
-    values: ['cover', 'fit'],
+    values: ['cover'],
     valueLabels: {
       cover: 'Cover',
-      fit: 'Fit'
     },
     default: 'cover',
     group: 'background',
@@ -277,14 +276,13 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     type: 'enum',
     displayName: 'Fade Edge',
     description: 'Add a gradient fade to an edge of the image',
-    editorType: 'select',
-    values: ['none', 'top', 'bottom', 'left', 'right'],
+    editorType: 'segmented',
+    values: ['none', 'top', 'bottom', 'both'],
     valueLabels: {
-      none: 'No fade',
+      none: 'None',
       top: 'Top',
       bottom: 'Bottom',
-      left: 'Left',
-      right: 'Right'
+      both: 'Both',
     },
     default: 'none',
     group: 'background',
@@ -315,6 +313,28 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     }
   },
   
+  imageFadeColor: {
+    name: 'imageFadeColor',
+    type: 'enum',
+    displayName: 'Fade Color',
+    description: 'Color the image fades into',
+    editorType: 'select',
+    values: ['page', 'raised', 'accent-subtle'],
+    valueLabels: {
+      'page': 'Page',
+      'raised': 'Raised',
+      'accent-subtle': 'Accent subtle',
+    },
+    default: 'page',
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'imageFadeEdge',
+      operator: 'notEquals',
+      value: 'none'
+    }
+  },
+
   // Legacy prop - kept for backward compatibility
   backgroundImageLightModeOpacity: {
     name: 'backgroundImageLightModeOpacity',
