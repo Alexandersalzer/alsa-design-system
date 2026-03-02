@@ -5,7 +5,7 @@
 export const bodyTranslations_sv = {
   displayName: 'Brödtext',
   description: 'Standardtext för paragrafer och innehåll',
-  defaultContent: 'Beskrivning',
+  defaultContent: 'Berätta mer om din verksamhet och vad som gör er unika. Skriv en engagerande beskrivning här.',
   
   props: {
     content: {

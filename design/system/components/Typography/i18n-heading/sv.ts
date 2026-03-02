@@ -5,7 +5,7 @@
 export const headingTranslations_sv = {
   displayName: 'Rubrik',
   description: 'Rubrikkomponent för struktur och hierarki',
-  defaultContent: 'Rubrik',
+  defaultContent: 'Din rubrik här',
   
   props: {
     content: {

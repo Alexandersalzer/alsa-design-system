@@ -5,7 +5,7 @@
 export const bodyTranslations_en = {
   displayName: 'Body Text',
   description: 'Standard text for paragraphs and content',
-  defaultContent: 'Description',
+  defaultContent: 'Tell more about your business and what makes you unique. Write an engaging description here.',
   
   props: {
     content: {
