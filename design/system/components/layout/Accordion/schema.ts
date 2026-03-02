@@ -148,8 +148,8 @@ export const createAccordionItemSchema = (locale: SupportedLocale = 'sv'): Compo
     
     defaultProps: {
       itemKey: '',
-      title: '',
-      content: '',
+      title: t.defaultTitle || '',
+      content: t.defaultContent || '',
     },
     
     props: {
