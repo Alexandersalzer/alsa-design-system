@@ -5,6 +5,7 @@
 export const videoShowcaseTranslations_sv = {
   displayName: 'Video Showcase',
   description: 'Video med enhetsskal och avancerade visningsalternativ',
+  defaultSrc: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   
   props: {
     src: {

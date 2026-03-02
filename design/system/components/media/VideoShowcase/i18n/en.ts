@@ -5,6 +5,7 @@
 export const videoShowcaseTranslations_en = {
   displayName: 'Video Showcase',
   description: 'Video with device frames and advanced display options',
+  defaultSrc: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   
   props: {
     src: {

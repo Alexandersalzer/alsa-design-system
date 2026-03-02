@@ -5,6 +5,7 @@
 export const imageTranslations_en = {
   displayName: 'Image',
   description: 'Responsive image component with lazy loading and placeholders',
+  defaultSrc: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=800&fit=crop',
   
   props: {
     src: {
