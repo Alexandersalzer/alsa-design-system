@@ -12,12 +12,8 @@ export const videoShowcaseTranslations_sv = {
       description: 'Video-URL eller sökväg',
     },
     poster: {
-      displayName: 'Förhandsvisning',
-      description: 'Bild som visas innan video spelar. Välj från galleri.',
-    },
-    youtubeUrl: {
-      displayName: 'YouTube-video (valfritt)',
-      description: 'YouTube embed-URL (t.ex. https://www.youtube.com/embed/...) – lämna tom om du bara vill visa förhandsvisningsbild',
+      displayName: 'Miniatyrbild',
+      description: 'Miniatyrbild som visas innan video spelar',
     },
     aspectRatio: {
       displayName: 'Bildförhållande',
@@ -54,17 +50,9 @@ export const videoShowcaseTranslations_sv = {
         full: 'Full',
       },
     },
-    autoPlay: {
-      displayName: 'Auto igång',
-      description: 'Starta videon automatiskt',
-      trueLabel: 'Ja',
-      falseLabel: 'Nej',
-    },
     showPlayButton: {
       displayName: 'Visa Play-knapp',
       description: 'Visa play-knapp över videon',
-      trueLabel: 'Ja',
-      falseLabel: 'Nej',
     },
     maxHeight: {
       displayName: 'Max höjd',

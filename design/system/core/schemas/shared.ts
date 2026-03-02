@@ -274,7 +274,7 @@ export interface ValuePreview {
  */
 export interface StringPropConfig extends BasePropConfig {
   type: 'string';
-  editorType?: 'text' | 'textarea' | 'richtext' | 'url' | 'email' | 'color' | 'code' | 'image' | 'video';
+  editorType?: 'text' | 'textarea' | 'richtext' | 'url' | 'email' | 'color' | 'code';
   minLength?: number;
   maxLength?: number;
   pattern?: string;

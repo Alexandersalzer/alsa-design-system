@@ -114,8 +114,8 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
         continue;
       }
       
-      // Custom color: {color:#hex}text{/color} or {color:rgb(...)}text{/color}
-      const customColorMatch = text.slice(i).match(/^\{color:([^}]+)\}([\s\S]*?)\{\/color\}/);
+      // Custom color: {color:#hex}text{/color}, {color:var(--token)}text{/color}
+      const customColorMatch = text.slice(i).match(/^\{color:(var\([^)]*\)|[^}]+)\}([\s\S]*?)\{\/color\}/);
       if (customColorMatch) {
         const [full, colorValue, inner] = customColorMatch;
         result.push(<span key={`cc-${key++}`} style={{ color: colorValue }}>{parse(inner, key)}</span>);
@@ -138,6 +138,8 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
         const [full, fontName, weight, inner] = fontMatch;
         const style: React.CSSProperties = { fontFamily: fontName };
         if (weight) style.fontWeight = Number(weight);
+        // Lora används ofta för kursiv "chill"-text – sätt italic så varianten laddas
+        if (fontName === 'Lora') style.fontStyle = 'italic';
         result.push(<span key={`f-${key++}`} style={style}>{parse(inner, key)}</span>);
         i += full.length;
         continue;
@@ -165,7 +167,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const italicMatch = text.slice(i).match(/^\*(.+?)\*/);
       if (italicMatch) {
         const [full, inner] = italicMatch;
-        result.push(<em key={`i-${key++}`}>{parse(inner, key)}</em>);
+        result.push(<em key={`i-${key++}`} style={{ fontStyle: 'italic' }}>{parse(inner, key)}</em>);
         i += full.length;
         continue;
       }

@@ -13,11 +13,7 @@ export const videoShowcaseTranslations_en = {
     },
     poster: {
       displayName: 'Thumbnail',
-      description: 'Image shown before video plays. Select from gallery.',
-    },
-    youtubeUrl: {
-      displayName: 'YouTube video (optional)',
-      description: 'YouTube embed URL (e.g. https://www.youtube.com/embed/...) – leave empty to show thumbnail only',
+      description: 'Thumbnail image shown before video plays',
     },
     aspectRatio: {
       displayName: 'Aspect Ratio',
@@ -54,17 +50,9 @@ export const videoShowcaseTranslations_en = {
         full: 'Full',
       },
     },
-    autoPlay: {
-      displayName: 'Auto play',
-      description: 'Start video automatically',
-      trueLabel: 'Yes',
-      falseLabel: 'No',
-    },
     showPlayButton: {
       displayName: 'Show Play Button',
       description: 'Show play button overlay',
-      trueLabel: 'Yes',
-      falseLabel: 'No',
     },
     maxHeight: {
       displayName: 'Max Height',

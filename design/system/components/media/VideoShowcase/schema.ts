@@ -7,7 +7,6 @@
 
 import { ComponentSchema } from '../../../core/schemas/component.types';
 import { getTranslation, createLocalizedProp } from '../../../core/schemas/i18n';
-import type { PropTranslation } from '../../../core/schemas/i18n/types';
 import { videoShowcaseTranslations } from './i18n';
 import type { SupportedLocale } from '../../../core/schemas/i18n/types';
 
@@ -30,7 +29,6 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
       aspectRatio: '16-9',
       objectFit: 'contain',
       radius: 'lg',
-      autoPlay: true,
       showPlayButton: true,
       frame: 'none',
       frameColor: 'black',
@@ -41,9 +39,9 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
         {
           name: 'src',
           type: 'string',
-          required: false,
+          required: true,
           editorType: 'url',
-          cmsEnabled: false, // Sätts via Media Gallery (Byta media) i preview – som Portfolio mediaSrc
+          cmsEnabled: false, // Hidden - use Media Gallery instead
           group: 'content',
         },
         t.props?.src
@@ -55,22 +53,10 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
           type: 'string',
           required: false,
           editorType: 'url',
-          cmsEnabled: false, // Sätts via thumbnail-blocket i editor (Förhandsvisning – Välj bild)
+          cmsEnabled: false, // Hidden - auto-generated from video
           group: 'content',
         },
         t.props?.poster
-      ),
-      
-      youtubeUrl: createLocalizedProp(
-        {
-          name: 'youtubeUrl',
-          type: 'string',
-          required: false,
-          editorType: 'url',
-          cmsEnabled: true,
-          group: 'content',
-        },
-        (t.props as Record<string, PropTranslation> | undefined)?.youtubeUrl
       ),
       
       aspectRatio: createLocalizedProp(
@@ -113,19 +99,6 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
           group: 'appearance',
         },
         t.props?.radius
-      ),
-      
-      autoPlay: createLocalizedProp(
-        {
-          name: 'autoPlay',
-          type: 'boolean',
-          required: false,
-          default: true,
-          editorType: 'toggle',
-          cmsEnabled: true,
-          group: 'behavior',
-        },
-        (t.props as Record<string, PropTranslation> | undefined)?.autoPlay
       ),
       
       showPlayButton: createLocalizedProp(
@@ -241,9 +214,9 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
     
     validation: [
       {
-        id: 'videoShowcase-src-or-poster',
-        message: 'Ange minst miniatyrbild (poster) eller video-URL',
-        validator: (value: any) => !!(value?.poster || value?.src || value?.youtubeUrl),
+        id: 'videoShowcase-src-required',
+        message: 'Video source is required',
+        validator: (value: any) => !!value.src,
       },
     ],
     examples: [],
