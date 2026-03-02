@@ -171,7 +171,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         const tagKey = Object.keys(components).find(k => components[k].type === 'tag');
         if (!tagKey || !renderIf('tag')) return null;
         const mergedProps = getMergedProps(tagKey);
-        if (mergedProps.isHidden === 'true' || !mergedProps.content) return null;
+        if (mergedProps.isHidden === 'true') return null;
         return withAnimation(
           <Box>
             <Tag
