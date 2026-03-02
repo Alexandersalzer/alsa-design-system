@@ -283,15 +283,6 @@ export function mergeWithDefaults(
     ...props, // User props override defaults
   };
   
-  // Debug logging for text components
-  if (['heading', 'body', 'tag'].includes(componentType)) {
-    console.log(`[mergeWithDefaults] ${componentType}:`, {
-      defaults,
-      providedProps: props,
-      merged
-    });
-  }
-  
   return merged;
 }
 
