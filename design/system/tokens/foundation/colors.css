@@ -198,6 +198,21 @@
   --foundation-honey-1100: #2A1005;
   --foundation-honey-1200: #1A0A03;
 
+  /* Amber Scale (action accent #EAA942 at 500) */
+  --foundation-amber-100: #FDF6E8;
+  --foundation-amber-200: #FAEBC9;
+  --foundation-amber-300: #F5D99E;
+  --foundation-amber-400: #F0C56A;
+  --foundation-amber-500: #EAA942;
+  --foundation-amber-600: #D49128;
+  --foundation-amber-700: #B87A1F;
+  --foundation-amber-800: #946018;
+  --foundation-amber-900: #7A5014;
+  --foundation-amber-950: #5C3C0F;
+  --foundation-amber-1000: #3D2810;
+  --foundation-amber-1100: #2A1C0A;
+  --foundation-amber-1200: #1A1106;
+
   /* ===== GREEN FAMILY ===== */
 
   /* Green-Light Scale */
