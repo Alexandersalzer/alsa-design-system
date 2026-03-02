@@ -39,7 +39,9 @@ interface SectionProps extends BackgroundProps {
   borderWeight?: 'thin' | 'default' | 'thick';
   /** Enable split background (background only covers portion of section) */
   backgroundSplit?: boolean;
-  /** Split percentage - width of background on right side (default: 50) */
+  /** Split variant: vertical (right band) or diagonal (image in upper-right triangle, slice from top-left to bottom-right) */
+  backgroundSplitVariant?: 'vertical' | 'diagonal';
+  /** Split percentage - width of background on right side for vertical (default: 50); diagonal uses full triangle */
   backgroundSplitPercentage?: number;
   /** Mobile-specific background opacity (0-1) - only affects mobile screens */
   mobileBackgroundOpacity?: number;
@@ -169,6 +171,7 @@ export const Section = ({
   style,
   sectionKey,
   backgroundSplit = false,
+  backgroundSplitVariant = 'vertical',
   backgroundSplitPercentage = 50,
   mobileBackgroundOpacity,
   backgroundImageLightModeOpacity,
@@ -341,7 +344,13 @@ export const Section = ({
     >
       {/* Render background - wrapped in split container if needed */}
       {backgroundSplit && background && background !== 'default' ? (
-        <div className={styles.splitBackgroundContainer}>
+        <div
+          className={
+            backgroundSplitVariant === 'diagonal'
+              ? `${styles.splitBackgroundContainer} ${styles.splitBackgroundContainerDiagonal}`
+              : styles.splitBackgroundContainer
+          }
+        >
           {renderBackgroundComponent(background, backgroundProps)}
         </div>
       ) : (

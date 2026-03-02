@@ -179,6 +179,8 @@ export interface BackgroundProps
   backgroundColor?: string;
   /** Enable split background (background only covers portion of section) */
   backgroundSplit?: boolean;
+  /** Split variant: 'vertical' (right band) or 'diagonal' (image in upper-right triangle) */
+  backgroundSplitVariant?: 'vertical' | 'diagonal';
   /** Split percentage - width of background on right side (default: 50) */
   backgroundSplitPercentage?: number;
 }

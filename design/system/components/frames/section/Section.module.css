@@ -144,11 +144,23 @@
   overflow: hidden;
 }
 
+/* Diagonal slice: bilden syns i övre högra triangeln (från vänster uppe till höger nere) */
+.splitBackgroundContainerDiagonal {
+  left: 0;
+  right: 0;
+  width: 100%;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
 @media (max-width: 768px) {
   .splitBackgroundContainer {
     left: 0;
     right: 0;
     width: 100%;
+  }
+
+  .splitBackgroundContainerDiagonal {
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
   }
 }
 
