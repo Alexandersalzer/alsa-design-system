@@ -198,20 +198,20 @@
   --foundation-honey-1100: #2A1005;
   --foundation-honey-1200: #1A0A03;
 
-  /* Amber Scale (action accent #EAA942 at 500) */
-  --foundation-amber-100: #FDF6E8;
-  --foundation-amber-200: #FAEBC9;
-  --foundation-amber-300: #F5D99E;
-  --foundation-amber-400: #F0C56A;
-  --foundation-amber-500: #EAA942;
-  --foundation-amber-600: #D49128;
-  --foundation-amber-700: #B87A1F;
-  --foundation-amber-800: #946018;
-  --foundation-amber-900: #7A5014;
-  --foundation-amber-950: #5C3C0F;
-  --foundation-amber-1000: #3D2810;
-  --foundation-amber-1100: #2A1C0A;
-  --foundation-amber-1200: #1A1106;
+  /* Amber Scale – action accent #EBA942 på 600 (navbar/knappar använder 600) */
+  --foundation-amber-100: #FEF8ED;
+  --foundation-amber-200: #FCEFD4;
+  --foundation-amber-300: #F9E2AD;
+  --foundation-amber-400: #F5D078;
+  --foundation-amber-500: #F0C04E;
+  --foundation-amber-600: #EBA942;
+  --foundation-amber-700: #D99428;
+  --foundation-amber-800: #B87A1F;
+  --foundation-amber-900: #946018;
+  --foundation-amber-950: #704712;
+  --foundation-amber-1000: #4A2F0E;
+  --foundation-amber-1100: #2F1E0A;
+  --foundation-amber-1200: #1A1207;
 
   /* ===== GREEN FAMILY ===== */
 
