@@ -5,6 +5,7 @@
 export const headingTranslations_en = {
   displayName: 'Heading',
   description: 'Heading component for structure and hierarchy',
+  defaultContent: 'Heading',
   
   props: {
     content: {

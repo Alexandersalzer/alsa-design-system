@@ -5,6 +5,7 @@
 export const tagTranslations_en = {
   displayName: 'Tag',
   description: 'Label for categories, status or filters',
+  defaultContent: 'Tag',
   
   props: {
     content: {

@@ -5,6 +5,7 @@
 export const bodyTranslations_en = {
   displayName: 'Body Text',
   description: 'Standard text for paragraphs and content',
+  defaultContent: 'Description',
   
   props: {
     content: {

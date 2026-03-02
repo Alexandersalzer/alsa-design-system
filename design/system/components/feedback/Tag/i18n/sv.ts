@@ -5,6 +5,7 @@
 export const tagTranslations_sv = {
   displayName: 'Tagg',
   description: 'Märkning för kategorier, status eller filter',
+  defaultContent: 'Tagg',
   
   props: {
     content: {

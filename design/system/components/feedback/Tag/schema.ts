@@ -24,6 +24,7 @@ export const createTagSchema = (locale: SupportedLocale = 'sv'): ComponentSchema
     cmsEnabled: true,
     
     defaultProps: {
+      content: t.defaultContent,
       variant: 'default',
       size: 'medium',
       surface: 'subtle',
@@ -35,6 +36,7 @@ export const createTagSchema = (locale: SupportedLocale = 'sv'): ComponentSchema
           name: 'content',
           type: 'string',
           required: true,
+          default: t.defaultContent,
           editorType: 'text',
           maxLength: 50,
           placeholder: 'Tag text...',

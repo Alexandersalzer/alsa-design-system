@@ -5,6 +5,7 @@
 export const bodyTranslations_sv = {
   displayName: 'Brödtext',
   description: 'Standardtext för paragrafer och innehåll',
+  defaultContent: 'Beskrivning',
   
   props: {
     content: {
