@@ -93,6 +93,32 @@
    Background variants
    ═══════════════════════════════════════════════════════════════ */
 
+/* SOLID — always solid background, never glass on scroll */
+.navbar-container__unified-wrapper--solid {
+  background: var(--surface-nav);
+  border-color: var(--border-nav);
+}
+
+.navbar-container__unified-wrapper--solid.navbar-container__unified-wrapper--scrolled {
+  background: var(--surface-nav);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: var(--border-nav);
+}
+
+/* ACCENT — uses design accent color, solid (no glass on scroll) */
+.navbar-container__unified-wrapper--accent {
+  background: var(--foundation-accent-500);
+  border-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
+}
+
+.navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--scrolled {
+  background: var(--foundation-accent-500);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
+}
+
 /* RAISED — elevated surface */
 .navbar-container__unified-wrapper--raised {
   background: var(--surface-raised);
@@ -243,12 +269,28 @@
   border-bottom-color: transparent;
 }
 
-/* Bar: default surface materializes on scroll (default variant) */
-.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--scrolled {
+/* Bar: default surface becomes glass on scroll (only when NOT solid/accent) */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--scrolled:not(.navbar-container__unified-wrapper--solid):not(.navbar-container__unified-wrapper--accent) {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom-color: var(--border-subtle);
+}
+
+/* Bar + solid: stay solid on scroll */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--solid.navbar-container__unified-wrapper--scrolled {
+  background: var(--surface-nav);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: var(--border-nav);
+}
+
+/* Bar + accent: stay accent on scroll */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--scrolled {
+  background: var(--foundation-accent-500);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
 }
 
 /* Bar + raised */
@@ -447,9 +489,18 @@
     background: var(--surface-nav);
     border-color: var(--border-nav);
     box-shadow: var(--shadow-md);
-    /* Flatten bottom corners slightly so the pill looks more like a container when open */
     border-bottom-left-radius: var(--radius-md);
     border-bottom-right-radius: var(--radius-md);
+  }
+
+  .navbar-container__unified-wrapper--solid.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--expanded {
+    background: var(--surface-nav);
+    border-color: var(--border-nav);
+  }
+
+  .navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--expanded {
+    background: var(--foundation-accent-500);
+    border-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
   }
 
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
@@ -659,11 +710,49 @@
   background: var(--surface-nav);
   border: 1px solid var(--border-nav);
   border-radius: var(--radius-navbar-pill);
-  /* Scales automatically with --space-navbar (set by navbarSpacing in design.json) */
   padding: var(--space-navbar);
   box-shadow: var(--shadow-sm);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* Center-pill + solid: inner pill always solid, no glass on scroll */
+.navbar-container__unified-wrapper--solid.navbar-container__unified-wrapper--center-pill
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--solid.navbar-container__unified-wrapper--center-pill
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: var(--surface-nav);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.navbar-container__unified-wrapper--solid.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--solid.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: var(--surface-nav);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Center-pill + accent: inner pill uses accent color, solid on scroll */
+.navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--center-pill
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--center-pill
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: var(--foundation-accent-500);
+  border-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: var(--foundation-accent-500);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* ── Group 3: Actions — right cell, horizontal padding only (no vertical) ── */

@@ -31,9 +31,11 @@ const sharedNavbarProps: Record<string, PropConfig> = {
     displayName: 'Background',
     description: 'Visual background style of the navbar',
     editorType: 'select',
-    values: ['default', 'raised', 'glass', 'glass-clear', 'transparent'],
+    values: ['default', 'solid', 'accent', 'raised', 'glass', 'glass-clear', 'transparent'],
     valueLabels: {
-      default: 'Solid',
+      default: 'Default (glass on scroll)',
+      solid: 'Solid',
+      accent: 'Accent',
       raised: 'Raised',
       glass: 'Glass',
       'glass-clear': 'Glass Faint',
