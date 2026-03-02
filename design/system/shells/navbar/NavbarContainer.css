@@ -106,17 +106,17 @@
   border-color: var(--border-nav);
 }
 
-/* ACCENT — uses design accent color, solid (no glass on scroll) */
+/* ACCENT — same as action accent (--surface-button-accent / intent-action-primary), solid (no glass on scroll) */
 .navbar-container__unified-wrapper--accent {
-  background: var(--foundation-accent-500);
-  border-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
+  background: var(--surface-button-accent);
+  border-color: var(--border-button-accent);
 }
 
 .navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--scrolled {
-  background: var(--foundation-accent-500);
+  background: var(--surface-button-accent);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  border-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
+  border-color: var(--border-button-accent);
 }
 
 /* RAISED — elevated surface */
@@ -287,10 +287,10 @@
 
 /* Bar + accent: stay accent on scroll */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--scrolled {
-  background: var(--foundation-accent-500);
+  background: var(--surface-button-accent);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  border-bottom-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
+  border-bottom-color: var(--border-button-accent);
 }
 
 /* Bar + raised */
@@ -499,8 +499,8 @@
   }
 
   .navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--expanded {
-    background: var(--foundation-accent-500);
-    border-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
+    background: var(--surface-button-accent);
+    border-color: var(--border-button-accent);
   }
 
   .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
@@ -735,13 +735,13 @@
   -webkit-backdrop-filter: none;
 }
 
-/* Center-pill + accent: inner pill uses accent color, solid on scroll */
+/* Center-pill + accent: inner pill uses action accent, solid on scroll */
 .navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--center-pill
   .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
 .navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--center-pill
   .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
-  background: var(--foundation-accent-500);
-  border-color: color-mix(in srgb, var(--foundation-accent-500) 80%, black);
+  background: var(--surface-button-accent);
+  border-color: var(--border-button-accent);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -750,7 +750,7 @@
   .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
 .navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled
   .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
-  background: var(--foundation-accent-500);
+  background: var(--surface-button-accent);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
