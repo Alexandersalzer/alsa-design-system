@@ -152,4 +152,51 @@ export interface LayoutConfig {
    * Gäller bara när wrapInCard är true. Andra sections använder sectionHeaderVerticalAlign + verticalAlign.
    */
   cardColumnVerticalAlign?: 'start' | 'center' | 'end';
+
+  /**
+   * Background type för hela sektionen
+   * När wrapInCard är true, flyttas bakgrunden till kortet istället för section-elementet
+   */
+  background?: 'default' | 'image' | 'gradient' | 'generative' | 'pattern' | 'solid';
+
+  /**
+   * Background image URL när background är 'image'
+   */
+  backgroundImage?: string;
+
+  /**
+   * Background size - how the image should fit in the container
+   */
+  backgroundSize?: 'cover' | 'contain';
+
+  /**
+   * Background position - position of the image within the container
+   */
+  backgroundPosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right';
+
+  /**
+   * Background opacity (0-1) - replaces backgroundImageLightModeOpacity
+   */
+  backgroundOpacity?: number;
+
+  /**
+   * Accent tint - apply accent color tint to the image
+   */
+  backgroundTint?: 'none' | 'accent';
+
+  /**
+   * Fade edge - add a gradient fade to an edge of the image
+   */
+  imageFadeEdge?: 'none' | 'top' | 'bottom' | 'left' | 'right';
+
+  /**
+   * Fade strength - strength of the fade effect (0-1)
+   */
+  imageFadeStrength?: number;
+
+  /**
+   * Opacity för background image i light mode (0-1) 
+   * @deprecated Use backgroundOpacity instead
+   */
+  backgroundImageLightModeOpacity?: number;
 }

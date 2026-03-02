@@ -12,7 +12,7 @@ import { Container } from '../../components/frames/container/Container';
 import { Card } from '../../components/layout/Card/Card';
 import { LayoutConfig } from '../types/layout';
 import { PatternNode } from '../types/nodes';
-import { renderPattern, renderPatternDirect } from './patterns';
+import { renderPattern, renderPatternDirect, type LayoutContext } from './patterns';
 import { renderBackgroundComponent } from './background';
 import { actionsRegistry } from '../../patterns/actions/registry';
 import { AnimationConfig } from '../../components/animations/types';
@@ -24,6 +24,7 @@ interface SectionLayoutProps {
   order: string[];
   sectionKey: string;
   sectionAnimation?: AnimationConfig;
+  sectionProps?: Record<string, any>; // Section props (may contain background)
   locale?: string;
 }
 
@@ -43,6 +44,10 @@ interface SectionLayoutProps {
  * 
  * 3. distanceAction = true:
  *    - ButtonGroup moved to bottom of section (after all patterns)
+ * 
+ * 4. wrapInCard = true with section background:
+ *    - When wrapInCard is enabled AND section has background props,
+ *    - Background is moved from Section to Card wrapper
  */
 export function renderSectionLayout({ 
   layout, 
@@ -50,6 +55,7 @@ export function renderSectionLayout({
   order,
   sectionKey,
   sectionAnimation,
+  sectionProps,
   locale
 }: SectionLayoutProps) {
   
@@ -61,7 +67,7 @@ export function renderSectionLayout({
     distanceAction = false,
     gap = 'xl',
     ratio = '1:1',
-    verticalAlign = 'center', // Default to center for better visual balance
+    verticalAlign = 'end', // Default to bottom for better layout balance
     sectionHeaderVerticalAlign = 'start', // Default to start for sectionHeader alignment
     stackAt = 'desktop', // Default to 1024px breakpoint
     mobileOrder,
@@ -75,6 +81,16 @@ export function renderSectionLayout({
     cardBackgroundSettings = {},
     cardBorderStyle = 'none',
     cardColumnVerticalAlign,
+    // Background props from layout
+    background,
+    backgroundImage,
+    backgroundSize,
+    backgroundPosition,
+    backgroundOpacity,
+    backgroundTint,
+    imageFadeEdge,
+    imageFadeStrength,
+    backgroundImageLightModeOpacity,
   } = layout || {};
 
   // När wrapInCard: samma vertikala alignment för båda kolumnerna (default center så det inte sitter i hörnet)
@@ -140,7 +156,9 @@ export function renderSectionLayout({
     return 'center'; // center stays center
   };
 
-  // Pass layout alignment to patterns so they can inherit it
+  // Pass layout context to patterns
+  // Note: forcedAlignment (when set) tells section-layout HOW TO PLACE patterns,
+  // but does NOT affect how components inside patterns are aligned
   const layoutContext = {
     alignSectionHeader,
     isInSecondColumn: false,
@@ -157,12 +175,25 @@ export function renderSectionLayout({
   };
 
   // Context for patterns in the second column (uses opposite alignment by default)
+  // When action patterns are in secondColumn, force 'end' alignment for better UX
+  // forcedAlignment: 'end' only affects PATTERN PLACEMENT in section, not internal components
   const secondColumnContext = {
     alignSectionHeader: getOppositeAlign(alignSectionHeader),
     isInSecondColumn: true,
     verticalAlign,
     sectionAnimation,
+    ...(actionPatternsInSecondColumn.length > 0 && { forcedAlignment: 'end' as const }),
   };
+  
+  // ===== ENFORCE CENTER ALIGNMENT CASCADE RULE =====
+  // When alignSectionHeader is 'center', all patterns are centered in the section
+  // This is handled by the outer VStack with align="center" (line 293)
+  // We don't need forcedAlignment: 'center' here as it would incorrectly center content inside patterns (like body text in cards)
+  const centeredLayoutContext = alignSectionHeader === 'center' ? {
+    ...layoutContext,
+    alignSectionHeader: 'center' as const,
+    // DO NOT set forcedAlignment: 'center' - it would center content inside patterns
+  } : layoutContext;
 
   // Check if second column contains only media patterns (for stretch behavior)
   const derivedSecondColumnMediaOnly = secondColumnPatterns.length > 0 &&
@@ -240,13 +271,25 @@ export function renderSectionLayout({
     return defaultOrder;
   };
 
+  // Card padding mapping
+  const cardPaddingToFoundationToken: Record<string, string> = {
+    xs: '2',
+    sm: '4',
+    md: '6',
+    lg: '8',
+    xl: '10',
+    '2xl': '12',
+  };
+  const cardPaddingToken =
+    cardPadding && cardPadding !== 'none' ? cardPaddingToFoundationToken[cardPadding] ?? '8' : null;
+
   // ===== CENTERED LAYOUT (Default) =====
   // No split, everything stacked vertically
   if (alignSectionHeader === 'center') {
     // Get SectionHeader maxWidth if it exists
     const sectionHeaderMaxWidth = sectionHeaderKey ? patterns[sectionHeaderKey]?.props?.maxWidth || '650px' : '650px';
     
-    return (
+    const centeredContent = (
       <VStack spacing="none" align="center">
         {/* SectionHeader + Action Patterns together in one Container with shared VStack */}
         {(sectionHeaderKey || actionPatternsWithHeader.length > 0) && (
@@ -254,22 +297,111 @@ export function renderSectionLayout({
             <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: '0 auto', width: '100%' }}>
               <VStack spacing="lg" align="center">
                 {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, centeredLayoutContext, locale))}
               </VStack>
             </Box>
           </Container>
         )}
-        {renderPatterns(otherPatternKeys)}
-        {renderPatterns(actionPatternsInSecondColumn)}
+        {renderPatterns(otherPatternKeys, centeredLayoutContext)}
+        {renderPatterns(actionPatternsInSecondColumn, centeredLayoutContext)}
         {distancedActionPatterns.length > 0 && (
           <Container height="auto">
             <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+              <VStack spacing="lg" align="center">
+                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, centeredLayoutContext, locale))}
+              </VStack>
             </Box>
           </Container>
         )}
       </VStack>
     );
+
+    // Wrap in Card if enabled
+    if (wrapInCard) {
+      // Use layout background for card (layout.background takes precedence)
+      const effectiveCardBackground = background && background !== 'default' ? background : cardBackground;
+      const effectiveCardBackgroundSettings = background && background !== 'default'
+        ? { backgroundImage, backgroundImageLightModeOpacity }
+        : cardBackgroundSettings;
+      
+      const hasCardBackground = Boolean(effectiveCardBackground);
+      const cardBackgroundProps: BackgroundProps = { 
+        ...effectiveCardBackgroundSettings,
+        background: effectiveCardBackground
+      } as BackgroundProps;
+      
+      const cardBorderCss =
+        cardBorderStyle === 'subtle'
+          ? '1px solid var(--border-subtle)'
+          : cardBorderStyle === 'solid'
+            ? '2px solid var(--border-default)'
+            : cardBorderStyle === 'accent'
+              ? '1px solid var(--accent-500)'
+              : undefined;
+
+      if (hasCardBackground) {
+        const cardBgLightOpacity = effectiveCardBackgroundSettings?.backgroundImageLightModeOpacity;
+        return (
+          <Container height="auto">
+            <Card
+              variant="ghost"
+              padding="none"
+              radius={cardRadius}
+              data-card-has-image-bg="true"
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+                position: 'relative',
+                overflow: 'hidden',
+                background: 'transparent',
+                ...(cardBorderCss && { border: cardBorderCss }),
+              }}
+            >
+              <Box
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  ...(cardBgLightOpacity != null && {
+                    ['--section-bg-image-light-opacity' as string]: String(cardBgLightOpacity),
+                  }),
+                }}
+              >
+                {renderBackgroundComponent(effectiveCardBackground as any, cardBackgroundProps)}
+              </Box>
+              <Box
+                style={{
+                  position: 'relative',
+                  padding: cardPaddingToken ? `var(--foundation-space-${cardPaddingToken})` : 0,
+                }}
+              >
+                {centeredContent}
+              </Box>
+            </Card>
+          </Container>
+        );
+      }
+
+      const cardPaddingForCard = (cardPadding === 'xl' || cardPadding === '2xl') ? 'lg' : cardPadding;
+      return (
+        <Container height="auto">
+          <Card
+            variant={cardVariant}
+            padding={cardPaddingForCard}
+            radius={cardRadius}
+            style={{
+              width: '100%',
+              boxSizing: 'border-box',
+              ...(cardBorderCss && { border: cardBorderCss }),
+            }}
+          >
+            {centeredContent}
+          </Card>
+        </Container>
+      );
+    }
+
+    return centeredContent;
   }
 
   // ===== SPLIT LAYOUT (Left or Right aligned SectionHeader) =====
@@ -284,7 +416,7 @@ export function renderSectionLayout({
     const effectiveAlign = sectionHeaderAlign || (alignSectionHeader === 'left' ? 'start' : 'end');
     const marginValue = effectiveAlign === 'center' ? '0 auto' : effectiveAlign === 'end' ? '0 0 0 auto' : '0 auto 0 0';
     
-    return (
+    const alignedContent = (
       <VStack spacing="none" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
         {/* SectionHeader + Action Patterns together in one Container with shared VStack */}
         {(sectionHeaderKey || actionPatternsWithHeader.length > 0) && (
@@ -301,18 +433,120 @@ export function renderSectionLayout({
         {distancedActionPatterns.length > 0 && (
           <Container height="auto">
             <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-              {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+              <VStack spacing="lg" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
+                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+              </VStack>
             </Box>
           </Container>
         )}
       </VStack>
     );
+
+    // Wrap in Card if enabled
+    if (wrapInCard) {
+      // Use layout background for card (layout.background takes precedence)
+      const effectiveCardBackground = background && background !== 'default' ? background : cardBackground;
+      const effectiveCardBackgroundSettings = background && background !== 'default'
+        ? { 
+            backgroundImage, 
+            backgroundSize,
+            backgroundPosition,
+            backgroundOpacity,
+            backgroundTint,
+            imageFadeEdge,
+            imageFadeStrength,
+            backgroundImageLightModeOpacity 
+          }
+        : cardBackgroundSettings;
+      
+      const hasCardBackground = Boolean(effectiveCardBackground);
+      const cardBackgroundProps: BackgroundProps = { 
+        ...effectiveCardBackgroundSettings,
+        background: effectiveCardBackground
+      } as BackgroundProps;
+      
+      const cardBorderCss =
+        cardBorderStyle === 'subtle'
+          ? '1px solid var(--border-subtle)'
+          : cardBorderStyle === 'solid'
+            ? '2px solid var(--border-default)'
+            : cardBorderStyle === 'accent'
+              ? '1px solid var(--accent-500)'
+              : undefined;
+
+      if (hasCardBackground) {
+        const cardBgLightOpacity = effectiveCardBackgroundSettings?.backgroundImageLightModeOpacity;
+        return (
+          <Container height="auto">
+            <Card
+              variant="ghost"
+              padding="none"
+              radius={cardRadius}
+              data-card-has-image-bg="true"
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+                position: 'relative',
+                overflow: 'hidden',
+                background: 'transparent',
+                ...(cardBorderCss && { border: cardBorderCss }),
+              }}
+            >
+              <Box
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  ...(cardBgLightOpacity != null && {
+                    ['--section-bg-image-light-opacity' as string]: String(cardBgLightOpacity),
+                  }),
+                }}
+              >
+                {renderBackgroundComponent(effectiveCardBackground as any, cardBackgroundProps)}
+              </Box>
+              <Box
+                style={{
+                  position: 'relative',
+                  padding: cardPaddingToken ? `var(--foundation-space-${cardPaddingToken})` : 0,
+                }}
+              >
+                {alignedContent}
+              </Box>
+            </Card>
+          </Container>
+        );
+      }
+
+      const cardPaddingForCard = (cardPadding === 'xl' || cardPadding === '2xl') ? 'lg' : cardPadding;
+      return (
+        <Container height="auto">
+          <Card
+            variant={cardVariant}
+            padding={cardPaddingForCard}
+            radius={cardRadius}
+            style={{
+              width: '100%',
+              boxSizing: 'border-box',
+              ...(cardBorderCss && { border: cardBorderCss }),
+            }}
+          >
+            {alignedContent}
+          </Card>
+        </Container>
+      );
+    }
+
+    return alignedContent;
   }
 
   // ===== SPLIT LAYOUT WITH SECOND COLUMN (even if empty) =====
   
   // Determine which column SectionHeader should be in based on alignSectionHeader
   const isSectionHeaderInRightColumn = alignSectionHeader === 'right';
+
+  // Smart default alignment for secondColumn: use 'end' if action patterns present, else 'start'
+  const hasActionInSecondColumn = actionPatternsInSecondColumn.length > 0;
+  const defaultSecondColumnAlign = hasActionInSecondColumn ? 'end' : 'start';
 
   // Get SectionHeader maxWidth and align if it exists  
   const sectionHeaderMaxWidth = sectionHeaderKey ? patterns[sectionHeaderKey]?.props?.maxWidth || '650px' : '650px';
@@ -321,17 +555,6 @@ export function renderSectionLayout({
   const marginValue = effectiveAlign === 'center' ? '0 auto' : effectiveAlign === 'end' ? '0 0 0 auto' : '0 auto 0 0';
 
   // Layout cardPadding (xs/lg/xl) -> foundation numeric token (--foundation-space-2, -8, -10, etc.)
-  const cardPaddingToFoundationToken: Record<string, string> = {
-    xs: '2',
-    sm: '4',
-    md: '6',
-    lg: '8',
-    xl: '10',
-    '2xl': '12',
-  };
-  const cardPaddingToken =
-    cardPadding && cardPadding !== 'none' ? cardPaddingToFoundationToken[cardPadding] ?? '8' : null;
-
   // When wrapInCard: same inner padding for both columns so they align; use real foundation token so spacing to card edge works
   const columnInnerPadding =
     wrapInCard && cardPaddingToken
@@ -542,7 +765,9 @@ export function renderSectionLayout({
           <Box className="desktop-only">
             <Container height="auto">
               <Box style={{ maxWidth: 'var(--width-container)', margin: '0 auto', width: '100%' }}>
-                {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                <VStack spacing="lg" align={alignSectionHeader === 'left' ? 'start' : 'end'}>
+                  {distancedActionPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                </VStack>
               </Box>
             </Container>
           </Box>
@@ -551,8 +776,26 @@ export function renderSectionLayout({
           );
           if (!wrapInCard) return layoutContent;
 
-          const hasCardBackground = Boolean(cardBackground);
-          const cardBackgroundProps: BackgroundProps = { ...(cardBackgroundSettings || {}) } as BackgroundProps;
+          // Use layout background for card (layout.background takes precedence)
+          const effectiveCardBackground = background && background !== 'default' ? background : cardBackground;
+          const effectiveCardBackgroundSettings = background && background !== 'default'
+            ? { 
+                backgroundImage, 
+                backgroundSize,
+                backgroundPosition,
+                backgroundOpacity,
+                backgroundTint,
+                imageFadeEdge,
+                imageFadeStrength,
+                backgroundImageLightModeOpacity 
+              }
+            : cardBackgroundSettings;
+          
+          const hasCardBackground = Boolean(effectiveCardBackground);
+          const cardBackgroundProps: BackgroundProps = { 
+            ...effectiveCardBackgroundSettings,
+            background: effectiveCardBackground
+          } as BackgroundProps;
 
           const cardBorderCss =
             cardBorderStyle === 'subtle'
@@ -564,7 +807,7 @@ export function renderSectionLayout({
                   : undefined;
 
           if (hasCardBackground) {
-            const cardBgLightOpacity = cardBackgroundSettings?.backgroundImageLightModeOpacity;
+            const cardBgLightOpacity = effectiveCardBackgroundSettings?.backgroundImageLightModeOpacity;
             return (
               <Card
                 variant="ghost"
@@ -590,7 +833,7 @@ export function renderSectionLayout({
                     }),
                   }}
                 >
-                  {renderBackgroundComponent(cardBackground as any, cardBackgroundProps)}
+                  {renderBackgroundComponent(effectiveCardBackground as any, cardBackgroundProps)}
                 </Box>
                 <Box
                   style={{

@@ -1,3 +1,12 @@
+/**
+ * @deprecated LEGACY — DO NOT EDIT FOR CMS/PRODUCTION USE
+ * This component is no longer used for new sites.
+ * All navbar variants are now rendered via:
+ *   shells/navbar/NavbarContainer.tsx
+ * Controlled via:
+ *   shells/navbar/navbar.schema.ts  (editor schema)
+ *   shells/navbar/Navbar.tsx        (renderer — requires layout key in JSON)
+ */
 'use client';
 
 import { useState, useEffect } from 'react';

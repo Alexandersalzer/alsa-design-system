@@ -13,23 +13,56 @@ export * from './page.types';
 // Pattern types - exports commonLayoutProps
 export * from './pattern.types';
 
-// Section types - also has commonLayoutProps, but we only need specific types
+// Section types - validation rules and metadata
 export type { 
-  SectionSchema,
   SectionType,
-  SectionCategory,
-  SectionAlignment,
-  VerticalAlignment,
-  GapSize,
-  SectionLayoutConfig,
-  SectionLayoutSchema,
-  SectionBackgroundType,
-  BackgroundSchema,
-  PatternConstraints,
-  PatternOrderConstraint,
-  SectionExample,
-  SectionValidationContext
-} from './section.types';
+  SectionMetadata,
+  SectionValidationConfig
+} from './sections/section.types';
+
+export {
+  AllowedSectionTypes,
+  isValidSectionType,
+  SectionPositioningRules,
+  SectionOccurrenceRules,
+  sectionValidationConfig,
+  sectionMetadata,
+  getSectionMetadata,
+  getSectionsByCategory,
+  getSectionPositionRequirement
+} from './sections/section.types';
+
+// Section schema system - complete schema definitions for sections
+export type {
+  SectionLayoutPropGroup,
+  SectionLayoutExample,
+  SectionSchema,
+  LayoutPropNames,
+  RequiredLayoutPropNames
+} from './sections/section-schema.types';
+
+export {
+  defaultSectionLayoutProps,
+  defaultSectionSchemaBase,
+  validateSectionLayout
+} from './sections/section-layout.schema';
+
+export type {
+  SectionLayoutValidationResult
+} from './sections/section-layout.schema';
+
+// Section schema registry
+export {
+  getSectionSchema,
+  getAllSectionSchemas,
+  getSectionSchemasByCategory,
+  hasSectionSchema,
+  getDefaultSectionLayout,
+  getSectionLayoutProp
+} from './sections/section-schema.registry';
+
+// Individual section schemas
+export { heroSectionSchema } from './sections/hero.schema';
 
 // i18n system
 export * from './i18n';

@@ -79,6 +79,10 @@ export interface LayoutContext {
   sectionAnimation?: AnimationConfig;
   /** Locale for language-specific defaults */
   locale?: string;
+  /** Whether to show the tag in the section header (default false) */
+  showTag?: boolean;
+  /** Forced alignment that overrides pattern-specific alignment (enforced by section layout rules) */
+  forcedAlignment?: 'left' | 'center' | 'right' | 'start' | 'end';
 }
 
 /**
@@ -126,7 +130,8 @@ export const renderPatternDirect = (
       patternKey,
       patternProps,
       isPerItemAnimation ? animationConfig : undefined,
-      locale
+      locale,
+      layoutContext
     );
 
     return (
@@ -197,7 +202,8 @@ export const renderPattern = (
       patternKey,
       patternProps, // Pass pattern props for align, etc
       isPerItemAnimation ? animationConfig : undefined, // Pass per-item animations to layout renderer
-      locale
+      locale,
+      layoutContext
     );
 
     // Wrap with animation if pattern has layout-wrap animation config (carousel, etc)
@@ -206,10 +212,17 @@ export const renderPattern = (
       ? wrapWithAnimation(layoutContent, animationConfig, layoutConfig)
       : layoutContent;
 
+    // For forms with useFormWidth in aligned layouts (left/right), pass alignment to Container
+    // This prevents margin: auto from centering the form when parent expects left/right align
+    const containerAlign = patternProps.useFormWidth && layoutContext?.alignSectionHeader
+      ? layoutContext.alignSectionHeader
+      : undefined;
+
     return (
       <Container
         key={patternKey}
         height="auto"
+        align={containerAlign}
         useMediaWidth={patternProps.useMediaWidth || false}
         useFormWidth={patternProps.useFormWidth || false}
         noPadding={patternProps.noPadding || false}
@@ -227,10 +240,16 @@ export const renderPattern = (
     return null;
   }
 
+  // For forms with useFormWidth in aligned layouts (left/right), pass alignment to Container
+  const containerAlign = patternProps.useFormWidth && layoutContext?.alignSectionHeader
+    ? layoutContext.alignSectionHeader
+    : undefined;
+
   return (
     <Container
       key={patternKey}
       height="auto"
+      align={containerAlign}
       useMediaWidth={patternProps.useMediaWidth || false}
       useFormWidth={patternProps.useFormWidth || false}
       noPadding={patternProps.noPadding || false}

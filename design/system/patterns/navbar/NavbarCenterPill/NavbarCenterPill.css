@@ -1,3 +1,13 @@
+/* ================================================================
+   DEPRECATED — DO NOT EDIT FOR CMS/PRODUCTION USE
+   This legacy component is no longer used for new sites.
+   All navbar variants are now rendered via:
+     shells/navbar/NavbarContainer.tsx + NavbarContainer.css
+   Controlled via:
+     shells/navbar/navbar.schema.ts  (editor schema)
+     shells/navbar/Navbar.tsx        (renderer — requires layout key in JSON)
+   ================================================================ */
+
 /* ===============================================
    NavbarCenterPill - Logo Left | Pill Center | Actions Right
    =============================================== */
@@ -8,7 +18,6 @@
   left: 0;
   right: 0;
   z-index: var(--z-navbar);
-  padding: var(--foundation-space-3) 0;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -20,47 +29,39 @@
   transform: translateY(-100%);
 }
 
-.navbar-center-pill--scrolled {
-  /* Optional: Add backdrop blur on scroll */
-}
 
-/* Unified wrapper - pill + mobile drawer share same border/background */
+/* Unified wrapper - full-width, transparent shell — no padding or margin */
 .navbar-center-pill__unified-wrapper {
-  max-width: var(--width-navbar);
   width: 100%;
-  margin: 0 auto;
-  padding: 0 var(--space-navbar);
 }
 
-/* Container */
+/* Container — full-width grid, no padding (logo/actions carry their own) */
 .navbar-center-pill__container {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: var(--foundation-space-6);
-  max-width: var(--width-navbar);
-  margin: 0 auto;
-  padding: 0 var(--space-navbar);
+  gap: 0;
+  width: 100%;
 }
 
-/* Left - Logo */
+/* Left - Logo — padded from screen edge */
 .navbar-center-pill__left {
   display: flex;
   align-items: center;
   justify-self: start;
+  padding: var(--space-navbar);
 }
 
-/* Center - Pill with Menu */
+/* Center - Pill with Menu — inner padding only, no outer spacing */
 .navbar-center-pill__middle-pill {
   display: none;
   justify-self: center;
-  padding: var(--space-navbar);
-  background: var(--surface-raised);
-  border: 1px solid var(--border-default);
+  padding: var(--foundation-space-2) var(--foundation-space-4);
+  background: var(--surface-nav);
+  border: 1px solid var(--border-nav);
   border-radius: var(--radius-navbar-pill);
-  backdrop-filter: blur(12px);
   box-shadow: var(--shadow-sm);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .navbar-center-pill__middle-pill--no-border {
@@ -77,10 +78,11 @@
   white-space: nowrap;
 }
 
-/* Right - Actions */
+/* Right - Actions — padded from screen edge */
 .navbar-center-pill__right {
   display: none;
   justify-self: end;
+  padding: var(--space-navbar);
 }
 
 /* Mobile Toggle */
@@ -113,25 +115,15 @@
   .navbar-center-pill__container {
     grid-template-columns: auto 1fr auto;
   }
-
-  .navbar-center-pill__middle-pill {
-    justify-self: start;
-    margin-left: var(--foundation-space-6);
-  }
 }
 
 /* ===============================================
    Mobile (<768px)
    =============================================== */
 @media (max-width: 767px) {
-  .navbar-center-pill {
-    padding: var(--foundation-space-2) 0;
-  }
-
   .navbar-center-pill__container {
     grid-template-columns: auto 1fr auto;
     gap: var(--foundation-space-4);
-    padding: 0 var(--space-navbar);
   }
 
   .navbar-center-pill__left {
@@ -147,48 +139,49 @@
    Background Variants
    =============================================== */
 
-/* Transparent - No background */
-.navbar-center-pill--transparent {
-  background: transparent;
-}
+/* ── Background variants — all target only the middle pill, outer nav stays transparent ── */
 
-.navbar-center-pill--transparent .navbar-center-pill__middle-pill {
-  background: rgba(var(--surface-raised-rgb), 0.7);
-  backdrop-filter: blur(12px);
-}
-
-/* Glass - Frosted glass effect */
-.navbar-center-pill--glass {
-  background: rgba(var(--surface-base-rgb), 0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.navbar-center-pill--glass .navbar-center-pill__middle-pill {
-  background: rgba(var(--surface-raised-rgb), 0.9);
-  backdrop-filter: blur(16px);
-}
-
-/* Solid - Full background */
-.navbar-center-pill--solid {
-  background: var(--surface-base);
-  border-bottom: 1px solid var(--border-default);
-}
-
-.navbar-center-pill--solid .navbar-center-pill__middle-pill {
+/* Raised — solid elevated surface in the pill */
+.navbar-center-pill--raised .navbar-center-pill__middle-pill {
   background: var(--surface-raised);
+  border-color: var(--border-subtle);
 }
 
-/* Scrolled state enhancement */
-.navbar-center-pill--scrolled.navbar-center-pill--transparent {
-  background: rgba(var(--surface-base-rgb), 0.8);
+/* Glass — tinted frosted pill */
+.navbar-center-pill--glass .navbar-center-pill__middle-pill {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+/* Glass-clear — barely visible at rest, solidifies on scroll */
+.navbar-center-pill--glass-clear .navbar-center-pill__middle-pill {
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-subtle);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: var(--border-subtle);
 }
 
-.navbar-center-pill--scrolled.navbar-center-pill--glass {
-  background: rgba(var(--surface-base-rgb), 0.95);
-  border-bottom-color: var(--border-default);
+.navbar-center-pill--scrolled.navbar-center-pill--glass-clear .navbar-center-pill__middle-pill {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Transparent — clear pill at rest, glass on scroll */
+.navbar-center-pill--transparent .navbar-center-pill__middle-pill {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: transparent;
+}
+
+.navbar-center-pill--scrolled.navbar-center-pill--transparent .navbar-center-pill__middle-pill {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
 }
 
 /* ===============================================

@@ -89,31 +89,84 @@
   }
 }
 
-/* Background variants */
+/* ═══════════════════════════════════════════════════════════════
+   Background variants
+   ═══════════════════════════════════════════════════════════════ */
+
+/* RAISED — elevated surface */
+.navbar-container__unified-wrapper--raised {
+  background: var(--surface-raised);
+  border-color: var(--border-subtle);
+}
+
+/* GLASS — always visible frosted surface (~12% neutral-1000 + blur) */
 .navbar-container__unified-wrapper--glass {
-  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-color: var(--border-subtle);
 }
 
+/* GLASS-CLEAR — barely visible at rest (~4%), solidifies on scroll */
+.navbar-container__unified-wrapper--glass-clear {
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--expanded {
+  background: color-mix(in srgb, var(--surface-page) 90%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* TRANSPARENT — fully invisible at rest, materializes on scroll */
+.navbar-container__unified-wrapper--transparent {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: transparent;
+}
+
+.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+/* Transparent + drawer open: show surface so links are readable */
+.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--expanded {
+  background: color-mix(in srgb, var(--surface-page) 90%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: var(--border-subtle);
+}
+
+/* Legacy alias — keep glass-transparent working for any existing JSON */
 .navbar-container__unified-wrapper--glass-transparent {
-  background: color-mix(in srgb, var(--surface-page) 30%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-color: var(--border-subtle);
 }
 
 .navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--surface-page) 75%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-color: var(--border-subtle);
 }
 
-/* Glass-transparent becomes more opaque when drawer is open */
 .navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--expanded {
-  background: color-mix(in srgb, var(--surface-page) 92%, transparent);
+  background: color-mix(in srgb, var(--surface-page) 90%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -159,21 +212,6 @@
   }
 }
 
-.navbar-container__unified-wrapper--transparent {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-color: transparent;
-  transition: all 0.3s ease;
-}
-
-.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-color: var(--border-subtle);
-}
-
 .navbar-container__unified-wrapper--no-border {
   border-color: transparent;
 }
@@ -205,21 +243,43 @@
   border-bottom-color: transparent;
 }
 
-/* Bar variant background transitions on scroll */
+/* Bar: default surface materializes on scroll (default variant) */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--surface-page) 90%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom-color: var(--border-subtle);
 }
 
+/* Bar + raised */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--raised {
+  background: var(--surface-raised);
+  border-bottom-color: var(--border-subtle);
+  border-radius: 0;
+}
+
 /* Bar + glass */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass {
-  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
   border-radius: 0;
+}
+
+/* Bar + glass-clear */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-clear {
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--border-subtle);
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: var(--border-subtle);
 }
 
 /* Bar + transparent */
@@ -229,7 +289,7 @@
 }
 
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--surface-page) 85%, transparent);
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom-color: var(--border-subtle);
@@ -291,13 +351,15 @@
 ----------------------------------------------- */
 
 /* First child group = logo + brand — never shrinks */
-.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(1) {
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(1),
+.navbar-container__desktop > .hStack > .hStack:nth-child(1) {
   flex-shrink: 0;
   flex-grow: 0;
 }
 
 /* Second child group = links — grows to fill middle space, alignment via data-menu-align */
-.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2) {
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop > .hStack > .hStack:nth-child(2) {
   flex-grow: 1;
   flex-shrink: 0;
   justify-content: center; /* default */
@@ -305,7 +367,8 @@
 }
 
 /* Compact pill: links group doesn't grow, just takes its natural width */
-.navbar-container__unified-wrapper--compact .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2) {
+.navbar-container__unified-wrapper--compact .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--compact .navbar-container__desktop > .hStack > .hStack:nth-child(2) {
   flex-grow: 0;
 }
 
@@ -315,19 +378,24 @@
 }
 
 /* menuAlign controls: applied via data-menu-align on .navbar-container__desktop */
-.navbar-container__desktop[data-menu-align="left"]   > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-start; }
-.navbar-container__desktop[data-menu-align="center"] > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: center; }
-.navbar-container__desktop[data-menu-align="right"]  > .hStack [data-item-key] > .hStack:nth-child(2) { justify-content: flex-end; }
+.navbar-container__desktop[data-menu-align="left"]   > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop[data-menu-align="left"]   > .hStack > .hStack:nth-child(2) { justify-content: flex-start; }
+.navbar-container__desktop[data-menu-align="center"] > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop[data-menu-align="center"] > .hStack > .hStack:nth-child(2) { justify-content: center; }
+.navbar-container__desktop[data-menu-align="right"]  > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop[data-menu-align="right"]  > .hStack > .hStack:nth-child(2) { justify-content: flex-end; }
 
 /* Third child group = actions — never shrinks, pushed to end */
-.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
+.navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3),
+.navbar-container__desktop > .hStack > .hStack:nth-child(3) {
   flex-shrink: 0;
   flex-grow: 0;
   justify-content: flex-end;
 }
 
 /* Full-width pill: push actions to far right */
-.navbar-container__unified-wrapper:not(.navbar-container__unified-wrapper--compact) .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3) {
+.navbar-container__unified-wrapper:not(.navbar-container__unified-wrapper--compact) .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3),
+.navbar-container__unified-wrapper:not(.navbar-container__unified-wrapper--compact) .navbar-container__desktop > .hStack > .hStack:nth-child(3) {
   margin-left: auto;
 }
 
@@ -346,11 +414,15 @@
 ----------------------------------------------- */
 @media (max-width: 1024px) {
   /* Hide links (2nd) and actions (3rd) groups from the bar on mobile.
-     Groups live inside the display:contents [data-item-key] wrapper. */
+     Groups live inside the display:contents [data-item-key] wrapper (or directly when noItemKeys). */
   .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(2),
   .navbar-container__desktop > .hStack [data-item-key] > .hStack:nth-child(3),
+  .navbar-container__desktop > .hStack > .hStack:nth-child(2),
+  .navbar-container__desktop > .hStack > .hStack:nth-child(3),
   .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
-  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3) {
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3),
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2),
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(3) {
     display: none !important;
   }
 
@@ -505,41 +577,60 @@
 /* -----------------------------------------------
    Center-pill variant
    Logo left | pill center (links) | actions right
-   Uses CSS grid 1fr auto 1fr to keep pill truly centered
+   Uses CSS grid 1fr auto 1fr to keep pill truly centered.
+
+   Architecture:
+   - Wrapper: full-width, fully transparent, no border, no padding, no margin.
+   - Bar: no padding — logo (group 1) and actions (group 3) carry their own padding.
+   - Links pill (group 2): no outer padding, pill border/background only on itself.
+   - backgroundVariant controls the inner pill surface, not the wrapper.
 ----------------------------------------------- */
 
-/* Center-pill unified wrapper: desktop only styles (transparent floating, no border).
-   Mobile styles live in the @media (max-width: 1024px) block above. */
+/* Center-pill unified wrapper: desktop — full-width, completely invisible shell. */
 @media (min-width: 1025px) {
   .navbar-container__unified-wrapper--center-pill {
     border: none;
     background: transparent;
     border-radius: 0;
     overflow: visible;
-    max-width: var(--width-navbar);
-    margin: var(--space-navbar) auto;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
 }
 
+/* no-border on wrapper → remove border from the inner pill too */
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border {
   border: none;
 }
 
-/* Center-pill bar: desktop — constrain width, vertical padding matches pill, no horizontal padding (wrapper margin handles that) */
 @media (min-width: 1025px) {
-  .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
-    max-width: var(--width-navbar);
-    margin: 0 auto;
-    padding: var(--space-navbar) 0;
+  .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border
+    .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+  .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--no-border
+    .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+    border-color: transparent;
+    box-shadow: none;
   }
 }
 
-/* Desktop layout: CSS grid 1fr auto 1fr to keep center truly centered */
+/* Center-pill bar: constrain width, vertical padding top+bottom — horizontal padding lives on groups. */
+@media (min-width: 1025px) {
+  .navbar-container__unified-wrapper--center-pill .navbar-container__bar {
+    max-width: var(--width-navbar);
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--space-navbar) 0;
+    gap: 0;
+  }
+}
+
+/* Desktop layout: CSS grid 1fr auto 1fr to keep pill truly centered */
 .navbar-container__desktop--center-pill {
   display: grid !important;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: var(--foundation-space-6);
+  gap: 0;
   width: 100%;
 }
 
@@ -548,46 +639,118 @@
   display: contents;
 }
 
-/* 3-group layout in center-pill mode:
-   Group 1 (logo/brand) — left cell, flex-start
-   Group 2 (links)      — center cell, pill-styled
-   Group 3 (actions)    — right cell, flex-end */
-
-.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(1) {
+/* ── Group 1: Logo/brand — left cell, horizontal padding only (no vertical) ── */
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(1),
+.navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(1) {
   flex-shrink: 0;
   justify-self: start;
   align-items: center;
+  padding: 0 var(--space-navbar);
 }
 
-.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+/* ── Group 2: Links pill — center cell, NO outer padding.
+   Inner padding uses --space-navbar so it scales with navbarSpacing in design.json. ── */
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   justify-self: center;
+  align-self: center;
   align-items: center;
-  /* Pill styling on the links group */
+  /* Default pill surface */
   background: var(--surface-nav);
   border: 1px solid var(--border-nav);
   border-radius: var(--radius-navbar-pill);
-  padding: var(--foundation-space-2) var(--foundation-space-4);
+  /* Scales automatically with --space-navbar (set by navbarSpacing in design.json) */
+  padding: var(--space-navbar);
   box-shadow: var(--shadow-sm);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3) {
+/* ── Group 3: Actions — right cell, horizontal padding only (no vertical) ── */
+.navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(3),
+.navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(3) {
   justify-self: end;
   justify-content: flex-end;
   align-items: center;
   flex-shrink: 0;
+  padding: 0 var(--space-navbar);
 }
 
-/* Background variants: apply to the outer wrapper for center-pill */
-.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
-.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-transparent .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
-  background: color-mix(in srgb, var(--surface-page) 70%, transparent);
+/* ══════════════════════════════════════════════════════════════
+   backgroundVariant → inner pill surface (group 2)
+   ══════════════════════════════════════════════════════════════ */
+
+/* RAISED — elevated solid surface */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--raised
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--raised
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: var(--surface-raised);
+  border-color: var(--border-subtle);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* GLASS — always visible frosted */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  border-color: var(--border-subtle);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 
-/* Scrolled: enhance pill shadow */
-.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2) {
+/* GLASS-CLEAR — faint at rest */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
+  border-color: var(--border-subtle);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* GLASS-CLEAR scrolled: solidify */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* TRANSPARENT — invisible pill at rest */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--transparent
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--transparent
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: transparent;
+  border-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+
+/* TRANSPARENT scrolled: materialize */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  border-color: var(--border-subtle);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Scrolled: enhance pill shadow (all variants) */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   box-shadow: var(--shadow-md);
 }
 

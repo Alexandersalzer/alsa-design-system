@@ -63,6 +63,20 @@ html.dark .accentMaskDarkBg {
   opacity: 1;
 }
 
+/* Fit mode: <img> drives the section height, no cropping, no empty space */
+.imageFitWrapper {
+  position: relative;
+  width: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.imageFit {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -70,15 +84,19 @@ html.dark .accentMaskDarkBg {
   z-index: 1;
 }
 
-/* Edge Fading Effects */
+/* Edge Fading Effects — fades to --fade-color (default: --surface-page) */
 .fadeTop::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 20%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, var(--fade-strength, 0.15)), transparent);
+  height: 30%;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--fade-color, var(--surface-page)) calc(var(--fade-strength, 0.15) * 100%), transparent) 0%,
+    transparent 100%
+  );
   pointer-events: none;
 }
 
@@ -88,8 +106,12 @@ html.dark .accentMaskDarkBg {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 20%;
-  background: linear-gradient(to top, rgba(255, 255, 255, var(--fade-strength, 0.15)), transparent);
+  height: 30%;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--fade-color, var(--surface-page)) calc(var(--fade-strength, 0.15) * 100%), transparent) 0%,
+    transparent 100%
+  );
   pointer-events: none;
 }
 
@@ -97,8 +119,16 @@ html.dark .accentMaskDarkBg {
   content: '';
   position: absolute;
   inset: 0;
-  background: 
-    linear-gradient(to bottom, rgba(255, 255, 255, var(--fade-strength, 0.15)) 0%, transparent 20%),
-    linear-gradient(to top, rgba(255, 255, 255, var(--fade-strength, 0.15)) 0%, transparent 20%);
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--fade-color, var(--surface-page)) calc(var(--fade-strength, 0.15) * 100%), transparent) 0%,
+      transparent 30%
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--fade-color, var(--surface-page)) calc(var(--fade-strength, 0.15) * 100%), transparent) 0%,
+      transparent 30%
+    );
   pointer-events: none;
 }

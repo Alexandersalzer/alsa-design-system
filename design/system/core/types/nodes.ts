@@ -99,6 +99,12 @@ export interface PatternLayout {
  * Innehåller bara components, inte andra patterns
  */
 export interface PatternNode extends BaseNode {
+  /** Pattern-level props (e.g., excludeFromSecondColumn, useMediaWidth) */
+  props?: {
+    /** When true, this pattern cannot be placed in second column */
+    excludeFromSecondColumn?: boolean;
+    [key: string]: any;
+  };
   /** Legacy: Direct components without layout system */
   components?: Record<string, ComponentNode>;
   /** New: Items-based layout system */

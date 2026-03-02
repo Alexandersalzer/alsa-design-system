@@ -12,7 +12,7 @@
   /* Internal layout - uses global selected spacing */
   gap: var(--space-container);
 
-  /* Width and centering */
+  /* Width and centering (default, overridden by alignment classes) */
   max-width: var(--width-container);
   margin-inline: auto;
 
@@ -40,6 +40,17 @@
   max-width: var(--width-form);
 }
 
+/* When width variants are used with left/right alignment, remove centering margin */
+.maxWidthMedia.alignLeft,
+.maxWidthForm.alignLeft {
+  margin-inline: 0 auto;
+}
+
+.maxWidthMedia.alignRight,
+.maxWidthForm.alignRight {
+  margin-inline: auto 0;
+}
+
 /* NEW: full-width variant for navbar/footer shells */
 .maxWidthNavbar {
   width: 100%;
@@ -53,9 +64,21 @@
 .heightFit  { height: fit-content; }
 
 /* ===== ALIGNMENT VARIANTS ===== */
-.alignLeft   { align-items: flex-start; text-align: left; }
-.alignCenter { align-items: center; text-align: center; }
-.alignRight  { align-items: flex-end; text-align: right; }
+.alignLeft   { 
+  align-items: flex-start; 
+  text-align: left; 
+  margin-inline: 0 auto; /* Left-aligned: no left margin, auto right margin */
+}
+.alignCenter { 
+  align-items: center; 
+  text-align: center; 
+  margin-inline: auto; /* Centered: auto both sides */
+}
+.alignRight  { 
+  align-items: flex-end; 
+  text-align: right; 
+  margin-inline: auto 0; /* Right-aligned: auto left margin, no right margin */
+}
 
 /* ===== PADDING VARIANTS ===== */
 .noPadding {

@@ -32,6 +32,8 @@ export const createCodeSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           type: 'string',
           required: true,
           editorType: 'textarea',
+          minLength: 3,
+          maxLength: 500,
           cmsEnabled: true,
           group: 'content',
         },

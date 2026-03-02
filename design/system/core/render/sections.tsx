@@ -33,8 +33,55 @@ export function renderSection(
   // Auto-detect hero: first section + key starts with "hero_"
   const isHero = sectionIndex === 0 && sectionKey.startsWith('hero_');
 
+  // Check if background should be moved from Section to Card
+  const wrapInCard = layout?.wrapInCard;
+  const hasLayoutBackground = layout?.background && layout.background !== 'default';
+  const hasSectionPropsBackground = props?.background && props.background !== 'default';
+  // Background is in card if wrapInCard is true AND there's a layout background
+  const moveBackgroundToCard = wrapInCard && hasLayoutBackground;
+  // Show section background only if there's no layout background and section has one
+  const showSectionBackground = !hasLayoutBackground && hasSectionPropsBackground;
+
   // If layout config exists, use LayoutRenderer
   if (layout) {
+    // Build section props
+    let sectionProps = props;
+    
+    // If wrapInCard is true and layout has background, filter out background props (they go to card)
+    if (moveBackgroundToCard) {
+      sectionProps = Object.keys(props || {}).reduce((acc, key) => {
+        // Remove all background-related props when card handles background
+        if (key.startsWith('background') || 
+            key.startsWith('generative') || 
+            key.startsWith('gradient') ||
+            key.startsWith('pattern') ||
+            key.startsWith('video') ||
+            key.startsWith('solid') ||
+            key.startsWith('image') ||
+            key === 'videoSrc' ||
+            key === 'videoPoster') {
+          return acc;
+        }
+        return { ...acc, [key]: (props || {})[key] };
+      }, {});
+    }
+    
+    // If wrapInCard is false but layout has background, use layout background on section
+    if (!wrapInCard && hasLayoutBackground) {
+      sectionProps = {
+        ...sectionProps,
+        background: layout.background,
+        backgroundImage: layout.backgroundImage,
+        backgroundSize: layout.backgroundSize,
+        backgroundPosition: layout.backgroundPosition,
+        backgroundOpacity: layout.backgroundOpacity,
+        backgroundTint: layout.backgroundTint,
+        imageFadeEdge: layout.imageFadeEdge,
+        imageFadeStrength: layout.imageFadeStrength,
+        backgroundImageLightModeOpacity: layout.backgroundImageLightModeOpacity
+      };
+    }
+
     return (
       <Section
         key={sectionKey}
@@ -42,7 +89,7 @@ export function renderSection(
         height="auto"
         sectionKey={sectionKey}
         applyNavbarVoid={isHero}
-        {...props}
+        {...sectionProps}
       >
         {renderSectionLayout({
           layout,

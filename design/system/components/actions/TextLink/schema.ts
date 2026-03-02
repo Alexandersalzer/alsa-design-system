@@ -47,7 +47,7 @@ export const createTextLinkSchema = (locale: SupportedLocale = 'sv'): ComponentS
           type: 'string',
           required: true,
           editorType: 'text',
-          maxLength: 100,
+          maxLength: 25,
           group: 'content',
           cmsEnabled: true,
         },

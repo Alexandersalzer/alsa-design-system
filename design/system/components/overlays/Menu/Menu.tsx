@@ -35,6 +35,17 @@ export type MenuSelectionMode = 'none' | 'single' | 'multiple';
 export type MenuBackdrop = 'transparent' | 'opaque' | 'blur';
 export type MenuTriggerType = 'click' | 'hover';
 
+// CMS-friendly menu item type for props-based rendering
+export interface MenuItemConfig {
+  label: string;
+  itemKey?: string;
+  href?: string;
+  icon?: ReactNode;
+  description?: string;
+  disabled?: boolean;
+  action?: any; // ActionConfig type - kept as any to avoid circular dependencies
+}
+
 interface MenuContextValue {
   closeOnSelect: boolean;
   size: MenuSize;
@@ -133,6 +144,16 @@ export interface MenuRootProps<T = object> {
   className?: string;
   /** Component key for tracking */
   componentKey?: string;
+  
+  // NEW: CMS-friendly props for auto-generating trigger + content
+  /** Trigger label text (auto-generates trigger button) */
+  triggerLabel?: string;
+  /** Trigger button variant */
+  triggerVariant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'accent';
+  /** Trigger icon (optional) */
+  triggerIcon?: ReactNode;
+  /** Menu items array (auto-generates Menu.Items) */
+  menuItems?: MenuItemConfig[];
 }
 
 export const MenuRoot = <T extends object>({
@@ -163,8 +184,21 @@ export const MenuRoot = <T extends object>({
   onSelectionChange,
   onAction,
   className,
-  componentKey
+  componentKey,
+  // NEW props
+  triggerLabel,
+  triggerVariant = 'ghost',
+  triggerIcon,
+  menuItems
 }: MenuRootProps<T>) => {
+  // DEBUG: Log received props
+  console.log('🔍 Menu props received:', { 
+    componentKey, 
+    triggerLabel, 
+    menuItems: menuItems ? `Array(${menuItems.length})` : 'undefined',
+    hasChildren: !!children
+  });
+  
   // Selection state management
   const [uncontrolledSelectedKeys, setUncontrolledSelectedKeys] = useState<Set<Key>>(
     () => new Set(defaultSelectedKeys === 'all' ? [] : defaultSelectedKeys || [])
@@ -310,6 +344,81 @@ export const MenuRoot = <T extends object>({
 
   // Handle dynamic items rendering
   const renderChildren = () => {
+    console.log('🎯 renderChildren called with:', { 
+      hasMenuItems: !!menuItems, 
+      hasTriggerLabel: !!triggerLabel,
+      willAutoGenerate: !!(menuItems && triggerLabel)
+    });
+    
+    // NEW: If menuItems provided, auto-generate Menu.Trigger + Menu.Content structure
+    if (menuItems && triggerLabel) {
+      console.log('✅ Auto-generating Menu structure with', menuItems.length, 'items');
+      return (
+        <>
+          <MenuTrigger asChild>
+            <button
+              type="button"
+              className="menu-auto-trigger"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                padding: '0.5rem 0.75rem',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                color: 'inherit',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem'
+              }}
+            >
+              {triggerLabel}
+              {triggerIcon || <ChevronDownIcon style={{ width: '1rem', height: '1rem' }} />}
+            </button>
+          </MenuTrigger>
+          <MenuContent>
+            {menuItems.map((item, i) => {
+              // For now, construct href from action config if present
+              let itemHref = item.href;
+              if (!itemHref && (item as any).action) {
+                const action = (item as any).action;
+                if (action.type === 'navigation') {
+                  if (action.settings?.sectionId) {
+                    itemHref = `#${action.settings.sectionId}`;
+                  } else if (action.settings?.pageId) {
+                    itemHref = `/${action.settings.pageId}`;
+                  }
+                }
+              }
+              
+              return (
+                <MenuItem
+                  key={item.itemKey || i}
+                  itemKey={item.itemKey || String(i)}
+                  disabled={item.disabled}
+                  onClick={() => {
+                    if (itemHref) {
+                      if (itemHref.startsWith('#')) {
+                        // Smooth scroll to section
+                        const element = document.getElementById(itemHref.slice(1));
+                        element?.scrollIntoView({ behavior: 'smooth' });
+                      } else {
+                        // Navigate to page
+                        window.location.href = itemHref;
+                      }
+                    }
+                  }}
+                >
+                  {item.icon && <span className="menu-item-icon">{item.icon}</span>}
+                  <span>{item.label}</span>
+                </MenuItem>
+              );
+            })}
+          </MenuContent>
+        </>
+      );
+    }
+    
     if (items && typeof children === 'function') {
       return Array.from(items).map((item, index) => {
         return React.cloneElement(

@@ -105,7 +105,6 @@
   "scripts": {
     "generate:config": "tsx node_modules/@blimpify-im/ui/dist/design/system/core/scripts/generateConfig.js",
     "validate:css": "node validate-css.js",
-    "validate:content": "tsx design/system/core/scripts/validateContent.ts",
     "prebuild": "npm run validate:css",
     "build": "npm run build:ts && npm run build:css",
     "build:ts": "tsc",

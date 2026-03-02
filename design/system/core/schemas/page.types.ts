@@ -24,7 +24,7 @@ import {
   DeprecationInfo,
   BaseExample
 } from './shared';
-import { SectionType } from './section.types';
+import { SectionType } from './sections/section.types';
 
 // ============================================
 // BASE TYPES

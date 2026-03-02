@@ -53,14 +53,14 @@
   --navbar-void-bar: calc(
     (1 * var(--space-section)) +
     (2 * var(--space-navbar)) +
-    var(--navbar-logo-height)
+    (2 * var(--navbar-logo-height))
   );
 
   /* Pill navbar void calculation (includes extra space-navbar) */
   --navbar-void-pill: calc(
     (1 * var(--space-section)) +
     (2 * var(--space-navbar)) +
-    var(--navbar-logo-height)
+    (2.5 * var(--navbar-logo-height))
   );
 
   /* Default navbar void (use pill as default for maximum compatibility) */

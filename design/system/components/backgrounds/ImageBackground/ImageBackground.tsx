@@ -34,6 +34,9 @@ export interface ImageBackgroundProps {
   /** Fade strength (0-1) */
   fadeStrength?: number;
 
+  /** Surface token the image fades into. Maps to semantic color tokens. */
+  fadeColor?: 'page' | 'raised' | 'accent-subtle';
+
   /**
    * accent = motivet fylls med exakt accentfärg (--foundation-accent-500).
    * Fungerar för vilken färg som helst. Kräver bild med vit bakgrund + svart motiv (eller tydlig kontrast).
@@ -66,6 +69,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
   overlayOpacity = 0.5,
   fadeEdge = 'none',
   fadeStrength = 0.15,
+  fadeColor = 'page',
   tint = 'none',
   tintStrength = 1.2,
   themeAware = false,
@@ -73,7 +77,41 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
 }) => {
   const fadeClass = fadeEdge !== 'none' ? styles[`fade${fadeEdge.charAt(0).toUpperCase() + fadeEdge.slice(1)}`] : '';
   const useAccentMask = tint === 'accent' && src;
+
+  const fadeColorMap = {
+    'page': 'var(--surface-page)',
+    'raised': 'var(--surface-raised)',
+    'accent-subtle': 'var(--surface-accent-subtle)',
+  };
+  const fadeColorValue = fadeColorMap[fadeColor] ?? 'var(--surface-page)';
   const sizeClass = size === 'contain' ? styles.accentMaskWrapperContain : '';
+
+  // "fit" mode: uses an <img> so the section grows to the image's natural height
+  if (size === 'fit' && !useAccentMask) {
+    return (
+      <div
+        className={`${styles.imageFitWrapper} ${fadeClass}`.trim()}
+        data-background-layer
+        style={{
+          opacity,
+          // @ts-expect-error CSS custom property
+          '--fade-strength': fadeStrength,
+          '--fade-color': fadeColorValue,
+        }}
+        aria-hidden="true"
+      >
+        <img
+          src={src}
+          alt=""
+          className={styles.imageFit}
+          style={{ ...(filter && { filter }) }}
+        />
+        {overlay && typeof overlay === 'string' && (
+          <div className={styles.overlay} style={{ backgroundColor: overlay, opacity: overlayOpacity }} />
+        )}
+      </div>
+    );
+  }
 
   const imageLayer =
     useAccentMask ? (
@@ -84,6 +122,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
           opacity,
           // @ts-expect-error CSS custom property
           '--fade-strength': fadeStrength,
+          '--fade-color': fadeColorValue,
         }}
         aria-hidden="true"
       >
@@ -109,6 +148,7 @@ export const ImageBackground: React.FC<ImageBackgroundProps> = ({
           ...(filter && { filter, isolation: 'isolate' as const }),
           // @ts-expect-error CSS custom property
           '--fade-strength': fadeStrength,
+          '--fade-color': fadeColorValue,
         }}
         aria-hidden="true"
       />

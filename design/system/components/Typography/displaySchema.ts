@@ -33,6 +33,8 @@ export const createDisplaySchema = (locale: SupportedLocale = 'sv'): ComponentSc
           type: 'string',
           required: true,
           editorType: 'textarea',
+          minLength: 3,
+          maxLength: 50,
           cmsEnabled: true,
           group: 'content',
         },

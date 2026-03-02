@@ -21,12 +21,13 @@ interface ContainerProps {
   patternKey?: string; // För live editing identification
 }
 
-const getAlignmentClass = (align: Alignment): string => {
+const getAlignmentClass = (align?: Alignment): string => {
+  if (!align) return '';
   switch (align) {
     case 'center': return styles.alignCenter;
     case 'right': return styles.alignRight;
-    case 'left':
-    default: return styles.alignLeft;
+    case 'left': return styles.alignLeft;
+    default: return '';
   }
 };
 
@@ -53,7 +54,7 @@ export const Container = ({
   className = '',
   id,
   as: Component = 'div',
-  align = 'left',
+  align,
   height = 'auto',
   useMediaWidth = false,
   useFormWidth = false,

@@ -126,6 +126,7 @@ const getMaxItemsClasses = (
  * @param patternProps - Pattern-level props (align, etc) to merge with layout config
  * @param animationConfig - Optional animation config for items (fadeIn with stagger)
  * @param locale - Optional locale for internationalization
+ * @param layoutContext - Layout context from section (contains forcedAlignment, etc)
  * @returns Rendered React element tree
  */
 export const renderLayoutWithTemplate = (
@@ -135,7 +136,8 @@ export const renderLayoutWithTemplate = (
   patternKey?: string,
   patternProps?: Record<string, any>,
   animationConfig?: AnimationConfig,
-  locale?: string
+  locale?: string,
+  layoutContext?: { forcedAlignment?: 'left' | 'center' | 'right' | 'start' | 'end'; noItemKeys?: boolean; [key: string]: any }
 ): React.ReactElement | null => {
   
   // Destructure layout-system props to prevent them from being passed to DOM elements
@@ -168,16 +170,21 @@ export const renderLayoutWithTemplate = (
     ? alignToJustifyMap[patternProps.mobileAlign] || patternProps.mobileAlign
     : undefined;
 
+  // Determine effective alignment for the pattern
+  // Priority: forcedAlignment (from section layout rules for action patterns) > pattern's own align prop
+  // forcedAlignment is set by section-layout.tsx for action patterns in secondColumn
+  const effectiveAlign = layoutContext?.forcedAlignment || patternProps?.align;
+
   // Merge pattern props with layout props
   // For hstack: map align to justify for horizontal alignment
   const mergedLayoutProps = {
     ...parentLayoutProps,
-    ...(parentType === 'hstack' && patternProps?.align && { 
-      justify: alignToJustifyMap[patternProps.align] || patternProps.align 
+    ...(parentType === 'hstack' && effectiveAlign && { 
+      justify: alignToJustifyMap[effectiveAlign] || effectiveAlign 
     }),
     ...(parentType === 'hstack' && mobileJustify && { mobileJustify }),
     // For other layout types, pass align directly
-    ...(parentType !== 'hstack' && patternProps?.align && { align: patternProps.align })
+    ...(parentType !== 'hstack' && effectiveAlign && { align: effectiveAlign })
   };
 
   // Get parent layout component
@@ -262,7 +269,8 @@ export const renderLayoutWithTemplate = (
     patternKey,
     0,
     maxItems,
-    locale
+    locale,
+    layoutContext?.noItemKeys
   );
 
   return (
@@ -518,7 +526,8 @@ const renderItems = (
   patternKey?: string,
   indexOffset: number = 0,
   maxItems?: number | ResponsiveMaxItems,
-  locale?: string
+  locale?: string,
+  noItemKeys?: boolean
 ): React.ReactNode[] => {
   return itemOrder.map((itemId, localIndex) => {
     const item = findItem(itemId);
@@ -557,9 +566,13 @@ const renderItems = (
 
     // Wrap in <form> if item contains form-action buttons
     // Use display:contents so form doesn't break grid/flex layouts
-    // Add data-item-key for EditorOverlay detection
+    // Add data-item-key for EditorOverlay detection (skipped for shells like navbar)
     // Add maxItems classes for responsive hiding
-    const itemContent = isFormItem ? (
+    const itemContent = noItemKeys ? (
+      <React.Fragment key={itemId}>
+        {templateContent}
+      </React.Fragment>
+    ) : isFormItem ? (
       <form
         key={itemId}
         data-item-key={itemId}
