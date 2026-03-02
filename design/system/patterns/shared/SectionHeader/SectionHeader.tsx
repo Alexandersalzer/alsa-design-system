@@ -43,6 +43,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
     const component = components[componentKey];
     if (!component) return {};
     return mergeWithDefaults(component.type, component.props || {}, locale as any);
+  };
 
   // Get inherited alignment from layout context
   const inheritedAlign = layoutContext?.alignSectionHeader;
