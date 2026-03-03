@@ -175,6 +175,12 @@ export const renderLayoutWithTemplate = (
   // forcedAlignment is set by section-layout.tsx for action patterns in secondColumn
   const effectiveAlign = layoutContext?.forcedAlignment || patternProps?.align;
 
+  // For grid layouts with centered section header, set justifyItems to center the grid items
+  // This makes stats patterns center-align when alignSectionHeader is 'center'
+  const gridJustifyItems = parentType === 'grid' && layoutContext?.alignSectionHeader === 'center' 
+    ? 'center' 
+    : undefined;
+
   // Merge pattern props with layout props
   // For hstack: map align to justify for horizontal alignment
   const mergedLayoutProps = {
@@ -183,8 +189,10 @@ export const renderLayoutWithTemplate = (
       justify: alignToJustifyMap[effectiveAlign] || effectiveAlign 
     }),
     ...(parentType === 'hstack' && mobileJustify && { mobileJustify }),
+    // For grid: set justifyItems to center items horizontally when section header is centered
+    ...(parentType === 'grid' && gridJustifyItems && { justifyItems: gridJustifyItems }),
     // For other layout types, pass align directly
-    ...(parentType !== 'hstack' && effectiveAlign && { align: effectiveAlign })
+    ...(parentType !== 'hstack' && parentType !== 'grid' && effectiveAlign && { align: effectiveAlign })
   };
 
   // Get parent layout component
