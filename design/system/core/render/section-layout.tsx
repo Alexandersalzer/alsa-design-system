@@ -70,6 +70,7 @@ export function renderSectionLayout({
     verticalAlign = 'end', // Default to bottom for better layout balance
     sectionHeaderVerticalAlign = 'start', // Default to start for sectionHeader alignment
     firstColumnContentAlign,
+    layoutFullHeight,
     stackAt = 'desktop', // Default to 1024px breakpoint
     mobileOrder,
     mobileAlign,
@@ -628,13 +629,14 @@ export function renderSectionLayout({
           width: '100%',
           margin: '0 auto',
           ...(wrapInCard && { flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', justifyContent: cardPositionVertical ?? 'start' }),
+          ...(layoutFullHeight && hasSecondColumnDefined && !wrapInCard && { flex: 1, minHeight: 0, height: '100%', display: 'flex', flexDirection: 'column' }),
         }}
       >
         {(() => {
           const layoutContent = (
             <>
               {/* Desktop: Split Grid - Two Columns */}
-              <Box className="split-grid section-split-layout">
+              <Box className="split-grid section-split-layout" style={layoutFullHeight ? { flex: 1, minHeight: 0 } : undefined}>
           {/* Left Column */}
           {isSectionHeaderInRightColumn ? (
             // When SectionHeader is on right, left column has secondColumn patterns

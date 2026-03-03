@@ -86,6 +86,13 @@ export interface LayoutConfig {
   firstColumnContentAlign?: 'start' | 'center' | 'end';
 
   /**
+   * När true: layouten fyller sektionens höjd (flex: 1) så att t.ex. sectionHeaderVerticalAlign: 'center'
+   * får effekt och innehållet centreras vertikalt. Använd på hero vid fullhöjd-sektion.
+   * Påverkar inte sektioner som inte sätter denna prop.
+   */
+  layoutFullHeight?: boolean;
+
+  /**
    * Breakpoint at which split layout stacks to single column
    * - 'tablet': Stack at 768px (default mobile behavior)
    * - 'desktop': Stack at 1024px (default - good for most split layouts)
