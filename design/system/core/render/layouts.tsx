@@ -1143,11 +1143,20 @@ const renderLayoutNodeGeneric = (
     : itemContext;
 
   // Recursively render children for components that support them
-  const renderedChildren = children.map((child: any, index: number) => (
-    <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, childItemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
-    </React.Fragment>
-  ));
+  const renderedChildren = children.map((child: any, index: number) => {
+    // SPECIAL CASE: If parent is VStack and child is also VStack, mark child as nested
+    // This prevents nested VStacks from inheriting center alignment
+    const isNestedVStack = layoutType === 'vstack' && child.type === 'vstack';
+    const finalChildContext = isNestedVStack 
+      ? { ...childItemContext, _isNestedLayout: true }
+      : childItemContext;
+
+    return (
+      <React.Fragment key={index}>
+        {renderTemplateNode(child, itemComponents, finalChildContext, usedComponents, sectionKey, patternKey, itemId, locale)}
+      </React.Fragment>
+    );
+  });
 
   // Kort med style.backgroundImage: använd ImageBackground med accent-tint (samma som pricing/hero).
   // OBS: I bento ligger en Image (${image}) ovanpå – det som syns är Image, inte denna bakgrund.
