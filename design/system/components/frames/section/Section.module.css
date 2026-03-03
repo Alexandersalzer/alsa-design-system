@@ -145,6 +145,23 @@
   overflow: hidden;
 }
 
+/* Mjuk toppfade på split-bilden – blandar in i sidfärg så ingen hård kant mot navbar/ljus kolumn */
+.splitBackgroundTopFade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28%;
+  background: linear-gradient(
+    to bottom,
+    var(--surface-page) 0%,
+    color-mix(in srgb, var(--surface-page) 60%, transparent) 35%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* Diagonal slice: bilden syns i övre högra triangeln (från vänster uppe till höger nere) */
 .splitBackgroundContainerDiagonal {
   left: var(--split-inset, 0);
