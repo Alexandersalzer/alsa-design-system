@@ -44,7 +44,7 @@ interface SectionProps extends BackgroundProps {
   /** Split percentage - width of background on right side for vertical (default: 50); diagonal uses full triangle */
   backgroundSplitPercentage?: number;
   /** Inset/margin runt split-bakgrunden så den inte går kant-i-kant (none = 0) */
-  backgroundSplitInset?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  backgroundSplitInset?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
   /** Rundade hörn på split-bakgrundscontainern */
   backgroundSplitRadius?: 'none' | 'sm' | 'md' | 'lg';
   /** Mobile-specific background opacity (0-1) - only affects mobile screens */
@@ -281,6 +281,8 @@ export const Section = ({
     md: '4',
     lg: '6',
     xl: '8',
+    '2xl': '12',
+    '3xl': '16', /* 64px */
   };
   if (backgroundSplit && backgroundSplitInset && backgroundSplitInset !== 'none') {
     const token = insetTokenMap[backgroundSplitInset] ?? '4';
