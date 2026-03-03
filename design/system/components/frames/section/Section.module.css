@@ -135,10 +135,11 @@
 /* ===== SPLIT BACKGROUND CONTAINER ===== */
 .splitBackgroundContainer {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  top: var(--split-inset, 0);
+  right: var(--split-inset, 0);
+  bottom: var(--split-inset, 0);
   width: var(--split-percentage, 50%);
+  border-radius: var(--split-radius, 0);
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -146,9 +147,9 @@
 
 /* Diagonal slice: bilden syns i övre högra triangeln (från vänster uppe till höger nere) */
 .splitBackgroundContainerDiagonal {
-  left: 0;
-  right: 0;
-  width: 100%;
+  left: var(--split-inset, 0);
+  right: var(--split-inset, 0);
+  width: calc(100% - 2 * var(--split-inset, 0));
   clip-path: polygon(100% 0, 100% 100%, 0 0);
 }
 

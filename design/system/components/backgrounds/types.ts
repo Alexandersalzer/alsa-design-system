@@ -183,4 +183,8 @@ export interface BackgroundProps
   backgroundSplitVariant?: 'vertical' | 'diagonal';
   /** Split percentage - width of background on right side (default: 50) */
   backgroundSplitPercentage?: number;
+  /** Inset so split background doesn't go edge-to-edge (none = 0) */
+  backgroundSplitInset?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  /** Border radius on split background container */
+  backgroundSplitRadius?: 'none' | 'sm' | 'md' | 'lg';
 }

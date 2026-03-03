@@ -43,6 +43,10 @@ interface SectionProps extends BackgroundProps {
   backgroundSplitVariant?: 'vertical' | 'diagonal';
   /** Split percentage - width of background on right side for vertical (default: 50); diagonal uses full triangle */
   backgroundSplitPercentage?: number;
+  /** Inset/margin runt split-bakgrunden så den inte går kant-i-kant (none = 0) */
+  backgroundSplitInset?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  /** Rundade hörn på split-bakgrundscontainern */
+  backgroundSplitRadius?: 'none' | 'sm' | 'md' | 'lg';
   /** Mobile-specific background opacity (0-1) - only affects mobile screens */
   mobileBackgroundOpacity?: number;
   /** Image background opacity in light mode (0-1). Används t.ex. i footer så bilden blir ljusare. Default i footer: 0.55. */
@@ -173,6 +177,8 @@ export const Section = ({
   backgroundSplit = false,
   backgroundSplitVariant = 'vertical',
   backgroundSplitPercentage = 50,
+  backgroundSplitInset,
+  backgroundSplitRadius,
   mobileBackgroundOpacity,
   backgroundImageLightModeOpacity,
 }: SectionProps) => {
@@ -267,6 +273,12 @@ export const Section = ({
 
   if (backgroundSplit && backgroundSplitPercentage) {
     customProperties['--split-percentage'] = `${backgroundSplitPercentage}%`;
+  }
+  if (backgroundSplit && backgroundSplitInset && backgroundSplitInset !== 'none') {
+    customProperties['--split-inset'] = `var(--foundation-space-${backgroundSplitInset})`;
+  }
+  if (backgroundSplit && backgroundSplitRadius && backgroundSplitRadius !== 'none') {
+    customProperties['--split-radius'] = `var(--radius-${backgroundSplitRadius})`;
   }
 
   if (height === 'media-half' && mediaHeight) {
