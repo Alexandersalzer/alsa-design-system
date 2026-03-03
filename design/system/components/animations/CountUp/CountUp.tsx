@@ -61,8 +61,6 @@ export const CountUp: React.FC<CountUpProps> = ({
   const animationRef = useRef<number | null>(null);
   const hasStartedRef = useRef(false);
   const hasCompletedRef = useRef(false);
-  const previousEndRef = useRef(end);
-  const currentCountRef = useRef(start); // ✅ Track current count value
   
   // Check if we're in editor mode
   const isEditorMode = !!typographyProps.componentKey;
@@ -70,12 +68,11 @@ export const CountUp: React.FC<CountUpProps> = ({
   const resetAnimation = () => {
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
     setCount(start);
-    currentCountRef.current = start;
     hasStartedRef.current = false;
     hasCompletedRef.current = false;
   };
 
-  const formatNumber = (num: number) => {
+  const formatNumber = useCallback((num: number) => {
     const rounded = Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
     let formatted = decimals > 0 ? rounded.toFixed(decimals) : Math.round(rounded).toString();
 
@@ -86,7 +83,23 @@ export const CountUp: React.FC<CountUpProps> = ({
     }
 
     return `${prefix}${formatted}${suffix}`;
-  };
+  }, [decimals, separator, prefix, suffix]);
+
+  // 🆕 EDITOR MODE: Direct update when props change (skip animation)
+  useEffect(() => {
+    if (!isEditorMode) return;
+    
+    // In editor mode, instantly update to the end value when any formatting prop changes
+    // This gives live preview without re-running the animation
+    setCount(end);
+    
+    // Force immediate DOM update (before React re-render) for instant feedback
+    if (countRef.current) {
+      countRef.current.textContent = formatNumber(end);
+    }
+    
+    console.log('[CountUp] 🎯 Editor mode: Direct update to end value:', end);
+  }, [isEditorMode, end, formatNumber]);
 
   const startAnimation = useCallback(() => {
     if (hasStartedRef.current || hasCompletedRef.current) {
@@ -105,15 +118,12 @@ export const CountUp: React.FC<CountUpProps> = ({
       const progress = Math.min(elapsed / duration, 1);
 
       const eased = easings[easing](progress);
-      const newValue = startValue + change * eased;
-      setCount(newValue);
-      currentCountRef.current = newValue;
+      setCount(startValue + change * eased);
 
       if (progress < 1) {
         animationRef.current = requestAnimationFrame(animate);
       } else {
         setCount(endValue);
-        currentCountRef.current = endValue;
         hasCompletedRef.current = true;
         onComplete?.();
       }
@@ -121,36 +131,6 @@ export const CountUp: React.FC<CountUpProps> = ({
 
     animationRef.current = requestAnimationFrame(animate);
   }, [start, end, duration, delay, easing, onComplete]);
-
-  // ✅ NEW: Animate to new end value when it changes (editor live preview)
-  const animateToNewValue = useCallback((newEnd: number) => {
-    if (animationRef.current) cancelAnimationFrame(animationRef.current);
-
-    const startTime = Date.now();
-    const startValue = currentCountRef.current; // Use ref for current value
-    const endValue = newEnd;
-    const change = endValue - startValue;
-
-    const animate = () => {
-      const now = Date.now();
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      const eased = easings[easing](progress);
-      const newValue = startValue + change * eased;
-      setCount(newValue);
-      currentCountRef.current = newValue;
-
-      if (progress < 1) {
-        animationRef.current = requestAnimationFrame(animate);
-      } else {
-        setCount(endValue);
-        currentCountRef.current = endValue;
-      }
-    };
-
-    animationRef.current = requestAnimationFrame(animate);
-  }, [duration, easing]);
 
   // Scroll-trigger observer
   useEffect(() => {
@@ -194,25 +174,13 @@ export const CountUp: React.FC<CountUpProps> = ({
     };
   }, [enableScrollTrigger, triggerOffset, startAnimation, isEditorMode, start, end, suffix, prefix]);
 
-  // ✅ NEW: Live update in editor mode when end value changes
-  useEffect(() => {
-    if (isEditorMode && previousEndRef.current !== end) {
-      console.log('[CountUp] 🔄 End value changed in editor:', {
-        from: previousEndRef.current,
-        to: end
-      });
-      previousEndRef.current = end;
-      animateToNewValue(end);
-    }
-  }, [end, isEditorMode, animateToNewValue]);
-
   // Reset when important props change
   useEffect(() => {
     if (resetOnPropsChange && (hasStartedRef.current || hasCompletedRef.current)) {
       resetAnimation();
       startAnimation();
     }
-  }, [start, end, duration, delay, resetOnPropsChange, startAnimation]);
+  }, [start, end, duration, delay, resetOnPropsChange]);
 
   return (
     <Component componentKey={typographyProps.componentKey}>
