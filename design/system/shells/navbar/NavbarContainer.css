@@ -264,6 +264,31 @@
   border-bottom-color: transparent;
 }
 
+/* Bar + border-fade: mjuk övergång istället för skarp linje */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--border-fade {
+  border-bottom: none;
+  position: relative;
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--border-fade::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 12px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--border-subtle) 0%, transparent 100%);
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--border-fade.navbar-container__unified-wrapper--scrolled::after {
+  background: linear-gradient(to bottom, var(--border-subtle) 0%, transparent 100%);
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--border-fade.navbar-container__unified-wrapper--expanded::after {
+  display: none;
+}
+
 /* Bar: remove bottom border when drawer is open so bar and drawer merge into one surface */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--expanded {
   border-bottom-color: transparent;

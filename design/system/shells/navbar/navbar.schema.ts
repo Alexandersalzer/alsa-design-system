@@ -57,6 +57,19 @@ const sharedNavbarProps: Record<string, PropConfig> = {
     cmsEnabled: true,
   },
 
+  borderBottomStyle: {
+    name: 'borderBottomStyle',
+    type: 'enum',
+    displayName: 'Bottom border',
+    description: 'Bar: solid line or soft fade that blends with content below',
+    editorType: 'segmented',
+    values: ['solid', 'fade'],
+    valueLabels: { solid: 'Solid', fade: 'Fade' },
+    default: 'solid',
+    group: 'style',
+    cmsEnabled: true,
+  },
+
   hideOnScroll: {
     name: 'hideOnScroll',
     type: 'boolean',

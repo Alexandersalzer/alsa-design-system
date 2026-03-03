@@ -27,6 +27,8 @@ interface NavbarContainerProps {
   mobileMenuAlign?: 'left' | 'center' | 'right';
   backgroundVariant?: 'default' | 'solid' | 'accent' | 'raised' | 'glass' | 'glass-clear' | 'glass-transparent' | 'transparent';
   showBorder?: boolean;
+  /** Bar variant: 'solid' = skarp linje, 'fade' = mjuk övergång som blendar in i innehållet under */
+  borderBottomStyle?: 'solid' | 'fade';
   hideOnScroll?: boolean;
   /** 'pill' = rounded pill with border, 'bar' = full-width bar, 'center-pill' = logo left + centered pill + actions right */
   navbarStyle?: 'pill' | 'bar' | 'center-pill';
@@ -51,6 +53,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
   mobileMenuAlign = 'left',
   backgroundVariant = 'default',
   showBorder = true,
+  borderBottomStyle = 'solid',
   hideOnScroll = false,
   navbarStyle = 'bar',
   pillWidth = 'full',
@@ -175,6 +178,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
             drawerStyle === 'fullscreen' && navbarStyle !== 'bar' && isMobileMenuOpen && "navbar-container__unified-wrapper--fullscreen-open",
             backgroundVariant !== 'default' && `navbar-container__unified-wrapper--${backgroundVariant}`,
             !showBorder && "navbar-container__unified-wrapper--no-border",
+            navbarStyle === 'bar' && borderBottomStyle === 'fade' && showBorder && "navbar-container__unified-wrapper--border-fade",
             isScrolled && "navbar-container__unified-wrapper--scrolled"
           )}
         >
