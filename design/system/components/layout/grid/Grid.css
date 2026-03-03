@@ -6,11 +6,9 @@
 /* ===== BASE GRID ===== */
 .grid {
   display: grid;
-  /* Use fit-content to allow centering in VStack align="center" */
+  /* Use fit-content to respect VStack alignment (left/center/right) */
   width: fit-content;
   max-width: 100%;
-  /* Center grid in centered layouts */
-  margin-inline: auto;
 }
 
 /* ===== AUTO-FIT GRID (Density-based, no columns prop) ===== */
