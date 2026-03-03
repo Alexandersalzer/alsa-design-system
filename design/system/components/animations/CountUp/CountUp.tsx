@@ -64,16 +64,6 @@ export const CountUp: React.FC<CountUpProps> = ({
   
   // Check if we're in editor mode
   const isEditorMode = !!typographyProps.componentKey;
-  
-  // 🐛 DEBUG: Log on mount and when props change
-  console.log('[CountUp] 🔍 Component mount/update:', {
-    componentKey: typographyProps.componentKey,
-    isEditorMode,
-    end,
-    suffix,
-    prefix,
-    decimals
-  });
 
   const resetAnimation = () => {
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
@@ -82,7 +72,7 @@ export const CountUp: React.FC<CountUpProps> = ({
     hasCompletedRef.current = false;
   };
 
-  const formatNumber = useCallback((num: number) => {
+  const formatNumber = (num: number) => {
     const rounded = Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
     let formatted = decimals > 0 ? rounded.toFixed(decimals) : Math.round(rounded).toString();
 
@@ -93,23 +83,7 @@ export const CountUp: React.FC<CountUpProps> = ({
     }
 
     return `${prefix}${formatted}${suffix}`;
-  }, [decimals, separator, prefix, suffix]);
-
-  // 🆕 EDITOR MODE: Direct update when props change (skip animation)
-  useEffect(() => {
-    if (!isEditorMode) return;
-    
-    // In editor mode, instantly update to the end value when any formatting prop changes
-    // This gives live preview without re-running the animation
-    setCount(end);
-    
-    // Force immediate DOM update (before React re-render) for instant feedback
-    if (countRef.current) {
-      countRef.current.textContent = formatNumber(end);
-    }
-    
-    console.log('[CountUp] 🎯 Editor mode: Direct update to end value:', end);
-  }, [isEditorMode, end, formatNumber]);
+  };
 
   const startAnimation = useCallback(() => {
     if (hasStartedRef.current || hasCompletedRef.current) {

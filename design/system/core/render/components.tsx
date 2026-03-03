@@ -22,14 +22,11 @@ const renderComponent = (
   // Merge schema defaults with component props, using locale-specific defaults
   const mergedProps = mergeWithDefaults(component.type, component.props, locale as any);
 
-  // 🔥 CRITICAL: Add componentKey AFTER mergeWithDefaults to prevent it from being filtered out
   return (
     <Component
       key={componentKey}
       {...mergedProps}
       componentKey={componentKey}
-      sectionKey={sectionKey}
-      patternKey={patternKey}
     />
   );
 };
