@@ -110,7 +110,6 @@ const Navbar = ({ section }: NavbarProps) => {
             mobileMenuAlign={patternProps.mobileMenuAlign}
             backgroundVariant={patternProps.backgroundVariant}
             showBorder={patternProps.showBorder}
-            borderBottomStyle={patternProps.borderBottomStyle}
             hideOnScroll={patternProps.hideOnScroll}
             navbarStyle={patternProps.navbarStyle ?? (pattern as any).type}
             pillWidth={patternProps.pillWidth}
