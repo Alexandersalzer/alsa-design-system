@@ -368,6 +368,34 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     default: false,
     group: 'card',
     cmsEnabled: true
+  },
+
+  cardPositionVertical: {
+    name: 'cardPositionVertical',
+    type: 'enum',
+    displayName: 'Card Position (vertical)',
+    description: 'Position of the wrap-in-card within the section (e.g. hero: top / center / bottom). Requires wrapInCard and section height.',
+    editorType: 'segmented',
+    values: ['start', 'center', 'end'],
+    valueLabels: { start: 'Top', center: 'Center', end: 'Bottom' },
+    default: 'start',
+    group: 'card',
+    cmsEnabled: true,
+    visibleWhen: { property: 'wrapInCard', operator: 'equals', value: true }
+  },
+
+  cardPositionHorizontal: {
+    name: 'cardPositionHorizontal',
+    type: 'enum',
+    displayName: 'Card Position (horizontal)',
+    description: 'Horizontal position of the wrap-in-card within the section.',
+    editorType: 'segmented',
+    values: ['start', 'center', 'end'],
+    valueLabels: { start: 'Left', center: 'Center', end: 'Right' },
+    default: 'center',
+    group: 'card',
+    cmsEnabled: true,
+    visibleWhen: { property: 'wrapInCard', operator: 'equals', value: true }
   }
 };
 

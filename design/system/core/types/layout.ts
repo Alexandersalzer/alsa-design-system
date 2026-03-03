@@ -154,10 +154,13 @@ export interface LayoutConfig {
   cardColumnVerticalAlign?: 'start' | 'center' | 'end';
 
   /**
-   * Var i sektionen kortet ska sitta när wrapInCard är true (centered layout).
-   * 'top' = högst upp, 'center' = mitt, 'bottom' = längst ner.
+   * Position av wrap-kortet inom sektionen (t.ex. hero).
+   * - cardPositionVertical: 'start' | 'center' | 'end' – kortet upp/centrerat/ner i sektionen
+   * - cardPositionHorizontal: 'start' | 'center' | 'end' – kortet vänster/centrerat/höger
+   * Kräver wrapInCard. Sektionen behöver ha höjd (t.ex. height: full) för att vertikal position ska synas.
    */
-  cardPosition?: 'top' | 'center' | 'bottom';
+  cardPositionVertical?: 'start' | 'center' | 'end';
+  cardPositionHorizontal?: 'start' | 'center' | 'end';
 
   /**
    * Background type för hela sektionen
