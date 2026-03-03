@@ -154,6 +154,12 @@ export interface LayoutConfig {
   cardColumnVerticalAlign?: 'start' | 'center' | 'end';
 
   /**
+   * Var i sektionen kortet ska sitta när wrapInCard är true (centered layout).
+   * 'top' = högst upp, 'center' = mitt, 'bottom' = längst ner.
+   */
+  cardPosition?: 'top' | 'center' | 'bottom';
+
+  /**
    * Background type för hela sektionen
    * När wrapInCard är true, flyttas bakgrunden till kortet istället för section-elementet
    */

@@ -81,6 +81,7 @@ export function renderSectionLayout({
     cardBackgroundSettings = {},
     cardBorderStyle = 'none',
     cardColumnVerticalAlign,
+    cardPosition = 'center',
     // Background props from layout
     background,
     backgroundImage,
@@ -318,6 +319,10 @@ export function renderSectionLayout({
 
     // Wrap in Card if enabled
     if (wrapInCard) {
+      const cardAlignSelf =
+        cardPosition === 'top' ? 'flex-start' : cardPosition === 'bottom' ? 'flex-end' : 'center';
+      const cardWrapper = { style: { alignSelf: cardAlignSelf } as React.CSSProperties };
+
       // Use layout background for card (layout.background takes precedence)
       const effectiveCardBackground = background && background !== 'default' ? background : cardBackground;
       const effectiveCardBackgroundSettings = background && background !== 'default'
@@ -342,6 +347,7 @@ export function renderSectionLayout({
       if (hasCardBackground) {
         const cardBgLightOpacity = effectiveCardBackgroundSettings?.backgroundImageLightModeOpacity;
         return (
+          <Box {...cardWrapper}>
           <Container height="auto">
             <Card
               variant="ghost"
@@ -379,11 +385,13 @@ export function renderSectionLayout({
               </Box>
             </Card>
           </Container>
+          </Box>
         );
       }
 
       const cardPaddingForCard = (cardPadding === 'xl' || cardPadding === '2xl') ? 'lg' : cardPadding;
       return (
+        <Box {...cardWrapper}>
         <Container height="auto">
           <Card
             variant={cardVariant}
@@ -398,6 +406,7 @@ export function renderSectionLayout({
             {centeredContent}
           </Card>
         </Container>
+        </Box>
       );
     }
 
