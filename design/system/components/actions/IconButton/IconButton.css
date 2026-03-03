@@ -37,11 +37,18 @@
 }
 
 /* ----- SIZE VARIANTS ----- */
+.icon-btn--xxs {
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  border-radius: var(--radius-xs);
+}
+
 .icon-btn--xs {
   width: 24px;
   height: 24px;
   padding: 4px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 .icon-btn--sm {
