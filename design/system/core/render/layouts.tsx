@@ -1076,8 +1076,13 @@ const renderLayoutNodeGeneric = (
   }
 
   // ✨ Pass alignment from layoutContext to VStack when alignSectionHeader is 'center'
-  // This ensures grid items (VStack) inherit section alignment
-  if (layoutType === 'vstack' && itemContext?.alignSectionHeader === 'center' && !layoutProps.align) {
+  // ONLY for top-level VStacks (direct children of Grid), NOT for nested VStacks inside HStack/Card
+  if (
+    layoutType === 'vstack' && 
+    itemContext?.alignSectionHeader === 'center' && 
+    !layoutProps.align &&
+    !itemContext?._isNestedLayout  // ✅ Skip nested layouts
+  ) {
     layoutProps = { ...layoutProps, align: 'center' };
   }
 
@@ -1131,10 +1136,16 @@ const renderLayoutNodeGeneric = (
     return <LayoutComponent {...stripSectionBackgroundProps(layoutProps)} />;
   }
 
+  // Mark children as nested if parent is HStack or Card (prevents alignment cascade)
+  const shouldMarkAsNested = layoutType === 'hstack' || layoutType === 'card';
+  const childItemContext = shouldMarkAsNested 
+    ? { ...itemContext, _isNestedLayout: true }
+    : itemContext;
+
   // Recursively render children for components that support them
   const renderedChildren = children.map((child: any, index: number) => (
     <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
+      {renderTemplateNode(child, itemComponents, childItemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
     </React.Fragment>
   ));
 
