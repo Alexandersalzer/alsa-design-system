@@ -64,6 +64,16 @@ export const CountUp: React.FC<CountUpProps> = ({
   
   // Check if we're in editor mode
   const isEditorMode = !!typographyProps.componentKey;
+  
+  // 🐛 DEBUG: Log on mount and when props change
+  console.log('[CountUp] 🔍 Component mount/update:', {
+    componentKey: typographyProps.componentKey,
+    isEditorMode,
+    end,
+    suffix,
+    prefix,
+    decimals
+  });
 
   const resetAnimation = () => {
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
