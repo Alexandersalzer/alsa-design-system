@@ -6,7 +6,11 @@
 /* ===== BASE GRID ===== */
 .grid {
   display: grid;
-  width: 100%;
+  /* Use fit-content to allow centering in VStack align="center" */
+  width: fit-content;
+  max-width: 100%;
+  /* Center grid in centered layouts */
+  margin-inline: auto;
 }
 
 /* ===== AUTO-FIT GRID (Density-based, no columns prop) ===== */
@@ -101,16 +105,6 @@
 
 .grid--justify-center {
   justify-items: center;
-}
-
-/* When grid has centered justify-items, center all text content inside grid items */
-.grid--justify-center > * {
-  text-align: center;
-}
-
-/* Also center flex containers (VStack/HStack) inside centered grid items at any nesting level */
-.grid--justify-center :where(.vstack, .hstack) {
-  align-items: center;
 }
 
 .grid--justify-end {
