@@ -57,6 +57,17 @@ const sharedNavbarProps: Record<string, PropConfig> = {
     cmsEnabled: true,
   },
 
+  bottomBorderFade: {
+    name: 'bottomBorderFade',
+    type: 'boolean',
+    displayName: 'Mjuk bottenkant (fade)',
+    description: 'Bottenkanten blendar mjukt in med innehållet under istället för hård border. Passar särskilt med glass/transparent.',
+    editorType: 'toggle',
+    default: false,
+    group: 'style',
+    cmsEnabled: true,
+  },
+
   hideOnScroll: {
     name: 'hideOnScroll',
     type: 'boolean',
