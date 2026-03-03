@@ -79,6 +79,8 @@ export const accordionTranslations_en = {
 export const accordionItemTranslations_en = {
   displayName: 'Accordion Item',
   description: 'A single collapsible item within an accordion',
+  defaultTitle: 'Question title',
+  defaultContent: 'Write your answer here. Provide clear and useful information for your visitors.',
   
   props: {
     itemKey: {

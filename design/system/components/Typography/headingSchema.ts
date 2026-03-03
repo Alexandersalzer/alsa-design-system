@@ -24,6 +24,7 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
     cmsEnabled: true,
     
     defaultProps: {
+      content: t.defaultContent,
       variant: 'h2',
       weight: 'bold',
       align: 'left',
@@ -35,6 +36,7 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           name: 'content',
           type: 'string',
           required: true,
+          default: t.defaultContent,
           editorType: 'textarea',
           minLength: 3,
           maxLength: 60,

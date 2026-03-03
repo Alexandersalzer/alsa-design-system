@@ -24,6 +24,7 @@ export const createImageSchema = (locale: SupportedLocale = 'sv'): ComponentSche
     cmsEnabled: true,
     
     defaultProps: {
+      src: t.defaultSrc,
       objectFit: 'cover',
       radius: 'none',
       loading: 'lazy',

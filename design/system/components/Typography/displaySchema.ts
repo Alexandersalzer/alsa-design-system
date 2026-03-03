@@ -21,6 +21,7 @@ export const createDisplaySchema = (locale: SupportedLocale = 'sv'): ComponentSc
     cmsEnabled: true,
     
     defaultProps: {
+      content: t.defaultContent,
       size: 'lg',
       color: 'heading',
       weight: 'bold',

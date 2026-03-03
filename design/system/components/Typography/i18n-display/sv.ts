@@ -5,6 +5,7 @@
 export const displayTranslations_sv = {
   displayName: 'Display-text',
   description: 'Extra stor display-text för rubriker och hero-sektioner',
+  defaultContent: 'Din stora rubrik',
   
   props: {
     content: {

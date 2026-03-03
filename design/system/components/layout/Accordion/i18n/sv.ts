@@ -79,6 +79,8 @@ export const accordionTranslations_sv = {
 export const accordionItemTranslations_sv = {
   displayName: 'Dragspelselement',
   description: 'Ett enskilt hopfällbart element i ett dragspel',
+  defaultTitle: 'Fråga titel',
+  defaultContent: 'Här skriver du svaret på frågan. Ge tydlig och användbar information till dina besökare.',
   
   props: {
     itemKey: {
