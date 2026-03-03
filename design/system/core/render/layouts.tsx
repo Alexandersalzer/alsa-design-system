@@ -183,10 +183,8 @@ export const renderLayoutWithTemplate = (
       justify: alignToJustifyMap[effectiveAlign] || effectiveAlign 
     }),
     ...(parentType === 'hstack' && mobileJustify && { mobileJustify }),
-    // For other layout types EXCEPT grid: pass align directly
-    // Grid should not receive align prop as it doesn't control its own placement
-    // Section-layout's VStack will center the entire Grid container instead
-    ...(parentType !== 'hstack' && parentType !== 'grid' && effectiveAlign && { align: effectiveAlign })
+    // For other layout types, pass align directly
+    ...(parentType !== 'hstack' && effectiveAlign && { align: effectiveAlign })
   };
 
   // Get parent layout component
