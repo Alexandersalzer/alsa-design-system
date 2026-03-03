@@ -103,6 +103,16 @@
   justify-items: center;
 }
 
+/* When grid has centered justify-items, center all text content inside grid items */
+.grid--justify-center > * {
+  text-align: center;
+}
+
+/* Also center flex containers (VStack/HStack) inside centered grid items at any nesting level */
+.grid--justify-center :where(.vstack, .hstack) {
+  align-items: center;
+}
+
 .grid--justify-end {
   justify-items: end;
 }
