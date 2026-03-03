@@ -22,17 +22,9 @@ const renderComponent = (
   // Merge schema defaults with component props, using locale-specific defaults
   const mergedProps = mergeWithDefaults(component.type, component.props, locale as any);
 
-  // ✅ COUNTUP SPECIAL HANDLING: Create dynamic key to force re-mount on prop changes
-  // This ensures live preview updates immediately when changing end/suffix/prefix values
-  let reactKey = componentKey;
-  if (component.type === 'countup') {
-    const { end, suffix = '', prefix = '', start = 0 } = mergedProps;
-    reactKey = `${componentKey}-${start}-${end}-${suffix}-${prefix}`;
-  }
-
   return (
     <Component
-      key={reactKey}
+      key={componentKey}
       {...mergedProps}
       componentKey={componentKey}
     />
