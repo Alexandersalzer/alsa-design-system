@@ -77,6 +77,15 @@ export interface LayoutConfig {
   sectionHeaderVerticalAlign?: 'start' | 'center' | 'end';
 
   /**
+   * Horisontell placering av innehållet i första kolumnen (section header + actions) vid split layout.
+   * - 'start': innehåll till vänster (default)
+   * - 'center': innehåll centrerat i kolumnen
+   * - 'end': innehåll till höger i kolumnen
+   * Överskrider section header-patterns align om satt.
+   */
+  firstColumnContentAlign?: 'start' | 'center' | 'end';
+
+  /**
    * Breakpoint at which split layout stacks to single column
    * - 'tablet': Stack at 768px (default mobile behavior)
    * - 'desktop': Stack at 1024px (default - good for most split layouts)

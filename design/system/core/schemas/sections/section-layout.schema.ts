@@ -118,6 +118,28 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       value: true
     }
   },
+
+  firstColumnContentAlign: {
+    name: 'firstColumnContentAlign',
+    type: 'enum',
+    displayName: 'Innehållsplacering (första kolumnen)',
+    description: 'Horisontell placering av rubrik och knappar i vänster kolumn: vänster, centrerad eller höger',
+    editorType: 'segmented',
+    values: ['start', 'center', 'end'],
+    valueLabels: {
+      start: 'Vänster',
+      center: 'Centrerad',
+      end: 'Höger'
+    },
+    default: 'start',
+    group: 'columns',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: 'alignSectionHeader',
+      operator: 'equals',
+      value: 'left'
+    }
+  },
   
   // ============================================
   // MOBILE GROUP

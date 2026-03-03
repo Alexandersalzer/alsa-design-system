@@ -274,8 +274,17 @@ export const Section = ({
   if (backgroundSplit && backgroundSplitPercentage) {
     customProperties['--split-percentage'] = `${backgroundSplitPercentage}%`;
   }
+  // Foundation spacing är numeriskt (--foundation-space-4 osv), mappa semantiska namn
+  const insetTokenMap: Record<string, string> = {
+    xs: '2',
+    sm: '3',
+    md: '4',
+    lg: '6',
+    xl: '8',
+  };
   if (backgroundSplit && backgroundSplitInset && backgroundSplitInset !== 'none') {
-    customProperties['--split-inset'] = `var(--foundation-space-${backgroundSplitInset})`;
+    const token = insetTokenMap[backgroundSplitInset] ?? '4';
+    customProperties['--split-inset'] = `var(--foundation-space-${token})`;
   }
   if (backgroundSplit && backgroundSplitRadius && backgroundSplitRadius !== 'none') {
     customProperties['--split-radius'] = `var(--radius-${backgroundSplitRadius})`;

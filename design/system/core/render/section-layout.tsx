@@ -69,6 +69,7 @@ export function renderSectionLayout({
     ratio = '1:1',
     verticalAlign = 'end', // Default to bottom for better layout balance
     sectionHeaderVerticalAlign = 'start', // Default to start for sectionHeader alignment
+    firstColumnContentAlign,
     stackAt = 'desktop', // Default to 1024px breakpoint
     mobileOrder,
     mobileAlign,
@@ -550,11 +551,12 @@ export function renderSectionLayout({
   const hasActionInSecondColumn = actionPatternsInSecondColumn.length > 0;
   const defaultSecondColumnAlign = hasActionInSecondColumn ? 'end' : 'start';
 
-  // Get SectionHeader maxWidth and align if it exists  
+  // Get SectionHeader maxWidth and align if it exists. firstColumnContentAlign (layout) överskrider pattern align.
   const sectionHeaderMaxWidth = sectionHeaderKey ? patterns[sectionHeaderKey]?.props?.maxWidth || '650px' : '650px';
   const sectionHeaderAlign = sectionHeaderKey ? patterns[sectionHeaderKey]?.props?.align : undefined;
-  const effectiveAlign = sectionHeaderAlign || 'start';
+  const effectiveAlign = firstColumnContentAlign ?? sectionHeaderAlign ?? 'start';
   const marginValue = effectiveAlign === 'center' ? '0 auto' : effectiveAlign === 'end' ? '0 0 0 auto' : '0 auto 0 0';
+  const firstColumnJustify = effectiveAlign === 'center' ? 'center' : effectiveAlign === 'end' ? 'flex-end' : 'flex-start';
 
   // Layout cardPadding (xs/lg/xl) -> foundation numeric token (--foundation-space-2, -8, -10, etc.)
   // When wrapInCard: same inner padding for both columns so they align; use real foundation token so spacing to card edge works
@@ -646,7 +648,7 @@ export function renderSectionLayout({
               </VStack>
             )
           ) : (
-            <Box style={{ display: 'flex', alignItems: wrapInCard && cardColumnAlignCss ? cardColumnAlignCss : (sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center'), height: '100%' }}>
+            <Box style={{ display: 'flex', justifyContent: firstColumnJustify, alignItems: wrapInCard && cardColumnAlignCss ? cardColumnAlignCss : (sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center'), height: '100%', width: '100%' }}>
               {wrapInCard ? (
                 <Box
                   style={{
@@ -677,7 +679,7 @@ export function renderSectionLayout({
           )}
 
           {isSectionHeaderInRightColumn ? (
-            <Box style={{ display: 'flex', alignItems: wrapInCard && cardColumnAlignCss ? cardColumnAlignCss : (sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center'), height: '100%' }}>
+            <Box style={{ display: 'flex', justifyContent: firstColumnJustify, alignItems: wrapInCard && cardColumnAlignCss ? cardColumnAlignCss : (sectionHeaderVerticalAlign === 'start' ? 'flex-start' : sectionHeaderVerticalAlign === 'end' ? 'flex-end' : 'center'), height: '100%', width: '100%' }}>
               {wrapInCard ? (
                 <Box
                   style={{
