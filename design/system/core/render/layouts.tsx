@@ -248,7 +248,8 @@ export const renderLayoutWithTemplate = (
       animationSettings,
       sectionKey,
       patternKey,
-      locale
+      locale,
+      layoutContext  // ✅ Pass layoutContext
     );
   }
 
@@ -270,7 +271,8 @@ export const renderLayoutWithTemplate = (
     0,
     maxItems,
     locale,
-    layoutContext?.noItemKeys
+    layoutContext?.noItemKeys,
+    layoutContext  // ✅ Pass layoutContext for alignment
   );
 
   return (
@@ -527,7 +529,8 @@ const renderItems = (
   indexOffset: number = 0,
   maxItems?: number | ResponsiveMaxItems,
   locale?: string,
-  noItemKeys?: boolean
+  noItemKeys?: boolean,
+  layoutContext?: any
 ): React.ReactNode[] => {
   return itemOrder.map((itemId, localIndex) => {
     const item = findItem(itemId);
@@ -545,7 +548,9 @@ const renderItems = (
       localIndex,
       id: itemId,
       imageSrc: getItemImageSrc(item),
-      ...itemProps
+      ...itemProps,
+      // ✅ Pass alignSectionHeader to items so VStack can inherit it
+      alignSectionHeader: layoutContext?.alignSectionHeader
     };
 
     // Track used components within this item to support multiple components of same type
@@ -679,7 +684,8 @@ const renderCategorizedLayout = (
   animationSettings: Record<string, any>,
   sectionKey?: string,
   patternKey?: string,
-  locale?: string
+  locale?: string,
+  layoutContext?: any
 ): React.ReactElement => {
   const categoryOrder = getLayoutCategoryOrder(layout);
   const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
@@ -695,7 +701,8 @@ const renderCategorizedLayout = (
       animationSettings,
       sectionKey,
       patternKey,
-      locale
+      locale,
+      layoutContext  // ✅ Pass layoutContext
     );
   }
 
@@ -755,7 +762,8 @@ const renderCategorizedLayoutLegacy = (
   animationSettings: Record<string, any>,
   sectionKey?: string,
   patternKey?: string,
-  locale?: string
+  locale?: string,
+  layoutContext?: any
 ): React.ReactElement => {
   const categoryOrder = getLayoutCategoryOrder(layout);
   const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
@@ -782,7 +790,9 @@ const renderCategorizedLayoutLegacy = (
       patternKey,
       globalItemIndex,
       undefined,
-      locale
+      locale,
+      false,  // noItemKeys
+      layoutContext  // ✅ Pass layoutContext for alignment
     );
 
     globalItemIndex += itemOrder.length;
@@ -1063,6 +1073,12 @@ const renderLayoutNodeGeneric = (
   // Apply item-level overrides for specific layout types
   if (layoutType === 'hstack' && itemContext?.reverse) {
     layoutProps = { ...layoutProps, direction: 'row-reverse' };
+  }
+
+  // ✨ Pass alignment from layoutContext to VStack when alignSectionHeader is 'center'
+  // This ensures grid items (VStack) inherit section alignment
+  if (layoutType === 'vstack' && itemContext?.alignSectionHeader === 'center' && !layoutProps.align) {
+    layoutProps = { ...layoutProps, align: 'center' };
   }
 
   // Add filterTags as data-filter-tags attribute for filtering functionality
