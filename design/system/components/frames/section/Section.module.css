@@ -145,23 +145,6 @@
   overflow: hidden;
 }
 
-/* Mjuk fade bara i mitten uppe där bilden tar slut – elliptisk gradient, inte hela toppen */
-.splitBackgroundTopFade {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    ellipse 120% 80% at 0% 0%,
-    color-mix(in srgb, var(--surface-page) 92%, transparent) 0%,
-    color-mix(in srgb, var(--surface-page) 45%, transparent) 40%,
-    transparent 72%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
 /* Diagonal slice: bilden syns i övre högra triangeln (från vänster uppe till höger nere) */
 .splitBackgroundContainerDiagonal {
   left: var(--split-inset, 0);

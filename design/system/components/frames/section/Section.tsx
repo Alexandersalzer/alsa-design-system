@@ -47,8 +47,6 @@ interface SectionProps extends BackgroundProps {
   backgroundSplitInset?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
   /** Rundade hörn på split-bakgrundscontainern */
   backgroundSplitRadius?: 'none' | 'sm' | 'md' | 'lg';
-  /** Mjuk toppfade på split-bilden där den möter navbaren/ljus kolumn (ingen hård kant) */
-  splitImageFadeTop?: boolean;
   /** Mobile-specific background opacity (0-1) - only affects mobile screens */
   mobileBackgroundOpacity?: number;
   /** Image background opacity in light mode (0-1). Används t.ex. i footer så bilden blir ljusare. Default i footer: 0.55. */
@@ -181,7 +179,6 @@ export const Section = ({
   backgroundSplitPercentage = 50,
   backgroundSplitInset,
   backgroundSplitRadius,
-  splitImageFadeTop = false,
   mobileBackgroundOpacity,
   backgroundImageLightModeOpacity,
 }: SectionProps) => {
@@ -378,9 +375,6 @@ export const Section = ({
           }
         >
           {renderBackgroundComponent(background, backgroundProps)}
-          {splitImageFadeTop && (
-            <div className={styles.splitBackgroundTopFade} aria-hidden="true" />
-          )}
         </div>
       ) : (
         renderBackgroundComponent(background, backgroundProps)
