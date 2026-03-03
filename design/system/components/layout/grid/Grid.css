@@ -6,9 +6,7 @@
 /* ===== BASE GRID ===== */
 .grid {
   display: grid;
-  /* Use fit-content to respect VStack alignment (left/center/right) */
-  width: fit-content;
-  max-width: 100%;
+  width: 100%;
 }
 
 /* ===== AUTO-FIT GRID (Density-based, no columns prop) ===== */
