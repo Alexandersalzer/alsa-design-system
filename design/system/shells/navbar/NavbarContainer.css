@@ -264,23 +264,51 @@
   border-bottom-color: transparent;
 }
 
-/* Bar + bottom-fade: bakgrunden tonar ut till transparent längst ner så innehållet under syns */
+/* Bar + bottom-fade: ingen kantlinje – solid bar + ::after som fadar ned UNDER baren */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade {
   border-bottom: none !important;
+  overflow: visible;
 }
 
-/* Bottom-fade med glass/transparent: 64px fade, mättad toning så det inte känns fattigt */
+/* Pseudo-element som sträcker ned under navbaren och fadar ut – ingen hård linje */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--transparent::after,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass-transparent::after,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass::after,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass-clear::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 88px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--neutral-1000) 12%, transparent) 0%,
+    color-mix(in srgb, var(--neutral-1000) 4%, transparent) 45%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled::after,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--scrolled::after,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass.navbar-container__unified-wrapper--scrolled::after,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled::after {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--neutral-1000) 18%, transparent) 0%,
+    color-mix(in srgb, var(--neutral-1000) 6%, transparent) 45%,
+    transparent 100%
+  );
+}
+
+/* Bottom-fade: bar med solid bakgrund till 100% (ingen gradient som skär av) */
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--transparent,
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass-transparent,
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass,
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass-clear {
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--neutral-1000) 12%, transparent) 0%,
-    color-mix(in srgb, var(--neutral-1000) 10%, transparent) calc(100% - 64px),
-    color-mix(in srgb, var(--neutral-1000) 5%, transparent) calc(100% - 28px),
-    transparent 100%
-  ) !important;
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent) !important;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -289,13 +317,7 @@
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass-transparent.navbar-container__unified-wrapper--scrolled,
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass.navbar-container__unified-wrapper--scrolled,
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--bottom-fade.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled {
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--neutral-1000) 18%, transparent) 0%,
-    color-mix(in srgb, var(--neutral-1000) 14%, transparent) calc(100% - 64px),
-    color-mix(in srgb, var(--neutral-1000) 6%, transparent) calc(100% - 28px),
-    transparent 100%
-  ) !important;
+  background: color-mix(in srgb, var(--neutral-1000) 18%, transparent) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
