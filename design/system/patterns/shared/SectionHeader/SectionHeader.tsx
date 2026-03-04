@@ -3,7 +3,7 @@
 import React from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
-import { Typography } from '../../../components/Typography/Typography';
+import { Typography, Heading } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { Opacity } from '../../../components/animations/Opacity/Opacity';
@@ -195,16 +195,22 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         const mergedProps = getMergedProps(headingKey);
         if (!mergedProps.content && !mergedProps.animation) return null;
         return withAnimation(
-          <Typography
-            as={isHero ? "h1" : "h2"}
-            variant="display-lg"
+          <Heading
+            level={isHero ? 1 : 2}
             color="heading"
-            align={textAlign}
+            weight="bold"
+            content={mergedProps.content}
+            suffix={mergedProps.suffix}
+            suffixFont={mergedProps.suffixFont}
             animation={mergedProps.animation}
             componentKey={headingKey}
-          >
-            {mergedProps.content}
-          </Typography>,
+            align={textAlign}
+            style={{
+              fontSize: 'var(--text-display-lg-font-size)',
+              lineHeight: 'var(--text-display-lg-line-height)',
+              letterSpacing: 'var(--text-display-lg-letter-spacing)',
+            }}
+          />,
           1,
           'heading'
         );
