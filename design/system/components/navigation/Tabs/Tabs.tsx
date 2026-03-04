@@ -39,8 +39,6 @@ interface BaseTabProps {
   isDisabled?: boolean;
   icon?: ReactNode;
   badge?: ReactNode;
-  /** Trailing icon (e.g. for actions menu). Renders after badge. */
-  trailingIcon?: ReactNode;
   className?: string;
   fontWeight?: TypographyWeight;
   useHeadingFont?: boolean;
@@ -137,7 +135,6 @@ export const Tab: React.FC<TabProps> = ({
   isDisabled = false,
   icon,
   badge,
-  trailingIcon,
   className = '',
   href,
   onClick: onClickProp,
@@ -217,7 +214,6 @@ export const Tab: React.FC<TabProps> = ({
         {children}
       </Label>
       {badge && <span className="tab__badge">{badge}</span>}
-      {trailingIcon && <span className="tab__trailing-icon">{trailingIcon}</span>}
     </>
   );
 
