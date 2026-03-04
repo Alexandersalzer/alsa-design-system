@@ -84,6 +84,36 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
         },
         t.props?.align
       ),
+      
+      // Suffix props (only available in hero sections)
+      suffix: createLocalizedProp(
+        {
+          name: 'suffix',
+          type: 'string',
+          required: false,
+          default: '',
+          editorType: 'text',
+          maxLength: 20,
+          placeholder: 'Optional suffix text (e.g., "in Portel")',
+          cmsEnabled: true,
+          group: 'content',
+        },
+        undefined
+      ),
+      
+      suffixFont: createLocalizedProp(
+        {
+          name: 'suffixFont',
+          type: 'enum',
+          required: false,
+          default: 'Lora',
+          editorType: 'select',
+          values: ['Lora', 'Playfair Display', 'Crimson Text', 'Merriweather'] as const,
+          cmsEnabled: true,
+          group: 'content',
+        },
+        undefined
+      ),
     },
     
     validation: [
