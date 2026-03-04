@@ -17,3 +17,9 @@ export * from './backgrounds'
 export * from './Typography';
 export * from './LogoIcon';
 export * from './app-icon';
+
+// Export component registry for external use (icon mappings, etc.)
+export { componentRegistry } from './registry';
+
+// Export schema registry for external use (icon mappings, etc.)
+export { componentSchemas, getComponentSchema } from './schemaRegistry';
