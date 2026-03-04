@@ -368,7 +368,11 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   // 🎯 OPTIMIZED: Memoize style object to prevent unnecessary re-renders and inspector flickering
   // Only create inline style when color is provided, otherwise use undefined to avoid React diffing  
   const combinedStyle = React.useMemo(() => {
-    const baseStyle: React.CSSProperties = {};
+    const baseStyle: React.CSSProperties = {
+      // Always enable word wrapping to prevent long text from breaking layout
+      wordWrap: 'break-word',
+      overflowWrap: 'break-word',
+    };
     
     // Add white-space: pre-line to render \n as line breaks when preserveLineBreaks is enabled
     if (preserveLineBreaks) {
@@ -385,8 +389,8 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
       return { ...baseStyle, ...style };
     }
     
-    // Return baseStyle if it has properties, otherwise undefined
-    return Object.keys(baseStyle).length > 0 ? baseStyle : undefined;
+    // Always return baseStyle since it now has word-wrap properties
+    return baseStyle;
   }, [color, style, preserveLineBreaks]);
 
   // ===== ANIMATION HANDLING =====
