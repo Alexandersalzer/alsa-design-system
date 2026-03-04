@@ -28,6 +28,12 @@ export function renderSection(
   if (!sectionData?.patterns) return null;
 
   const { type, patterns, layout, order, props } = sectionData;
+  
+  // Check if section is hidden
+  if (props?.isHidden === 'true' || props?.isHidden === true) {
+    return null;
+  }
+  
   const patternOrder = order || Object.keys(patterns || {});
 
   // Auto-detect hero: first section + key starts with "hero_"

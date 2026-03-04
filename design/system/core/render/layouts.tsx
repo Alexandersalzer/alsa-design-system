@@ -248,7 +248,8 @@ export const renderLayoutWithTemplate = (
       animationSettings,
       sectionKey,
       patternKey,
-      locale
+      locale,
+      layoutContext  // ✅ Pass layoutContext
     );
   }
 
@@ -270,7 +271,8 @@ export const renderLayoutWithTemplate = (
     0,
     maxItems,
     locale,
-    layoutContext?.noItemKeys
+    layoutContext?.noItemKeys,
+    layoutContext  // ✅ Pass layoutContext for alignment
   );
 
   return (
@@ -397,6 +399,11 @@ const renderFilterTemplateNode = (
     const renderedItems = allItemIds.map((itemId, index) => {
       const item = findLayoutItem(layout, itemId);
       if (!item) return null;
+
+      // Check if item is hidden via props
+      if (item.props?.isHidden === 'true' || item.props?.isHidden === true) {
+        return null;
+      }
 
       const { components: __, ...itemProps } = item;
       const itemContext = { index, id: itemId, imageSrc: getItemImageSrc(item), ...itemProps };
@@ -527,12 +534,18 @@ const renderItems = (
   indexOffset: number = 0,
   maxItems?: number | ResponsiveMaxItems,
   locale?: string,
-  noItemKeys?: boolean
+  noItemKeys?: boolean,
+  layoutContext?: any
 ): React.ReactNode[] => {
   return itemOrder.map((itemId, localIndex) => {
     const item = findItem(itemId);
     if (!item) {
       console.warn(`Item "${itemId}" not found`);
+      return null;
+    }
+
+    // Check if item is hidden via props
+    if (item.props?.isHidden === 'true' || item.props?.isHidden === true) {
       return null;
     }
 
@@ -545,7 +558,9 @@ const renderItems = (
       localIndex,
       id: itemId,
       imageSrc: getItemImageSrc(item),
-      ...itemProps
+      ...itemProps,
+      // ✅ Pass alignSectionHeader to items so VStack can inherit it
+      alignSectionHeader: layoutContext?.alignSectionHeader
     };
 
     // Track used components within this item to support multiple components of same type
@@ -679,7 +694,8 @@ const renderCategorizedLayout = (
   animationSettings: Record<string, any>,
   sectionKey?: string,
   patternKey?: string,
-  locale?: string
+  locale?: string,
+  layoutContext?: any
 ): React.ReactElement => {
   const categoryOrder = getLayoutCategoryOrder(layout);
   const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
@@ -695,7 +711,8 @@ const renderCategorizedLayout = (
       animationSettings,
       sectionKey,
       patternKey,
-      locale
+      locale,
+      layoutContext  // ✅ Pass layoutContext
     );
   }
 
@@ -755,7 +772,8 @@ const renderCategorizedLayoutLegacy = (
   animationSettings: Record<string, any>,
   sectionKey?: string,
   patternKey?: string,
-  locale?: string
+  locale?: string,
+  layoutContext?: any
 ): React.ReactElement => {
   const categoryOrder = getLayoutCategoryOrder(layout);
   const { categoryTemplate, categoryComponentTemplate, itemsWrapper } = layout;
@@ -782,7 +800,9 @@ const renderCategorizedLayoutLegacy = (
       patternKey,
       globalItemIndex,
       undefined,
-      locale
+      locale,
+      false,  // noItemKeys
+      layoutContext  // ✅ Pass layoutContext for alignment
     );
 
     globalItemIndex += itemOrder.length;
@@ -1065,6 +1085,17 @@ const renderLayoutNodeGeneric = (
     layoutProps = { ...layoutProps, direction: 'row-reverse' };
   }
 
+  // ✨ Pass alignment from layoutContext to VStack when alignSectionHeader is 'center'
+  // ONLY for top-level VStacks (direct children of Grid), NOT for nested VStacks inside HStack/Card
+  if (
+    layoutType === 'vstack' && 
+    itemContext?.alignSectionHeader === 'center' && 
+    !layoutProps.align &&
+    !itemContext?._isNestedLayout  // ✅ Skip nested layouts
+  ) {
+    layoutProps = { ...layoutProps, align: 'center' };
+  }
+
   // Add filterTags as data-filter-tags attribute for filtering functionality
   if (itemContext?.filterTags && Array.isArray(itemContext.filterTags)) {
     layoutProps = { ...layoutProps, 'data-filter-tags': itemContext.filterTags.join(',') };
@@ -1115,12 +1146,27 @@ const renderLayoutNodeGeneric = (
     return <LayoutComponent {...stripSectionBackgroundProps(layoutProps)} />;
   }
 
+  // Mark children as nested if parent is HStack or Card (prevents alignment cascade)
+  const shouldMarkAsNested = layoutType === 'hstack' || layoutType === 'card';
+  const childItemContext = shouldMarkAsNested 
+    ? { ...itemContext, _isNestedLayout: true }
+    : itemContext;
+
   // Recursively render children for components that support them
-  const renderedChildren = children.map((child: any, index: number) => (
-    <React.Fragment key={index}>
-      {renderTemplateNode(child, itemComponents, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
-    </React.Fragment>
-  ));
+  const renderedChildren = children.map((child: any, index: number) => {
+    // SPECIAL CASE: If parent is VStack and child is also VStack, mark child as nested
+    // This prevents nested VStacks from inheriting center alignment
+    const isNestedVStack = layoutType === 'vstack' && child.type === 'vstack';
+    const finalChildContext = isNestedVStack 
+      ? { ...childItemContext, _isNestedLayout: true }
+      : childItemContext;
+
+    return (
+      <React.Fragment key={index}>
+        {renderTemplateNode(child, itemComponents, finalChildContext, usedComponents, sectionKey, patternKey, itemId, locale)}
+      </React.Fragment>
+    );
+  });
 
   // Kort med style.backgroundImage: använd ImageBackground med accent-tint (samma som pricing/hero).
   // OBS: I bento ligger en Image (${image}) ovanpå – det som syns är Image, inte denna bakgrund.

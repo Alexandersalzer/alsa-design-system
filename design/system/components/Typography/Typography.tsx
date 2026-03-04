@@ -495,12 +495,19 @@ export interface HeadingProps extends Omit<TypographyProps, 'variant' | 'as'> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   color?: TypographyColor;
   weight?: TypographyWeight;
+  // Suffix props for hero sections
+  suffix?: string;
+  suffixFont?: 'Lora' | 'Playfair Display' | 'Crimson Text' | 'Merriweather';
 }
 
 export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
   level = 1,
   color = 'heading',
   weight,
+  suffix,
+  suffixFont = 'Lora',
+  content,
+  children,
   ...props
 }, ref) => {
   // Map level to variant and default weight
@@ -519,6 +526,27 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
   const { variant, defaultWeight } = getVariantAndWeight(level);
   const finalWeight = weight || defaultWeight;
 
+  // Build content with suffix if provided
+  const buildContentWithSuffix = (): string | undefined => {
+    const mainContent = content || children;
+    
+    // Convert ReactNode to string if needed
+    const contentStr = typeof mainContent === 'string' ? mainContent : String(mainContent || '');
+    
+    // Only add suffix if it exists and main content exists
+    if (!suffix || !contentStr) {
+      return contentStr || undefined;
+    }
+
+    // Build suffix markup: {color:var(--text-muted)}{font:FontName:500}*suffix*{/font}{/color}
+    const suffixMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${suffix}*{/font}{/color}`;
+    
+    // Combine main content with suffix (add space and line break before suffix)
+    return `${contentStr} \n${suffixMarkup}`;
+  };
+
+  const displayContent = buildContentWithSuffix();
+
   return (
     <Typography
       ref={ref}
@@ -526,6 +554,8 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
       variant={variant}
       color={color}
       weight={finalWeight}
+      content={displayContent}
+      children={!displayContent ? children : undefined}
       {...props}
     />
   );
