@@ -400,6 +400,11 @@ const renderFilterTemplateNode = (
       const item = findLayoutItem(layout, itemId);
       if (!item) return null;
 
+      // Check if item is hidden via props
+      if (item.props?.isHidden === 'true' || item.props?.isHidden === true) {
+        return null;
+      }
+
       const { components: __, ...itemProps } = item;
       const itemContext = { index, id: itemId, imageSrc: getItemImageSrc(item), ...itemProps };
       const usedComponents = new Set<string>();
@@ -536,6 +541,11 @@ const renderItems = (
     const item = findItem(itemId);
     if (!item) {
       console.warn(`Item "${itemId}" not found`);
+      return null;
+    }
+
+    // Check if item is hidden via props
+    if (item.props?.isHidden === 'true' || item.props?.isHidden === true) {
       return null;
     }
 

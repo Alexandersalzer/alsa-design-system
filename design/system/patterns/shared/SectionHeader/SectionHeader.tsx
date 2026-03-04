@@ -230,6 +230,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         const bodyKey = Object.keys(components).find(k => components[k].type === 'body');
         if (!bodyKey || !renderIf('body')) return null;
         const mergedProps = getMergedProps(bodyKey);
+        if (mergedProps.isHidden === 'true') return null;
         if (!mergedProps.content && !mergedProps.animation) return null;
         return withAnimation(
           <Typography

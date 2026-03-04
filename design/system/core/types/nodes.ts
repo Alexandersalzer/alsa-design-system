@@ -32,6 +32,12 @@ export interface ComponentNode extends BaseNode {
 export interface LayoutItem {
   id: string;
   components: Record<string, ComponentNode>;
+  /** Item-level props (e.g., isHidden, spacing, etc) */
+  props?: {
+    /** Hide this item from rendering */
+    isHidden?: boolean | 'true' | 'false';
+    [key: string]: any;
+  };
 }
 
 /**
@@ -138,6 +144,11 @@ export interface SectionNode extends BaseNode<SectionType> {
   layout?: LayoutConfig; // Section layout (split columns, alignment)
   animation?: AnimationConfig;
   sectionKey?: string;
+  props?: {
+    /** Hide this entire section from rendering */
+    isHidden?: boolean | 'true' | 'false';
+    [key: string]: any;
+  };
 }
 
 /**
