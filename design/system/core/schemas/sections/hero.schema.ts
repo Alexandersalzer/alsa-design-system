@@ -21,6 +21,13 @@ export const heroSectionSchema: SectionSchema = {
   layoutProps: {
     ...defaultSectionLayoutProps,
     
+    // Disable isHidden for hero sections - heroes should not be hidden
+    isHidden: {
+      ...defaultSectionLayoutProps.isHidden,
+      cmsEnabled: false,
+      description: 'Hero sections cannot be hidden as they are primary landing sections'
+    },
+    
     // Override alignSectionHeader to prefer center
     alignSectionHeader: {
       ...defaultSectionLayoutProps.alignSectionHeader,

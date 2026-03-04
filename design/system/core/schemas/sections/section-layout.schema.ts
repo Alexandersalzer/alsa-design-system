@@ -17,6 +17,17 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
   // HEADER GROUP
   // ============================================
   
+  isHidden: {
+    name: 'isHidden',
+    type: 'boolean',
+    displayName: 'Hide Section',
+    description: 'Hide this section from rendering',
+    editorType: 'toggle',
+    default: false,
+    group: 'header',
+    cmsEnabled: true
+  },
+  
   alignSectionHeader: {
     name: 'alignSectionHeader',
     type: 'enum',
