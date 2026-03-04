@@ -420,14 +420,21 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   // FadeIn animation - wraps Typography
   if (animation?.type === 'fadeIn') {
     const { settings = {} } = animation;
+    // FadeIn wrapper props - only include wrapperKey if componentKey exists
+    // Use a prefixed key to ensure stability and prevent conflicts
+    const fadeInProps: Record<string, any> = {
+      direction: settings.direction || 'up',
+      duration: settings.duration || 600,
+      delay: settings.delay || 0,
+      enableScrollTrigger: settings.enableScrollTrigger !== false,
+      triggerOffset: settings.triggerOffset || 100,
+    };
+    if (componentKey) {
+      fadeInProps.wrapperKey = `fade-in-${componentKey}`;
+    }
+    
     return (
-      <FadeIn
-        direction={settings.direction || 'up'}
-        duration={settings.duration || 600}
-        delay={settings.delay || 0}
-        enableScrollTrigger={settings.enableScrollTrigger !== false}
-        triggerOffset={settings.triggerOffset || 100}
-      >
+      <FadeIn {...fadeInProps}>
         <Component as={Element} ref={ref} className={classes} style={combinedStyle} componentKey={componentKey} {...rest}>
           {displayContent}
         </Component>
