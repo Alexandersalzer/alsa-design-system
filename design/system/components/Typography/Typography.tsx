@@ -82,7 +82,7 @@ export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 // ===== HELPER FUNCTION FOR INLINE MARKUP =====
 /**
  * Inline markup syntax:
- * - \n → line break
+ * - \n → preserved as newline (use CSS white-space: pre-line to render)
  * - *text* → italic
  * - **text** → bold  
  * - {accent}text{/accent} → accent color (shortcuts: brand, secondary, primary)
@@ -108,13 +108,6 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
     let elementCount = 0;
     
     while (i < text.length) {
-      // Line break
-      if (text[i] === '\n') {
-        result.push(<br key={`${baseKey}br-${i}-${elementCount++}`} />);
-        i++;
-        continue;
-      }
-      
       // Custom color: {color:#hex}text{/color} or {color:rgb(...)}text{/color}
       const customColorMatch = text.slice(i).match(/^\{color:([^}]+)\}([\s\S]*?)\{\/color\}/);
       if (customColorMatch) {
@@ -171,9 +164,9 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
         continue;
       }
       
-      // Plain text until next special char
+      //Plain text until next special char (including \n as regular text)
       let end = i + 1;
-      while (end < text.length && !'\n{*'.includes(text[end])) end++;
+      while (end < text.length && !'{*'.includes(text[end])) end++;
       result.push(text.slice(i, end));
       i = end;
     }
@@ -200,7 +193,7 @@ export interface TypographyOwnProps {
   as?: ElementType;
   componentKey?: string; // För live editing identification
   animation?: AnimationConfig; // Centralized animation system
-  /** Enable line break support - converts \n to <br /> */
+  /** Enable line break support - preserves \n as line breaks using CSS white-space: pre-line */
   preserveLineBreaks?: boolean;
 }
 
@@ -336,9 +329,28 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   const Element = as || getDefaultElement(variant);
   
   // Use content prop if provided, otherwise use children
-  // Process line breaks if enabled (converts \n to <br />)
   const rawContent = content || children;
-  const displayContent = preserveLineBreaks ? processInlineMarkup(rawContent) : rawContent;
+  
+  // 🎯 CRITICAL FIX: Create stable content representation
+  // Serialize content to string for stable memoization
+  const contentKey = React.useMemo(() => {
+    if (typeof rawContent === 'string') return rawContent;
+    if (typeof rawContent === 'number') return String(rawContent);
+    if (typeof rawContent === 'boolean') return String(rawContent);
+    if (rawContent == null) return '';
+    // For complex content, use JSON.stringify or toString
+    try {
+      return JSON.stringify(rawContent);
+    } catch {
+      return String(rawContent);
+    }
+  }, [rawContent]);
+  
+  // Memoize the markup processing using stable content key
+  const displayContent = React.useMemo(() => {
+    if (!preserveLineBreaks) return rawContent;
+    return processInlineMarkup(rawContent);
+  }, [contentKey, preserveLineBreaks, rawContent]);
   
   const classes = buildTypographyClasses({
     variant,
@@ -354,16 +366,28 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   });
 
   // 🎯 OPTIMIZED: Memoize style object to prevent unnecessary re-renders and inspector flickering
-  // Only create inline style when color is provided, otherwise use undefined to avoid React diffing
+  // Only create inline style when color is provided, otherwise use undefined to avoid React diffing  
   const combinedStyle = React.useMemo(() => {
-    if (!color && (!style || Object.keys(style).length === 0)) {
-      return undefined; // No inline styles needed - prevents inspector flickering
+    const baseStyle: React.CSSProperties = {};
+    
+    // Add white-space: pre-line to render \n as line breaks when preserveLineBreaks is enabled
+    if (preserveLineBreaks) {
+      baseStyle.whiteSpace = 'pre-line';
     }
-    return {
-      ...(color && { color: getColorValue(color) }),
-      ...style
-    };
-  }, [color, style]);
+    
+    // Add color if specified
+    if (color) {
+      baseStyle.color = getColorValue(color);
+    }
+    
+    // Merge with user-provided styles
+    if (style && Object.keys(style).length > 0) {
+      return { ...baseStyle, ...style };
+    }
+    
+    // Return baseStyle if it has properties, otherwise undefined
+    return Object.keys(baseStyle).length > 0 ? baseStyle : undefined;
+  }, [color, style, preserveLineBreaks]);
 
   // ===== ANIMATION HANDLING =====
   // CountUp animation - replaces entire Typography with CountUp component
