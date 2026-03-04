@@ -171,6 +171,36 @@
   color: var(--text-accent);
 }
 
+/* ===== TRAILING ICON STYLES ===== */
+.tab__trailing-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: var(--foundation-space-1);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.tab:hover .tab__trailing-icon,
+.tab--active .tab__trailing-icon {
+  opacity: 1;
+}
+
+.tab__trailing-icon svg {
+  width: 14px;
+  height: 14px;
+  color: var(--icon-muted);
+}
+
+.tab:hover .tab__trailing-icon svg,
+.tab--active .tab__trailing-icon svg {
+  color: var(--icon-default);
+}
+
+.tab__trailing-icon:hover svg {
+  color: var(--icon-strong);
+}
+
 /* ===== SIZE VARIANTS ===== */
 
 /* Small */
