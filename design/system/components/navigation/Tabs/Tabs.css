@@ -178,7 +178,6 @@
   padding: var(--foundation-space-1) var(--foundation-space-2);
   font-size: var(--font-label-sm-size);
   gap: var(--foundation-space-1);
-  height: var(--control-height-sm);
 }
 
 .tab--sm .tab__icon svg {
@@ -191,7 +190,6 @@
   padding: var(--foundation-space-3) var(--foundation-space-4);
   font-size: var(--font-label-lg-size);
   gap: var(--foundation-space-3);
-  height: var(--control-height-lg);
 }
 
 .tab--lg .tab__icon svg {
@@ -479,8 +477,8 @@
   display: flex;
   align-items: center;
   overflow: auto;
-  padding: var(--foundation-space-1);
-  margin: calc(-1 * var(--foundation-space-1));
+  padding: 0;
+  margin: 0;
 }
 
 /* ===== TAB GROUP: JUSTIFY VARIANTS ===== */
