@@ -3,7 +3,7 @@
 import React from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
-import { Typography, Heading } from '../../../components/Typography/Typography';
+import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { Opacity } from '../../../components/animations/Opacity/Opacity';
@@ -194,23 +194,26 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         if (!headingKey || !renderIf('heading')) return null;
         const mergedProps = getMergedProps(headingKey);
         if (!mergedProps.content && !mergedProps.animation) return null;
+        
+        // Build content with suffix if provided
+        let headingContent = mergedProps.content;
+        if (mergedProps.suffix && headingContent) {
+          const suffixFont = mergedProps.suffixFont || 'Lora';
+          const suffixMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${mergedProps.suffix}*{/font}{/color}`;
+          headingContent = `${headingContent} \n${suffixMarkup}`;
+        }
+        
         return withAnimation(
-          <Heading
-            level={isHero ? 1 : 2}
+          <Typography
+            as={isHero ? "h1" : "h2"}
+            variant="display-lg"
             color="heading"
-            weight="bold"
-            content={mergedProps.content}
-            suffix={mergedProps.suffix}
-            suffixFont={mergedProps.suffixFont}
+            align={textAlign}
             animation={mergedProps.animation}
             componentKey={headingKey}
-            align={textAlign}
-            style={{
-              fontSize: 'var(--text-display-lg-font-size)',
-              lineHeight: 'var(--text-display-lg-line-height)',
-              letterSpacing: 'var(--text-display-lg-letter-spacing)',
-            }}
-          />,
+          >
+            {headingContent}
+          </Typography>,
           1,
           'heading'
         );

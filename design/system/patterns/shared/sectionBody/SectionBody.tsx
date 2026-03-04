@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { HStack } from '../../../components/layout/hStack/HStack';
 import { Box } from '../../../components/layout/box/Box';
-import { Typography, Heading } from '../../../components/Typography/Typography';
+import { Typography } from '../../../components/Typography/Typography';
 import { Tag } from '../../../components/feedback/Tag/Tag';
 import { Button } from '../../../components/actions/Button/Button';
 import { Input } from '../../../components/forms/Input/Input';
@@ -129,22 +129,29 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
 
         {/* Heading - render if content OR animation exists (countUp generates content) */}
         {renderIf('typography-heading') && (get('typography-heading').props.content || get('typography-heading').props.animation) && withAnimation(
-          <Heading
-            level={isHero ? 1 : 2}
-            color="heading"
-            weight="bold"
-            content={get('typography-heading').props.content}
-            suffix={get('typography-heading').props.suffix}
-            suffixFont={get('typography-heading').props.suffixFont}
-            animation={get('typography-heading').props.animation}
-            componentKey={get('typography-heading').key}
-            align={textAlign}
-            style={{
-              fontSize: 'var(--text-display-lg-font-size)',
-              lineHeight: 'var(--text-display-lg-line-height)',
-              letterSpacing: 'var(--text-display-lg-letter-spacing)',
-            }}
-          />,
+          (() => {
+            // Build content with suffix if provided
+            let headingContent = get('typography-heading').props.content;
+            const headingSuffix = get('typography-heading').props.suffix;
+            if (headingSuffix && headingContent) {
+              const suffixFont = get('typography-heading').props.suffixFont || 'Lora';
+              const suffixMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${headingSuffix}*{/font}{/color}`;
+              headingContent = `${headingContent} \n${suffixMarkup}`;
+            }
+            
+            return (
+              <Typography
+                as={isHero ? "h1" : "h2"}
+                variant="display-lg"
+                color="heading"
+                align={textAlign}
+                animation={get('typography-heading').props.animation}
+                componentKey={get('typography-heading').key}
+              >
+                {headingContent}
+              </Typography>
+            );
+          })(),
           1,
           'typography-heading'
         )}
