@@ -195,12 +195,12 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         const mergedProps = getMergedProps(headingKey);
         if (!mergedProps.content && !mergedProps.animation) return null;
         
-        // Build content with suffix if provided
+        // Build content with italic if {italic} placeholder exists
         let headingContent = mergedProps.content;
-        if (mergedProps.suffix && headingContent) {
-          const suffixFont = mergedProps.suffixFont || 'Lora';
-          const suffixMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${mergedProps.suffix}*{/font}{/color}`;
-          headingContent = `${headingContent} \n${suffixMarkup}`;
+        if (headingContent && headingContent.includes('{italic}') && mergedProps.italic) {
+          const suffixFont = components[headingKey]?.props?.suffixFont || 'Lora';
+          const italicMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${mergedProps.italic}*{/font}{/color}`;
+          headingContent = headingContent.replace('{italic}', italicMarkup);
         }
         
         return withAnimation(

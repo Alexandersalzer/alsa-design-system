@@ -85,17 +85,17 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
         t.props?.align
       ),
       
-      // Suffix props (only available in hero sections)
-      suffix: createLocalizedProp(
+      // Italic props (only available in hero sections)
+      italic: createLocalizedProp(
         {
-          name: 'suffix',
+          name: 'italic',
           type: 'string',
           required: false,
           default: '',
           editorType: 'text',
           maxLength: 20,
-          placeholder: 'Optional suffix text (e.g., "in Portel")',
-          cmsEnabled: true,
+          placeholder: 'Optional italic text (e.g., "in Portel")',
+          cmsEnabled: false, // Managed manually with plus button in ComponentEditor
           group: 'content',
         },
         undefined
@@ -109,7 +109,7 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           default: 'Lora',
           editorType: 'select',
           values: ['Lora', 'Playfair Display', 'Crimson Text', 'Merriweather'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false, // Managed in structure, not shown in ComponentEditor
           group: 'content',
         },
         undefined

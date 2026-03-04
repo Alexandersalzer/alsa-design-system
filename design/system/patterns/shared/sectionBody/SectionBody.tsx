@@ -130,13 +130,14 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
         {/* Heading - render if content OR animation exists (countUp generates content) */}
         {renderIf('typography-heading') && (get('typography-heading').props.content || get('typography-heading').props.animation) && withAnimation(
           (() => {
-            // Build content with suffix if provided
+            // Build content with italic if {italic} placeholder exists
             let headingContent = get('typography-heading').props.content;
-            const headingSuffix = get('typography-heading').props.suffix;
-            if (headingSuffix && headingContent) {
-              const suffixFont = get('typography-heading').props.suffixFont || 'Lora';
-              const suffixMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${headingSuffix}*{/font}{/color}`;
-              headingContent = `${headingContent} \n${suffixMarkup}`;
+            const headingItalic = get('typography-heading').props.italic;
+            if (headingContent && headingContent.includes('{italic}') && headingItalic) {
+              const typographyHeadingComponent = Object.values(components).find(c => c.componentKey === get('typography-heading').key);
+              const suffixFont = typographyHeadingComponent?.props?.suffixFont || 'Lora';
+              const italicMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${headingItalic}*{/font}{/color}`;
+              headingContent = headingContent.replace('{italic}', italicMarkup);
             }
             
             return (
