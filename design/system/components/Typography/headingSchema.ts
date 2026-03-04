@@ -18,7 +18,7 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
     displayName: t.displayName,
     category: 'typography',
     description: t.description,
-    icon: 'Bars3',
+    icon: 'Heading',
     tags: ['heading', 'title', 'typography', 'text'],
     version: '1.0.0',
     cmsEnabled: true,

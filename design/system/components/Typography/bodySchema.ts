@@ -15,7 +15,7 @@ export const createBodySchema = (locale: SupportedLocale = 'sv'): ComponentSchem
     displayName: t.displayName,
     category: 'typography',
     description: t.description,
-    icon: 'Bars3BottomLeft',
+    icon: 'CaseLower',
     tags: ['typography', 'body', 'paragraph', 'text'],
     version: '1.0.0',
     cmsEnabled: true,
