@@ -90,7 +90,7 @@ export const sv: ComponentTranslation = {
     },
     
     action: {
-      displayName: 'Åtgärdskonfiguration',
+      displayName: 'Länk till',
       description: 'Definiera vad som händer när knappen klickas',
       editorHint: 'Konfigurera navigering, bokning, formulärinlämning, etc.',
     },
