@@ -102,14 +102,15 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
     primary: 'var(--text-strong)',
   };
 
-  const parse = (text: string, key = 0): ReactNode[] => {
+  const parse = (text: string, baseKey = ''): ReactNode[] => {
     const result: ReactNode[] = [];
     let i = 0;
+    let elementCount = 0;
     
     while (i < text.length) {
       // Line break
       if (text[i] === '\n') {
-        result.push(<br key={`br-${key++}`} />);
+        result.push(<br key={`${baseKey}br-${i}-${elementCount++}`} />);
         i++;
         continue;
       }
@@ -118,7 +119,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const customColorMatch = text.slice(i).match(/^\{color:([^}]+)\}([\s\S]*?)\{\/color\}/);
       if (customColorMatch) {
         const [full, colorValue, inner] = customColorMatch;
-        result.push(<span key={`cc-${key++}`} style={{ color: colorValue }}>{parse(inner, key)}</span>);
+        result.push(<span key={`${baseKey}cc-${i}-${elementCount++}`} style={{ color: colorValue }}>{parse(inner, `${baseKey}cc-${i}-`)}</span>);
         i += full.length;
         continue;
       }
@@ -127,7 +128,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const sizeMatch = text.slice(i).match(/^\{size:([^}]+)\}([\s\S]*?)\{\/size\}/);
       if (sizeMatch) {
         const [full, sizeValue, inner] = sizeMatch;
-        result.push(<span key={`s-${key++}`} style={{ fontSize: sizeValue }}>{parse(inner, key)}</span>);
+        result.push(<span key={`${baseKey}s-${i}-${elementCount++}`} style={{ fontSize: sizeValue }}>{parse(inner, `${baseKey}s-${i}-`)}</span>);
         i += full.length;
         continue;
       }
@@ -138,7 +139,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
         const [full, fontName, weight, inner] = fontMatch;
         const style: React.CSSProperties = { fontFamily: fontName };
         if (weight) style.fontWeight = Number(weight);
-        result.push(<span key={`f-${key++}`} style={style}>{parse(inner, key)}</span>);
+        result.push(<span key={`${baseKey}f-${i}-${elementCount++}`} style={style}>{parse(inner, `${baseKey}f-${i}-`)}</span>);
         i += full.length;
         continue;
       }
@@ -147,7 +148,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const colorMatch = text.slice(i).match(/^\{(accent|brand|secondary|primary)\}([\s\S]*?)\{\/\1\}/);
       if (colorMatch) {
         const [full, color, inner] = colorMatch;
-        result.push(<span key={`c-${key++}`} style={{ color: colors[color] }}>{parse(inner, key)}</span>);
+        result.push(<span key={`${baseKey}c-${i}-${elementCount++}`} style={{ color: colors[color] }}>{parse(inner, `${baseKey}c-${i}-`)}</span>);
         i += full.length;
         continue;
       }
@@ -156,7 +157,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const boldMatch = text.slice(i).match(/^\*\*(.+?)\*\*/);
       if (boldMatch) {
         const [full, inner] = boldMatch;
-        result.push(<strong key={`b-${key++}`}>{parse(inner, key)}</strong>);
+        result.push(<strong key={`${baseKey}b-${i}-${elementCount++}`}>{parse(inner, `${baseKey}b-${i}-`)}</strong>);
         i += full.length;
         continue;
       }
@@ -165,7 +166,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const italicMatch = text.slice(i).match(/^\*(.+?)\*/);
       if (italicMatch) {
         const [full, inner] = italicMatch;
-        result.push(<em key={`i-${key++}`}>{parse(inner, key)}</em>);
+        result.push(<em key={`${baseKey}i-${i}-${elementCount++}`}>{parse(inner, `${baseKey}i-${i}-`)}</em>);
         i += full.length;
         continue;
       }
