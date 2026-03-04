@@ -197,10 +197,16 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         
         // Build content with italic if {italic} placeholder exists
         let headingContent = mergedProps.content;
-        if (headingContent && headingContent.includes('{italic}') && mergedProps.italic) {
-          const suffixFont = components[headingKey]?.props?.suffixFont || 'Lora';
-          const italicMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${mergedProps.italic}*{/font}{/color}`;
-          headingContent = headingContent.replace('{italic}', italicMarkup);
+        if (headingContent && headingContent.includes('{italic}')) {
+          if (mergedProps.italic) {
+            // Replace with italic markup
+            const suffixFont = components[headingKey]?.props?.suffixFont || 'Lora';
+            const italicMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${mergedProps.italic}*{/font}{/color}`;
+            headingContent = headingContent.replace('{italic}', italicMarkup);
+          } else {
+            // Remove placeholder if italic field is empty
+            headingContent = headingContent.replace(/\s*\{italic\}/g, '').trim();
+          }
         }
         
         return withAnimation(
