@@ -18,12 +18,13 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
     displayName: t.displayName,
     category: 'typography',
     description: t.description,
-    icon: 'Bars3',
+    icon: 'Heading',
     tags: ['heading', 'title', 'typography', 'text'],
     version: '1.0.0',
     cmsEnabled: true,
     
     defaultProps: {
+      content: t.defaultContent,
       variant: 'h2',
       weight: 'bold',
       align: 'left',
@@ -35,6 +36,7 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           name: 'content',
           type: 'string',
           required: true,
+          default: t.defaultContent,
           editorType: 'textarea',
           minLength: 3,
           maxLength: 60,
@@ -81,6 +83,36 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
           group: 'layout',
         },
         t.props?.align
+      ),
+      
+      // Italic props (only available in hero sections)
+      italic: createLocalizedProp(
+        {
+          name: 'italic',
+          type: 'string',
+          required: false,
+          default: '',
+          editorType: 'text',
+          maxLength: 20,
+          placeholder: 'Optional italic text (e.g., "in Portel")',
+          cmsEnabled: false, // Managed manually with plus button in ComponentEditor
+          group: 'content',
+        },
+        undefined
+      ),
+      
+      suffixFont: createLocalizedProp(
+        {
+          name: 'suffixFont',
+          type: 'enum',
+          required: false,
+          default: 'Lora',
+          editorType: 'select',
+          values: ['Lora', 'Playfair Display', 'Crimson Text', 'Merriweather'] as const,
+          cmsEnabled: false, // Managed in structure, not shown in ComponentEditor
+          group: 'content',
+        },
+        undefined
       ),
     },
     

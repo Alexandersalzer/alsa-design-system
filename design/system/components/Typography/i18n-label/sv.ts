@@ -5,6 +5,7 @@
 export const labelTranslations_sv = {
   displayName: 'Etikett',
   description: 'Liten text för etiketter och beskrivningar',
+  defaultContent: 'Etikett',
   
   props: {
     content: {

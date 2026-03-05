@@ -9,6 +9,7 @@ import { FadeIn } from '../../../components/animations/FadeIn/FadeIn';
 import { Opacity } from '../../../components/animations/Opacity/Opacity';
 import { PatternNode } from '../../../core/types/nodes';
 import { componentProps, componentPresent } from '../../../core/utils/props';
+import { mergeWithDefaults } from '../../../components/schemaRegistry';
 import type { LayoutContext } from '../../../core/render/patterns';
 
 export interface SectionHeaderProps extends PatternNode {
@@ -17,6 +18,7 @@ export interface SectionHeaderProps extends PatternNode {
   patternKey?: string;
   /** Layout context for inheriting alignment from parent layout */
   layoutContext?: LayoutContext;
+  locale?: string;
 }
 
 /**
@@ -29,12 +31,19 @@ export interface SectionHeaderProps extends PatternNode {
  * 3. Default to 'center'
  */
 export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
-  const { components = {}, sectionKey, patternKey, props, layoutContext } = patternNode;
+  const { components = {}, sectionKey, patternKey, props, layoutContext, locale } = patternNode;
 
   if (!components || Object.keys(components).length === 0) return null;
 
   const get = componentProps(components);
   const renderIf = componentPresent(components);
+
+  // Helper to get merged props with schema defaults
+  const getMergedProps = (componentKey: string) => {
+    const component = components[componentKey];
+    if (!component) return {};
+    return mergeWithDefaults(component.type, component.props || {}, locale as any);
+  };
 
   // Get inherited alignment from layout context
   const inheritedAlign = layoutContext?.alignSectionHeader;
@@ -139,7 +148,10 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
   };
 
   // Apply maxWidth styling if specified in props
-  const containerStyle = props?.maxWidth ? { maxWidth: props.maxWidth, width: '100%' } : undefined;
+  const containerStyle = { 
+    maxWidth: maxWidth, 
+    width: '100%' 
+  };
 
   const content = (
     <>
@@ -157,64 +169,93 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
           }
         `}</style>
       )}
-      {/* Tag - shown when tag component has content and is not hidden */}
-      {renderIf('tag') && get('tag').props.content && get('tag').props.isHidden !== 'true' && withAnimation(
-        <Box>
-          <Tag
-            size="medium"
-            variant="accent"
-            icon={null}
-            componentKey={get('tag').key}
+      {/* Tag - shown when tag component exists and is not hidden */}
+      {(() => {
+        const tagKey = Object.keys(components).find(k => components[k].type === 'tag');
+        if (!tagKey || !renderIf('tag')) return null;
+        const mergedProps = getMergedProps(tagKey);
+        if (mergedProps.isHidden === 'true') return null;
+        return withAnimation(
+          <Box style={{ textAlign: textAlign }}>
+            <Tag
+              size="medium"
+              variant="accent"
+              icon={null}
+              componentKey={tagKey}
+            >
+              {mergedProps.content}
+            </Tag>
+          </Box>,
+          0,
+          'tag'
+        );
+      })()}
+
+      {/* Heading - render with merged defaults */}
+      {(() => {
+        const headingKey = Object.keys(components).find(k => components[k].type === 'heading');
+        if (!headingKey || !renderIf('heading')) return null;
+        const mergedProps = getMergedProps(headingKey);
+        if (!mergedProps.content && !mergedProps.animation) return null;
+        
+        // Build content with italic if {italic} placeholder exists
+        let headingContent = mergedProps.content;
+        if (headingContent && headingContent.includes('{italic}')) {
+          if (mergedProps.italic) {
+            // Replace with italic markup
+            const suffixFont = components[headingKey]?.props?.suffixFont || 'Lora';
+            const italicMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${mergedProps.italic}*{/font}{/color}`;
+            headingContent = headingContent.replace('{italic}', italicMarkup);
+          } else {
+            // Remove placeholder if italic field is empty
+            headingContent = headingContent.replace(/\s*\{italic\}/g, '').trim();
+          }
+        }
+        
+        return withAnimation(
+          <Typography
+            as={isHero ? "h1" : "h2"}
+            variant="display-lg"
+            color="heading"
+            align={textAlign}
+            animation={mergedProps.animation}
+            componentKey={headingKey}
           >
-            {get('tag').props.content}
-          </Tag>
-        </Box>,
-        0,
-        'tag'
-      )}
+            {headingContent}
+          </Typography>,
+          1,
+          'heading'
+        );
+      })()}
 
-      {/* Heading - render if content OR animation exists (countUp generates content) */}
-      {renderIf('heading') && (get('heading').props.content || get('heading').props.animation) && withAnimation(
-        <Typography
-          as={isHero ? "h1" : "h2"}
-          variant="display-lg"
-          color="heading"
-          align={textAlign}
-          animation={get('heading').props.animation}
-          componentKey={get('heading').key}
-        >
-          {get('heading').props.content}
-        </Typography>,
-        1,
-        'heading'
-      )}
-
-      {/* Body - optional */}
-      {renderIf('body') && get('body').props.content && withAnimation(
-        <Typography
-          as="p"
-          variant="body-lg"
-          color="body"
-          weight="regular"
-          align={textAlign}
-          animation={get('body').props.animation}
-          componentKey={get('body').key}
-        >
-          {get('body').props.content}
-        </Typography>,
-        2,
-        'body'
-      )}
+      {/* Body - render with merged defaults */}
+      {(() => {
+        const bodyKey = Object.keys(components).find(k => components[k].type === 'body');
+        if (!bodyKey || !renderIf('body')) return null;
+        const mergedProps = getMergedProps(bodyKey);
+        if (mergedProps.isHidden === 'true') return null;
+        if (!mergedProps.content && !mergedProps.animation) return null;
+        return withAnimation(
+          <Typography
+            as="p"
+            variant="body-lg"
+            color="body"
+            weight="regular"
+            align={textAlign}
+            animation={mergedProps.animation}
+            componentKey={bodyKey}
+          >
+            {mergedProps.content}
+          </Typography>,
+          2,
+          'body'
+        );
+      })()}
     </>
   );
 
-  // If maxWidth specified, wrap in a div with the constraint
-  if (containerStyle) {
-    return <div style={containerStyle} suppressHydrationWarning>{content}</div>;
-  }
-
-  // Suppress hydration warning - animation mode is read from CSS var which differs between SSR/client
-  return <div suppressHydrationWarning style={{ display: 'contents' }}>{content}</div>;
+  // Always apply maxWidth constraint to prevent text from becoming too wide
+  return <div style={containerStyle} suppressHydrationWarning>{content}</div>;
 };
 
 SectionHeader.displayName = 'SectionHeader';

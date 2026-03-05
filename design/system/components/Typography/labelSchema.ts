@@ -21,6 +21,7 @@ export const createLabelSchema = (locale: SupportedLocale = 'sv'): ComponentSche
     cmsEnabled: true,
     
     defaultProps: {
+      content: t.defaultContent,
       size: 'md',
       color: 'label',
       weight: 'medium',

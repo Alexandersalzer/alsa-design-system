@@ -158,6 +158,7 @@ export const renderPatternDirect = (
         sectionKey={sectionKey}
         patternKey={patternKey}
         layoutContext={layoutContext}
+        locale={locale}
       />
     </div>
   );
@@ -263,6 +264,7 @@ export const renderPattern = (
         sectionKey={sectionKey}
         patternKey={patternKey}
         layoutContext={layoutContext}
+        locale={locale}
       />
     </Container>
   );

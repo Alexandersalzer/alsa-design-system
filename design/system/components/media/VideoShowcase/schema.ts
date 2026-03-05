@@ -24,6 +24,7 @@ export const createVideoShowcaseSchema = (locale: SupportedLocale = 'sv'): Compo
     cmsEnabled: true,
     
     defaultProps: {
+      src: t.defaultSrc,
       variant: 'elevated',
       size: 'lg',
       aspectRatio: '16-9',

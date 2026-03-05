@@ -4,8 +4,7 @@
 
 export const displayTranslations_en = {
   displayName: 'Display Text',
-  description: 'Extra large display text for headings and hero sections',
-  
+  description: 'Extra large display text for headings and hero sections',  defaultContent: 'Your big headline',  
   props: {
     content: {
       displayName: 'Content',

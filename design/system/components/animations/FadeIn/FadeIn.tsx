@@ -30,6 +30,8 @@ export interface FadeInProps {
   onComplete?: () => void;
   /** Disable animation and render children immediately */
   disabled?: boolean;
+  /** Unique key for the wrapper - prevents remounting on content changes */
+  wrapperKey?: string;
 }
 
 export const FadeIn: React.FC<FadeInProps> = ({
@@ -44,6 +46,7 @@ export const FadeIn: React.FC<FadeInProps> = ({
   className = '',
   onComplete,
   disabled = false,
+  wrapperKey,
 }) => {
   // Skip animation entirely if disabled
   if (disabled) {
@@ -138,6 +141,7 @@ export const FadeIn: React.FC<FadeInProps> = ({
 
   return (
     <div
+      key={wrapperKey}
       ref={elementRef}
       className={`fade-in ${!isVisible && isMounted ? 'fade-in-hidden' : ''} ${className}`}
       style={style}

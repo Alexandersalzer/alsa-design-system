@@ -5,6 +5,7 @@
 export const labelTranslations_en = {
   displayName: 'Label',
   description: 'Small text for labels and descriptions',
+  defaultContent: 'Label',
   
   props: {
     content: {

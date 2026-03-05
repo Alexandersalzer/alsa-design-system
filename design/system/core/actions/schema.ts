@@ -26,7 +26,7 @@ import type { ObjectPropConfig } from '../schemas/shared';
 export function createActionPropConfig(): ObjectPropConfig {
   return {
     name: 'action',
-    displayName: 'Action',
+    displayName: 'Länk till',
     description: 'What should happen when this component is clicked?',
     type: 'object',
     required: false,

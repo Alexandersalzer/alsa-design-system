@@ -82,7 +82,7 @@ export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 // ===== HELPER FUNCTION FOR INLINE MARKUP =====
 /**
  * Inline markup syntax:
- * - \n → line break
+ * - \n → preserved as newline (use CSS white-space: pre-line to render)
  * - *text* → italic
  * - **text** → bold  
  * - {accent}text{/accent} → accent color (shortcuts: brand, secondary, primary)
@@ -102,9 +102,10 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
     primary: 'var(--text-strong)',
   };
 
-  const parse = (text: string, key = 0): ReactNode[] => {
+  const parse = (text: string, baseKey = ''): ReactNode[] => {
     const result: ReactNode[] = [];
     let i = 0;
+    let elementCount = 0;
     
     while (i < text.length) {
       // Line break
@@ -118,7 +119,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const customColorMatch = text.slice(i).match(/^\{color:(var\([^)]*\)|[^}]+)\}([\s\S]*?)\{\/color\}/);
       if (customColorMatch) {
         const [full, colorValue, inner] = customColorMatch;
-        result.push(<span key={`cc-${key++}`} style={{ color: colorValue }}>{parse(inner, key)}</span>);
+        result.push(<span key={`${baseKey}cc-${i}-${elementCount++}`} style={{ color: colorValue }}>{parse(inner, `${baseKey}cc-${i}-`)}</span>);
         i += full.length;
         continue;
       }
@@ -127,7 +128,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const sizeMatch = text.slice(i).match(/^\{size:([^}]+)\}([\s\S]*?)\{\/size\}/);
       if (sizeMatch) {
         const [full, sizeValue, inner] = sizeMatch;
-        result.push(<span key={`s-${key++}`} style={{ fontSize: sizeValue }}>{parse(inner, key)}</span>);
+        result.push(<span key={`${baseKey}s-${i}-${elementCount++}`} style={{ fontSize: sizeValue }}>{parse(inner, `${baseKey}s-${i}-`)}</span>);
         i += full.length;
         continue;
       }
@@ -149,7 +150,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const colorMatch = text.slice(i).match(/^\{(accent|brand|secondary|primary)\}([\s\S]*?)\{\/\1\}/);
       if (colorMatch) {
         const [full, color, inner] = colorMatch;
-        result.push(<span key={`c-${key++}`} style={{ color: colors[color] }}>{parse(inner, key)}</span>);
+        result.push(<span key={`${baseKey}c-${i}-${elementCount++}`} style={{ color: colors[color] }}>{parse(inner, `${baseKey}c-${i}-`)}</span>);
         i += full.length;
         continue;
       }
@@ -158,7 +159,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const boldMatch = text.slice(i).match(/^\*\*(.+?)\*\*/);
       if (boldMatch) {
         const [full, inner] = boldMatch;
-        result.push(<strong key={`b-${key++}`}>{parse(inner, key)}</strong>);
+        result.push(<strong key={`${baseKey}b-${i}-${elementCount++}`}>{parse(inner, `${baseKey}b-${i}-`)}</strong>);
         i += full.length;
         continue;
       }
@@ -172,9 +173,9 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
         continue;
       }
       
-      // Plain text until next special char
+      //Plain text until next special char (including \n as regular text)
       let end = i + 1;
-      while (end < text.length && !'\n{*'.includes(text[end])) end++;
+      while (end < text.length && !'{*'.includes(text[end])) end++;
       result.push(text.slice(i, end));
       i = end;
     }
@@ -201,7 +202,7 @@ export interface TypographyOwnProps {
   as?: ElementType;
   componentKey?: string; // För live editing identification
   animation?: AnimationConfig; // Centralized animation system
-  /** Enable line break support - converts \n to <br /> */
+  /** Enable line break support - preserves \n as line breaks using CSS white-space: pre-line */
   preserveLineBreaks?: boolean;
 }
 
@@ -337,9 +338,28 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   const Element = as || getDefaultElement(variant);
   
   // Use content prop if provided, otherwise use children
-  // Process line breaks if enabled (converts \n to <br />)
   const rawContent = content || children;
-  const displayContent = preserveLineBreaks ? processInlineMarkup(rawContent) : rawContent;
+  
+  // 🎯 CRITICAL FIX: Create stable content representation
+  // Serialize content to string for stable memoization
+  const contentKey = React.useMemo(() => {
+    if (typeof rawContent === 'string') return rawContent;
+    if (typeof rawContent === 'number') return String(rawContent);
+    if (typeof rawContent === 'boolean') return String(rawContent);
+    if (rawContent == null) return '';
+    // For complex content, use JSON.stringify or toString
+    try {
+      return JSON.stringify(rawContent);
+    } catch {
+      return String(rawContent);
+    }
+  }, [rawContent]);
+  
+  // Memoize the markup processing using stable content key
+  const displayContent = React.useMemo(() => {
+    if (!preserveLineBreaks) return rawContent;
+    return processInlineMarkup(rawContent);
+  }, [contentKey, preserveLineBreaks, rawContent]);
   
   const classes = buildTypographyClasses({
     variant,
@@ -355,16 +375,32 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   });
 
   // 🎯 OPTIMIZED: Memoize style object to prevent unnecessary re-renders and inspector flickering
-  // Only create inline style when color is provided, otherwise use undefined to avoid React diffing
+  // Only create inline style when color is provided, otherwise use undefined to avoid React diffing  
   const combinedStyle = React.useMemo(() => {
-    if (!color && (!style || Object.keys(style).length === 0)) {
-      return undefined; // No inline styles needed - prevents inspector flickering
-    }
-    return {
-      ...(color && { color: getColorValue(color) }),
-      ...style
+    const baseStyle: React.CSSProperties = {
+      // Always enable word wrapping to prevent long text from breaking layout
+      wordWrap: 'break-word',
+      overflowWrap: 'break-word',
     };
-  }, [color, style]);
+    
+    // Add white-space: pre-line to render \n as line breaks when preserveLineBreaks is enabled
+    if (preserveLineBreaks) {
+      baseStyle.whiteSpace = 'pre-line';
+    }
+    
+    // Add color if specified
+    if (color) {
+      baseStyle.color = getColorValue(color);
+    }
+    
+    // Merge with user-provided styles
+    if (style && Object.keys(style).length > 0) {
+      return { ...baseStyle, ...style };
+    }
+    
+    // Always return baseStyle since it now has word-wrap properties
+    return baseStyle;
+  }, [color, style, preserveLineBreaks]);
 
   // ===== ANIMATION HANDLING =====
   // CountUp animation - replaces entire Typography with CountUp component
@@ -397,14 +433,21 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   // FadeIn animation - wraps Typography
   if (animation?.type === 'fadeIn') {
     const { settings = {} } = animation;
+    // FadeIn wrapper props - only include wrapperKey if componentKey exists
+    // Use a prefixed key to ensure stability and prevent conflicts
+    const fadeInProps: Record<string, any> = {
+      direction: settings.direction || 'up',
+      duration: settings.duration || 600,
+      delay: settings.delay || 0,
+      enableScrollTrigger: settings.enableScrollTrigger !== false,
+      triggerOffset: settings.triggerOffset || 100,
+    };
+    if (componentKey) {
+      fadeInProps.wrapperKey = `fade-in-${componentKey}`;
+    }
+    
     return (
-      <FadeIn
-        direction={settings.direction || 'up'}
-        duration={settings.duration || 600}
-        delay={settings.delay || 0}
-        enableScrollTrigger={settings.enableScrollTrigger !== false}
-        triggerOffset={settings.triggerOffset || 100}
-      >
+      <FadeIn {...fadeInProps}>
         <Component as={Element} ref={ref} className={classes} style={combinedStyle} componentKey={componentKey} {...rest}>
           {displayContent}
         </Component>
@@ -497,12 +540,19 @@ export interface HeadingProps extends Omit<TypographyProps, 'variant' | 'as'> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   color?: TypographyColor;
   weight?: TypographyWeight;
+  // Suffix props for hero sections
+  suffix?: string;
+  suffixFont?: 'Lora' | 'Playfair Display' | 'Crimson Text' | 'Merriweather';
 }
 
 export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
   level = 1,
   color = 'heading',
   weight,
+  suffix,
+  suffixFont = 'Lora',
+  content,
+  children,
   ...props
 }, ref) => {
   // Map level to variant and default weight
@@ -521,6 +571,27 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
   const { variant, defaultWeight } = getVariantAndWeight(level);
   const finalWeight = weight || defaultWeight;
 
+  // Build content with suffix if provided
+  const buildContentWithSuffix = (): string | undefined => {
+    const mainContent = content || children;
+    
+    // Convert ReactNode to string if needed
+    const contentStr = typeof mainContent === 'string' ? mainContent : String(mainContent || '');
+    
+    // Only add suffix if it exists and main content exists
+    if (!suffix || !contentStr) {
+      return contentStr || undefined;
+    }
+
+    // Build suffix markup: {color:var(--text-muted)}{font:FontName:500}*suffix*{/font}{/color}
+    const suffixMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${suffix}*{/font}{/color}`;
+    
+    // Combine main content with suffix (add space and line break before suffix)
+    return `${contentStr} \n${suffixMarkup}`;
+  };
+
+  const displayContent = buildContentWithSuffix();
+
   return (
     <Typography
       ref={ref}
@@ -528,6 +599,8 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
       variant={variant}
       color={color}
       weight={finalWeight}
+      content={displayContent}
+      children={!displayContent ? children : undefined}
       {...props}
     />
   );

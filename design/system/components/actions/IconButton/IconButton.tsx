@@ -31,7 +31,7 @@ export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
   /** Button style variant - matches Button component exactly */
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive' | 'secondary-glass' | 'ghost-glass' | 'accent-glass';
   /** Button size - matches Button component exactly */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   /** Badge for notifications */
   badge?: number | string;
   /** Required accessibility label */
@@ -178,6 +178,7 @@ const createActionIcon = (
 ) => {
   // Map IconButton size to Icon size
   const iconSizeMap = {
+    'xxs': 'xs' as const, // xxs IconButton uses xs Icon
     'xs': 'xs' as const,  // xs IconButton uses xs Icon
     'sm': 'sm' as const,
     'md': 'md' as const,
