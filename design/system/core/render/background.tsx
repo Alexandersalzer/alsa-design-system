@@ -59,6 +59,9 @@ const propsMappers = {
     playbackRate: props.videoPlaybackRate,
     fadeEdge: props.videoFadeEdge,
     fadeStrength: props.videoFadeStrength,
+    loop: props.videoLoop ?? true,
+    autoPlay: props.videoAutoPlay ?? true,
+    muted: props.videoMuted ?? true,
   }),
   solid: (props: BackgroundProps) => ({
     colorPreset: props.solidColorPreset,

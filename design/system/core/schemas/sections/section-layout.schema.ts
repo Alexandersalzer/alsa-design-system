@@ -164,10 +164,11 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     displayName: 'Background Type',
     description: 'Type of background for the section (or card if wrapInCard is enabled)',
     editorType: 'select',
-    values: ['default', 'image', 'gradient', 'generative', 'pattern', 'solid'],
+    values: ['default', 'image', 'video', 'gradient', 'generative', 'pattern', 'solid'],
     valueLabels: {
       default: 'Default',
       image: 'Image',
+      video: 'Video',
       gradient: 'Gradient',
       generative: 'Generative',
       pattern: 'Pattern',
@@ -367,6 +368,177 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
   },
   
   // ============================================
+  // VIDEO BACKGROUND PROPS
+  // ============================================
+  
+  backgroundVideo: {
+    name: 'backgroundVideo',
+    type: 'string',
+    displayName: 'Background Video',
+    description: 'URL to background video',
+    editorType: 'url',
+    default: '',
+    group: 'background',
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  videoPoster: {
+    name: 'videoPoster',
+    type: 'string',
+    displayName: 'Video Poster',
+    description: 'Poster image shown before video loads',
+    editorType: 'url',
+    default: '',
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  videoOverlayType: {
+    name: 'videoOverlayType',
+    type: 'enum',
+    displayName: 'Video Overlay',
+    description: 'Overlay type for better text readability',
+    editorType: 'segmented',
+    values: ['none', 'dark', 'light', 'gradient'],
+    valueLabels: {
+      none: 'None',
+      dark: 'Dark',
+      light: 'Light',
+      gradient: 'Gradient'
+    },
+    default: 'dark',
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  videoOverlayOpacity: {
+    name: 'videoOverlayOpacity',
+    type: 'number',
+    displayName: 'Overlay Opacity',
+    description: 'Opacity of the video overlay (0-1)',
+    editorType: 'slider',
+    min: 0,
+    max: 1,
+    step: 0.05,
+    default: 0.3,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'videoOverlayType',
+      operator: 'notEquals',
+      value: 'none'
+    }
+  },
+  
+  videoFadeEdge: {
+    name: 'videoFadeEdge',
+    type: 'enum',
+    displayName: 'Fade Edge',
+    description: 'Add a gradient fade to an edge of the video',
+    editorType: 'segmented',
+    values: ['none', 'top', 'bottom', 'both'],
+    valueLabels: {
+      none: 'None',
+      top: 'Top',
+      bottom: 'Bottom',
+      both: 'Both'
+    },
+    default: 'none',
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  videoFadeStrength: {
+    name: 'videoFadeStrength',
+    type: 'number',
+    displayName: 'Fade Strength',
+    description: 'Strength of the video fade effect (0-1)',
+    editorType: 'slider',
+    min: 0,
+    max: 1,
+    step: 0.05,
+    default: 0.15,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'videoFadeEdge',
+      operator: 'notEquals',
+      value: 'none'
+    }
+  },
+  
+  videoLoop: {
+    name: 'videoLoop',
+    type: 'boolean',
+    displayName: 'Loop Video',
+    description: 'Loop video continuously',
+    editorType: 'toggle',
+    default: true,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  videoAutoPlay: {
+    name: 'videoAutoPlay',
+    type: 'boolean',
+    displayName: 'Auto Play',
+    description: 'Auto play video on load',
+    editorType: 'toggle',
+    default: true,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  videoPlaybackRate: {
+    name: 'videoPlaybackRate',
+    type: 'number',
+    displayName: 'Playback Speed',
+    description: 'Video playback speed (0.5 = slow motion, 2.0 = fast)',
+    editorType: 'slider',
+    min: 0.5,
+    max: 2.0,
+    step: 0.1,
+    default: 1.0,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  // ============================================
   // CARD GROUP
   // ============================================
   
@@ -407,6 +579,15 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     imageFadeStrength: 0.15,
     imageFadeColor: 'page',
     backgroundImageLightModeOpacity: 1, // Legacy - use backgroundOpacity
+    backgroundVideo: '',
+    videoPoster: '',
+    videoOverlayType: 'dark',
+    videoOverlayOpacity: 0.3,
+    videoFadeEdge: 'none',
+    videoFadeStrength: 0.15,
+    videoLoop: true,
+    videoAutoPlay: true,
+    videoPlaybackRate: 1.0,
     wrapInCard: false
   },
   

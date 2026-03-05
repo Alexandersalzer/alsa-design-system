@@ -90,6 +90,56 @@ export const heroSectionSchema: SectionSchema = {
       cmsEnabled: false // Deprecated - use backgroundOpacity
     },
     
+    // ============================================
+    // VIDEO BACKGROUND PROPS
+    // ============================================
+    
+    // Enable video background for hero sections
+    backgroundVideo: {
+      ...defaultSectionLayoutProps.backgroundVideo,
+      cmsEnabled: true
+    },
+    
+    videoPoster: {
+      ...defaultSectionLayoutProps.videoPoster,
+      cmsEnabled: true
+    },
+    
+    videoOverlayType: {
+      ...defaultSectionLayoutProps.videoOverlayType,
+      cmsEnabled: true
+    },
+    
+    videoOverlayOpacity: {
+      ...defaultSectionLayoutProps.videoOverlayOpacity,
+      cmsEnabled: true
+    },
+    
+    videoFadeEdge: {
+      ...defaultSectionLayoutProps.videoFadeEdge,
+      cmsEnabled: true
+    },
+    
+    videoFadeStrength: {
+      ...defaultSectionLayoutProps.videoFadeStrength,
+      cmsEnabled: true
+    },
+    
+    videoLoop: {
+      ...defaultSectionLayoutProps.videoLoop,
+      cmsEnabled: true
+    },
+    
+    videoAutoPlay: {
+      ...defaultSectionLayoutProps.videoAutoPlay,
+      cmsEnabled: true
+    },
+    
+    videoPlaybackRate: {
+      ...defaultSectionLayoutProps.videoPlaybackRate,
+      cmsEnabled: true
+    },
+    
     // Disable wrap in card for hero sections
     wrapInCard: {
       ...defaultSectionLayoutProps.wrapInCard,
