@@ -110,7 +110,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
     while (i < text.length) {
       // Line break
       if (text[i] === '\n') {
-        result.push(<br key={`br-${key++}`} />);
+        result.push(<br key={`${baseKey}br-${i}-${elementCount++}`} />);
         i++;
         continue;
       }
@@ -141,7 +141,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
         if (weight) style.fontWeight = Number(weight);
         // Lora används ofta för kursiv "chill"-text – sätt italic så varianten laddas
         if (fontName === 'Lora') style.fontStyle = 'italic';
-        result.push(<span key={`f-${key++}`} style={style}>{parse(inner, key)}</span>);
+        result.push(<span key={`${baseKey}f-${i}-${elementCount++}`} style={style}>{parse(inner, `${baseKey}f-${i}-`)}</span>);
         i += full.length;
         continue;
       }
@@ -168,7 +168,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
       const italicMatch = text.slice(i).match(/^\*(.+?)\*/);
       if (italicMatch) {
         const [full, inner] = italicMatch;
-        result.push(<em key={`i-${key++}`} style={{ fontStyle: 'italic' }}>{parse(inner, key)}</em>);
+        result.push(<em key={`${baseKey}i-${i}-${elementCount++}`} style={{ fontStyle: 'italic' }}>{parse(inner, `${baseKey}i-${i}-`)}</em>);
         i += full.length;
         continue;
       }
