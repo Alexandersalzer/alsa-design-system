@@ -148,7 +148,10 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
   };
 
   // Apply maxWidth styling if specified in props
-  const containerStyle = props?.maxWidth ? { maxWidth: props.maxWidth, width: '100%' } : undefined;
+  const containerStyle = { 
+    maxWidth: maxWidth, 
+    width: '100%' 
+  };
 
   const content = (
     <>
@@ -251,13 +254,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
     </>
   );
 
-  // If maxWidth specified, wrap in a div with the constraint
-  if (containerStyle) {
-    return <div style={containerStyle} suppressHydrationWarning>{content}</div>;
-  }
-
-  // Suppress hydration warning - animation mode is read from CSS var which differs between SSR/client
-  return <div suppressHydrationWarning style={{ display: 'contents' }}>{content}</div>;
+  // Always apply maxWidth constraint to prevent text from becoming too wide
+  return <div style={containerStyle} suppressHydrationWarning>{content}</div>;
 };
 
 SectionHeader.displayName = 'SectionHeader';
