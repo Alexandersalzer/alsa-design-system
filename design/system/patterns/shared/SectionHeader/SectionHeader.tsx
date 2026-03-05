@@ -176,7 +176,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         const mergedProps = getMergedProps(tagKey);
         if (mergedProps.isHidden === 'true') return null;
         return withAnimation(
-          <Box>
+          <Box style={{ textAlign: textAlign }}>
             <Tag
               size="medium"
               variant="accent"
