@@ -404,12 +404,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
   const hoveredPoint = hoveredIndex !== null ? chartData.points[hoveredIndex] : null;
   const hoveredDatum = hoveredIndex !== null ? chartData.processedData[hoveredIndex] : null;
 
-  // Calculate aspect ratio to maintain circular dot appearance
-  // Since SVG has preserveAspectRatio="none", we need to compensate
-  const aspectRatio = width / height;
   const dotRadius = 4;
-  const dotRx = dotRadius;
-  const dotRy = dotRadius * aspectRatio;
 
   return (
     <div className={`sparkline ${className}`}>
@@ -554,27 +549,27 @@ export const Sparkline: React.FC<SparklineProps> = ({
                 d={linePath}
               />
 
-              {/* Hover indicator - using ellipse to maintain circular appearance when SVG is stretched */}
+              {/* Hover indicator - circle (visuellt konsekvent oavsett container-stretch) */}
               {showTooltip && hoveredPoint && (
-                <ellipse
+                <circle
                   className={`sparkline__hover-dot sparkline__hover-dot--${color}`}
                   cx={hoveredPoint.x}
                   cy={hoveredPoint.y}
-                  rx={dotRx}
-                  ry={dotRy}
+                  r={dotRadius}
+                  vectorEffect="non-scaling-stroke"
                 />
               )}
             </svg>
 
-            {/* Tooltip */}
+            {/* Tooltip - position i % så den följer viewBox oavsett containerstorlek */}
             {showTooltip && hoveredPoint && hoveredDatum && (
               <div
                 className="sparkline__tooltip"
                 style={{
                   position: 'absolute',
-                  left: `${hoveredPoint.x}px`,
-                  top: `${hoveredPoint.y - 40}px`,
-                  transform: 'translateX(-50%)',
+                  left: `${(hoveredPoint.x / width) * 100}%`,
+                  top: `${(hoveredPoint.y / height) * 100}%`,
+                  transform: 'translate(-50%, calc(-100% - 8px))',
                   pointerEvents: 'none'
                 }}
               >
