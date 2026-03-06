@@ -23,22 +23,13 @@ const logoTranslations = {
         displayName: 'Alt-text',
         description: 'Beskrivande text för tillgänglighet',
       },
-      width: {
-        displayName: 'Bredd',
-        description: 'Logotypens bredd i pixlar',
-      },
-      height: {
-        displayName: 'Höjd',
-        description: 'Logotypens höjd i pixlar',
-      },
       color: {
         displayName: 'Färg',
         description: 'Kontrollerar om logotypen inverteras i mörkt/ljust läge',
         valueLabels: {
-          auto: 'Auto (passar tema)',
-          light: 'Ljus (ditt original)',
-          dark: 'Mörk (invert original)',
-          brand: 'Färg (brand färg)',
+          auto: 'Auto',
+          inverse: 'Invers',
+          brand: 'Brand',
         },
       },
       radius: {
@@ -78,22 +69,13 @@ const logoTranslations = {
         displayName: 'Alt text',
         description: 'Descriptive text for accessibility',
       },
-      width: {
-        displayName: 'Width',
-        description: 'Logo width in pixels',
-      },
-      height: {
-        displayName: 'Height',
-        description: 'Logo height in pixels',
-      },
       color: {
         displayName: 'Color',
         description: 'Controls whether logo inverts in dark/light mode',
         valueLabels: {
-          auto: 'Auto (adapts to theme)',
-          light: 'Light (your original)',
-          dark: 'Dark (invert original)',
-          brand: 'Color (brand color)',
+          auto: 'Auto',
+          inverse: 'Inverse',
+          brand: 'Brand',
         },
       },
       radius: {
@@ -138,8 +120,6 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
     
     defaultProps: {
       alt: 'Logo',
-      width: 40,
-      height: 40,
       color: 'auto',
       radius: 'none',
       border: 'none',
@@ -174,38 +154,6 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
         t.props?.alt
       ),
       
-      width: createLocalizedProp(
-        {
-          name: 'width',
-          type: 'number',
-          required: false,
-          default: 40,
-          editorType: 'slider',
-          min: 20,
-          max: 200,
-          step: 4,
-          cmsEnabled: true,
-          group: 'appearance',
-        },
-        t.props?.width
-      ),
-      
-      height: createLocalizedProp(
-        {
-          name: 'height',
-          type: 'number',
-          required: false,
-          default: 40,
-          editorType: 'slider',
-          min: 20,
-          max: 200,
-          step: 4,
-          cmsEnabled: true,
-          group: 'appearance',
-        },
-        t.props?.height
-      ),
-      
       color: createLocalizedProp(
         {
           name: 'color',
@@ -213,7 +161,7 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           required: false,
           default: 'auto',
           editorType: 'segmented',
-          values: ['auto', 'light', 'dark', 'brand'] as const,
+          values: ['auto', 'inverse', 'brand'] as const,
           cmsEnabled: true,
           group: 'appearance',
         },
