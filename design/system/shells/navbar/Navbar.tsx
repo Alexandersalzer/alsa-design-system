@@ -99,12 +99,30 @@ const Navbar = ({ section }: NavbarProps) => {
       { noItemKeys: true }
     );
 
+    // Apply mobileLogoDisplay filter for mobile components
+    const mobileLogoDisplay = (patternProps as any).mobileLogoDisplay;
+    const showLogoMobile = mobileLogoDisplay ? mobileLogoDisplay !== 'text' : !(patternProps as any).hideLogoOnMobile;
+    const showLogoTextMobile = mobileLogoDisplay ? mobileLogoDisplay !== 'logo' : !(patternProps as any).hideLogoTextOnMobile;
+    const mobileComponents = Object.fromEntries(
+      Object.entries(components).filter(([key, comp]: [string, any]) => {
+        if (comp.type === 'logo' && !showLogoMobile) return false;
+        if (!showLogoTextMobile) {
+          if (comp.type === 'logotext') return false;
+          if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
+              (key.includes('businessName') || key.includes('typography-businessName'))) {
+            return false;
+          }
+        }
+        return true;
+      })
+    );
+
     // Render mobile menu layout (use mobile template if available, otherwise same as desktop)
     const mobileTemplate = layout.template?.mobile || layout.template;
     const mobileLayout = mobileTemplate ? { ...layout, template: mobileTemplate } : layout;
     const mobileContent = renderLayoutWithTemplate(
       mobileLayout,
-      components,
+      mobileComponents,
       sectionKey,
       firstPatternKey,
       patternProps,
