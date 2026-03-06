@@ -1,0 +1,171 @@
+/* =============================================
+   InputSplit
+   A text input with an attached picker trailing
+   ============================================= */
+
+.input-split-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-split__label {
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-semibold);
+  color: var(--text-form-label);
+  user-select: none;
+}
+
+/* ── Container ── */
+.input-split {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  background: var(--surface-input, var(--surface-raised));
+  border: 1px solid var(--border-input, var(--border-subtle));
+  border-radius: var(--radius-md);
+  overflow: visible;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.input-split:focus-within {
+  border-color: var(--border-input-focus, var(--color-primary));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+.input-split--sm { height: 32px; border-radius: var(--radius-sm); font-size: var(--text-sm); }
+.input-split--md { height: 40px; border-radius: var(--radius-md); font-size: var(--text-md); }
+.input-split--lg { height: 48px; border-radius: var(--radius-lg); font-size: var(--text-lg); }
+
+.input-split--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.input-split--error {
+  border-color: var(--color-danger);
+}
+.input-split--error:focus-within {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-danger) 15%, transparent);
+}
+
+/* ── Text input ── */
+.input-split__input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0 var(--foundation-space-3);
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-strong);
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.input-split__input::placeholder {
+  color: var(--text-placeholder);
+}
+
+/* ── Divider ── */
+.input-split__divider {
+  width: 1px;
+  background: var(--border-subtle);
+  flex-shrink: 0;
+  align-self: stretch;
+  margin: 4px 0;
+}
+
+/* ── Picker trigger ── */
+.input-split__picker-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--foundation-space-1);
+  height: 100%;
+  padding: 0 var(--foundation-space-2) 0 var(--foundation-space-3);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-strong);
+  font-size: inherit;
+  font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  transition: background 150ms ease;
+}
+
+.input-split--sm .input-split__picker-trigger { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0 var(--foundation-space-2) 0 var(--foundation-space-2); }
+.input-split--lg .input-split__picker-trigger { border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
+
+.input-split__picker-trigger:hover {
+  background: var(--surface-overlay);
+}
+
+.input-split__picker-trigger--open {
+  background: var(--surface-overlay);
+}
+
+.input-split__picker-value {
+  color: var(--text-secondary);
+  font-weight: 500;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* ── Chevron ── */
+.input-split__chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary);
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+}
+.input-split__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown menu ── */
+.input-split__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 200;
+  min-width: 140px;
+  background: var(--surface-overlay);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  padding: var(--foundation-space-1);
+  animation: inputSplitMenuIn 120ms ease-out;
+}
+
+@keyframes inputSplitMenuIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Menu item content ── */
+.input-split__menu-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.input-split__menu-label {
+  font-size: inherit;
+  color: var(--text-strong);
+  font-weight: 500;
+}
+.input-split__menu-desc {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ── Error text ── */
+.input-split__error {
+  font-size: var(--text-xs);
+  color: var(--color-danger);
+}
