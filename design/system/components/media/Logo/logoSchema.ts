@@ -17,10 +17,10 @@ const logoTranslations = {
     props: {
       color: {
         displayName: 'Logga',
-        description: 'Välj om loggan är gjord för ljus eller mörk bakgrund',
+        description: 'Välj hur loggan anpassar sig till temat',
         valueLabels: {
-          light: 'Ljus',
-          dark: 'Mörk',
+          auto: 'Auto',
+          inverse: 'Inverse',
           brand: 'Brand',
         },
       },
@@ -44,10 +44,10 @@ const logoTranslations = {
     props: {
       color: {
         displayName: 'Logo',
-        description: 'Whether the logo is designed for a light or dark background',
+        description: 'How the logo adapts to the theme',
         valueLabels: {
-          light: 'Light',
-          dark: 'Dark',
+          auto: 'Auto',
+          inverse: 'Inverse',
           brand: 'Brand',
         },
       },
@@ -82,7 +82,7 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
     
     defaultProps: {
       alt: 'Logo',
-      color: 'light',
+      color: 'auto',
       radius: 'none',
       border: 'none',
       loading: 'lazy',
@@ -121,9 +121,9 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           name: 'color',
           type: 'enum',
           required: false,
-          default: 'light',
+          default: 'auto',
           editorType: 'segmented',
-          values: ['light', 'dark', 'brand'] as const,
+          values: ['auto', 'inverse', 'brand'] as const,
           cmsEnabled: true,
           group: 'appearance',
         },
