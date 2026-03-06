@@ -586,9 +586,15 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     values: ['straight', 'diagonal', 'diagonal-reverse', 'wave'],
     valueLabels: {
       straight: 'Straight',
-      diagonal: 'Diagonal',
+      diagonal: 'Diagonal ↘',
       'diagonal-reverse': 'Diagonal ↗',
       wave: 'Wave'
+    },
+    valueIcons: {
+      straight: 'Minus',
+      diagonal: 'Slash',
+      'diagonal-reverse': 'TrendingUp',
+      wave: 'Waves'
     },
     default: 'straight',
     group: 'background',

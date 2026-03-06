@@ -319,6 +319,7 @@ export interface EnumPropConfig extends BasePropConfig {
   editorType?: 'select' | 'radio' | 'segmented' | 'buttonGroup' | 'dropdown';
   values: readonly string[];
   valueLabels?: Record<string, string>;
+  valueIcons?: Record<string, string>; // Icon names for segmented controls (e.g., 'Minus', 'Slash')
   valuePreviews?: Record<string, ValuePreview>;
   valueGroups?: Record<string, string[]>;
 }
