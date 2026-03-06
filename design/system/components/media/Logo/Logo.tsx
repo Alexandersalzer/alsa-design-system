@@ -80,10 +80,10 @@ export const Logo: React.FC<LogoProps> = ({
 
   const getImageVariant = (
     color: 'auto' | 'inverse' | 'brand'
-  ): 'auto' | 'light' | 'dark' | 'color' => {
+  ): 'auto' | 'inverse' | 'light' | 'dark' | 'color' => {
     const mapping = {
       auto: 'auto',
-      inverse: 'light', // invert = flip to light variant (dark bg friendly)
+      inverse: 'inverse',
       brand: 'color',
     } as const;
     return mapping[color];
