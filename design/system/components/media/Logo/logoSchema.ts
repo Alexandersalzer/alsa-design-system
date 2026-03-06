@@ -99,7 +99,7 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           cmsEnabled: false,
           group: 'content',
         },
-        {}
+        undefined
       ),
 
       alt: createLocalizedProp(
@@ -113,7 +113,7 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           cmsEnabled: false,
           group: 'content',
         },
-        {}
+        undefined
       ),
 
       color: createLocalizedProp(
@@ -155,7 +155,7 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           cmsEnabled: false,
           group: 'appearance',
         },
-        {}
+        undefined
       ),
     },
     
