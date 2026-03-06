@@ -25,7 +25,7 @@ export interface LogoProps {
   height?: number;
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   border?: 'none' | 'default' | 'subtle' | 'strong' | 'emphasis';
-  color?: 'auto' | 'inverse' | 'brand';
+  color?: 'light' | 'dark' | 'brand';
   textSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   textWeight?: 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
   textTransform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
@@ -58,7 +58,7 @@ export const Logo: React.FC<LogoProps> = ({
   height = 40,
   radius = 'none',
   border = 'none',
-  color = 'auto' as 'auto' | 'inverse' | 'brand',
+  color = 'light' as 'light' | 'dark' | 'brand',
   textSize = 'lg',
   textWeight = 'extrabold',
   textTransform = 'none',
@@ -79,18 +79,18 @@ export const Logo: React.FC<LogoProps> = ({
   // ----- Color mapping -----
 
   const getImageVariant = (
-    color: 'auto' | 'inverse' | 'brand'
-  ): 'auto' | 'inverse' | 'light' | 'dark' | 'color' => {
+    color: 'light' | 'dark' | 'brand'
+  ): 'light' | 'dark' | 'color' => {
     const mapping = {
-      auto: 'auto',
-      inverse: 'inverse',
+      light: 'light',
+      dark: 'dark',
       brand: 'color',
     } as const;
     return mapping[color];
   };
 
   const getTextColor = (
-    color: 'auto' | 'inverse' | 'brand'
+    color: 'light' | 'dark' | 'brand'
   ): 'primary' | 'secondary' | 'inverse' => {
     // Logo text should ALWAYS follow theme text color
     // Never inherit from <a>

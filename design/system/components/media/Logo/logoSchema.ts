@@ -24,11 +24,11 @@ const logoTranslations = {
         description: 'Beskrivande text för tillgänglighet',
       },
       color: {
-        displayName: 'Färg',
-        description: 'Kontrollerar om logotypen inverteras i mörkt/ljust läge',
+        displayName: 'Logga',
+        description: 'Välj om loggan är gjord för ljus eller mörk bakgrund',
         valueLabels: {
-          auto: 'Auto',
-          inverse: 'Invers',
+          light: 'Ljus',
+          dark: 'Mörk',
           brand: 'Brand',
         },
       },
@@ -70,11 +70,11 @@ const logoTranslations = {
         description: 'Descriptive text for accessibility',
       },
       color: {
-        displayName: 'Color',
-        description: 'Controls whether logo inverts in dark/light mode',
+        displayName: 'Logo',
+        description: 'Whether the logo is designed for a light or dark background',
         valueLabels: {
-          auto: 'Auto',
-          inverse: 'Inverse',
+          light: 'Light',
+          dark: 'Dark',
           brand: 'Brand',
         },
       },
@@ -120,7 +120,7 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
     
     defaultProps: {
       alt: 'Logo',
-      color: 'auto',
+      color: 'light',
       radius: 'none',
       border: 'none',
       loading: 'lazy',
@@ -159,9 +159,9 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           name: 'color',
           type: 'enum',
           required: false,
-          default: 'auto',
+          default: 'light',
           editorType: 'segmented',
-          values: ['auto', 'inverse', 'brand'] as const,
+          values: ['light', 'dark', 'brand'] as const,
           cmsEnabled: true,
           group: 'appearance',
         },
