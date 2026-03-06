@@ -58,10 +58,12 @@ const Navbar = ({ section }: NavbarProps) => {
       Object.entries(components).filter(([key, comp]: [string, any]) => {
         // Filter out logo if showLogo is false
         if (comp.type === 'logo' && !showLogo) return false;
-        // Filter out logo text (heading with business name content) if showLogoText is false
-        if ((comp.type === 'heading' || comp.type === 'typography-businessName') && !showLogoText) {
-          // Only filter if it's the business name heading (usually has a specific key pattern)
-          if (key.includes('businessName') || key.includes('typography-businessName')) {
+        // Filter out logo text if showLogoText is false
+        // Matches: logotext type, legacy heading/typography-businessName type, legacy key patterns
+        if (!showLogoText) {
+          if (comp.type === 'logotext') return false;
+          if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
+              (key.includes('businessName') || key.includes('typography-businessName'))) {
             return false;
           }
         }
