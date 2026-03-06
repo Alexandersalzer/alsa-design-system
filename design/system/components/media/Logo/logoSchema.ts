@@ -15,14 +15,6 @@ const logoTranslations = {
     displayName: 'Logo',
     description: 'Logotyp med färgkontroll',
     props: {
-      src: {
-        displayName: 'Bild URL',
-        description: 'URL till logotypbilden',
-      },
-      alt: {
-        displayName: 'Alt-text',
-        description: 'Beskrivande text för tillgänglighet',
-      },
       color: {
         displayName: 'Logga',
         description: 'Välj om loggan är gjord för ljus eller mörk bakgrund',
@@ -36,23 +28,12 @@ const logoTranslations = {
         displayName: 'Rundning',
         description: 'Hörnavrundning',
         valueLabels: {
-          none: 'Ingen',
-          sm: 'Liten',
-          md: 'Mellan',
-          lg: 'Stor',
-          xl: 'Extra stor',
-          full: 'Cirkel',
-        },
-      },
-      border: {
-        displayName: 'Ram',
-        description: 'Ramstil',
-        valueLabels: {
-          none: 'Ingen',
-          default: 'Standard',
-          subtle: 'Subtil',
-          strong: 'Stark',
-          emphasis: 'Betoning',
+          none: '—',
+          sm: 'S',
+          md: 'M',
+          lg: 'L',
+          xl: 'XL',
+          full: '○',
         },
       },
     },
@@ -61,14 +42,6 @@ const logoTranslations = {
     displayName: 'Logo',
     description: 'Logo image with color control',
     props: {
-      src: {
-        displayName: 'Image URL',
-        description: 'URL to the logo image',
-      },
-      alt: {
-        displayName: 'Alt text',
-        description: 'Descriptive text for accessibility',
-      },
       color: {
         displayName: 'Logo',
         description: 'Whether the logo is designed for a light or dark background',
@@ -82,23 +55,12 @@ const logoTranslations = {
         displayName: 'Radius',
         description: 'Corner rounding',
         valueLabels: {
-          none: 'None',
-          sm: 'Small',
-          md: 'Medium',
-          lg: 'Large',
-          xl: 'Extra large',
-          full: 'Circle',
-        },
-      },
-      border: {
-        displayName: 'Border',
-        description: 'Border style',
-        valueLabels: {
-          none: 'None',
-          default: 'Default',
-          subtle: 'Subtle',
-          strong: 'Strong',
-          emphasis: 'Emphasis',
+          none: '—',
+          sm: 'S',
+          md: 'M',
+          lg: 'L',
+          xl: 'XL',
+          full: '○',
         },
       },
     },
@@ -134,12 +96,12 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           type: 'string',
           required: true,
           editorType: 'media',
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'content',
         },
-        t.props?.src
+        {}
       ),
-      
+
       alt: createLocalizedProp(
         {
           name: 'alt',
@@ -148,12 +110,12 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           default: 'Logo',
           editorType: 'text',
           maxLength: 100,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'content',
         },
-        t.props?.alt
+        {}
       ),
-      
+
       color: createLocalizedProp(
         {
           name: 'color',
@@ -167,7 +129,7 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
         },
         t.props?.color
       ),
-      
+
       radius: createLocalizedProp(
         {
           name: 'radius',
@@ -181,7 +143,7 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
         },
         t.props?.radius
       ),
-      
+
       border: createLocalizedProp(
         {
           name: 'border',
@@ -190,10 +152,10 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           default: 'none',
           editorType: 'segmented',
           values: ['none', 'default', 'subtle', 'strong', 'emphasis'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'appearance',
         },
-        t.props?.border
+        {}
       ),
     },
     
