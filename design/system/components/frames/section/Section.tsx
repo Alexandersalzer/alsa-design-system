@@ -176,6 +176,8 @@ export const Section = ({
   backgroundSplitVariant = 'vertical',
   backgroundSplitPercentage = 50,
   backgroundSplitShape = 'straight',
+  backgroundSplitInset,
+  backgroundSplitRadius,
   mobileBackgroundOpacity,
   backgroundImageLightModeOpacity,
 }: SectionProps) => {
