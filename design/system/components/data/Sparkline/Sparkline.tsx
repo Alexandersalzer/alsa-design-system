@@ -87,10 +87,13 @@ const isTimeSeries = (data: number[] | SparklineDatum[]): data is SparklineDatum
   return data.length > 0 && typeof data[0] === 'object' && 'timestamp' in data[0];
 };
 
-/** Calculate human-friendly Y-axis bounds */
+/** Calculate human-friendly Y-axis bounds (guards against NaN) */
 const calculateNiceScale = (min: number, max: number, step: number) => {
-  const niceMin = Math.floor(min / step) * step;
-  const niceMax = Math.ceil(max / step) * step;
+  const safeMin = Number.isFinite(min) ? min : 0;
+  const safeMax = Number.isFinite(max) ? max : 0;
+  const safeStep = Number.isFinite(step) && step > 0 ? step : 1;
+  const niceMin = Math.floor(safeMin / safeStep) * safeStep;
+  const niceMax = Math.ceil(safeMax / safeStep) * safeStep;
   return { niceMin, niceMax };
 };
 
@@ -178,8 +181,9 @@ const limitDataPoints = (
   return result;
 };
 
-/** Format X-axis label based on bucket type */
+/** Format X-axis label based on bucket type (returns '' for invalid date) */
 const formatXAxisLabel = (date: Date, bucketBy: 'hour' | 'day' | 'week' | 'month'): string => {
+  if (!date || Number.isNaN(date.getTime())) return '';
   switch (bucketBy) {
     case 'hour':
       return String(date.getHours()).padStart(2, '0');
@@ -189,6 +193,8 @@ const formatXAxisLabel = (date: Date, bucketBy: 'hour' | 'day' | 'week' | 'month
       return date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
     case 'month':
       return date.toLocaleDateString('sv-SE', { month: 'short' });
+    default:
+      return '';
   }
 };
 
@@ -233,8 +239,11 @@ export const Sparkline: React.FC<SparklineProps> = ({
     let processedData: SparklineDatum[];
 
     if (isTimeSeries(data)) {
-      // Already time-series format
-      processedData = [...data];
+      // Already time-series format – coerce values to avoid NaN
+      processedData = (data as SparklineDatum[]).map(d => {
+        const v = Number(d.value);
+        return { timestamp: d.timestamp, value: Number.isFinite(v) ? v : 0 };
+      });
     } else {
       // Legacy number[] format - create synthetic timestamps
       processedData = (data as number[]).map((value, i) => ({
@@ -255,18 +264,22 @@ export const Sparkline: React.FC<SparklineProps> = ({
     }
 
     // Step 4: Calculate human-friendly Y-axis bounds
-    const rawMin = Math.min(...processedData.map(d => d.value));
-    const rawMax = Math.max(...processedData.map(d => d.value));
+    const values = processedData.map(d => d.value);
+    const rawMin = values.length ? Math.min(...values) : 0;
+    const rawMax = values.length ? Math.max(...values) : 0;
     const { niceMin, niceMax } = calculateNiceScale(rawMin, rawMax, yAxisStep);
     const range = niceMax - niceMin || 1;
 
-    // Step 5: Map to points for rendering
-    const points = processedData.map((datum, i) => ({
-      x: (i / (processedData.length - 1 || 1)) * width,
-      y: height - ((datum.value - niceMin) / range) * (height - 4) - 2,
-      value: datum.value,
-      timestamp: datum.timestamp
-    }));
+    // Step 5: Map to points for rendering (guard y so it's never NaN)
+    const points = processedData.map((datum, i) => {
+      const y = height - ((datum.value - niceMin) / range) * (height - 4) - 2;
+      return {
+        x: (i / (processedData.length - 1 || 1)) * width,
+        y: Number.isFinite(y) ? y : height - 2,
+        value: datum.value,
+        timestamp: datum.timestamp
+      };
+    });
 
     // Step 6: Calculate grid lines using yAxisStep for human-friendly values
     const gridLineValues = [];
@@ -276,28 +289,29 @@ export const Sparkline: React.FC<SparklineProps> = ({
       }
     }
 
-    // Step 7: Generate X-axis labels
+    // Step 7: Generate X-axis labels (sanitize so we never show "NaN")
     const xAxisLabels: string[] = [];
     if (showXAxis) {
       const labelDensity = Math.max(1, Math.floor(processedData.length / 7)); // Max 7 labels
       processedData.forEach((datum, i) => {
         if (i % labelDensity === 0 || i === processedData.length - 1) {
           const date = new Date(datum.timestamp);
-          xAxisLabels.push(
-            xAxisFormatter
-              ? xAxisFormatter(date, effectiveBucket)
-              : formatXAxisLabel(date, effectiveBucket)
-          );
+          const label = xAxisFormatter
+            ? xAxisFormatter(date, effectiveBucket)
+            : formatXAxisLabel(date, effectiveBucket);
+          xAxisLabels.push(typeof label === 'string' && !label.includes('NaN') ? label : '');
         } else {
           xAxisLabels.push('');
         }
       });
     }
 
-    // Step 8: Calculate trend
+    // Step 8: Calculate trend (guard against NaN)
     const firstValue = processedData[0].value;
     const lastValue = processedData[processedData.length - 1].value;
-    const trendPercent = firstValue !== 0 ? ((lastValue - firstValue) / firstValue) * 100 : 0;
+    const trendPercent = Number.isFinite(firstValue) && firstValue !== 0 && Number.isFinite(lastValue)
+      ? ((lastValue - firstValue) / firstValue) * 100
+      : 0;
     const isPositive = trendPercent >= 0;
 
     return {
@@ -365,6 +379,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
   };
 
   const formatValue = (value: number): string => {
+    if (!Number.isFinite(value)) return '0';
     if (valueFormatter) return valueFormatter(value);
     return value.toLocaleString();
   };
@@ -451,7 +466,9 @@ export const Sparkline: React.FC<SparklineProps> = ({
                   key={`scale-${index}`}
                   className="sparkline__scale-label"
                 >
-                  {scaleFormatter ? scaleFormatter(value) : Math.round(value)}
+                  {scaleFormatter
+                    ? (Number.isFinite(value) ? scaleFormatter(value) : '0')
+                    : (Number.isFinite(value) ? Math.round(value) : 0)}
                 </span>
               ))}
           </div>
