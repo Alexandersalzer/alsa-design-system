@@ -548,18 +548,25 @@ export const Sparkline: React.FC<SparklineProps> = ({
                 className={`sparkline__line sparkline__line--${color}`}
                 d={linePath}
               />
-
-              {/* Hover indicator - circle (visuellt konsekvent oavsett container-stretch) */}
-              {showTooltip && hoveredPoint && (
-                <circle
-                  className={`sparkline__hover-dot sparkline__hover-dot--${color}`}
-                  cx={hoveredPoint.x}
-                  cy={hoveredPoint.y}
-                  r={dotRadius}
-                  vectorEffect="non-scaling-stroke"
-                />
-              )}
             </svg>
+
+            {/* Hover-prick som div så den alltid är rund (SVG:ns preserveAspectRatio="none" sträcker annars cirkeln till oval) */}
+            {showTooltip && hoveredPoint && (
+              <div
+                className={`sparkline__hover-dot sparkline__hover-dot--${color} sparkline__hover-dot--html`}
+                style={{
+                  position: 'absolute',
+                  left: `${(hoveredPoint.x / width) * 100}%`,
+                  top: `${(hoveredPoint.y / height) * 100}%`,
+                  transform: 'translate(-50%, -50%)',
+                  width: dotRadius * 2,
+                  height: dotRadius * 2,
+                  borderRadius: '50%',
+                  pointerEvents: 'none'
+                }}
+                aria-hidden
+              />
+            )}
 
             {/* Tooltip - position i % så den följer viewBox oavsett containerstorlek */}
             {showTooltip && hoveredPoint && hoveredDatum && (

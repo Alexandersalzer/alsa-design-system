@@ -252,12 +252,39 @@
   flex: 1;
 }
 
-/* ===== HOVER DOT ===== */
+/* ===== HOVER DOT (SVG ellipse/circle – används ej längre; prick ritas som div) ===== */
 .sparkline__hover-dot {
   stroke-width: 2;
   stroke: var(--surface-base);
   transition: opacity 0.1s ease;
   vector-effect: non-scaling-stroke;
+}
+
+/* Hover-prick som div – alltid rund i skärmkoordinater */
+.sparkline__hover-dot--html {
+  box-sizing: border-box;
+  border: 2px solid var(--surface-base);
+  transition: opacity 0.1s ease;
+}
+
+.sparkline__hover-dot--html.sparkline__hover-dot--accent {
+  background-color: var(--surface-accent);
+}
+
+.sparkline__hover-dot--html.sparkline__hover-dot--error {
+  background-color: var(--surface-error);
+}
+
+.sparkline__hover-dot--html.sparkline__hover-dot--success {
+  background-color: var(--surface-success);
+}
+
+.sparkline__hover-dot--html.sparkline__hover-dot--warning {
+  background-color: var(--surface-warning);
+}
+
+.sparkline__hover-dot--html.sparkline__hover-dot--info {
+  background-color: var(--surface-info);
 }
 
 .sparkline__hover-dot--accent {
