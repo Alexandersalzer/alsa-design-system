@@ -50,9 +50,10 @@ const Navbar = ({ section }: NavbarProps) => {
       }, {});
     }
 
-    // Filter logo and logo text based on pattern props (showLogo, showLogoText)
-    const showLogo = patternProps.showLogo !== false; // Default true
-    const showLogoText = patternProps.showLogoText !== false; // Default true
+    // Filter logo and logo text based on logoDisplay prop (or legacy showLogo/showLogoText)
+    const logoDisplay = (patternProps as any).logoDisplay;
+    const showLogo = logoDisplay ? logoDisplay !== 'text' : patternProps.showLogo !== false;
+    const showLogoText = logoDisplay ? logoDisplay !== 'logo' : patternProps.showLogoText !== false;
     
     components = Object.fromEntries(
       Object.entries(components).filter(([key, comp]: [string, any]) => {

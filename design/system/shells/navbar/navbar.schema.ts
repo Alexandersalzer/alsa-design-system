@@ -67,25 +67,16 @@ const sharedNavbarProps: Record<string, PropConfig> = {
   },
 
   // ── LOGO ───────────────────────────────────────────────────────────────────
-  showLogo: {
-    name: 'showLogo',
-    type: 'boolean',
-    displayName: 'Show Logo',
-    description: 'Show or hide the logo image',
-    editorType: 'toggle',
-    default: true,
-    group: 'logo',
-    cmsEnabled: true,
-  },
-
-  showLogoText: {
-    name: 'showLogoText',
-    type: 'boolean',
-    displayName: 'Show Logo Text',
-    description: 'Show or hide the business name text next to logo',
-    editorType: 'toggle',
-    default: true,
-    group: 'logo',
+  logoDisplay: {
+    name: 'logoDisplay',
+    type: 'enum',
+    displayName: 'Logo',
+    description: 'Choose what to display in the logo area',
+    editorType: 'segmented',
+    values: ['both', 'logo', 'text'],
+    valueLabels: { both: 'Both', logo: 'Icon', text: 'Text' },
+    default: 'both',
+    group: 'style',
     cmsEnabled: true,
   },
 
