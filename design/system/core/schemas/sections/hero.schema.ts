@@ -21,6 +21,13 @@ export const heroSectionSchema: SectionSchema = {
   layoutProps: {
     ...defaultSectionLayoutProps,
     
+    // Disable isHidden for hero sections - heroes should not be hidden
+    isHidden: {
+      ...defaultSectionLayoutProps.isHidden,
+      cmsEnabled: false,
+      description: 'Hero sections cannot be hidden as they are primary landing sections'
+    },
+    
     // Override alignSectionHeader to prefer center
     alignSectionHeader: {
       ...defaultSectionLayoutProps.alignSectionHeader,
@@ -81,6 +88,75 @@ export const heroSectionSchema: SectionSchema = {
     backgroundImageLightModeOpacity: {
       ...defaultSectionLayoutProps.backgroundImageLightModeOpacity,
       cmsEnabled: false // Deprecated - use backgroundOpacity
+    },
+    
+    // ============================================
+    // VIDEO BACKGROUND PROPS
+    // ============================================
+    
+    // Enable video background for hero sections
+    backgroundVideo: {
+      ...defaultSectionLayoutProps.backgroundVideo,
+      cmsEnabled: true
+    },
+    
+    videoPoster: {
+      ...defaultSectionLayoutProps.videoPoster,
+      cmsEnabled: true
+    },
+    
+    videoOverlayType: {
+      ...defaultSectionLayoutProps.videoOverlayType,
+      cmsEnabled: true
+    },
+    
+    videoOverlayOpacity: {
+      ...defaultSectionLayoutProps.videoOverlayOpacity,
+      cmsEnabled: true
+    },
+    
+    videoFadeEdge: {
+      ...defaultSectionLayoutProps.videoFadeEdge,
+      cmsEnabled: true
+    },
+    
+    videoFadeStrength: {
+      ...defaultSectionLayoutProps.videoFadeStrength,
+      cmsEnabled: true
+    },
+    
+    videoLoop: {
+      ...defaultSectionLayoutProps.videoLoop,
+      cmsEnabled: true
+    },
+    
+    videoAutoPlay: {
+      ...defaultSectionLayoutProps.videoAutoPlay,
+      cmsEnabled: true
+    },
+    
+    videoPlaybackRate: {
+      ...defaultSectionLayoutProps.videoPlaybackRate,
+      cmsEnabled: true
+    },
+    
+    // ============================================
+    // SPLIT BACKGROUND PROPS
+    // ============================================
+    
+    backgroundSplit: {
+      ...defaultSectionLayoutProps.backgroundSplit,
+      cmsEnabled: true
+    },
+    
+    backgroundSplitPercentage: {
+      ...defaultSectionLayoutProps.backgroundSplitPercentage,
+      cmsEnabled: true
+    },
+    
+    backgroundSplitShape: {
+      ...defaultSectionLayoutProps.backgroundSplitShape,
+      cmsEnabled: true
     },
     
     // Disable wrap in card for hero sections

@@ -145,12 +145,17 @@
   overflow: hidden;
 }
 
-/* Diagonal slice: bilden syns i övre högra triangeln (från vänster uppe till höger nere) */
-.splitBackgroundContainerDiagonal {
-  left: var(--split-inset, 0);
-  right: var(--split-inset, 0);
-  width: calc(100% - 2 * var(--split-inset, 0));
-  clip-path: polygon(100% 0, 100% 100%, 0 0);
+/* Split shape variants */
+.splitBackgroundContainer[data-split-shape="diagonal"] {
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.splitBackgroundContainer[data-split-shape="diagonal-reverse"] {
+  clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 0% 100%);
+}
+
+.splitBackgroundContainer[data-split-shape="wave"] {
+  clip-path: ellipse(100% 55% at 100% 50%);
 }
 
 @media (max-width: 768px) {
@@ -159,9 +164,12 @@
     right: 0;
     width: 100%;
   }
-
-  .splitBackgroundContainerDiagonal {
-    clip-path: polygon(100% 0, 100% 100%, 0 0);
+  
+  /* Reset clip-path on mobile for full-width background */
+  .splitBackgroundContainer[data-split-shape="diagonal"],
+  .splitBackgroundContainer[data-split-shape="diagonal-reverse"],
+  .splitBackgroundContainer[data-split-shape="wave"] {
+    clip-path: none;
   }
 }
 

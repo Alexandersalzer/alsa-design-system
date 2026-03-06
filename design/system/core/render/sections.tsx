@@ -85,7 +85,22 @@ export function renderSection(
         backgroundTint: layout.backgroundTint,
         imageFadeEdge: layout.imageFadeEdge,
         imageFadeStrength: layout.imageFadeStrength,
-        backgroundImageLightModeOpacity: layout.backgroundImageLightModeOpacity
+        backgroundImageLightModeOpacity: layout.backgroundImageLightModeOpacity,
+        // Video background props
+        backgroundVideo: layout.backgroundVideo,
+        videoSrc: layout.backgroundVideo,
+        videoPoster: layout.videoPoster,
+        videoOverlayType: layout.videoOverlayType,
+        videoOverlayOpacity: layout.videoOverlayOpacity,
+        videoFadeEdge: layout.videoFadeEdge,
+        videoFadeStrength: layout.videoFadeStrength,
+        videoLoop: layout.videoLoop,
+        videoAutoPlay: layout.videoAutoPlay,
+        videoPlaybackRate: layout.videoPlaybackRate,
+        // Split background props
+        backgroundSplit: layout.backgroundSplit,
+        backgroundSplitPercentage: layout.backgroundSplitPercentage,
+        backgroundSplitShape: layout.backgroundSplitShape
       };
     }
 

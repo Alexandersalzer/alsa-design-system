@@ -224,4 +224,64 @@ export interface LayoutConfig {
    * @deprecated Use backgroundOpacity instead
    */
   backgroundImageLightModeOpacity?: number;
+
+  /**
+   * Background video URL när background är 'video'
+   */
+  backgroundVideo?: string;
+
+  /**
+   * Video poster image URL (shown before video loads)
+   */
+  videoPoster?: string;
+
+  /**
+   * Video overlay type for better text readability
+   */
+  videoOverlayType?: 'none' | 'dark' | 'light' | 'gradient';
+
+  /**
+   * Video overlay opacity (0-1)
+   */
+  videoOverlayOpacity?: number;
+
+  /**
+   * Video fade edge - add a gradient fade to an edge of the video
+   */
+  videoFadeEdge?: 'none' | 'top' | 'bottom' | 'both';
+
+  /**
+   * Video fade strength - strength of the fade effect (0-1)
+   */
+  videoFadeStrength?: number;
+
+  /**
+   * Video loop continuously
+   */
+  videoLoop?: boolean;
+
+  /**
+   * Video auto play on load
+   */
+  videoAutoPlay?: boolean;
+
+  /**
+   * Video playback speed (0.5 = slow motion, 2.0 = fast)
+   */
+  videoPlaybackRate?: number;
+
+  /**
+   * Enable split background (background only covers part of the section)
+   */
+  backgroundSplit?: boolean;
+
+  /**
+   * Width percentage of the split background area (30-70)
+   */
+  backgroundSplitPercentage?: number;
+
+  /**
+   * Shape of the split edge
+   */
+  backgroundSplitShape?: 'straight' | 'diagonal' | 'diagonal-reverse' | 'wave';
 }

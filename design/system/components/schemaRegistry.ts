@@ -50,6 +50,7 @@ import { createSliderSchema } from './forms/Slider/schema';
 import { createImageSchema } from './media/Image/schema';
 import { createVideoShowcaseSchema } from './media/VideoShowcase/schema';
 import { createAvatarSchema } from './media/Avatar/schema';
+import { createLogoSchema } from './media/Logo/logoSchema';
 import { createLogotextSchema } from './media/Logo/schema';
 // Patterns (portfolio används i karusell/grid)
 import { createPortfolioSchema } from '../patterns/cards/PortfolioCard/schema';
@@ -113,6 +114,7 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   image: createImageSchema,
   videoShowcase: createVideoShowcaseSchema,
   avatar: createAvatarSchema,
+  logo: createLogoSchema,
   logotext: createLogotextSchema,
   portfolio: createPortfolioSchema,
   

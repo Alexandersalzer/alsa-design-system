@@ -17,6 +17,17 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
   // HEADER GROUP
   // ============================================
   
+  isHidden: {
+    name: 'isHidden',
+    type: 'boolean',
+    displayName: 'Hide Section',
+    description: 'Hide this section from rendering',
+    editorType: 'toggle',
+    default: false,
+    group: 'header',
+    cmsEnabled: true
+  },
+  
   alignSectionHeader: {
     name: 'alignSectionHeader',
     type: 'enum',
@@ -175,10 +186,11 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     displayName: 'Background Type',
     description: 'Type of background for the section (or card if wrapInCard is enabled)',
     editorType: 'select',
-    values: ['default', 'image', 'gradient', 'generative', 'pattern', 'solid'],
+    values: ['default', 'image', 'video', 'gradient', 'generative', 'pattern', 'solid'],
     valueLabels: {
       default: 'Default',
       image: 'Image',
+      video: 'Video',
       gradient: 'Gradient',
       generative: 'Generative',
       pattern: 'Pattern',
@@ -378,6 +390,253 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
   },
   
   // ============================================
+  // VIDEO BACKGROUND PROPS
+  // ============================================
+  
+  backgroundVideo: {
+    name: 'backgroundVideo',
+    type: 'string',
+    displayName: 'Background Video',
+    description: 'URL to background video',
+    editorType: 'url',
+    default: '',
+    group: 'background',
+    cmsEnabled: false, // Hidden by default, enabled only for specific sections
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  videoPoster: {
+    name: 'videoPoster',
+    type: 'string',
+    displayName: 'Video Poster',
+    description: 'Poster image shown before video loads',
+    editorType: 'url',
+    default: '',
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  videoOverlayType: {
+    name: 'videoOverlayType',
+    type: 'enum',
+    displayName: 'Video',
+    description: 'Choose between a color overlay or edge fade for the video',
+    editorType: 'segmented',
+    values: ['none', 'dark', 'fade'],
+    valueLabels: {
+      none: 'None',
+      dark: 'Overlay',
+      fade: 'Fade',
+    },
+    default: 'dark',
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+
+  videoOverlayOpacity: {
+    name: 'videoOverlayOpacity',
+    type: 'number',
+    displayName: 'Opacity',
+    description: 'Opacity of the video overlay (0-1)',
+    editorType: 'slider',
+    min: 0,
+    max: 1,
+    step: 0.05,
+    default: 0.3,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'videoOverlayType',
+      operator: 'equals',
+      value: 'dark'
+    }
+  },
+
+  videoFadeEdge: {
+    name: 'videoFadeEdge',
+    type: 'enum',
+    displayName: 'Fade Edge',
+    description: 'Which edge to fade',
+    editorType: 'segmented',
+    values: ['none', 'top', 'bottom', 'both'],
+    valueLabels: {
+      none: 'None',
+      top: 'Top',
+      bottom: 'Bottom',
+      both: 'Both'
+    },
+    default: 'bottom',
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'videoOverlayType',
+      operator: 'equals',
+      value: 'fade'
+    }
+  },
+
+  videoFadeStrength: {
+    name: 'videoFadeStrength',
+    type: 'number',
+    displayName: 'Fade Strength',
+    description: 'Strength of the video fade effect (0-1)',
+    editorType: 'slider',
+    min: 0,
+    max: 1,
+    step: 0.05,
+    default: 0.15,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'videoOverlayType',
+      operator: 'equals',
+      value: 'fade'
+    }
+  },
+
+  videoLoop: {
+    name: 'videoLoop',
+    type: 'boolean',
+    displayName: 'Loop',
+    description: 'Loop video continuously',
+    editorType: 'toggle',
+    default: true,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+
+  videoAutoPlay: {
+    name: 'videoAutoPlay',
+    type: 'boolean',
+    displayName: 'Auto Play',
+    description: 'Auto play video on load',
+    editorType: 'toggle',
+    default: true,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+
+  videoPlaybackRate: {
+    name: 'videoPlaybackRate',
+    type: 'number',
+    displayName: 'Speed',
+    description: 'Video playback speed',
+    editorType: 'input-split',
+    presets: [
+      { value: '0.25', label: '0.25×' },
+      { value: '0.5', label: '0.5×' },
+      { value: '0.75', label: '0.75×' },
+      { value: '1',   label: '1× (Normal)' },
+      { value: '1.25', label: '1.25×' },
+      { value: '1.5', label: '1.5×' },
+      { value: '1.75', label: '1.75×' },
+      { value: '2',   label: '2×' },
+      { value: '2.5', label: '2.5×' },
+      { value: '3',   label: '3×' },
+    ],
+    default: 1,
+    group: 'hero',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'equals',
+      value: 'video'
+    }
+  },
+  
+  // ============================================
+  // SPLIT BACKGROUND GROUP
+  // ============================================
+  
+  backgroundSplit: {
+    name: 'backgroundSplit',
+    type: 'boolean',
+    displayName: 'Split Background',
+    description: 'Background only covers part of the section (half-screen effect)',
+    editorType: 'toggle',
+    default: false,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'notEquals',
+      value: 'default'
+    }
+  },
+  
+  backgroundSplitPercentage: {
+    name: 'backgroundSplitPercentage',
+    type: 'number',
+    displayName: 'Split Width',
+    description: 'Width of the background area (percentage)',
+    editorType: 'slider',
+    min: 30,
+    max: 70,
+    step: 5,
+    default: 50,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'backgroundSplit',
+      operator: 'equals',
+      value: true
+    }
+  },
+  
+  backgroundSplitShape: {
+    name: 'backgroundSplitShape',
+    type: 'enum',
+    displayName: 'Split Shape',
+    description: 'Shape of the split edge',
+    editorType: 'segmented',
+    values: ['straight', 'diagonal', 'diagonal-reverse', 'wave'],
+    valueLabels: {
+      straight: 'Straight',
+      diagonal: 'Diagonal ↘',
+      'diagonal-reverse': 'Diagonal ↗',
+      wave: 'Wave'
+    },
+    valueIcons: {
+      straight: 'Minus',
+      diagonal: 'Slash',
+      'diagonal-reverse': 'TrendingUp',
+      wave: 'Waves'
+    },
+    default: 'straight',
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'backgroundSplit',
+      operator: 'equals',
+      value: true
+    }
+  },
+  
+  // ============================================
   // CARD GROUP
   // ============================================
   
@@ -446,6 +705,18 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     imageFadeStrength: 0.15,
     imageFadeColor: 'page',
     backgroundImageLightModeOpacity: 1, // Legacy - use backgroundOpacity
+    backgroundVideo: '',
+    videoPoster: '',
+    videoOverlayType: 'dark',
+    videoOverlayOpacity: 0.3,
+    videoFadeEdge: 'none',
+    videoFadeStrength: 0.15,
+    videoLoop: true,
+    videoAutoPlay: true,
+    videoPlaybackRate: '1',
+    backgroundSplit: false,
+    backgroundSplitPercentage: 50,
+    backgroundSplitShape: 'straight',
     wrapInCard: false
   },
   

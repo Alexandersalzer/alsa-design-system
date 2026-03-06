@@ -43,10 +43,8 @@ interface SectionProps extends BackgroundProps {
   backgroundSplitVariant?: 'vertical' | 'diagonal';
   /** Split percentage - width of background on right side for vertical (default: 50); diagonal uses full triangle */
   backgroundSplitPercentage?: number;
-  /** Inset/margin runt split-bakgrunden så den inte går kant-i-kant (none = 0) */
-  backgroundSplitInset?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
-  /** Rundade hörn på split-bakgrundscontainern */
-  backgroundSplitRadius?: 'none' | 'sm' | 'md' | 'lg';
+  /** Shape of the split edge */
+  backgroundSplitShape?: 'straight' | 'diagonal' | 'diagonal-reverse' | 'wave';
   /** Mobile-specific background opacity (0-1) - only affects mobile screens */
   mobileBackgroundOpacity?: number;
   /** Image background opacity in light mode (0-1). Används t.ex. i footer så bilden blir ljusare. Default i footer: 0.55. */
@@ -177,8 +175,7 @@ export const Section = ({
   backgroundSplit = false,
   backgroundSplitVariant = 'vertical',
   backgroundSplitPercentage = 50,
-  backgroundSplitInset,
-  backgroundSplitRadius,
+  backgroundSplitShape = 'straight',
   mobileBackgroundOpacity,
   backgroundImageLightModeOpacity,
 }: SectionProps) => {
@@ -367,12 +364,9 @@ export const Section = ({
     >
       {/* Render background - wrapped in split container if needed */}
       {backgroundSplit && background && background !== 'default' ? (
-        <div
-          className={
-            backgroundSplitVariant === 'diagonal'
-              ? `${styles.splitBackgroundContainer} ${styles.splitBackgroundContainerDiagonal}`
-              : styles.splitBackgroundContainer
-          }
+        <div 
+          className={styles.splitBackgroundContainer}
+          data-split-shape={backgroundSplitShape}
         >
           {renderBackgroundComponent(background, backgroundProps)}
         </div>

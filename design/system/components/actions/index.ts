@@ -6,3 +6,4 @@ export * from './Clickable';
 export * from './BulkActionBar';
 export * from './SelectionCard';
 export * from './Kbd';
+export * from './SplitButton';

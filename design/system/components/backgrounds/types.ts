@@ -94,6 +94,9 @@ export interface VideoBackgroundProps {
   videoPlaybackRate?: number;
   videoFadeEdge?: FadeEdge;
   videoFadeStrength?: number;
+  videoLoop?: boolean;
+  videoAutoPlay?: boolean;
+  videoMuted?: boolean;
 }
 
 // ===== SOLID BACKGROUND =====

@@ -1,3 +1,7 @@
+/**
+ *   shells/navbar/Navbar.tsx        (renderer — requires layout key in JSON)
+ */
+
 'use client';
 
 import { Section } from '../../components/frames/section';
@@ -46,6 +50,28 @@ const Navbar = ({ section }: NavbarProps) => {
       }, {});
     }
 
+    // Filter logo and logo text based on logoDisplay prop (or legacy showLogo/showLogoText)
+    const logoDisplay = (patternProps as any).logoDisplay;
+    const showLogo = logoDisplay ? logoDisplay !== 'text' : patternProps.showLogo !== false;
+    const showLogoText = logoDisplay ? logoDisplay !== 'logo' : patternProps.showLogoText !== false;
+    
+    components = Object.fromEntries(
+      Object.entries(components).filter(([key, comp]: [string, any]) => {
+        // Filter out logo if showLogo is false
+        if (comp.type === 'logo' && !showLogo) return false;
+        // Filter out logo text if showLogoText is false
+        // Matches: logotext type, legacy heading/typography-businessName type, legacy key patterns
+        if (!showLogoText) {
+          if (comp.type === 'logotext') return false;
+          if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
+              (key.includes('businessName') || key.includes('typography-businessName'))) {
+            return false;
+          }
+        }
+        return true;
+      })
+    );
+
     // Apply linkVariant from pattern props to all link components (TextLink)
     const linkVariant = (patternProps as any)?.linkVariant;
     if (linkVariant && linkVariant !== 'default') {
@@ -73,12 +99,30 @@ const Navbar = ({ section }: NavbarProps) => {
       { noItemKeys: true }
     );
 
+    // Apply mobileLogoDisplay filter for mobile components
+    const mobileLogoDisplay = (patternProps as any).mobileLogoDisplay;
+    const showLogoMobile = mobileLogoDisplay ? mobileLogoDisplay !== 'text' : !(patternProps as any).hideLogoOnMobile;
+    const showLogoTextMobile = mobileLogoDisplay ? mobileLogoDisplay !== 'logo' : !(patternProps as any).hideLogoTextOnMobile;
+    const mobileComponents = Object.fromEntries(
+      Object.entries(components).filter(([key, comp]: [string, any]) => {
+        if (comp.type === 'logo' && !showLogoMobile) return false;
+        if (!showLogoTextMobile) {
+          if (comp.type === 'logotext') return false;
+          if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
+              (key.includes('businessName') || key.includes('typography-businessName'))) {
+            return false;
+          }
+        }
+        return true;
+      })
+    );
+
     // Render mobile menu layout (use mobile template if available, otherwise same as desktop)
     const mobileTemplate = layout.template?.mobile || layout.template;
     const mobileLayout = mobileTemplate ? { ...layout, template: mobileTemplate } : layout;
     const mobileContent = renderLayoutWithTemplate(
       mobileLayout,
-      components,
+      mobileComponents,
       sectionKey,
       firstPatternKey,
       patternProps,
