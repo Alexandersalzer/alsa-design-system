@@ -406,13 +406,14 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
   videoOverlayType: {
     name: 'videoOverlayType',
     type: 'enum',
-    displayName: 'Overlay',
-    description: 'Add a neutral overlay for text readability',
+    displayName: 'Video',
+    description: 'Choose between a color overlay or edge fade for the video',
     editorType: 'segmented',
-    values: ['none', 'dark'],
+    values: ['none', 'dark', 'fade'],
     valueLabels: {
       none: 'None',
-      dark: 'On',
+      dark: 'Overlay',
+      fade: 'Fade',
     },
     default: 'dark',
     group: 'background',
@@ -438,8 +439,8 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     cmsEnabled: false,
     visibleWhen: {
       property: 'videoOverlayType',
-      operator: 'notEquals',
-      value: 'none'
+      operator: 'equals',
+      value: 'dark'
     }
   },
 
@@ -447,7 +448,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     name: 'videoFadeEdge',
     type: 'enum',
     displayName: 'Fade Edge',
-    description: 'Add a theme-compatible neutral fade to an edge of the video',
+    description: 'Which edge to fade',
     editorType: 'segmented',
     values: ['none', 'top', 'bottom', 'both'],
     valueLabels: {
@@ -456,13 +457,13 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       bottom: 'Bottom',
       both: 'Both'
     },
-    default: 'none',
-    group: 'hero',
+    default: 'bottom',
+    group: 'background',
     cmsEnabled: false,
     visibleWhen: {
-      property: 'background',
+      property: 'videoOverlayType',
       operator: 'equals',
-      value: 'video'
+      value: 'fade'
     }
   },
 
@@ -476,12 +477,12 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     max: 1,
     step: 0.05,
     default: 0.15,
-    group: 'hero',
+    group: 'background',
     cmsEnabled: false,
     visibleWhen: {
-      property: 'videoFadeEdge',
-      operator: 'notEquals',
-      value: 'none'
+      property: 'videoOverlayType',
+      operator: 'equals',
+      value: 'fade'
     }
   },
 
@@ -519,13 +520,17 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
 
   videoPlaybackRate: {
     name: 'videoPlaybackRate',
-    type: 'enum',
+    type: 'number',
     displayName: 'Speed',
     description: 'Video playback speed',
-    editorType: 'segmented',
-    values: ['0.5', '1', '1.5', '2'],
-    valueLabels: { '0.5': '0.5×', '1': '1×', '1.5': '1.5×', '2': '2×' },
-    default: '1',
+    editorType: 'input-split',
+    presets: [
+      { value: '0.5', label: '0.5×' },
+      { value: '1',   label: '1×' },
+      { value: '1.5', label: '1.5×' },
+      { value: '2',   label: '2×' },
+    ],
+    default: 1,
     group: 'hero',
     cmsEnabled: false,
     visibleWhen: {

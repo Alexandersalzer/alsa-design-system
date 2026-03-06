@@ -54,7 +54,7 @@
 }
 
 .dark {
-  background-color: var(--neutral-1000, #000);
+  background-color: var(--neutral-0, #fff);
 }
 
 /* ===== RESPONSIVE OPTIMIZATIONS ===== */

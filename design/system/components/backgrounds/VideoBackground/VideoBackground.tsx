@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import styles from './VideoBackground.module.css';
 
 export type VideoFit = 'cover' | 'contain' | 'fill';
-export type OverlayType = 'none' | 'dark';
+export type OverlayType = 'none' | 'dark' | 'fade';
 export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
 
 export interface VideoBackgroundProps {
@@ -61,20 +61,23 @@ export const VideoBackground: React.FC<VideoBackgroundProps> = ({
     '--overlay-opacity': overlayOpacity,
   } as React.CSSProperties;
 
+  // When overlayType is 'fade', use fadeEdge from props; otherwise no mask
+  const activeFadeEdge = overlayType === 'fade' ? fadeEdge : 'none';
+
   const getFadeStyle = (): React.CSSProperties => {
-    if (fadeEdge === 'none') return {};
-    
+    if (activeFadeEdge === 'none') return {};
+
     const fadePercentage = Math.round(fadeStrength * 100);
     let maskImage = '';
-    
-    if (fadeEdge === 'top') {
+
+    if (activeFadeEdge === 'top') {
       maskImage = `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) ${fadePercentage}%)`;
-    } else if (fadeEdge === 'bottom') {
+    } else if (activeFadeEdge === 'bottom') {
       maskImage = `linear-gradient(to top, transparent 0%, rgba(0,0,0,1) ${fadePercentage}%)`;
-    } else if (fadeEdge === 'both') {
+    } else if (activeFadeEdge === 'both') {
       maskImage = `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) ${fadePercentage}%, rgba(0,0,0,1) ${100 - fadePercentage}%, transparent 100%)`;
     }
-    
+
     return {
       maskImage,
       WebkitMaskImage: maskImage,
@@ -95,7 +98,7 @@ export const VideoBackground: React.FC<VideoBackgroundProps> = ({
         disablePictureInPicture
         controlsList="nodownload nofullscreen noremoteplayback"
       />
-      {overlayType !== 'none' && (
+      {overlayType === 'dark' && (
         <div className={overlayClassName} style={overlayStyle} />
       )}
     </div>
