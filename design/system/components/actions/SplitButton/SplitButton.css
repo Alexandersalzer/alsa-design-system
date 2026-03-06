@@ -6,22 +6,24 @@
   position: relative;
   display: inline-flex;
   align-items: stretch;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-button);
   overflow: visible;
   flex-shrink: 0;
 }
 
-/* ── Shared surface — variant token maps from .btn-* ── */
-.split-btn--primary   { --split-bg: var(--btn-primary-bg, var(--color-primary)); --split-color: var(--btn-primary-text, #fff); --split-border: transparent; --split-bg-hover: var(--btn-primary-bg-hover, var(--color-primary-hover)); }
-.split-btn--secondary { --split-bg: var(--surface-raised); --split-color: var(--text-strong); --split-border: var(--border-subtle); --split-bg-hover: var(--surface-overlay); }
-.split-btn--ghost     { --split-bg: transparent; --split-color: var(--text-strong); --split-border: transparent; --split-bg-hover: var(--surface-overlay); }
-.split-btn--outline   { --split-bg: transparent; --split-color: var(--text-strong); --split-border: var(--border-strong); --split-bg-hover: var(--surface-overlay); }
-.split-btn--accent    { --split-bg: var(--color-accent); --split-color: var(--btn-accent-text, #fff); --split-border: transparent; --split-bg-hover: var(--color-accent-hover, var(--color-accent)); }
+/* ── Shared surface — matches Button.css tokens ── */
+.split-btn--brand     { --split-bg: var(--surface-button-brand); --split-color: var(--text-button-brand); --split-border: var(--border-button-brand); --split-bg-hover: var(--surface-button-brand-hover); }
+.split-btn--primary   { --split-bg: var(--interactive-primary); --split-color: var(--text-button-primary); --split-border: var(--border-button-primary); --split-bg-hover: var(--surface-button-primary-hover); }
+.split-btn--secondary { --split-bg: var(--surface-button-secondary); --split-color: var(--text-button-secondary); --split-border: var(--border-button-secondary); --split-bg-hover: var(--surface-button-secondary-hover); }
+.split-btn--accent    { --split-bg: var(--surface-button-accent); --split-color: var(--text-button-accent); --split-border: var(--border-button-accent); --split-bg-hover: var(--surface-button-accent-hover); }
+.split-btn--ghost     { --split-bg: transparent; --split-color: var(--text-default); --split-border: transparent; --split-bg-hover: var(--surface-elevated); }
+.split-btn--outline   { --split-bg: transparent; --split-color: var(--interactive-primary); --split-border: var(--border-default); --split-bg-hover: var(--surface-elevated); }
+.split-btn--destructive { --split-bg: var(--surface-button-destructive); --split-color: var(--always-white); --split-border: var(--border-button-destructive); --split-bg-hover: var(--surface-button-destructive-hover); }
 
-/* ── Size tokens ── */
-.split-btn--sm { --split-h: 32px; --split-px: 12px; --split-icon: 14px; font-size: var(--text-sm); border-radius: var(--radius-sm); }
-.split-btn--md { --split-h: 40px; --split-px: 16px; --split-icon: 16px; font-size: var(--text-md); border-radius: var(--radius-md); }
-.split-btn--lg { --split-h: 48px; --split-px: 20px; --split-icon: 18px; font-size: var(--text-lg); border-radius: var(--radius-lg); }
+/* ── Size tokens — matches Button.css heights ── */
+.split-btn--sm { --split-h: var(--control-height-sm); --split-px: var(--foundation-space-2); --split-icon: 14px; font-size: var(--font-body-sm-size); border-radius: var(--radius-button); }
+.split-btn--md { --split-h: var(--control-height-md); --split-px: var(--foundation-space-4); --split-icon: 16px; font-size: var(--font-body-md-size); border-radius: var(--radius-button); }
+.split-btn--lg { --split-h: var(--control-height-lg); --split-px: var(--foundation-space-4); --split-icon: 18px; font-size: var(--font-body-lg-size); border-radius: var(--radius-button); }
 
 /* ── Primary action button ── */
 .split-btn__primary {
@@ -33,15 +35,12 @@
   color: var(--split-color);
   border: 1px solid var(--split-border);
   border-right: none;
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  border-radius: var(--radius-button) 0 0 var(--radius-button);
   cursor: pointer;
-  transition: background 150ms ease, opacity 150ms ease;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
   white-space: nowrap;
   gap: var(--foundation-space-2);
 }
-
-.split-btn--sm .split-btn__primary { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
-.split-btn--lg .split-btn__primary { border-radius: var(--radius-lg) 0 0 var(--radius-lg); }
 
 .split-btn__primary:hover:not(.split-btn__primary--disabled) {
   background: var(--split-bg-hover);
@@ -78,14 +77,11 @@
   color: var(--split-color);
   border: 1px solid var(--split-border);
   border-left: none;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border-radius: 0 var(--radius-button) var(--radius-button) 0;
   cursor: pointer;
-  transition: background 150ms ease, opacity 150ms ease;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
   flex-shrink: 0;
 }
-
-.split-btn--sm .split-btn__trigger { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
-.split-btn--lg .split-btn__trigger { border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
 
 .split-btn__trigger:hover:not(.split-btn__trigger--disabled) {
   background: var(--split-bg-hover);
@@ -112,9 +108,9 @@
   top: calc(100% + 4px);
   z-index: 200;
   min-width: 180px;
-  background: var(--surface-overlay);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-default);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   padding: var(--foundation-space-1);
@@ -141,7 +137,7 @@
   font-weight: 500;
 }
 .split-btn__menu-desc {
-  font-size: var(--text-xs);
-  color: var(--text-secondary);
-  font-weight: 400;
+  font-size: var(--font-body-xs-size);
+  color: var(--text-muted);
+  font-weight: var(--foundation-weight-regular);
 }

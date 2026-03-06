@@ -40,7 +40,7 @@ export interface SplitButtonProps {
   options: SplitButtonOption[];
   /** Primary button click handler */
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'accent';
+  variant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline' | 'destructive';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;
