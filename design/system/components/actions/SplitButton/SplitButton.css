@@ -11,6 +11,19 @@
   flex-shrink: 0;
 }
 
+/* Force Label to inherit button color (same pattern as Button.css) */
+.split-btn .split-btn__label,
+.split-btn [class*="text-label-"] {
+  color: inherit !important;
+}
+
+/* Ensure icons also inherit */
+.split-btn .icon,
+.split-btn [class*="icon-"],
+.split-btn svg {
+  color: inherit;
+}
+
 /* ── Shared surface — matches Button.css tokens ── */
 .split-btn--brand     { --split-bg: var(--surface-button-brand); --split-color: var(--text-button-brand); --split-border: var(--border-button-brand); --split-bg-hover: var(--surface-button-brand-hover); }
 .split-btn--primary   { --split-bg: var(--interactive-primary); --split-color: var(--text-button-primary); --split-border: var(--border-button-primary); --split-bg-hover: var(--surface-button-primary-hover); }
@@ -108,10 +121,10 @@
   top: calc(100% + 4px);
   z-index: 200;
   min-width: 180px;
-  background: var(--surface-elevated);
-  border: 1px solid var(--border-default);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-default);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-strong);
   overflow: hidden;
   padding: var(--foundation-space-1);
   animation: splitBtnMenuIn 120ms ease-out;

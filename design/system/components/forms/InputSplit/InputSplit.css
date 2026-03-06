@@ -54,6 +54,7 @@
 .input-split__input {
   flex: 1;
   min-width: 0;
+  max-width: 120px;
   height: 100%;
   padding: 0 var(--foundation-space-3);
   background: transparent;
@@ -135,10 +136,10 @@
   right: 0;
   z-index: 200;
   min-width: 140px;
-  background: var(--surface-elevated);
-  border: 1px solid var(--border-default);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-default);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-strong);
   overflow: hidden;
   padding: var(--foundation-space-1);
   animation: inputSplitMenuIn 120ms ease-out;
