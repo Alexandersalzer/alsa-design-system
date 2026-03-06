@@ -1,0 +1,147 @@
+/* =============================================
+   SplitButton
+   ============================================= */
+
+.split-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: var(--radius-md);
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+/* ── Shared surface — variant token maps from .btn-* ── */
+.split-btn--primary   { --split-bg: var(--btn-primary-bg, var(--color-primary)); --split-color: var(--btn-primary-text, #fff); --split-border: transparent; --split-bg-hover: var(--btn-primary-bg-hover, var(--color-primary-hover)); }
+.split-btn--secondary { --split-bg: var(--surface-raised); --split-color: var(--text-strong); --split-border: var(--border-subtle); --split-bg-hover: var(--surface-overlay); }
+.split-btn--ghost     { --split-bg: transparent; --split-color: var(--text-strong); --split-border: transparent; --split-bg-hover: var(--surface-overlay); }
+.split-btn--outline   { --split-bg: transparent; --split-color: var(--text-strong); --split-border: var(--border-strong); --split-bg-hover: var(--surface-overlay); }
+.split-btn--accent    { --split-bg: var(--color-accent); --split-color: var(--btn-accent-text, #fff); --split-border: transparent; --split-bg-hover: var(--color-accent-hover, var(--color-accent)); }
+
+/* ── Size tokens ── */
+.split-btn--sm { --split-h: 32px; --split-px: 12px; --split-icon: 14px; font-size: var(--text-sm); border-radius: var(--radius-sm); }
+.split-btn--md { --split-h: 40px; --split-px: 16px; --split-icon: 16px; font-size: var(--text-md); border-radius: var(--radius-md); }
+.split-btn--lg { --split-h: 48px; --split-px: 20px; --split-icon: 18px; font-size: var(--text-lg); border-radius: var(--radius-lg); }
+
+/* ── Primary action button ── */
+.split-btn__primary {
+  display: inline-flex;
+  align-items: center;
+  height: var(--split-h);
+  padding: 0 var(--split-px);
+  background: var(--split-bg);
+  color: var(--split-color);
+  border: 1px solid var(--split-border);
+  border-right: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  cursor: pointer;
+  transition: background 150ms ease, opacity 150ms ease;
+  white-space: nowrap;
+  gap: var(--foundation-space-2);
+}
+
+.split-btn--sm .split-btn__primary { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.split-btn--lg .split-btn__primary { border-radius: var(--radius-lg) 0 0 var(--radius-lg); }
+
+.split-btn__primary:hover:not(.split-btn__primary--disabled) {
+  background: var(--split-bg-hover);
+}
+.split-btn__primary--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Divider ── */
+.split-btn__divider {
+  width: 1px;
+  background: color-mix(in srgb, var(--split-color) 25%, transparent);
+  flex-shrink: 0;
+  align-self: stretch;
+  background-color: var(--split-border, color-mix(in srgb, var(--split-color) 20%, transparent));
+}
+
+/* Make divider visible on solid variants */
+.split-btn--primary .split-btn__divider,
+.split-btn--accent .split-btn__divider {
+  background-color: color-mix(in srgb, var(--split-color) 20%, transparent);
+}
+
+/* ── Chevron trigger ── */
+.split-btn__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--split-h);
+  width: calc(var(--split-h) * 0.75);
+  padding: 0;
+  background: var(--split-bg);
+  color: var(--split-color);
+  border: 1px solid var(--split-border);
+  border-left: none;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  cursor: pointer;
+  transition: background 150ms ease, opacity 150ms ease;
+  flex-shrink: 0;
+}
+
+.split-btn--sm .split-btn__trigger { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.split-btn--lg .split-btn__trigger { border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
+
+.split-btn__trigger:hover:not(.split-btn__trigger--disabled) {
+  background: var(--split-bg-hover);
+}
+.split-btn__trigger--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Chevron icon ── */
+.split-btn__chevron {
+  width: var(--split-icon);
+  height: var(--split-icon);
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+}
+.split-btn__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown menu ── */
+.split-btn__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  z-index: 200;
+  min-width: 180px;
+  background: var(--surface-overlay);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  padding: var(--foundation-space-1);
+  animation: splitBtnMenuIn 120ms ease-out;
+}
+
+.split-btn__menu--bottom-start { left: 0; }
+.split-btn__menu--bottom-end   { right: 0; }
+
+@keyframes splitBtnMenuIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Menu item content ── */
+.split-btn__menu-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.split-btn__menu-label {
+  font-size: inherit;
+  color: var(--text-strong);
+  font-weight: 500;
+}
+.split-btn__menu-desc {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-weight: 400;
+}

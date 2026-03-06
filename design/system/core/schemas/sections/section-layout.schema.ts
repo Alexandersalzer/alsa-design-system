@@ -406,15 +406,13 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
   videoOverlayType: {
     name: 'videoOverlayType',
     type: 'enum',
-    displayName: 'Video Overlay',
-    description: 'Overlay type for better text readability',
+    displayName: 'Overlay',
+    description: 'Add a neutral overlay for text readability',
     editorType: 'segmented',
-    values: ['none', 'dark', 'light', 'gradient'],
+    values: ['none', 'dark'],
     valueLabels: {
       none: 'None',
-      dark: 'Dark',
-      light: 'Light',
-      gradient: 'Gradient'
+      dark: 'On',
     },
     default: 'dark',
     group: 'background',
@@ -425,11 +423,11 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       value: 'video'
     }
   },
-  
+
   videoOverlayOpacity: {
     name: 'videoOverlayOpacity',
     type: 'number',
-    displayName: 'Overlay Opacity',
+    displayName: 'Opacity',
     description: 'Opacity of the video overlay (0-1)',
     editorType: 'slider',
     min: 0,
@@ -444,12 +442,12 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       value: 'none'
     }
   },
-  
+
   videoFadeEdge: {
     name: 'videoFadeEdge',
     type: 'enum',
     displayName: 'Fade Edge',
-    description: 'Add a gradient fade to an edge of the video',
+    description: 'Add a theme-compatible neutral fade to an edge of the video',
     editorType: 'segmented',
     values: ['none', 'top', 'bottom', 'both'],
     valueLabels: {
@@ -459,7 +457,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       both: 'Both'
     },
     default: 'none',
-    group: 'background',
+    group: 'hero',
     cmsEnabled: false,
     visibleWhen: {
       property: 'background',
@@ -467,7 +465,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       value: 'video'
     }
   },
-  
+
   videoFadeStrength: {
     name: 'videoFadeStrength',
     type: 'number',
@@ -478,7 +476,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     max: 1,
     step: 0.05,
     default: 0.15,
-    group: 'background',
+    group: 'hero',
     cmsEnabled: false,
     visibleWhen: {
       property: 'videoFadeEdge',
@@ -486,11 +484,11 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       value: 'none'
     }
   },
-  
+
   videoLoop: {
     name: 'videoLoop',
     type: 'boolean',
-    displayName: 'Loop Video',
+    displayName: 'Loop',
     description: 'Loop video continuously',
     editorType: 'toggle',
     default: true,
@@ -502,7 +500,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       value: 'video'
     }
   },
-  
+
   videoAutoPlay: {
     name: 'videoAutoPlay',
     type: 'boolean',
@@ -518,7 +516,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       value: 'video'
     }
   },
-  
+
   videoPlaybackRate: {
     name: 'videoPlaybackRate',
     type: 'number',
@@ -529,7 +527,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     max: 2.0,
     step: 0.1,
     default: 1.0,
-    group: 'background',
+    group: 'hero',
     cmsEnabled: false,
     visibleWhen: {
       property: 'background',

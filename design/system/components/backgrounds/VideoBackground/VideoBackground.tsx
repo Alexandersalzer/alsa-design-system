@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import styles from './VideoBackground.module.css';
 
 export type VideoFit = 'cover' | 'contain' | 'fill';
-export type OverlayType = 'none' | 'dark' | 'light' | 'gradient';
+export type OverlayType = 'none' | 'dark';
 export type FadeEdge = 'top' | 'bottom' | 'both' | 'none';
 
 export interface VideoBackgroundProps {
