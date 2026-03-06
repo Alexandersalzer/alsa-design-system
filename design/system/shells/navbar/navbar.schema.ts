@@ -66,6 +66,29 @@ const sharedNavbarProps: Record<string, PropConfig> = {
     cmsEnabled: true,
   },
 
+  // ── LOGO ───────────────────────────────────────────────────────────────────
+  showLogo: {
+    name: 'showLogo',
+    type: 'boolean',
+    displayName: 'Show Logo',
+    description: 'Show or hide the logo image',
+    editorType: 'toggle',
+    default: true,
+    group: 'logo',
+    cmsEnabled: true,
+  },
+
+  showLogoText: {
+    name: 'showLogoText',
+    type: 'boolean',
+    displayName: 'Show Logo Text',
+    description: 'Show or hide the business name text next to logo',
+    editorType: 'toggle',
+    default: true,
+    group: 'logo',
+    cmsEnabled: true,
+  },
+
   // ── MOBILE ─────────────────────────────────────────────────────────────────
   mobileMenuAlign: {
     name: 'mobileMenuAlign',
@@ -76,6 +99,17 @@ const sharedNavbarProps: Record<string, PropConfig> = {
     values: ['left', 'center', 'right'],
     valueLabels: { left: 'Left', center: 'Center', right: 'Right' },
     default: 'left',
+    group: 'mobile',
+    cmsEnabled: true,
+  },
+
+  hideLogoOnMobile: {
+    name: 'hideLogoOnMobile',
+    type: 'boolean',
+    displayName: 'Hide Logo on Mobile',
+    description: 'Hide the logo image on mobile screens',
+    editorType: 'toggle',
+    default: false,
     group: 'mobile',
     cmsEnabled: true,
   },

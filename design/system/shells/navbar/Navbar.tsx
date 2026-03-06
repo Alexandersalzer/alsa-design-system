@@ -1,3 +1,7 @@
+/**
+ *   shells/navbar/Navbar.tsx        (renderer — requires layout key in JSON)
+ */
+
 'use client';
 
 import { Section } from '../../components/frames/section';
@@ -45,6 +49,25 @@ const Navbar = ({ section }: NavbarProps) => {
         return acc;
       }, {});
     }
+
+    // Filter logo and logo text based on pattern props (showLogo, showLogoText)
+    const showLogo = patternProps.showLogo !== false; // Default true
+    const showLogoText = patternProps.showLogoText !== false; // Default true
+    
+    components = Object.fromEntries(
+      Object.entries(components).filter(([key, comp]: [string, any]) => {
+        // Filter out logo if showLogo is false
+        if (comp.type === 'logo' && !showLogo) return false;
+        // Filter out logo text (heading with business name content) if showLogoText is false
+        if ((comp.type === 'heading' || comp.type === 'typography-businessName') && !showLogoText) {
+          // Only filter if it's the business name heading (usually has a specific key pattern)
+          if (key.includes('businessName') || key.includes('typography-businessName')) {
+            return false;
+          }
+        }
+        return true;
+      })
+    );
 
     // Apply linkVariant from pattern props to all link components (TextLink)
     const linkVariant = (patternProps as any)?.linkVariant;
