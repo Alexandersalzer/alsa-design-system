@@ -244,4 +244,19 @@ export interface LayoutConfig {
    * Video playback speed (0.5 = slow motion, 2.0 = fast)
    */
   videoPlaybackRate?: number;
+
+  /**
+   * Enable split background (background only covers part of the section)
+   */
+  backgroundSplit?: boolean;
+
+  /**
+   * Width percentage of the split background area (30-70)
+   */
+  backgroundSplitPercentage?: number;
+
+  /**
+   * Shape of the split edge
+   */
+  backgroundSplitShape?: 'straight' | 'diagonal' | 'diagonal-reverse' | 'wave';
 }

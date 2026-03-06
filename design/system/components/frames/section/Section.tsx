@@ -41,6 +41,8 @@ interface SectionProps extends BackgroundProps {
   backgroundSplit?: boolean;
   /** Split percentage - width of background on right side (default: 50) */
   backgroundSplitPercentage?: number;
+  /** Shape of the split edge */
+  backgroundSplitShape?: 'straight' | 'diagonal' | 'diagonal-reverse' | 'wave';
   /** Mobile-specific background opacity (0-1) - only affects mobile screens */
   mobileBackgroundOpacity?: number;
   /** Image background opacity in light mode (0-1). Används t.ex. i footer så bilden blir ljusare. Default i footer: 0.55. */
@@ -170,6 +172,7 @@ export const Section = ({
   sectionKey,
   backgroundSplit = false,
   backgroundSplitPercentage = 50,
+  backgroundSplitShape = 'straight',
   mobileBackgroundOpacity,
   backgroundImageLightModeOpacity,
 }: SectionProps) => {
@@ -341,7 +344,10 @@ export const Section = ({
     >
       {/* Render background - wrapped in split container if needed */}
       {backgroundSplit && background && background !== 'default' ? (
-        <div className={styles.splitBackgroundContainer}>
+        <div 
+          className={styles.splitBackgroundContainer}
+          data-split-shape={backgroundSplitShape}
+        >
           {renderBackgroundComponent(background, backgroundProps)}
         </div>
       ) : (

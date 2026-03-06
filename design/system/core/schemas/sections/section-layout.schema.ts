@@ -539,6 +539,68 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
   },
   
   // ============================================
+  // SPLIT BACKGROUND GROUP
+  // ============================================
+  
+  backgroundSplit: {
+    name: 'backgroundSplit',
+    type: 'boolean',
+    displayName: 'Split Background',
+    description: 'Background only covers part of the section (half-screen effect)',
+    editorType: 'toggle',
+    default: false,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'background',
+      operator: 'notEquals',
+      value: 'default'
+    }
+  },
+  
+  backgroundSplitPercentage: {
+    name: 'backgroundSplitPercentage',
+    type: 'number',
+    displayName: 'Split Width',
+    description: 'Width of the background area (percentage)',
+    editorType: 'slider',
+    min: 30,
+    max: 70,
+    step: 5,
+    default: 50,
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'backgroundSplit',
+      operator: 'equals',
+      value: true
+    }
+  },
+  
+  backgroundSplitShape: {
+    name: 'backgroundSplitShape',
+    type: 'enum',
+    displayName: 'Split Shape',
+    description: 'Shape of the split edge',
+    editorType: 'segmented',
+    values: ['straight', 'diagonal', 'diagonal-reverse', 'wave'],
+    valueLabels: {
+      straight: 'Straight',
+      diagonal: 'Diagonal',
+      'diagonal-reverse': 'Diagonal ↗',
+      wave: 'Wave'
+    },
+    default: 'straight',
+    group: 'background',
+    cmsEnabled: false,
+    visibleWhen: {
+      property: 'backgroundSplit',
+      operator: 'equals',
+      value: true
+    }
+  },
+  
+  // ============================================
   // CARD GROUP
   // ============================================
   
@@ -588,6 +650,9 @@ export const defaultSectionSchemaBase: Omit<SectionSchema, '$id' | 'category' | 
     videoLoop: true,
     videoAutoPlay: true,
     videoPlaybackRate: 1.0,
+    backgroundSplit: false,
+    backgroundSplitPercentage: 50,
+    backgroundSplitShape: 'straight',
     wrapInCard: false
   },
   

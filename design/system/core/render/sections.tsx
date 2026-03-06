@@ -95,7 +95,11 @@ export function renderSection(
         videoFadeStrength: layout.videoFadeStrength,
         videoLoop: layout.videoLoop,
         videoAutoPlay: layout.videoAutoPlay,
-        videoPlaybackRate: layout.videoPlaybackRate
+        videoPlaybackRate: layout.videoPlaybackRate,
+        // Split background props
+        backgroundSplit: layout.backgroundSplit,
+        backgroundSplitPercentage: layout.backgroundSplitPercentage,
+        backgroundSplitShape: layout.backgroundSplitShape
       };
     }
 

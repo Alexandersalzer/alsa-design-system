@@ -140,6 +140,25 @@ export const heroSectionSchema: SectionSchema = {
       cmsEnabled: true
     },
     
+    // ============================================
+    // SPLIT BACKGROUND PROPS
+    // ============================================
+    
+    backgroundSplit: {
+      ...defaultSectionLayoutProps.backgroundSplit,
+      cmsEnabled: true
+    },
+    
+    backgroundSplitPercentage: {
+      ...defaultSectionLayoutProps.backgroundSplitPercentage,
+      cmsEnabled: true
+    },
+    
+    backgroundSplitShape: {
+      ...defaultSectionLayoutProps.backgroundSplitShape,
+      cmsEnabled: true
+    },
+    
     // Disable wrap in card for hero sections
     wrapInCard: {
       ...defaultSectionLayoutProps.wrapInCard,
