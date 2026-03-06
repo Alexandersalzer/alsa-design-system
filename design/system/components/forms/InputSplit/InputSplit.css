@@ -54,7 +54,6 @@
 .input-split__input {
   flex: 1;
   min-width: 0;
-  max-width: 120px;
   height: 100%;
   padding: 0 var(--foundation-space-3);
   background: transparent;
@@ -95,6 +94,7 @@
   font-weight: var(--font-body-weight);
   white-space: nowrap;
   flex-shrink: 0;
+  min-width: fit-content;
   border-radius: 0 var(--radius-input) var(--radius-input) 0;
   transition: background var(--foundation-duration-fast) var(--foundation-easing-ease-out);
 }
