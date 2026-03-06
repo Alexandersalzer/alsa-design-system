@@ -273,6 +273,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
               role="listbox"
               size={size}
               spacing="xs"
+              surface="raised"
             >
               {filteredOptions.length === 0 ? (
                 <ListboxItem 

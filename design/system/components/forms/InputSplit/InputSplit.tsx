@@ -156,7 +156,7 @@ export const InputSplit = forwardRef<HTMLInputElement, InputSplitProps>(({
             className="input-split__menu"
             role="listbox"
           >
-            <Listbox spacing="xs">
+            <Listbox spacing="xs" surface="raised">
               {pickerOptions.map((opt) => (
                 <ListboxItem
                   key={opt.value}

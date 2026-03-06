@@ -143,7 +143,7 @@ export const SplitButton: React.FC<SplitButtonProps> = ({
           )}
           role="listbox"
         >
-          <Listbox spacing="xs">
+          <Listbox spacing="xs" surface="raised">
             {options.map((opt) => (
               <ListboxItem
                 key={opt.value}

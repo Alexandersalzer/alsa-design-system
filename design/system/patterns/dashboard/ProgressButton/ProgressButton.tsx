@@ -114,7 +114,7 @@ export const ProgressButton: React.FC<ProgressButtonProps> = ({
                 </Body>
               </VStack>
             ) : (
-              <Listbox size="md" spacing="xs">
+              <Listbox size="md" spacing="xs" surface="raised">
                 {steps.map((step) => (
                   <ListboxItem
                     key={step.key}

@@ -199,13 +199,13 @@
 /* Raised surface context (default for most popovers/menus) */
 .listbox--surface-raised .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
 [data-surface="raised"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
-  background-color: var(--surface-raised);
+  background-color: var(--surface-elevated);
 }
 
 /* Elevated surface context */
 .listbox--surface-elevated .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected),
 [data-surface="elevated"] .listbox-item--interactive:hover:not(.listbox-item--disabled):not(.listbox-item--selected) {
-  background-color: var(--surface-sunken);
+  background-color: var(--surface-overlay);
 }
 
 /* ===== LISTBOX ITEM ACCESSORIES ===== */
