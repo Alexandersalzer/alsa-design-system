@@ -108,6 +108,15 @@ const getDefaultBucket = (timeRange?: string): 'hour' | 'day' | 'week' | 'month'
   }
 };
 
+/** ISO veckonummer (v.1 = veckan med årets första torsdag) */
+const getIsoWeekNumber = (date: Date): number => {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+  const yearStart = new Date(d.getFullYear(), 0, 1);
+  return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+};
+
 /** Bucket and aggregate time-series data */
 const bucketData = (
   data: SparklineDatum[],
@@ -190,11 +199,33 @@ const formatXAxisLabel = (date: Date, bucketBy: 'hour' | 'day' | 'week' | 'month
     case 'day':
       return date.toLocaleDateString('sv-SE', { day: 'numeric' });
     case 'week':
-      return date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
+      return `v.${getIsoWeekNumber(date)}`;
     case 'month':
-      return date.toLocaleDateString('sv-SE', { month: 'short' });
+      return date.toLocaleDateString('sv-SE', { month: 'long' });
     default:
       return '';
+  }
+};
+
+/** Format tooltip-datum: månad → "Januari", vecka → "v.34", dag → "19 jan.", timme → "19 jan. 14:00" */
+const formatTooltipDate = (date: Date, bucketBy: 'hour' | 'day' | 'week' | 'month'): string => {
+  if (!date || Number.isNaN(date.getTime())) return '';
+  switch (bucketBy) {
+    case 'hour':
+      return date.toLocaleDateString('sv-SE', {
+        day: 'numeric',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    case 'day':
+      return date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
+    case 'week':
+      return `v.${getIsoWeekNumber(date)}`;
+    case 'month':
+      return date.toLocaleDateString('sv-SE', { month: 'long' });
+    default:
+      return date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
   }
 };
 
@@ -598,11 +629,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
                 }}
               >
                 <div className="sparkline__tooltip-date">
-                  {new Date(hoveredDatum.timestamp).toLocaleDateString('sv-SE', {
-                    month: 'short',
-                    day: 'numeric',
-                    hour: chartData.bucketType === 'hour' ? '2-digit' : undefined
-                  })}
+                  {formatTooltipDate(new Date(hoveredDatum.timestamp), chartData.bucketType)}
                 </div>
                 <div className="sparkline__tooltip-value">
                   {formatValue(hoveredDatum.value)}
