@@ -55,22 +55,38 @@ const Navbar = ({ section }: NavbarProps) => {
     const showLogo = logoDisplay ? logoDisplay !== 'text' : patternProps.showLogo !== false;
     const showLogoText = logoDisplay ? logoDisplay !== 'logo' : patternProps.showLogoText !== false;
     
+    console.log('[Navbar] logoDisplay filter:', {
+      logoDisplay,
+      showLogo,
+      showLogoText,
+      componentsBeforeFilter: Object.keys(components),
+    });
+    
     components = Object.fromEntries(
       Object.entries(components).filter(([key, comp]: [string, any]) => {
         // Filter out logo if showLogo is false
-        if (comp.type === 'logo' && !showLogo) return false;
+        if (comp.type === 'logo' && !showLogo) {
+          console.log('[Navbar] Filtering out logo component:', key);
+          return false;
+        }
         // Filter out logo text if showLogoText is false
         // Matches: logotext type, legacy heading/typography-businessName type, legacy key patterns
         if (!showLogoText) {
-          if (comp.type === 'logotext') return false;
+          if (comp.type === 'logotext') {
+            console.log('[Navbar] Filtering out logotext component:', key);
+            return false;
+          }
           if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
               (key.includes('businessName') || key.includes('typography-businessName'))) {
+            console.log('[Navbar] Filtering out legacy logotext component:', key);
             return false;
           }
         }
         return true;
       })
     );
+    
+    console.log('[Navbar] Components after filter:', Object.keys(components));
 
     // Apply linkVariant from pattern props to all link components (TextLink)
     const linkVariant = (patternProps as any)?.linkVariant;
@@ -103,11 +119,24 @@ const Navbar = ({ section }: NavbarProps) => {
     const mobileLogoDisplay = (patternProps as any).mobileLogoDisplay;
     const showLogoMobile = mobileLogoDisplay ? mobileLogoDisplay !== 'text' : !(patternProps as any).hideLogoOnMobile;
     const showLogoTextMobile = mobileLogoDisplay ? mobileLogoDisplay !== 'logo' : !(patternProps as any).hideLogoTextOnMobile;
+    
+    console.log('[Navbar] mobileLogoDisplay filter:', {
+      mobileLogoDisplay,
+      showLogoMobile,
+      showLogoTextMobile,
+    });
+    
     const mobileComponents = Object.fromEntries(
       Object.entries(components).filter(([key, comp]: [string, any]) => {
-        if (comp.type === 'logo' && !showLogoMobile) return false;
+        if (comp.type === 'logo' && !showLogoMobile) {
+          console.log('[Navbar] Filtering out logo on mobile:', key);
+          return false;
+        }
         if (!showLogoTextMobile) {
-          if (comp.type === 'logotext') return false;
+          if (comp.type === 'logotext') {
+            console.log('[Navbar] Filtering out logotext on mobile:', key);
+            return false;
+          }
           if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
               (key.includes('businessName') || key.includes('typography-businessName'))) {
             return false;
