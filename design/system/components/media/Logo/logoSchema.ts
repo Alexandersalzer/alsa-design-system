@@ -36,6 +36,15 @@ const logoTranslations = {
           full: '○',
         },
       },
+      display: {
+        displayName: 'Visa',
+        description: 'Vad som ska visas',
+        valueLabels: {
+          both: 'Båda',
+          logo: 'Logga',
+          text: 'Text',
+        },
+      },
     },
   },
   en: {
@@ -61,6 +70,15 @@ const logoTranslations = {
           lg: 'L',
           xl: 'XL',
           full: '○',
+        },
+      },
+      display: {
+        displayName: 'Display',
+        description: 'What to show',
+        valueLabels: {
+          both: 'Both',
+          logo: 'Logo',
+          text: 'Text',
         },
       },
     },
@@ -156,6 +174,20 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           group: 'appearance',
         },
         undefined
+      ),
+
+      display: createLocalizedProp(
+        {
+          name: 'display',
+          type: 'enum',
+          required: false,
+          default: 'both',
+          editorType: 'segmented',
+          values: ['both', 'logo', 'text'] as const,
+          cmsEnabled: true,
+          group: 'content',
+        },
+        t.props?.display
       ),
     },
     

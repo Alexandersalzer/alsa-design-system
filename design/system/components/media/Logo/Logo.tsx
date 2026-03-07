@@ -34,6 +34,7 @@ export interface LogoProps {
   gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   align?: 'start' | 'center' | 'end';
   hideTextOnMobile?: boolean;
+  display?: 'both' | 'logo' | 'text';
   loading?: 'eager' | 'lazy';
   priority?: boolean;
   onClick?: () => void;
@@ -67,6 +68,7 @@ export const Logo: React.FC<LogoProps> = ({
   gap = 'sm',
   align = 'center',
   hideTextOnMobile = false,
+  display,
   loading = 'lazy',
   priority = false,
   onClick,
@@ -102,9 +104,15 @@ export const Logo: React.FC<LogoProps> = ({
 
   const hasImage = Boolean(src);
   const hasText = Boolean(text);
-  const hasBoth = hasImage && hasText;
+  
+  // ----- Display filtering logic -----
+  // Respects display prop while maintaining backwards compatibility
+  const shouldShowImage = display === 'logo' || display === 'both' || (!display && hasImage);
+  const shouldShowText = display === 'text' || display === 'both' || (!display && hasText);
+  
+  const hasBoth = shouldShowImage && shouldShowText;
 
-  if (!hasImage && !hasText) return null;
+  if (!shouldShowImage && !shouldShowText) return null;
 
   const containerClasses = cn(
     'logo',
@@ -142,7 +150,7 @@ export const Logo: React.FC<LogoProps> = ({
 
   // ----- Render variants -----
 
-  if (hasImage && !hasText) {
+  if (shouldShowImage && !shouldShowText) {
     return (
       <Wrapper {...wrapperProps}>
         <Component componentKey={componentKey}>
@@ -165,7 +173,7 @@ export const Logo: React.FC<LogoProps> = ({
     );
   }
 
-  if (!hasImage && hasText) {
+  if (!shouldShowImage && shouldShowText) {
     return (
       <Wrapper {...wrapperProps}>
         <Component componentKey={textComponentKey}>
