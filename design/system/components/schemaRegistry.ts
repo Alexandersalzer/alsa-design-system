@@ -81,6 +81,9 @@ import { createBentoGridSchema } from './layout/BentoGrid/schema';
 import { createMasonryGridSchema } from './layout/MasonryGrid/schema';
 import { createStickySchema } from './layout/Sticky/schema';
 
+// Lists
+import { createFeatureListSchema } from './lists/FeatureList/schema';
+
 // Feedback
 import { createBadgeSchema } from './feedback/Badge/schema';
 import { createTagSchema } from './feedback/Tag/schema';
@@ -147,6 +150,9 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   masonryGrid: createMasonryGridSchema,
   sticky: createStickySchema,
   
+  // Lists
+  featureList: createFeatureListSchema,
+
   // Feedback
   badge: createBadgeSchema,
   tag: createTagSchema,
