@@ -15,6 +15,7 @@ import { Bleed } from './bleed/Bleed';
 import { MasonryGrid, MasonryItem } from './MasonryGrid/MasonryGrid';
 import { Overlay } from './Overlay/Overlay';
 import { BentoGrid, BentoItem } from './BentoGrid/BentoGrid';
+import { HorizontalStepRail } from './HorizontalStepRail/HorizontalStepRail';
 
 export const layoutComponents: Record<string, React.ComponentType<any>> = {
   grid: Grid,
@@ -39,4 +40,5 @@ export const layoutComponents: Record<string, React.ComponentType<any>> = {
   masonryItem: MasonryItem,
   bentoGrid: BentoGrid,
   bentoItem: BentoItem,
+  horizontalStepRail: HorizontalStepRail,
 };
