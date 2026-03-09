@@ -106,6 +106,8 @@ export const FormStepper = ({
   // Counter for FormStep registration — reset each render cycle
   const stepCounterRef = useRef(0);
   const [totalSteps, setTotalSteps] = useState(stepLabels.length || 3);
+  // Labels collected from FormStep registrations (overrides stepLabels prop when set)
+  const [registeredLabels, setRegisteredLabels] = useState<string[]>([]);
 
   const isLastStep = currentStep === totalSteps;
 
@@ -121,21 +123,30 @@ export const FormStepper = ({
     onSubmit?.();
   };
 
-  // Each FormStep calls this on mount to get its 1-based index.
+  // Each FormStep calls this on mount to get its 1-based index and register its label.
   // The counter is reset at the start of each render via the ref.
   stepCounterRef.current = 0;
-  const registerStep = useCallback((): number => {
+  const registerStep = useCallback((label?: string): number => {
     stepCounterRef.current += 1;
     const index = stepCounterRef.current;
-    // Keep totalSteps in sync (last registered step = total)
     setTotalSteps(prev => Math.max(prev, index));
+    if (label) {
+      setRegisteredLabels(prev => {
+        const next = [...prev];
+        next[index - 1] = label;
+        return next;
+      });
+    }
     return index;
   }, []);
+
+  // Use registered labels from FormStep props if available, fall back to stepLabels prop
+  const resolvedLabels = registeredLabels.length > 0 ? registeredLabels : stepLabels;
 
   const contextValue = {
     currentStep,
     totalSteps,
-    stepLabels,
+    stepLabels: resolvedLabels,
     goNext,
     goBack,
     nextLabel,

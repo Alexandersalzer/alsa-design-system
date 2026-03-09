@@ -21,7 +21,7 @@ export interface FormStepProps {
 // COMPONENT
 // ===============================================
 
-export const FormStep = ({ children }: FormStepProps) => {
+export const FormStep = ({ children, label }: FormStepProps) => {
   const { currentStep, registerStep } = useFormStepperContext();
   const [myIndex, setMyIndex] = useState<number | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -30,9 +30,9 @@ export const FormStep = ({ children }: FormStepProps) => {
   useEffect(() => {
     if (registered.current) return;
     registered.current = true;
-    const index = registerStep();
+    const index = registerStep(label);
     setMyIndex(index);
-  }, [registerStep]);
+  }, [registerStep, label]);
 
   const isActive = myIndex !== null && currentStep === myIndex;
 

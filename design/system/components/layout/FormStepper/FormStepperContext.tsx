@@ -10,8 +10,8 @@ export interface FormStepperContextValue {
   backLabel: string;
   submitLabel: string;
   isLastStep: boolean;
-  /** Called by each FormStep on mount to claim its 1-based index */
-  registerStep: () => number;
+  /** Called by each FormStep on mount to claim its 1-based index and register its label */
+  registerStep: (label?: string) => number;
 }
 
 export const FormStepperContext = createContext<FormStepperContextValue | null>(null);
