@@ -13,7 +13,6 @@ import { Picker } from './Picker/Picker';
 import { FileUploader } from './FileUploader/FileUploader';
 import { ImageCropper } from './ImageCropper/ImageCropper';
 import { ProfilePictureCropper } from './ProfilePictureCropper/ProfilePictureCropper';
-import { BookingForm } from './BookingForm/BookingForm';
 
 export const formComponents: Record<string, React.ComponentType<any>> = {
   textarea: Textarea,
@@ -31,5 +30,4 @@ export const formComponents: Record<string, React.ComponentType<any>> = {
   fileUploader: FileUploader,
   imageCropper: ImageCropper,
   profilePictureCropper: ProfilePictureCropper,
-  bookingForm: BookingForm,
 };

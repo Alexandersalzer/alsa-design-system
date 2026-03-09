@@ -1,0 +1,129 @@
+/* ===============================================
+   FormStepper — multi-step form layout component
+   =============================================== */
+
+/* ── Container ── */
+.form-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-6);
+  width: 100%;
+}
+
+.form-stepper--max-sm { max-width: 480px; margin-inline: auto; }
+.form-stepper--max-md { max-width: 640px; margin-inline: auto; }
+.form-stepper--max-lg { max-width: 800px; margin-inline: auto; }
+
+.form-stepper--card {
+  background: var(--surface-raised);
+  border-radius: var(--foundation-radius-xl);
+  padding: var(--foundation-space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Progress indicator ── */
+.form-stepper__indicator {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-stepper__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--foundation-space-1);
+  flex-shrink: 0;
+}
+
+.form-stepper__step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border-default);
+  background: var(--surface-default);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--foundation-font-size-sm);
+  font-weight: var(--foundation-font-weight-medium);
+  transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.form-stepper__step-circle--active {
+  border-color: var(--color-accent-default);
+  background: var(--color-accent-default);
+  color: var(--color-accent-on-accent);
+}
+
+.form-stepper__step-circle--completed {
+  border-color: var(--color-accent-default);
+  background: var(--color-accent-default);
+  color: var(--color-accent-on-accent);
+}
+
+.form-stepper__step-label {
+  font-size: var(--foundation-font-size-xs);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: color 200ms ease;
+}
+
+.form-stepper__step-label--active {
+  color: var(--text-primary);
+  font-weight: var(--foundation-font-weight-medium);
+}
+
+.form-stepper__step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border-default);
+  margin-bottom: calc(var(--foundation-space-1) + 12px); /* align with circle center */
+  transition: background 200ms ease;
+}
+
+.form-stepper__step-line--completed {
+  background: var(--color-accent-default);
+}
+
+/* ── Step content area ── */
+.form-stepper__content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── FormStep panel ── */
+.form-step {
+  overflow: hidden;
+}
+
+.form-step__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-4);
+  overflow: hidden;
+  transition:
+    max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-step__content {
+    transition: none;
+  }
+}
+
+/* ── Button row ── */
+.form-stepper__button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--foundation-space-3);
+  padding-top: var(--foundation-space-2);
+}
+
+.form-stepper__button-row--end {
+  justify-content: flex-end;
+}

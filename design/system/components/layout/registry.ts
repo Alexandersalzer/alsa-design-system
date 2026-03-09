@@ -16,6 +16,8 @@ import { MasonryGrid, MasonryItem } from './MasonryGrid/MasonryGrid';
 import { Overlay } from './Overlay/Overlay';
 import { BentoGrid, BentoItem } from './BentoGrid/BentoGrid';
 import { HorizontalStepRail } from './HorizontalStepRail/HorizontalStepRail';
+import { FormStepper } from './FormStepper/FormStepper';
+import { FormStep } from './FormStepper/FormStep';
 
 export const layoutComponents: Record<string, React.ComponentType<any>> = {
   grid: Grid,
@@ -41,4 +43,6 @@ export const layoutComponents: Record<string, React.ComponentType<any>> = {
   bentoGrid: BentoGrid,
   bentoItem: BentoItem,
   horizontalStepRail: HorizontalStepRail,
+  formStepper: FormStepper,
+  formStep: FormStep,
 };

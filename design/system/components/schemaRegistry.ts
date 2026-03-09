@@ -38,7 +38,6 @@ import { createKbdSchema } from './actions/Kbd/schema';
 import { createSocialLinkButtonSchema } from './actions/SocialLinkButton/schema';
 
 // Forms
-import { createBookingFormSchema } from './forms/BookingForm/schema';
 import { createInputSchema } from './forms/Input/schema';
 import { createTextareaSchema } from './forms/Textarea/schema';
 import { createPickerSchema } from './forms/Picker/schema';
@@ -75,6 +74,7 @@ import { createSpacerSchema } from './layout/Spacer/schema';
 import { createBoxSchema } from './layout/box/schema';
 import { createDividerSchema } from './layout/divider/schema';
 import { createAccordionSchema, createAccordionItemSchema } from './layout/Accordion/schema';
+import { createFormStepperSchema, createFormStepSchema } from './layout/FormStepper/schema';
 import { createBleedSchema } from './layout/bleed/schema';
 import { createRhythmSchema } from './layout/rhythm/schema';
 import { createBentoGridSchema } from './layout/BentoGrid/schema';
@@ -103,7 +103,6 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   socialLinkButton: createSocialLinkButtonSchema,
 
   // Forms
-  bookingForm: createBookingFormSchema,
   input: createInputSchema,
   textarea: createTextareaSchema,
   picker: createPickerSchema,
@@ -140,6 +139,8 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   divider: createDividerSchema,
   accordion: createAccordionSchema,
   accordionItem: createAccordionItemSchema,
+  formStepper: createFormStepperSchema,
+  formStep: createFormStepSchema,
   bleed: createBleedSchema,
   rhythm: createRhythmSchema,
   bentoGrid: createBentoGridSchema,
