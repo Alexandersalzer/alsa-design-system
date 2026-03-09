@@ -41,8 +41,8 @@
   height: 32px;
   border-radius: 50%;
   border: 2px solid var(--border-default);
-  background: var(--surface-default);
-  color: var(--text-secondary);
+  background: var(--surface-raised);
+  color: var(--text-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,26 +52,27 @@
 }
 
 .form-stepper__step-circle--active {
-  border-color: var(--color-accent-default);
-  background: var(--color-accent-default);
-  color: var(--color-accent-on-accent);
+  border-color: var(--surface-accent);
+  background: var(--surface-accent);
+  color: var(--text-inverse);
+  box-shadow: 0 0 0 4px var(--surface-accent-muted);
 }
 
 .form-stepper__step-circle--completed {
-  border-color: var(--color-accent-default);
-  background: var(--color-accent-default);
-  color: var(--color-accent-on-accent);
+  border-color: var(--surface-accent);
+  background: var(--surface-accent);
+  color: var(--text-inverse);
 }
 
 .form-stepper__step-label {
   font-size: var(--foundation-font-size-xs);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   white-space: nowrap;
   transition: color 200ms ease;
 }
 
 .form-stepper__step-label--active {
-  color: var(--text-primary);
+  color: var(--text-strong);
   font-weight: var(--foundation-font-weight-medium);
 }
 
@@ -84,7 +85,7 @@
 }
 
 .form-stepper__step-line--completed {
-  background: var(--color-accent-default);
+  background: var(--surface-accent);
 }
 
 /* ── Step content area ── */
