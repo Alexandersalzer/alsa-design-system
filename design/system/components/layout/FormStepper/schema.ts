@@ -70,12 +70,8 @@ export const createFormStepperSchema = (_locale: SupportedLocale = 'sv'): Compon
         type: 'string',
         required: false,
         default: 'default',
-        editorType: 'select',
+        editorType: 'text',
         group: 'style',
-        options: [
-          { label: 'Default', value: 'default' },
-          { label: 'Card', value: 'card' },
-        ],
       },
       maxWidth: {
         name: 'maxWidth',
@@ -83,14 +79,8 @@ export const createFormStepperSchema = (_locale: SupportedLocale = 'sv'): Compon
         type: 'string',
         required: false,
         default: 'lg',
-        editorType: 'select',
+        editorType: 'text',
         group: 'style',
-        options: [
-          { label: 'Small (480px)', value: 'sm' },
-          { label: 'Medium (640px)', value: 'md' },
-          { label: 'Large (800px)', value: 'lg' },
-          { label: 'Full width', value: 'full' },
-        ],
       },
     },
 
