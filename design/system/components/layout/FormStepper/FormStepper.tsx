@@ -169,7 +169,7 @@ export const FormStepper = ({
         <StepIndicator
           currentStep={currentStep}
           totalSteps={totalSteps}
-          labels={stepLabels}
+          labels={resolvedLabels}
         />
 
         <div className="form-stepper__content">
