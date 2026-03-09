@@ -4,7 +4,7 @@
 // ===============================================
 
 import React from 'react';
-import { Check, CheckCircle, Circle, Dot } from 'lucide-react';
+import { Check, CheckCircle, Circle } from 'lucide-react';
 import { cn } from '../../../utils/cn';
 import './FeatureList.css';
 
@@ -35,16 +35,28 @@ export interface FeatureListProps {
   componentKey?: string;
 }
 
-// ===== ICON RESOLVER =====
-
-const ICONS: Record<FeatureListIcon, React.FC<{ className?: string }>> = {
-  check: ({ className }) => <Check className={className} strokeWidth={2.5} />,
-  checkCircle: ({ className }) => <CheckCircle className={className} strokeWidth={2} />,
-  dot: ({ className }) => <Dot className={className} strokeWidth={3} />,
-  bullet: ({ className }) => (
-    <span className={cn('feature-list__bullet', className)} aria-hidden="true" />
-  ),
+// ===== SIZE MAP =====
+// SVG pixel sizes per size + icon type
+const SVG_SIZE: Record<FeatureListSize, { regular: number; dot: number }> = {
+  sm: { regular: 14, dot: 7  },
+  md: { regular: 18, dot: 9  },
+  lg: { regular: 22, dot: 11 },
 };
+
+// ===== ICON RENDERER =====
+function renderIcon(icon: FeatureListIcon, size: FeatureListSize) {
+  const { regular, dot } = SVG_SIZE[size];
+  switch (icon) {
+    case 'check':
+      return <Check width={regular} height={regular} strokeWidth={2.5} />;
+    case 'checkCircle':
+      return <CheckCircle width={regular} height={regular} strokeWidth={2} />;
+    case 'dot':
+      return <Circle width={dot} height={dot} fill="currentColor" strokeWidth={0} />;
+    case 'bullet':
+      return <span className="feature-list__bullet" aria-hidden="true" />;
+  }
+}
 
 function resolveItem(item: string | FeatureListItem): FeatureListItem {
   return typeof item === 'string' ? { text: item } : item;
@@ -76,11 +88,10 @@ export const FeatureList: React.FC<FeatureListProps> = ({
     >
       {items.map((raw, i) => {
         const item = resolveItem(raw);
-        const IconComponent = ICONS[item.icon ?? icon];
         return (
           <li key={i} className="feature-list__item">
             <span className="feature-list__icon" aria-hidden="true">
-              <IconComponent className="feature-list__icon-svg" />
+              {renderIcon(item.icon ?? icon, size)}
             </span>
             <span className="feature-list__text">{item.text}</span>
           </li>
