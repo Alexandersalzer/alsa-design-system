@@ -7,6 +7,7 @@
 .selection-card {
   position: relative;
   display: flex;
+  width: 100%;
   padding: var(--foundation-space-4);
   border-radius: var(--radius-button);
   border: 1px solid var(--border-subtle);

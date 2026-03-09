@@ -118,6 +118,11 @@
   line-height: 1;
 }
 
+/* Full-width variant */
+.picker-wrapper--full-width {
+  width: 100%;
+}
+
 /* Compact variant */
 .picker--compact {
   min-height: 32px;

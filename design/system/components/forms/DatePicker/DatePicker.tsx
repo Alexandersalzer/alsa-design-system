@@ -68,6 +68,7 @@ export interface DatePickerProps {
     errorMessage: string;
   }>;
   calendarProps?: any;
+  fullWidth?: boolean;
   onChange?: (value: DateValue | null) => void;
   onFocus?: (e: React.FocusEvent) => void;
   onBlur?: (e: React.FocusEvent) => void;
@@ -108,6 +109,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   autoFocus = false,
   CalendarBottomContent,
   CalendarTopContent,
+  fullWidth = false,
   classNames = {},
   calendarProps,
   onChange,
@@ -167,7 +169,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   );
 
   return (
-    <div ref={ref} className={cn('date-picker-wrapper', classNames.base)}>
+    <div ref={ref} className={cn('date-picker-wrapper', fullWidth && 'date-picker-wrapper--full-width', classNames.base)}>
       {/* Label */}
       {label && labelPlacement !== 'inside' && (
         <label {...labelProps} className={cn('date-picker-label', `date-picker-label--${size}`, classNames.label)}>

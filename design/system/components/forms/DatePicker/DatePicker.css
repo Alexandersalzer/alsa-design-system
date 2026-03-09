@@ -11,6 +11,11 @@
   position: relative;
 }
 
+/* ===== FULL WIDTH ===== */
+.date-picker-wrapper--full-width {
+  width: 100%;
+}
+
 /* ===== LABEL ===== */
 .date-picker-label {
   font-family: var(--font-body-family);
