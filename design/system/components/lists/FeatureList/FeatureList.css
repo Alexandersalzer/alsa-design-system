@@ -11,16 +11,16 @@
   flex-direction: column;
 }
 
-/* ===== SPACING ===== */
+/* ===== SPACING between items ===== */
 .feature-list--spacing-xs { gap: var(--space-1); }
 .feature-list--spacing-sm { gap: var(--space-2); }
-.feature-list--spacing-md { gap: var(--space-3); }
+.feature-list--spacing-md { gap: var(--space-4); }
 
 /* ===== ITEM ===== */
 .feature-list__item {
   display: flex;
-  align-items: flex-start;
-  gap: var(--space-2);
+  align-items: center;
+  gap: var(--space-3);
 }
 
 /* ===== ICON ===== */
@@ -29,14 +29,13 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: 0.1em;
 }
 
 .feature-list__icon-svg {
   display: block;
 }
 
-/* Bullet pseudo-element */
+/* Bullet circle */
 .feature-list__bullet {
   display: inline-block;
   border-radius: 50%;
@@ -44,35 +43,25 @@
 }
 
 /* ===== SIZE ===== */
-.feature-list--sm .feature-list__text {
-  font-size: var(--text-sm);
-  line-height: 1.5;
-}
-.feature-list--sm .feature-list__icon-svg,
-.feature-list--sm .feature-list__bullet {
-  width: 14px;
-  height: 14px;
-}
+/* dot / bullet — small filled circles */
+.feature-list--sm .feature-list__bullet { width: 5px; height: 5px; }
+.feature-list--md .feature-list__bullet { width: 6px; height: 6px; }
+.feature-list--lg .feature-list__bullet { width: 8px; height: 8px; }
 
-.feature-list--md .feature-list__text {
-  font-size: var(--text-base);
-  line-height: 1.5;
-}
-.feature-list--md .feature-list__icon-svg,
-.feature-list--md .feature-list__bullet {
-  width: 16px;
-  height: 16px;
-}
+/* Dot icon SVG (Lucide Dot is huge, override) */
+.feature-list--sm .feature-list__icon-svg.dot-icon { width: 10px; height: 10px; }
+.feature-list--md .feature-list__icon-svg.dot-icon { width: 12px; height: 12px; }
+.feature-list--lg .feature-list__icon-svg.dot-icon { width: 14px; height: 14px; }
 
-.feature-list--lg .feature-list__text {
-  font-size: var(--text-lg);
-  line-height: 1.5;
-}
-.feature-list--lg .feature-list__icon-svg,
-.feature-list--lg .feature-list__bullet {
-  width: 20px;
-  height: 20px;
-}
+/* Check / CheckCircle SVG */
+.feature-list--sm .feature-list__icon-svg { width: 14px; height: 14px; }
+.feature-list--md .feature-list__icon-svg { width: 16px; height: 16px; }
+.feature-list--lg .feature-list__icon-svg { width: 20px; height: 20px; }
+
+/* Text */
+.feature-list--sm .feature-list__text { font-size: var(--text-sm); line-height: 1.5; }
+.feature-list--md .feature-list__text { font-size: var(--text-base); line-height: 1.5; }
+.feature-list--lg .feature-list__text { font-size: var(--text-lg); line-height: 1.5; }
 
 /* ===== COLOR ===== */
 .feature-list--color-default .feature-list__icon { color: var(--text-default); }
