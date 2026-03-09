@@ -3,7 +3,7 @@
 // ✅ UNIFIED SELECTION CARD - Replaces RadioCard, CheckboxCard, and selection patterns
 // ===============================================
 
-import React, { forwardRef, useId } from 'react';
+import React, { forwardRef, useId, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 import { Radio } from '../../forms/Radio/Radio';
@@ -110,7 +110,7 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
 export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   children,
   label,
-  selected = false,
+  selected: selectedProp,
   onChange,
   disabled = false,
   indicator = 'none',
@@ -128,6 +128,11 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   const id = providedId || generatedId;
   const inputId = `${id}-input`;
 
+  // Uncontrolled internal state — used when no onChange is wired (e.g. static gallery preview)
+  const isControlled = onChange !== undefined;
+  const [internalSelected, setInternalSelected] = useState(selectedProp ?? false);
+  const selected = isControlled ? (selectedProp ?? false) : internalSelected;
+
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
 
@@ -136,13 +141,13 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     if (target.closest('input[type="checkbox"], input[type="radio"]')) return;
 
     if (indicator === 'radio') {
-      // Radio behavior: only trigger if not already selected
       if (!selected) {
         onChange?.(true);
+        if (!isControlled) setInternalSelected(true);
       }
     } else {
-      // Checkbox/none behavior: toggle
       onChange?.(!selected);
+      if (!isControlled) setInternalSelected(s => !s);
     }
 
     onClick?.(e);
@@ -157,9 +162,11 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
       if (indicator === 'radio') {
         if (!selected) {
           onChange?.(true);
+          if (!isControlled) setInternalSelected(true);
         }
       } else {
         onChange?.(!selected);
+        if (!isControlled) setInternalSelected(s => !s);
       }
     }
   };
@@ -169,9 +176,11 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
 
     if (indicator === 'checkbox') {
       onChange?.(e.target.checked);
+      if (!isControlled) setInternalSelected(e.target.checked);
     } else if (indicator === 'radio') {
       if (e.target.checked) {
         onChange?.(true);
+        if (!isControlled) setInternalSelected(true);
       }
     }
   };
