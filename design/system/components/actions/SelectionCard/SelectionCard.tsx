@@ -3,7 +3,7 @@
 // ✅ UNIFIED SELECTION CARD - Replaces RadioCard, CheckboxCard, and selection patterns
 // ===============================================
 
-import React, { forwardRef, useId, useState } from 'react';
+import React, { forwardRef, useId, useEffect, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 import { Radio } from '../../forms/Radio/Radio';
@@ -45,6 +45,33 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
   className?: string;
 }
 
+// ===== RADIO GROUP REGISTRY =====
+// Module-level shared state for uncontrolled radio groups.
+// Cards with the same `name` coordinate through this registry.
+
+type GroupStore = {
+  selected: string | null;
+  listeners: Set<(selected: string | null) => void>;
+  select: (id: string) => void;
+};
+
+const radioGroupRegistry: Record<string, GroupStore> = {};
+
+function getOrCreateGroup(name: string): GroupStore {
+  if (!radioGroupRegistry[name]) {
+    const listeners = new Set<(selected: string | null) => void>();
+    radioGroupRegistry[name] = {
+      selected: null,
+      listeners,
+      select(id: string) {
+        radioGroupRegistry[name].selected = id;
+        listeners.forEach(fn => fn(id));
+      },
+    };
+  }
+  return radioGroupRegistry[name];
+}
+
 /**
  * SelectionCard - Unified component for ALL selection scenarios
  *
@@ -55,57 +82,6 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
  * - Page/section selectors
  * - Dashboard layout pickers
  * - Any grid-based selection interface
- *
- * @example
- * // Single select (visual only, no indicator)
- * <SelectionCard
- *   selected={theme === 'ocean'}
- *   onClick={() => setTheme('ocean')}
- * >
- *   <VStack spacing="sm" align="center">
- *     <div style={{ width: 40, height: 40, background: 'blue', borderRadius: '50%' }} />
- *     <Body>Ocean Theme</Body>
- *   </VStack>
- * </SelectionCard>
- *
- * @example
- * // Multi-select with checkbox
- * <SelectionCard
- *   selected={selected.includes('hero')}
- *   onChange={(checked) => toggleSection('hero', checked)}
- *   indicator="checkbox"
- * >
- *   <Icon><SparklesIcon /></Icon>
- *   <H5>Hero Section</H5>
- *   <Body size="sm">Eye-catching header</Body>
- * </SelectionCard>
- *
- * @example
- * // Single select with radio (form group)
- * <SelectionCard
- *   selected={plan === 'pro'}
- *   onChange={() => setPlan('pro')}
- *   indicator="radio"
- *   name="plan"
- *   value="pro"
- * >
- *   <H4>Pro Plan</H4>
- *   <Body>$29/month</Body>
- * </SelectionCard>
- *
- * @example
- * // Horizontal layout with icon
- * <SelectionCard
- *   selected={page === 'about'}
- *   onClick={() => setPage('about')}
- *   orientation="horizontal"
- * >
- *   <Icon><InformationCircleIcon /></Icon>
- *   <VStack spacing="xs">
- *     <Body weight="medium">About Page</Body>
- *     <Body size="sm" color="secondary">Company info</Body>
- *   </VStack>
- * </SelectionCard>
  */
 export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   children,
@@ -127,27 +103,56 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   const generatedId = useId();
   const id = providedId || generatedId;
   const inputId = `${id}-input`;
+  // Use the id as a stable key for this card in the group
+  const cardKey = id;
 
-  // Uncontrolled internal state — used when no onChange is wired (e.g. static gallery preview)
-  const isControlled = onChange !== undefined;
-  const [internalSelected, setInternalSelected] = useState(selectedProp ?? false);
-  const selected = isControlled ? (selectedProp ?? false) : internalSelected;
+  const isControlled = onChange !== undefined || selectedProp !== undefined;
+
+  // Uncontrolled radio group state — only used when indicator='radio', name is set, and not controlled
+  const [groupSelected, setGroupSelected] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isControlled || indicator !== 'radio' || !name) return;
+    const group = getOrCreateGroup(name);
+    // Sync initial state
+    setGroupSelected(group.selected);
+    // Subscribe to changes
+    const listener = (sel: string | null) => setGroupSelected(sel);
+    group.listeners.add(listener);
+    return () => { group.listeners.delete(listener); };
+  }, [isControlled, indicator, name]);
+
+  // Resolve final selected state
+  let selected: boolean;
+  if (isControlled) {
+    selected = selectedProp ?? false;
+  } else if (indicator === 'radio' && name) {
+    selected = groupSelected === cardKey;
+  } else {
+    // checkbox / none without external state: use local toggle (handled below)
+    selected = selectedProp ?? false;
+  }
+
+  // Local toggle state for checkbox/none uncontrolled
+  const [localSelected, setLocalSelected] = useState(selectedProp ?? false);
+  const effectiveSelected = (indicator !== 'radio' && !isControlled) ? localSelected : selected;
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
 
-    // Don't trigger if clicking directly on the input
     const target = e.target as HTMLElement;
     if (target.closest('input[type="checkbox"], input[type="radio"]')) return;
 
     if (indicator === 'radio') {
-      if (!selected) {
+      if (!effectiveSelected) {
         onChange?.(true);
-        if (!isControlled) setInternalSelected(true);
+        if (!isControlled && name) {
+          getOrCreateGroup(name).select(cardKey);
+        }
       }
     } else {
-      onChange?.(!selected);
-      if (!isControlled) setInternalSelected(s => !s);
+      onChange?.(!effectiveSelected);
+      if (!isControlled) setLocalSelected(s => !s);
     }
 
     onClick?.(e);
@@ -155,37 +160,37 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (disabled) return;
-
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
-
       if (indicator === 'radio') {
-        if (!selected) {
+        if (!effectiveSelected) {
           onChange?.(true);
-          if (!isControlled) setInternalSelected(true);
+          if (!isControlled && name) {
+            getOrCreateGroup(name).select(cardKey);
+          }
         }
       } else {
-        onChange?.(!selected);
-        if (!isControlled) setInternalSelected(s => !s);
+        onChange?.(!effectiveSelected);
+        if (!isControlled) setLocalSelected(s => !s);
       }
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) return;
-
     if (indicator === 'checkbox') {
       onChange?.(e.target.checked);
-      if (!isControlled) setInternalSelected(e.target.checked);
+      if (!isControlled) setLocalSelected(e.target.checked);
     } else if (indicator === 'radio') {
       if (e.target.checked) {
         onChange?.(true);
-        if (!isControlled) setInternalSelected(true);
+        if (!isControlled && name) {
+          getOrCreateGroup(name).select(cardKey);
+        }
       }
     }
   };
 
-  // Determine ARIA role
   const getRole = () => {
     if (indicator === 'checkbox') return 'checkbox';
     if (indicator === 'radio') return 'radio';
@@ -197,8 +202,8 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
       ref={ref}
       id={id}
       role={getRole()}
-      aria-checked={indicator !== 'none' ? selected : undefined}
-      aria-pressed={indicator === 'none' ? selected : undefined}
+      aria-checked={indicator !== 'none' ? effectiveSelected : undefined}
+      aria-pressed={indicator === 'none' ? effectiveSelected : undefined}
       aria-disabled={disabled}
       tabIndex={disabled ? -1 : 0}
       onClick={handleClick}
@@ -209,7 +214,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
         `selection-card--${orientation}`,
         `selection-card--${variant}`,
         `selection-card--indicator-${indicator}`,
-        selected && 'selection-card--selected',
+        effectiveSelected && 'selection-card--selected',
         disabled && 'selection-card--disabled',
         className
       )}
@@ -225,7 +230,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
         <div className="selection-card__indicator">
           <Checkbox
             id={inputId}
-            checked={selected}
+            checked={effectiveSelected}
             onChange={handleInputChange}
             disabled={disabled}
             tabIndex={-1}
@@ -241,7 +246,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
             id={inputId}
             name={name}
             value={value}
-            checked={selected}
+            checked={effectiveSelected}
             onChange={handleInputChange}
             disabled={disabled}
             tabIndex={-1}
