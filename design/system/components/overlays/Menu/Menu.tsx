@@ -191,14 +191,6 @@ export const MenuRoot = <T extends object>({
   triggerIcon,
   menuItems
 }: MenuRootProps<T>) => {
-  // DEBUG: Log received props
-  console.log('🔍 Menu props received:', { 
-    componentKey, 
-    triggerLabel, 
-    menuItems: menuItems ? `Array(${menuItems.length})` : 'undefined',
-    hasChildren: !!children
-  });
-  
   // Selection state management
   const [uncontrolledSelectedKeys, setUncontrolledSelectedKeys] = useState<Set<Key>>(
     () => new Set(defaultSelectedKeys === 'all' ? [] : defaultSelectedKeys || [])
@@ -344,12 +336,6 @@ export const MenuRoot = <T extends object>({
 
   // Handle dynamic items rendering
   const renderChildren = () => {
-    console.log('🎯 renderChildren called with:', { 
-      hasMenuItems: !!menuItems, 
-      hasTriggerLabel: !!triggerLabel,
-      willAutoGenerate: !!(menuItems && triggerLabel)
-    });
-    
     // NEW: If menuItems provided, auto-generate Menu.Trigger + Menu.Content structure
     if (menuItems && triggerLabel) {
       console.log('✅ Auto-generating Menu structure with', menuItems.length, 'items');
