@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useRef } from 'react';
 
 export interface FormStepperContextValue {
   currentStep: number;
@@ -10,6 +10,8 @@ export interface FormStepperContextValue {
   backLabel: string;
   submitLabel: string;
   isLastStep: boolean;
+  /** Called by each FormStep on mount to claim its 1-based index */
+  registerStep: () => number;
 }
 
 export const FormStepperContext = createContext<FormStepperContextValue | null>(null);
@@ -19,3 +21,8 @@ export const useFormStepperContext = (): FormStepperContextValue => {
   if (!ctx) throw new Error('useFormStepperContext must be used within a FormStepper');
   return ctx;
 };
+
+/** Returns a stable counter ref for assigning step indices */
+export function useStepCounter() {
+  return useRef(0);
+}

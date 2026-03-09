@@ -1,9 +1,10 @@
 // ===============================================
 // FormStep.tsx — A single step panel inside FormStepper
-// Mirrors AccordionItem: reads context to show/hide itself.
+// Registers itself with the parent via context on mount to get its index.
+// Shows/hides based on currentStep === myIndex.
 // ===============================================
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useFormStepperContext } from './FormStepperContext';
 
 // ===============================================
@@ -14,37 +15,44 @@ export interface FormStepProps {
   stepKey: string;
   label?: string;
   children?: React.ReactNode;
-  // Injected by FormStepper via cloneElement:
-  _stepIndex?: number;
 }
 
 // ===============================================
 // COMPONENT
 // ===============================================
 
-export const FormStep = ({ _stepIndex = 1, children }: FormStepProps) => {
-  const { currentStep } = useFormStepperContext();
-  const isActive = currentStep === _stepIndex;
+export const FormStep = ({ children }: FormStepProps) => {
+  const { currentStep, registerStep } = useFormStepperContext();
+  const [myIndex, setMyIndex] = useState<number | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const registered = useRef(false);
+
+  useEffect(() => {
+    if (registered.current) return;
+    registered.current = true;
+    const index = registerStep();
+    setMyIndex(index);
+  }, [registerStep]);
+
+  const isActive = myIndex !== null && currentStep === myIndex;
 
   // Max-height animation — same approach as AccordionItem
   useEffect(() => {
     const el = contentRef.current;
-    if (!el) return;
+    if (!el || myIndex === null) return;
 
     if (isActive) {
-      // Measure natural height then animate in
       el.style.maxHeight = `${el.scrollHeight}px`;
       el.style.opacity = '1';
       el.style.transform = 'translateY(0)';
-      // After transition, remove fixed max-height so content can grow
       const timeout = setTimeout(() => {
         if (el) el.style.maxHeight = 'none';
       }, 300);
       return () => clearTimeout(timeout);
     } else {
-      // First set a fixed max-height so the transition works, then collapse
-      el.style.maxHeight = `${el.scrollHeight}px`;
+      // Capture current height first, then collapse in next frame
+      const currentHeight = el.scrollHeight;
+      el.style.maxHeight = `${currentHeight}px`;
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           if (el) {
@@ -55,13 +63,16 @@ export const FormStep = ({ _stepIndex = 1, children }: FormStepProps) => {
         });
       });
     }
-  }, [isActive]);
+  }, [isActive, myIndex]);
+
+  // Don't render at all until we have our index
+  if (myIndex === null) return null;
 
   return (
     <div
       className="form-step"
       aria-hidden={!isActive}
-      data-step-index={_stepIndex}
+      data-step-index={myIndex}
     >
       <div
         ref={contentRef}

@@ -4,7 +4,7 @@
 // children (FormStep) read context to show/hide themselves.
 // ===============================================
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import Button from '../../actions/Button/Button';
@@ -103,11 +103,9 @@ export const FormStepper = ({
   children,
 }: FormStepperProps) => {
   const [currentStep, setCurrentStep] = useState(defaultStep);
-
-  // Count total steps from children
-  const totalSteps = useMemo(() => {
-    return React.Children.count(children);
-  }, [children]);
+  // Counter for FormStep registration — reset each render cycle
+  const stepCounterRef = useRef(0);
+  const [totalSteps, setTotalSteps] = useState(stepLabels.length || 3);
 
   const isLastStep = currentStep === totalSteps;
 
@@ -123,11 +121,16 @@ export const FormStepper = ({
     onSubmit?.();
   };
 
-  // Inject step index into each FormStep child via cloneElement
-  const stepsWithIndex = React.Children.map(children, (child, i) => {
-    if (!React.isValidElement(child)) return child;
-    return React.cloneElement(child as React.ReactElement<any>, { _stepIndex: i + 1 });
-  });
+  // Each FormStep calls this on mount to get its 1-based index.
+  // The counter is reset at the start of each render via the ref.
+  stepCounterRef.current = 0;
+  const registerStep = useCallback((): number => {
+    stepCounterRef.current += 1;
+    const index = stepCounterRef.current;
+    // Keep totalSteps in sync (last registered step = total)
+    setTotalSteps(prev => Math.max(prev, index));
+    return index;
+  }, []);
 
   const contextValue = {
     currentStep,
@@ -139,6 +142,7 @@ export const FormStepper = ({
     backLabel,
     submitLabel,
     isLastStep,
+    registerStep,
   };
 
   return (
@@ -158,7 +162,7 @@ export const FormStepper = ({
         />
 
         <div className="form-stepper__content">
-          {stepsWithIndex}
+          {children}
         </div>
 
         <div className={cn(

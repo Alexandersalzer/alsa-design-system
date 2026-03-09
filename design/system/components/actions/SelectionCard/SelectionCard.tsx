@@ -17,7 +17,9 @@ export type SelectionCardIndicator = 'none' | 'checkbox' | 'radio';
 export type SelectionCardVariant = 'neutral' | 'accent';
 
 export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  /** Text label rendered as content when no children are provided */
+  label?: string;
 
   // Selection state
   selected?: boolean;
@@ -107,6 +109,7 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
  */
 export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   children,
+  label,
   selected = false,
   onChange,
   disabled = false,
@@ -205,7 +208,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     >
       {/* Content area */}
       <div className="selection-card__content">
-        {children}
+        {children ?? (label ? <span>{label}</span> : null)}
       </div>
 
       {/* Indicator (checkbox or radio) */}
