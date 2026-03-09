@@ -1,8 +1,5 @@
 /**
  * BookingForm Component Schema
- *
- * Multi-step booking/contact form with package selection, date/time picking, and personal details.
- * Content-driven — all labels, options, and copy are configurable via props.
  */
 
 import { ComponentSchema } from '../../../core/schemas/component.types';
@@ -15,7 +12,7 @@ export const createBookingFormSchema = (_locale: SupportedLocale = 'sv'): Compon
     category: 'forms',
     description: 'Multi-step booking form with package selection, date/time picking, and personal details.',
     icon: 'ClipboardDocumentList',
-    tags: ['form', 'booking', 'contact', 'multi-step', 'stepper'],
+    tags: ['form', 'booking', 'contact', 'multi-step'],
     version: '1.0.0',
     cmsEnabled: true,
 
@@ -43,6 +40,7 @@ export const createBookingFormSchema = (_locale: SupportedLocale = 'sv'): Compon
     props: {
       packageTitle: {
         name: 'packageTitle',
+        displayName: 'Package title',
         type: 'string',
         required: false,
         default: 'Hur många knivar vill du slipa?',
@@ -51,6 +49,7 @@ export const createBookingFormSchema = (_locale: SupportedLocale = 'sv'): Compon
       },
       packageCaption: {
         name: 'packageCaption',
+        displayName: 'Package caption',
         type: 'string',
         required: false,
         default: '120 kr per kniv · Minimum 4 knivar per bokning',
@@ -59,13 +58,16 @@ export const createBookingFormSchema = (_locale: SupportedLocale = 'sv'): Compon
       },
       packages: {
         name: 'packages',
+        displayName: 'Packages',
         type: 'array',
         required: false,
-        editorType: 'json',
+        editorType: 'repeater',
         group: 'content',
+        items: { name: 'package', displayName: 'Package', type: 'string' },
       },
       dateTitle: {
         name: 'dateTitle',
+        displayName: 'Date title',
         type: 'string',
         required: false,
         default: 'Välj datum',
@@ -74,6 +76,7 @@ export const createBookingFormSchema = (_locale: SupportedLocale = 'sv'): Compon
       },
       timeTitle: {
         name: 'timeTitle',
+        displayName: 'Time title',
         type: 'string',
         required: false,
         default: 'Välj tid',
@@ -82,13 +85,16 @@ export const createBookingFormSchema = (_locale: SupportedLocale = 'sv'): Compon
       },
       quickTimes: {
         name: 'quickTimes',
+        displayName: 'Quick time options',
         type: 'array',
         required: false,
-        editorType: 'json',
+        editorType: 'repeater',
         group: 'content',
+        items: { name: 'time', displayName: 'Time', type: 'string' },
       },
       detailsTitle: {
         name: 'detailsTitle',
+        displayName: 'Details step title',
         type: 'string',
         required: false,
         default: 'Dina uppgifter',
@@ -97,6 +103,7 @@ export const createBookingFormSchema = (_locale: SupportedLocale = 'sv'): Compon
       },
       submitLabel: {
         name: 'submitLabel',
+        displayName: 'Submit button label',
         type: 'string',
         required: false,
         default: 'Betala på plats',
@@ -105,10 +112,12 @@ export const createBookingFormSchema = (_locale: SupportedLocale = 'sv'): Compon
       },
       stepLabels: {
         name: 'stepLabels',
+        displayName: 'Step labels',
         type: 'array',
         required: false,
-        editorType: 'json',
+        editorType: 'list',
         group: 'content',
+        items: { name: 'label', displayName: 'Label', type: 'string' },
       },
     },
 

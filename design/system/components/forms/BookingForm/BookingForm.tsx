@@ -242,8 +242,7 @@ export const BookingForm = ({
 
             <div className="booking-form__button-row booking-form__button-row--end">
               <Button
-                variant="solid"
-                color="primary"
+                variant="primary"
                 size="md"
                 disabled={!canGoNext1}
                 onClick={() => setCurrentStep(2)}
@@ -326,7 +325,6 @@ export const BookingForm = ({
             <div className="booking-form__button-row">
               <Button
                 variant="ghost"
-                color="default"
                 size="md"
                 onClick={() => setCurrentStep(1)}
                 type="button"
@@ -334,8 +332,7 @@ export const BookingForm = ({
                 Tillbaka
               </Button>
               <Button
-                variant="solid"
-                color="primary"
+                variant="primary"
                 size="md"
                 disabled={!canGoNext2}
                 onClick={() => setCurrentStep(3)}
@@ -355,7 +352,7 @@ export const BookingForm = ({
             <div className="booking-form__fields">
               <Input
                 label="Namn"
-                isRequired
+                required
                 size="md"
                 variant="bordered"
                 value={name}
@@ -364,7 +361,7 @@ export const BookingForm = ({
               />
               <Input
                 label="Adress"
-                isRequired
+                required
                 size="md"
                 variant="bordered"
                 value={address}
@@ -373,7 +370,7 @@ export const BookingForm = ({
               />
               <Input
                 label="Telefon"
-                isRequired
+                required
                 size="md"
                 variant="bordered"
                 type="tel"
@@ -416,7 +413,6 @@ export const BookingForm = ({
             <div className="booking-form__button-row">
               <Button
                 variant="ghost"
-                color="default"
                 size="md"
                 onClick={() => setCurrentStep(2)}
                 type="button"
@@ -424,8 +420,7 @@ export const BookingForm = ({
                 Tillbaka
               </Button>
               <Button
-                variant="solid"
-                color="primary"
+                variant="primary"
                 size="md"
                 type="submit"
                 disabled={!name || !address || !phone}
