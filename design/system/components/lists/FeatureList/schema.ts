@@ -5,7 +5,7 @@ export const createFeatureListSchema = (locale: SupportedLocale = 'sv'): Compone
   return {
     $id: 'featureList',
     displayName: locale === 'en' ? 'Feature List' : 'Punktlista',
-    category: 'lists',
+    category: 'data',
     description: locale === 'en'
       ? 'Bullet list with customizable icons (check, checkCircle, dot, bullet)'
       : 'Punktlista med valbara ikoner (check, checkCircle, punkt, cirkel)',
@@ -35,6 +35,12 @@ export const createFeatureListSchema = (locale: SupportedLocale = 'sv'): Compone
         editorType: 'list',
         cmsEnabled: true,
         group: 'content',
+        items: {
+          name: 'item',
+          displayName: locale === 'en' ? 'Item' : 'Punkt',
+          type: 'string',
+          editorType: 'text',
+        },
       },
       icon: {
         name: 'icon',
