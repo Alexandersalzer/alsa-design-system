@@ -35,6 +35,9 @@
 .btn .btn-text,
 .btn [class*="text-label-"] {
   color: inherit !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Ensure icons also inherit */
