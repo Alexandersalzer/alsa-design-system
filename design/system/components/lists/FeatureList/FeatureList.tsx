@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Check, CheckCircle, Circle } from 'lucide-react';
-import { Body } from '../../primitives/Typography/Typography';
+import { Body } from '../../Typography/Typography';
 import { cn } from '../../../utils/cn';
 import './FeatureList.css';
 
