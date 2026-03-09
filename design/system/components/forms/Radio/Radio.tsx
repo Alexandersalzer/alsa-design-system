@@ -57,7 +57,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
   const name = propName || groupContext?.name;
   const size = propSize || groupContext?.size || 'md';
   const disabled = propDisabled || groupContext?.disabled || false;
-  const checked = propChecked || (groupContext?.value === value);
+  const checked = propChecked ?? (groupContext != null && value != null ? groupContext.value === value : false);
   
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Call group onChange first if available
