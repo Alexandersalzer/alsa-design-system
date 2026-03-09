@@ -167,25 +167,50 @@ export const PopoverRoot = ({
   // Close on outside click
   useEffect(() => {
     if (!isOpen || !closeOnInteractOutside) return;
-    
+
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
-      
+
       // Check if click is inside trigger or content
       const isInsideTrigger = triggerRef.current?.contains(target);
       const isInsideContent = contentRef.current?.contains(target);
-      
-      // 🎯 KEY FIX: Also check if the target is an input/textarea inside the trigger
+
+      // Also check if the target is an input/textarea inside the trigger
       const isInputInTrigger = triggerRef.current?.querySelector('input, textarea')?.contains(target);
-      
+
       if (!isInsideTrigger && !isInsideContent && !isInputInTrigger) {
         setIsOpen(false);
       }
     };
 
+    // Close when user clicks outside the iframe (parent window mousedown)
+    const handleParentClickOutside = () => {
+      setIsOpen(false);
+    };
+
     // Use 'mousedown' instead of 'click' for better UX
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+
+    // When rendered inside an iframe, also listen on the parent document
+    const isInIframe = window !== window.top;
+    if (isInIframe) {
+      try {
+        window.top?.document.addEventListener('mousedown', handleParentClickOutside);
+      } catch {
+        // Cross-origin iframe — cannot access parent document, ignore
+      }
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      if (isInIframe) {
+        try {
+          window.top?.document.removeEventListener('mousedown', handleParentClickOutside);
+        } catch {
+          // ignore
+        }
+      }
+    };
   }, [isOpen, closeOnInteractOutside]);
   
   // Close on escape
