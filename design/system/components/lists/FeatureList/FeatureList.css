@@ -43,11 +43,6 @@
 .feature-list--md .feature-list__bullet { width: 8px;  height: 8px;  }
 .feature-list--lg .feature-list__bullet { width: 10px; height: 10px; }
 
-/* ===== TEXT ===== */
-.feature-list--sm .feature-list__text { font-size: var(--text-sm);   line-height: 1.5; }
-.feature-list--md .feature-list__text { font-size: var(--text-base); line-height: 1.5; }
-.feature-list--lg .feature-list__text { font-size: var(--text-lg);   line-height: 1.5; }
-
 /* ===== COLOR ===== */
 .feature-list--color-default .feature-list__icon { color: var(--text-default); }
 .feature-list--color-accent   .feature-list__icon { color: var(--surface-accent); }
@@ -55,5 +50,5 @@
 .feature-list--color-muted    .feature-list__icon { color: var(--text-muted); }
 
 .feature-list__text {
-  color: var(--text-default);
+  margin: 0;
 }

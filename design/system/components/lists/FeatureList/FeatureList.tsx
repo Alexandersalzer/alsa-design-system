@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { Check, CheckCircle, Circle } from 'lucide-react';
+import { Body } from '../../primitives/Typography/Typography';
 import { cn } from '../../../utils/cn';
 import './FeatureList.css';
 
@@ -93,7 +94,7 @@ export const FeatureList: React.FC<FeatureListProps> = ({
             <span className="feature-list__icon" aria-hidden="true">
               {renderIcon(item.icon ?? icon, size)}
             </span>
-            <span className="feature-list__text">{item.text}</span>
+            <Body size={size} color="secondary" className="feature-list__text" preserveLineBreaks={false}>{item.text}</Body>
           </li>
         );
       })}
