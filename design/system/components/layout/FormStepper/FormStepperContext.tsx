@@ -12,6 +12,8 @@ export interface FormStepperContextValue {
   isLastStep: boolean;
   /** Called by each FormStep on mount to claim its 1-based index and register its label */
   registerStep: (label?: string) => number;
+  /** Called by each FormStep on unmount to remove itself from the count */
+  unregisterStep: (index: number) => void;
 }
 
 export const FormStepperContext = createContext<FormStepperContextValue | null>(null);

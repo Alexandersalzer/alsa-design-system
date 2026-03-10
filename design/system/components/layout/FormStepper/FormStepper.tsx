@@ -2,7 +2,7 @@
 // FormStepper.tsx — Universal multi-step form layout component
 // ===============================================
 
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import Button from '../../actions/Button/Button';
@@ -102,24 +102,16 @@ export const FormStepper = ({
 }: FormStepperProps) => {
   const [currentStep, setCurrentStep] = useState(defaultStep);
 
-  // Count FormStep children directly — no registration needed, no StrictMode issues.
-  // A FormStep child is any React element with displayName 'FormStep'.
-  const { totalSteps, resolvedLabels } = useMemo(() => {
-    const steps: { label?: string }[] = [];
-    React.Children.forEach(children, (child) => {
-      if (React.isValidElement(child)) {
-        const type = child.type as any;
-        if (type?.displayName === 'FormStep' || type?.name === 'FormStep') {
-          steps.push({ label: (child.props as any).label });
-        }
-      }
-    });
-    const total = steps.length || stepLabels.length || 1;
-    const labels = steps.length > 0
-      ? steps.map((s, i) => s.label ?? stepLabels[i] ?? `Step ${i + 1}`)
-      : stepLabels;
-    return { totalSteps: total, resolvedLabels: labels };
-  }, [children, stepLabels]);
+  // activeIndices tracks which step indices are currently mounted.
+  // Using a Set so StrictMode unmount/remount doesn't double-count:
+  // add on mount, delete on unmount → size is always the real count.
+  const activeIndicesRef = useRef<Set<number>>(new Set());
+  const [totalSteps, setTotalSteps] = useState(stepLabels.length || 3);
+  const [registeredLabels, setRegisteredLabels] = useState<string[]>([]);
+
+  // Per-render counter — reset each render so each FormStep gets a stable positional index
+  const stepCounterRef = useRef(0);
+  stepCounterRef.current = 0;
 
   const isLastStep = currentStep === totalSteps;
 
@@ -131,15 +123,32 @@ export const FormStepper = ({
     if (currentStep > 1) setCurrentStep(s => s - 1);
   };
 
-  // stepIndexRef: used by FormStep to claim its index without registration callbacks.
-  // Reset each render so each FormStep gets a stable positional index.
-  const stepIndexRef = useRef(0);
-  stepIndexRef.current = 0;
+  const registerStep = useCallback((label?: string): number => {
+    stepCounterRef.current += 1;
+    const index = stepCounterRef.current;
 
-  const claimStepIndex = useCallback((): number => {
-    stepIndexRef.current += 1;
-    return stepIndexRef.current;
+    // Add to active set and update totalSteps to the current live count
+    activeIndicesRef.current.add(index);
+    setTotalSteps(activeIndicesRef.current.size);
+
+    if (label) {
+      setRegisteredLabels(prev => {
+        const next = [...prev];
+        next[index - 1] = label;
+        return next;
+      });
+    }
+
+    return index;
   }, []);
+
+  const unregisterStep = useCallback((index: number) => {
+    activeIndicesRef.current.delete(index);
+    setTotalSteps(activeIndicesRef.current.size);
+  }, []);
+
+  // Use registered labels from FormStep props if available, fall back to stepLabels prop
+  const resolvedLabels = registeredLabels.length > 0 ? registeredLabels : stepLabels;
 
   const contextValue = {
     currentStep,
@@ -151,8 +160,8 @@ export const FormStepper = ({
     backLabel,
     submitLabel,
     isLastStep,
-    // Keep registerStep for backward compat but it now uses claimStepIndex
-    registerStep: (_label?: string) => claimStepIndex(),
+    registerStep,
+    unregisterStep,
   };
 
   return (

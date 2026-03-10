@@ -22,7 +22,7 @@ export interface FormStepProps {
 // ===============================================
 
 export const FormStep = ({ children, label }: FormStepProps) => {
-  const { currentStep, registerStep } = useFormStepperContext();
+  const { currentStep, registerStep, unregisterStep } = useFormStepperContext();
   const [myIndex, setMyIndex] = useState<number | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const registered = useRef(false);
@@ -33,10 +33,10 @@ export const FormStep = ({ children, label }: FormStepProps) => {
     const index = registerStep(label);
     setMyIndex(index);
     return () => {
-      // Reset on unmount so StrictMode double-invocation works correctly
       registered.current = false;
+      unregisterStep(index);
     };
-  }, [registerStep, label]);
+  }, [registerStep, unregisterStep, label]);
 
   const isActive = myIndex !== null && currentStep === myIndex;
 
