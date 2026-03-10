@@ -268,6 +268,54 @@
   color: var(--text-form-hint);
 }
 
+/* ===== TIME FIELD (inside popover) ===== */
+.date-picker-time-wrapper {
+  border-top: 1px solid var(--border-default);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.date-picker-time-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-picker-time-label {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--foundation-weight-semibold);
+  color: var(--text-form-label);
+  white-space: nowrap;
+  min-width: 32px;
+}
+
+.date-picker-time-input {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  border: 1px solid var(--border-form);
+  border-radius: var(--radius-input);
+  background: var(--surface-form);
+  padding: 0 8px;
+  flex: 1;
+}
+
+.date-picker-time-input--sm {
+  height: 32px;
+  font-size: 13px;
+}
+
+.date-picker-time-input--md {
+  height: 36px;
+  font-size: 14px;
+}
+
+.date-picker-time-input--lg {
+  height: 40px;
+  font-size: 15px;
+}
+
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .date-picker,

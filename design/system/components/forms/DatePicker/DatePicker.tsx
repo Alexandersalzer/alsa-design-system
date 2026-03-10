@@ -8,11 +8,10 @@ import { cn } from '../../../utils/cn';
 import type { DateValue } from '@internationalized/date';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media';
-import { useDatePickerState } from '@react-stately/datepicker';
-import { useDatePicker, useDateField, useDateSegment } from '@react-aria/datepicker';
+import { useDatePickerState, useDateFieldState, useTimeFieldState } from '@react-stately/datepicker';
+import { useDatePicker, useDateField, useDateSegment, useTimeField } from '@react-aria/datepicker';
 import { useButton } from '@react-aria/button';
 import { useLocale } from '@react-aria/i18n';
-import { useDateFieldState } from '@react-stately/datepicker';
 import { createCalendar } from '@internationalized/date';
 import { Popover } from '../../overlays';
 import { Calendar } from '../Calendar';
@@ -258,6 +257,22 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
                 {...calendarProps}
               />
 
+              {/* Time field — shown when granularity includes time */}
+              {granularity && granularity !== 'day' && (
+                <div className="date-picker-time-wrapper">
+                  <DatePickerTimeField
+                    value={state.timeValue as any}
+                    onChange={(t) => state.setTimeValue(t as any)}
+                    granularity={granularity}
+                    hideTimeZone={hideTimeZone}
+                    isDisabled={isDisabled}
+                    isReadOnly={isReadOnly}
+                    size={size}
+                    classNames={classNames}
+                  />
+                </div>
+              )}
+
               {CalendarBottomContent}
             </div>
           </Popover.Content>
@@ -276,6 +291,59 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
 });
 
 DatePicker.displayName = 'DatePicker';
+
+// ===============================================
+// DATE PICKER TIME FIELD (inline time in popover)
+// ===============================================
+
+interface DatePickerTimeFieldProps {
+  value?: any;
+  onChange?: (value: any) => void;
+  granularity?: 'hour' | 'minute' | 'second';
+  hideTimeZone?: boolean;
+  isDisabled?: boolean;
+  isReadOnly?: boolean;
+  size: DatePickerSize;
+  classNames?: DatePickerProps['classNames'];
+}
+
+function DatePickerTimeField({ value, onChange, granularity = 'minute', hideTimeZone, isDisabled, isReadOnly, size, classNames }: DatePickerTimeFieldProps) {
+  const { locale } = useLocale();
+  const fieldRef = useRef<HTMLDivElement>(null);
+
+  const timeState = useTimeFieldState({
+    value,
+    onChange,
+    granularity,
+    hideTimeZone,
+    isDisabled,
+    isReadOnly,
+    locale,
+  });
+
+  const { labelProps, fieldProps } = useTimeField(
+    { granularity, hideTimeZone, isDisabled, isReadOnly, 'aria-label': 'Time' },
+    timeState,
+    fieldRef
+  );
+
+  return (
+    <div className="date-picker-time-field">
+      <span className="date-picker-time-label">Time</span>
+      <div {...fieldProps} ref={fieldRef} className={`date-picker-time-input date-picker-time-input--${size}`}>
+        {timeState.segments.map((segment, i) => (
+          <DatePickerSegment
+            key={i}
+            segment={segment}
+            state={timeState}
+            size={size}
+            className={classNames?.segment}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // ===============================================
 // DATE PICKER FIELD (Single Date Input)
