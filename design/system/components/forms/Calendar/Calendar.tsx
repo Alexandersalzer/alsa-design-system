@@ -139,6 +139,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
       maxValue: maxValue as any,
       isDisabled,
       isReadOnly,
+      visibleDuration: { months: visibleMonths } as DateDuration,
     },
     state
   );
@@ -181,6 +182,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
         <button
           {...prevProps}
           ref={prevButtonRef}
+          type="button"
           className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
         >
           <Icon size="sm" color="secondary">
@@ -195,6 +197,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
         <button
           {...nextProps}
           ref={nextButtonRef}
+          type="button"
           className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
         >
           <Icon size="sm" color="secondary">
