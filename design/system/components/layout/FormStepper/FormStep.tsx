@@ -10,11 +10,13 @@ export interface FormStepProps {
   stepKey: string;
   label?: string;
   index: number;
+  /** When true, automatically advances to next step when a radio input inside is selected */
+  autoAdvance?: boolean;
   children?: React.ReactNode;
 }
 
-export const FormStep = ({ children, index }: FormStepProps) => {
-  const { currentStep } = useFormStepperContext();
+export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps) => {
+  const { currentStep, goNext, isLastStep } = useFormStepperContext();
 
   const isActive = currentStep === index;
   const contentRef = useRef<HTMLDivElement>(null);
@@ -42,6 +44,25 @@ export const FormStep = ({ children, index }: FormStepProps) => {
       });
     }
   }, [isActive]);
+
+  // Auto-advance: listen for radio/click changes inside this step
+  useEffect(() => {
+    if (!autoAdvance || !isActive || isLastStep) return;
+    const el = contentRef.current;
+    if (!el) return;
+
+    const handleChange = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (target.matches('input[type="radio"]') || target.closest('[role="radio"]')) {
+        // Small delay so the selection visually registers before advancing
+        setTimeout(() => goNext(), 300);
+      }
+    };
+
+    // Listen for both native radio change and clicks on role=radio elements
+    el.addEventListener('change', handleChange);
+    return () => el.removeEventListener('change', handleChange);
+  }, [autoAdvance, isActive, isLastStep, goNext]);
 
   return (
     <div className="form-step" aria-hidden={!isActive} data-step-index={index}>
