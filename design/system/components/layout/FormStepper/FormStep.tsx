@@ -1,6 +1,6 @@
 // ===============================================
 // FormStep.tsx
-// Index claimed synchronously during render via stepIndexRef counter in FormStepper.
+// Index is passed explicitly as a prop from JSON — fully SSR-safe.
 // ===============================================
 
 import React, { useRef, useEffect } from 'react';
@@ -9,17 +9,14 @@ import { useFormStepperContext } from './FormStepperContext';
 export interface FormStepProps {
   stepKey: string;
   label?: string;
+  index: number;
   children?: React.ReactNode;
 }
 
-export const FormStep = ({ children }: FormStepProps) => {
-  const { currentStep, claimIndex } = useFormStepperContext();
+export const FormStep = ({ children, index }: FormStepProps) => {
+  const { currentStep } = useFormStepperContext();
 
-  // claimIndex() increments stepIndexRef in FormStepper — safe to call in render
-  // because it only writes a ref. The ref resets each FormStepper render,
-  // so each FormStep always gets its correct positional index.
-  const myIndex = claimIndex();
-  const isActive = currentStep === myIndex;
+  const isActive = currentStep === index;
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,7 +44,7 @@ export const FormStep = ({ children }: FormStepProps) => {
   }, [isActive]);
 
   return (
-    <div className="form-step" aria-hidden={!isActive} data-step-index={myIndex}>
+    <div className="form-step" aria-hidden={!isActive} data-step-index={index}>
       <div
         ref={contentRef}
         className="form-step__content"

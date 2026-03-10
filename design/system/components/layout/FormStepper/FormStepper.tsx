@@ -2,7 +2,7 @@
 // FormStepper.tsx
 // ===============================================
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import Button from '../../actions/Button/Button';
@@ -73,49 +73,32 @@ export const FormStepper = ({
 }: FormStepperProps) => {
   const [currentStep, setCurrentStep] = useState(defaultStep);
 
-  // totalSteps and labels come directly from stepLabels prop.
-  // This is the only SSR-safe approach — no child-counting, no registration effects.
-  // The JSON template must pass stepLabels explicitly on the formStepper node.
   const totalSteps = stepLabels.length || 1;
-  const resolvedLabels = stepLabels;
-
   const isLastStep = currentStep === totalSteps;
   const goNext = () => setCurrentStep(s => Math.min(s + 1, totalSteps));
   const goBack = () => setCurrentStep(s => Math.max(s - 1, 1));
 
-  // stepIndexRef: claimed by each FormStep during render to get its 1-based position.
-  // Reset at the top of each FormStepper render so the counter reflects current children.
-  // This is safe: it only writes a ref (no state), so double-calls in StrictMode are fine
-  // because the last call wins and the value is always the correct positional index.
-  const stepIndexRef = useRef(0);
-  stepIndexRef.current = 0;
-
-  const claimIndex = useCallback((): number => {
-    stepIndexRef.current += 1;
-    return stepIndexRef.current;
-  }, []);
-
   const contextValue = {
     currentStep,
     totalSteps,
-    stepLabels: resolvedLabels,
+    stepLabels,
     goNext,
     goBack,
     nextLabel,
     backLabel,
     submitLabel,
     isLastStep,
-    claimIndex,
+    claimIndex: () => 0,
     registerLabel: (_index: number, _label?: string) => {},
     reportTotal: (_c: number, _l: string[]) => {},
-    registerStep: (_label?: string) => claimIndex(),
+    registerStep: (_label?: string) => 0,
     unregisterStep: (_index: number) => {},
   };
 
   return (
     <FormStepperContext.Provider value={contextValue}>
       <div className={cn('form-stepper', `form-stepper--${variant}`, maxWidth !== 'full' && `form-stepper--max-${maxWidth}`, className)}>
-        <StepIndicator currentStep={currentStep} totalSteps={totalSteps} labels={resolvedLabels} />
+        <StepIndicator currentStep={currentStep} totalSteps={totalSteps} labels={stepLabels} />
         <div className="form-stepper__content">{children}</div>
         <div className={cn('form-stepper__button-row', currentStep === 1 && 'form-stepper__button-row--end')}>
           {currentStep > 1 && (
