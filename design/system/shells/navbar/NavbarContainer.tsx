@@ -25,7 +25,7 @@ interface NavbarContainerProps {
   mobileMenu: React.ReactNode;
   menuAlign?: 'left' | 'center' | 'right';
   mobileMenuAlign?: 'left' | 'center' | 'right';
-  backgroundVariant?: 'solid' | 'raised' | 'glass' | 'glass-clear' | 'glass-transparent' | 'transparent';
+  backgroundVariant?: 'solid' | 'raised' | 'glass' | 'glass-clear' | 'glass-scroll' | 'glass-transparent' | 'transparent' | 'accent';
   showBorder?: boolean;
   hideOnScroll?: boolean;
   /** 'pill' = rounded pill with border, 'bar' = full-width bar, 'center-pill' = logo left + centered pill + actions right */

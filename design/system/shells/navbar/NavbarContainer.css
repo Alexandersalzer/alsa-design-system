@@ -157,6 +157,27 @@
   border-color: var(--border-subtle);
 }
 
+/* GLASS-SCROLL — solid at rest, transitions to glass on scroll */
+.navbar-container__unified-wrapper--glass-scroll {
+  background: var(--surface-nav);
+  border-color: var(--border-nav);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.navbar-container__unified-wrapper--glass-scroll.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border-subtle);
+}
+
+/* ACCENT — brand/accent color surface */
+.navbar-container__unified-wrapper--accent {
+  background: var(--surface-accent);
+  border-color: transparent;
+}
+
 /* Legacy alias — keep glass-transparent working for any existing JSON */
 .navbar-container__unified-wrapper--glass-transparent {
   background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
@@ -284,6 +305,25 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom-color: var(--border-subtle);
+}
+
+/* Bar + glass-scroll */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-scroll {
+  background: var(--surface-nav);
+  border-bottom-color: var(--border-nav);
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-scroll.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: var(--border-subtle);
+}
+
+/* Bar + accent */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--accent {
+  background: var(--surface-accent);
+  border-bottom-color: transparent;
 }
 
 /* Bar + transparent */
@@ -762,6 +802,38 @@
   border-color: var(--border-subtle);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+}
+
+/* GLASS-SCROLL — solid pill at rest, glass on scroll */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-scroll
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-scroll
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: var(--surface-nav);
+  border-color: var(--border-nav);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-scroll.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-scroll.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  border-color: var(--border-subtle);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ACCENT — brand color pill */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--accent
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--accent
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: var(--surface-accent);
+  border-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* Scrolled: enhance pill shadow (all variants) */
