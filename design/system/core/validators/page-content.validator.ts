@@ -104,7 +104,7 @@ export function validateStructureFile(
       if (!isValidSectionType(sectionType)) {
         errors.push(
           `Section "${sectionKey}" has invalid type: "${sectionType}". ` +
-          `Allowed types: hero, about, services, testimonials, faq, pricing, cta, logos, stats, team, process, contact`
+          `Allowed types: hero, about, services, features, testimonials, faq, pricing, cta, logos, stats, team, process, contact, results`
         );
         details.invalidSections.push(sectionKey);
         continue;

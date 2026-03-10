@@ -54,6 +54,13 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
     'Showcase of services or features'
   ),
   
+  features: createBasicSectionSchema(
+    'features',
+    'Features',
+    'content',
+    'Product or service features showcase'
+  ),
+  
   testimonials: {
     ...createBasicSectionSchema(
       'testimonials',
