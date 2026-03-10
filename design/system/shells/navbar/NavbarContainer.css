@@ -239,8 +239,12 @@
   }
 }
 
-.navbar-container__unified-wrapper--no-border {
-  border-color: transparent;
+.navbar-container__unified-wrapper--no-border,
+.navbar-container__unified-wrapper--no-border.navbar-container__unified-wrapper--scrolled,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--no-border,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--no-border.navbar-container__unified-wrapper--scrolled {
+  border-color: transparent !important;
+  border-bottom-color: transparent !important;
 }
 
 /* -----------------------------------------------
