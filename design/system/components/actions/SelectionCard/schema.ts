@@ -24,12 +24,10 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
     cmsEnabled: false, // Internal UI component
     
     defaultProps: {
-      selected: false,
       indicator: 'none',
       orientation: 'vertical',
       size: 'md',
       variant: 'neutral',
-      disabled: false,
     },
     
     props: {
