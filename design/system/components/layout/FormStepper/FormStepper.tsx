@@ -2,7 +2,7 @@
 // FormStepper.tsx
 // ===============================================
 
-import React, { useState, useRef, useCallback, useLayoutEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import Button from '../../actions/Button/Button';
@@ -59,34 +59,6 @@ function StepIndicator({ currentStep, totalSteps, labels }: { currentStep: numbe
   );
 }
 
-// -----------------------------------------------
-// IndexProvider wraps children and injects index
-// as a prop onto FormStep elements via React.Children.
-// This is the only safe way to assign stable step
-// indices without a render-time counter that can
-// double-fire in StrictMode or on context re-renders.
-// -----------------------------------------------
-function injectStepIndices(children: React.ReactNode): { nodes: React.ReactNode; count: number; labels: string[] } {
-  let index = 0;
-  const labels: string[] = [];
-
-  const nodes = React.Children.map(children, (child) => {
-    if (!React.isValidElement(child)) return child;
-    // Check if this is a FormStep by displayName
-    const type = child.type as any;
-    if (type?.displayName === 'FormStep') {
-      index += 1;
-      const stepIndex = index;
-      const label = (child.props as any).label ?? `Step ${stepIndex}`;
-      labels.push(label);
-      return React.cloneElement(child as React.ReactElement<any>, { _stepIndex: stepIndex });
-    }
-    return child;
-  });
-
-  return { nodes, count: index, labels };
-}
-
 export const FormStepper = ({
   stepLabels = [],
   defaultStep = 1,
@@ -100,14 +72,46 @@ export const FormStepper = ({
   children,
 }: FormStepperProps) => {
   const [currentStep, setCurrentStep] = useState(defaultStep);
+  const [totalSteps, setTotalSteps] = useState(stepLabels.length || 3);
+  const [registeredLabels, setRegisteredLabels] = useState<string[]>(stepLabels);
 
-  // Inject step indices synchronously — no counter, no effects, no side effects.
-  // React.Children.map runs during render and is StrictMode-safe.
-  const { nodes: indexedChildren, count, labels: derivedLabels } = injectStepIndices(children);
+  // Render-time counter — reset at top of each FormStepper render.
+  // Each FormStep calls claimIndex() synchronously during its render,
+  // incrementing this counter. The counter value is their 1-based position.
+  const renderCounterRef = useRef(0);
+  renderCounterRef.current = 0;
 
-  const totalSteps = count || stepLabels.length || 1;
-  const resolvedLabels = derivedLabels.length > 0 ? derivedLabels : stepLabels;
+  const claimIndex = useCallback((): number => {
+    renderCounterRef.current += 1;
+    return renderCounterRef.current;
+  }, []);
 
+  // reportTotal is called from FormStep useEffect (every render).
+  // We store reported indices in a ref and only update state when
+  // the full set has stabilised — using a snapshot approach.
+  const reportedRef = useRef<Record<number, string>>({});
+
+  const reportTotal = useCallback((stepIndex: number, labels: string[]) => {
+    const label = labels[stepIndex - 1] ?? `Step ${stepIndex}`;
+    const prev = reportedRef.current;
+
+    // Only update if this step's label changed
+    if (prev[stepIndex] === label) return;
+
+    reportedRef.current = { ...prev, [stepIndex]: label };
+    const entries = reportedRef.current;
+    const indices = Object.keys(entries).map(Number).sort((a, b) => a - b);
+    const highestIndex = indices[indices.length - 1] ?? 0;
+
+    // Only commit state update when we have a contiguous set 1..N
+    const isContiguous = indices.length === highestIndex && indices.every((v, i) => v === i + 1);
+    if (!isContiguous) return;
+
+    setTotalSteps(highestIndex);
+    setRegisteredLabels(indices.map(i => entries[i]));
+  }, []);
+
+  const resolvedLabels = registeredLabels.length > 0 ? registeredLabels : stepLabels;
   const isLastStep = currentStep === totalSteps;
   const goNext = () => setCurrentStep(s => Math.min(s + 1, totalSteps));
   const goBack = () => setCurrentStep(s => Math.max(s - 1, 1));
@@ -122,11 +126,10 @@ export const FormStepper = ({
     backLabel,
     submitLabel,
     isLastStep,
-    // No-ops — index assignment now done via cloneElement above
-    claimIndex: () => 0,
+    claimIndex,
+    reportTotal,
     registerLabel: (_index: number, _label?: string) => {},
-    reportTotal: (_c: number, _l: string[]) => {},
-    registerStep: (_label?: string) => 0,
+    registerStep: (_label?: string) => claimIndex(),
     unregisterStep: (_index: number) => {},
   };
 
@@ -134,7 +137,7 @@ export const FormStepper = ({
     <FormStepperContext.Provider value={contextValue}>
       <div className={cn('form-stepper', `form-stepper--${variant}`, maxWidth !== 'full' && `form-stepper--max-${maxWidth}`, className)}>
         <StepIndicator currentStep={currentStep} totalSteps={totalSteps} labels={resolvedLabels} />
-        <div className="form-stepper__content">{indexedChildren}</div>
+        <div className="form-stepper__content">{children}</div>
         <div className={cn('form-stepper__button-row', currentStep === 1 && 'form-stepper__button-row--end')}>
           {currentStep > 1 && (
             <Button variant="ghost" size="md" type="button" onClick={goBack}>{backLabel}</Button>
