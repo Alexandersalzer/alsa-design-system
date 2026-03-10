@@ -103,9 +103,9 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   const generatedId = useId();
   const id = providedId || generatedId;
   const inputId = `${id}-input`;
-  // Use value prop as the stable key (avoids StrictMode double-mount id mismatch)
-  // Fall back to id only if value is not set
-  const cardKey = value ?? id;
+  // Use value prop as the stable key for radio groups
+  // For radio buttons, value MUST be provided, otherwise use id
+  const cardKey = indicator === 'radio' && value ? value : (value ?? id);
 
   const isControlled = onChange !== undefined || selectedProp !== undefined;
 
@@ -142,7 +142,11 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     if (disabled) return;
 
     const target = e.target as HTMLElement;
-    if (target.closest('input[type="checkbox"], input[type="radio"]')) return;
+    // Don't handle clicks directly on the input element - let browser handle those
+    const clickedInput = target.tagName === 'INPUT' && (target as HTMLInputElement).type === 'radio';
+    if (clickedInput) return;
+
+    e.preventDefault(); // Prevent default to avoid double-triggering
 
     if (indicator === 'radio') {
       if (!effectiveSelected) {
