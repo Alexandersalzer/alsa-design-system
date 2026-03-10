@@ -103,8 +103,9 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   const generatedId = useId();
   const id = providedId || generatedId;
   const inputId = `${id}-input`;
-  // Use the id as a stable key for this card in the group
-  const cardKey = id;
+  // Use value prop as the stable key (avoids StrictMode double-mount id mismatch)
+  // Fall back to id only if value is not set
+  const cardKey = value ?? id;
 
   const isControlled = onChange !== undefined || selectedProp !== undefined;
 

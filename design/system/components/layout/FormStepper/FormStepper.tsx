@@ -1,10 +1,8 @@
 // ===============================================
 // FormStepper.tsx — Universal multi-step form layout component
-// Mirrors Accordion pattern: manages step state + progress bar,
-// children (FormStep) read context to show/hide themselves.
 // ===============================================
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import Button from '../../actions/Button/Button';
@@ -103,11 +101,25 @@ export const FormStepper = ({
   children,
 }: FormStepperProps) => {
   const [currentStep, setCurrentStep] = useState(defaultStep);
-  // Counter for FormStep registration — reset each render cycle
-  const stepCounterRef = useRef(0);
-  const [totalSteps, setTotalSteps] = useState(stepLabels.length || 3);
-  // Labels collected from FormStep registrations (overrides stepLabels prop when set)
-  const [registeredLabels, setRegisteredLabels] = useState<string[]>([]);
+
+  // Count FormStep children directly — no registration needed, no StrictMode issues.
+  // A FormStep child is any React element with displayName 'FormStep'.
+  const { totalSteps, resolvedLabels } = useMemo(() => {
+    const steps: { label?: string }[] = [];
+    React.Children.forEach(children, (child) => {
+      if (React.isValidElement(child)) {
+        const type = child.type as any;
+        if (type?.displayName === 'FormStep' || type?.name === 'FormStep') {
+          steps.push({ label: (child.props as any).label });
+        }
+      }
+    });
+    const total = steps.length || stepLabels.length || 1;
+    const labels = steps.length > 0
+      ? steps.map((s, i) => s.label ?? stepLabels[i] ?? `Step ${i + 1}`)
+      : stepLabels;
+    return { totalSteps: total, resolvedLabels: labels };
+  }, [children, stepLabels]);
 
   const isLastStep = currentStep === totalSteps;
 
@@ -119,29 +131,15 @@ export const FormStepper = ({
     if (currentStep > 1) setCurrentStep(s => s - 1);
   };
 
-  const handleSubmit = () => {
-    onSubmit?.();
-  };
+  // stepIndexRef: used by FormStep to claim its index without registration callbacks.
+  // Reset each render so each FormStep gets a stable positional index.
+  const stepIndexRef = useRef(0);
+  stepIndexRef.current = 0;
 
-  // Each FormStep calls this on mount to get its 1-based index and register its label.
-  // The counter is reset at the start of each render via the ref.
-  stepCounterRef.current = 0;
-  const registerStep = useCallback((label?: string): number => {
-    stepCounterRef.current += 1;
-    const index = stepCounterRef.current;
-    setTotalSteps(prev => Math.max(prev, index));
-    if (label) {
-      setRegisteredLabels(prev => {
-        const next = [...prev];
-        next[index - 1] = label;
-        return next;
-      });
-    }
-    return index;
+  const claimStepIndex = useCallback((): number => {
+    stepIndexRef.current += 1;
+    return stepIndexRef.current;
   }, []);
-
-  // Use registered labels from FormStep props if available, fall back to stepLabels prop
-  const resolvedLabels = registeredLabels.length > 0 ? registeredLabels : stepLabels;
 
   const contextValue = {
     currentStep,
@@ -153,7 +151,8 @@ export const FormStepper = ({
     backLabel,
     submitLabel,
     isLastStep,
-    registerStep,
+    // Keep registerStep for backward compat but it now uses claimStepIndex
+    registerStep: (_label?: string) => claimStepIndex(),
   };
 
   return (
@@ -186,7 +185,7 @@ export const FormStepper = ({
             </Button>
           )}
           {isLastStep ? (
-            <Button variant="primary" size="md" type="button" onClick={handleSubmit}>
+            <Button variant="primary" size="md" type="button" onClick={() => onSubmit?.()}>
               {submitLabel}
             </Button>
           ) : (
