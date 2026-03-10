@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import Button from '../../actions/Button/Button';
+import { Label } from '../../primitives/Typography/Typography';
 import './FormStepper.css';
 
 export interface FormStepperProps {
@@ -45,9 +46,14 @@ function StepIndicator({ currentStep, totalSteps, labels }: { currentStep: numbe
                   </svg>
                 ) : <span>{step}</span>}
               </div>
-              <span className={cn('form-stepper__step-label', isActive && 'form-stepper__step-label--active')}>
+              <Label 
+                size="sm" 
+                weight={isActive ? 'semibold' : 'medium'}
+                color={isActive ? 'primary' : 'secondary'}
+                className={cn('form-stepper__step-label', isActive && 'form-stepper__step-label--active')}
+              >
                 {labels[i] ?? `Step ${step}`}
-              </span>
+              </Label>
             </div>
             {i < totalSteps - 1 && (
               <div className={cn('form-stepper__step-line', isCompleted && 'form-stepper__step-line--completed')} aria-hidden="true" />

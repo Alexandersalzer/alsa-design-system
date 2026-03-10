@@ -46,6 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Typography component would handle font-size and font-weight, but circles use inline numbers */
   font-size: var(--foundation-font-size-sm);
   font-weight: var(--foundation-font-weight-medium);
   transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
@@ -65,15 +66,13 @@
 }
 
 .form-stepper__step-label {
-  font-size: var(--foundation-font-size-xs);
-  color: var(--text-muted);
+  /* Typography component handles: font-size, color, font-weight */
   white-space: nowrap;
   transition: color 200ms ease;
 }
 
 .form-stepper__step-label--active {
-  color: var(--text-strong);
-  font-weight: var(--foundation-font-weight-medium);
+  /* Typography component handles: color, font-weight */
 }
 
 .form-stepper__step-line {

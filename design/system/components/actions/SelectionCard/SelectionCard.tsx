@@ -7,6 +7,7 @@ import React, { forwardRef, useId, useEffect, useState, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 import { Radio } from '../../forms/Radio/Radio';
+import { Label } from '../../primitives/Typography/Typography';
 import './SelectionCard.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -232,7 +233,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     >
       {/* Content area */}
       <div className="selection-card__content">
-        {children ?? (label ? <span>{label}</span> : null)}
+        {children ?? (label ? <Label size="md" weight="medium">{label}</Label> : null)}
       </div>
 
       {/* Indicator (checkbox or radio) */}
