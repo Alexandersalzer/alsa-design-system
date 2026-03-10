@@ -1,15 +1,11 @@
 // ===============================================
 // FormStep.tsx — A single step panel inside FormStepper
-// Registers itself with the parent via context on mount to get its index.
-// Shows/hides based on currentStep === myIndex.
+// Index is claimed synchronously during render via context counter.
+// No useEffect registration — immune to StrictMode double-invoke.
 // ===============================================
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFormStepperContext } from './FormStepperContext';
-
-// ===============================================
-// TYPES
-// ===============================================
 
 export interface FormStepProps {
   stepKey: string;
@@ -17,33 +13,29 @@ export interface FormStepProps {
   children?: React.ReactNode;
 }
 
-// ===============================================
-// COMPONENT
-// ===============================================
-
 export const FormStep = ({ children, label }: FormStepProps) => {
-  const { currentStep, registerStep, unregisterStep } = useFormStepperContext();
-  const [myIndex, setMyIndex] = useState<number | null>(null);
+  const { currentStep, claimIndex, reportTotal, stepLabels } = useFormStepperContext();
+
+  // Claim index synchronously during render — no async useEffect needed.
+  // claimIndex() increments a render-time counter in FormStepper that resets each render.
+  // This is safe to call in render because it only reads/writes a ref (no state).
+  const myIndex = claimIndex();
+
+  const isActive = currentStep === myIndex;
   const contentRef = useRef<HTMLDivElement>(null);
-  const registered = useRef(false);
 
+  // Report this step's index and label to FormStepper every render.
+  // FormStepper takes the max index seen across all steps as totalSteps.
   useEffect(() => {
-    if (registered.current) return;
-    registered.current = true;
-    const index = registerStep(label);
-    setMyIndex(index);
-    return () => {
-      registered.current = false;
-      unregisterStep(index);
-    };
-  }, [registerStep, unregisterStep, label]);
+    const labels = [...stepLabels];
+    labels[myIndex - 1] = label ?? `Step ${myIndex}`;
+    reportTotal(myIndex, labels);
+  });
 
-  const isActive = myIndex !== null && currentStep === myIndex;
-
-  // Max-height animation — same approach as AccordionItem
+  // Max-height animation
   useEffect(() => {
     const el = contentRef.current;
-    if (!el || myIndex === null) return;
+    if (!el) return;
 
     if (isActive) {
       el.style.maxHeight = `${el.scrollHeight}px`;
@@ -54,7 +46,6 @@ export const FormStep = ({ children, label }: FormStepProps) => {
       }, 300);
       return () => clearTimeout(timeout);
     } else {
-      // Capture current height first, then collapse in next frame
       const currentHeight = el.scrollHeight;
       el.style.maxHeight = `${currentHeight}px`;
       requestAnimationFrame(() => {
@@ -67,10 +58,7 @@ export const FormStep = ({ children, label }: FormStepProps) => {
         });
       });
     }
-  }, [isActive, myIndex]);
-
-  // Don't render at all until we have our index
-  if (myIndex === null) return null;
+  }, [isActive]);
 
   return (
     <div

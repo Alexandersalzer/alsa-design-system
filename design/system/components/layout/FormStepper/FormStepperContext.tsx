@@ -10,9 +10,13 @@ export interface FormStepperContextValue {
   backLabel: string;
   submitLabel: string;
   isLastStep: boolean;
-  /** Called by each FormStep on mount to claim its 1-based index and register its label */
+  /** Synchronous render-time index claim — safe to call during render */
+  claimIndex: () => number;
+  /** Report total step count + labels after render */
+  reportTotal: (count: number, labels: string[]) => void;
+  /** @deprecated use claimIndex */
   registerStep: (label?: string) => number;
-  /** Called by each FormStep on unmount to remove itself from the count */
+  /** @deprecated no-op */
   unregisterStep: (index: number) => void;
 }
 
