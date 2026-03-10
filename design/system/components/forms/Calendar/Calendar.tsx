@@ -139,7 +139,6 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
       maxValue: maxValue as any,
       isDisabled,
       isReadOnly,
-      visibleDuration: { months: visibleMonths } as DateDuration,
     },
     state
   );
