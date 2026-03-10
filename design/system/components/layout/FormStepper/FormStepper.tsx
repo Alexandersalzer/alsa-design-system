@@ -2,7 +2,7 @@
 // FormStepper.tsx
 // ===============================================
 
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useLayoutEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import Button from '../../actions/Button/Button';
@@ -72,13 +72,18 @@ export const FormStepper = ({
   children,
 }: FormStepperProps) => {
   const [currentStep, setCurrentStep] = useState(defaultStep);
-  const [totalSteps, setTotalSteps] = useState(stepLabels.length || 3);
+  const [totalSteps, setTotalSteps] = useState(0);
   const [resolvedLabels, setResolvedLabels] = useState<string[]>(stepLabels);
 
   // Render-time counter: reset at top of each render, incremented by each FormStep during its render.
   // After all children have rendered, this holds the true count of FormStep children.
+  // We snapshot it into committedCountRef via useLayoutEffect so we always read the value
+  // from the *current* render cycle (not a stale reset from the next render).
   const renderCounterRef = useRef(0);
   const renderLabelsRef = useRef<string[]>([]);
+  const committedCountRef = useRef(0);
+  const committedLabelsRef = useRef<string[]>([]);
+
   renderCounterRef.current = 0;
   renderLabelsRef.current = [];
 
@@ -91,12 +96,16 @@ export const FormStepper = ({
     renderLabelsRef.current[index - 1] = label ?? `Step ${index}`;
   }, []);
 
-  // After each render, sync the counter and labels into state.
-  // Use a layout effect so it runs synchronously after DOM paint but before browser paint.
-  // We use a plain ref to avoid infinite loops.
-  useEffect(() => {
-    const count = renderCounterRef.current;
-    const labels = [...renderLabelsRef.current];
+  // useLayoutEffect runs synchronously after DOM mutations, before browser paint.
+  // At this point children have fully rendered and incremented renderCounterRef,
+  // so we snapshot the values into committedRefs before any new render can reset them.
+  useLayoutEffect(() => {
+    committedCountRef.current = renderCounterRef.current;
+    committedLabelsRef.current = [...renderLabelsRef.current];
+
+    const count = committedCountRef.current;
+    const labels = committedLabelsRef.current;
+
     if (count > 0 && count !== totalSteps) {
       setTotalSteps(count);
     }
@@ -106,13 +115,15 @@ export const FormStepper = ({
     }
   });
 
-  const isLastStep = currentStep === totalSteps;
-  const goNext = () => setCurrentStep(s => Math.min(s + 1, totalSteps));
+  // Use committed count for display (avoids flash of wrong step count on first render)
+  const displayTotal = committedCountRef.current > 0 ? committedCountRef.current : (totalSteps || stepLabels.length || 1);
+  const isLastStep = currentStep === displayTotal;
+  const goNext = () => setCurrentStep(s => Math.min(s + 1, displayTotal));
   const goBack = () => setCurrentStep(s => Math.max(s - 1, 1));
 
   const contextValue = {
     currentStep,
-    totalSteps,
+    totalSteps: displayTotal,
     stepLabels: resolvedLabels,
     goNext,
     goBack,
@@ -131,7 +142,7 @@ export const FormStepper = ({
   return (
     <FormStepperContext.Provider value={contextValue}>
       <div className={cn('form-stepper', `form-stepper--${variant}`, maxWidth !== 'full' && `form-stepper--max-${maxWidth}`, className)}>
-        <StepIndicator currentStep={currentStep} totalSteps={totalSteps} labels={resolvedLabels} />
+        <StepIndicator currentStep={currentStep} totalSteps={displayTotal} labels={resolvedLabels} />
         <div className="form-stepper__content">{children}</div>
         <div className={cn('form-stepper__button-row', currentStep === 1 && 'form-stepper__button-row--end')}>
           {currentStep > 1 && (
