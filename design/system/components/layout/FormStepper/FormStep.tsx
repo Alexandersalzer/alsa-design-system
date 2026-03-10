@@ -20,6 +20,7 @@ export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps
 
   const isActive = currentStep === index;
   const contentRef = useRef<HTMLDivElement>(null);
+  const advancingRef = useRef(false); // Prevent double-advance
 
   useEffect(() => {
     const el = contentRef.current;
@@ -51,9 +52,26 @@ export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps
     const el = contentRef.current;
     if (!el) return;
 
+    // Reset advancing flag when step becomes active
+    advancingRef.current = false;
+
     const handleChange = (e: Event) => {
+      if (advancingRef.current) return;
       const target = e.target as HTMLElement;
       if (target.matches('input[type="radio"]') || target.closest('[role="radio"]')) {
+        advancingRef.current = true;
+        // Small delay so the selection visually registers before advancing
+        setTimeout(() => goNext(), 300);
+      }
+    };
+
+    const handleClick = (e: Event) => {
+      if (advancingRef.current) return;
+      const target = e.target as HTMLElement;
+      // Check if clicked element is or is inside a radio role element
+      const radioElement = target.closest('[role="radio"]');
+      if (radioElement) {
+        advancingRef.current = true;
         // Small delay so the selection visually registers before advancing
         setTimeout(() => goNext(), 300);
       }
@@ -61,7 +79,11 @@ export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps
 
     // Listen for both native radio change and clicks on role=radio elements
     el.addEventListener('change', handleChange);
-    return () => el.removeEventListener('change', handleChange);
+    el.addEventListener('click', handleClick);
+    return () => {
+      el.removeEventListener('change', handleChange);
+      el.removeEventListener('click', handleClick);
+    };
   }, [autoAdvance, isActive, isLastStep, goNext]);
 
   return (
