@@ -3,7 +3,7 @@
 // ✅ UNIFIED SELECTION CARD - Replaces RadioCard, CheckboxCard, and selection patterns
 // ===============================================
 
-import React, { forwardRef, useId, useEffect, useState } from 'react';
+import React, { forwardRef, useId, useEffect, useState, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 import { Radio } from '../../forms/Radio/Radio';
@@ -112,6 +112,9 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   // Uncontrolled radio group state — only used when indicator='radio', name is set, and not controlled
   const [groupSelected, setGroupSelected] = useState<string | null>(null);
 
+  // Ref to the hidden radio input for programmatic interaction
+  const radioInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (isControlled || indicator !== 'radio' || !name) return;
     const group = getOrCreateGroup(name);
@@ -153,6 +156,14 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
         onChange?.(true);
         if (!isControlled && name) {
           getOrCreateGroup(name).select(cardKey);
+        }
+        
+        // ✅ FIX: Programmatically dispatch change event on hidden radio input
+        // This ensures FormStep's autoAdvance and form handlers can detect the selection
+        if (radioInputRef.current) {
+          // Dispatch a native change event that bubbles up
+          const changeEvent = new Event('change', { bubbles: true });
+          radioInputRef.current.dispatchEvent(changeEvent);
         }
       }
     } else {
@@ -240,6 +251,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
             disabled={disabled}
             tabIndex={-1}
             aria-hidden="true"
+            ref={radioInputRef}
             wrapperClassName="selection-card__checkbox-wrapper"
           />
         </div>

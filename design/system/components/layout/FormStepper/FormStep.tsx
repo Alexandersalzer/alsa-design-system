@@ -46,7 +46,7 @@ export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps
     }
   }, [isActive]);
 
-  // Auto-advance: listen for radio/click changes inside this step
+  // Auto-advance: listen for radio changes inside this step
   useEffect(() => {
     if (!autoAdvance || !isActive || isLastStep) return;
     const el = contentRef.current;
@@ -58,31 +58,20 @@ export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps
     const handleChange = (e: Event) => {
       if (advancingRef.current) return;
       const target = e.target as HTMLElement;
-      if (target.matches('input[type="radio"]') || target.closest('[role="radio"]')) {
+      // Only react to actual radio input change events (not clicks on wrappers)
+      // This ensures SelectionCard's onClick fires first to update state
+      if (target.matches('input[type="radio"]')) {
         advancingRef.current = true;
         // Small delay so the selection visually registers before advancing
         setTimeout(() => goNext(), 300);
       }
     };
 
-    const handleClick = (e: Event) => {
-      if (advancingRef.current) return;
-      const target = e.target as HTMLElement;
-      // Check if clicked element is or is inside a radio role element
-      const radioElement = target.closest('[role="radio"]');
-      if (radioElement) {
-        advancingRef.current = true;
-        // Small delay so the selection visually registers before advancing
-        setTimeout(() => goNext(), 300);
-      }
-    };
-
-    // Listen for both native radio change and clicks on role=radio elements
+    // Listen ONLY for native radio change events (not clicks)
+    // This allows SelectionCard's React onClick to fire first and update state
     el.addEventListener('change', handleChange);
-    el.addEventListener('click', handleClick);
     return () => {
       el.removeEventListener('change', handleChange);
-      el.removeEventListener('click', handleClick);
     };
   }, [autoAdvance, isActive, isLastStep, goNext]);
 
