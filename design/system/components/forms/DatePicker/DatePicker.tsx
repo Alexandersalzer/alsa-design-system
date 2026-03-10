@@ -243,7 +243,6 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
                 value={state.value as any}
                 onChange={(newValue) => state.setValue(newValue as any)}
                 focusedValue={state.dateValue as any}
-                onFocusChange={(date) => state.setDateValue(date as any)}
                 size={size}
                 minValue={minValue}
                 maxValue={maxValue}

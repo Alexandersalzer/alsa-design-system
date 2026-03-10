@@ -182,6 +182,10 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
           {...prevProps}
           ref={prevButtonRef}
           type="button"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            prevProps.onMouseDown?.(e as any);
+          }}
           className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
         >
           <Icon size="sm" color="secondary">
@@ -197,6 +201,10 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
           {...nextProps}
           ref={nextButtonRef}
           type="button"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            nextProps.onMouseDown?.(e as any);
+          }}
           className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
         >
           <Icon size="sm" color="secondary">
