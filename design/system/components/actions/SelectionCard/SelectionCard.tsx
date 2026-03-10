@@ -158,10 +158,10 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
           getOrCreateGroup(name).select(cardKey);
         }
         
-        // ✅ FIX: Programmatically dispatch change event on hidden radio input
+        // ✅ FIX: Programmatically check the radio input and dispatch change event
         // This ensures FormStep's autoAdvance and form handlers can detect the selection
-        if (radioInputRef.current) {
-          // Dispatch a native change event that bubbles up
+        if (radioInputRef.current && !radioInputRef.current.checked) {
+          radioInputRef.current.checked = true; // Actually check the input first
           const changeEvent = new Event('change', { bubbles: true });
           radioInputRef.current.dispatchEvent(changeEvent);
         }
@@ -260,6 +260,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
       {indicator === 'radio' && (
         <div className="selection-card__indicator">
           <Radio
+            ref={radioInputRef}
             id={inputId}
             name={name}
             value={value}
