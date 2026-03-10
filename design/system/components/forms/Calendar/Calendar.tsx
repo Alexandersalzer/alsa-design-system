@@ -17,7 +17,7 @@ import {
   getWeeksInMonth,
   isSameMonth,
   isToday as checkIsToday,
-  CalendarDate as CalendarDateClass,
+  toCalendarDate,
 } from '@internationalized/date';
 import { useCalendarState } from '@react-stately/calendar';
 import { useCalendar, useCalendarGrid, useCalendarCell } from '@react-aria/calendar';
@@ -118,11 +118,19 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
 
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
+  // Strip time component — useCalendarState only accepts CalendarDate, not ZonedDateTime/DateTime
+  const safeValue = value ? toCalendarDate(value as any) : value;
+  const safeDefaultValue = defaultValue ? toCalendarDate(defaultValue as any) : defaultValue;
+  // Use focusedValue as defaultFocusedValue (uncontrolled) so Calendar can navigate freely.
+  // If we pass focusedValue as a controlled prop, DatePicker re-renders reset the visible month.
+  const initialFocusedValue = (focusedValue || defaultFocusedValue)
+    ? toCalendarDate((focusedValue || defaultFocusedValue) as any)
+    : undefined;
+
   const state = useCalendarState({
-    value: value as any,
-    defaultValue: defaultValue as any,
-    focusedValue: focusedValue as any,
-    defaultFocusedValue: defaultFocusedValue as any,
+    value: safeValue as any,
+    defaultValue: safeDefaultValue as any,
+    defaultFocusedValue: initialFocusedValue as any,
     minValue: minValue as any,
     maxValue: maxValue as any,
     isDisabled,
@@ -144,8 +152,8 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
   const { calendarProps, prevButtonProps, nextButtonProps, title } = useCalendar(
     {
       ...props,
-      value: value as any,
-      defaultValue: defaultValue as any,
+      value: safeValue as any,
+      defaultValue: safeDefaultValue as any,
       minValue: minValue as any,
       maxValue: maxValue as any,
       isDisabled,
@@ -184,8 +192,12 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
   }, [isPickerOpen]);
 
   const handlePickerSelect = (month: number, year: number) => {
-    const newDate = new CalendarDateClass(year, month, 1);
-    state.setFocusedDate(newDate as any);
+    // state.focusedDate is the calendar's internal focused date.
+    // We navigate by setting it to the 1st of the target month/year.
+    // Use the same calendar system as the current focused date.
+    const current = state.focusedDate;
+    const newDate = current.set({ year, month, day: 1 });
+    state.setFocusedDate(newDate);
     setIsPickerOpen(false);
   };
 
