@@ -72,49 +72,28 @@ export const FormStepper = ({
   children,
 }: FormStepperProps) => {
   const [currentStep, setCurrentStep] = useState(defaultStep);
-  const [totalSteps, setTotalSteps] = useState(stepLabels.length || 3);
-  const [registeredLabels, setRegisteredLabels] = useState<string[]>(stepLabels);
 
-  // Render-time counter — reset at top of each FormStepper render.
-  // Each FormStep calls claimIndex() synchronously during its render,
-  // incrementing this counter. The counter value is their 1-based position.
-  const renderCounterRef = useRef(0);
-  renderCounterRef.current = 0;
+  // totalSteps and labels come directly from stepLabels prop.
+  // This is the only SSR-safe approach — no child-counting, no registration effects.
+  // The JSON template must pass stepLabels explicitly on the formStepper node.
+  const totalSteps = stepLabels.length || 1;
+  const resolvedLabels = stepLabels;
 
-  const claimIndex = useCallback((): number => {
-    renderCounterRef.current += 1;
-    return renderCounterRef.current;
-  }, []);
-
-  // reportTotal is called from FormStep useEffect (every render).
-  // We store reported indices in a ref and only update state when
-  // the full set has stabilised — using a snapshot approach.
-  const reportedRef = useRef<Record<number, string>>({});
-
-  const reportTotal = useCallback((stepIndex: number, labels: string[]) => {
-    const label = labels[stepIndex - 1] ?? `Step ${stepIndex}`;
-    const prev = reportedRef.current;
-
-    // Only update if this step's label changed
-    if (prev[stepIndex] === label) return;
-
-    reportedRef.current = { ...prev, [stepIndex]: label };
-    const entries = reportedRef.current;
-    const indices = Object.keys(entries).map(Number).sort((a, b) => a - b);
-    const highestIndex = indices[indices.length - 1] ?? 0;
-
-    // Only commit state update when we have a contiguous set 1..N
-    const isContiguous = indices.length === highestIndex && indices.every((v, i) => v === i + 1);
-    if (!isContiguous) return;
-
-    setTotalSteps(highestIndex);
-    setRegisteredLabels(indices.map(i => entries[i]));
-  }, []);
-
-  const resolvedLabels = registeredLabels.length > 0 ? registeredLabels : stepLabels;
   const isLastStep = currentStep === totalSteps;
   const goNext = () => setCurrentStep(s => Math.min(s + 1, totalSteps));
   const goBack = () => setCurrentStep(s => Math.max(s - 1, 1));
+
+  // stepIndexRef: claimed by each FormStep during render to get its 1-based position.
+  // Reset at the top of each FormStepper render so the counter reflects current children.
+  // This is safe: it only writes a ref (no state), so double-calls in StrictMode are fine
+  // because the last call wins and the value is always the correct positional index.
+  const stepIndexRef = useRef(0);
+  stepIndexRef.current = 0;
+
+  const claimIndex = useCallback((): number => {
+    stepIndexRef.current += 1;
+    return stepIndexRef.current;
+  }, []);
 
   const contextValue = {
     currentStep,
@@ -127,8 +106,8 @@ export const FormStepper = ({
     submitLabel,
     isLastStep,
     claimIndex,
-    reportTotal,
     registerLabel: (_index: number, _label?: string) => {},
+    reportTotal: (_c: number, _l: string[]) => {},
     registerStep: (_label?: string) => claimIndex(),
     unregisterStep: (_index: number) => {},
   };

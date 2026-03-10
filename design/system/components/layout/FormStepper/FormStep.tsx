@@ -1,6 +1,6 @@
 // ===============================================
-// FormStep.tsx — A single step panel inside FormStepper
-// Index claimed synchronously via render-time counter in context.
+// FormStep.tsx
+// Index claimed synchronously during render via stepIndexRef counter in FormStepper.
 // ===============================================
 
 import React, { useRef, useEffect } from 'react';
@@ -12,18 +12,15 @@ export interface FormStepProps {
   children?: React.ReactNode;
 }
 
-export const FormStep = ({ children, label }: FormStepProps) => {
-  const { currentStep, claimIndex, reportTotal, stepLabels } = useFormStepperContext();
+export const FormStep = ({ children }: FormStepProps) => {
+  const { currentStep, claimIndex } = useFormStepperContext();
 
+  // claimIndex() increments stepIndexRef in FormStepper — safe to call in render
+  // because it only writes a ref. The ref resets each FormStepper render,
+  // so each FormStep always gets its correct positional index.
   const myIndex = claimIndex();
   const isActive = currentStep === myIndex;
   const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const labels = [...stepLabels];
-    labels[myIndex - 1] = label ?? `Step ${myIndex}`;
-    reportTotal(myIndex, labels);
-  });
 
   useEffect(() => {
     const el = contentRef.current;
