@@ -93,6 +93,12 @@
    Background variants
    ═══════════════════════════════════════════════════════════════ */
 
+/* SOLID — always solid surface, no scroll transition */
+.navbar-container__unified-wrapper--solid {
+  background: var(--surface-nav);
+  border-color: var(--border-nav);
+}
+
 /* RAISED — elevated surface */
 .navbar-container__unified-wrapper--raised {
   background: var(--surface-raised);
@@ -230,7 +236,7 @@
   width: 100%;
   max-width: 100%;
   border: none;
-  border-bottom: 1px solid var(--border-nav);
+  border-bottom: 1px solid transparent;
 }
 
 /* Bar + no-border = no bottom border either */
@@ -243,12 +249,10 @@
   border-bottom-color: transparent;
 }
 
-/* Bar: default surface materializes on scroll (default variant) */
-.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--scrolled {
-  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom-color: var(--border-subtle);
+/* Bar + solid */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--solid {
+  background: var(--surface-nav);
+  border-bottom-color: var(--border-nav);
 }
 
 /* Bar + raised */
