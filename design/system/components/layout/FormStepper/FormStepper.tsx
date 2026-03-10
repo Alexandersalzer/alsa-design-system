@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import Button from '../../actions/Button/Button';
-import { Label } from '../../primitives/Typography/Typography';
+import { Label } from '../../Typography/Typography';
 import './FormStepper.css';
 
 export interface FormStepperProps {

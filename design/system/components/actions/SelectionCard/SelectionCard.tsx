@@ -7,7 +7,7 @@ import React, { forwardRef, useId, useEffect, useState, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 import { Radio } from '../../forms/Radio/Radio';
-import { Label } from '../../primitives/Typography/Typography';
+import { Label } from '../../Typography/Typography';
 import './SelectionCard.css';
 
 // ===== TYPE DEFINITIONS =====
