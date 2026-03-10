@@ -32,6 +32,10 @@ export const FormStep = ({ children, label }: FormStepProps) => {
     registered.current = true;
     const index = registerStep(label);
     setMyIndex(index);
+    return () => {
+      // Reset on unmount so StrictMode double-invocation works correctly
+      registered.current = false;
+    };
   }, [registerStep, label]);
 
   const isActive = myIndex !== null && currentStep === myIndex;
