@@ -1,6 +1,7 @@
 // ===============================================
 // FormStep.tsx — A single step panel inside FormStepper
 // Index is claimed synchronously during render via context counter.
+// Label is registered synchronously during render via context ref write.
 // No useEffect registration — immune to StrictMode double-invoke.
 // ===============================================
 
@@ -14,23 +15,19 @@ export interface FormStepProps {
 }
 
 export const FormStep = ({ children, label }: FormStepProps) => {
-  const { currentStep, claimIndex, reportTotal, stepLabels } = useFormStepperContext();
+  const { currentStep, claimIndex, registerLabel } = useFormStepperContext();
 
   // Claim index synchronously during render — no async useEffect needed.
   // claimIndex() increments a render-time counter in FormStepper that resets each render.
   // This is safe to call in render because it only reads/writes a ref (no state).
   const myIndex = claimIndex();
 
+  // Register label synchronously during render — writes to a ref in FormStepper.
+  // Safe to call in render because it only writes a ref, not state.
+  registerLabel(myIndex, label);
+
   const isActive = currentStep === myIndex;
   const contentRef = useRef<HTMLDivElement>(null);
-
-  // Report this step's index and label to FormStepper every render.
-  // FormStepper takes the max index seen across all steps as totalSteps.
-  useEffect(() => {
-    const labels = [...stepLabels];
-    labels[myIndex - 1] = label ?? `Step ${myIndex}`;
-    reportTotal(myIndex, labels);
-  });
 
   // Max-height animation
   useEffect(() => {

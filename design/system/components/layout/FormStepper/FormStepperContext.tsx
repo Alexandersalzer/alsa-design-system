@@ -12,6 +12,8 @@ export interface FormStepperContextValue {
   isLastStep: boolean;
   /** Synchronous render-time index claim — safe to call during render */
   claimIndex: () => number;
+  /** Synchronous render-time label registration — safe to call during render */
+  registerLabel: (index: number, label?: string) => void;
   /** Report total step count + labels after render */
   reportTotal: (count: number, labels: string[]) => void;
   /** @deprecated use claimIndex */

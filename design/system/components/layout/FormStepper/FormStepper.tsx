@@ -1,16 +1,12 @@
 // ===============================================
-// FormStepper.tsx — Universal multi-step form layout component
+// FormStepper.tsx
 // ===============================================
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import Button from '../../actions/Button/Button';
 import './FormStepper.css';
-
-// ===============================================
-// TYPES
-// ===============================================
 
 export interface FormStepperProps {
   stepLabels?: string[];
@@ -25,17 +21,7 @@ export interface FormStepperProps {
   children?: React.ReactNode;
 }
 
-// ===============================================
-// STEP INDICATOR (internal)
-// ===============================================
-
-interface StepIndicatorProps {
-  currentStep: number;
-  totalSteps: number;
-  labels: string[];
-}
-
-function StepIndicator({ currentStep, totalSteps, labels }: StepIndicatorProps) {
+function StepIndicator({ currentStep, totalSteps, labels }: { currentStep: number; totalSteps: number; labels: string[] }) {
   return (
     <div className="form-stepper__indicator" aria-label="Form steps">
       {Array.from({ length: totalSteps }, (_, i) => {
@@ -57,25 +43,14 @@ function StepIndicator({ currentStep, totalSteps, labels }: StepIndicatorProps) 
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                     <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                ) : (
-                  <span>{step}</span>
-                )}
+                ) : <span>{step}</span>}
               </div>
-              <span className={cn(
-                'form-stepper__step-label',
-                isActive && 'form-stepper__step-label--active'
-              )}>
+              <span className={cn('form-stepper__step-label', isActive && 'form-stepper__step-label--active')}>
                 {labels[i] ?? `Step ${step}`}
               </span>
             </div>
             {i < totalSteps - 1 && (
-              <div
-                className={cn(
-                  'form-stepper__step-line',
-                  isCompleted && 'form-stepper__step-line--completed'
-                )}
-                aria-hidden="true"
-              />
+              <div className={cn('form-stepper__step-line', isCompleted && 'form-stepper__step-line--completed')} aria-hidden="true" />
             )}
           </React.Fragment>
         );
@@ -83,10 +58,6 @@ function StepIndicator({ currentStep, totalSteps, labels }: StepIndicatorProps) 
     </div>
   );
 }
-
-// ===============================================
-// MAIN COMPONENT
-// ===============================================
 
 export const FormStepper = ({
   stepLabels = [],
@@ -102,38 +73,42 @@ export const FormStepper = ({
 }: FormStepperProps) => {
   const [currentStep, setCurrentStep] = useState(defaultStep);
   const [totalSteps, setTotalSteps] = useState(stepLabels.length || 3);
-  const [registeredLabels, setRegisteredLabels] = useState<string[]>(stepLabels);
+  const [resolvedLabels, setResolvedLabels] = useState<string[]>(stepLabels);
 
-  const isLastStep = currentStep === totalSteps;
-
-  const goNext = () => setCurrentStep(s => Math.min(s + 1, totalSteps));
-  const goBack = () => setCurrentStep(s => Math.max(s - 1, 1));
-
-  // Synchronous render-time counter — reset each render so FormStep reads its
-  // positional index during render (not in useEffect). This avoids all StrictMode issues.
+  // Render-time counter: reset at top of each render, incremented by each FormStep during its render.
+  // After all children have rendered, this holds the true count of FormStep children.
   const renderCounterRef = useRef(0);
+  const renderLabelsRef = useRef<string[]>([]);
   renderCounterRef.current = 0;
+  renderLabelsRef.current = [];
 
-  // claimIndex: called synchronously during FormStep render to get a stable 1-based index.
-  // Because renderCounterRef resets each render, the index is always positional.
   const claimIndex = useCallback((): number => {
     renderCounterRef.current += 1;
     return renderCounterRef.current;
   }, []);
 
-  // reportTotal: called by the last FormStep to tell FormStepper how many steps exist.
-  // We use a stable callback that only updates state when the value changes.
-  const reportTotal = useCallback((stepIndex: number, labels: string[]) => {
-    setTotalSteps(prev => Math.max(prev, stepIndex));
-    setRegisteredLabels(prev => {
-      const next = [...prev];
-      next[stepIndex - 1] = labels[stepIndex - 1] ?? `Step ${stepIndex}`;
-      const same = next.length === prev.length && next.every((l, i) => l === prev[i]);
-      return same ? prev : next;
-    });
+  const registerLabel = useCallback((index: number, label?: string) => {
+    renderLabelsRef.current[index - 1] = label ?? `Step ${index}`;
   }, []);
 
-  const resolvedLabels = registeredLabels.length > 0 ? registeredLabels : stepLabels;
+  // After each render, sync the counter and labels into state.
+  // Use a layout effect so it runs synchronously after DOM paint but before browser paint.
+  // We use a plain ref to avoid infinite loops.
+  useEffect(() => {
+    const count = renderCounterRef.current;
+    const labels = [...renderLabelsRef.current];
+    if (count > 0 && count !== totalSteps) {
+      setTotalSteps(count);
+    }
+    const same = labels.length === resolvedLabels.length && labels.every((l, i) => l === resolvedLabels[i]);
+    if (!same && labels.length > 0) {
+      setResolvedLabels(labels);
+    }
+  });
+
+  const isLastStep = currentStep === totalSteps;
+  const goNext = () => setCurrentStep(s => Math.min(s + 1, totalSteps));
+  const goBack = () => setCurrentStep(s => Math.max(s - 1, 1));
 
   const contextValue = {
     currentStep,
@@ -146,49 +121,26 @@ export const FormStepper = ({
     submitLabel,
     isLastStep,
     claimIndex,
-    reportTotal,
-    // Keep registerStep for backward compat
+    registerLabel,
+    // compat
+    reportTotal: (_c: number, _l: string[]) => {},
     registerStep: (_label?: string) => claimIndex(),
     unregisterStep: (_index: number) => {},
   };
 
   return (
     <FormStepperContext.Provider value={contextValue}>
-      <div
-        className={cn(
-          'form-stepper',
-          `form-stepper--${variant}`,
-          maxWidth !== 'full' && `form-stepper--max-${maxWidth}`,
-          className
-        )}
-      >
-        <StepIndicator
-          currentStep={currentStep}
-          totalSteps={totalSteps}
-          labels={resolvedLabels}
-        />
-
-        <div className="form-stepper__content">
-          {children}
-        </div>
-
-        <div className={cn(
-          'form-stepper__button-row',
-          currentStep === 1 && 'form-stepper__button-row--end'
-        )}>
+      <div className={cn('form-stepper', `form-stepper--${variant}`, maxWidth !== 'full' && `form-stepper--max-${maxWidth}`, className)}>
+        <StepIndicator currentStep={currentStep} totalSteps={totalSteps} labels={resolvedLabels} />
+        <div className="form-stepper__content">{children}</div>
+        <div className={cn('form-stepper__button-row', currentStep === 1 && 'form-stepper__button-row--end')}>
           {currentStep > 1 && (
-            <Button variant="ghost" size="md" type="button" onClick={goBack}>
-              {backLabel}
-            </Button>
+            <Button variant="ghost" size="md" type="button" onClick={goBack}>{backLabel}</Button>
           )}
           {isLastStep ? (
-            <Button variant="primary" size="md" type="button" onClick={() => onSubmit?.()}>
-              {submitLabel}
-            </Button>
+            <Button variant="primary" size="md" type="button" onClick={() => onSubmit?.()}>{submitLabel}</Button>
           ) : (
-            <Button variant="primary" size="md" type="button" onClick={goNext}>
-              {nextLabel}
-            </Button>
+            <Button variant="primary" size="md" type="button" onClick={goNext}>{nextLabel}</Button>
           )}
         </div>
       </div>
