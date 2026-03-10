@@ -351,3 +351,98 @@
 .calendar-bottom-content {
   /* User-provided content - minimal styling */
 }
+
+/* ===== TITLE BUTTON (when showMonthAndYearPickers) ===== */
+.calendar-title--picker {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  border-radius: var(--radius-button);
+  padding: 2px 6px;
+  transition: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
+  font-family: var(--font-body-family);
+  font-weight: var(--foundation-weight-semibold);
+  color: var(--text-default);
+  flex: 1;
+  text-align: center;
+  user-select: none;
+}
+
+.calendar-title--picker:hover {
+  background-color: var(--surface-hover);
+}
+
+.calendar-title__chevron {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform var(--foundation-duration-fast) var(--foundation-ease-out);
+}
+
+.calendar-title__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ===== MONTH/YEAR PICKER PANEL ===== */
+.calendar-picker {
+  display: flex;
+  gap: 0;
+  height: 200px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+}
+
+.calendar-picker__column {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
+}
+
+.calendar-picker__column:first-child {
+  border-right: 1px solid var(--border-default);
+}
+
+.calendar-picker__column::-webkit-scrollbar {
+  width: 4px;
+}
+
+.calendar-picker__column::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.calendar-picker__column::-webkit-scrollbar-thumb {
+  background-color: var(--border-default);
+  border-radius: 2px;
+}
+
+.calendar-picker__item {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-family: var(--font-body-family);
+  font-size: 14px;
+  color: var(--text-default);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color var(--foundation-duration-fast) var(--foundation-ease-out);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.calendar-picker__item:hover:not(.calendar-picker__item--selected) {
+  background-color: var(--surface-hover);
+}
+
+.calendar-picker__item--selected {
+  background-color: var(--surface-accent);
+  color: var(--text-button-accent);
+  font-weight: var(--foundation-weight-semibold);
+}

@@ -1,5 +1,6 @@
 // File: src/design-system/components/primitives/Tag/Tag.tsx
 import React, { forwardRef } from 'react';
+import { Stars } from '../Stars/Stars';
 import './Tag.css';
 
 export type TagVariant = 'success' | 'error' | 'warning' | 'info' | 'accent' | 'default';
@@ -20,6 +21,8 @@ export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'o
   className?: string;
   disabled?: boolean;
   componentKey?: string; // För live editing identification
+  showStars?: boolean;
+  rating?: number;
 }
 
 export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
@@ -36,6 +39,8 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
   className = '',
   disabled = false,
   componentKey,
+  showStars = false,
+  rating = 5,
   ...props
 }, ref) => {
   // Use content prop if provided (for JSON-driven rendering), otherwise use children
@@ -91,6 +96,9 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(({
       data-component-key={componentKey}
       {...props}
     >
+      {showStars && (
+        <Stars rating={rating} size="sm" color="warning" />
+      )}
       {icon && (
         <span className="tag__icon">
           {icon}
