@@ -149,24 +149,18 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     const clickedInput = target.tagName === 'INPUT' && (target as HTMLInputElement).type === 'radio';
     if (clickedInput) return;
 
-    e.preventDefault(); // Prevent default to avoid double-triggering
-
     if (indicator === 'radio') {
-      if (!effectiveSelected) {
-        onChange?.(true);
-        if (!isControlled && name) {
-          getOrCreateGroup(name).select(cardKey);
-        }
-        
-        // ✅ FIX: Programmatically check the radio input and dispatch change event
-        // This ensures FormStep's autoAdvance and form handlers can detect the selection
-        if (radioInputRef.current && !radioInputRef.current.checked) {
-          radioInputRef.current.checked = true; // Actually check the input first
-          const changeEvent = new Event('change', { bubbles: true });
-          radioInputRef.current.dispatchEvent(changeEvent);
-        }
+      // ✅ FIX: For radio buttons, just click the hidden input and let it handle everything
+      // This ensures the native change event fires with the correct sequence
+      if (radioInputRef.current && !effectiveSelected) {
+        radioInputRef.current.click();
       }
+    } else if (indicator === 'checkbox') {
+      // For checkboxes, toggle state directly
+      onChange?.(!effectiveSelected);
+      if (!isControlled) setLocalSelected(s => !s);
     } else {
+      // indicator === 'none' - just toggle
       onChange?.(!effectiveSelected);
       if (!isControlled) setLocalSelected(s => !s);
     }
