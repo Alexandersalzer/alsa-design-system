@@ -119,6 +119,12 @@
   }
 }
 
+/* ── Success state ── */
+.form-stepper__success {
+  padding: var(--foundation-space-6);
+  text-align: center;
+}
+
 /* ── Button row ── */
 .form-stepper__button-row {
   display: flex;

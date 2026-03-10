@@ -151,10 +151,15 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     if (clickedInput) return;
 
     if (indicator === 'radio') {
-      // ✅ FIX: For radio buttons, just click the hidden input and let it handle everything
-      // This ensures the native change event fires with the correct sequence
-      if (radioInputRef.current && !effectiveSelected) {
-        radioInputRef.current.click();
+      if (!effectiveSelected) {
+        onChange?.(true);
+        if (!isControlled && name) {
+          getOrCreateGroup(name).select(cardKey);
+        }
+        // Also click the hidden input so native radio change fires (for autoAdvance, form data)
+        if (radioInputRef.current) {
+          radioInputRef.current.click();
+        }
       }
     } else if (indicator === 'checkbox') {
       // For checkboxes, toggle state directly
