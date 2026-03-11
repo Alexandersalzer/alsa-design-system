@@ -63,27 +63,35 @@ const Navbar = ({ section }: NavbarProps) => {
     });
     
     components = Object.fromEntries(
-      Object.entries(components).filter(([key, comp]: [string, any]) => {
-        // Filter out logo if showLogo is false
-        if (comp.type === 'logo' && !showLogo) {
-          console.log('[Navbar] Filtering out logo component:', key);
-          return false;
-        }
-        // Filter out logo text if showLogoText is false
-        // Matches: logotext type, legacy heading/typography-businessName type, legacy key patterns
-        if (!showLogoText) {
-          if (comp.type === 'logotext') {
-            console.log('[Navbar] Filtering out logotext component:', key);
+      Object.entries(components)
+        .map(([key, comp]: [string, any]): [string, any] => {
+          // For unified logo component: set display prop instead of filtering it out
+          // (logo component handles both image and text internally via its display prop)
+          if (comp.type === 'logo' && logoDisplay) {
+            return [key, { ...comp, props: { ...comp.props, display: logoDisplay } }];
+          }
+          return [key, comp];
+        })
+        .filter(([key, comp]: [string, any]) => {
+          // Filter out separate logo image if showLogo is false (legacy separate components)
+          if (comp.type === 'logo-image' && !showLogo) {
             return false;
           }
-          if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
-              (key.includes('businessName') || key.includes('typography-businessName'))) {
-            console.log('[Navbar] Filtering out legacy logotext component:', key);
-            return false;
+          // Filter out logo text if showLogoText is false
+          // Matches: logotext type, legacy heading/typography-businessName type, legacy key patterns
+          if (!showLogoText) {
+            if (comp.type === 'logotext') {
+              console.log('[Navbar] Filtering out logotext component:', key);
+              return false;
+            }
+            if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
+                (key.includes('businessName') || key.includes('typography-businessName'))) {
+              console.log('[Navbar] Filtering out legacy logotext component:', key);
+              return false;
+            }
           }
-        }
-        return true;
-      })
+          return true;
+        })
     );
     
     console.log('[Navbar] Components after filter:', Object.keys(components));
@@ -127,23 +135,31 @@ const Navbar = ({ section }: NavbarProps) => {
     });
     
     const mobileComponents = Object.fromEntries(
-      Object.entries(components).filter(([key, comp]: [string, any]) => {
-        if (comp.type === 'logo' && !showLogoMobile) {
-          console.log('[Navbar] Filtering out logo on mobile:', key);
-          return false;
-        }
-        if (!showLogoTextMobile) {
-          if (comp.type === 'logotext') {
-            console.log('[Navbar] Filtering out logotext on mobile:', key);
+      Object.entries(components)
+        .map(([key, comp]: [string, any]): [string, any] => {
+          // For unified logo component: set display prop instead of filtering it out
+          if (comp.type === 'logo' && mobileLogoDisplay) {
+            return [key, { ...comp, props: { ...comp.props, display: mobileLogoDisplay } }];
+          }
+          return [key, comp];
+        })
+        .filter(([key, comp]: [string, any]) => {
+          // Filter out separate logo image if showLogoMobile is false (legacy separate components)
+          if (comp.type === 'logo-image' && !showLogoMobile) {
             return false;
           }
-          if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
-              (key.includes('businessName') || key.includes('typography-businessName'))) {
-            return false;
+          if (!showLogoTextMobile) {
+            if (comp.type === 'logotext') {
+              console.log('[Navbar] Filtering out logotext on mobile:', key);
+              return false;
+            }
+            if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
+                (key.includes('businessName') || key.includes('typography-businessName'))) {
+              return false;
+            }
           }
-        }
-        return true;
-      })
+          return true;
+        })
     );
 
     // Render mobile menu layout (use mobile template if available, otherwise same as desktop)
