@@ -108,6 +108,28 @@ const sharedNavbarProps: Record<string, PropConfig> = {
     group: 'mobile',
     cmsEnabled: true,
   },
+
+  language: {
+    name: 'language',
+    type: 'enum',
+    displayName: 'Language',
+    description: 'Language for navbar content',
+    editorType: 'select',
+    values: ['sv', 'en', 'no', 'da', 'fi', 'de', 'fr', 'es'],
+    valueLabels: {
+      sv: '🇸🇪 Svenska',
+      en: '🇬🇧 English',
+      no: '🇳🇴 Norsk',
+      da: '🇩🇰 Dansk',
+      fi: '🇫🇮 Suomi',
+      de: '🇩🇪 Deutsch',
+      fr: '🇫🇷 Français',
+      es: '🇪🇸 Español',
+    },
+    default: 'sv',
+    group: 'mobile',
+    cmsEnabled: true,
+  },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -184,7 +184,7 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           default: 'both',
           editorType: 'segmented',
           values: ['both', 'logo', 'text'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'content',
         },
         t.props?.display
