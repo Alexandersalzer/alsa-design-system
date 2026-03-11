@@ -25,7 +25,7 @@ interface NavbarContainerProps {
   mobileMenu: React.ReactNode;
   menuAlign?: 'left' | 'center' | 'right';
   mobileMenuAlign?: 'left' | 'center' | 'right';
-  backgroundVariant?: 'default' | 'solid' | 'accent' | 'raised' | 'glass' | 'glass-clear' | 'glass-transparent' | 'transparent';
+  backgroundVariant?: 'solid' | 'raised' | 'glass' | 'glass-clear' | 'glass-scroll' | 'glass-transparent' | 'transparent' | 'accent';
   showBorder?: boolean;
   /** När true: mjuk fade vid bottenkanten istället för hård border – blendar in med innehållet under. Passar särskilt med glass/transparent. */
   bottomBorderFade?: boolean;
@@ -51,7 +51,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
   mobileMenu,
   menuAlign = 'right',
   mobileMenuAlign = 'left',
-  backgroundVariant = 'default',
+  backgroundVariant = 'solid',
   showBorder = true,
   bottomBorderFade = false,
   hideOnScroll = false,
@@ -176,7 +176,7 @@ export const NavbarContainer: React.FC<NavbarContainerProps> = ({
             pillWidth === 'compact' && navbarStyle !== 'bar' && "navbar-container__unified-wrapper--compact",
             isMobileMenuOpen && "navbar-container__unified-wrapper--expanded",
             drawerStyle === 'fullscreen' && navbarStyle !== 'bar' && isMobileMenuOpen && "navbar-container__unified-wrapper--fullscreen-open",
-            backgroundVariant !== 'default' && `navbar-container__unified-wrapper--${backgroundVariant}`,
+            `navbar-container__unified-wrapper--${backgroundVariant}`,
             !showBorder && "navbar-container__unified-wrapper--no-border",
             bottomBorderFade && "navbar-container__unified-wrapper--bottom-fade",
             isScrolled && "navbar-container__unified-wrapper--scrolled"

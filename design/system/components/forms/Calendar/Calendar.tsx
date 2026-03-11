@@ -1,22 +1,23 @@
 // ===============================================
 // blimpify-ui/design/system/components/forms/Calendar/Calendar.tsx
-// CALENDAR - FIXED: Proper month navigation working
+// CALENDAR - With month/year picker panel
 // ===============================================
 
-import React, { forwardRef, useId } from 'react';
+import React, { forwardRef, useId, useState, useRef, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../media';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import type { 
-  CalendarDate, 
+import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import type {
+  CalendarDate,
   DateValue,
   DateDuration
 } from '@internationalized/date';
-import { 
+import {
   createCalendar,
   getWeeksInMonth,
   isSameMonth,
-  isToday as checkIsToday
+  isToday as checkIsToday,
+  toCalendarDate,
 } from '@internationalized/date';
 import { useCalendarState } from '@react-stately/calendar';
 import { useCalendar, useCalendarGrid, useCalendarCell } from '@react-aria/calendar';
@@ -71,6 +72,15 @@ export interface CalendarProps {
 }
 
 // ===============================================
+// MONTH NAMES
+// ===============================================
+
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+// ===============================================
 // CALENDAR COMPONENT
 // ===============================================
 
@@ -106,12 +116,21 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
   const generatedId = useId();
   const id = providedId || generatedId;
 
-  // Create calendar state - CRITICAL FIX: Pass all necessary props
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+
+  // Strip time component — useCalendarState only accepts CalendarDate, not ZonedDateTime/DateTime
+  const safeValue = value ? toCalendarDate(value as any) : value;
+  const safeDefaultValue = defaultValue ? toCalendarDate(defaultValue as any) : defaultValue;
+  // Use focusedValue as defaultFocusedValue (uncontrolled) so Calendar can navigate freely.
+  // If we pass focusedValue as a controlled prop, DatePicker re-renders reset the visible month.
+  const initialFocusedValue = (focusedValue || defaultFocusedValue)
+    ? toCalendarDate((focusedValue || defaultFocusedValue) as any)
+    : undefined;
+
   const state = useCalendarState({
-    value: value as any,
-    defaultValue: defaultValue as any,
-    focusedValue: focusedValue as any,
-    defaultFocusedValue: defaultFocusedValue as any,
+    value: safeValue as any,
+    defaultValue: safeDefaultValue as any,
+    defaultFocusedValue: initialFocusedValue as any,
     minValue: minValue as any,
     maxValue: maxValue as any,
     isDisabled,
@@ -133,8 +152,8 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
   const { calendarProps, prevButtonProps, nextButtonProps, title } = useCalendar(
     {
       ...props,
-      value: value as any,
-      defaultValue: defaultValue as any,
+      value: safeValue as any,
+      defaultValue: safeDefaultValue as any,
       minValue: minValue as any,
       maxValue: maxValue as any,
       isDisabled,
@@ -143,11 +162,45 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
     state
   );
 
-  // Get button props with proper refs
   const { buttonProps: prevProps } = useButton(prevButtonProps, prevButtonRef);
   const { buttonProps: nextProps } = useButton(nextButtonProps, nextButtonRef);
 
-  // Build classes
+  // Current focused month/year for the picker
+  const currentYear = state.visibleRange.start.year;
+  const currentMonth = state.visibleRange.start.month; // 1-indexed
+
+  // Build year list: 10 years back, 10 years forward
+  const minYear = minValue ? minValue.year : currentYear - 10;
+  const maxYear = maxValue ? maxValue.year : currentYear + 10;
+  const years: number[] = [];
+  for (let y = minYear; y <= maxYear; y++) years.push(y);
+
+  // Scroll selected items into view when picker opens
+  const monthListRef = useRef<HTMLDivElement>(null);
+  const yearListRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isPickerOpen) return;
+    // Small delay to let DOM render
+    const t = setTimeout(() => {
+      const mEl = monthListRef.current?.querySelector('[data-selected="true"]') as HTMLElement | null;
+      if (mEl) mEl.scrollIntoView({ block: 'center' });
+      const yEl = yearListRef.current?.querySelector('[data-selected="true"]') as HTMLElement | null;
+      if (yEl) yEl.scrollIntoView({ block: 'center' });
+    }, 20);
+    return () => clearTimeout(t);
+  }, [isPickerOpen]);
+
+  const handlePickerSelect = (month: number, year: number) => {
+    // state.focusedDate is the calendar's internal focused date.
+    // We navigate by setting it to the 1st of the target month/year.
+    // Use the same calendar system as the current focused date.
+    const current = state.focusedDate;
+    const newDate = current.set({ year, month, day: 1 });
+    state.setFocusedDate(newDate);
+    setIsPickerOpen(false);
+  };
+
   const baseClasses = cn(
     'calendar',
     `calendar--${size}`,
@@ -158,8 +211,8 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
   );
 
   return (
-    <div 
-      {...calendarProps} 
+    <div
+      {...calendarProps}
       ref={(node) => {
         if (calendarRef) (calendarRef as any).current = node;
         if (typeof ref === 'function') ref(node);
@@ -178,46 +231,116 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(({
 
       {/* Calendar Header */}
       <div className={cn('calendar-header', `calendar-header--${size}`, classNames.header)}>
-        <button
-          {...prevProps}
-          ref={prevButtonRef}
-          className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
-        >
-          <Icon size="sm" color="secondary">
-            <ChevronLeftIcon />
-          </Icon>
-        </button>
-        
-        <h2 className={cn('calendar-title', `calendar-title--${size}`, classNames.title)}>
-          {title}
-        </h2>
+        {!isPickerOpen && (
+          <button
+            {...prevProps}
+            ref={prevButtonRef}
+            type="button"
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              prevProps.onMouseDown?.(e as any);
+            }}
+            className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
+          >
+            <Icon size="sm" color="secondary">
+              <ChevronLeftIcon />
+            </Icon>
+          </button>
+        )}
 
-        <button
-          {...nextProps}
-          ref={nextButtonRef}
-          className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
-        >
-          <Icon size="sm" color="secondary">
-            <ChevronRightIcon />
-          </Icon>
-        </button>
+        {showMonthAndYearPickers ? (
+          <button
+            type="button"
+            className={cn('calendar-title', 'calendar-title--picker', `calendar-title--${size}`, classNames.title)}
+            onClick={() => setIsPickerOpen((v) => !v)}
+          >
+            {title}
+            <ChevronDownIcon
+              className={cn('calendar-title__chevron', isPickerOpen && 'calendar-title__chevron--open')}
+            />
+          </button>
+        ) : (
+          <h2 className={cn('calendar-title', `calendar-title--${size}`, classNames.title)}>
+            {title}
+          </h2>
+        )}
+
+        {!isPickerOpen && (
+          <button
+            {...nextProps}
+            ref={nextButtonRef}
+            type="button"
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              nextProps.onMouseDown?.(e as any);
+            }}
+            className={cn('calendar-nav-button', `calendar-nav-button--${size}`)}
+          >
+            <Icon size="sm" color="secondary">
+              <ChevronRightIcon />
+            </Icon>
+          </button>
+        )}
       </div>
+
+      {/* Month/Year Picker Panel */}
+      {isPickerOpen && showMonthAndYearPickers && (
+        <div className="calendar-picker">
+          {/* Month column */}
+          <div className="calendar-picker__column" ref={monthListRef}>
+            {MONTH_NAMES.map((name, i) => {
+              const monthNum = i + 1;
+              const isSelected = monthNum === currentMonth;
+              return (
+                <button
+                  key={monthNum}
+                  type="button"
+                  data-selected={isSelected}
+                  className={cn('calendar-picker__item', isSelected && 'calendar-picker__item--selected')}
+                  onClick={() => handlePickerSelect(monthNum, currentYear)}
+                >
+                  {name}
+                </button>
+              );
+            })}
+          </div>
+          {/* Year column */}
+          <div className="calendar-picker__column" ref={yearListRef}>
+            {years.map((y) => {
+              const isSelected = y === currentYear;
+              return (
+                <button
+                  key={y}
+                  type="button"
+                  data-selected={isSelected}
+                  className={cn('calendar-picker__item', isSelected && 'calendar-picker__item--selected')}
+                  onClick={() => handlePickerSelect(currentMonth, y)}
+                >
+                  {y}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Calendar Grid(s) */}
-      <div className={cn('calendar-grid-wrapper', `calendar-grid-wrapper--${size}`, classNames.gridWrapper)}>
-        {[...new Array(visibleMonths).keys()].map((monthIndex) => (
-          <CalendarGrid
-            key={monthIndex}
-            state={state}
-            offset={{ months: monthIndex } as DateDuration}
-            size={size}
-            isDateUnavailable={isDateUnavailable}
-            classNames={classNames}
-            isRangePicker={isRangePicker}
-            rangeValue={rangeValue}
-          />
-        ))}
-      </div>
+      {!isPickerOpen && (
+        <div className={cn('calendar-grid-wrapper', `calendar-grid-wrapper--${size}`, classNames.gridWrapper)}>
+          {[...new Array(visibleMonths).keys()].map((monthIndex) => (
+            <CalendarGrid
+              key={monthIndex}
+              state={state}
+              offset={{ months: monthIndex } as DateDuration}
+              size={size}
+              isDateUnavailable={isDateUnavailable}
+              classNames={classNames}
+              isRangePicker={isRangePicker}
+              rangeValue={rangeValue}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Bottom Content */}
       {bottomContent && (
@@ -248,12 +371,12 @@ interface CalendarGridProps {
 function CalendarGrid({ state, offset, size, isDateUnavailable, classNames, isRangePicker, rangeValue }: CalendarGridProps) {
   const { locale } = useLocale();
   const gridRef = React.useRef<HTMLTableElement>(null);
-  
+
   // Calculate the start date for this grid
   const startDate = offset ? state.visibleRange.start.add(offset) : state.visibleRange.start;
-  
+
   const { gridProps, headerProps, weekDays } = useCalendarGrid(
-    { 
+    {
       startDate: startDate as any,
       endDate: startDate.add({ months: 1 }).subtract({ days: 1 }) as any,
     },
@@ -263,16 +386,16 @@ function CalendarGrid({ state, offset, size, isDateUnavailable, classNames, isRa
   const weeksInMonth = getWeeksInMonth(startDate, locale);
 
   return (
-    <table 
-      {...gridProps} 
+    <table
+      {...gridProps}
       ref={gridRef}
       className={cn('calendar-grid', `calendar-grid--${size}`, classNames?.grid)}
     >
       <thead {...headerProps} className={cn('calendar-grid-header', classNames?.gridHeader)}>
         <tr className="calendar-grid-header-row">
           {weekDays.map((day, index) => (
-            <th 
-              key={index} 
+            <th
+              key={index}
               className={cn('calendar-grid-header-cell', `calendar-grid-header-cell--${size}`, classNames?.gridHeaderCell)}
             >
               {day}
@@ -284,7 +407,7 @@ function CalendarGrid({ state, offset, size, isDateUnavailable, classNames, isRa
         {[...new Array(weeksInMonth).keys()].map((weekIndex) => (
           <tr key={weekIndex} className="calendar-grid-body-row">
             {state.getDatesInWeek(weekIndex, startDate)
-              .map((date: DateValue | null, i: number) => 
+              .map((date: DateValue | null, i: number) =>
                 date ? (
                   <CalendarCell
                     key={i}
@@ -331,16 +454,16 @@ function CalendarCell({ state, date, size, currentMonth, isDateUnavailable, clas
 
   const isOutsideMonth = !isSameMonth(currentMonth, date);
   const isToday = checkIsToday(date, state.timeZone);
-  
+
   // Range selection logic
   let isRangeStart = false;
   let isRangeEnd = false;
   let isRangeMiddle = false;
-  
+
   if (isRangePicker && rangeValue?.start && rangeValue?.end) {
     const dateCompare = date.compare(rangeValue.start);
     const endCompare = date.compare(rangeValue.end);
-    
+
     isRangeStart = dateCompare === 0;
     isRangeEnd = endCompare === 0;
     isRangeMiddle = dateCompare > 0 && endCompare < 0;

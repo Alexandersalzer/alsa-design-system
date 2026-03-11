@@ -341,7 +341,7 @@ export const MenuRoot = <T extends object>({
 
   // Handle dynamic items rendering
   const renderChildren = () => {
-    // If menuItems + triggerLabel provided, auto-generate Menu.Trigger + Menu.Content structure
+    // NEW: If menuItems provided, auto-generate Menu.Trigger + Menu.Content structure
     if (menuItems && triggerLabel) {
       return (
         <>

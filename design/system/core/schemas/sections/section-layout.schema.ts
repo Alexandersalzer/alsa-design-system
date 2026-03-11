@@ -613,18 +613,14 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     displayName: 'Split Shape',
     description: 'Shape of the split edge',
     editorType: 'segmented',
-    values: ['straight', 'diagonal', 'diagonal-reverse', 'wave'],
+    values: ['straight', 'diagonal-reverse'],
     valueLabels: {
       straight: 'Straight',
-      diagonal: 'Diagonal ↘',
-      'diagonal-reverse': 'Diagonal ↗',
-      wave: 'Wave'
+      'diagonal-reverse': 'Diagonal ↗'
     },
     valueIcons: {
       straight: 'Minus',
-      diagonal: 'Slash',
-      'diagonal-reverse': 'TrendingUp',
-      wave: 'Waves'
+      'diagonal-reverse': 'TrendingUp'
     },
     default: 'straight',
     group: 'background',

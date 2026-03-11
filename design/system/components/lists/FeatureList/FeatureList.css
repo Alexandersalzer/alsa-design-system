@@ -1,0 +1,54 @@
+/* ===============================================
+   design/system/components/lists/FeatureList/FeatureList.css
+   =============================================== */
+
+.feature-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== SPACING between items ===== */
+.feature-list--spacing-xs { gap: var(--foundation-space-2); }  /* 8px */
+.feature-list--spacing-sm { gap: var(--foundation-space-3); }  /* 12px */
+.feature-list--spacing-md { gap: var(--foundation-space-4); }  /* 16px */
+
+/* ===== ITEM ===== */
+.feature-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-3);  /* 12px between icon and text */
+}
+
+/* ===== ICON wrapper ===== */
+.feature-list__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Bullet span */
+.feature-list__bullet {
+  display: inline-block;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.feature-list--sm .feature-list__bullet { width: 7px;  height: 7px;  }
+.feature-list--md .feature-list__bullet { width: 8px;  height: 8px;  }
+.feature-list--lg .feature-list__bullet { width: 10px; height: 10px; }
+
+/* ===== COLOR ===== */
+.feature-list--color-default .feature-list__icon { color: var(--text-default); }
+.feature-list--color-accent   .feature-list__icon { color: var(--surface-accent); }
+.feature-list--color-success  .feature-list__icon { color: var(--surface-success, #22c55e); }
+.feature-list--color-muted    .feature-list__icon { color: var(--text-muted); }
+
+.feature-list__text {
+  margin: 0;
+}

@@ -74,11 +74,15 @@ import { createSpacerSchema } from './layout/Spacer/schema';
 import { createBoxSchema } from './layout/box/schema';
 import { createDividerSchema } from './layout/divider/schema';
 import { createAccordionSchema, createAccordionItemSchema } from './layout/Accordion/schema';
+import { createFormStepperSchema, createFormStepSchema } from './layout/FormStepper/schema';
 import { createBleedSchema } from './layout/bleed/schema';
 import { createRhythmSchema } from './layout/rhythm/schema';
 import { createBentoGridSchema } from './layout/BentoGrid/schema';
 import { createMasonryGridSchema } from './layout/MasonryGrid/schema';
 import { createStickySchema } from './layout/Sticky/schema';
+
+// Lists
+import { createFeatureListSchema } from './lists/FeatureList/schema';
 
 // Feedback
 import { createBadgeSchema } from './feedback/Badge/schema';
@@ -138,12 +142,17 @@ const schemaFactories: Record<string, (locale: SupportedLocale) => ComponentSche
   divider: createDividerSchema,
   accordion: createAccordionSchema,
   accordionItem: createAccordionItemSchema,
+  formStepper: createFormStepperSchema,
+  formStep: createFormStepSchema,
   bleed: createBleedSchema,
   rhythm: createRhythmSchema,
   bentoGrid: createBentoGridSchema,
   masonryGrid: createMasonryGridSchema,
   sticky: createStickySchema,
   
+  // Lists
+  featureList: createFeatureListSchema,
+
   // Feedback
   badge: createBadgeSchema,
   tag: createTagSchema,

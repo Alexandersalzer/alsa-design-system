@@ -20,6 +20,9 @@
   /* Focus states */
   outline: none;
   border-radius: var(--radius-xs);              /* FIXED: was --radius-sm */
+  
+  /* Prevent text wrapping */
+  white-space: nowrap;
 }
 
 .textlink:focus-visible {
@@ -232,6 +235,9 @@
   /* Typography handled by Typography component */
   line-height: inherit;
   color: inherit !important; /* Force inherit color from parent textlink */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */

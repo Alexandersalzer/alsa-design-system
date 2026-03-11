@@ -75,7 +75,9 @@ export const VideoBackground: React.FC<VideoBackgroundProps> = ({
     } else if (activeFadeEdge === 'bottom') {
       maskImage = `linear-gradient(to top, transparent 0%, rgba(0,0,0,1) ${fadePercentage}%)`;
     } else if (activeFadeEdge === 'both') {
-      maskImage = `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) ${fadePercentage}%, rgba(0,0,0,1) ${100 - fadePercentage}%, transparent 100%)`;
+      // Cap at 50% to prevent overlapping gradients and ensure middle content stays visible
+      const cappedFadePercentage = Math.min(fadePercentage, 50);
+      maskImage = `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) ${cappedFadePercentage}%, rgba(0,0,0,1) ${100 - cappedFadePercentage}%, transparent 100%)`;
     }
 
     return {

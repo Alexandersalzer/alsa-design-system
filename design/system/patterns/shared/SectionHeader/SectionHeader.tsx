@@ -148,13 +148,13 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
   };
 
   // Apply maxWidth styling if specified in props
-  const containerStyle = { 
-    maxWidth: maxWidth, 
-    width: '100%' 
+  const containerStyle = {
+    maxWidth: maxWidth,
+    width: '100%'
   };
 
   const content = (
-    <>
+    <VStack spacing={spacing as any} align={align as any}>
       {isHero && (
         <style>{`
           @media (max-width: 767px) {
@@ -252,7 +252,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
           'body'
         );
       })()}
-    </>
+    </VStack>
   );
 
   // Always apply maxWidth constraint to prevent text from becoming too wide

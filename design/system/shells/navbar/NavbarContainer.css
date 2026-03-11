@@ -93,30 +93,10 @@
    Background variants
    ═══════════════════════════════════════════════════════════════ */
 
-/* SOLID — always solid background, never glass on scroll */
+/* SOLID — always solid surface, no scroll transition */
 .navbar-container__unified-wrapper--solid {
   background: var(--surface-nav);
   border-color: var(--border-nav);
-}
-
-.navbar-container__unified-wrapper--solid.navbar-container__unified-wrapper--scrolled {
-  background: var(--surface-nav);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-color: var(--border-nav);
-}
-
-/* ACCENT — same as action accent (--surface-button-accent / intent-action-primary), solid (no glass on scroll) */
-.navbar-container__unified-wrapper--accent {
-  background: var(--surface-button-accent);
-  border-color: var(--border-button-accent);
-}
-
-.navbar-container__unified-wrapper--accent.navbar-container__unified-wrapper--scrolled {
-  background: var(--surface-button-accent);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-color: var(--border-button-accent);
 }
 
 /* RAISED — elevated surface */
@@ -130,7 +110,7 @@
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-color: var(--border-subtle);
+  border-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
 }
 
 /* GLASS-CLEAR — barely visible at rest (~4%), solidifies on scroll */
@@ -138,14 +118,14 @@
   background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-color: var(--border-subtle);
+  border-color: color-mix(in srgb, var(--neutral-1000) 8%, transparent);
 }
 
 .navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-color: var(--border-subtle);
+  border-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
 }
 
 .navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--expanded {
@@ -166,7 +146,7 @@
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-color: var(--border-subtle);
+  border-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
 }
 
 /* Transparent + drawer open: show surface so links are readable */
@@ -175,6 +155,27 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-color: var(--border-subtle);
+}
+
+/* GLASS-SCROLL — solid at rest, transitions to glass on scroll */
+.navbar-container__unified-wrapper--glass-scroll {
+  background: var(--surface-nav);
+  border-color: var(--border-nav);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.navbar-container__unified-wrapper--glass-scroll.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
+}
+
+/* ACCENT — brand/accent color surface */
+.navbar-container__unified-wrapper--accent {
+  background: var(--surface-accent);
+  border-color: transparent;
 }
 
 /* Legacy alias — keep glass-transparent working for any existing JSON */
@@ -238,8 +239,12 @@
   }
 }
 
-.navbar-container__unified-wrapper--no-border {
-  border-color: transparent;
+.navbar-container__unified-wrapper--no-border,
+.navbar-container__unified-wrapper--no-border.navbar-container__unified-wrapper--scrolled,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--no-border,
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--no-border.navbar-container__unified-wrapper--scrolled {
+  border-color: transparent !important;
+  border-bottom-color: transparent !important;
 }
 
 /* -----------------------------------------------
@@ -256,7 +261,7 @@
   width: 100%;
   max-width: 100%;
   border: none;
-  border-bottom: 1px solid var(--border-nav);
+  border-bottom: 1px solid transparent;
 }
 
 /* Bar + no-border = no bottom border either */
@@ -327,12 +332,10 @@
   border-bottom-color: transparent;
 }
 
-/* Bar: default surface becomes glass on scroll (only when NOT solid/accent) */
-.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--scrolled:not(.navbar-container__unified-wrapper--solid):not(.navbar-container__unified-wrapper--accent) {
-  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom-color: var(--border-subtle);
+/* Bar + solid */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--solid {
+  background: var(--surface-nav);
+  border-bottom-color: var(--border-nav);
 }
 
 /* Bar + solid: stay solid on scroll */
@@ -363,7 +366,7 @@
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid color-mix(in srgb, var(--neutral-1000) 10%, transparent);
   border-radius: 0;
 }
 
@@ -372,14 +375,33 @@
   background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom-color: var(--border-subtle);
+  border-bottom-color: color-mix(in srgb, var(--neutral-1000) 8%, transparent);
 }
 
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom-color: var(--border-subtle);
+  border-bottom-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
+}
+
+/* Bar + glass-scroll */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-scroll {
+  background: var(--surface-nav);
+  border-bottom-color: var(--border-nav);
+}
+
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--glass-scroll.navbar-container__unified-wrapper--scrolled {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
+}
+
+/* Bar + accent */
+.navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--accent {
+  background: var(--surface-accent);
+  border-bottom-color: transparent;
 }
 
 /* Bar + transparent */
@@ -401,14 +423,14 @@
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom-color: var(--border-subtle);
+  border-bottom-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
 }
 
 .navbar-container__unified-wrapper--bar.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom-color: var(--border-subtle);
+  border-bottom-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
 }
 
 /* Bar inner content — constrained width like NavbarBar */
@@ -874,7 +896,7 @@
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass
   .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
-  border-color: var(--border-subtle);
+  border-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -885,7 +907,7 @@
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear
   .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: color-mix(in srgb, var(--neutral-1000) 4%, transparent);
-  border-color: var(--border-subtle);
+  border-color: color-mix(in srgb, var(--neutral-1000) 8%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -896,6 +918,7 @@
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-clear.navbar-container__unified-wrapper--scrolled
   .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  border-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -918,9 +941,41 @@
 .navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--transparent.navbar-container__unified-wrapper--scrolled
   .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
   background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
-  border-color: var(--border-subtle);
+  border-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+}
+
+/* GLASS-SCROLL — solid pill at rest, glass on scroll */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-scroll
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-scroll
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: var(--surface-nav);
+  border-color: var(--border-nav);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-scroll.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--glass-scroll.navbar-container__unified-wrapper--scrolled
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: color-mix(in srgb, var(--neutral-1000) 12%, transparent);
+  border-color: color-mix(in srgb, var(--neutral-1000) 10%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ACCENT — brand color pill */
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--accent
+  .navbar-container__desktop--center-pill > .hStack [data-item-key] > .hStack:nth-child(2),
+.navbar-container__unified-wrapper--center-pill.navbar-container__unified-wrapper--accent
+  .navbar-container__desktop--center-pill > .hStack > .hStack:nth-child(2) {
+  background: var(--surface-accent);
+  border-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* Scrolled: enhance pill shadow (all variants) */

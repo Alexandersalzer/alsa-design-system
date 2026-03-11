@@ -17,6 +17,7 @@ export const AllowedSectionTypes = [
   'hero',
   'about',
   'services',
+  'features',
   'testimonials',
   'faq',
   'pricing',
@@ -158,6 +159,13 @@ export const sectionMetadata: Record<SectionType, SectionMetadata> = {
     displayName: 'Services Section',
     description: 'Showcase services or features',
     icon: 'Grid',
+    category: 'content'
+  },
+  features: {
+    type: 'features',
+    displayName: 'Features Section',
+    description: 'Product or service features showcase',
+    icon: 'Zap',
     category: 'content'
   },
   testimonials: {
