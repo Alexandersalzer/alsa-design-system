@@ -73,6 +73,8 @@ export interface DatePickerProps {
   onFocus?: (e: React.FocusEvent) => void;
   onBlur?: (e: React.FocusEvent) => void;
   id?: string;
+  /** Name of a radio group whose values map to date offsets: 'today', 'tomorrow', 'in2days', 'in3days' */
+  linkedRadioName?: string;
 }
 
 // ===============================================
@@ -114,6 +116,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   calendarProps,
   onChange,
   id,
+  linkedRadioName,
   ...props
 }, ref) => {
   const { locale } = useLocale();
@@ -133,6 +136,24 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   });
 
   const triggerRef = useRef<HTMLDivElement>(null);
+
+  // Sync linked radio shortcuts → datePicker value
+  useEffect(() => {
+    if (!linkedRadioName) return;
+    const handleChange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (target.type !== 'radio' || target.name !== linkedRadioName) return;
+      const tz = getLocalTimeZone();
+      const base = today(tz);
+      const offsets: Record<string, number> = { today: 0, tomorrow: 1, in2days: 2, in3days: 3 };
+      const offset = offsets[target.value];
+      if (offset === undefined) return;
+      const date = base.add({ days: offset });
+      state.setDateValue(new CalendarDate(date.year, date.month, date.day));
+    };
+    document.addEventListener('change', handleChange);
+    return () => document.removeEventListener('change', handleChange);
+  }, [linkedRadioName, state]);
 
   const { groupProps, labelProps, fieldProps, buttonProps, dialogProps } = useDatePicker(
     {
