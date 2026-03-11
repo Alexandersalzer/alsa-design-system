@@ -20,6 +20,7 @@ const logoTranslations = {
         description: 'Välj hur loggan anpassar sig till temat',
         valueLabels: {
           auto: 'Auto',
+          'auto-inverse': 'Auto+',
           inverse: 'Inverse',
           brand: 'Brand',
         },
@@ -35,6 +36,11 @@ const logoTranslations = {
           xl: 'XL',
           full: '○',
         },
+      },
+      aspectRatio: {
+        displayName: 'Ratio',
+        description: 'Bildproportioner',
+        valueLabels: { '1/1': '1:1', '2/3': '2:3', '3/2': '3:2' },
       },
       display: {
         displayName: 'Visa',
@@ -56,6 +62,7 @@ const logoTranslations = {
         description: 'How the logo adapts to the theme',
         valueLabels: {
           auto: 'Auto',
+          'auto-inverse': 'Auto+',
           inverse: 'Inverse',
           brand: 'Brand',
         },
@@ -71,6 +78,11 @@ const logoTranslations = {
           xl: 'XL',
           full: '○',
         },
+      },
+      aspectRatio: {
+        displayName: 'Ratio',
+        description: 'Image proportions',
+        valueLabels: { '1/1': '1:1', '2/3': '2:3', '3/2': '3:2' },
       },
       display: {
         displayName: 'Display',
@@ -141,11 +153,25 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
           required: false,
           default: 'auto',
           editorType: 'segmented',
-          values: ['auto', 'inverse', 'brand'] as const,
+          values: ['auto', 'auto-inverse', 'inverse', 'brand'] as const,
           cmsEnabled: true,
           group: 'appearance',
         },
         t.props?.color
+      ),
+
+      aspectRatio: createLocalizedProp(
+        {
+          name: 'aspectRatio',
+          type: 'enum',
+          required: false,
+          default: '1/1',
+          editorType: 'segmented',
+          values: ['1/1', '2/3', '3/2'] as const,
+          cmsEnabled: true,
+          group: 'appearance',
+        },
+        t.props?.aspectRatio
       ),
 
       radius: createLocalizedProp(
