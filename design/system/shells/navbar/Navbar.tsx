@@ -50,23 +50,14 @@ const Navbar = ({ section }: NavbarProps) => {
       }, {});
     }
 
-    // Filter logo and logo text based on logoDisplay prop (or legacy showLogo/showLogoText)
-    const logoDisplay = (patternProps as any).logoDisplay;
-    const showLogo = logoDisplay ? logoDisplay !== 'text' : patternProps.showLogo !== false;
-    const showLogoText = logoDisplay ? logoDisplay !== 'logo' : patternProps.showLogoText !== false;
-    
-    console.log('[Navbar] logoDisplay filter:', {
-      logoDisplay,
-      showLogo,
-      showLogoText,
-      componentsBeforeFilter: Object.keys(components),
-    });
-    
-    components = Object.fromEntries(
-      Object.entries(components).filter(([key, comp]: [string, any]) => {
-        // Filter out logo image if showLogo is false
+    // Helper: filter components by logoDisplay / showLogo / showLogoText
+    const filterComponentsByLogoDisplay = (
+      comps: Record<string, any>,
+      showLogo: boolean,
+      showLogoText: boolean
+    ) => Object.fromEntries(
+      Object.entries(comps).filter(([key, comp]: [string, any]) => {
         if (!showLogo && comp.type === 'logo') return false;
-        // Filter out logo text if showLogoText is false
         if (!showLogoText) {
           if (comp.type === 'logotext') return false;
           if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
@@ -75,28 +66,51 @@ const Navbar = ({ section }: NavbarProps) => {
         return true;
       })
     );
-    
-    console.log('[Navbar] Components after filter:', Object.keys(components));
 
-    // Apply linkVariant from pattern props to all link components (TextLink)
-    const linkVariant = (patternProps as any)?.linkVariant;
-    if (linkVariant && linkVariant !== 'default') {
-      components = Object.fromEntries(
-        Object.entries(components).map(([key, comp]: [string, any]) => {
+    // Helper: apply linkVariant to link components
+    const applyLinkVariant = (comps: Record<string, any>, linkVariant: string) =>
+      Object.fromEntries(
+        Object.entries(comps).map(([key, comp]: [string, any]) => {
           if ((comp.type === 'link' || comp.type === 'textlink-menuItem') && !comp.props?.variant) {
             return [key, { ...comp, props: { ...comp.props, variant: linkVariant } }];
           }
           return [key, comp];
         })
       );
+
+    // Helper: build a layout with filtered components embedded back into layout.items
+    const buildFilteredLayout = (
+      baseLayout: Record<string, any>,
+      template: Record<string, any>,
+      filteredComps: Record<string, any>
+    ) => {
+      const patchedItems = baseLayout.items?.map((item: any) => ({
+        ...item,
+        components: Object.fromEntries(
+          Object.entries(item.components || {}).filter(([k]) => k in filteredComps)
+        )
+      }));
+      return { ...baseLayout, template, items: patchedItems };
+    };
+
+    // Compute desktop logo visibility
+    const logoDisplay = (patternProps as any).logoDisplay;
+    const showLogo = logoDisplay ? logoDisplay !== 'text' : patternProps.showLogo !== false;
+    const showLogoText = logoDisplay ? logoDisplay !== 'logo' : patternProps.showLogoText !== false;
+
+    // Apply logo filter + linkVariant to desktop components
+    let filteredDesktop = filterComponentsByLogoDisplay(components, showLogo, showLogoText);
+    const linkVariant = (patternProps as any)?.linkVariant;
+    if (linkVariant && linkVariant !== 'default') {
+      filteredDesktop = applyLinkVariant(filteredDesktop, linkVariant);
     }
-    
-    // Render desktop layout (default template or explicit desktop template)
+
+    // Render desktop layout — embed filtered components back into layout.items
     const desktopTemplate = layout.template?.desktop || layout.template;
-    const desktopLayout = desktopTemplate ? { ...layout, template: desktopTemplate } : layout;
+    const desktopLayout = buildFilteredLayout(layout, desktopTemplate, filteredDesktop);
     const desktopContent = renderLayoutWithTemplate(
       desktopLayout,
-      components,
+      filteredDesktop,
       sectionKey,
       firstPatternKey,
       patternProps,
@@ -105,35 +119,23 @@ const Navbar = ({ section }: NavbarProps) => {
       { noItemKeys: true }
     );
 
-    // Apply mobileLogoDisplay filter for mobile components
+    // Compute mobile logo visibility
     const mobileLogoDisplay = (patternProps as any).mobileLogoDisplay;
     const showLogoMobile = mobileLogoDisplay ? mobileLogoDisplay !== 'text' : !(patternProps as any).hideLogoOnMobile;
     const showLogoTextMobile = mobileLogoDisplay ? mobileLogoDisplay !== 'logo' : !(patternProps as any).hideLogoTextOnMobile;
-    
-    console.log('[Navbar] mobileLogoDisplay filter:', {
-      mobileLogoDisplay,
-      showLogoMobile,
-      showLogoTextMobile,
-    });
-    
-    const mobileComponents = Object.fromEntries(
-      Object.entries(components).filter(([key, comp]: [string, any]) => {
-        if (!showLogoMobile && comp.type === 'logo') return false;
-        if (!showLogoTextMobile) {
-          if (comp.type === 'logotext') return false;
-          if ((comp.type === 'heading' || comp.type === 'typography-businessName') &&
-              (key.includes('businessName') || key.includes('typography-businessName'))) return false;
-        }
-        return true;
-      })
-    );
 
-    // Render mobile menu layout (use mobile template if available, otherwise same as desktop)
+    // Apply logo filter to mobile components (start from original components, not desktop-filtered)
+    let filteredMobile = filterComponentsByLogoDisplay(components, showLogoMobile, showLogoTextMobile);
+    if (linkVariant && linkVariant !== 'default') {
+      filteredMobile = applyLinkVariant(filteredMobile, linkVariant);
+    }
+
+    // Render mobile menu layout — embed filtered components back into layout.items
     const mobileTemplate = layout.template?.mobile || layout.template;
-    const mobileLayout = mobileTemplate ? { ...layout, template: mobileTemplate } : layout;
+    const mobileLayout = buildFilteredLayout(layout, mobileTemplate, filteredMobile);
     const mobileContent = renderLayoutWithTemplate(
       mobileLayout,
-      mobileComponents,
+      filteredMobile,
       sectionKey,
       firstPatternKey,
       patternProps,
