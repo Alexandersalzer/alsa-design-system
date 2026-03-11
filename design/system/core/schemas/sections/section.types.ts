@@ -14,6 +14,7 @@
  * These are the ONLY section types that can be used in pages
  */
 export const AllowedSectionTypes = [
+  'navbar',
   'hero',
   'about',
   'services',
@@ -27,7 +28,8 @@ export const AllowedSectionTypes = [
   'team',
   'process',
   'contact',
-  'results'
+  'results',
+  'footer'
 ] as const;
 
 /**
@@ -50,20 +52,36 @@ export function isValidSectionType(type: string): type is SectionType {
  * Section positioning rules for page structure
  */
 export const SectionPositioningRules = {
-  /** Hero must be first section (if present) */
+  /** Navbar must be first section (if present) */
+  navbarMustBeFirst: {
+    sectionType: 'navbar' as const,
+    position: 'first' as const,
+    required: false,
+    message: 'Navbar section must be the first section in the page'
+  },
+  
+  /** Hero must be first (or second after navbar if navbar is present) */
   heroMustBeFirst: {
     sectionType: 'hero' as const,
     position: 'first' as const,
     required: true,
-    message: 'Hero section must be the first section in the page'
+    message: 'Hero section must be the first section in the page (after navbar if present)'
   },
   
-  /** Contact must be last section (if present) */
+  /** Footer must be last section (if present) */
+  footerMustBeLast: {
+    sectionType: 'footer' as const,
+    position: 'last' as const,
+    required: false,
+    message: 'Footer section must be the last section in the page'
+  },
+  
+  /** Contact must be last section (or second-to-last before footer if footer is present) */
   contactMustBeLast: {
     sectionType: 'contact' as const,
     position: 'last' as const,
     required: false,
-    message: 'Contact section must be the last section in the page'
+    message: 'Contact section must be the last section in the page (before footer if present)'
   }
 } as const;
 
@@ -86,7 +104,9 @@ export const PatternStructureRules = {
   sectionHeaderRequired: {
     rule: 'section-header-required' as const,
     position: 'first' as const,
-    message: 'Every section must have a pattern with type "sectionHeader" and it must be the first pattern in the section order'
+    message: 'Every section must have a pattern with type "sectionHeader" and it must be the first pattern in the section order',
+    /** Sections exempt from sectionHeader requirement */
+    exemptSections: ['navbar', 'footer'] as const
   }
 } as const;
 
@@ -140,6 +160,13 @@ export interface SectionMetadata {
  * Metadata for all section types
  */
 export const sectionMetadata: Record<SectionType, SectionMetadata> = {
+  navbar: {
+    type: 'navbar',
+    displayName: 'Navigation Bar',
+    description: 'Top navigation menu',
+    icon: 'Menu',
+    category: 'utility'
+  },
   hero: {
     type: 'hero',
     displayName: 'Hero Section',
@@ -237,6 +264,13 @@ export const sectionMetadata: Record<SectionType, SectionMetadata> = {
     description: 'Search results or case studies',
     icon: 'CheckCircle',
     category: 'content'
+  },
+  footer: {
+    type: 'footer',
+    displayName: 'Footer',
+    description: 'Bottom page footer with links and information',
+    icon: 'Layout',
+    category: 'utility'
   }
 };
 
@@ -252,7 +286,9 @@ export function getSectionMetadata(type: SectionType): SectionMetadata {
 }
 
 /**
- * Get all section types by category
+ * Get all sectinavbar') return 'first';
+  if (type === 'hero') return 'first';
+  if (type === 'footer') return 'lary
  */
 export function getSectionsByCategory(category: SectionMetadata['category']): SectionType[] {
   return Object.values(sectionMetadata)
