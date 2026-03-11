@@ -38,6 +38,13 @@ function createBasicSectionSchema(
  * Maps section types to their schemas
  */
 const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
+  navbar: createBasicSectionSchema(
+    'navbar',
+    'Navigation Bar',
+    'utility',
+    'Top navigation menu'
+  ),
+  
   hero: heroSectionSchema,
   
   about: createBasicSectionSchema(
@@ -155,7 +162,14 @@ const sectionSchemaRegistry: Record<SectionType, SectionSchema> = {
     'Results',
     'content',
     'Search results or case studies'
-   )
+  ),
+
+  footer: createBasicSectionSchema(
+    'footer',
+    'Footer',
+    'utility',
+    'Bottom page footer with links and information'
+  )
 };
 
 /**
