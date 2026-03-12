@@ -17,7 +17,7 @@ function getPatternRegistry(): Record<string, any> {
   if (!_patternRegistry) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      _patternRegistry = require('@patternsgallery').patternRegistry ?? {};
+      _patternRegistry = require('@blimpify-im/patternsgallery').patternRegistry ?? {};
     } catch {
       _patternRegistry = {};
     }
@@ -177,7 +177,8 @@ const Footer = ({ section }: FooterProps) => {
       if (!rawPattern) return null;
       const resolved = resolvePattern(rawPattern);
       const colSpan = rawPattern.colSpan ?? resolved.colSpan ?? 1;
-      const rendered = renderPattern(resolved, patternKey, sectionKey, logoDisplay);
+      const patternLogoDisplay = rawPattern.props?.logoDisplay ?? logoDisplay;
+      const rendered = renderPattern(resolved, patternKey, sectionKey, patternLogoDisplay);
       return rendered ? (
         <div key={patternKey} style={{ gridColumn: `span ${colSpan}` }}>
           {rendered}
@@ -206,7 +207,8 @@ const Footer = ({ section }: FooterProps) => {
       const rawPattern = patterns[patternKey] as any;
       if (!rawPattern) return null;
       const resolved = resolvePattern(rawPattern);
-      return renderPattern(resolved, patternKey, sectionKey, logoDisplay);
+      const patternLogoDisplay = rawPattern.props?.logoDisplay ?? logoDisplay;
+      return renderPattern(resolved, patternKey, sectionKey, patternLogoDisplay);
     })
     .filter(Boolean);
 
