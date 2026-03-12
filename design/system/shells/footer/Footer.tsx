@@ -12,15 +12,15 @@ import { Body } from '../../components/Typography';
 import { TextLink } from '../../components/actions/TextLink';
 import './Footer.css';
 
-function MadeWithBlimpify() {
+function MadeWithBlimpify({ inverse }: { inverse?: boolean }) {
   return (
     <HStack spacing="xs" align="center">
-      <Body size="xs" color="tertiary">Made with</Body>
+      <Body size="xs" color={inverse ? 'secondary' : 'tertiary'}>Made with</Body>
       <TextLink
         href="https://blimpify-im.com"
         target="_blank"
         rel="noopener noreferrer"
-        variant="secondary"
+        variant={inverse ? 'inverse' : 'secondary'}
         size="sm"
         underline="none"
         skipClient
@@ -157,6 +157,7 @@ const Footer = ({ section }: FooterProps) => {
   const logoDisplay = (sectionProps as any)?.logoDisplay;
   const contentAlign: 'start' | 'center' | 'end' = (sectionProps as any)?.contentAlign ?? 'center';
   const showMadeByBlimpify: boolean = (sectionProps as any)?.showMadeByBlimpify !== false;
+  const isInverse: boolean = (sectionProps as any)?.background === 'inverse';
 
   const hasTopBorder = Object.values(patterns).some(
     (pattern: any) => pattern?.props?.showTopBorder === true
@@ -205,7 +206,7 @@ const Footer = ({ section }: FooterProps) => {
           <div style={gridStyle}>{gridItems}</div>
           {showMadeByBlimpify && (
             <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-              <MadeWithBlimpify />
+              <MadeWithBlimpify inverse={isInverse} />
             </div>
           )}
         </VStack>
@@ -247,7 +248,7 @@ const Footer = ({ section }: FooterProps) => {
         {showMadeByBlimpify && (
           <HStack spacing="lg" align="center">
             {lastPatternContent}
-            <MadeWithBlimpify />
+            <MadeWithBlimpify inverse={isInverse} />
           </HStack>
         )}
       </VStack>
