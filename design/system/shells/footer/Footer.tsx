@@ -97,9 +97,6 @@ function renderPattern(
       })),
     };
 
-    const containerAlign =
-      contentAlign === 'start' ? 'left' : contentAlign === 'end' ? 'right' : 'center';
-
     const layoutContext = alignDefault
       ? { forcedAlignment: alignDefault as 'start' | 'center' | 'end' }
       : undefined;
@@ -116,15 +113,9 @@ function renderPattern(
     );
 
     return (
-      <Container
-        key={patternKey}
-        align={containerAlign as 'left' | 'center' | 'right'}
-        height="auto"
-        noPadding={true}
-        patternKey={patternKey}
-      >
+      <React.Fragment key={patternKey}>
         {content}
-      </Container>
+      </React.Fragment>
     );
   }
 
@@ -187,6 +178,9 @@ const Footer = ({ section }: FooterProps) => {
       ) : null;
     });
 
+    const containerAlign =
+      contentAlign === 'start' ? 'left' : contentAlign === 'end' ? 'right' : 'center';
+
     return (
       <Section
         as="footer"
@@ -194,9 +188,11 @@ const Footer = ({ section }: FooterProps) => {
         className={hasTopBorder ? 'footer-with-top-border' : ''}
         {...sectionProps}
       >
-        <VStack spacing="xl" align={contentAlign} className="footer__content">
-          <div style={gridStyle}>{gridItems}</div>
-        </VStack>
+        <Container align={containerAlign as 'left' | 'center' | 'right'} height="auto" noPadding>
+          <VStack spacing="xl" align={contentAlign} className="footer__content">
+            <div style={gridStyle}>{gridItems}</div>
+          </VStack>
+        </Container>
       </Section>
     );
   }
@@ -220,6 +216,9 @@ const Footer = ({ section }: FooterProps) => {
 
   if (renderedPatterns.length === 0) return null;
 
+  const containerAlign =
+    contentAlign === 'start' ? 'left' : contentAlign === 'end' ? 'right' : 'center';
+
   return (
     <Section
       as="footer"
@@ -227,9 +226,11 @@ const Footer = ({ section }: FooterProps) => {
       className={hasTopBorder ? 'footer-with-top-border' : ''}
       {...sectionProps}
     >
-      <VStack spacing="xl" align={contentAlign} className="footer__content">
-        {renderedPatterns}
-      </VStack>
+      <Container align={containerAlign as 'left' | 'center' | 'right'} height="auto" noPadding>
+        <VStack spacing="xl" align={contentAlign} className="footer__content">
+          {renderedPatterns}
+        </VStack>
+      </Container>
     </Section>
   );
 };
