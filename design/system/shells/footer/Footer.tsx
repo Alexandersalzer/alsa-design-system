@@ -7,7 +7,29 @@ import { renderLayoutWithTemplate } from '../../core/render/layouts';
 import { Container } from '../../components';
 import { SectionNode } from '../../core/types/nodes';
 import { VStack } from '../../components/layout/vStack/VStack';
+import { HStack } from '../../components/layout/hStack/HStack';
+import { Body } from '../../components/Typography';
+import { TextLink } from '../../components/actions/TextLink';
 import './Footer.css';
+
+function MadeWithBlimpify() {
+  return (
+    <HStack spacing="xs" align="center">
+      <Body size="xs" color="tertiary">Made with</Body>
+      <TextLink
+        href="https://blimpify-im.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        variant="secondary"
+        size="sm"
+        underline="none"
+        skipClient
+      >
+        Blimpify
+      </TextLink>
+    </HStack>
+  );
+}
 
 interface FooterProps {
   section?: Record<string, SectionNode>;
@@ -27,16 +49,6 @@ function filterByLogoDisplay(
       if (!showLogoText && comp.type === 'logotext') return false;
       return true;
     })
-  );
-}
-
-function filterMadeByBlimpify(
-  components: Record<string, any>,
-  showMadeByBlimpify: boolean | undefined
-): Record<string, any> {
-  if (showMadeByBlimpify !== false) return components;
-  return Object.fromEntries(
-    Object.entries(components).filter(([key]) => !key.toLowerCase().includes('madeby'))
   );
 }
 
@@ -60,8 +72,7 @@ function renderPattern(
   patternKey: string,
   sectionKey: string,
   logoDisplay: string | undefined,
-  contentAlign?: string,
-  showMadeByBlimpify?: boolean
+  contentAlign?: string
 ): React.ReactNode {
   if (pattern.layout) {
     let components: Record<string, any> = pattern.components || {};
@@ -71,8 +82,7 @@ function renderPattern(
       }, {});
     }
 
-    const logoFilteredComponents = filterByLogoDisplay(components, logoDisplay);
-    const filteredComponents = filterMadeByBlimpify(logoFilteredComponents, showMadeByBlimpify);
+    const filteredComponents = filterByLogoDisplay(components, logoDisplay);
 
     // Apply contentAlign as a default to the root layout if it has no explicit alignment set.
     // hstack: inject into `justify` only if not already set.
@@ -142,7 +152,7 @@ const Footer = ({ section }: FooterProps) => {
   const sectionKey = Object.keys(section)[0];
   const logoDisplay = (sectionProps as any)?.logoDisplay;
   const contentAlign: 'start' | 'center' | 'end' = (sectionProps as any)?.contentAlign ?? 'center';
-  const showMadeByBlimpify: boolean = (sectionProps as any)?.showMadeByBlimpify ?? true;
+  const showMadeByBlimpify: boolean = (sectionProps as any)?.showMadeByBlimpify !== true;
 
   const hasTopBorder = Object.values(patterns).some(
     (pattern: any) => pattern?.props?.showTopBorder === true
@@ -172,14 +182,7 @@ const Footer = ({ section }: FooterProps) => {
       if (!pattern) return null;
       const colSpan = pattern.colSpan ?? 1;
       const patternLogoDisplay = pattern.props?.logoDisplay ?? logoDisplay;
-      const rendered = renderPattern(
-        pattern,
-        patternKey,
-        sectionKey,
-        patternLogoDisplay,
-        contentAlign,
-        showMadeByBlimpify
-      );
+      const rendered = renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay, contentAlign);
       return rendered ? (
         <div key={patternKey} style={{ gridColumn: `span ${colSpan}` }}>
           {rendered}
@@ -196,6 +199,7 @@ const Footer = ({ section }: FooterProps) => {
       >
         <VStack spacing="xl" align={contentAlign} className="footer__content">
           <div style={gridStyle}>{gridItems}</div>
+          {showMadeByBlimpify && <MadeWithBlimpify />}
         </VStack>
       </Section>
     );
@@ -207,14 +211,7 @@ const Footer = ({ section }: FooterProps) => {
       const pattern = patterns[patternKey] as any;
       if (!pattern) return null;
       const patternLogoDisplay = pattern.props?.logoDisplay ?? logoDisplay;
-      return renderPattern(
-        pattern,
-        patternKey,
-        sectionKey,
-        patternLogoDisplay,
-        contentAlign,
-        showMadeByBlimpify
-      );
+      return renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay, contentAlign);
     })
     .filter(Boolean);
 
@@ -229,6 +226,7 @@ const Footer = ({ section }: FooterProps) => {
     >
       <VStack spacing="xl" align={contentAlign} className="footer__content">
         {renderedPatterns}
+        {showMadeByBlimpify && <MadeWithBlimpify />}
       </VStack>
     </Section>
   );
