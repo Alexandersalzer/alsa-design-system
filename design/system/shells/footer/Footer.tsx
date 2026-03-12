@@ -88,11 +88,19 @@ function renderPattern(
     const containerAlign =
       contentAlign === 'start' ? 'left' : contentAlign === 'end' ? 'right' : 'center';
 
+    const layoutContext = alignDefault
+      ? { forcedAlignment: alignDefault as 'start' | 'center' | 'end' }
+      : undefined;
+
     const content = renderLayoutWithTemplate(
       patchedLayout,
       filteredComponents,
       sectionKey,
-      patternKey
+      patternKey,
+      undefined,
+      undefined,
+      undefined,
+      layoutContext
     );
 
     return (
