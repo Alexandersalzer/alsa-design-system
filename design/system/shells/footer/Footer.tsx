@@ -10,21 +10,6 @@ import { Typography } from '../../components/Typography/Typography';
 import { VStack } from '../../components/layout/vStack/VStack';
 import './Footer.css';
 
-// patternRegistry is resolved lazily to avoid circular deps at SSR.
-// The registry lives in @patternsgallery and maps pattern IDs → PatternDef.
-let _patternRegistry: Record<string, any> | null = null;
-function getPatternRegistry(): Record<string, any> {
-  if (!_patternRegistry) {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      _patternRegistry = require('@blimpify-im/patternsgallery').patternRegistry ?? {};
-    } catch {
-      _patternRegistry = {};
-    }
-  }
-  return _patternRegistry!;
-}
-
 interface FooterProps {
   section?: Record<string, SectionNode>;
 }
@@ -47,31 +32,9 @@ function filterByLogoDisplay(
 }
 
 /**
- * Resolve a pattern entry:
- * - If it has `patternRef`, look it up in patternRegistry and merge inline props on top.
- * - Otherwise return as-is (backward compat).
- */
-function resolvePattern(pattern: any): any {
-  if (!pattern?.patternRef) return pattern;
-  const registry = getPatternRegistry();
-  const def = registry[pattern.patternRef];
-  if (!def) {
-    console.warn(`[Footer] patternRef "${pattern.patternRef}" not found in patternRegistry`);
-    return pattern;
-  }
-  return {
-    ...def.patternData,
-    props: {
-      ...(def.patternData?.props ?? {}),
-      ...(pattern.props ?? {}),
-    },
-    // carry colSpan through for grid layout
-    colSpan: pattern.colSpan,
-  };
-}
-
-/**
- * Render a single resolved pattern.
+ * Render a single pattern.
+ * If pattern has `layout`, uses renderLayoutWithTemplate (items-based patterns).
+ * Otherwise falls back to renderShellPattern (legacy hardcoded patterns).
  */
 function renderPattern(
   pattern: any,
@@ -157,7 +120,7 @@ const Footer = ({ section }: FooterProps) => {
     </div>
   );
 
-  // ── Grid layout: footer section owns columns ──────────────────────────────
+  // ── Grid layout: section owns columns, each pattern has colSpan ──────────
   if (useGrid) {
     const cols = sectionLayout.columns ?? { base: 1, md: 2, lg: 4 };
     const gap = sectionLayout.gap ?? 'lg';
@@ -173,12 +136,11 @@ const Footer = ({ section }: FooterProps) => {
     };
 
     const gridItems = patternOrder.map((patternKey) => {
-      const rawPattern = patterns[patternKey] as any;
-      if (!rawPattern) return null;
-      const resolved = resolvePattern(rawPattern);
-      const colSpan = rawPattern.colSpan ?? resolved.colSpan ?? 1;
-      const patternLogoDisplay = rawPattern.props?.logoDisplay ?? logoDisplay;
-      const rendered = renderPattern(resolved, patternKey, sectionKey, patternLogoDisplay);
+      const pattern = patterns[patternKey] as any;
+      if (!pattern) return null;
+      const colSpan = pattern.colSpan ?? 1;
+      const patternLogoDisplay = pattern.props?.logoDisplay ?? logoDisplay;
+      const rendered = renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay);
       return rendered ? (
         <div key={patternKey} style={{ gridColumn: `span ${colSpan}` }}>
           {rendered}
@@ -201,14 +163,13 @@ const Footer = ({ section }: FooterProps) => {
     );
   }
 
-  // ── Default: vstack (existing behavior, backward compat) ─────────────────
+  // ── Default: vstack ───────────────────────────────────────────────────────
   const renderedPatterns = patternOrder
     .map((patternKey) => {
-      const rawPattern = patterns[patternKey] as any;
-      if (!rawPattern) return null;
-      const resolved = resolvePattern(rawPattern);
-      const patternLogoDisplay = rawPattern.props?.logoDisplay ?? logoDisplay;
-      return renderPattern(resolved, patternKey, sectionKey, patternLogoDisplay);
+      const pattern = patterns[patternKey] as any;
+      if (!pattern) return null;
+      const patternLogoDisplay = pattern.props?.logoDisplay ?? logoDisplay;
+      return renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay);
     })
     .filter(Boolean);
 

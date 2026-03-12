@@ -5,42 +5,6 @@ import { PatternNode } from '../types/nodes';
 import { renderLayoutWithTemplate } from './layouts';
 import { animationComponents } from '../../components/animations/registry';
 
-// Lazy-loaded gallery pattern registry (avoids circular deps at SSR)
-let _galleryRegistry: Record<string, any> | null = null;
-function getGalleryRegistry(): Record<string, any> {
-  if (!_galleryRegistry) {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      _galleryRegistry = require('@blimpify-im/patternsgallery').patternRegistry ?? {};
-    } catch {
-      _galleryRegistry = {};
-    }
-  }
-  return _galleryRegistry!;
-}
-
-/**
- * Resolve patternRef: if a pattern has a `patternRef` field, look it up in the gallery
- * registry and return the resolved patternData (merging any inline props on top).
- * If no patternRef, returns the pattern as-is.
- */
-function resolvePatternRef(pattern: any): any {
-  if (!pattern?.patternRef) return pattern;
-  const registry = getGalleryRegistry();
-  const def = registry[pattern.patternRef];
-  if (!def) {
-    console.warn(`[renderPattern] patternRef "${pattern.patternRef}" not found in gallery registry`);
-    return pattern;
-  }
-  return {
-    ...def.patternData,
-    props: {
-      ...(def.patternData?.props ?? {}),
-      ...(pattern.props ?? {}),
-    },
-  };
-}
-
 import { AnimationConfig } from '../../components/animations/types';
 import React from 'react';
 
@@ -133,7 +97,6 @@ export const renderPatternDirect = (
   layoutContext?: LayoutContext,
   locale?: string
 ) => {
-  pattern = resolvePatternRef(pattern);
   const patternProps = getPatternProps(pattern);
 
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop (like action patterns)
@@ -212,7 +175,6 @@ export const renderPattern = (
   layoutContext?: LayoutContext,
   locale?: string
 ) => {
-  pattern = resolvePatternRef(pattern);
   const patternProps = getPatternProps(pattern);
 
   // UNIVERSAL LAYOUT PATH: If pattern has layout prop (on pattern level, not in props)

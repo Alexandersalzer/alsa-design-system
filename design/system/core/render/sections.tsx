@@ -6,7 +6,6 @@ import { renderPattern } from './patterns';
 import { renderSectionLayout } from './section-layout';
 import { Container } from '../../components/frames/container/Container';
 import { VStack } from '../../components/layout/vStack/VStack';
-import Footer from '../../shells/footer/Footer';
 
 /**
  * Props for Sections component
@@ -48,11 +47,6 @@ export function renderSection(
   const moveBackgroundToCard = wrapInCard && hasLayoutBackground;
   // Show section background only if there's no layout background and section has one
   const showSectionBackground = !hasLayoutBackground && hasSectionPropsBackground;
-
-  // Footer sections: route to Footer shell which handles patternRef + grid colSpan
-  if ((type as string) === 'footer') {
-    return <Footer key={sectionKey} section={{ [sectionKey]: sectionData } as any} />;
-  }
 
   // If layout config exists, use LayoutRenderer
   if (layout) {
