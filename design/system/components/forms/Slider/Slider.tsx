@@ -203,6 +203,12 @@ const SliderThumb: React.FC<SliderThumbProps> = ({
   const { focusProps, isFocusVisible } = useFocusRing();
   const { pressProps, isPressed } = usePress({
     isDisabled: state.isDisabled,
+    // 🎯 Blur input after drag ends to allow keyboard shortcuts (Cmd+Z/Cmd+Shift+Z)
+    onPressEnd: () => {
+      setTimeout(() => {
+        inputRef.current?.blur();
+      }, 0);
+    },
   });
 
   const stateValue = tooltipProps?.content
@@ -338,7 +344,16 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       maxValue,
       numberFormatter,
       onChange,
-      onChangeEnd,
+      // 🎯 Wrap onChangeEnd to blur active element after change
+      onChangeEnd: (value) => {
+        onChangeEnd?.(value);
+        // Blur any focused element to allow keyboard shortcuts immediately
+        setTimeout(() => {
+          if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+          }
+        }, 0);
+      },
     });
 
     const { groupProps, trackProps, labelProps, outputProps } = useAriaSlider(
@@ -513,6 +528,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                           state.setThumbPercent(1, percent);
                         }
                       }
+                      // 🎯 Blur after mark click to enable keyboard shortcuts
+                      setTimeout(() => {
+                        if (document.activeElement instanceof HTMLElement) {
+                          document.activeElement.blur();
+                        }
+                      }, 0);
                     }}
                   >
                     {mark.label}

@@ -14,11 +14,13 @@ import React, {
   type ReactNode,
   type Key
 } from 'react';
+import { useRouter } from 'next/navigation';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../media';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Popover, type PopoverPlacement } from '../Popover';
 import { Listbox, ListboxItem } from '../../lists';
+import { useHref } from '../../../hooks/useHref';
 import './Menu.css';
 
 // ===============================================
@@ -204,6 +206,9 @@ export const MenuRoot = <T extends object>({
 
   const disabledKeysSet = useMemo(() => new Set(disabledKeys || []), [disabledKeys]);
 
+  const { buildHref } = useHref();
+  const router = useRouter();
+
   // Open state management with closing state for exit animations
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const [isClosing, setIsClosing] = useState(false);
@@ -338,7 +343,6 @@ export const MenuRoot = <T extends object>({
   const renderChildren = () => {
     // NEW: If menuItems provided, auto-generate Menu.Trigger + Menu.Content structure
     if (menuItems && triggerLabel) {
-      console.log('✅ Auto-generating Menu structure with', menuItems.length, 'items');
       return (
         <>
           <MenuTrigger asChild>
@@ -364,7 +368,7 @@ export const MenuRoot = <T extends object>({
           </MenuTrigger>
           <MenuContent>
             {menuItems.map((item, i) => {
-              // For now, construct href from action config if present
+              // Prefer href; otherwise build from action (locale-aware for pageId)
               let itemHref = item.href;
               if (!itemHref && (item as any).action) {
                 const action = (item as any).action;
@@ -372,7 +376,7 @@ export const MenuRoot = <T extends object>({
                   if (action.settings?.sectionId) {
                     itemHref = `#${action.settings.sectionId}`;
                   } else if (action.settings?.pageId) {
-                    itemHref = `/${action.settings.pageId}`;
+                    itemHref = buildHref(undefined, action.settings.pageId) || `/${action.settings.pageId}`;
                   }
                 }
               }
@@ -385,11 +389,11 @@ export const MenuRoot = <T extends object>({
                   onClick={() => {
                     if (itemHref) {
                       if (itemHref.startsWith('#')) {
-                        // Smooth scroll to section
                         const element = document.getElementById(itemHref.slice(1));
                         element?.scrollIntoView({ behavior: 'smooth' });
+                      } else if (itemHref.startsWith('/')) {
+                        router.push(itemHref);
                       } else {
-                        // Navigate to page
                         window.location.href = itemHref;
                       }
                     }

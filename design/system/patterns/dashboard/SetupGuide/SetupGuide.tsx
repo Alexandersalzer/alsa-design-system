@@ -40,7 +40,8 @@ export interface SetupStep {
   href: string;
   completed: boolean;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  optional?: boolean; // Om steget är valfritt
+  optional?: boolean;
+  buttonLabel?: string; // e.g. "Öppna editorn", "Redigera SEO", "Publicera"
 }
 
 type SetupPhase = 'building' | 'launch' | 'done';
@@ -216,9 +217,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
           <H3>Kom igång med Blimpify</H3>
 
           {/* Kom igång-knapp - visas endast när "Kom igång"-steget (overview) inte är avklarat */}
-          {sortedSteps.length > 0 && 
-            sortedSteps[0].key === 'overview' && 
-            !sortedSteps[0].completed && (
+          {sortedSteps.length > 0 && !sortedSteps[0].completed && (
               <Box>
                 <Button
                   variant="accent"
@@ -231,7 +230,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                         return <FirstStepIcon />;
                       })()}
                     </Icon>
-                    <span>Kom igång</span>
+                    <span>{sortedSteps[0].buttonLabel ?? 'Kom igång'}</span>
                   </HStack>
                 </Button>
               </Box>
@@ -292,7 +291,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                         handleNavigate(step.href);
                       }}
                     >
-                      Gå till
+                      {step.buttonLabel ?? 'Gå till'}
                     </Button>
                   )
                 }

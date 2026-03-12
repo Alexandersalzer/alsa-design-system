@@ -6,6 +6,7 @@ import { renderPattern } from './patterns';
 import { renderSectionLayout } from './section-layout';
 import { Container } from '../../components/frames/container/Container';
 import { VStack } from '../../components/layout/vStack/VStack';
+import { Box } from '../../components/layout/box/Box';
 
 /**
  * Props for Sections component
@@ -103,6 +104,15 @@ export function renderSection(
       };
     }
 
+    const layoutContent = renderSectionLayout({
+          layout,
+          patterns,
+          order: patternOrder,
+          sectionKey,
+          sectionAnimation: props?.animation,
+          locale,
+        });
+
     return (
       <Section
         key={sectionKey}
@@ -112,14 +122,13 @@ export function renderSection(
         applyNavbarVoid={isHero}
         {...sectionProps}
       >
-        {renderSectionLayout({
-          layout,
-          patterns,
-          order: patternOrder,
-          sectionKey,
-          sectionAnimation: props?.animation,
-          locale,
-        })}
+        {layout?.layoutFullHeight ? (
+          <Box style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+            {layoutContent}
+          </Box>
+        ) : (
+          layoutContent
+        )}
       </Section>
     );
   }

@@ -77,6 +77,22 @@ export interface LayoutConfig {
   sectionHeaderVerticalAlign?: 'start' | 'center' | 'end';
 
   /**
+   * Horisontell placering av innehållet i första kolumnen (section header + actions) vid split layout.
+   * - 'start': innehåll till vänster (default)
+   * - 'center': innehåll centrerat i kolumnen
+   * - 'end': innehåll till höger i kolumnen
+   * Överskrider section header-patterns align om satt.
+   */
+  firstColumnContentAlign?: 'start' | 'center' | 'end';
+
+  /**
+   * När true: layouten fyller sektionens höjd (flex: 1) så att t.ex. sectionHeaderVerticalAlign: 'center'
+   * får effekt och innehållet centreras vertikalt. Använd på hero vid fullhöjd-sektion.
+   * Påverkar inte sektioner som inte sätter denna prop.
+   */
+  layoutFullHeight?: boolean;
+
+  /**
    * Breakpoint at which split layout stacks to single column
    * - 'tablet': Stack at 768px (default mobile behavior)
    * - 'desktop': Stack at 1024px (default - good for most split layouts)
@@ -152,6 +168,15 @@ export interface LayoutConfig {
    * Gäller bara när wrapInCard är true. Andra sections använder sectionHeaderVerticalAlign + verticalAlign.
    */
   cardColumnVerticalAlign?: 'start' | 'center' | 'end';
+
+  /**
+   * Position av wrap-kortet inom sektionen (t.ex. hero).
+   * - cardPositionVertical: 'start' | 'center' | 'end' – kortet upp/centrerat/ner i sektionen
+   * - cardPositionHorizontal: 'start' | 'center' | 'end' – kortet vänster/centrerat/höger
+   * Kräver wrapInCard. Sektionen behöver ha höjd (t.ex. height: full) för att vertikal position ska synas.
+   */
+  cardPositionVertical?: 'start' | 'center' | 'end';
+  cardPositionHorizontal?: 'start' | 'center' | 'end';
 
   /**
    * Background type för hela sektionen

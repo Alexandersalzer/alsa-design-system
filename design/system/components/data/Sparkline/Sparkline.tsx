@@ -87,10 +87,13 @@ const isTimeSeries = (data: number[] | SparklineDatum[]): data is SparklineDatum
   return data.length > 0 && typeof data[0] === 'object' && 'timestamp' in data[0];
 };
 
-/** Calculate human-friendly Y-axis bounds */
+/** Calculate human-friendly Y-axis bounds (guards against NaN) */
 const calculateNiceScale = (min: number, max: number, step: number) => {
-  const niceMin = Math.floor(min / step) * step;
-  const niceMax = Math.ceil(max / step) * step;
+  const safeMin = Number.isFinite(min) ? min : 0;
+  const safeMax = Number.isFinite(max) ? max : 0;
+  const safeStep = Number.isFinite(step) && step > 0 ? step : 1;
+  const niceMin = Math.floor(safeMin / safeStep) * safeStep;
+  const niceMax = Math.ceil(safeMax / safeStep) * safeStep;
   return { niceMin, niceMax };
 };
 
@@ -103,6 +106,15 @@ const getDefaultBucket = (timeRange?: string): 'hour' | 'day' | 'week' | 'month'
     case 'year': return 'month';
     default: return 'day';
   }
+};
+
+/** ISO veckonummer (v.1 = veckan med årets första torsdag) */
+const getIsoWeekNumber = (date: Date): number => {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+  const yearStart = new Date(d.getFullYear(), 0, 1);
+  return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
 };
 
 /** Bucket and aggregate time-series data */
@@ -178,17 +190,42 @@ const limitDataPoints = (
   return result;
 };
 
-/** Format X-axis label based on bucket type */
+/** Format X-axis label based on bucket type (returns '' for invalid date) */
 const formatXAxisLabel = (date: Date, bucketBy: 'hour' | 'day' | 'week' | 'month'): string => {
+  if (!date || Number.isNaN(date.getTime())) return '';
   switch (bucketBy) {
     case 'hour':
       return String(date.getHours()).padStart(2, '0');
     case 'day':
       return date.toLocaleDateString('sv-SE', { day: 'numeric' });
     case 'week':
-      return date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
+      return `v.${getIsoWeekNumber(date)}`;
     case 'month':
-      return date.toLocaleDateString('sv-SE', { month: 'short' });
+      return date.toLocaleDateString('sv-SE', { month: 'long' });
+    default:
+      return '';
+  }
+};
+
+/** Format tooltip-datum: månad → "Januari", vecka → "v.34", dag → "19 jan.", timme → "19 jan. 14:00" */
+const formatTooltipDate = (date: Date, bucketBy: 'hour' | 'day' | 'week' | 'month'): string => {
+  if (!date || Number.isNaN(date.getTime())) return '';
+  switch (bucketBy) {
+    case 'hour':
+      return date.toLocaleDateString('sv-SE', {
+        day: 'numeric',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    case 'day':
+      return date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
+    case 'week':
+      return `v.${getIsoWeekNumber(date)}`;
+    case 'month':
+      return date.toLocaleDateString('sv-SE', { month: 'long' });
+    default:
+      return date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
   }
 };
 
@@ -233,8 +270,11 @@ export const Sparkline: React.FC<SparklineProps> = ({
     let processedData: SparklineDatum[];
 
     if (isTimeSeries(data)) {
-      // Already time-series format
-      processedData = [...data];
+      // Already time-series format – coerce values to avoid NaN
+      processedData = (data as SparklineDatum[]).map(d => {
+        const v = Number(d.value);
+        return { timestamp: d.timestamp, value: Number.isFinite(v) ? v : 0 };
+      });
     } else {
       // Legacy number[] format - create synthetic timestamps
       processedData = (data as number[]).map((value, i) => ({
@@ -255,18 +295,22 @@ export const Sparkline: React.FC<SparklineProps> = ({
     }
 
     // Step 4: Calculate human-friendly Y-axis bounds
-    const rawMin = Math.min(...processedData.map(d => d.value));
-    const rawMax = Math.max(...processedData.map(d => d.value));
+    const values = processedData.map(d => d.value);
+    const rawMin = values.length ? Math.min(...values) : 0;
+    const rawMax = values.length ? Math.max(...values) : 0;
     const { niceMin, niceMax } = calculateNiceScale(rawMin, rawMax, yAxisStep);
     const range = niceMax - niceMin || 1;
 
-    // Step 5: Map to points for rendering
-    const points = processedData.map((datum, i) => ({
-      x: (i / (processedData.length - 1 || 1)) * width,
-      y: height - ((datum.value - niceMin) / range) * (height - 4) - 2,
-      value: datum.value,
-      timestamp: datum.timestamp
-    }));
+    // Step 5: Map to points for rendering (guard y so it's never NaN)
+    const points = processedData.map((datum, i) => {
+      const y = height - ((datum.value - niceMin) / range) * (height - 4) - 2;
+      return {
+        x: (i / (processedData.length - 1 || 1)) * width,
+        y: Number.isFinite(y) ? y : height - 2,
+        value: datum.value,
+        timestamp: datum.timestamp
+      };
+    });
 
     // Step 6: Calculate grid lines using yAxisStep for human-friendly values
     const gridLineValues = [];
@@ -276,28 +320,29 @@ export const Sparkline: React.FC<SparklineProps> = ({
       }
     }
 
-    // Step 7: Generate X-axis labels
+    // Step 7: Generate X-axis labels (sanitize so we never show "NaN")
     const xAxisLabels: string[] = [];
     if (showXAxis) {
       const labelDensity = Math.max(1, Math.floor(processedData.length / 7)); // Max 7 labels
       processedData.forEach((datum, i) => {
         if (i % labelDensity === 0 || i === processedData.length - 1) {
           const date = new Date(datum.timestamp);
-          xAxisLabels.push(
-            xAxisFormatter
-              ? xAxisFormatter(date, effectiveBucket)
-              : formatXAxisLabel(date, effectiveBucket)
-          );
+          const label = xAxisFormatter
+            ? xAxisFormatter(date, effectiveBucket)
+            : formatXAxisLabel(date, effectiveBucket);
+          xAxisLabels.push(typeof label === 'string' && !label.includes('NaN') ? label : '');
         } else {
           xAxisLabels.push('');
         }
       });
     }
 
-    // Step 8: Calculate trend
+    // Step 8: Calculate trend (guard against NaN)
     const firstValue = processedData[0].value;
     const lastValue = processedData[processedData.length - 1].value;
-    const trendPercent = firstValue !== 0 ? ((lastValue - firstValue) / firstValue) * 100 : 0;
+    const trendPercent = Number.isFinite(firstValue) && firstValue !== 0 && Number.isFinite(lastValue)
+      ? ((lastValue - firstValue) / firstValue) * 100
+      : 0;
     const isPositive = trendPercent >= 0;
 
     return {
@@ -365,6 +410,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
   };
 
   const formatValue = (value: number): string => {
+    if (!Number.isFinite(value)) return '0';
     if (valueFormatter) return valueFormatter(value);
     return value.toLocaleString();
   };
@@ -404,12 +450,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
   const hoveredPoint = hoveredIndex !== null ? chartData.points[hoveredIndex] : null;
   const hoveredDatum = hoveredIndex !== null ? chartData.processedData[hoveredIndex] : null;
 
-  // Calculate aspect ratio to maintain circular dot appearance
-  // Since SVG has preserveAspectRatio="none", we need to compensate
-  const aspectRatio = width / height;
   const dotRadius = 4;
-  const dotRx = dotRadius;
-  const dotRy = dotRadius * aspectRatio;
 
   return (
     <div className={`sparkline ${className}`}>
@@ -456,7 +497,9 @@ export const Sparkline: React.FC<SparklineProps> = ({
                   key={`scale-${index}`}
                   className="sparkline__scale-label"
                 >
-                  {scaleFormatter ? scaleFormatter(value) : Math.round(value)}
+                  {scaleFormatter
+                    ? (Number.isFinite(value) ? scaleFormatter(value) : '0')
+                    : (Number.isFinite(value) ? Math.round(value) : 0)}
                 </span>
               ))}
           </div>
@@ -553,37 +596,40 @@ export const Sparkline: React.FC<SparklineProps> = ({
                 className={`sparkline__line sparkline__line--${color}`}
                 d={linePath}
               />
-
-              {/* Hover indicator - using ellipse to maintain circular appearance when SVG is stretched */}
-              {showTooltip && hoveredPoint && (
-                <ellipse
-                  className={`sparkline__hover-dot sparkline__hover-dot--${color}`}
-                  cx={hoveredPoint.x}
-                  cy={hoveredPoint.y}
-                  rx={dotRx}
-                  ry={dotRy}
-                />
-              )}
             </svg>
 
-            {/* Tooltip */}
+            {/* Hover-prick som div så den alltid är rund (SVG:ns preserveAspectRatio="none" sträcker annars cirkeln till oval) */}
+            {showTooltip && hoveredPoint && (
+              <div
+                className={`sparkline__hover-dot sparkline__hover-dot--${color} sparkline__hover-dot--html`}
+                style={{
+                  position: 'absolute',
+                  left: `${(hoveredPoint.x / width) * 100}%`,
+                  top: `${(hoveredPoint.y / height) * 100}%`,
+                  transform: 'translate(-50%, -50%)',
+                  width: dotRadius * 2,
+                  height: dotRadius * 2,
+                  borderRadius: '50%',
+                  pointerEvents: 'none'
+                }}
+                aria-hidden
+              />
+            )}
+
+            {/* Tooltip - position i % så den följer viewBox oavsett containerstorlek */}
             {showTooltip && hoveredPoint && hoveredDatum && (
               <div
                 className="sparkline__tooltip"
                 style={{
                   position: 'absolute',
-                  left: `${hoveredPoint.x}px`,
-                  top: `${hoveredPoint.y - 40}px`,
-                  transform: 'translateX(-50%)',
+                  left: `${(hoveredPoint.x / width) * 100}%`,
+                  top: `${(hoveredPoint.y / height) * 100}%`,
+                  transform: 'translate(-50%, calc(-100% - 8px))',
                   pointerEvents: 'none'
                 }}
               >
                 <div className="sparkline__tooltip-date">
-                  {new Date(hoveredDatum.timestamp).toLocaleDateString('sv-SE', {
-                    month: 'short',
-                    day: 'numeric',
-                    hour: chartData.bucketType === 'hour' ? '2-digit' : undefined
-                  })}
+                  {formatTooltipDate(new Date(hoveredDatum.timestamp), chartData.bucketType)}
                 </div>
                 <div className="sparkline__tooltip-value">
                   {formatValue(hoveredDatum.value)}

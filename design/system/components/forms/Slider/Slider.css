@@ -553,8 +553,26 @@
   color: var(--text-default);
 }
 
+/* 🎯 Fix overflow of edge marks */
+.slider-mark:first-of-type {
+  transform: translate(0, calc(50% + 0.25rem));
+}
+
+.slider-mark:last-of-type {
+  transform: translate(-100%, calc(50% + 0.25rem));
+}
+
 .slider--lg .slider-mark {
   margin-top: 0.5rem;
+}
+
+/* 🎯 Fix overflow for large slider edge marks */
+.slider--lg .slider-mark:first-of-type {
+  transform: translate(0, calc(50% + 0.5rem));
+}
+
+.slider--lg .slider-mark:last-of-type {
+  transform: translate(-100%, calc(50% + 0.5rem));
 }
 
 .slider--vertical .slider-mark {
@@ -563,6 +581,15 @@
   margin-left: 0.25rem;
   margin-top: 0;
   transform: translate(50%, 50%);
+}
+
+/* 🎯 Fix overflow for vertical slider edge marks */
+.slider--vertical .slider-mark:first-of-type {
+  transform: translate(50%, 0);
+}
+
+.slider--vertical .slider-mark:last-of-type {
+  transform: translate(50%, 100%);
 }
 
 .slider--has-marks {

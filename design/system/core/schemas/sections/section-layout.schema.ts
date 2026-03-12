@@ -129,6 +129,28 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
       value: true
     }
   },
+
+  firstColumnContentAlign: {
+    name: 'firstColumnContentAlign',
+    type: 'enum',
+    displayName: 'Innehållsplacering (första kolumnen)',
+    description: 'Horisontell placering av rubrik och knappar i vänster kolumn: vänster, centrerad eller höger',
+    editorType: 'segmented',
+    values: ['start', 'center', 'end'],
+    valueLabels: {
+      start: 'Vänster',
+      center: 'Centrerad',
+      end: 'Höger'
+    },
+    default: 'start',
+    group: 'columns',
+    cmsEnabled: true,
+    visibleWhen: {
+      property: 'alignSectionHeader',
+      operator: 'equals',
+      value: 'left'
+    }
+  },
   
   // ============================================
   // MOBILE GROUP
@@ -623,6 +645,34 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     default: false,
     group: 'card',
     cmsEnabled: true
+  },
+
+  cardPositionVertical: {
+    name: 'cardPositionVertical',
+    type: 'enum',
+    displayName: 'Card Position (vertical)',
+    description: 'Position of the wrap-in-card within the section (e.g. hero: top / center / bottom). Requires wrapInCard and section height.',
+    editorType: 'segmented',
+    values: ['start', 'center', 'end'],
+    valueLabels: { start: 'Top', center: 'Center', end: 'Bottom' },
+    default: 'start',
+    group: 'card',
+    cmsEnabled: true,
+    visibleWhen: { property: 'wrapInCard', operator: 'equals', value: true }
+  },
+
+  cardPositionHorizontal: {
+    name: 'cardPositionHorizontal',
+    type: 'enum',
+    displayName: 'Card Position (horizontal)',
+    description: 'Horizontal position of the wrap-in-card within the section.',
+    editorType: 'segmented',
+    values: ['start', 'center', 'end'],
+    valueLabels: { start: 'Left', center: 'Center', end: 'Right' },
+    default: 'center',
+    group: 'card',
+    cmsEnabled: true,
+    visibleWhen: { property: 'wrapInCard', operator: 'equals', value: true }
   }
 };
 
