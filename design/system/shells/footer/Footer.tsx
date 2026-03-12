@@ -152,7 +152,7 @@ const Footer = ({ section }: FooterProps) => {
   const sectionKey = Object.keys(section)[0];
   const logoDisplay = (sectionProps as any)?.logoDisplay;
   const contentAlign: 'start' | 'center' | 'end' = (sectionProps as any)?.contentAlign ?? 'center';
-  const showMadeByBlimpify: boolean = (sectionProps as any)?.showMadeByBlimpify !== true;
+  const showMadeByBlimpify: boolean = (sectionProps as any)?.showMadeByBlimpify !== false;
 
   const hasTopBorder = Object.values(patterns).some(
     (pattern: any) => pattern?.props?.showTopBorder === true
@@ -199,7 +199,11 @@ const Footer = ({ section }: FooterProps) => {
       >
         <VStack spacing="xl" align={contentAlign} className="footer__content">
           <div style={gridStyle}>{gridItems}</div>
-          {showMadeByBlimpify && <MadeWithBlimpify />}
+          {showMadeByBlimpify && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+              <MadeWithBlimpify />
+            </div>
+          )}
         </VStack>
       </Section>
     );
@@ -217,6 +221,10 @@ const Footer = ({ section }: FooterProps) => {
 
   if (renderedPatterns.length === 0) return null;
 
+  // Split last pattern so MadeWithBlimpify can share its row
+  const bodyPatterns = showMadeByBlimpify ? renderedPatterns.slice(0, -1) : renderedPatterns;
+  const lastPattern = showMadeByBlimpify ? renderedPatterns[renderedPatterns.length - 1] : null;
+
   return (
     <Section
       as="footer"
@@ -225,8 +233,13 @@ const Footer = ({ section }: FooterProps) => {
       {...sectionProps}
     >
       <VStack spacing="xl" align={contentAlign} className="footer__content">
-        {renderedPatterns}
-        {showMadeByBlimpify && <MadeWithBlimpify />}
+        {bodyPatterns}
+        {showMadeByBlimpify && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div style={{ flex: 1 }}>{lastPattern}</div>
+            <MadeWithBlimpify />
+          </div>
+        )}
       </VStack>
     </Section>
   );
