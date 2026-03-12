@@ -6,7 +6,6 @@ import { renderShellPattern } from '../../core/render/shells';
 import { renderLayoutWithTemplate } from '../../core/render/layouts';
 import { Container } from '../../components';
 import { SectionNode } from '../../core/types/nodes';
-import { Typography } from '../../components/Typography/Typography';
 import { VStack } from '../../components/layout/vStack/VStack';
 import './Footer.css';
 
@@ -104,22 +103,6 @@ const Footer = ({ section }: FooterProps) => {
   const sectionLayout = footerSection.layout as any;
   const useGrid = sectionLayout?.type === 'grid';
 
-  const attribution = (
-    <div className="footer__attribution">
-      <Typography as="span" variant="body-sm" color="tertiary">
-        Made with{' '}
-        <a
-          href="https://blimpify-im.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="footer__attribution-link"
-        >
-          Blimpify
-        </a>
-      </Typography>
-    </div>
-  );
-
   // ── Grid layout: section owns columns, each pattern has colSpan ──────────
   if (useGrid) {
     const cols = sectionLayout.columns ?? { base: 1, md: 2, lg: 4 };
@@ -157,7 +140,6 @@ const Footer = ({ section }: FooterProps) => {
       >
         <VStack spacing="xl" align="center" className="footer__content">
           <div style={gridStyle}>{gridItems}</div>
-          {attribution}
         </VStack>
       </Section>
     );
@@ -184,7 +166,6 @@ const Footer = ({ section }: FooterProps) => {
     >
       <VStack spacing="xl" align="center" className="footer__content">
         {renderedPatterns}
-        {attribution}
       </VStack>
     </Section>
   );
