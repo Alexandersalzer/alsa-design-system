@@ -75,6 +75,17 @@ export const footerSectionSchema: FooterSectionSchema = {
       group: 'layout',
       cmsEnabled: true,
     },
+
+    showMadeByBlimpify: {
+      name: 'showMadeByBlimpify',
+      type: 'boolean',
+      displayName: 'Show made by Blimpify',
+      description: 'Show or hide the “Made with Blimpify” text/link in the footer',
+      editorType: 'toggle',
+      default: true,
+      group: 'content',
+      cmsEnabled: true,
+    },
   },
 };
 

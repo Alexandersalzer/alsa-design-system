@@ -30,6 +30,16 @@ function filterByLogoDisplay(
   );
 }
 
+function filterMadeByBlimpify(
+  components: Record<string, any>,
+  showMadeByBlimpify: boolean | undefined
+): Record<string, any> {
+  if (showMadeByBlimpify !== false) return components;
+  return Object.fromEntries(
+    Object.entries(components).filter(([key]) => !key.toLowerCase().includes('madeby'))
+  );
+}
+
 /**
  * Map contentAlign values to hstack justify and vstack align values.
  * Only applied as a default — layouts that already declare justify/align keep theirs.
@@ -50,7 +60,8 @@ function renderPattern(
   patternKey: string,
   sectionKey: string,
   logoDisplay: string | undefined,
-  contentAlign?: string
+  contentAlign?: string,
+  showMadeByBlimpify?: boolean
 ): React.ReactNode {
   if (pattern.layout) {
     let components: Record<string, any> = pattern.components || {};
@@ -60,7 +71,8 @@ function renderPattern(
       }, {});
     }
 
-    const filteredComponents = filterByLogoDisplay(components, logoDisplay);
+    const logoFilteredComponents = filterByLogoDisplay(components, logoDisplay);
+    const filteredComponents = filterMadeByBlimpify(logoFilteredComponents, showMadeByBlimpify);
 
     // Apply contentAlign as a default to the root layout if it has no explicit alignment set.
     // hstack: inject into `justify` only if not already set.
@@ -130,6 +142,7 @@ const Footer = ({ section }: FooterProps) => {
   const sectionKey = Object.keys(section)[0];
   const logoDisplay = (sectionProps as any)?.logoDisplay;
   const contentAlign: 'start' | 'center' | 'end' = (sectionProps as any)?.contentAlign ?? 'center';
+  const showMadeByBlimpify: boolean = (sectionProps as any)?.showMadeByBlimpify ?? true;
 
   const hasTopBorder = Object.values(patterns).some(
     (pattern: any) => pattern?.props?.showTopBorder === true
@@ -159,7 +172,14 @@ const Footer = ({ section }: FooterProps) => {
       if (!pattern) return null;
       const colSpan = pattern.colSpan ?? 1;
       const patternLogoDisplay = pattern.props?.logoDisplay ?? logoDisplay;
-      const rendered = renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay, contentAlign);
+      const rendered = renderPattern(
+        pattern,
+        patternKey,
+        sectionKey,
+        patternLogoDisplay,
+        contentAlign,
+        showMadeByBlimpify
+      );
       return rendered ? (
         <div key={patternKey} style={{ gridColumn: `span ${colSpan}` }}>
           {rendered}
@@ -187,7 +207,14 @@ const Footer = ({ section }: FooterProps) => {
       const pattern = patterns[patternKey] as any;
       if (!pattern) return null;
       const patternLogoDisplay = pattern.props?.logoDisplay ?? logoDisplay;
-      return renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay, contentAlign);
+      return renderPattern(
+        pattern,
+        patternKey,
+        sectionKey,
+        patternLogoDisplay,
+        contentAlign,
+        showMadeByBlimpify
+      );
     })
     .filter(Boolean);
 
