@@ -97,6 +97,9 @@ function renderPattern(
       })),
     };
 
+    const containerAlign =
+      contentAlign === 'start' ? 'left' : contentAlign === 'end' ? 'right' : 'center';
+
     const layoutContext = alignDefault
       ? { forcedAlignment: alignDefault as 'start' | 'center' | 'end' }
       : undefined;
@@ -113,9 +116,15 @@ function renderPattern(
     );
 
     return (
-      <React.Fragment key={patternKey}>
+      <Container
+        key={patternKey}
+        align={containerAlign as 'left' | 'center' | 'right'}
+        height="auto"
+        noPadding={true}
+        patternKey={patternKey}
+      >
         {content}
-      </React.Fragment>
+      </Container>
     );
   }
 
