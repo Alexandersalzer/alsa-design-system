@@ -3,7 +3,7 @@
 // Scroll-driven animation hook with RAF for smooth 60fps
 // ===============================================
 
-import { useState, useEffect, useRef, RefObject } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, RefObject } from 'react';
 
 export interface ScrollAnimationConfig {
   /** Smooth interpolation factor (0-1, lower = smoother) */
@@ -67,8 +67,11 @@ export function useScrollAnimation(
   config: ScrollAnimationConfig = {}
 ) {
   const fullConfig = { ...DEFAULT_CONFIG, ...config };
+  const configRef = useRef(fullConfig);
+  configRef.current = fullConfig;
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
   const [animationValues, setAnimationValues] = useState<ScrollAnimationValues[]>(
     elementRefs.map(() => ({
       opacity: fullConfig.minOpacity,
@@ -93,7 +96,7 @@ export function useScrollAnimation(
     }))
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     function computeTargets(): number {
       const viewportHeight = window.innerHeight;
       const scrollY = window.scrollY;
@@ -116,10 +119,11 @@ export function useScrollAnimation(
         const scrollProgress =
           (scrollY + viewportHeight - elementTop) / (viewportHeight + elementHeight);
 
+        const cfg = configRef.current;
         // Smooth animation range based on element's journey through viewport
         const animationProgress =
-          (scrollProgress - fullConfig.animationStart) /
-          (fullConfig.animationEnd - fullConfig.animationStart);
+          (scrollProgress - cfg.animationStart) /
+          (cfg.animationEnd - cfg.animationStart);
 
         // Clamp between 0 and 1
         const clampedProgress = Math.max(0, Math.min(1, animationProgress));
@@ -128,7 +132,7 @@ export function useScrollAnimation(
 
         if (scrollDirectionRef.current === 'down') {
           // Scrolling down
-          if (scrollProgress > fullConfig.animationStart) {
+          if (scrollProgress > cfg.animationStart) {
             s.target = clampedProgress;
 
             if (clampedProgress > s.peakValue) {
@@ -147,7 +151,7 @@ export function useScrollAnimation(
             s.target = 0;
           }
         } else {
-          // Scrolling up
+          // Scrolling up – target följer alltid scroll (smooth reverse, ingen hack)
           if (scrollProgress < -0.3) {
             s.target = 0;
             s.hasFullyAnimated = false;
@@ -155,13 +159,10 @@ export function useScrollAnimation(
           } else if (scrollProgress > 1.3) {
             const fadeOutProgress = (scrollProgress - 1.3) / 0.5;
             s.target = Math.max(0, 1 - fadeOutProgress);
-          } else if (
-            scrollProgress > fullConfig.animationStart &&
-            scrollProgress < fullConfig.animationEnd
-          ) {
+            if (s.target < 1) s.hasFullyAnimated = false;
+          } else {
             s.target = clampedProgress;
-          } else if (s.hasFullyAnimated || s.peakValue > 0.8) {
-            s.target = Math.max(0.9, s.peakValue);
+            if (clampedProgress < 1) s.hasFullyAnimated = false;
           }
         }
 
@@ -178,32 +179,29 @@ export function useScrollAnimation(
       return bestIndex;
     }
 
-    function applyStyles(): boolean {
+    function applyStyles(writeToDOM: boolean): { needsMoreFrames: boolean; newValues: ScrollAnimationValues[] } {
       let needsMoreFrames = false;
       const newValues: ScrollAnimationValues[] = [];
+      const cfg = configRef.current;
 
       elementRefs.forEach((ref, i) => {
         const s = stateRef.current[i];
 
-        // Smooth interpolation
-        const delta = (s.target - s.current) * fullConfig.smoothFactor;
+        const delta = (s.target - s.current) * cfg.smoothFactor;
         s.current += delta;
 
         if (Math.abs(delta) > 0.0001) {
           needsMoreFrames = true;
         }
 
-        // Apply easing
         const easedProgress = easeInOutSine(s.current);
-
-        // Calculate animation values
         const opacity =
-          fullConfig.minOpacity +
-          (fullConfig.maxOpacity - fullConfig.minOpacity) * easedProgress;
-        const translateX = fullConfig.translateRange * (1 - easedProgress);
-        const translateY = fullConfig.translateYRange * (1 - easedProgress);
+          cfg.minOpacity +
+          (cfg.maxOpacity - cfg.minOpacity) * easedProgress;
+        const translateX = cfg.translateRange * (1 - easedProgress);
+        const translateY = cfg.translateYRange * (1 - easedProgress);
         const scale =
-          fullConfig.scaleMin + (fullConfig.scaleMax - fullConfig.scaleMin) * easedProgress;
+          cfg.scaleMin + (cfg.scaleMax - cfg.scaleMin) * easedProgress;
 
         newValues.push({
           opacity,
@@ -212,16 +210,25 @@ export function useScrollAnimation(
           scale,
           progress: easedProgress,
         });
+
+        if (writeToDOM && ref.current) {
+          const el = ref.current as HTMLElement;
+          el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+          el.style.opacity = String(opacity);
+        }
       });
 
-      setAnimationValues(newValues);
-      return needsMoreFrames;
+      return { needsMoreFrames, newValues };
     }
 
     function tick() {
       const newActiveIndex = computeTargets();
-      const needsMoreFrames = applyStyles();
-      setActiveIndex(newActiveIndex);
+      const { needsMoreFrames } = applyStyles(true);
+
+      if (newActiveIndex !== activeIndexRef.current) {
+        activeIndexRef.current = newActiveIndex;
+        setActiveIndex(newActiveIndex);
+      }
 
       if (needsMoreFrames) {
         requestAnimationFrame(tick);
@@ -248,18 +255,31 @@ export function useScrollAnimation(
       }
     }
 
+    // Synka till nuvarande scroll innan första paint – undvik att allt "flyger" vid refresh
+    function syncToScrollPosition() {
+      lastScrollYRef.current = window.scrollY;
+      scrollDirectionRef.current = 'down';
+      const newActiveIndex = computeTargets();
+      stateRef.current.forEach((s) => {
+        s.current = s.target;
+      });
+      const { newValues } = applyStyles(true);
+      setAnimationValues(newValues);
+      activeIndexRef.current = newActiveIndex;
+      setActiveIndex(newActiveIndex);
+    }
+
+    syncToScrollPosition();
+
     // Setup listeners
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
-
-    // Initial render
-    requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
     };
-  }, [elementRefs, fullConfig]);
+  }, [elementRefs]);
 
   return {
     activeIndex,

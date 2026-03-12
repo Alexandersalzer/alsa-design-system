@@ -77,6 +77,22 @@ export interface LayoutConfig {
   sectionHeaderVerticalAlign?: 'start' | 'center' | 'end';
 
   /**
+   * Horisontell placering av innehållet i första kolumnen (section header + actions) vid split layout.
+   * - 'start': innehåll till vänster (default)
+   * - 'center': innehåll centrerat i kolumnen
+   * - 'end': innehåll till höger i kolumnen
+   * Överskrider section header-patterns align om satt.
+   */
+  firstColumnContentAlign?: 'start' | 'center' | 'end';
+
+  /**
+   * När true: layouten fyller sektionens höjd (flex: 1) så att t.ex. sectionHeaderVerticalAlign: 'center'
+   * får effekt och innehållet centreras vertikalt. Använd på hero vid fullhöjd-sektion.
+   * Påverkar inte sektioner som inte sätter denna prop.
+   */
+  layoutFullHeight?: boolean;
+
+  /**
    * Breakpoint at which split layout stacks to single column
    * - 'tablet': Stack at 768px (default mobile behavior)
    * - 'desktop': Stack at 1024px (default - good for most split layouts)
@@ -154,6 +170,15 @@ export interface LayoutConfig {
   cardColumnVerticalAlign?: 'start' | 'center' | 'end';
 
   /**
+   * Position av wrap-kortet inom sektionen (t.ex. hero).
+   * - cardPositionVertical: 'start' | 'center' | 'end' – kortet upp/centrerat/ner i sektionen
+   * - cardPositionHorizontal: 'start' | 'center' | 'end' – kortet vänster/centrerat/höger
+   * Kräver wrapInCard. Sektionen behöver ha höjd (t.ex. height: full) för att vertikal position ska synas.
+   */
+  cardPositionVertical?: 'start' | 'center' | 'end';
+  cardPositionHorizontal?: 'start' | 'center' | 'end';
+
+  /**
    * Background type för hela sektionen
    * När wrapInCard är true, flyttas bakgrunden till kortet istället för section-elementet
    */
@@ -199,4 +224,64 @@ export interface LayoutConfig {
    * @deprecated Use backgroundOpacity instead
    */
   backgroundImageLightModeOpacity?: number;
+
+  /**
+   * Background video URL när background är 'video'
+   */
+  backgroundVideo?: string;
+
+  /**
+   * Video poster image URL (shown before video loads)
+   */
+  videoPoster?: string;
+
+  /**
+   * Video overlay type for better text readability
+   */
+  videoOverlayType?: 'none' | 'dark' | 'light' | 'gradient';
+
+  /**
+   * Video overlay opacity (0-1)
+   */
+  videoOverlayOpacity?: number;
+
+  /**
+   * Video fade edge - add a gradient fade to an edge of the video
+   */
+  videoFadeEdge?: 'none' | 'top' | 'bottom' | 'both';
+
+  /**
+   * Video fade strength - strength of the fade effect (0-1)
+   */
+  videoFadeStrength?: number;
+
+  /**
+   * Video loop continuously
+   */
+  videoLoop?: boolean;
+
+  /**
+   * Video auto play on load
+   */
+  videoAutoPlay?: boolean;
+
+  /**
+   * Video playback speed (0.5 = slow motion, 2.0 = fast)
+   */
+  videoPlaybackRate?: number;
+
+  /**
+   * Enable split background (background only covers part of the section)
+   */
+  backgroundSplit?: boolean;
+
+  /**
+   * Width percentage of the split background area (30-70)
+   */
+  backgroundSplitPercentage?: number;
+
+  /**
+   * Shape of the split edge
+   */
+  backgroundSplitShape?: 'straight' | 'diagonal' | 'diagonal-reverse' | 'wave';
 }

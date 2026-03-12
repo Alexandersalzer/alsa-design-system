@@ -1,0 +1,26 @@
+/* ===============================================
+   HORIZONTAL STEP RAIL
+   Static node-line-node-line-node connector
+   =============================================== */
+
+.horizontal-step-rail {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.horizontal-step-rail__node {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.horizontal-step-rail__line {
+  flex: 1;
+}
+
+/* Hide on mobile (single-column stacked layout) */
+@media (max-width: 767px) {
+  .horizontal-step-rail {
+    display: none;
+  }
+}

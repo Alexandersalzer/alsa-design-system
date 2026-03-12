@@ -39,8 +39,12 @@ interface SectionProps extends BackgroundProps {
   borderWeight?: 'thin' | 'default' | 'thick';
   /** Enable split background (background only covers portion of section) */
   backgroundSplit?: boolean;
-  /** Split percentage - width of background on right side (default: 50) */
+  /** Split variant: vertical (right band) or diagonal (image in upper-right triangle, slice from top-left to bottom-right) */
+  backgroundSplitVariant?: 'vertical' | 'diagonal';
+  /** Split percentage - width of background on right side for vertical (default: 50); diagonal uses full triangle */
   backgroundSplitPercentage?: number;
+  /** Shape of the split edge */
+  backgroundSplitShape?: 'straight' | 'diagonal' | 'diagonal-reverse' | 'wave';
   /** Mobile-specific background opacity (0-1) - only affects mobile screens */
   mobileBackgroundOpacity?: number;
   /** Image background opacity in light mode (0-1). Används t.ex. i footer så bilden blir ljusare. Default i footer: 0.55. */
@@ -169,7 +173,11 @@ export const Section = ({
   style,
   sectionKey,
   backgroundSplit = false,
+  backgroundSplitVariant = 'vertical',
   backgroundSplitPercentage = 50,
+  backgroundSplitShape = 'straight',
+  backgroundSplitInset,
+  backgroundSplitRadius,
   mobileBackgroundOpacity,
   backgroundImageLightModeOpacity,
 }: SectionProps) => {
@@ -265,6 +273,23 @@ export const Section = ({
   if (backgroundSplit && backgroundSplitPercentage) {
     customProperties['--split-percentage'] = `${backgroundSplitPercentage}%`;
   }
+  // Foundation spacing är numeriskt (--foundation-space-4 osv), mappa semantiska namn
+  const insetTokenMap: Record<string, string> = {
+    xs: '2',
+    sm: '3',
+    md: '4',
+    lg: '6',
+    xl: '8',
+    '2xl': '12',
+    '3xl': '16', /* 64px */
+  };
+  if (backgroundSplit && backgroundSplitInset && backgroundSplitInset !== 'none') {
+    const token = insetTokenMap[backgroundSplitInset] ?? '4';
+    customProperties['--split-inset'] = `var(--foundation-space-${token})`;
+  }
+  if (backgroundSplit && backgroundSplitRadius && backgroundSplitRadius !== 'none') {
+    customProperties['--split-radius'] = `var(--radius-${backgroundSplitRadius})`;
+  }
 
   if (height === 'media-half' && mediaHeight) {
     customProperties['--section-media-height'] = `${mediaHeight}px`;
@@ -341,7 +366,10 @@ export const Section = ({
     >
       {/* Render background - wrapped in split container if needed */}
       {backgroundSplit && background && background !== 'default' ? (
-        <div className={styles.splitBackgroundContainer}>
+        <div 
+          className={styles.splitBackgroundContainer}
+          data-split-shape={backgroundSplitShape}
+        >
           {renderBackgroundComponent(background, backgroundProps)}
         </div>
       ) : (

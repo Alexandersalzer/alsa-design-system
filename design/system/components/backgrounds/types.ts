@@ -94,6 +94,9 @@ export interface VideoBackgroundProps {
   videoPlaybackRate?: number;
   videoFadeEdge?: FadeEdge;
   videoFadeStrength?: number;
+  videoLoop?: boolean;
+  videoAutoPlay?: boolean;
+  videoMuted?: boolean;
 }
 
 // ===== SOLID BACKGROUND =====
@@ -179,6 +182,12 @@ export interface BackgroundProps
   backgroundColor?: string;
   /** Enable split background (background only covers portion of section) */
   backgroundSplit?: boolean;
+  /** Split variant: 'vertical' (right band) or 'diagonal' (image in upper-right triangle) */
+  backgroundSplitVariant?: 'vertical' | 'diagonal';
   /** Split percentage - width of background on right side (default: 50) */
   backgroundSplitPercentage?: number;
+  /** Inset so split background doesn't go edge-to-edge (none = 0) */
+  backgroundSplitInset?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+  /** Border radius on split background container */
+  backgroundSplitRadius?: 'none' | 'sm' | 'md' | 'lg';
 }

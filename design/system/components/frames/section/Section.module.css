@@ -135,13 +135,27 @@
 /* ===== SPLIT BACKGROUND CONTAINER ===== */
 .splitBackgroundContainer {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  top: var(--split-inset, 0);
+  right: var(--split-inset, 0);
+  bottom: var(--split-inset, 0);
   width: var(--split-percentage, 50%);
+  border-radius: var(--split-radius, 0);
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+}
+
+/* Split shape variants */
+.splitBackgroundContainer[data-split-shape="diagonal"] {
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.splitBackgroundContainer[data-split-shape="diagonal-reverse"] {
+  clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 0% 100%);
+}
+
+.splitBackgroundContainer[data-split-shape="wave"] {
+  clip-path: ellipse(100% 55% at 100% 50%);
 }
 
 @media (max-width: 768px) {
@@ -149,6 +163,13 @@
     left: 0;
     right: 0;
     width: 100%;
+  }
+  
+  /* Reset clip-path on mobile for full-width background */
+  .splitBackgroundContainer[data-split-shape="diagonal"],
+  .splitBackgroundContainer[data-split-shape="diagonal-reverse"],
+  .splitBackgroundContainer[data-split-shape="wave"] {
+    clip-path: none;
   }
 }
 

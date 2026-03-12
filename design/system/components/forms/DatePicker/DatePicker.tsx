@@ -3,16 +3,16 @@
 // DATE PICKER - FIXED: Proper trigger styling and calendar navigation
 // ===============================================
 
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import type { DateValue } from '@internationalized/date';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media';
-import { useDatePickerState } from '@react-stately/datepicker';
-import { useDatePicker, useDateField, useDateSegment } from '@react-aria/datepicker';
+import { today, getLocalTimeZone, CalendarDate } from '@internationalized/date';
+import { useDatePickerState, useDateFieldState, useTimeFieldState } from '@react-stately/datepicker';
+import { useDatePicker, useDateField, useDateSegment, useTimeField } from '@react-aria/datepicker';
 import { useButton } from '@react-aria/button';
 import { useLocale } from '@react-aria/i18n';
-import { useDateFieldState } from '@react-stately/datepicker';
 import { createCalendar } from '@internationalized/date';
 import { Popover } from '../../overlays';
 import { Calendar } from '../Calendar';
@@ -68,10 +68,13 @@ export interface DatePickerProps {
     errorMessage: string;
   }>;
   calendarProps?: any;
+  fullWidth?: boolean;
   onChange?: (value: DateValue | null) => void;
   onFocus?: (e: React.FocusEvent) => void;
   onBlur?: (e: React.FocusEvent) => void;
   id?: string;
+  /** Name of a radio group whose values map to date offsets: 'today', 'tomorrow', 'in2days', 'in3days' */
+  linkedRadioName?: string;
 }
 
 // ===============================================
@@ -108,10 +111,12 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   autoFocus = false,
   CalendarBottomContent,
   CalendarTopContent,
+  fullWidth = false,
   classNames = {},
   calendarProps,
   onChange,
   id,
+  linkedRadioName,
   ...props
 }, ref) => {
   const { locale } = useLocale();
@@ -131,6 +136,24 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   });
 
   const triggerRef = useRef<HTMLDivElement>(null);
+
+  // Sync linked radio shortcuts → datePicker value
+  useEffect(() => {
+    if (!linkedRadioName) return;
+    const handleChange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (target.type !== 'radio' || target.name !== linkedRadioName) return;
+      const tz = getLocalTimeZone();
+      const base = today(tz);
+      const offsets: Record<string, number> = { today: 0, tomorrow: 1, in2days: 2, in3days: 3 };
+      const offset = offsets[target.value];
+      if (offset === undefined) return;
+      const date = base.add({ days: offset });
+      state.setDateValue(new CalendarDate(date.year, date.month, date.day));
+    };
+    document.addEventListener('change', handleChange);
+    return () => document.removeEventListener('change', handleChange);
+  }, [linkedRadioName, state]);
 
   const { groupProps, labelProps, fieldProps, buttonProps, dialogProps } = useDatePicker(
     {
@@ -167,7 +190,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   );
 
   return (
-    <div ref={ref} className={cn('date-picker-wrapper', classNames.base)}>
+    <div ref={ref} className={cn('date-picker-wrapper', fullWidth && 'date-picker-wrapper--full-width', classNames.base)}>
       {/* Label */}
       {label && labelPlacement !== 'inside' && (
         <label {...labelProps} className={cn('date-picker-label', `date-picker-label--${size}`, classNames.label)}>
@@ -256,6 +279,22 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
                 {...calendarProps}
               />
 
+              {/* Time field — shown when granularity includes time */}
+              {granularity && granularity !== 'day' && (
+                <div className="date-picker-time-wrapper">
+                  <DatePickerTimeField
+                    value={state.timeValue as any}
+                    onChange={(t) => state.setTimeValue(t as any)}
+                    granularity={granularity}
+                    hideTimeZone={hideTimeZone}
+                    isDisabled={isDisabled}
+                    isReadOnly={isReadOnly}
+                    size={size}
+                    classNames={classNames}
+                  />
+                </div>
+              )}
+
               {CalendarBottomContent}
             </div>
           </Popover.Content>
@@ -274,6 +313,59 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
 });
 
 DatePicker.displayName = 'DatePicker';
+
+// ===============================================
+// DATE PICKER TIME FIELD (inline time in popover)
+// ===============================================
+
+interface DatePickerTimeFieldProps {
+  value?: any;
+  onChange?: (value: any) => void;
+  granularity?: 'hour' | 'minute' | 'second';
+  hideTimeZone?: boolean;
+  isDisabled?: boolean;
+  isReadOnly?: boolean;
+  size: DatePickerSize;
+  classNames?: DatePickerProps['classNames'];
+}
+
+function DatePickerTimeField({ value, onChange, granularity = 'minute', hideTimeZone, isDisabled, isReadOnly, size, classNames }: DatePickerTimeFieldProps) {
+  const { locale } = useLocale();
+  const fieldRef = useRef<HTMLDivElement>(null);
+
+  const timeState = useTimeFieldState({
+    value,
+    onChange,
+    granularity,
+    hideTimeZone,
+    isDisabled,
+    isReadOnly,
+    locale,
+  });
+
+  const { labelProps, fieldProps } = useTimeField(
+    { granularity, hideTimeZone, isDisabled, isReadOnly, 'aria-label': 'Time' },
+    timeState,
+    fieldRef
+  );
+
+  return (
+    <div className="date-picker-time-field">
+      <span className="date-picker-time-label">Time</span>
+      <div {...fieldProps} ref={fieldRef} className={`date-picker-time-input date-picker-time-input--${size}`}>
+        {timeState.segments.map((segment, i) => (
+          <DatePickerSegment
+            key={i}
+            segment={segment}
+            state={timeState}
+            size={size}
+            className={classNames?.segment}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // ===============================================
 // DATE PICKER FIELD (Single Date Input)

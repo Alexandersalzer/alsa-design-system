@@ -204,7 +204,7 @@ export type EditorType =
   // String editors
   | 'text' | 'textarea' | 'richtext' | 'url' | 'email' | 'color' | 'code'
   // Number editors
-  | 'number' | 'slider' | 'stepper'
+  | 'number' | 'slider' | 'stepper' | 'input-split'
   // Boolean editors
   | 'toggle' | 'checkbox' | 'switch'
   // Enum editors
@@ -290,13 +290,15 @@ export interface StringPropConfig extends BasePropConfig {
  */
 export interface NumberPropConfig extends BasePropConfig {
   type: 'number';
-  editorType?: 'number' | 'slider' | 'stepper';
+  editorType?: 'number' | 'slider' | 'stepper' | 'input-split';
   min?: number;
   max?: number;
   step?: number;
   unit?: string;
   allowDecimal?: boolean;
   suggestions?: number[];
+  /** Preset options shown in the picker dropdown (for editorType: 'input-split') */
+  presets?: Array<{ value: string; label: string }>;
 }
 
 /**
@@ -319,6 +321,7 @@ export interface EnumPropConfig extends BasePropConfig {
   editorType?: 'select' | 'radio' | 'segmented' | 'buttonGroup' | 'dropdown';
   values: readonly string[];
   valueLabels?: Record<string, string>;
+  valueIcons?: Record<string, string>; // Icon names for segmented controls (e.g., 'Minus', 'Slash')
   valuePreviews?: Record<string, ValuePreview>;
   valueGroups?: Record<string, string[]>;
 }

@@ -25,7 +25,7 @@ export interface LogoProps {
   height?: number;
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   border?: 'none' | 'default' | 'subtle' | 'strong' | 'emphasis';
-  color?: 'auto' | 'light' | 'dark' | 'brand';
+  color?: 'auto' | 'inverse' | 'brand';
   textSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   textWeight?: 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
   textTransform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
@@ -34,6 +34,7 @@ export interface LogoProps {
   gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   align?: 'start' | 'center' | 'end';
   hideTextOnMobile?: boolean;
+  display?: 'both' | 'logo' | 'text';
   loading?: 'eager' | 'lazy';
   priority?: boolean;
   onClick?: () => void;
@@ -58,7 +59,7 @@ export const Logo: React.FC<LogoProps> = ({
   height = 40,
   radius = 'none',
   border = 'none',
-  color = 'auto',
+  color = 'auto' as 'auto' | 'inverse' | 'brand',
   textSize = 'lg',
   textWeight = 'extrabold',
   textTransform = 'none',
@@ -67,6 +68,7 @@ export const Logo: React.FC<LogoProps> = ({
   gap = 'sm',
   align = 'center',
   hideTextOnMobile = false,
+  display,
   loading = 'lazy',
   priority = false,
   onClick,
@@ -79,19 +81,18 @@ export const Logo: React.FC<LogoProps> = ({
   // ----- Color mapping -----
 
   const getImageVariant = (
-    color: 'auto' | 'light' | 'dark' | 'brand'
-  ): 'auto' | 'light' | 'dark' | 'color' => {
+    color: 'auto' | 'inverse' | 'brand'
+  ): 'auto' | 'inverse' | 'color' => {
     const mapping = {
       auto: 'auto',
-      light: 'dark',
-      dark: 'light',
+      inverse: 'inverse',
       brand: 'color',
     } as const;
     return mapping[color];
   };
 
   const getTextColor = (
-    color: 'auto' | 'light' | 'dark' | 'brand'
+    color: 'auto' | 'inverse' | 'brand'
   ): 'primary' | 'secondary' | 'inverse' => {
     // Logo text should ALWAYS follow theme text color
     // Never inherit from <a>
@@ -103,9 +104,15 @@ export const Logo: React.FC<LogoProps> = ({
 
   const hasImage = Boolean(src);
   const hasText = Boolean(text);
-  const hasBoth = hasImage && hasText;
+  
+  // ----- Display filtering logic -----
+  // Respects display prop while maintaining backwards compatibility
+  const shouldShowImage = display === 'logo' || display === 'both' || (!display && hasImage);
+  const shouldShowText = display === 'text' || display === 'both' || (!display && hasText);
+  
+  const hasBoth = shouldShowImage && shouldShowText;
 
-  if (!hasImage && !hasText) return null;
+  if (!shouldShowImage && !shouldShowText) return null;
 
   const containerClasses = cn(
     'logo',
@@ -143,7 +150,7 @@ export const Logo: React.FC<LogoProps> = ({
 
   // ----- Render variants -----
 
-  if (hasImage && !hasText) {
+  if (shouldShowImage && !shouldShowText) {
     return (
       <Wrapper {...wrapperProps}>
         <Component componentKey={componentKey}>
@@ -166,7 +173,7 @@ export const Logo: React.FC<LogoProps> = ({
     );
   }
 
-  if (!hasImage && hasText) {
+  if (!shouldShowImage && shouldShowText) {
     return (
       <Wrapper {...wrapperProps}>
         <Component componentKey={textComponentKey}>

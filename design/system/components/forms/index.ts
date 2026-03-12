@@ -14,3 +14,4 @@ export * from './Calendar';
 export * from './DateRangePicker';
 export * from './DatePicker';
 export * from './Slider';
+export * from './InputSplit';

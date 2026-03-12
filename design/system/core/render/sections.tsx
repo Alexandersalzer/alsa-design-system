@@ -6,6 +6,7 @@ import { renderPattern } from './patterns';
 import { renderSectionLayout } from './section-layout';
 import { Container } from '../../components/frames/container/Container';
 import { VStack } from '../../components/layout/vStack/VStack';
+import { Box } from '../../components/layout/box/Box';
 
 /**
  * Props for Sections component
@@ -84,9 +85,33 @@ export function renderSection(
         backgroundTint: layout.backgroundTint,
         imageFadeEdge: layout.imageFadeEdge,
         imageFadeStrength: layout.imageFadeStrength,
-        backgroundImageLightModeOpacity: layout.backgroundImageLightModeOpacity
+        backgroundImageLightModeOpacity: layout.backgroundImageLightModeOpacity,
+        // Video background props
+        backgroundVideo: layout.backgroundVideo,
+        videoSrc: layout.backgroundVideo,
+        videoPoster: layout.videoPoster,
+        videoOverlayType: layout.videoOverlayType,
+        videoOverlayOpacity: layout.videoOverlayOpacity,
+        videoFadeEdge: layout.videoFadeEdge,
+        videoFadeStrength: layout.videoFadeStrength,
+        videoLoop: layout.videoLoop,
+        videoAutoPlay: layout.videoAutoPlay,
+        videoPlaybackRate: layout.videoPlaybackRate,
+        // Split background props
+        backgroundSplit: layout.backgroundSplit,
+        backgroundSplitPercentage: layout.backgroundSplitPercentage,
+        backgroundSplitShape: layout.backgroundSplitShape
       };
     }
+
+    const layoutContent = renderSectionLayout({
+          layout,
+          patterns,
+          order: patternOrder,
+          sectionKey,
+          sectionAnimation: props?.animation,
+          locale,
+        });
 
     return (
       <Section
@@ -97,14 +122,13 @@ export function renderSection(
         applyNavbarVoid={isHero}
         {...sectionProps}
       >
-        {renderSectionLayout({
-          layout,
-          patterns,
-          order: patternOrder,
-          sectionKey,
-          sectionAnimation: props?.animation,
-          locale,
-        })}
+        {layout?.layoutFullHeight ? (
+          <Box style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+            {layoutContent}
+          </Box>
+        ) : (
+          layoutContent
+        )}
       </Section>
     );
   }

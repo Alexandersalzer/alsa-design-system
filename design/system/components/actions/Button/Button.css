@@ -35,6 +35,9 @@
 .btn .btn-text,
 .btn [class*="text-label-"] {
   color: inherit !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Ensure icons also inherit */
@@ -216,7 +219,7 @@
 .btn-outline {
   background-color: transparent;
   color: var(--interactive-primary);
-  border-color: var(--border-default);
+  border: 1px solid var(--interactive-primary);
 }
 
 .btn-outline:hover:not(:disabled) {

@@ -262,7 +262,7 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(({
                 >
                   {section}
                 </Typography>
-                <Listbox size="sm">
+                <Listbox size="sm" surface="raised">
                 {items.map((command) => {
                   const index = currentIndex++;
                   const isSelected = index === selectedIndex;

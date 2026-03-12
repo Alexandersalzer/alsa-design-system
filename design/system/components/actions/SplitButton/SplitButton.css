@@ -1,0 +1,156 @@
+/* =============================================
+   SplitButton
+   ============================================= */
+
+.split-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: var(--radius-button);
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+/* Force Label to inherit button color (same pattern as Button.css) */
+.split-btn .split-btn__label,
+.split-btn [class*="text-label-"] {
+  color: inherit !important;
+}
+
+/* Ensure icons also inherit */
+.split-btn .icon,
+.split-btn [class*="icon-"],
+.split-btn svg {
+  color: inherit;
+}
+
+/* ── Shared surface — matches Button.css tokens ── */
+.split-btn--brand     { --split-bg: var(--surface-button-brand); --split-color: var(--text-button-brand); --split-border: var(--border-button-brand); --split-bg-hover: var(--surface-button-brand-hover); }
+.split-btn--primary   { --split-bg: var(--interactive-primary); --split-color: var(--text-button-primary); --split-border: var(--border-button-primary); --split-bg-hover: var(--surface-button-primary-hover); }
+.split-btn--secondary { --split-bg: var(--surface-button-secondary); --split-color: var(--text-button-secondary); --split-border: var(--border-button-secondary); --split-bg-hover: var(--surface-button-secondary-hover); }
+.split-btn--accent    { --split-bg: var(--surface-button-accent); --split-color: var(--text-button-accent); --split-border: var(--border-button-accent); --split-bg-hover: var(--surface-button-accent-hover); }
+.split-btn--ghost     { --split-bg: transparent; --split-color: var(--text-default); --split-border: transparent; --split-bg-hover: var(--surface-elevated); }
+.split-btn--outline   { --split-bg: transparent; --split-color: var(--interactive-primary); --split-border: var(--border-default); --split-bg-hover: var(--surface-elevated); }
+.split-btn--destructive { --split-bg: var(--surface-button-destructive); --split-color: var(--always-white); --split-border: var(--border-button-destructive); --split-bg-hover: var(--surface-button-destructive-hover); }
+
+/* ── Size tokens — matches Button.css heights ── */
+.split-btn--sm { --split-h: var(--control-height-sm); --split-px: var(--foundation-space-2); --split-icon: 14px; font-size: var(--font-body-sm-size); border-radius: var(--radius-button); }
+.split-btn--md { --split-h: var(--control-height-md); --split-px: var(--foundation-space-4); --split-icon: 16px; font-size: var(--font-body-md-size); border-radius: var(--radius-button); }
+.split-btn--lg { --split-h: var(--control-height-lg); --split-px: var(--foundation-space-4); --split-icon: 18px; font-size: var(--font-body-lg-size); border-radius: var(--radius-button); }
+
+/* ── Primary action button ── */
+.split-btn__primary {
+  display: inline-flex;
+  align-items: center;
+  height: var(--split-h);
+  padding: 0 var(--split-px);
+  background: var(--split-bg);
+  color: var(--split-color);
+  border: 1px solid var(--split-border);
+  border-right: none;
+  border-radius: var(--radius-button) 0 0 var(--radius-button);
+  cursor: pointer;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+  white-space: nowrap;
+  gap: var(--foundation-space-2);
+}
+
+.split-btn__primary:hover:not(.split-btn__primary--disabled) {
+  background: var(--split-bg-hover);
+}
+.split-btn__primary--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Divider ── */
+.split-btn__divider {
+  width: 1px;
+  background: color-mix(in srgb, var(--split-color) 25%, transparent);
+  flex-shrink: 0;
+  align-self: stretch;
+  background-color: var(--split-border, color-mix(in srgb, var(--split-color) 20%, transparent));
+}
+
+/* Make divider visible on solid variants */
+.split-btn--primary .split-btn__divider,
+.split-btn--accent .split-btn__divider {
+  background-color: color-mix(in srgb, var(--split-color) 20%, transparent);
+}
+
+/* ── Chevron trigger ── */
+.split-btn__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--split-h);
+  width: calc(var(--split-h) * 0.75);
+  padding: 0;
+  background: var(--split-bg);
+  color: var(--split-color);
+  border: 1px solid var(--split-border);
+  border-left: none;
+  border-radius: 0 var(--radius-button) var(--radius-button) 0;
+  cursor: pointer;
+  transition: all var(--foundation-duration-fast) var(--foundation-easing-ease-out);
+  flex-shrink: 0;
+}
+
+.split-btn__trigger:hover:not(.split-btn__trigger--disabled) {
+  background: var(--split-bg-hover);
+}
+.split-btn__trigger--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Chevron icon ── */
+.split-btn__chevron {
+  width: var(--split-icon);
+  height: var(--split-icon);
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+}
+.split-btn__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown menu ── */
+.split-btn__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  z-index: 200;
+  min-width: 180px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-default);
+  box-shadow: var(--shadow-strong);
+  overflow: hidden;
+  padding: var(--foundation-space-1);
+  animation: splitBtnMenuIn 120ms ease-out;
+}
+
+.split-btn__menu--bottom-start { left: 0; }
+.split-btn__menu--bottom-end   { right: 0; }
+
+@keyframes splitBtnMenuIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Menu item content ── */
+.split-btn__menu-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.split-btn__menu-label {
+  font-size: inherit;
+  color: var(--text-strong);
+  font-weight: 500;
+}
+.split-btn__menu-desc {
+  font-size: var(--font-body-xs-size);
+  color: var(--text-muted);
+  font-weight: var(--foundation-weight-regular);
+}

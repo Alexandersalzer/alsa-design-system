@@ -300,6 +300,11 @@ html.dark .image-accent-mask-dark {
   mix-blend-mode: normal;
 }
 
+.logo-image--inverse {
+  /* Inverse: always inverts regardless of theme */
+  filter: invert(1);
+}
+
 .logo-image--color {
   /* Full-color logo: never inverts */
   filter: none !important;

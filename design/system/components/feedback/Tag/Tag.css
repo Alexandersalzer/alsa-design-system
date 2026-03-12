@@ -33,6 +33,13 @@
   border-color: var(--border-default);
 }
 
+/* Prevent text wrapping in tag content */
+.tag > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ===== TAG VARIANTS - SUBTLE (default surface) ===== */
 .tag--success {
   background-color: var(--surface-success-subtle);

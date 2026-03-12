@@ -1,6 +1,7 @@
 import { Card, VStack, Typography } from '../../../components';
 import { SquareImageContainer } from '../../../components/media/SquareImageContainer';
 import { ImageBackground } from '../../../components/backgrounds/ImageBackground/ImageBackground';
+import { BentoItem } from '../../../components/layout/BentoGrid/BentoGrid';
 import { resolveCdnImageUrl } from '../../../core/utils/env';
 import './ContentCard.css';
 
@@ -30,6 +31,9 @@ interface ContentCardProps {
   cardVariant?: 'default' | 'elevated' | 'outlined' | 'solid' | 'bordered';
   // Layout customization
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  // Grid layout (for BentoGrid pattern)
+  colSpan?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  rowSpan?: 1 | 2 | 3;
 }
 
 export type { ContentCardProps };
@@ -52,7 +56,9 @@ export function ContentCard({
   imagePadding = 'none',
   imageOverflow = 'hidden',
   cardVariant = 'bordered',
-  spacing = 'sm'
+  spacing = 'sm',
+  colSpan,
+  rowSpan,
 }: ContentCardProps) {
   // Map preset aspect ratios
   const getAspectRatio = (ratio: string): string | undefined => {
@@ -73,24 +79,71 @@ export function ContentCard({
   const finalAspectRatio = getAspectRatio(imageAspectRatio);
   const fullImageSrc = resolveCdnImageUrl(imageSrc || '');
 
-  // Render SquareImageContainer mode
-  if (imageDisplayMode === 'squareContainer') {
+  // Render content (will be wrapped in BentoItem if needed)
+  const renderContent = () => {
+    // Render SquareImageContainer mode
+    if (imageDisplayMode === 'squareContainer') {
+      return (
+        <div className="content-card" data-component-key={componentKey}>
+          {/* Square Image Container - handles all aspect ratios consistently */}
+          <Card
+            variant={cardVariant}
+            padding="none"
+            className="content-card-image-container"
+          >
+            <SquareImageContainer
+              src={fullImageSrc}
+              alt={imageAlt}
+              padding={imagePadding}
+              radius={imageRadius === 'full' ? 'xl' : imageRadius}
+              imageRadius={imageRadius === 'full' ? 'xl' : imageRadius}
+              overflow={imageOverflow}
+            />
+          </Card>
+
+          {/* Text Content - VStack with no background, left aligned */}
+          <VStack spacing={spacing} className="content-card-text">
+            <Typography variant="h2" weight="bold" color="primary">
+              {heading}
+            </Typography>
+            {subheading && (
+              <Typography variant="body-lg" weight="semibold" color="secondary">
+                {subheading}
+              </Typography>
+            )}
+            <Typography variant="body-md" weight="regular" color="tertiary">
+              {description}
+            </Typography>
+          </VStack>
+        </div>
+      );
+    }
+
+    // Default mode – ImageBackground (samma som pricing/hero) så accent fungerar utan CORS/Image-problem
     return (
       <div className="content-card" data-component-key={componentKey}>
-        {/* Square Image Container - handles all aspect ratios consistently */}
         <Card
           variant={cardVariant}
           padding="none"
           className="content-card-image-container"
         >
-          <SquareImageContainer
-            src={fullImageSrc}
-            alt={imageAlt}
-            padding={imagePadding}
-            radius={imageRadius === 'full' ? 'xl' : imageRadius}
-            imageRadius={imageRadius === 'full' ? 'xl' : imageRadius}
-            overflow={imageOverflow}
-          />
+          <div
+            className="content-card-image-wrap"
+            style={{
+              position: 'relative',
+              width: '100%',
+              overflow: 'hidden',
+              ...(finalAspectRatio ? { aspectRatio: finalAspectRatio } : { minHeight: 120 }),
+            }}
+          >
+            <ImageBackground
+              src={fullImageSrc}
+              size={imageObjectFit}
+              position={imageObjectPosition}
+              tint={imageTint}
+              tintStrength={imageTintStrength}
+            />
+          </div>
         </Card>
 
         {/* Text Content - VStack with no background, left aligned */}
@@ -109,49 +162,16 @@ export function ContentCard({
         </VStack>
       </div>
     );
+  };
+
+  // Wrap in BentoItem if colSpan or rowSpan provided (for BentoGrid layouts)
+  if (colSpan || rowSpan) {
+    return (
+      <BentoItem colSpan={colSpan} rowSpan={rowSpan}>
+        {renderContent()}
+      </BentoItem>
+    );
   }
 
-  // Default mode – ImageBackground (samma som pricing/hero) så accent fungerar utan CORS/Image-problem
-  return (
-    <div className="content-card" data-component-key={componentKey}>
-      <Card
-        variant={cardVariant}
-        padding="none"
-        className="content-card-image-container"
-      >
-        <div
-          className="content-card-image-wrap"
-          style={{
-            position: 'relative',
-            width: '100%',
-            overflow: 'hidden',
-            ...(finalAspectRatio ? { aspectRatio: finalAspectRatio } : { minHeight: 120 }),
-          }}
-        >
-          <ImageBackground
-            src={fullImageSrc}
-            size={imageObjectFit}
-            position={imageObjectPosition}
-            tint={imageTint}
-            tintStrength={imageTintStrength}
-          />
-        </div>
-      </Card>
-
-      {/* Text Content - VStack with no background, left aligned */}
-      <VStack spacing={spacing} className="content-card-text">
-        <Typography variant="h2" weight="bold" color="primary">
-          {heading}
-        </Typography>
-        {subheading && (
-          <Typography variant="body-lg" weight="semibold" color="secondary">
-            {subheading}
-          </Typography>
-        )}
-        <Typography variant="body-md" weight="regular" color="tertiary">
-          {description}
-        </Typography>
-      </VStack>
-    </div>
-  );
+  return renderContent();
 }

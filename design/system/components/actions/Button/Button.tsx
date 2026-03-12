@@ -12,6 +12,7 @@ import { Label } from '../../Typography/Typography';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
+import { IconByName } from '../../media/IconByName/IconByName';
 import { useAction } from '../../../core/actions/useAction';
 import type { ActionConfig, NavigationActionConfig, BookingActionConfig } from '../../../core/actions/types';
 import { openCalendlyPopup, buildCalendlyUrl } from '../../thirdparty/calendly/CalendlyModal';
@@ -27,8 +28,8 @@ export interface ButtonProps
   size?: 'sm' | 'md' | 'lg' | 'xl';
   radius?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   loading?: boolean;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  leftIcon?: ReactNode | string; /** string = icon name (e.g. "arrow-right") for JSON */
+  rightIcon?: ReactNode | string;
   fullWidth?: boolean;
   componentKey?: string;
   action?: ActionConfig;
@@ -118,6 +119,17 @@ export const Button = forwardRef<
     const getLabelWeight = (btnSize: string) => {
       return (btnSize === 'sm' || btnSize === 'md') ? 'semibold' : 'bold';
     };
+
+    /** Resolve icon from JSON (string name) to ReactNode */
+    const resolveIcon = (icon: ReactNode | string | undefined, iconSize: 'sm' | 'md' = 'sm'): ReactNode => {
+      if (!icon) return null;
+      if (typeof icon === 'string') {
+        return <IconByName name={icon} size={iconSize} />;
+      }
+      return icon;
+    };
+    const resolvedLeftIcon = resolveIcon(leftIcon, size === 'lg' || size === 'xl' ? 'md' : 'sm');
+    const resolvedRightIcon = resolveIcon(rightIcon, size === 'lg' || size === 'xl' ? 'md' : 'sm');
 
     const buttonClasses = cn(
       'btn',
@@ -214,8 +226,8 @@ export const Button = forwardRef<
             />
           </span>
         )}
-        {!loading && !internalLoading && leftIcon && (
-          <span className="flex-shrink-0">{leftIcon}</span>
+        {!loading && !internalLoading && resolvedLeftIcon && (
+          <span className="flex-shrink-0">{resolvedLeftIcon}</span>
         )}
         {/* ✅ Label without color prop - inherits from parent */}
         <Label
@@ -226,8 +238,8 @@ export const Button = forwardRef<
         >
           {displayContent}
         </Label>
-        {!loading && !internalLoading && rightIcon && (
-          <span className="flex-shrink-0">{rightIcon}</span>
+        {!loading && !internalLoading && resolvedRightIcon && (
+          <span className="flex-shrink-0">{resolvedRightIcon}</span>
         )}
       </>
     );
