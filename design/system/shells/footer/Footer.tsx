@@ -66,13 +66,15 @@ const ALIGN_TO_JUSTIFY: Record<string, string> = {
  * Render a single pattern.
  * If pattern has `layout`, uses renderLayoutWithTemplate (items-based patterns).
  * Otherwise falls back to renderShellPattern (legacy hardcoded patterns).
+ * When noContainer is true, skips the Container wrapper (used for inline bottom row).
  */
 function renderPattern(
   pattern: any,
   patternKey: string,
   sectionKey: string,
   logoDisplay: string | undefined,
-  contentAlign?: string
+  contentAlign?: string,
+  noContainer?: boolean
 ): React.ReactNode {
   if (pattern.layout) {
     let components: Record<string, any> = pattern.components || {};
@@ -124,6 +126,8 @@ function renderPattern(
       undefined,
       layoutContext
     );
+
+    if (noContainer) return content;
 
     return (
       <Container
@@ -221,9 +225,15 @@ const Footer = ({ section }: FooterProps) => {
 
   if (renderedPatterns.length === 0) return null;
 
-  // Split last pattern so MadeWithBlimpify can share its row
+  // Render last pattern without Container so MadeWithBlimpify can sit inline next to it
+  const lastPatternKey = showMadeByBlimpify ? patternOrder[patternOrder.length - 1] : null;
+  const lastPatternData = lastPatternKey ? patterns[lastPatternKey] : null;
+  const lastPatternLogoDisplay = lastPatternData?.props?.logoDisplay ?? logoDisplay;
+  const lastPatternContent = lastPatternKey && lastPatternData
+    ? renderPattern(lastPatternData, lastPatternKey, sectionKey, lastPatternLogoDisplay, contentAlign, true)
+    : null;
+
   const bodyPatterns = showMadeByBlimpify ? renderedPatterns.slice(0, -1) : renderedPatterns;
-  const lastPattern = showMadeByBlimpify ? renderedPatterns[renderedPatterns.length - 1] : null;
 
   return (
     <Section
@@ -235,10 +245,10 @@ const Footer = ({ section }: FooterProps) => {
       <VStack spacing="xl" align={contentAlign} className="footer__content">
         {bodyPatterns}
         {showMadeByBlimpify && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-            <div style={{ flex: 1 }}>{lastPattern}</div>
+          <HStack spacing="lg" align="center">
+            {lastPatternContent}
             <MadeWithBlimpify />
-          </div>
+          </HStack>
         )}
       </VStack>
     </Section>
