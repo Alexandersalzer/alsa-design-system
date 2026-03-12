@@ -14,13 +14,12 @@ export const createSocialLinkButtonSchema = (_locale: SupportedLocale = 'sv'): C
 
     defaultProps: {
       platform: 'instagram',
-      content: 'Follow on Instagram',
-      href: 'https://instagram.com',
+      href: '#',
       target: '_blank',
-      variant: 'secondary',
+      variant: 'ghost',
       size: 'md',
       radius: 'full',
-      fullWidth: true,
+      fullWidth: false,
       iconColor: 'auto',
     },
 
