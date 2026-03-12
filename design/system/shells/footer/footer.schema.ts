@@ -62,6 +62,19 @@ export const footerSectionSchema: FooterSectionSchema = {
       group: 'logo',
       cmsEnabled: true,
     },
+
+    contentAlign: {
+      name: 'contentAlign',
+      type: 'enum',
+      displayName: 'Alignment',
+      description: 'Horizontal alignment of footer content',
+      editorType: 'segmented',
+      values: ['start', 'center', 'end'],
+      valueLabels: { start: 'Left', center: 'Center', end: 'Right' },
+      default: 'center',
+      group: 'layout',
+      cmsEnabled: true,
+    },
   },
 };
 

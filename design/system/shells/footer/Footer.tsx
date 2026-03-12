@@ -31,6 +31,16 @@ function filterByLogoDisplay(
 }
 
 /**
+ * Map contentAlign values to hstack justify and vstack align values.
+ * Only applied as a default — layouts that already declare justify/align keep theirs.
+ */
+const ALIGN_TO_JUSTIFY: Record<string, string> = {
+  start: 'start',
+  center: 'center',
+  end: 'end',
+};
+
+/**
  * Render a single pattern.
  * If pattern has `layout`, uses renderLayoutWithTemplate (items-based patterns).
  * Otherwise falls back to renderShellPattern (legacy hardcoded patterns).
@@ -39,7 +49,8 @@ function renderPattern(
   pattern: any,
   patternKey: string,
   sectionKey: string,
-  logoDisplay: string | undefined
+  logoDisplay: string | undefined,
+  contentAlign?: string
 ): React.ReactNode {
   if (pattern.layout) {
     let components: Record<string, any> = pattern.components || {};
@@ -51,8 +62,21 @@ function renderPattern(
 
     const filteredComponents = filterByLogoDisplay(components, logoDisplay);
 
+    // Apply contentAlign as a default to the root layout if it has no explicit alignment set.
+    // hstack: inject into `justify` only if not already set.
+    // vstack: inject into `align` only if not already set.
+    const layoutType = pattern.layout.type;
+    const alignDefault = contentAlign ? ALIGN_TO_JUSTIFY[contentAlign] : undefined;
+    const alignPatch =
+      alignDefault && layoutType === 'hstack' && !pattern.layout.justify
+        ? { justify: alignDefault }
+        : alignDefault && layoutType === 'vstack' && !pattern.layout.align
+        ? { align: alignDefault }
+        : {};
+
     const patchedLayout = {
       ...pattern.layout,
+      ...alignPatch,
       items: pattern.layout.items?.map((item: any) => ({
         ...item,
         components: Object.fromEntries(
@@ -60,6 +84,9 @@ function renderPattern(
         ),
       })),
     };
+
+    const containerAlign =
+      contentAlign === 'start' ? 'left' : contentAlign === 'end' ? 'right' : 'center';
 
     const content = renderLayoutWithTemplate(
       patchedLayout,
@@ -71,7 +98,7 @@ function renderPattern(
     return (
       <Container
         key={patternKey}
-        align="center"
+        align={containerAlign as 'left' | 'center' | 'right'}
         height="auto"
         noPadding={true}
         patternKey={patternKey}
@@ -94,6 +121,7 @@ const Footer = ({ section }: FooterProps) => {
   const patternOrder: string[] = order || Object.keys(patterns);
   const sectionKey = Object.keys(section)[0];
   const logoDisplay = (sectionProps as any)?.logoDisplay;
+  const contentAlign: 'start' | 'center' | 'end' = (sectionProps as any)?.contentAlign ?? 'center';
 
   const hasTopBorder = Object.values(patterns).some(
     (pattern: any) => pattern?.props?.showTopBorder === true
@@ -123,7 +151,7 @@ const Footer = ({ section }: FooterProps) => {
       if (!pattern) return null;
       const colSpan = pattern.colSpan ?? 1;
       const patternLogoDisplay = pattern.props?.logoDisplay ?? logoDisplay;
-      const rendered = renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay);
+      const rendered = renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay, contentAlign);
       return rendered ? (
         <div key={patternKey} style={{ gridColumn: `span ${colSpan}` }}>
           {rendered}
@@ -138,7 +166,7 @@ const Footer = ({ section }: FooterProps) => {
         className={hasTopBorder ? 'footer-with-top-border' : ''}
         {...sectionProps}
       >
-        <VStack spacing="xl" align="center" className="footer__content">
+        <VStack spacing="xl" align={contentAlign} className="footer__content">
           <div style={gridStyle}>{gridItems}</div>
         </VStack>
       </Section>
@@ -151,7 +179,7 @@ const Footer = ({ section }: FooterProps) => {
       const pattern = patterns[patternKey] as any;
       if (!pattern) return null;
       const patternLogoDisplay = pattern.props?.logoDisplay ?? logoDisplay;
-      return renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay);
+      return renderPattern(pattern, patternKey, sectionKey, patternLogoDisplay, contentAlign);
     })
     .filter(Boolean);
 
@@ -164,7 +192,7 @@ const Footer = ({ section }: FooterProps) => {
       className={hasTopBorder ? 'footer-with-top-border' : ''}
       {...sectionProps}
     >
-      <VStack spacing="xl" align="center" className="footer__content">
+      <VStack spacing="xl" align={contentAlign} className="footer__content">
         {renderedPatterns}
       </VStack>
     </Section>
