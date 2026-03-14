@@ -54,7 +54,7 @@ function filterByLogoDisplay(
 
 /**
  * Map contentAlign values to hstack justify and vstack align values.
- * Only applied as a default — layouts that already declare justify/align keep theirs.
+ * Section-level contentAlign always wins over pattern-level align/justify.
  */
 const ALIGN_TO_JUSTIFY: Record<string, string> = {
   start: 'start',
@@ -84,16 +84,18 @@ function renderPattern(
 
     const filteredComponents = filterByLogoDisplay(components, logoDisplay);
 
-    // Apply contentAlign as a default to the root layout if it has no explicit alignment set.
-    // hstack: inject into `justify` only if not already set.
-    // vstack: inject into `align` only if not already set.
+    // Apply contentAlign — section-level alignment always overrides pattern-level.
+    // hstack: force `justify`. vstack: force `align`.
+    // Also always enable wrap on hstack so links never break mid-word on mobile.
     const layoutType = pattern.layout.type;
     const alignDefault = contentAlign ? ALIGN_TO_JUSTIFY[contentAlign] : undefined;
     const alignPatch =
-      alignDefault && layoutType === 'hstack' && !pattern.layout.justify
-        ? { justify: alignDefault }
-        : alignDefault && layoutType === 'vstack' && !pattern.layout.align
+      alignDefault && layoutType === 'hstack'
+        ? { justify: alignDefault, wrap: pattern.layout.wrap ?? true }
+        : alignDefault && layoutType === 'vstack'
         ? { align: alignDefault }
+        : layoutType === 'hstack'
+        ? { wrap: pattern.layout.wrap ?? true }
         : {};
 
     const patchedLayout = {
