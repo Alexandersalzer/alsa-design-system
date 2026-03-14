@@ -527,7 +527,7 @@ export interface LogoImageProps extends Omit<ImageProps, 'objectFit'> {
    * - 'dark': Logo designed for dark backgrounds, inverts in light mode
    * - 'color': Full-color logo, never inverts
    */
-  variant?: 'auto' | 'light' | 'dark' | 'color' | 'inverse';
+  variant?: 'auto' | 'light' | 'dark' | 'color' | 'inverse' | 'auto-inverse';
   /** Object fit behavior (defaults to contain for logos) */
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
 }

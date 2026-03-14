@@ -10,6 +10,9 @@
 /* Footer content wrapper */
 .footer__content {
   width: 100%;
+  max-width: var(--width-container);
+  margin-inline: auto;
+  padding-inline: var(--foundation-space-4);
 }
 
 /* Blimpify attribution - subtle branding at bottom */

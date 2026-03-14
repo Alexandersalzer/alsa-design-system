@@ -25,7 +25,7 @@ export interface LogoProps {
   height?: number;
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   border?: 'none' | 'default' | 'subtle' | 'strong' | 'emphasis';
-  color?: 'auto' | 'inverse' | 'brand';
+  color?: 'auto' | 'auto-inverse' | 'inverse' | 'brand';
   textSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   textWeight?: 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
   textTransform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
@@ -35,6 +35,7 @@ export interface LogoProps {
   align?: 'start' | 'center' | 'end';
   hideTextOnMobile?: boolean;
   display?: 'both' | 'logo' | 'text';
+  aspectRatio?: string;
   loading?: 'eager' | 'lazy';
   priority?: boolean;
   onClick?: () => void;
@@ -59,7 +60,7 @@ export const Logo: React.FC<LogoProps> = ({
   height = 40,
   radius = 'none',
   border = 'none',
-  color = 'auto' as 'auto' | 'inverse' | 'brand',
+  color = 'auto' as 'auto' | 'auto-inverse' | 'inverse' | 'brand',
   textSize = 'lg',
   textWeight = 'extrabold',
   textTransform = 'none',
@@ -69,6 +70,7 @@ export const Logo: React.FC<LogoProps> = ({
   align = 'center',
   hideTextOnMobile = false,
   display,
+  aspectRatio = '1/1',
   loading = 'lazy',
   priority = false,
   onClick,
@@ -81,10 +83,11 @@ export const Logo: React.FC<LogoProps> = ({
   // ----- Color mapping -----
 
   const getImageVariant = (
-    color: 'auto' | 'inverse' | 'brand'
-  ): 'auto' | 'inverse' | 'color' => {
+    color: 'auto' | 'auto-inverse' | 'inverse' | 'brand'
+  ): 'auto' | 'auto-inverse' | 'inverse' | 'color' => {
     const mapping = {
       auto: 'auto',
+      'auto-inverse': 'auto-inverse',
       inverse: 'inverse',
       brand: 'color',
     } as const;
@@ -92,7 +95,7 @@ export const Logo: React.FC<LogoProps> = ({
   };
 
   const getTextColor = (
-    color: 'auto' | 'inverse' | 'brand'
+    color: 'auto' | 'auto-inverse' | 'inverse' | 'brand'
   ): 'primary' | 'secondary' | 'inverse' => {
     // Logo text should ALWAYS follow theme text color
     // Never inherit from <a>
@@ -159,6 +162,7 @@ export const Logo: React.FC<LogoProps> = ({
             alt={alt}
             width={width}
             height={height}
+            aspectRatio={aspectRatio}
             radius={radius}
             variant={imageVariant}
             loading={loading}
@@ -207,6 +211,7 @@ export const Logo: React.FC<LogoProps> = ({
             alt={alt}
             width={width}
             height={height}
+            aspectRatio={aspectRatio}
             radius={radius}
             variant={imageVariant}
             loading={loading}

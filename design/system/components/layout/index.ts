@@ -15,3 +15,5 @@ export * from './Spacer';
 export * from './MasonryGrid';
 export * from './Overlay';
 export * from './BentoGrid';
+export * from './FormStepper/FormStepper';
+export * from './FormStepper/FormStep';

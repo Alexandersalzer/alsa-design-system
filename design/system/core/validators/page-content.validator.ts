@@ -10,6 +10,7 @@ import path from 'path';
 import {
   isValidSectionType,
   getSectionPositionRequirement,
+  PatternStructureRules,
   type SectionType
 } from '../schemas/sections/section.types';
 import { validateSectionLayout } from '../schemas/sections/section-layout.schema';
@@ -104,7 +105,7 @@ export function validateStructureFile(
       if (!isValidSectionType(sectionType)) {
         errors.push(
           `Section "${sectionKey}" has invalid type: "${sectionType}". ` +
-          `Allowed types: hero, about, services, features, testimonials, faq, pricing, cta, logos, stats, team, process, contact, results`
+          `Allowed types: navbar, hero, about, services, features, testimonials, faq, pricing, cta, logos, stats, team, process, contact, results, footer`
         );
         details.invalidSections.push(sectionKey);
         continue;
@@ -144,30 +145,64 @@ export function validateStructureFile(
       .filter((s: any) => s && s.type)
       .map((s: any) => s.type);
 
-    // Rule: Hero must be first (if present)
+    // Rule: Navbar must be first (if present)
+    const navbarIndex = orderedSectionTypes.indexOf('navbar');
+    if (navbarIndex !== -1 && navbarIndex !== 0) {
+      errors.push(
+        `Navbar section must be the first section in the page. ` +
+        `Currently at position ${navbarIndex + 1}`
+      );
+    }
+
+    // Rule: Hero must be first (or second if navbar is present)
     const heroIndex = orderedSectionTypes.indexOf('hero');
-    if (heroIndex !== -1 && heroIndex !== 0) {
+    const hasNavbar = navbarIndex !== -1;
+    
+    if (heroIndex !== -1) {
+      const expectedHeroPosition = hasNavbar ? 1 : 0;
+      if (heroIndex !== expectedHeroPosition) {
+        errors.push(
+          `Hero section must be ${hasNavbar ? 'second (after navbar)' : 'first'} in the page. ` +
+          `Currently at position ${heroIndex + 1}`
+        );
+      }
+    }
+
+    // Rule: First section must be navbar or hero
+    if (orderedSectionTypes.length > 0) {
+      const firstSection = orderedSectionTypes[0];
+      if (firstSection !== 'navbar' && firstSection !== 'hero') {
+        errors.push(
+          `First section must be navbar or hero. ` +
+          `Current first section: "${firstSection}"`
+        );
+      }
+    }
+
+    // Rule: Footer must be last (if present)
+    const footerIndex = orderedSectionTypes.indexOf('footer');
+    if (footerIndex !== -1 && footerIndex !== orderedSectionTypes.length - 1) {
       errors.push(
-        `Hero section must be the first section in the page. ` +
-        `Currently at position ${heroIndex + 1}`
+        `Footer section must be the last section in the page. ` +
+        `Currently at position ${footerIndex + 1} of ${orderedSectionTypes.length}`
       );
     }
 
-    // Rule: Hero is required as first section
-    if (orderedSectionTypes.length > 0 && orderedSectionTypes[0] !== 'hero') {
-      errors.push(
-        `First section must be a hero section. ` +
-        `Current first section: "${orderedSectionTypes[0]}"`
-      );
-    }
-
-    // Rule: Contact must be last (if present)
+    // Rule: Contact must be last (or second-to-last if footer is present)
     const contactIndex = orderedSectionTypes.indexOf('contact');
-    if (contactIndex !== -1 && contactIndex !== orderedSectionTypes.length - 1) {
-      errors.push(
-        `Contact section must be the last section in the page. ` +
-        `Currently at position ${contactIndex + 1} of ${orderedSectionTypes.length}`
-      );
+    const hasFooter = footerIndex !== -1;
+    
+    if (contactIndex !== -1) {
+      const expectedContactPosition = hasFooter 
+        ? orderedSectionTypes.length - 2 
+        : orderedSectionTypes.length - 1;
+      
+      if (contactIndex !== expectedContactPosition) {
+        errors.push(
+          `Contact section must be ${hasFooter ? 'second-to-last (before footer)' : 'last'} in the page. ` +
+          `Currently at position ${contactIndex + 1} of ${orderedSectionTypes.length}`
+        );
+      }
     }
 
     // ============================================
@@ -204,7 +239,10 @@ export function validateStructureFile(
           }
         }
 
-        // Check for required sectionHeader pattern
+        // Check for required sectionHeader pattern (exempt for navbar and footer)
+        const exemptSections = PatternStructureRules.sectionHeaderRequired.exemptSections;
+        const isExempt = exemptSections.includes(sectionData.type as any);
+        
         let hasSectionHeader = false;
         let sectionHeaderKey: string | null = null;
 
@@ -217,7 +255,7 @@ export function validateStructureFile(
           }
         }
 
-        if (!hasSectionHeader) {
+        if (!hasSectionHeader && !isExempt) {
           errors.push(
             `Section "${sectionKey}" missing required pattern with type "sectionHeader". ` +
             `Every section must have a sectionHeader pattern.`

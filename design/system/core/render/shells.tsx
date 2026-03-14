@@ -57,6 +57,31 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
     );
   }
 
+  // Apply logoDisplay from pattern props to logo component's display prop
+  const logoDisplay = (pattern.props as any)?.logoDisplay;
+  if (logoDisplay) {
+    const showLogo = logoDisplay !== 'text';
+    const showLogoText = logoDisplay !== 'logo';
+    components = Object.fromEntries(
+      Object.entries(components).map(([key, comp]: [string, any]) => {
+        if (comp.type === 'logo') {
+          return [key, { ...comp, props: { ...comp.props, display: logoDisplay } }];
+        }
+        if (!showLogo && (comp.type === 'image' && key.toLowerCase().includes('logo'))) {
+          return [key, { ...comp, props: { ...comp.props, hidden: true } }];
+        }
+        if (!showLogoText && (
+          comp.type === 'logotext' ||
+          comp.type === 'typography-businessName' ||
+          ((comp.type === 'heading') && (key.includes('businessName') || key.includes('typography-businessName')))
+        )) {
+          return [key, { ...comp, props: { ...comp.props, hidden: true } }];
+        }
+        return [key, comp];
+      })
+    );
+  }
+
   // Container utan padding, full width för navbar/footer
   return (
     <Container
