@@ -110,7 +110,7 @@ export const createLogotextSchema = (locale: SupportedLocale = 'sv'): ComponentS
           required: false,
           default: 'primary',
           editorType: 'segmented',
-          values: ['auto', 'auto-inverse', 'inverse', 'primary', 'secondary', 'inherit'] as const,
+          values: ['auto', 'auto-inverse', 'primary', 'inverse'] as const,
           cmsEnabled: true,
           group: 'appearance',
         },
@@ -137,7 +137,6 @@ export const createLogotextSchema = (locale: SupportedLocale = 'sv'): ComponentS
           required: false,
           default: false,
           editorType: 'toggle',
-          cmsEnabled: true,
           group: 'appearance',
         },
         t.props?.gradient

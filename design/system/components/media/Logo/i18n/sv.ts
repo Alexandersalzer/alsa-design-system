@@ -62,10 +62,8 @@ export const logotextTranslations_sv = {
       valueLabels: {
         auto: 'Auto',
         'auto-inverse': 'Auto+',
-        inverse: 'Inverterad',
         primary: 'Primär',
-        secondary: 'Sekundär',
-        inherit: 'Ärvd',
+        inverse: 'Inverterad',
       },
     },
     font: {
