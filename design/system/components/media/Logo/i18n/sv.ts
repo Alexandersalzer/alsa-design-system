@@ -60,9 +60,11 @@ export const logotextTranslations_sv = {
       displayName: 'Färg',
       description: 'Färgvariant',
       valueLabels: {
+        auto: 'Auto',
+        'auto-inverse': 'Auto+',
+        inverse: 'Inverterad',
         primary: 'Primär',
         secondary: 'Sekundär',
-        inverse: 'Inverterad',
         inherit: 'Ärvd',
       },
     },

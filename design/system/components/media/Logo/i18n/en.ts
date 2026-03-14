@@ -60,9 +60,11 @@ export const logotextTranslations_en = {
       displayName: 'Color',
       description: 'Color variant',
       valueLabels: {
+        auto: 'Auto',
+        'auto-inverse': 'Auto+',
+        inverse: 'Inverse',
         primary: 'Primary',
         secondary: 'Secondary',
-        inverse: 'Inverse',
         inherit: 'Inherit',
       },
     },

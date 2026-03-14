@@ -108,7 +108,7 @@ export const createLogotextSchema = (locale: SupportedLocale = 'sv'): ComponentS
           required: false,
           default: 'primary',
           editorType: 'segmented',
-          values: ['primary', 'secondary', 'inverse', 'inherit'] as const,
+          values: ['auto', 'auto-inverse', 'inverse', 'primary', 'secondary', 'inherit'] as const,
           group: 'appearance',
         },
         t.props?.color
