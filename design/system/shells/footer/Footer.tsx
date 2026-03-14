@@ -4,7 +4,7 @@ import React from 'react';
 import { Section } from '../../components/frames/section';
 import { renderShellPattern } from '../../core/render/shells';
 import { renderLayoutWithTemplate } from '../../core/render/layouts';
-import { Container } from '../../components';
+
 import { SectionNode } from '../../core/types/nodes';
 import { VStack } from '../../components/layout/vStack/VStack';
 import { HStack } from '../../components/layout/hStack/HStack';
@@ -66,15 +66,13 @@ const ALIGN_TO_JUSTIFY: Record<string, string> = {
  * Render a single pattern.
  * If pattern has `layout`, uses renderLayoutWithTemplate (items-based patterns).
  * Otherwise falls back to renderShellPattern (legacy hardcoded patterns).
- * When noContainer is true, skips the Container wrapper (used for inline bottom row).
  */
 function renderPattern(
   pattern: any,
   patternKey: string,
   sectionKey: string,
   logoDisplay: string | undefined,
-  contentAlign?: string,
-  noContainer?: boolean
+  contentAlign?: string
 ): React.ReactNode {
   if (pattern.layout) {
     let components: Record<string, any> = pattern.components || {};
@@ -109,14 +107,11 @@ function renderPattern(
       })),
     };
 
-    const containerAlign =
-      contentAlign === 'start' ? 'left' : contentAlign === 'end' ? 'right' : 'center';
-
     const layoutContext = alignDefault
       ? { forcedAlignment: alignDefault as 'start' | 'center' | 'end' }
       : undefined;
 
-    const content = renderLayoutWithTemplate(
+    return renderLayoutWithTemplate(
       patchedLayout,
       filteredComponents,
       sectionKey,
@@ -125,20 +120,6 @@ function renderPattern(
       undefined,
       undefined,
       layoutContext
-    );
-
-    if (noContainer) return content;
-
-    return (
-      <Container
-        key={patternKey}
-        align={containerAlign as 'left' | 'center' | 'right'}
-        height="auto"
-        noPadding={true}
-        patternKey={patternKey}
-      >
-        {content}
-      </Container>
     );
   }
 
@@ -231,7 +212,7 @@ const Footer = ({ section }: FooterProps) => {
   const lastPatternData = lastPatternKey ? patterns[lastPatternKey] : null;
   const lastPatternLogoDisplay = lastPatternData?.props?.logoDisplay ?? logoDisplay;
   const lastPatternContent = lastPatternKey && lastPatternData
-    ? renderPattern(lastPatternData, lastPatternKey, sectionKey, lastPatternLogoDisplay, contentAlign, true)
+    ? renderPattern(lastPatternData, lastPatternKey, sectionKey, lastPatternLogoDisplay, contentAlign)
     : null;
 
   const bodyPatterns = showMadeByBlimpify ? renderedPatterns.slice(0, -1) : renderedPatterns;
