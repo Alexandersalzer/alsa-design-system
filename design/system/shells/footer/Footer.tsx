@@ -246,7 +246,12 @@ const Footer = ({ section }: FooterProps) => {
       <VStack spacing="xl" align={contentAlign} className="footer__content">
         {bodyPatterns}
         {showMadeByBlimpify && (
-          <HStack spacing="lg" align="center" wrap={true}>
+          <HStack
+            spacing="lg"
+            align="center"
+            wrap={true}
+            justify={contentAlign === 'start' ? 'start' : contentAlign === 'end' ? 'end' : 'center'}
+          >
             {lastPatternContent}
             <div style={{ flexShrink: 0, whiteSpace: 'nowrap' }}>
               <MadeWithBlimpify inverse={isInverse} />
