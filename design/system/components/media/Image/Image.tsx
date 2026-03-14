@@ -528,13 +528,13 @@ export interface LogoImageProps extends Omit<ImageProps, 'objectFit'> {
    * - 'color': Full-color logo, never inverts
    */
   variant?: 'auto' | 'light' | 'dark' | 'color' | 'inverse' | 'auto-inverse';
-  /** Object fit behavior (defaults to contain for logos) */
+  /** Object fit behavior (defaults to cover for logos — fills container, use objectPosition to adjust) */
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
 }
 
 export const LogoImage: React.FC<LogoImageProps> = ({
   variant = 'auto',
-  objectFit = 'contain',
+  objectFit = 'cover',
   className,
   componentKey,
   ...props

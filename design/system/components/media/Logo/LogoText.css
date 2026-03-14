@@ -119,6 +119,21 @@
   color: inherit;
 }
 
+/* auto: dark text in light mode, light text in dark mode (mirrors logo-image--auto behavior) */
+.logo-text--color-auto {
+  color: var(--text-heading-color);
+}
+
+/* auto-inverse: light text in light mode (for dark/inverse backgrounds), dark text in dark mode */
+.logo-text--color-auto-inverse {
+  color: var(--text-inverse);
+}
+
+[data-theme="dark"] .logo-text--color-auto-inverse,
+.dark .logo-text--color-auto-inverse {
+  color: var(--text-heading-color);
+}
+
 /* ===== FONT FAMILY VARIANTS ===== */
 .logo-text--font-brand {
   font-family: var(--font-heading-family);  /* Brand uses heading font */

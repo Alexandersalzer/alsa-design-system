@@ -82,7 +82,7 @@ export interface LogoTextProps {
   /** Letter spacing */
   spacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
   /** Color variant */
-  color?: 'primary' | 'secondary' | 'inverse' | 'inherit';
+  color?: 'primary' | 'secondary' | 'inverse' | 'inherit' | 'auto' | 'auto-inverse';
   /** Font family variant */
   font?: 'brand' | 'heading' | 'body' | 'mono';
   /** Enable gradient text effect */
@@ -174,8 +174,8 @@ export interface BrandNameProps {
   transform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
   /** Letter spacing */
   spacing?: 'normal' | 'tight' | 'wide' | 'wider' | 'widest';
-  /** Color variant */
-  color?: 'primary' | 'secondary' | 'inverse' | 'inherit';
+  /** Color variant. 'auto' = follows theme (inverts in dark mode). 'auto-inverse' = inverted in light, normal in dark. */
+  color?: 'primary' | 'secondary' | 'inverse' | 'inherit' | 'auto' | 'auto-inverse';
   /** Enable gradient */
   gradient?: boolean;
   /** Custom className */
