@@ -95,7 +95,45 @@ export const FormStepper = ({
 
   const totalSteps = stepLabels.length || 1;
   const isLastStep = currentStep === totalSteps;
-  const goNext = () => setCurrentStep(s => Math.min(s + 1, totalSteps));
+
+  const goNext = () => {
+    // Validate all required inputs in the current step before advancing
+    if (formRef.current) {
+      const stepEl = formRef.current.querySelector(`[data-step-index="${currentStep}"]`);
+      if (stepEl) {
+        const inputs = stepEl.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+          'input, select, textarea'
+        );
+        // Check radio groups: if any radio group inside the step has `required`, ensure one is checked
+        const radioGroups = new Map<string, { required: boolean; checked: boolean; firstInput: HTMLInputElement }>();
+        inputs.forEach((input) => {
+          if (input instanceof HTMLInputElement && input.type === 'radio' && input.name) {
+            const existing = radioGroups.get(input.name);
+            const group = existing ?? { required: input.required, checked: false, firstInput: input };
+            if (!existing) radioGroups.set(input.name, group);
+            if (input.checked) group.checked = true;
+            if (input.required) group.required = true;
+          }
+        });
+        for (const [, group] of radioGroups) {
+          if (group.required && !group.checked) {
+            group.firstInput.reportValidity();
+            return;
+          }
+        }
+        // Validate all non-radio inputs in the step
+        for (const input of Array.from(inputs)) {
+          if (input instanceof HTMLInputElement && input.type === 'radio') continue;
+          if (!input.checkValidity()) {
+            input.reportValidity();
+            return;
+          }
+        }
+      }
+    }
+    setCurrentStep(s => Math.min(s + 1, totalSteps));
+  };
+
   const goBack = () => setCurrentStep(s => Math.max(s - 1, 1));
 
   const handleSubmit = async (e: React.FormEvent) => {

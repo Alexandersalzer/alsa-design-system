@@ -38,6 +38,7 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
   // Radio-specific (for form groups)
   name?: string;
   value?: string;
+  required?: boolean;
 
   // Accessibility
   'aria-label'?: string;
@@ -96,6 +97,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   variant = 'neutral',
   name,
   value,
+  required,
   className,
   id: providedId,
   onClick,
@@ -267,6 +269,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
             checked={effectiveSelected}
             onChange={handleInputChange}
             disabled={disabled}
+            required={required}
             tabIndex={-1}
             aria-hidden="true"
             wrapperClassName="selection-card__radio-wrapper"
