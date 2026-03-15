@@ -133,9 +133,9 @@ export function renderSectionLayout({
     !secondColumn.includes(key)
   ) : [];
   
-  // Get remaining patterns (exclude sectionHeader and action patterns that aren't in secondColumn)
+  // Get remaining patterns (exclude sectionHeader, action patterns, and inlineHeaderPattern)
   const otherPatternKeys = order.filter(
-    key => key !== sectionHeaderKey && !actionPatternKeys.includes(key)
+    key => key !== sectionHeaderKey && !actionPatternKeys.includes(key) && key !== inlineHeaderPattern
   );
   
   // Separate firstColumn and secondColumn patterns from other patterns
