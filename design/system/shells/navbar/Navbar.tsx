@@ -115,8 +115,7 @@ const Navbar = ({ section }: NavbarProps) => {
       firstPatternKey,
       patternProps,
       undefined,
-      undefined,
-      { noItemKeys: true }
+      undefined
     );
 
     // Compute mobile logo visibility
@@ -140,8 +139,7 @@ const Navbar = ({ section }: NavbarProps) => {
       firstPatternKey,
       patternProps,
       undefined,
-      undefined,
-      { noItemKeys: true }
+      undefined
     );
 
     return (

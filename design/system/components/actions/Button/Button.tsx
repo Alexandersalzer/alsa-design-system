@@ -144,7 +144,9 @@ export const Button = forwardRef<
     const handleActionClick = async (e: React.MouseEvent) => {
       if (action?.type === 'navigation' && actionHook) {
         e.preventDefault();
-        await actionHook.execute({});
+        // Pass ownerDocument so section/anchor navigation works inside iframe (e.g. editor preview)
+        const targetDoc = (e.currentTarget as HTMLElement).ownerDocument;
+        await actionHook.execute({}, { targetDocument: targetDoc });
         onClick?.(e as any); // Call parent onClick after navigation
         return;
       }

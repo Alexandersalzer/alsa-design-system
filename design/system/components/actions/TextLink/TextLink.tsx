@@ -75,10 +75,11 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
       return;
     }
 
-    // If sectionId is provided, use action system for scrolling
+    // If sectionId is provided, use action system for scrolling (pass ownerDocument for iframe/preview)
     if (sectionId) {
       e.preventDefault();
-      executeAction({});
+      const targetDoc = (e.currentTarget as HTMLElement).ownerDocument;
+      executeAction({}, { targetDocument: targetDoc });
       return;
     }
 
