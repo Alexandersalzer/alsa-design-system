@@ -32,9 +32,30 @@
   width: 100%;
 }
 
-/* Första (aktiva) steget – tydlig accent, bra kontrast */
+/* Första (aktiva) steget – tydlig accent, vit text som accent-knappar */
 .setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger {
   background: var(--surface-accent);
+  color: var(--text-button-accent);
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__title-wrapper,
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__title-wrapper * {
+  color: var(--text-button-accent) !important;
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__start-content,
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__start-content [class*="icon"],
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__start-content svg {
+  color: var(--text-button-accent);
+  fill: none;
+  stroke: currentColor;
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__indicator,
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__indicator svg {
+  color: var(--text-button-accent);
+  fill: none;
+  stroke: currentColor;
 }
 
 /* Kompakt layout – mindre spacing, mindre typografi */

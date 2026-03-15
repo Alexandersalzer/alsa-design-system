@@ -18,7 +18,6 @@ import {
   Icon,
   Box,
   Divider,
-  Tag,
   Progress,
   Label
 } from '../../../components';
@@ -270,19 +269,12 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 title={step.title}
                 className={isActiveStep ? 'setup-guide__step--active' : undefined}
                 startContent={
-                  <HStack spacing="xs" align="center">
-                    <Icon
-                      size="sm"
-                      color={step.completed ? 'success' : 'tertiary'}
-                    >
-                      {step.completed ? <CheckCircleIcon /> : <IconComponent />}
-                    </Icon>
-                    {step.completed && (
-                      <Tag variant="success" size="small">
-                        Klar
-                      </Tag>
-                    )}
-                  </HStack>
+                  <Icon
+                    size="sm"
+                    color={step.completed ? 'success' : 'tertiary'}
+                  >
+                    {step.completed ? <CheckCircleIcon /> : <IconComponent />}
+                  </Icon>
                 }
               >
                 {content}
