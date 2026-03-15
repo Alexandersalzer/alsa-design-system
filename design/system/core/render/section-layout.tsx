@@ -133,9 +133,15 @@ export function renderSectionLayout({
     !secondColumn.includes(key)
   ) : [];
   
-  // Get remaining patterns (exclude sectionHeader, action patterns, and inlineHeaderPattern)
+  // secondColumn takes priority over inlineHeaderPattern — if a pattern is in secondColumn,
+  // don't treat it as the inline slot (it should render in the right column instead)
+  const effectiveInlineHeaderPattern = inlineHeaderPattern && !secondColumn.includes(inlineHeaderPattern)
+    ? inlineHeaderPattern
+    : undefined;
+
+  // Get remaining patterns (exclude sectionHeader, action patterns, and effectiveInlineHeaderPattern)
   const otherPatternKeys = order.filter(
-    key => key !== sectionHeaderKey && !actionPatternKeys.includes(key) && key !== inlineHeaderPattern
+    key => key !== sectionHeaderKey && !actionPatternKeys.includes(key) && key !== effectiveInlineHeaderPattern
   );
   
   // Separate firstColumn and secondColumn patterns from other patterns
@@ -154,13 +160,6 @@ export function renderSectionLayout({
   );
 
   // ===== LAYOUT CONTEXT =====
-  // Helper to get opposite alignment for secondColumn patterns
-  const getOppositeAlign = (align: 'left' | 'center' | 'right'): 'left' | 'center' | 'right' => {
-    if (align === 'left') return 'right';
-    if (align === 'right') return 'left';
-    return 'center'; // center stays center
-  };
-
   // Pass layout context to patterns
   // Note: forcedAlignment (when set) tells section-layout HOW TO PLACE patterns,
   // but does NOT affect how components inside patterns are aligned
@@ -179,11 +178,12 @@ export function renderSectionLayout({
     sectionAnimation,
   };
 
-  // Context for patterns in the second column (uses opposite alignment by default)
-  // When action patterns are in secondColumn, force 'end' alignment for better UX
+  // Context for patterns in the second column
+  // Internal text/components always use 'left' alignment — opposite-align was causing right-aligned
+  // text in features lists and other content patterns placed in the right column.
   // forcedAlignment: 'end' only affects PATTERN PLACEMENT in section, not internal components
   const secondColumnContext = {
-    alignSectionHeader: getOppositeAlign(alignSectionHeader),
+    alignSectionHeader: 'left' as const,
     isInSecondColumn: true,
     verticalAlign,
     sectionAnimation,
@@ -302,7 +302,7 @@ export function renderSectionLayout({
             <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: '0 auto', width: '100%' }}>
               <VStack spacing="lg" align="center">
                 {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                {inlineHeaderPattern && patterns[inlineHeaderPattern] && renderPatternDirect(patterns[inlineHeaderPattern], inlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
+                {effectiveInlineHeaderPattern && patterns[effectiveInlineHeaderPattern] && renderPatternDirect(patterns[effectiveInlineHeaderPattern], effectiveInlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
                 {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, centeredLayoutContext, locale))}
               </VStack>
             </Box>
@@ -664,7 +664,7 @@ export function renderSectionLayout({
                 >
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                    {inlineHeaderPattern && patterns[inlineHeaderPattern] && renderPatternDirect(patterns[inlineHeaderPattern], inlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
+                    {effectiveInlineHeaderPattern && patterns[effectiveInlineHeaderPattern] && renderPatternDirect(patterns[effectiveInlineHeaderPattern], effectiveInlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
                     {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
                   </VStack>
@@ -673,7 +673,7 @@ export function renderSectionLayout({
                 <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                    {inlineHeaderPattern && patterns[inlineHeaderPattern] && renderPatternDirect(patterns[inlineHeaderPattern], inlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
+                    {effectiveInlineHeaderPattern && patterns[effectiveInlineHeaderPattern] && renderPatternDirect(patterns[effectiveInlineHeaderPattern], effectiveInlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
                     {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
                   </VStack>
@@ -695,7 +695,7 @@ export function renderSectionLayout({
                 >
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                    {inlineHeaderPattern && patterns[inlineHeaderPattern] && renderPatternDirect(patterns[inlineHeaderPattern], inlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
+                    {effectiveInlineHeaderPattern && patterns[effectiveInlineHeaderPattern] && renderPatternDirect(patterns[effectiveInlineHeaderPattern], effectiveInlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
                     {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
                   </VStack>
@@ -704,7 +704,7 @@ export function renderSectionLayout({
                 <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
                   <VStack spacing="lg" align="start">
                     {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                    {inlineHeaderPattern && patterns[inlineHeaderPattern] && renderPatternDirect(patterns[inlineHeaderPattern], inlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
+                    {effectiveInlineHeaderPattern && patterns[effectiveInlineHeaderPattern] && renderPatternDirect(patterns[effectiveInlineHeaderPattern], effectiveInlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
                     {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
                     {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
                   </VStack>
