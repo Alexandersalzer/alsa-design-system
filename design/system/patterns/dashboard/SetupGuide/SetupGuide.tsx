@@ -226,7 +226,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 {completedSteps}/{steps.length} steg
               </Label>
               <Box className="setup-guide__progress-inline">
-                <Progress value={progress} size="xs" rounded animated />
+                <Progress value={progress} size="sm" color="accent" rounded animated />
               </Box>
             </HStack>
           )}

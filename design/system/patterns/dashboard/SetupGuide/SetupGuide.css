@@ -32,9 +32,9 @@
   width: 100%;
 }
 
-/* Första (aktiva) steget – riktig accentbakgrund, ingen kant */
+/* Första (aktiva) steget – tydlig accent, bra kontrast */
 .setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger {
-  background: var(--surface-accent-muted);
+  background: var(--surface-accent);
 }
 
 /* Kompakt layout – mindre spacing, mindre typografi */
@@ -47,12 +47,21 @@
 }
 
 .setup-guide__progress-inline {
-  width: 56px;
-  min-width: 56px;
+  width: 72px;
+  min-width: 72px;
 }
 
 .setup-guide__progress-inline .progress-wrapper {
   width: 100%;
+}
+
+/* Progressbar tydligare – mörkare accent, bättre kontrast */
+.setup-guide__progress-inline .progress__indicator {
+  background-color: var(--interactive-accent);
+}
+
+.setup-guide__progress-inline .progress {
+  background-color: var(--border-subtle);
 }
 
 .setup-guide--compact .setup-guide__cta-one {
