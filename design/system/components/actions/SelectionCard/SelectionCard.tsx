@@ -129,6 +129,19 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     return () => { group.listeners.delete(listener); };
   }, [isControlled, indicator, name]);
 
+  // Listen for externally-dispatched radio change events (e.g. from DatePicker sync)
+  // so the registry and visual state stay in sync even when changed programmatically
+  useEffect(() => {
+    if (isControlled || indicator !== 'radio' || !name) return;
+    const handleExternalChange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (target.type !== 'radio' || target.name !== name || !target.checked) return;
+      getOrCreateGroup(name).select(target.value ?? '');
+    };
+    document.addEventListener('change', handleExternalChange);
+    return () => document.removeEventListener('change', handleExternalChange);
+  }, [isControlled, indicator, name]);
+
   // Resolve final selected state
   let selected: boolean;
   if (isControlled) {

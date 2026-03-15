@@ -155,6 +155,59 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
     return () => document.removeEventListener('change', handleChange);
   }, [linkedRadioName, state]);
 
+  // Sync datePicker value → linked radio shortcut
+  // When user picks a date directly, select the matching shortcut radio (today/tomorrow/in2days/in3days)
+  // or deselect all shortcuts if the date doesn't match any offset
+  const prevDateRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!linkedRadioName) return;
+    const dateValue = state.dateValue;
+    if (!dateValue) return;
+
+    const tz = getLocalTimeZone();
+    const base = today(tz);
+    const offsets: Record<string, number> = { today: 0, tomorrow: 1, in2days: 2, in3days: 3 };
+
+    // Find which shortcut value matches the selected date
+    let matchingValue: string | null = null;
+    for (const [key, offset] of Object.entries(offsets)) {
+      const candidate = base.add({ days: offset });
+      if (
+        candidate.year === dateValue.year &&
+        candidate.month === dateValue.month &&
+        candidate.day === dateValue.day
+      ) {
+        matchingValue = key;
+        break;
+      }
+    }
+
+    const dateKey = `${dateValue.year}-${dateValue.month}-${dateValue.day}`;
+    if (prevDateRef.current === dateKey) return;
+    prevDateRef.current = dateKey;
+
+    // Find all radio inputs in the linked group and update accordingly
+    const radios = document.querySelectorAll<HTMLInputElement>(
+      `input[type="radio"][name="${linkedRadioName}"]`
+    );
+    radios.forEach((radio) => {
+      const shouldBeChecked = radio.value === matchingValue;
+      if (radio.checked !== shouldBeChecked) {
+        // Use Object.getOwnPropertyDescriptor to set native checked without React override
+        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+          window.HTMLInputElement.prototype,
+          'checked'
+        )?.set;
+        if (nativeInputValueSetter) {
+          nativeInputValueSetter.call(radio, shouldBeChecked);
+          if (shouldBeChecked) {
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      }
+    });
+  }, [linkedRadioName, state.dateValue]);
+
   const { groupProps, labelProps, fieldProps, buttonProps, dialogProps } = useDatePicker(
     {
       ...props,
