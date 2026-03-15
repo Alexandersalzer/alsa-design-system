@@ -386,7 +386,7 @@ export const MenuRoot = <T extends object>({
                   key={item.itemKey || i}
                   itemKey={item.itemKey || String(i)}
                   disabled={item.disabled}
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     if (itemHref) {
                       const targetDoc = (e.currentTarget as HTMLElement).ownerDocument;
                       const targetWin = targetDoc.defaultView ?? window;
@@ -595,7 +595,7 @@ export interface MenuItemProps {
   value?: string;
   disabled?: boolean;
   closeOnSelect?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   onAction?: () => void;
   /** Icon or content to display before the item */
   startContent?: ReactNode;
@@ -660,7 +660,7 @@ export const MenuItem = ({
   const shouldAnimateItem = animateItems && !disableAnimation && animationVariant !== 'none';
   const animationDelay = shouldAnimateItem ? myIndex * itemStagger : 0;
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
     if (isDisabled) return;
 
     // Close menu first if closeOnSelect is enabled (before calling onClick)
@@ -688,7 +688,7 @@ export const MenuItem = ({
     }
 
     // Handle actions
-    onClick?.();
+    onClick?.(e);
     onAction?.();
     if (finalItemKey) {
       rootOnAction?.(finalItemKey);
