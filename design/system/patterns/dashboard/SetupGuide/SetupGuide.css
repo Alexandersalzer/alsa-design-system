@@ -27,6 +27,11 @@
   min-width: 0;
 }
 
+/* Knappen i varje expanderad panel (Öppna editorn, Redigera SEO, etc.) – full bredd */
+.setup-guide__step-action {
+  width: 100%;
+}
+
 /* Kompakt layout – mindre spacing, mindre typografi */
 .setup-guide--compact {
   --setup-guide-spacing: var(--foundation-space-md);

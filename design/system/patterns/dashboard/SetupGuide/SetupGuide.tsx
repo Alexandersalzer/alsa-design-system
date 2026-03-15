@@ -254,6 +254,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                     variant="accent"
                     size="sm"
                     onClick={() => handleNavigate(step.href)}
+                    className="setup-guide__step-action"
                   >
                     {step.buttonLabel ?? 'Gå till'}
                   </Button>
