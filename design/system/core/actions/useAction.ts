@@ -93,11 +93,12 @@ export function useAction(config: ActionConfig) {
         return { success: true };
       }
       
-      // External navigation
+      // External navigation — when inside an iframe (e.g. editor preview), use top window so the link actually opens (sandbox may block iframe's open/location)
+      const win = targetWin !== window ? (targetWin as Window & { top?: Window }).top ?? window : targetWin;
       if (navConfig.settings.openInNewTab) {
-        targetWin.open(localeAwareHref, '_blank', 'noopener,noreferrer');
+        win.open(localeAwareHref, '_blank', 'noopener,noreferrer');
       } else {
-        targetWin.location.href = localeAwareHref;
+        win.location.href = localeAwareHref;
       }
       
       // Trigger pixel events from settings (if any)

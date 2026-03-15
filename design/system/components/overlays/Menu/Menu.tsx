@@ -396,7 +396,9 @@ export const MenuRoot = <T extends object>({
                       } else if (itemHref.startsWith('/')) {
                         router.push(itemHref);
                       } else {
-                        targetWin.location.href = itemHref;
+                        // External link — use top window when in iframe (e.g. editor preview) so it opens
+                        const win = targetWin !== window ? (targetWin as Window & { top?: Window }).top ?? window : targetWin;
+                        win.location.href = itemHref;
                       }
                     }
                   }}
