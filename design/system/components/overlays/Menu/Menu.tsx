@@ -386,15 +386,17 @@ export const MenuRoot = <T extends object>({
                   key={item.itemKey || i}
                   itemKey={item.itemKey || String(i)}
                   disabled={item.disabled}
-                  onClick={() => {
+                  onClick={(e) => {
                     if (itemHref) {
+                      const targetDoc = (e.currentTarget as HTMLElement).ownerDocument;
+                      const targetWin = targetDoc.defaultView ?? window;
                       if (itemHref.startsWith('#')) {
-                        const element = document.getElementById(itemHref.slice(1));
+                        const element = targetDoc.getElementById(itemHref.slice(1));
                         element?.scrollIntoView({ behavior: 'smooth' });
                       } else if (itemHref.startsWith('/')) {
                         router.push(itemHref);
                       } else {
-                        window.location.href = itemHref;
+                        targetWin.location.href = itemHref;
                       }
                     }
                   }}

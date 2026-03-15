@@ -20,7 +20,11 @@ export function useAction(config: ActionConfig) {
   const router = useRouter();
   const { buildHref } = useHref();
 
-  const execute = async (data: Record<string, any>) => {
+  /** Optional targetDocument: when content is rendered inside an iframe (e.g. editor preview), pass the iframe document so getElementById/scroll work in the correct document */
+  const execute = async (data: Record<string, any>, options?: { targetDocument?: Document }) => {
+    const targetDoc = options?.targetDocument ?? document;
+    const targetWin = targetDoc.defaultView ?? window;
+
     // Reset states
     setLoading(true);
     setSuccess(false);
@@ -34,7 +38,7 @@ export function useAction(config: ActionConfig) {
       
       // Handle section navigation (scroll to section on same page)
       if (sectionId) {
-        const sectionElement = document.getElementById(sectionId);
+        const sectionElement = targetDoc.getElementById(sectionId);
         if (sectionElement) {
           sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
           setLoading(false);
@@ -64,16 +68,16 @@ export function useAction(config: ActionConfig) {
         return { success: false, error: 'Navigation target missing' };
       }
       
-      // Scroll to top if specified
+      // Scroll to top if specified (use target window when in iframe)
       if (navConfig.settings.scrollToTop !== false) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        targetWin.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       // Internal navigation (Next.js)
       if (localeAwareHref.startsWith('/') || localeAwareHref.startsWith('#')) {
         if (localeAwareHref.startsWith('#')) {
-          // Anchor link
-          const element = document.querySelector(localeAwareHref);
+          // Anchor link — resolve in target document (iframe when in editor preview)
+          const element = targetDoc.querySelector(localeAwareHref);
           element?.scrollIntoView({ behavior: 'smooth' });
         } else {
           router.push(localeAwareHref);
@@ -91,9 +95,9 @@ export function useAction(config: ActionConfig) {
       
       // External navigation
       if (navConfig.settings.openInNewTab) {
-        window.open(localeAwareHref, '_blank', 'noopener,noreferrer');
+        targetWin.open(localeAwareHref, '_blank', 'noopener,noreferrer');
       } else {
-        window.location.href = localeAwareHref;
+        targetWin.location.href = localeAwareHref;
       }
       
       // Trigger pixel events from settings (if any)
