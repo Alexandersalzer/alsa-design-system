@@ -17,7 +17,6 @@ import {
   Button,
   Icon,
   Box,
-  Divider,
   Progress,
   Label
 } from '../../../components';
@@ -212,8 +211,6 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
 
   return (
     <div className={`setup-guide setup-guide--accordion ${className ?? ''}`}>
-      <Divider className="setup-guide__divider" />
-
       <VStack spacing="md">
         <HStack spacing="sm" justify="between" align="center" wrap>
           <Label size="sm" weight="semibold" color="secondary">
@@ -267,7 +264,10 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 key={step.key}
                 itemKey={step.key}
                 title={step.title}
-                className={isActiveStep ? 'setup-guide__step--active' : undefined}
+                className={[
+                  isActiveStep && 'setup-guide__step--active',
+                  step.completed && 'setup-guide__step--completed',
+                ].filter(Boolean).join(' ') || undefined}
                 startContent={
                   <Icon
                     size="sm"

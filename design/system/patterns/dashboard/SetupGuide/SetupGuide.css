@@ -58,6 +58,28 @@
   stroke: currentColor;
 }
 
+/* Klara steg – grön check, grå/överstruken titel så de inte känns aktuella */
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__title-wrapper,
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__title-wrapper * {
+  color: var(--text-tertiary) !important;
+  text-decoration: line-through;
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__start-content,
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__start-content [class*="icon"],
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__start-content svg {
+  color: var(--icon-success) !important;
+  fill: none;
+  stroke: currentColor;
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__indicator,
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__indicator svg {
+  color: var(--text-tertiary);
+  fill: none;
+  stroke: currentColor;
+}
+
 /* Kompakt layout – mindre spacing, mindre typografi */
 .setup-guide--compact {
   --setup-guide-spacing: var(--foundation-space-md);
