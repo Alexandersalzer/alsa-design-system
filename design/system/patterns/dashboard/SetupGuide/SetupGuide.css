@@ -32,6 +32,19 @@
   width: 100%;
 }
 
+/* Första (aktiva) steget – diskret accent så det känns visuellt aktivt, utan glow/gradient */
+.setup-guide--accordion .accordion-item.setup-guide__step--active {
+  border-left: 3px solid var(--interactive-accent);
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger {
+  background: var(--surface-accent-subtle);
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--active.accordion-item--expanded .accordion-item__trigger {
+  background: var(--surface-accent-muted);
+}
+
 /* Kompakt layout – mindre spacing, mindre typografi */
 .setup-guide--compact {
   --setup-guide-spacing: var(--foundation-space-md);

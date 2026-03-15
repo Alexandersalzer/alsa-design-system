@@ -243,6 +243,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
         >
           {sortedSteps.map((step) => {
             const IconComponent = step.icon;
+            const isActiveStep = step.key === firstIncomplete?.key && !step.completed;
             const customContent = renderStepContent?.(step);
             const content = customContent ?? (
               <VStack spacing="sm" align="stretch">
@@ -267,6 +268,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                 key={step.key}
                 itemKey={step.key}
                 title={step.title}
+                className={isActiveStep ? 'setup-guide__step--active' : undefined}
                 startContent={
                   <HStack spacing="xs" align="center">
                     <Icon
