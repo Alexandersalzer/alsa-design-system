@@ -32,16 +32,8 @@
   width: 100%;
 }
 
-/* Första (aktiva) steget – diskret accent så det känns visuellt aktivt, utan glow/gradient */
-.setup-guide--accordion .accordion-item.setup-guide__step--active {
-  border-left: 3px solid var(--interactive-accent);
-}
-
+/* Första (aktiva) steget – riktig accentbakgrund, ingen kant */
 .setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger {
-  background: var(--surface-accent-subtle);
-}
-
-.setup-guide--accordion .accordion-item.setup-guide__step--active.accordion-item--expanded .accordion-item__trigger {
   background: var(--surface-accent-muted);
 }
 
