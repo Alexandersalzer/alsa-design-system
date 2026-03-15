@@ -360,7 +360,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
                 onChange={(newValue) => state.setValue(newValue as any)}
                 focusedValue={state.dateValue as any}
                 size={size}
-                minValue={minValue}
+                minValue={effectiveMinValue ?? minValue}
                 maxValue={maxValue}
                 visibleMonths={visibleMonths}
                 showMonthAndYearPickers={showMonthAndYearPickers && visibleMonths === 1}
