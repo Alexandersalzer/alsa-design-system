@@ -13,14 +13,14 @@ import {
   Card,
   CardContent,
   H2,
-  H3,
   Body,
   Button,
   Icon,
   Box,
   Divider,
   Tag,
-  Progress
+  Progress,
+  Label
 } from '../../../components';
 import { Listbox, ListboxItem } from '../../../components/lists/Listbox';
 import {
@@ -205,74 +205,77 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
     return null;
   }
 
-  // Visa setup-guide
+  // Kompakt setup-guide: en rad header + progress, små stegrader
+  const firstIncomplete = sortedSteps.find(s => !s.completed);
+
   return (
-    <div className={className}>
-      {/* Visuell separator */}
-      <Divider/>
+    <div className={`setup-guide setup-guide--compact ${className ?? ''}`}>
+      <Divider className="setup-guide__divider" />
 
-      <VStack spacing="xl">
-        {/* Header */}
-        <HStack spacing="sm" justify='between'>
-          <H3>Kom igång med Blimpify</H3>
-
-          {/* Kom igång-knapp - visas endast när "Kom igång"-steget (overview) inte är avklarat */}
-          {sortedSteps.length > 0 && !sortedSteps[0].completed && (
-              <Box>
-                <Button
-                  variant="accent"
-                  onClick={() => handleNavigate(sortedSteps[0].href)}
-                >
-                  <HStack spacing="sm" align="center">
-                    <Icon size="lg">
-                      {(() => {
-                        const FirstStepIcon = sortedSteps[0].icon;
-                        return <FirstStepIcon />;
-                      })()}
-                    </Icon>
-                    <span>{sortedSteps[0].buttonLabel ?? 'Kom igång'}</span>
-                  </HStack>
-                </Button>
+      <VStack spacing="md">
+        {/* Header: titel + progress på en rad */}
+        <HStack spacing="sm" justify="between" align="center" wrap>
+          <Label size="sm" weight="semibold" color="secondary">
+            Kom igång
+          </Label>
+          {progress < 100 && (
+            <HStack spacing="sm" align="center">
+              <Label size="xs" color="tertiary">
+                {completedSteps}/{steps.length} steg
+              </Label>
+              <Box className="setup-guide__progress-inline">
+                <Progress
+                  value={progress}
+                  size="xs"
+                  rounded
+                  animated
+                />
               </Box>
-            )}
+            </HStack>
+          )}
         </HStack>
 
-        {/* Progress Section */}
-        {progress < 100 && (
-          <VStack spacing="sm">
-            <Progress
-              value={progress}
-              label={`${getPhaseText(phase)} • ${completedSteps}/${steps.length} steg klara`}
-              showValue={true}
-              size="md"
-              rounded
-              animated
-            />
-          </VStack>
+        {/* En CTA för nästa steg – kompakt */}
+        {firstIncomplete && (
+          <Button
+            variant="accent"
+            size="sm"
+            onClick={() => handleNavigate(firstIncomplete.href)}
+            className="setup-guide__cta-one"
+          >
+            <HStack spacing="xs" align="center">
+              <Icon size="sm">
+                {(() => {
+                  const FirstIcon = firstIncomplete.icon;
+                  return <FirstIcon />;
+                })()}
+              </Icon>
+              <span>{firstIncomplete.buttonLabel ?? 'Gå till steg'}</span>
+            </HStack>
+          </Button>
         )}
 
-        {/* Steps - Using Listbox for better accessibility */}
+        {/* Kompakt steglista – bara titel + action */}
         <Listbox
-          variant="separated"
-          size="md"
-          spacing="md"
+          variant="default"
+          size="sm"
+          spacing="xs"
           role="list"
+          className="setup-guide__list"
         >
-          {sortedSteps.map((step, index) => {
+          {sortedSteps.map((step) => {
             const IconComponent = step.icon;
-            const isFirstIncomplete = index === 0 && !step.completed;
-
             return (
               <ListboxItem
                 key={step.key}
-                size="lg"
+                size="sm"
                 onClick={!step.completed ? () => handleNavigate(step.href) : undefined}
                 disabled={step.completed}
                 aria-label={`${step.title}: ${step.description}`}
                 leading={
                   <Icon
-                    size="lg"
-                    color={step.completed ? 'success' : 'accent'}
+                    size="sm"
+                    color={step.completed ? 'success' : 'tertiary'}
                   >
                     {step.completed ? <CheckCircleIcon /> : <IconComponent />}
                   </Icon>
@@ -284,7 +287,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                     </Tag>
                   ) : (
                     <Button
-                      variant="accent"
+                      variant="ghost"
                       size="sm"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -296,12 +299,9 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
                   )
                 }
               >
-                <VStack spacing="xs" align="start">
-                  <H3>{step.title}</H3>
-                  <Body size="sm" color="secondary">
-                    {step.description}
-                  </Body>
-                </VStack>
+                <Label size="sm" color={step.completed ? 'secondary' : 'primary'}>
+                  {step.title}
+                </Label>
               </ListboxItem>
             );
           })}

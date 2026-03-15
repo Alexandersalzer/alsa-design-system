@@ -3,6 +3,32 @@
    Styling för SetupGuide-komponenten
    =============================================== */
 
+/* Kompakt layout – mindre spacing, mindre typografi */
+.setup-guide--compact {
+  --setup-guide-spacing: var(--foundation-space-md);
+}
+
+.setup-guide--compact .setup-guide__divider {
+  margin-bottom: var(--foundation-space-3);
+}
+
+.setup-guide__progress-inline {
+  width: 56px;
+  min-width: 56px;
+}
+
+.setup-guide__progress-inline .progress-wrapper {
+  width: 100%;
+}
+
+.setup-guide--compact .setup-guide__cta-one {
+  width: 100%;
+}
+
+.setup-guide--compact .setup-guide__list {
+  margin-top: 0;
+}
+
 /* Completion celebration section */
 .setup-guide__celebration {
   padding: var(--foundation-space-8);
