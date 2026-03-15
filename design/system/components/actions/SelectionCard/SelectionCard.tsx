@@ -138,8 +138,22 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
       if (target.type !== 'radio' || target.name !== name || !target.checked) return;
       getOrCreateGroup(name).select(target.value ?? '');
     };
+    // Listen for clear events (e.g. datepicker selected a date with no matching shortcut)
+    const handleGroupClear = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { name?: string };
+      if (detail?.name !== name) return;
+      const group = radioGroupRegistry[name];
+      if (group) {
+        group.selected = null;
+        group.listeners.forEach(fn => fn(null));
+      }
+    };
     document.addEventListener('change', handleExternalChange);
-    return () => document.removeEventListener('change', handleExternalChange);
+    document.addEventListener('radiogroup-clear', handleGroupClear);
+    return () => {
+      document.removeEventListener('change', handleExternalChange);
+      document.removeEventListener('radiogroup-clear', handleGroupClear);
+    };
   }, [isControlled, indicator, name]);
 
   // Resolve final selected state

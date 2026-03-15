@@ -75,6 +75,16 @@ export interface DatePickerProps {
   id?: string;
   /** Name of a radio group whose values map to date offsets: 'today', 'tomorrow', 'in2days', 'in3days' */
   linkedRadioName?: string;
+  /**
+   * When true, disables all past dates. If lastTimeSlot is also set,
+   * today is disabled once the current time is past that slot (e.g. "17:00").
+   */
+  disablePastDates?: boolean;
+  /**
+   * "HH:MM" string of the last available time slot.
+   * When the current time is past this, today is also disabled.
+   */
+  lastTimeSlot?: string;
 }
 
 // ===============================================
@@ -117,15 +127,34 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   onChange,
   id,
   linkedRadioName,
+  disablePastDates,
+  lastTimeSlot,
   ...props
 }, ref) => {
   const { locale } = useLocale();
+
+  // Compute effective minValue from disablePastDates + lastTimeSlot
+  const effectiveMinValue = React.useMemo(() => {
+    if (!disablePastDates) return minValue;
+    const tz = getLocalTimeZone();
+    const todayDate = today(tz);
+    if (lastTimeSlot) {
+      const [hours, minutes] = lastTimeSlot.split(':').map(Number);
+      const now = new Date();
+      const isPastLastSlot = now.getHours() > hours || (now.getHours() === hours && now.getMinutes() >= minutes);
+      if (isPastLastSlot) {
+        // Today is fully booked — earliest is tomorrow
+        return todayDate.add({ days: 1 });
+      }
+    }
+    return todayDate;
+  }, [disablePastDates, lastTimeSlot, minValue]);
 
   const state = useDatePickerState({
     value: value as any,
     defaultValue: defaultValue as any,
     placeholderValue: placeholderValue as any,
-    minValue: minValue as any,
+    minValue: (effectiveMinValue ?? minValue) as any,
     maxValue: maxValue as any,
     granularity,
     hideTimeZone,
@@ -190,22 +219,34 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
     const radios = document.querySelectorAll<HTMLInputElement>(
       `input[type="radio"][name="${linkedRadioName}"]`
     );
-    radios.forEach((radio) => {
-      const shouldBeChecked = radio.value === matchingValue;
-      if (radio.checked !== shouldBeChecked) {
-        // Use Object.getOwnPropertyDescriptor to set native checked without React override
-        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-          window.HTMLInputElement.prototype,
-          'checked'
-        )?.set;
-        if (nativeInputValueSetter) {
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      'checked'
+    )?.set;
+
+    if (matchingValue) {
+      // Select the matching shortcut radio
+      radios.forEach((radio) => {
+        const shouldBeChecked = radio.value === matchingValue;
+        if (radio.checked !== shouldBeChecked && nativeInputValueSetter) {
           nativeInputValueSetter.call(radio, shouldBeChecked);
           if (shouldBeChecked) {
             radio.dispatchEvent(new Event('change', { bubbles: true }));
           }
         }
-      }
-    });
+      });
+    } else {
+      // No shortcut matches — deselect all radios in the group and notify SelectionCard registry
+      radios.forEach((radio) => {
+        if (radio.checked && nativeInputValueSetter) {
+          nativeInputValueSetter.call(radio, false);
+        }
+      });
+      // Dispatch a custom event so SelectionCard registry clears the group
+      document.dispatchEvent(
+        new CustomEvent('radiogroup-clear', { detail: { name: linkedRadioName }, bubbles: true })
+      );
+    }
   }, [linkedRadioName, state.dateValue]);
 
   const { groupProps, labelProps, fieldProps, buttonProps, dialogProps } = useDatePicker(
@@ -218,6 +259,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
       isReadOnly,
       isRequired,
       autoFocus,
+      minValue: (effectiveMinValue ?? minValue) as any,
     },
     state,
     triggerRef
