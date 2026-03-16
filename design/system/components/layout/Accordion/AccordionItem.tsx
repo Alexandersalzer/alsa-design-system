@@ -59,50 +59,64 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
     }
   };
 
-  // Dynamic maxHeight calculation based on content - like the HTML/CSS version
+  const setContentHeight = React.useCallback((el: HTMLDivElement, height: number) => {
+    const rootStyle = getComputedStyle(document.documentElement);
+    const paddingTopValue = rootStyle.getPropertyValue('--foundation-space-2').trim() || '8px';
+    const paddingBottomValue = rootStyle.getPropertyValue('--foundation-space-4').trim() || '16px';
+    el.style.maxHeight = height + 'px';
+    el.style.paddingTop = paddingTopValue;
+    el.style.paddingBottom = paddingBottomValue;
+  }, []);
+
+  // Dynamic maxHeight calculation based on content; ResizeObserver uppdaterar när innehållet växer (t.ex. när status visas)
   useEffect(() => {
     const contentEl = contentRef.current;
     if (!contentEl) return;
 
     if (isExpanded) {
-      // Get computed style to read CSS variables from root
       const rootStyle = getComputedStyle(document.documentElement);
       const paddingTopValue = rootStyle.getPropertyValue('--foundation-space-2').trim() || '8px';
       const paddingBottomValue = rootStyle.getPropertyValue('--foundation-space-4').trim() || '16px';
 
-      // Set expanded state immediately without measuring first
       contentEl.style.transition = 'none';
       contentEl.style.paddingTop = paddingTopValue;
       contentEl.style.paddingBottom = paddingBottomValue;
       contentEl.style.maxHeight = 'none';
       contentEl.style.overflow = 'visible';
 
-      // Force reflow and measure
       void contentEl.offsetHeight;
       const height = contentEl.scrollHeight;
 
-      // Reset overflow back to hidden for animation
       contentEl.style.overflow = 'hidden';
       contentEl.style.maxHeight = '0';
       contentEl.style.opacity = '0';
       contentEl.style.transform = 'translateY(-10px)';
 
-      // Force reflow
       void contentEl.offsetHeight;
-
-      // Re-enable transitions
       contentEl.style.transition = '';
 
-      // Animate to full height with a small delay
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          contentEl.style.maxHeight = height + 'px';
+          setContentHeight(contentEl, height);
           contentEl.style.opacity = '1';
           contentEl.style.transform = 'translateY(0)';
-          contentEl.style.paddingTop = paddingTopValue;
-          contentEl.style.paddingBottom = paddingBottomValue;
         });
       });
+
+      const updateHeight = () => {
+        requestAnimationFrame(() => {
+          const newHeight = contentEl.scrollHeight;
+          if (newHeight > 0) setContentHeight(contentEl, newHeight);
+        });
+      };
+      const ro = new ResizeObserver(updateHeight);
+      ro.observe(contentEl);
+      const mo = new MutationObserver(updateHeight);
+      mo.observe(contentEl, { childList: true, subtree: true });
+      return () => {
+        ro.disconnect();
+        mo.disconnect();
+      };
     } else {
       contentEl.style.maxHeight = '0';
       contentEl.style.opacity = '0';
@@ -111,7 +125,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       contentEl.style.paddingBottom = '0';
       contentEl.style.overflow = 'hidden';
     }
-  }, [isExpanded]);
+  }, [isExpanded, setContentHeight]);
 
   // Default indicator icon (chevron)
   const defaultIndicator = <ChevronDownIcon />;
