@@ -57,11 +57,12 @@ export const createLogotextSchema = (locale: SupportedLocale = 'sv'): ComponentS
           default: 'lg',
           editorType: 'select',
           values: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const,
+          cmsEnabled: true,
           group: 'appearance',
         },
         t.props?.size
       ),
-      
+
       weight: createLocalizedProp(
         {
           name: 'weight',
@@ -70,11 +71,12 @@ export const createLogotextSchema = (locale: SupportedLocale = 'sv'): ComponentS
           default: 'extrabold',
           editorType: 'select',
           values: ['normal', 'medium', 'semibold', 'bold', 'extrabold', 'black'] as const,
+          cmsEnabled: true,
           group: 'appearance',
         },
         t.props?.weight
       ),
-      
+
       transform: createLocalizedProp(
         {
           name: 'transform',
@@ -87,7 +89,7 @@ export const createLogotextSchema = (locale: SupportedLocale = 'sv'): ComponentS
         },
         t.props?.transform
       ),
-      
+
       spacing: createLocalizedProp(
         {
           name: 'spacing',
@@ -100,7 +102,7 @@ export const createLogotextSchema = (locale: SupportedLocale = 'sv'): ComponentS
         },
         t.props?.spacing
       ),
-      
+
       color: createLocalizedProp(
         {
           name: 'color',
@@ -108,12 +110,13 @@ export const createLogotextSchema = (locale: SupportedLocale = 'sv'): ComponentS
           required: false,
           default: 'primary',
           editorType: 'segmented',
-          values: ['primary', 'secondary', 'inverse', 'inherit'] as const,
+          values: ['auto', 'auto-inverse', 'primary', 'inverse'] as const,
+          cmsEnabled: true,
           group: 'appearance',
         },
         t.props?.color
       ),
-      
+
       font: createLocalizedProp(
         {
           name: 'font',
@@ -126,7 +129,7 @@ export const createLogotextSchema = (locale: SupportedLocale = 'sv'): ComponentS
         },
         t.props?.font
       ),
-      
+
       gradient: createLocalizedProp(
         {
           name: 'gradient',

@@ -4,7 +4,7 @@ import React from 'react';
 import { Section } from '../../components/frames/section';
 import { renderShellPattern } from '../../core/render/shells';
 import { renderLayoutWithTemplate } from '../../core/render/layouts';
-import { Container } from '../../components';
+
 import { SectionNode } from '../../core/types/nodes';
 import { VStack } from '../../components/layout/vStack/VStack';
 import { HStack } from '../../components/layout/hStack/HStack';
@@ -54,7 +54,7 @@ function filterByLogoDisplay(
 
 /**
  * Map contentAlign values to hstack justify and vstack align values.
- * Only applied as a default — layouts that already declare justify/align keep theirs.
+ * Section-level contentAlign always wins over pattern-level align/justify.
  */
 const ALIGN_TO_JUSTIFY: Record<string, string> = {
   start: 'start',
@@ -66,15 +66,13 @@ const ALIGN_TO_JUSTIFY: Record<string, string> = {
  * Render a single pattern.
  * If pattern has `layout`, uses renderLayoutWithTemplate (items-based patterns).
  * Otherwise falls back to renderShellPattern (legacy hardcoded patterns).
- * When noContainer is true, skips the Container wrapper (used for inline bottom row).
  */
 function renderPattern(
   pattern: any,
   patternKey: string,
   sectionKey: string,
   logoDisplay: string | undefined,
-  contentAlign?: string,
-  noContainer?: boolean
+  contentAlign?: string
 ): React.ReactNode {
   if (pattern.layout) {
     let components: Record<string, any> = pattern.components || {};
@@ -86,16 +84,18 @@ function renderPattern(
 
     const filteredComponents = filterByLogoDisplay(components, logoDisplay);
 
-    // Apply contentAlign as a default to the root layout if it has no explicit alignment set.
-    // hstack: inject into `justify` only if not already set.
-    // vstack: inject into `align` only if not already set.
+    // Apply contentAlign — section-level alignment always overrides pattern-level.
+    // hstack: force `justify`. vstack: force `align`.
+    // Also always enable wrap on hstack so links never break mid-word on mobile.
     const layoutType = pattern.layout.type;
     const alignDefault = contentAlign ? ALIGN_TO_JUSTIFY[contentAlign] : undefined;
     const alignPatch =
-      alignDefault && layoutType === 'hstack' && !pattern.layout.justify
-        ? { justify: alignDefault }
-        : alignDefault && layoutType === 'vstack' && !pattern.layout.align
+      alignDefault && layoutType === 'hstack'
+        ? { justify: alignDefault, wrap: pattern.layout.wrap ?? true }
+        : alignDefault && layoutType === 'vstack'
         ? { align: alignDefault }
+        : layoutType === 'hstack'
+        ? { wrap: pattern.layout.wrap ?? true }
         : {};
 
     const patchedLayout = {
@@ -109,14 +109,11 @@ function renderPattern(
       })),
     };
 
-    const containerAlign =
-      contentAlign === 'start' ? 'left' : contentAlign === 'end' ? 'right' : 'center';
-
     const layoutContext = alignDefault
       ? { forcedAlignment: alignDefault as 'start' | 'center' | 'end' }
       : undefined;
 
-    const content = renderLayoutWithTemplate(
+    return renderLayoutWithTemplate(
       patchedLayout,
       filteredComponents,
       sectionKey,
@@ -125,20 +122,6 @@ function renderPattern(
       undefined,
       undefined,
       layoutContext
-    );
-
-    if (noContainer) return content;
-
-    return (
-      <Container
-        key={patternKey}
-        align={containerAlign as 'left' | 'center' | 'right'}
-        height="auto"
-        noPadding={true}
-        patternKey={patternKey}
-      >
-        {content}
-      </Container>
     );
   }
 
@@ -231,7 +214,7 @@ const Footer = ({ section }: FooterProps) => {
   const lastPatternData = lastPatternKey ? patterns[lastPatternKey] : null;
   const lastPatternLogoDisplay = lastPatternData?.props?.logoDisplay ?? logoDisplay;
   const lastPatternContent = lastPatternKey && lastPatternData
-    ? renderPattern(lastPatternData, lastPatternKey, sectionKey, lastPatternLogoDisplay, contentAlign, true)
+    ? renderPattern(lastPatternData, lastPatternKey, sectionKey, lastPatternLogoDisplay, contentAlign)
     : null;
 
   const bodyPatterns = showMadeByBlimpify ? renderedPatterns.slice(0, -1) : renderedPatterns;
@@ -246,9 +229,16 @@ const Footer = ({ section }: FooterProps) => {
       <VStack spacing="xl" align={contentAlign} className="footer__content">
         {bodyPatterns}
         {showMadeByBlimpify && (
-          <HStack spacing="lg" align="center">
+          <HStack
+            spacing="lg"
+            align="center"
+            wrap={true}
+            justify={contentAlign === 'start' ? 'start' : contentAlign === 'end' ? 'end' : 'center'}
+          >
             {lastPatternContent}
-            <MadeWithBlimpify inverse={isInverse} />
+            <div style={{ flexShrink: 0, whiteSpace: 'nowrap' }}>
+              <MadeWithBlimpify inverse={isInverse} />
+            </div>
           </HStack>
         )}
       </VStack>

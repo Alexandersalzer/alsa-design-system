@@ -213,15 +213,10 @@ export function normalizeNumericWeights(
   const finalHeading = heading || defaults.heading;
   const finalBody = body || defaults.body;
 
-  // Validate hierarchy
+  // Log warning if hierarchy is unusual but still use the values as-is
   const validation = validateNumericWeightHierarchy(finalHeading, finalBody);
-
   if (!validation.isValid) {
-    console.warn(`[Font Weights] ${validation.message}. Using defaults.`);
-    return {
-      ...defaults,
-      isValid: false
-    };
+    console.warn(`[Font Weights] ${validation.message}. Using provided values anyway.`);
   }
 
   // Calculate or use provided label weight
@@ -231,7 +226,7 @@ export function normalizeNumericWeights(
     heading: finalHeading,
     body: finalBody,
     label: finalLabel,
-    isValid: true
+    isValid: validation.isValid
   };
 }
 

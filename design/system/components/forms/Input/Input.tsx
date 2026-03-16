@@ -72,6 +72,8 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   componentKey?: string; // För live editing identification
   /** Action button displayed inside the input on the right side (e.g., Search, Submit, Send) */
   actionButton?: ReactElement<ButtonProps>;
+  /** When true, blocks non-numeric key input (allows digits, +, -, space, backspace, arrows, etc.) */
+  numericOnly?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -100,11 +102,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     onValueChange,
     componentKey,
     actionButton,
+    numericOnly,
     id,
     value,
     defaultValue,
     onChange,
     name,
+    onKeyDown: _onKeyDown,
     ...props
   }, ref) => {
     const generatedId = useId();
@@ -194,6 +198,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       if (onValueChange) onValueChange('');
     };
 
+    // Block non-numeric keys when numericOnly is true
+    const handleKeyDown = numericOnly
+      ? (e: React.KeyboardEvent<HTMLInputElement>) => {
+          const allowed = /^[0-9+\-\s]$/.test(e.key) ||
+            ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter', 'Home', 'End'].includes(e.key) ||
+            (e.ctrlKey || e.metaKey); // allow copy/paste/select-all
+          if (!allowed) e.preventDefault();
+          if (_onKeyDown) _onKeyDown(e);
+        }
+      : _onKeyDown;
+
     // Handle password toggle
     const isPassword = type === 'password';
     const shouldShowToggle = isPassword && showPasswordToggle;
@@ -281,6 +296,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             name={resolvedName}
             value={value !== undefined ? value : inputValue}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
             onFocus={(e) => {
               setIsFocused(true);
               if (props.onFocus) props.onFocus(e);
