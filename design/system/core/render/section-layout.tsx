@@ -109,9 +109,9 @@ export function renderSectionLayout({
         : 'center';
 
   // ===== DERIVE SECTION MAX WIDTH =====
-  const sectionMaxWidth = order.some(key => patterns[key]?.props?.useMediaWidth)
+  const sectionMaxWidth = order.some(key => patterns[key]?.props?.width === 'media' || patterns[key]?.props?.useMediaWidth)
     ? 'var(--width-media)'
-    : order.some(key => patterns[key]?.props?.useFormWidth)
+    : order.some(key => patterns[key]?.props?.width === 'form' || patterns[key]?.props?.useFormWidth)
     ? 'var(--width-form)'
     : 'var(--width-container)';
 
@@ -765,14 +765,12 @@ export function renderSectionLayout({
           </VStack>
         </Box>
 
-        {/* Below Split: remaining patterns (t.ex. portfolio-karusell) med Container så karusellen får bredd */}
+        {/* Below Split: remaining patterns (t.ex. portfolio-karusell, media) - no outer Container so each pattern's own width takes effect */}
         {remainingPatterns.length > 0 && (
           <Box className="desktop-only" style={{ width: '100%' }}>
-            <Container height="auto">
-              <VStack spacing="none" align="stretch">
-                {renderPatterns(remainingPatterns)}
-              </VStack>
-            </Container>
+            <VStack spacing="none" align="stretch">
+              {renderPatterns(remainingPatterns)}
+            </VStack>
           </Box>
         )}
         
