@@ -15,7 +15,7 @@ export interface FormStepProps {
   children?: React.ReactNode;
 }
 
-export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps) => {
+export const FormStep = ({ children, index, stepKey, autoAdvance = false }: FormStepProps) => {
   const { currentStep, goNext, isLastStep } = useFormStepperContext();
 
   const isActive = currentStep === index;
@@ -76,7 +76,12 @@ export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps
   }, [autoAdvance, isActive, isLastStep, goNext]);
 
   return (
-    <div className="form-step" aria-hidden={!isActive} data-step-index={index}>
+    <div
+      className="form-step"
+      aria-hidden={!isActive}
+      data-step-index={index}
+      data-step-key={stepKey}
+    >
       <div
         ref={contentRef}
         className="form-step__content"

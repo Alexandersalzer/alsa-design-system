@@ -106,13 +106,50 @@ export const FormStepper = ({
       setSubmitError(null);
 
       // Collect all form data from the <form> element
-      const formData = formRef.current ? new FormData(formRef.current) : new FormData();
-      const data: Record<string, any> = {};
+      const formEl = formRef.current;
+      const formData = formEl ? new FormData(formEl) : new FormData();
+
+      // Flat data (backwards compatible)
+      const flatData: Record<string, any> = {};
       formData.forEach((val, key) => {
-        data[key] = val;
+        flatData[key] = val;
       });
 
-      const result = await executeAction(action.type, data);
+      // Structured per-step data (if steps are present)
+      const stepsData: Record<string, Record<string, any>> = {};
+      if (formEl) {
+        const stepElements = Array.from(formEl.querySelectorAll<HTMLElement>('.form-step'));
+        stepElements.forEach((stepEl) => {
+          const stepKey = stepEl.dataset.stepKey || `step_${stepEl.dataset.stepIndex || ''}`;
+          if (!stepKey) return;
+
+          const controls = stepEl.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+            'input[name], textarea[name], select[name]'
+          );
+
+          controls.forEach((control) => {
+            const name = control.name;
+            if (!name) return;
+            const value = formData.get(name);
+            if (value === null) return;
+
+            if (!stepsData[stepKey]) {
+              stepsData[stepKey] = {};
+            }
+            stepsData[stepKey][name] = value;
+          });
+        });
+      }
+
+      const payload: Record<string, any> = {
+        ...flatData,
+      };
+
+      if (Object.keys(stepsData).length > 0) {
+        payload.steps = stepsData;
+      }
+
+      const result = await executeAction(action.type, payload);
       setSubmitLoading(false);
 
       if (result.success) {

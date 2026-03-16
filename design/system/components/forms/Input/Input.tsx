@@ -104,10 +104,25 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     value,
     defaultValue,
     onChange,
+    name,
     ...props
   }, ref) => {
     const generatedId = useId();
     const inputId = id || `input-${generatedId}`;
+
+    // Derive a stable field name from label if no explicit name is provided.
+    // This allows JSON-configurerade formulär att bara ange "label" för inputs,
+    // samtidigt som vi får ett korrekt name-attribut för FormData och FormStepper.
+    const resolvedName =
+      name ||
+      (label
+        ? label
+            .toString()
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '_')
+            .replace(/^_+|_+$/g, '')
+        : undefined);
     const [showPassword, setShowPassword] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [inputValue, setInputValue] = useState((value || defaultValue || '') as string);
@@ -263,6 +278,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={setRefs}
             id={inputId}
             type={actualType}
+            name={resolvedName}
             value={value !== undefined ? value : inputValue}
             onChange={handleChange}
             onFocus={(e) => {
