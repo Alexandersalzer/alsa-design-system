@@ -408,10 +408,11 @@ const renderFilterTemplateNode = (
       const { components: __, ...itemProps } = item;
       const itemContext = { index, id: itemId, imageSrc: getItemImageSrc(item), ...itemProps };
       const usedComponents = new Set<string>();
+      const orderedComps = getOrderedComponents(item);
 
       const templateContent = template.children?.map((child: any, childIndex: number) => (
         <React.Fragment key={childIndex}>
-          {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
+          {renderTemplateNode(child, orderedComps, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
         </React.Fragment>
       ));
 
@@ -569,13 +570,14 @@ const renderItems = (
     // Render each child in template.children array
     const templateChildren = template.children || [];
     const isFormItem = hasFormAction(item.components);
+    const orderedComps = getOrderedComponents(item);
 
     // Get maxItems classes for responsive hiding
     const maxItemsClasses = getMaxItemsClasses(globalIndex, maxItems);
 
     const templateContent = templateChildren.map((child: any, index: number) => (
       <React.Fragment key={index}>
-        {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
+        {renderTemplateNode(child, orderedComps, itemContext, usedComponents, sectionKey, patternKey, itemId, locale)}
       </React.Fragment>
     ));
 
@@ -895,13 +897,14 @@ const renderCategoryTemplateNode = (
       };
 
       const usedComponents = new Set<string>();
+      const orderedComps = getOrderedComponents(item);
 
       // Render the item template with ONLY item components (not merged with category)
       // Category components are for the outer template (e.g., sticky sidebar)
       // Item components are for the inner template (e.g., cards)
       const templateContent = node.template.children?.map((child: any, index: number) => (
         <React.Fragment key={index}>
-          {renderTemplateNode(child, item.components, itemContext, usedComponents, sectionKey, patternKey, undefined, locale)}
+          {renderTemplateNode(child, orderedComps, itemContext, usedComponents, sectionKey, patternKey, undefined, locale)}
         </React.Fragment>
       ));
 
@@ -1211,13 +1214,41 @@ const renderLayoutNodeGeneric = (
  * @param usedComponents - Set of component keys already used
  * @returns { component, key } or undefined
  */
+/**
+ * Returns a components object with entries ordered by the item's `componentOrder` array (if present).
+ * Falls back to natural object key order when `componentOrder` is absent or incomplete.
+ * This makes rendering immune to JSON key reordering (e.g. from database round-trips).
+ */
+const getOrderedComponents = (
+  item: { components?: Record<string, any>; componentOrder?: string[] }
+): Record<string, any> => {
+  const components = item.components || {};
+  const order = item.componentOrder;
+  if (!order || order.length === 0) return components;
+
+  const ordered: Record<string, any> = {};
+  // First: keys that appear in componentOrder
+  for (const key of order) {
+    if (key in components) ordered[key] = components[key];
+  }
+  // Then: any remaining keys not listed in componentOrder
+  for (const key of Object.keys(components)) {
+    if (!(key in ordered)) ordered[key] = components[key];
+  }
+  return ordered;
+};
+
 const findNextComponentByType = (
   components: Record<string, any>,
   type: string,
-  usedComponents: Set<string>
+  usedComponents: Set<string>,
+  role?: string
 ): { component: Record<string, any>; key: string } | undefined => {
   const entry = Object.entries(components).find(
-    ([key, component]) => component.type === type && !usedComponents.has(key)
+    ([key, component]) =>
+      component.type === type &&
+      !usedComponents.has(key) &&
+      (role === undefined || component.role === role)
   );
   return entry ? { component: entry[1], key: entry[0] } : undefined;
 };
@@ -1243,20 +1274,23 @@ const renderComponentReference = (
 ): React.ReactElement | null => {
   const { component: componentRef, animation: templateAnimation, optional, action: _action, ...extraProps } = reference;
 
-  // Extract type from ${componentType} syntax
-  const componentType = extractSlotName(componentRef);
-  
-  // Find next available component by TYPE (supports multiple of same type)
-  const result = findNextComponentByType(itemComponents, componentType, usedComponents);
+  // Extract type and optional role from ${type} or ${type:role} syntax
+  const slotName = extractSlotName(componentRef);
+  const colonIdx = slotName.indexOf(':');
+  const componentType = colonIdx !== -1 ? slotName.slice(0, colonIdx) : slotName;
+  const slotRole = colonIdx !== -1 ? slotName.slice(colonIdx + 1) : undefined;
+
+  // Find next available component by type (and role if specified)
+  const result = findNextComponentByType(itemComponents, componentType, usedComponents, slotRole);
 
   if (!result) {
     if (optional) return null;
-    console.warn(`Component with type "${componentType}" not found in item components (or all already used)`);
+    console.warn(`Component with type "${componentType}"${slotRole ? ` role "${slotRole}"` : ''} not found in item components (or all already used)`);
     return null;
   }
 
   const { component: itemComponent, key: componentKey } = result;
-  
+
   // Mark this component as used
   usedComponents.add(componentKey);
 
