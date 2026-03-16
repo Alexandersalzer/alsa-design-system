@@ -53,7 +53,7 @@ function StepIndicator({ currentStep, totalSteps, labels }: { currentStep: numbe
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                     <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                ) : <Label size="xs" weight="semibold">{step}</Label>}
+                ) : <span>{step}</span>}
               </div>
               <Label
                 size="sm"
@@ -95,45 +95,7 @@ export const FormStepper = ({
 
   const totalSteps = stepLabels.length || 1;
   const isLastStep = currentStep === totalSteps;
-
-  const goNext = () => {
-    // Validate all required inputs in the current step before advancing
-    if (formRef.current) {
-      const stepEl = formRef.current.querySelector(`[data-step-index="${currentStep}"]`);
-      if (stepEl) {
-        const inputs = stepEl.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
-          'input, select, textarea'
-        );
-        // Check radio groups: if any radio group inside the step has `required`, ensure one is checked
-        const radioGroups = new Map<string, { required: boolean; checked: boolean; firstInput: HTMLInputElement }>();
-        inputs.forEach((input) => {
-          if (input instanceof HTMLInputElement && input.type === 'radio' && input.name) {
-            const existing = radioGroups.get(input.name);
-            const group = existing ?? { required: input.required, checked: false, firstInput: input };
-            if (!existing) radioGroups.set(input.name, group);
-            if (input.checked) group.checked = true;
-            if (input.required) group.required = true;
-          }
-        });
-        for (const [, group] of radioGroups) {
-          if (group.required && !group.checked) {
-            group.firstInput.reportValidity();
-            return;
-          }
-        }
-        // Validate all non-radio inputs in the step
-        for (const input of Array.from(inputs)) {
-          if (input instanceof HTMLInputElement && input.type === 'radio') continue;
-          if (!input.checkValidity()) {
-            input.reportValidity();
-            return;
-          }
-        }
-      }
-    }
-    setCurrentStep(s => Math.min(s + 1, totalSteps));
-  };
-
+  const goNext = () => setCurrentStep(s => Math.min(s + 1, totalSteps));
   const goBack = () => setCurrentStep(s => Math.max(s - 1, 1));
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -144,48 +106,13 @@ export const FormStepper = ({
       setSubmitError(null);
 
       // Collect all form data from the <form> element
-      const formEl = formRef.current;
-      const formData = formEl ? new FormData(formEl) : new FormData();
+      const formData = formRef.current ? new FormData(formRef.current) : new FormData();
+      const data: Record<string, any> = {};
+      formData.forEach((val, key) => {
+        data[key] = val;
+      });
 
-      // Structured per-step data (if steps are present)
-      const stepsData: Record<string, Record<string, any>> = {};
-      if (formEl) {
-        const stepElements = Array.from(formEl.querySelectorAll<HTMLElement>('.form-step'));
-        stepElements.forEach((stepEl) => {
-          const stepKey = stepEl.dataset.stepKey || `step_${stepEl.dataset.stepIndex || ''}`;
-          if (!stepKey) return;
-
-          const controls = stepEl.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
-            'input[name], textarea[name], select[name]'
-          );
-
-          controls.forEach((control) => {
-            const name = control.name;
-            if (!name) return;
-            const value = formData.get(name);
-            if (value === null) return;
-
-            if (!stepsData[stepKey]) {
-              stepsData[stepKey] = {};
-            }
-            stepsData[stepKey][name] = value;
-          });
-        });
-      }
-
-      // Prefer structured steps payload when available, otherwise fall back to flat FormData
-      let payload: Record<string, any>;
-      if (Object.keys(stepsData).length > 0) {
-        payload = { steps: stepsData };
-      } else {
-        const flatData: Record<string, any> = {};
-        formData.forEach((val, key) => {
-          flatData[key] = val;
-        });
-        payload = flatData;
-      }
-
-      const result = await executeAction(action.type, payload);
+      const result = await executeAction(action.type, data);
       setSubmitLoading(false);
 
       if (result.success) {

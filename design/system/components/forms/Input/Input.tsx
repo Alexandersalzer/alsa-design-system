@@ -72,8 +72,6 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   componentKey?: string; // För live editing identification
   /** Action button displayed inside the input on the right side (e.g., Search, Submit, Send) */
   actionButton?: ReactElement<ButtonProps>;
-  /** When true, blocks non-numeric key input (allows digits, +, -, space, backspace, arrows, etc.) */
-  numericOnly?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -102,31 +100,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     onValueChange,
     componentKey,
     actionButton,
-    numericOnly,
     id,
     value,
     defaultValue,
     onChange,
-    name,
-    onKeyDown: _onKeyDown,
     ...props
   }, ref) => {
     const generatedId = useId();
     const inputId = id || `input-${generatedId}`;
-
-    // Derive a stable field name from label if no explicit name is provided.
-    // This allows JSON-configurerade formulär att bara ange "label" för inputs,
-    // samtidigt som vi får ett korrekt name-attribut för FormData och FormStepper.
-    const resolvedName =
-      name ||
-      (label
-        ? label
-            .toString()
-            .trim()
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '_')
-            .replace(/^_+|_+$/g, '')
-        : undefined);
     const [showPassword, setShowPassword] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [inputValue, setInputValue] = useState((value || defaultValue || '') as string);
@@ -197,17 +178,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       if (onClear) onClear();
       if (onValueChange) onValueChange('');
     };
-
-    // Block non-numeric keys when numericOnly is true
-    const handleKeyDown = numericOnly
-      ? (e: React.KeyboardEvent<HTMLInputElement>) => {
-          const allowed = /^[0-9+\-\s]$/.test(e.key) ||
-            ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter', 'Home', 'End'].includes(e.key) ||
-            (e.ctrlKey || e.metaKey); // allow copy/paste/select-all
-          if (!allowed) e.preventDefault();
-          if (_onKeyDown) _onKeyDown(e);
-        }
-      : _onKeyDown;
 
     // Handle password toggle
     const isPassword = type === 'password';
@@ -293,10 +263,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={setRefs}
             id={inputId}
             type={actualType}
-            name={resolvedName}
             value={value !== undefined ? value : inputValue}
             onChange={handleChange}
-            onKeyDown={handleKeyDown}
             onFocus={(e) => {
               setIsFocused(true);
               if (props.onFocus) props.onFocus(e);
