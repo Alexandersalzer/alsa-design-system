@@ -38,6 +38,7 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
   // Radio-specific (for form groups)
   name?: string;
   value?: string;
+  required?: boolean;
 
   // Accessibility
   'aria-label'?: string;
@@ -96,6 +97,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   variant = 'neutral',
   name,
   value,
+  required,
   className,
   id: providedId,
   onClick,
@@ -125,6 +127,33 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     const listener = (sel: string | null) => setGroupSelected(sel);
     group.listeners.add(listener);
     return () => { group.listeners.delete(listener); };
+  }, [isControlled, indicator, name]);
+
+  // Listen for externally-dispatched radio change events (e.g. from DatePicker sync)
+  // so the registry and visual state stay in sync even when changed programmatically
+  useEffect(() => {
+    if (isControlled || indicator !== 'radio' || !name) return;
+    const handleExternalChange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (target.type !== 'radio' || target.name !== name || !target.checked) return;
+      getOrCreateGroup(name).select(target.value ?? '');
+    };
+    // Listen for clear events (e.g. datepicker selected a date with no matching shortcut)
+    const handleGroupClear = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { name?: string };
+      if (detail?.name !== name) return;
+      const group = radioGroupRegistry[name];
+      if (group) {
+        group.selected = null;
+        group.listeners.forEach(fn => fn(null));
+      }
+    };
+    document.addEventListener('change', handleExternalChange);
+    document.addEventListener('radiogroup-clear', handleGroupClear);
+    return () => {
+      document.removeEventListener('change', handleExternalChange);
+      document.removeEventListener('radiogroup-clear', handleGroupClear);
+    };
   }, [isControlled, indicator, name]);
 
   // Resolve final selected state
@@ -267,6 +296,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
             checked={effectiveSelected}
             onChange={handleInputChange}
             disabled={disabled}
+            required={required}
             tabIndex={-1}
             aria-hidden="true"
             wrapperClassName="selection-card__radio-wrapper"

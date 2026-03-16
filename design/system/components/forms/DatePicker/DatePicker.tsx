@@ -75,6 +75,16 @@ export interface DatePickerProps {
   id?: string;
   /** Name of a radio group whose values map to date offsets: 'today', 'tomorrow', 'in2days', 'in3days' */
   linkedRadioName?: string;
+  /**
+   * When true, disables all past dates. If lastTimeSlot is also set,
+   * today is disabled once the current time is past that slot (e.g. "17:00").
+   */
+  disablePastDates?: boolean;
+  /**
+   * "HH:MM" string of the last available time slot.
+   * When the current time is past this, today is also disabled.
+   */
+  lastTimeSlot?: string;
 }
 
 // ===============================================
@@ -117,15 +127,34 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   onChange,
   id,
   linkedRadioName,
+  disablePastDates,
+  lastTimeSlot,
   ...props
 }, ref) => {
   const { locale } = useLocale();
+
+  // Compute effective minValue from disablePastDates + lastTimeSlot
+  const effectiveMinValue = React.useMemo(() => {
+    if (!disablePastDates) return minValue;
+    const tz = getLocalTimeZone();
+    const todayDate = today(tz);
+    if (lastTimeSlot) {
+      const [hours, minutes] = lastTimeSlot.split(':').map(Number);
+      const now = new Date();
+      const isPastLastSlot = now.getHours() > hours || (now.getHours() === hours && now.getMinutes() >= minutes);
+      if (isPastLastSlot) {
+        // Today is fully booked — earliest is tomorrow
+        return todayDate.add({ days: 1 });
+      }
+    }
+    return todayDate;
+  }, [disablePastDates, lastTimeSlot, minValue]);
 
   const state = useDatePickerState({
     value: value as any,
     defaultValue: defaultValue as any,
     placeholderValue: placeholderValue as any,
-    minValue: minValue as any,
+    minValue: (effectiveMinValue ?? minValue) as any,
     maxValue: maxValue as any,
     granularity,
     hideTimeZone,
@@ -155,6 +184,71 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
     return () => document.removeEventListener('change', handleChange);
   }, [linkedRadioName, state]);
 
+  // Sync datePicker value → linked radio shortcut
+  // When user picks a date directly, select the matching shortcut radio (today/tomorrow/in2days/in3days)
+  // or deselect all shortcuts if the date doesn't match any offset
+  const prevDateRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!linkedRadioName) return;
+    const dateValue = state.dateValue;
+    if (!dateValue) return;
+
+    const tz = getLocalTimeZone();
+    const base = today(tz);
+    const offsets: Record<string, number> = { today: 0, tomorrow: 1, in2days: 2, in3days: 3 };
+
+    // Find which shortcut value matches the selected date
+    let matchingValue: string | null = null;
+    for (const [key, offset] of Object.entries(offsets)) {
+      const candidate = base.add({ days: offset });
+      if (
+        candidate.year === dateValue.year &&
+        candidate.month === dateValue.month &&
+        candidate.day === dateValue.day
+      ) {
+        matchingValue = key;
+        break;
+      }
+    }
+
+    const dateKey = `${dateValue.year}-${dateValue.month}-${dateValue.day}`;
+    if (prevDateRef.current === dateKey) return;
+    prevDateRef.current = dateKey;
+
+    // Find all radio inputs in the linked group and update accordingly
+    const radios = document.querySelectorAll<HTMLInputElement>(
+      `input[type="radio"][name="${linkedRadioName}"]`
+    );
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      'checked'
+    )?.set;
+
+    if (matchingValue) {
+      // Select the matching shortcut radio
+      radios.forEach((radio) => {
+        const shouldBeChecked = radio.value === matchingValue;
+        if (radio.checked !== shouldBeChecked && nativeInputValueSetter) {
+          nativeInputValueSetter.call(radio, shouldBeChecked);
+          if (shouldBeChecked) {
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      });
+    } else {
+      // No shortcut matches — deselect all radios in the group and notify SelectionCard registry
+      radios.forEach((radio) => {
+        if (radio.checked && nativeInputValueSetter) {
+          nativeInputValueSetter.call(radio, false);
+        }
+      });
+      // Dispatch a custom event so SelectionCard registry clears the group
+      document.dispatchEvent(
+        new CustomEvent('radiogroup-clear', { detail: { name: linkedRadioName }, bubbles: true })
+      );
+    }
+  }, [linkedRadioName, state.dateValue]);
+
   const { groupProps, labelProps, fieldProps, buttonProps, dialogProps } = useDatePicker(
     {
       ...props,
@@ -165,6 +259,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
       isReadOnly,
       isRequired,
       autoFocus,
+      minValue: (effectiveMinValue ?? minValue) as any,
     },
     state,
     triggerRef
@@ -265,7 +360,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
                 onChange={(newValue) => state.setValue(newValue as any)}
                 focusedValue={state.dateValue as any}
                 size={size}
-                minValue={minValue}
+                minValue={effectiveMinValue ?? minValue}
                 maxValue={maxValue}
                 visibleMonths={visibleMonths}
                 showMonthAndYearPickers={showMonthAndYearPickers && visibleMonths === 1}

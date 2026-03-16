@@ -305,6 +305,16 @@ html.dark .image-accent-mask-dark {
   filter: invert(1);
 }
 
+.logo-image--auto-inverse {
+  /* Auto-inverse: inverts in light mode, normal in dark mode */
+  filter: invert(1);
+}
+
+[data-theme="dark"] .logo-image--auto-inverse,
+.dark .logo-image--auto-inverse {
+  filter: invert(0);
+}
+
 .logo-image--color {
   /* Full-color logo: never inverts */
   filter: none !important;

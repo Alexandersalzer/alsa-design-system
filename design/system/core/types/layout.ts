@@ -41,6 +41,13 @@ export interface LayoutConfig {
   secondColumnAsMedia?: boolean;
 
   /**
+   * Key of a pattern (with props.useFormWidth === true) to render inline inside the
+   * SectionHeader column, immediately below body text.
+   * Works in all layout modes (center, left, right).
+   */
+  inlineHeaderPattern?: string;
+
+  /**
    * When true, ButtonGroup is placed at the bottom of the entire section
    * When false, ButtonGroup stays with SectionHeader in the same VStack (default)
    */

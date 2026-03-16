@@ -201,6 +201,13 @@ export async function buildCssVars(tokens: DesignTokens): Promise<string> {
       --dynamic-font-weight-heading: ${fontWeightHeading};
       --dynamic-font-weight-body:    ${fontWeightBody};
       --dynamic-font-weight-label:   ${fontWeightLabel};
+      /* Also set selected/semantic vars directly to avoid variable chain issues in iframes */
+      --selected-font-weight-heading: ${fontWeightHeading};
+      --selected-font-weight-body:    ${fontWeightBody};
+      --selected-font-weight-label:   ${fontWeightLabel};
+      --font-heading-weight: ${fontWeightHeading};
+      --font-body-weight:    ${fontWeightBody};
+      --font-label-weight:   ${fontWeightLabel};
 
       /* ===== Theme Mode ===== */
       --theme-mode: '${themeMode}';  /* Can be 'light', 'dark', or 'system' */

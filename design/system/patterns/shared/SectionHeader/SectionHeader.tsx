@@ -1,5 +1,5 @@
 'use client';
-
+ /** Sectionheader.tsx */
 import React from 'react';
 import { VStack } from '../../../components/layout/vStack/VStack';
 import { Box } from '../../../components/layout/box/Box';
