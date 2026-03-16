@@ -214,12 +214,16 @@ export const renderPattern = (
       : layoutContent;
 
     const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
+    const contentAlign = layoutContext?.alignSectionHeader === 'right' ? 'right'
+      : layoutContext?.alignSectionHeader === 'left' ? 'left'
+      : undefined;
 
     return (
       <Container
         key={patternKey}
         height="auto"
         width={patternWidth}
+        contentAlign={contentAlign}
         noPadding={patternProps.noPadding || false}
         patternKey={patternKey}
       >
@@ -236,12 +240,16 @@ export const renderPattern = (
   }
 
   const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
+  const contentAlign = layoutContext?.alignSectionHeader === 'right' ? 'right'
+    : layoutContext?.alignSectionHeader === 'left' ? 'left'
+    : undefined;
 
   return (
     <Container
       key={patternKey}
       height="auto"
       width={patternWidth}
+      contentAlign={contentAlign}
       noPadding={patternProps.noPadding || false}
       patternKey={patternKey}
     >

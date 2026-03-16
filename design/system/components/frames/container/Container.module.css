@@ -80,6 +80,11 @@
   margin-inline: auto 0; /* Right-aligned: auto left margin, no right margin */
 }
 
+/* ===== CONTENT ALIGNMENT (container stays centered, only content aligns) ===== */
+.contentAlignLeft   { align-items: flex-start; text-align: left; }
+.contentAlignCenter { align-items: center; text-align: center; }
+.contentAlignRight  { align-items: flex-end; text-align: right; }
+
 /* ===== PADDING VARIANTS ===== */
 .noPadding {
   padding-top: 0;

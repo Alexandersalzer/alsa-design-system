@@ -13,6 +13,8 @@ interface ContainerProps {
   id?: string;
   as?: React.ElementType;
   align?: Alignment;
+  /** Aligns content inside the container without moving the container itself */
+  contentAlign?: Alignment;
   height?: Height;
   width?: ContainerWidth;
   /** @deprecated use width="media" */
@@ -33,6 +35,16 @@ const getAlignmentClass = (align?: Alignment): string => {
     case 'center': return styles.alignCenter;
     case 'right': return styles.alignRight;
     case 'left': return styles.alignLeft;
+    default: return '';
+  }
+};
+
+const getContentAlignmentClass = (align?: Alignment): string => {
+  if (!align) return '';
+  switch (align) {
+    case 'center': return styles.contentAlignCenter;
+    case 'right': return styles.contentAlignRight;
+    case 'left': return styles.contentAlignLeft;
     default: return '';
   }
 };
@@ -61,6 +73,7 @@ export const Container = ({
   id,
   as: Component = 'div',
   align,
+  contentAlign,
   height = 'auto',
   width,
   useMediaWidth = false,
@@ -72,6 +85,7 @@ export const Container = ({
   patternKey,
 }: ContainerProps) => {
   const alignmentClass = getAlignmentClass(align);
+  const contentAlignmentClass = getContentAlignmentClass(contentAlign);
   const heightClass = getHeightClass(height);
   const spacingClass = getSpacingClass(spacing);
   const paddingClass = getPaddingClass(noPadding);
@@ -89,6 +103,7 @@ export const Container = ({
   const combinedClassName = [
     styles.container,
     alignmentClass,
+    contentAlignmentClass,
     heightClass,
     widthClass,
     spacingClass,
