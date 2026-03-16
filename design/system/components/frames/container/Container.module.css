@@ -67,21 +67,11 @@
 .heightFit  { height: fit-content; }
 
 /* ===== ALIGNMENT VARIANTS ===== */
-.alignLeft   { 
-  align-items: flex-start; 
-  text-align: left; 
-  margin-inline: 0 auto; /* Left-aligned: no left margin, auto right margin */
-}
-.alignCenter { 
-  align-items: center; 
-  text-align: center; 
-  margin-inline: auto; /* Centered: auto both sides */
-}
-.alignRight  { 
-  align-items: flex-end; 
-  text-align: right; 
-  margin-inline: auto 0; /* Right-aligned: auto left margin, no right margin */
-}
+/* align-items works because container is flex column */
+/* margin-inline only shifts the container when it's narrower than page (width variant) */
+.alignLeft   { align-items: flex-start; text-align: left; }
+.alignCenter { align-items: center; text-align: center; }
+.alignRight  { align-items: flex-end; text-align: right; }
 
 /* ===== CONTENT ALIGNMENT (container stays centered, only content aligns) ===== */
 .contentAlignLeft   { align-items: flex-start; text-align: left; }
