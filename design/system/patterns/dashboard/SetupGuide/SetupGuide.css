@@ -32,6 +32,21 @@
   width: 100%;
 }
 
+/* Steg som kommer senare – ikoner och chevron ska följa samma färg som titeln (redan temaanpassad) */
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__start-content,
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__start-content [class*="icon"],
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__start-content svg {
+  color: inherit;
+  fill: none;
+  stroke: currentColor;
+}
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__indicator,
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__indicator svg {
+  color: inherit;
+  fill: none;
+  stroke: currentColor;
+}
+
 /* Första (aktiva) steget – tydlig accent, vit text som accent-knappar */
 .setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger {
   background: var(--surface-accent);
