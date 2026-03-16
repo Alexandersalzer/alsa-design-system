@@ -40,7 +40,9 @@ export function useAction(config: ActionConfig) {
       if (sectionId) {
         const sectionElement = targetDoc.getElementById(sectionId);
         if (sectionElement) {
-          sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const navbarVoid = parseFloat(getComputedStyle(targetDoc.documentElement).getPropertyValue('--navbar-void')) || 0;
+          const top = sectionElement.getBoundingClientRect().top + targetWin.scrollY - navbarVoid;
+          targetWin.scrollTo({ top, behavior: 'smooth' });
           setLoading(false);
           setSuccess(true);
           
