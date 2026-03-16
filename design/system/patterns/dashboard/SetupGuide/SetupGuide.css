@@ -32,17 +32,24 @@
   width: 100%;
 }
 
-/* Steg som kommer senare – ikoner och chevron ska följa samma färg som titeln (redan temaanpassad) */
+/* Steg som kommer senare – trigger, titel, ikoner och chevron med temaanpassad färg (inverteras i dark mode) */
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger {
+  color: var(--text-default);
+}
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__title-wrapper,
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__title-wrapper * {
+  color: var(--text-default) !important;
+}
 .setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__start-content,
 .setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__start-content [class*="icon"],
 .setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__start-content svg {
-  color: inherit;
+  color: var(--text-default) !important;
   fill: none;
   stroke: currentColor;
 }
 .setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__indicator,
 .setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__indicator svg {
-  color: inherit;
+  color: var(--text-default) !important;
   fill: none;
   stroke: currentColor;
 }
@@ -73,10 +80,10 @@
   stroke: currentColor;
 }
 
-/* Klara steg – grön check, grå/överstruken titel så de inte känns aktuella */
+/* Klara steg – grön check, överstruken titel med temaanpassad färg (synlig i light/dark) */
 .setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__title-wrapper,
 .setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__title-wrapper * {
-  color: var(--text-tertiary) !important;
+  color: var(--text-default) !important;
   text-decoration: line-through;
 }
 
@@ -90,7 +97,7 @@
 
 .setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__indicator,
 .setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__indicator svg {
-  color: var(--text-tertiary);
+  color: var(--text-default) !important;
   fill: none;
   stroke: currentColor;
 }
