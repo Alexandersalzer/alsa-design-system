@@ -3,12 +3,13 @@
 // DATE PICKER - FIXED: Proper trigger styling and calendar navigation
 // ===============================================
 
-import React, { forwardRef, useRef, useEffect } from 'react';
+import React, { forwardRef, useRef, useEffect, useCallback } from 'react';
 import { cn } from '../../../utils/cn';
 import type { DateValue } from '@internationalized/date';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Icon } from '../../media';
 import { today, getLocalTimeZone, CalendarDate } from '@internationalized/date';
+import { useFormCollectionContext } from '../../../core/forms';
 import { useDatePickerState, useDateFieldState, useTimeFieldState } from '@react-stately/datepicker';
 import { useDatePicker, useDateField, useDateSegment, useTimeField } from '@react-aria/datepicker';
 import { useButton } from '@react-aria/button';
@@ -73,6 +74,8 @@ export interface DatePickerProps {
   onFocus?: (e: React.FocusEvent) => void;
   onBlur?: (e: React.FocusEvent) => void;
   id?: string;
+  /** Field name for form collection (if not set, label is used to derive key) */
+  name?: string;
   /** Name of a radio group whose values map to date offsets: 'today', 'tomorrow', 'in2days', 'in3days' */
   linkedRadioName?: string;
   /**
@@ -126,12 +129,32 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
   calendarProps,
   onChange,
   id,
+  name,
   linkedRadioName,
   disablePastDates,
   lastTimeSlot,
   ...props
 }, ref) => {
   const { locale } = useLocale();
+  const formCollection = useFormCollectionContext();
+  const fieldKey = name ?? (label != null && String(label).trim()
+    ? String(label).trim().toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_-]/g, '')
+    : undefined);
+
+  const formatDateValueForForm = useCallback((v: DateValue | null): string => {
+    if (!v) return '';
+    const y = v.year;
+    const m = String(v.month).padStart(2, '0');
+    const d = String(v.day).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }, []);
+
+  const handleChange = useCallback((newValue: DateValue | null) => {
+    if (onChange) onChange(newValue);
+    if (fieldKey && formCollection) {
+      formCollection.setField(undefined, fieldKey, formatDateValueForForm(newValue));
+    }
+  }, [onChange, fieldKey, formCollection, formatDateValueForForm]);
 
   // Compute effective minValue from disablePastDates + lastTimeSlot
   const effectiveMinValue = React.useMemo(() => {
@@ -161,12 +184,12 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
     isDisabled,
     isReadOnly,
     isRequired,
-    onChange: onChange as any,
+    onChange: handleChange as any,
   });
 
   const triggerRef = useRef<HTMLDivElement>(null);
 
-  // Sync linked radio shortcuts → datePicker value
+  // Sync linked radio shortcuts → datePicker value (and form collection)
   useEffect(() => {
     if (!linkedRadioName) return;
     const handleChange = (e: Event) => {
@@ -178,11 +201,16 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({
       const offset = offsets[target.value];
       if (offset === undefined) return;
       const date = base.add({ days: offset });
-      state.setDateValue(new CalendarDate(date.year, date.month, date.day));
+      const calendarDate = new CalendarDate(date.year, date.month, date.day);
+      state.setDateValue(calendarDate);
+      if (fieldKey && formCollection) {
+        const str = `${calendarDate.year}-${String(calendarDate.month).padStart(2, '0')}-${String(calendarDate.day).padStart(2, '0')}`;
+        formCollection.setField(undefined, fieldKey, str);
+      }
     };
     document.addEventListener('change', handleChange);
     return () => document.removeEventListener('change', handleChange);
-  }, [linkedRadioName, state]);
+  }, [linkedRadioName, state, fieldKey, formCollection]);
 
   // Sync datePicker value → linked radio shortcut
   // When user picks a date directly, select the matching shortcut radio (today/tomorrow/in2days/in3days)
