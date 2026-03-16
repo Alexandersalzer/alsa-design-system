@@ -87,6 +87,7 @@ export const API_ENDPOINTS = {
     contact: '/api/v1/actions/contact',
     newsletter: '/api/v1/actions/newsletter',
     booking: '/api/v1/actions/booking',
+    form: '/api/v1/actions/form',
   },
   public: {
     base: '/api/public',

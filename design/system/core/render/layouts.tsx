@@ -503,7 +503,7 @@ const renderFilterTemplateNode = (
 /**
  * Form-action types that require wrapping in a <form> element
  */
-const FORM_ACTION_TYPES = ['contact', 'newsletter', 'booking'];
+const FORM_ACTION_TYPES = ['contact', 'newsletter', 'booking', 'form'];
 
 /**
  * Checks if an item's components contain any form-action buttons

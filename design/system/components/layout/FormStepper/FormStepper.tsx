@@ -5,6 +5,7 @@
 import React, { useState, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
+import { FormCollectionProvider, useFormCollectionContext } from '../../../core/forms';
 import Button from '../../actions/Button/Button';
 import { Label, Body } from '../../Typography/Typography';
 import { executeAction } from '../../../core/actions/api';
@@ -74,7 +75,7 @@ function StepIndicator({ currentStep, totalSteps, labels }: { currentStep: numbe
   );
 }
 
-export const FormStepper = ({
+function FormStepperForm({
   stepLabels = [],
   defaultStep = 1,
   nextLabel = 'Nästa',
@@ -86,17 +87,18 @@ export const FormStepper = ({
   onSubmit,
   className,
   children,
-}: FormStepperProps) => {
+}: FormStepperProps) {
   const [currentStep, setCurrentStep] = useState(defaultStep);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const formCollection = useFormCollectionContext();
 
   const totalSteps = stepLabels.length || 1;
   const isLastStep = currentStep === totalSteps;
-  const goNext = () => setCurrentStep(s => Math.min(s + 1, totalSteps));
-  const goBack = () => setCurrentStep(s => Math.max(s - 1, 1));
+  const goNext = () => setCurrentStep((s: number) => Math.min(s + 1, totalSteps));
+  const goBack = () => setCurrentStep((s: number) => Math.max(s - 1, 1));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,20 +107,27 @@ export const FormStepper = ({
       setSubmitLoading(true);
       setSubmitError(null);
 
-      // Collect all form data from the <form> element
-      const formData = formRef.current ? new FormData(formRef.current) : new FormData();
-      const data: Record<string, any> = {};
-      formData.forEach((val, key) => {
-        data[key] = val;
-      });
-
-      const result = await executeAction(action.type, data);
-      setSubmitLoading(false);
-
-      if (result.success) {
-        setSubmitSuccess(true);
+      let data: Record<string, any>;
+      if (action.type === 'form' && formCollection) {
+        data = formCollection.getPayload() as unknown as Record<string, any>;
+        const result = await executeAction('form', data);
+        setSubmitLoading(false);
+        if (result.success) {
+          formCollection.reset();
+          setSubmitSuccess(true);
+        } else {
+          setSubmitError(result.message);
+        }
       } else {
-        setSubmitError(result.message);
+        const formData = formRef.current ? new FormData(formRef.current) : new FormData();
+        data = {};
+        formData.forEach((val, key) => {
+          data[key] = val;
+        });
+        const result = await executeAction(action.type, data);
+        setSubmitLoading(false);
+        if (result.success) setSubmitSuccess(true);
+        else setSubmitError(result.message);
       }
     } else {
       onSubmit?.();
@@ -177,6 +186,19 @@ export const FormStepper = ({
       </form>
     </FormStepperContext.Provider>
   );
+}
+
+export const FormStepper = (props: FormStepperProps) => {
+  const { action } = props;
+  if (action?.type === 'form') {
+    const formId = action.settings?.formId ?? 'form';
+    return (
+      <FormCollectionProvider formId={formId}>
+        <FormStepperForm {...props} />
+      </FormCollectionProvider>
+    );
+  }
+  return <FormStepperForm {...props} />;
 };
 
 FormStepper.displayName = 'FormStepper';

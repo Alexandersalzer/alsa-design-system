@@ -21,6 +21,10 @@ export async function executeAction(
 
   try {
     const apiUrl = getApiUrl();
+    const body =
+      actionType === 'form' && data != null && typeof data.submittedAt === 'number'
+        ? data
+        : { ...data, submittedAt: Date.now() };
     const response = await fetch(`${apiUrl}${API_ENDPOINTS.actions.base}/${actionType}`, {
       method: 'POST',
       headers: {
@@ -28,10 +32,7 @@ export async function executeAction(
         'X-Origin-Host': originHost,
         'X-Locale': locale,
       },
-      body: JSON.stringify({
-        ...data,
-        submittedAt: Date.now(), // För spam-detection
-      }),
+      body: JSON.stringify(body),
     });
 
     const result = await response.json();

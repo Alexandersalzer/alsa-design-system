@@ -7,6 +7,7 @@ export type ActionType =
   | 'contact' 
   | 'newsletter' 
   | 'booking'
+  | 'form'
   | 'download'
   | 'external-link'
   | 'thirdparty';
@@ -64,6 +65,16 @@ export interface NewsletterActionConfig extends BaseActionConfig {
   };
 }
 
+export interface FormActionConfig extends BaseActionConfig {
+  type: 'form';
+  settings?: {
+    formId?: string; // e.g. 'contact_form' or 'booking_form'
+    redirectAfterSubmit?: string;
+    clearFormOnSuccess?: boolean; // Default: true
+    pixelEvents?: PixelEvent[];
+  };
+}
+
 export interface BookingActionConfig extends BaseActionConfig {
   type: 'booking';
   settings?: {
@@ -115,12 +126,26 @@ export interface ThirdPartyActionConfig extends BaseActionConfig {
   };
 }
 
+// ===== FORM PAYLOAD (for type: 'form' action) =====
+export interface FormStepPayload {
+  id: string;
+  fields: Record<string, any>;
+}
+
+export interface FormSubmissionPayload {
+  formId: string;
+  submittedAt: number;
+  steps: FormStepPayload[];
+  meta?: Record<string, any>;
+}
+
 // ===== UNION TYPE =====
 export type ActionConfig = 
   | NavigationActionConfig 
   | ContactActionConfig 
-  | NewsletterActionConfig
-  | BookingActionConfig
-  | DownloadActionConfig
-  | ExternalLinkActionConfig
+  | NewsletterActionConfig 
+  | BookingActionConfig 
+  | FormActionConfig 
+  | DownloadActionConfig 
+  | ExternalLinkActionConfig 
   | ThirdPartyActionConfig;

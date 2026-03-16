@@ -14,7 +14,7 @@ import { useHref } from '../../../hooks/useHref';
 import { Component } from '../../frames/component/Component';
 import { IconByName } from '../../media/IconByName/IconByName';
 import { useAction } from '../../../core/actions/useAction';
-import type { ActionConfig, NavigationActionConfig, BookingActionConfig } from '../../../core/actions/types';
+import type { ActionConfig, NavigationActionConfig, BookingActionConfig, FormActionConfig } from '../../../core/actions/types';
 import { openCalendlyPopup, buildCalendlyUrl } from '../../thirdparty/calendly/CalendlyModal';
 import { openCalPopup } from '../../thirdparty/cal/CalModal';
 
@@ -188,27 +188,39 @@ export const Button = forwardRef<
         return;
       }
 
-      // Other actions (contact, newsletter)
+      // Other actions (contact, newsletter, form)
       e.preventDefault();
       setInternalLoading(true);
 
       try {
-        // Auto-collect form data from parent <form> if no formData prop provided
-        let dataToSubmit = formData;
+        let dataToSubmit: Record<string, any>;
         const form = (e.currentTarget as HTMLButtonElement).closest('form');
-        if (!dataToSubmit || Object.keys(dataToSubmit).length === 0) {
-          if (form) {
+
+        if (action.type === 'form') {
+          const formId = (action as FormActionConfig).settings?.formId ?? 'contact_form';
+          const fields = form
+            ? (Object.fromEntries(new FormData(form).entries()) as Record<string, any>)
+            : (formData ?? {});
+          dataToSubmit = {
+            formId,
+            submittedAt: Date.now(),
+            steps: [{ id: 'contact', fields }],
+            meta: {},
+          };
+        } else {
+          dataToSubmit = formData ?? {};
+          if (form && (!dataToSubmit || Object.keys(dataToSubmit).length === 0)) {
             dataToSubmit = Object.fromEntries(new FormData(form).entries()) as Record<string, any>;
           }
         }
-        const result = await actionHook!.execute(dataToSubmit || {});
-        
-        // Clear form inputs on success
+
+        const result = await actionHook!.execute(dataToSubmit);
+
         if (result?.success && form) {
           form.reset();
         }
-        
-        onClick?.(e as any); // Call parent onClick after other actions
+
+        onClick?.(e as any);
       } finally {
         setInternalLoading(false);
       }

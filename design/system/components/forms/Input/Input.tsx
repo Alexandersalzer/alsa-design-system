@@ -8,6 +8,7 @@ import { EyeIcon, EyeSlashIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import type { ButtonProps } from '../../actions/Button/Button';
+import { useFormCollectionContext } from '../../../core/forms';
 
 // ===== KEYBOARD NAVIGATION TRACKER =====
 // Tracks if user is navigating via keyboard (Tab) or mouse
@@ -101,12 +102,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     componentKey,
     actionButton,
     id,
+    name,
     value,
     defaultValue,
     onChange,
     ...props
   }, ref) => {
     const generatedId = useId();
+    const formCollection = useFormCollectionContext();
     const inputId = id || `input-${generatedId}`;
     const [showPassword, setShowPassword] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
@@ -168,6 +171,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = event.target.value;
       setInputValue(newValue);
+      if (name && formCollection) formCollection.setField(undefined, name, newValue);
       if (onChange) onChange(event);
       if (onValueChange) onValueChange(newValue);
     };
@@ -175,6 +179,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     // Handle clear button
     const handleClear = () => {
       setInputValue('');
+      if (name && formCollection) formCollection.setField(undefined, name, '');
       if (onClear) onClear();
       if (onValueChange) onValueChange('');
     };
@@ -275,6 +280,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             }}
             className={inputClasses.join(' ')}
             style={inputStyle}
+            name={name}
             {...props}
           />
 

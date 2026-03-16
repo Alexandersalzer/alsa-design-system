@@ -8,6 +8,7 @@ import { cn } from '../../../utils/cn';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 import { Radio } from '../../forms/Radio/Radio';
 import { Label } from '../../Typography/Typography';
+import { useFormCollectionContext } from '../../../core/forms';
 import './SelectionCard.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -108,6 +109,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   const inputId = `${id}-input`;
   // Use value prop as the stable key for radio groups
   // For radio buttons, value MUST be provided, otherwise use id
+  const formCollection = useFormCollectionContext();
   const cardKey = indicator === 'radio' && value ? value : (value ?? id);
 
   const isControlled = onChange !== undefined || selectedProp !== undefined;
@@ -181,6 +183,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
 
     if (indicator === 'radio') {
       if (!effectiveSelected) {
+        if (name && formCollection) formCollection.setField(undefined, name, value ?? cardKey);
         onChange?.(true);
         if (!isControlled && name) {
           getOrCreateGroup(name).select(cardKey);
@@ -228,6 +231,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
       if (!isControlled) setLocalSelected(e.target.checked);
     } else if (indicator === 'radio') {
       if (e.target.checked) {
+        if (name && formCollection) formCollection.setField(undefined, name, value ?? cardKey);
         onChange?.(true);
         if (!isControlled && name) {
           getOrCreateGroup(name).select(cardKey);
