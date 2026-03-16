@@ -758,15 +758,6 @@ export function renderSectionLayout({
           </VStack>
         </Box>
 
-        {/* Below Split: remaining patterns (t.ex. portfolio-karusell, media) - no outer Container so each pattern's own width takes effect */}
-        {remainingPatterns.length > 0 && (
-          <Box className="desktop-only" style={{ width: '100%' }}>
-            <VStack spacing="none" align="stretch">
-              {renderPatterns(remainingPatterns)}
-            </VStack>
-          </Box>
-        )}
-        
         {/* Action patterns at bottom (if distanced) with width-container - Only on desktop */}
         {distancedActionPatterns.length > 0 && (
           <Box className="desktop-only">
@@ -871,6 +862,14 @@ export function renderSectionLayout({
           );
         })()}
       </Box>
+      {/* Below Split: remaining patterns (e.g. media image) rendered outside the width-container Box so their own width (media/form) takes full effect */}
+      {remainingPatterns.length > 0 && (
+        <Box className="desktop-only" style={{ width: '100%' }}>
+          <VStack spacing="none" align="stretch">
+            {renderPatterns(remainingPatterns)}
+          </VStack>
+        </Box>
+      )}
     </>
   );
 }
