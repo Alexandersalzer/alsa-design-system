@@ -214,15 +214,11 @@ export const renderPattern = (
       : layoutContent;
 
     const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
-    const containerAlign = patternWidth === 'form' && !layoutContext?.isInSecondColumn
-      ? 'center'
-      : undefined;
 
     return (
       <Container
         key={patternKey}
         height="auto"
-        align={containerAlign}
         width={patternWidth}
         noPadding={patternProps.noPadding || false}
         patternKey={patternKey}
@@ -240,15 +236,11 @@ export const renderPattern = (
   }
 
   const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
-  const containerAlign = patternWidth === 'form' && !layoutContext?.isInSecondColumn
-    ? 'center'
-    : undefined;
 
   return (
     <Container
       key={patternKey}
       height="auto"
-      align={containerAlign}
       width={patternWidth}
       noPadding={patternProps.noPadding || false}
       patternKey={patternKey}
