@@ -1272,20 +1272,17 @@ const renderComponentReference = (
   itemId?: string,
   locale?: string
 ): React.ReactElement | null => {
-  const { component: componentRef, animation: templateAnimation, optional, action: _action, ...extraProps } = reference;
+  const { component: componentRef, animation: templateAnimation, optional, role: slotRole, action: _action, ...extraProps } = reference;
 
-  // Extract type and optional role from ${type} or ${type:role} syntax
-  const slotName = extractSlotName(componentRef);
-  const colonIdx = slotName.indexOf(':');
-  const componentType = colonIdx !== -1 ? slotName.slice(0, colonIdx) : slotName;
-  const slotRole = colonIdx !== -1 ? slotName.slice(colonIdx + 1) : undefined;
+  // Extract component type from ${type} syntax
+  const componentType = extractSlotName(componentRef);
 
-  // Find next available component by type (and role if specified)
+  // Find next available component by type (and role if specified on the slot node)
   const result = findNextComponentByType(itemComponents, componentType, usedComponents, slotRole);
 
   if (!result) {
     if (optional) return null;
-    console.warn(`Component with type "${componentType}"${slotRole ? ` role "${slotRole}"` : ''} not found in item components (or all already used)`);
+    console.warn(`Component with type "${componentType}"${slotRole ? ` and role "${slotRole}"` : ''} not found in item components (or all already used)`);
     return null;
   }
 
