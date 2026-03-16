@@ -108,13 +108,6 @@ export function renderSectionLayout({
         ? 'flex-end'
         : 'center';
 
-  // ===== DERIVE SECTION MAX WIDTH =====
-  const sectionMaxWidth = order.some(key => patterns[key]?.props?.width === 'media' || patterns[key]?.props?.useMediaWidth)
-    ? 'var(--width-media)'
-    : order.some(key => patterns[key]?.props?.width === 'form' || patterns[key]?.props?.useFormWidth)
-    ? 'var(--width-form)'
-    : 'var(--width-container)';
-
   // ===== FIND SPECIAL PATTERNS =====
   // Action patterns have type === 'action' (explicit in JSON)
   const isActionPattern = (patternType: string) => patternType === 'action';
@@ -634,7 +627,7 @@ export function renderSectionLayout({
       <Box
         id={layoutId}
         style={{
-          maxWidth: sectionMaxWidth,
+          maxWidth: 'var(--width-container)',
           width: '100%',
           margin: '0 auto',
           ...(wrapInCard && { flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', justifyContent: cardPositionVertical ?? 'start' }),
