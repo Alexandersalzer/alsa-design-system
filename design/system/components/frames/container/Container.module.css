@@ -6,6 +6,9 @@
   width: 100%;
   box-sizing: border-box;
 
+  display: flex;
+  flex-direction: column;
+
   padding-top: var(--space-container);
   padding-bottom: var(--space-container);
 
