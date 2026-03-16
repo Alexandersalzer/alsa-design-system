@@ -147,12 +147,6 @@ export const FormStepper = ({
       const formEl = formRef.current;
       const formData = formEl ? new FormData(formEl) : new FormData();
 
-      // Flat data (backwards compatible)
-      const flatData: Record<string, any> = {};
-      formData.forEach((val, key) => {
-        flatData[key] = val;
-      });
-
       // Structured per-step data (if steps are present)
       const stepsData: Record<string, Record<string, any>> = {};
       if (formEl) {
@@ -179,12 +173,16 @@ export const FormStepper = ({
         });
       }
 
-      const payload: Record<string, any> = {
-        ...flatData,
-      };
-
+      // Prefer structured steps payload when available, otherwise fall back to flat FormData
+      let payload: Record<string, any>;
       if (Object.keys(stepsData).length > 0) {
-        payload.steps = stepsData;
+        payload = { steps: stepsData };
+      } else {
+        const flatData: Record<string, any> = {};
+        formData.forEach((val, key) => {
+          flatData[key] = val;
+        });
+        payload = flatData;
       }
 
       const result = await executeAction(action.type, payload);
