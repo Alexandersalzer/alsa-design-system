@@ -5,6 +5,8 @@ type Alignment = 'left' | 'center' | 'right';
 type Height = 'auto' | 'full' | 'fit';
 type SpacingScale = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
+type ContainerWidth = 'content' | 'media' | 'form' | 'navbar';
+
 interface ContainerProps {
   children: ReactNode;
   className?: string;
@@ -12,13 +14,17 @@ interface ContainerProps {
   as?: React.ElementType;
   align?: Alignment;
   height?: Height;
+  width?: ContainerWidth;
+  /** @deprecated use width="media" */
   useMediaWidth?: boolean;
+  /** @deprecated use width="form" */
   useFormWidth?: boolean;
-  useNavbarWidth?: boolean; // ✅ NEW PROP
+  /** @deprecated use width="navbar" */
+  useNavbarWidth?: boolean;
   spacing?: SpacingScale;
   noPadding?: boolean;
   style?: React.CSSProperties;
-  patternKey?: string; // För live editing identification
+  patternKey?: string;
 }
 
 const getAlignmentClass = (align?: Alignment): string => {
@@ -56,9 +62,10 @@ export const Container = ({
   as: Component = 'div',
   align,
   height = 'auto',
+  width,
   useMediaWidth = false,
   useFormWidth = false,
-  useNavbarWidth = false, // ✅ NEW
+  useNavbarWidth = false,
   spacing,
   noPadding = false,
   style,
@@ -68,13 +75,15 @@ export const Container = ({
   const heightClass = getHeightClass(height);
   const spacingClass = getSpacingClass(spacing);
   const paddingClass = getPaddingClass(noPadding);
-  
-  const widthClass = useNavbarWidth
-    ? styles.maxWidthNavbar // ✅ NEW
-    : useFormWidth
-    ? styles.maxWidthForm
-    : useMediaWidth
-    ? styles.maxWidthMedia
+
+  // Resolve effective width: new enum takes precedence, deprecated booleans as fallback
+  const effectiveWidth: ContainerWidth | undefined =
+    width ?? (useNavbarWidth ? 'navbar' : useMediaWidth ? 'media' : useFormWidth ? 'form' : undefined);
+
+  const widthClass =
+    effectiveWidth === 'navbar' ? styles.maxWidthNavbar
+    : effectiveWidth === 'media' ? styles.maxWidthMedia
+    : effectiveWidth === 'form'  ? styles.maxWidthForm
     : '';
 
   const combinedClassName = [

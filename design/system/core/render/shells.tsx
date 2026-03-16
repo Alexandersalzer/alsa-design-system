@@ -26,8 +26,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
         key={patternKey}
         align="center"
         height="auto"
-        useNavbarWidth={patternProps.useNavbarWidth || false}
-        useMediaWidth={patternProps.useMediaWidth || false}
+        width={patternProps.width ?? (patternProps.useNavbarWidth ? 'navbar' : patternProps.useMediaWidth ? 'media' : undefined)}
         noPadding={true}
         patternKey={patternKey}
       >
@@ -88,7 +87,7 @@ export const renderShellPattern = (pattern: PatternNode, patternKey: string, sec
       key={`${patternKey}`}
       align="center"
       height="auto"
-      useNavbarWidth={patternProps.useNavbarWidth || false}
+      width={patternProps.width ?? (patternProps.useNavbarWidth ? 'navbar' : patternProps.useMediaWidth ? 'media' : undefined)}
       noPadding={true}
       patternKey={patternKey}
     >

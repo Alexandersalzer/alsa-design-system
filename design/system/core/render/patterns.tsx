@@ -213,9 +213,8 @@ export const renderPattern = (
       ? wrapWithAnimation(layoutContent, animationConfig, layoutConfig)
       : layoutContent;
 
-    // For forms with useFormWidth in aligned layouts (left/right), pass alignment to Container
-    // This prevents margin: auto from centering the form when parent expects left/right align
-    const containerAlign = patternProps.useFormWidth && layoutContext?.alignSectionHeader
+    const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
+    const containerAlign = patternWidth === 'form' && layoutContext?.alignSectionHeader
       ? layoutContext.alignSectionHeader
       : undefined;
 
@@ -224,8 +223,7 @@ export const renderPattern = (
         key={patternKey}
         height="auto"
         align={containerAlign}
-        useMediaWidth={patternProps.useMediaWidth || false}
-        useFormWidth={patternProps.useFormWidth || false}
+        width={patternWidth}
         noPadding={patternProps.noPadding || false}
         patternKey={patternKey}
       >
@@ -241,8 +239,8 @@ export const renderPattern = (
     return null;
   }
 
-  // For forms with useFormWidth in aligned layouts (left/right), pass alignment to Container
-  const containerAlign = patternProps.useFormWidth && layoutContext?.alignSectionHeader
+  const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
+  const containerAlign = patternWidth === 'form' && layoutContext?.alignSectionHeader
     ? layoutContext.alignSectionHeader
     : undefined;
 
@@ -251,8 +249,7 @@ export const renderPattern = (
       key={patternKey}
       height="auto"
       align={containerAlign}
-      useMediaWidth={patternProps.useMediaWidth || false}
-      useFormWidth={patternProps.useFormWidth || false}
+      width={patternWidth}
       noPadding={patternProps.noPadding || false}
       patternKey={patternKey}
     >
