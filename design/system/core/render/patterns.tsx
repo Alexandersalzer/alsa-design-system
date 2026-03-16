@@ -214,8 +214,8 @@ export const renderPattern = (
       : layoutContent;
 
     const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
-    const containerAlign = patternWidth === 'form' && layoutContext?.alignSectionHeader
-      ? layoutContext.alignSectionHeader
+    const containerAlign = patternWidth === 'form' && !layoutContext?.isInSecondColumn
+      ? 'center'
       : undefined;
 
     return (
@@ -240,8 +240,8 @@ export const renderPattern = (
   }
 
   const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
-  const containerAlign = patternWidth === 'form' && layoutContext?.alignSectionHeader
-    ? layoutContext.alignSectionHeader
+  const containerAlign = patternWidth === 'form' && !layoutContext?.isInSecondColumn
+    ? 'center'
     : undefined;
 
   return (
