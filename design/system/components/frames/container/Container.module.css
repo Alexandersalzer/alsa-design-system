@@ -6,9 +6,6 @@
   width: 100%;
   box-sizing: border-box;
 
-  display: flex;
-  flex-direction: column;
-
   padding-top: var(--space-container);
   padding-bottom: var(--space-container);
 
@@ -67,14 +64,9 @@
 .heightFit  { height: fit-content; }
 
 /* ===== ALIGNMENT VARIANTS ===== */
-.alignLeft   { align-items: flex-start; text-align: left; margin-inline: 0 auto; }
-.alignCenter { align-items: center; text-align: center; margin-inline: auto; }
-.alignRight  { align-items: flex-end; text-align: right; margin-inline: auto 0; }
-
-/* ===== CONTENT ALIGNMENT (container stays centered, only content aligns) ===== */
-.contentAlignLeft   { align-items: flex-start; text-align: left; }
-.contentAlignCenter { align-items: center; text-align: center; }
-.contentAlignRight  { align-items: flex-end; text-align: right; }
+.alignLeft   { text-align: left; margin-inline: 0 auto; }
+.alignCenter { text-align: center; margin-inline: auto; }
+.alignRight  { text-align: right; margin-inline: auto 0; }
 
 /* ===== PADDING VARIANTS ===== */
 .noPadding {
