@@ -156,13 +156,12 @@ export const heroSectionSchema: SectionSchema = {
     
     backgroundSplitShape: {
       ...defaultSectionLayoutProps.backgroundSplitShape,
-      cmsEnabled: true
+      cmsEnabled: false
     },
-    
-    // Disable wrap in card for hero sections
+
     wrapInCard: {
       ...defaultSectionLayoutProps.wrapInCard,
-      cmsEnabled: false // Heroes should not be wrapped in cards
+      cmsEnabled: true
     }
   },
   
