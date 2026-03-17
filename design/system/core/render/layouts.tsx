@@ -1288,8 +1288,13 @@ const renderComponentReference = (
 
   const { component: itemComponent, key: componentKey } = result;
 
-  // Mark this component as used
+  // Mark this component as used (even if hidden — so slot order stays stable)
   usedComponents.add(componentKey);
+
+  // Skip rendering if component is hidden via props.hidden
+  if (itemComponent?.props?.hidden === true || itemComponent?.props?.hidden === 'true') {
+    return null;
+  }
 
   const Component = componentRegistry[componentType];
   if (!Component) {

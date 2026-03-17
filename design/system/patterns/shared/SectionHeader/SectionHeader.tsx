@@ -174,7 +174,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         const tagKey = Object.keys(components).find(k => components[k].type === 'tag');
         if (!tagKey || !renderIf('tag')) return null;
         const mergedProps = getMergedProps(tagKey);
-        if (mergedProps.isHidden === 'true') return null;
+        if (mergedProps.hidden === true || mergedProps.hidden === 'true') return null;
         return withAnimation(
           <Box style={{ textAlign: textAlign }}>
             <Tag
@@ -234,7 +234,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         if (!bodyKey || !renderIf('body')) return null;
         const mergedProps = getMergedProps(bodyKey);
         // Hero sections cannot hide body text - it's essential for context
-        if (!isHero && mergedProps.isHidden === 'true') return null;
+        if (!isHero && (mergedProps.hidden === true || mergedProps.hidden === 'true')) return null;
         if (!mergedProps.content && !mergedProps.animation) return null;
         return withAnimation(
           <Typography
