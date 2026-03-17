@@ -331,6 +331,15 @@
   font-variant-numeric: tabular-nums;
 }
 
+.sparkline__tooltip-value--secondary.sparkline__line--success {
+  color: var(--text-success-strong);
+}
+
+.sparkline__tooltip-label {
+  color: var(--text-muted);
+  margin-right: var(--foundation-space-1);
+}
+
 /* ===== X-AXIS LABELS ===== */
 /* Position relative so labels can be placed under exact data points (align with hover/tooltip) */
 .sparkline__x-axis {
