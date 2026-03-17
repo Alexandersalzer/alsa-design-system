@@ -1053,7 +1053,7 @@ const renderTemplateNode = (
   
   // Check what kind of node this is
   if (isComponentReference(node)) {
-    return renderComponentReference(node, itemComponents, usedComponents, sectionKey, patternKey, itemId, locale);
+    return renderComponentReference(node, itemComponents, usedComponents, sectionKey, patternKey, itemId, locale, itemContext);
   }
 
   if (isLayoutNode(node)) {
@@ -1270,7 +1270,8 @@ const renderComponentReference = (
   sectionKey?: string,
   patternKey?: string,
   itemId?: string,
-  locale?: string
+  locale?: string,
+  itemContext?: Record<string, any>
 ): React.ReactElement | null => {
   const { component: componentRef, animation: templateAnimation, optional, role: slotRole, action: _action, ...extraProps } = reference;
 
@@ -1302,11 +1303,17 @@ const renderComponentReference = (
     return null;
   }
 
-  // Merge props: schema defaults < item.props (content) < template extraProps (styling)
+  // Inherit text alignment from section's alignSectionHeader when template doesn't hardcode align
+  const inheritedAlign = !extraProps.align && itemContext?.alignSectionHeader
+    ? (itemContext.alignSectionHeader === 'center' ? 'center' : 'left')
+    : undefined;
+
+  // Merge props: schema defaults < item.props (content) < inherited align < template extraProps (styling)
   const mergedProps = mergeWithDefaults(
     componentType,
     {
       ...(itemComponent?.props || {}),
+      ...(inheritedAlign ? { align: inheritedAlign } : {}),
       ...extraProps
     },
     locale as any
