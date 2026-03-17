@@ -368,7 +368,11 @@ export const Sparkline: React.FC<SparklineProps> = ({
     // Step 7: Generate X-axis labels (sanitize so we never show "NaN")
     const xAxisLabels: string[] = [];
     if (showXAxis) {
-      const labelDensity = Math.max(1, Math.floor(processedData.length / 7)); // Max 7 labels
+      // Dagvy (timme): alltid var 6:e timme (00, 06, 12, 18). Övriga vyer: max ~7 etiketter.
+      const labelDensity =
+        effectiveBucket === 'hour'
+          ? 6
+          : Math.max(1, Math.floor(processedData.length / 7));
       processedData.forEach((datum, i) => {
         if (i % labelDensity === 0 || i === processedData.length - 1) {
           const date = new Date(datum.timestamp);
@@ -632,6 +636,13 @@ export const Sparkline: React.FC<SparklineProps> = ({
                 </g>
               )}
 
+              {/* Sekundär linje först (under), sedan area + primär linje (ovanpå) */}
+              {secondaryLinePath && (
+                <path
+                  className={`sparkline__line sparkline__line--${secondaryColor}`}
+                  d={secondaryLinePath}
+                />
+              )}
               {showArea && (
                 <path
                   className={`sparkline__area sparkline__area--${color}`}
@@ -639,17 +650,10 @@ export const Sparkline: React.FC<SparklineProps> = ({
                   fill={`url(#sparkline-gradient-${color})`}
                 />
               )}
-
               <path
                 className={`sparkline__line sparkline__line--${color}`}
                 d={linePath}
               />
-              {secondaryLinePath && (
-                <path
-                  className={`sparkline__line sparkline__line--${secondaryColor}`}
-                  d={secondaryLinePath}
-                />
-              )}
             </svg>
 
             {/* Hover-prick som div så den alltid är rund (SVG:ns preserveAspectRatio="none" sträcker annars cirkeln till oval) */}
