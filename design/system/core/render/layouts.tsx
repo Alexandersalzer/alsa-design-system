@@ -1309,8 +1309,8 @@ const renderComponentReference = (
     return null;
   }
 
-  // Inherit text alignment from section's alignSectionHeader when template doesn't hardcode align
-  const inheritedAlign = !extraProps.align && itemContext?.alignSectionHeader
+  // Inherit text alignment from section's alignSectionHeader — only at top level (not inside cards/hstacks)
+  const inheritedAlign = !extraProps.align && itemContext?.alignSectionHeader && !itemContext?._isNestedLayout
     ? (itemContext.alignSectionHeader === 'center' ? 'center' : 'left')
     : undefined;
 
