@@ -670,14 +670,16 @@ export function renderSectionLayout({
                   </VStack>
                 </Box>
               ) : (
-                <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
-                  <VStack spacing="lg" align="start">
-                    {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                    {effectiveInlineHeaderPattern && patterns[effectiveInlineHeaderPattern] && renderPatternDirect(patterns[effectiveInlineHeaderPattern], effectiveInlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
-                    {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
-                    {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
-                  </VStack>
-                </Box>
+                <Container height="auto">
+                  <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                    <VStack spacing="lg" align="start">
+                      {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
+                      {effectiveInlineHeaderPattern && patterns[effectiveInlineHeaderPattern] && renderPatternDirect(patterns[effectiveInlineHeaderPattern], effectiveInlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
+                      {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                      {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                    </VStack>
+                  </Box>
+                </Container>
               )}
             </Box>
           )}
@@ -701,14 +703,16 @@ export function renderSectionLayout({
                   </VStack>
                 </Box>
               ) : (
-                <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
-                  <VStack spacing="lg" align="start">
-                    {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
-                    {effectiveInlineHeaderPattern && patterns[effectiveInlineHeaderPattern] && renderPatternDirect(patterns[effectiveInlineHeaderPattern], effectiveInlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
-                    {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
-                    {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
-                  </VStack>
-                </Box>
+                <Container height="auto">
+                  <Box style={{ maxWidth: sectionHeaderMaxWidth, margin: marginValue, width: '100%' }}>
+                    <VStack spacing="lg" align="start">
+                      {sectionHeaderKey && renderPatternDirect(patterns[sectionHeaderKey], sectionHeaderKey, sectionKey, sectionHeaderContext, locale)}
+                      {effectiveInlineHeaderPattern && patterns[effectiveInlineHeaderPattern] && renderPatternDirect(patterns[effectiveInlineHeaderPattern], effectiveInlineHeaderPattern, sectionKey, sectionHeaderContext, locale)}
+                      {actionPatternsWithHeader.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                      {firstColumnPatterns.map(key => renderPatternDirect(patterns[key], key, sectionKey, layoutContext, locale))}
+                    </VStack>
+                  </Box>
+                </Container>
               )}
             </Box>
           ) : (
