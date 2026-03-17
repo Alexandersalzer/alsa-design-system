@@ -1088,15 +1088,16 @@ const renderLayoutNodeGeneric = (
     layoutProps = { ...layoutProps, direction: 'row-reverse' };
   }
 
-  // ✨ Pass alignment from layoutContext to VStack when alignSectionHeader is 'center'
-  // ONLY for top-level VStacks (direct children of Grid), NOT for nested VStacks inside HStack/Card
+  // ✨ Pass alignment from layoutContext to top-level VStacks (direct children of Grid)
+  // NOT for nested VStacks inside HStack/Card
   if (
-    layoutType === 'vstack' && 
-    itemContext?.alignSectionHeader === 'center' && 
+    layoutType === 'vstack' &&
+    itemContext?.alignSectionHeader &&
     !layoutProps.align &&
     !itemContext?._isNestedLayout  // ✅ Skip nested layouts
   ) {
-    layoutProps = { ...layoutProps, align: 'center' };
+    const inheritedVStackAlign = itemContext.alignSectionHeader === 'center' ? 'center' : 'start';
+    layoutProps = { ...layoutProps, align: inheritedVStackAlign };
   }
 
   // Add filterTags as data-filter-tags attribute for filtering functionality
