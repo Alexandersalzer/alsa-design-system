@@ -16,7 +16,7 @@ const logoTranslations = {
     description: 'Logotyp med färgkontroll',
     props: {
       color: {
-        displayName: 'Logga',
+        displayName: 'Färg',
         description: 'Välj hur loggan anpassar sig till temat',
         valueLabels: {
           auto: 'Auto',
@@ -64,7 +64,7 @@ const logoTranslations = {
     description: 'Logo image with color control',
     props: {
       color: {
-        displayName: 'Logo',
+        displayName: 'Color',
         description: 'How the logo adapts to the theme',
         valueLabels: {
           auto: 'Auto',
