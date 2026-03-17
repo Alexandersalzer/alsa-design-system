@@ -657,7 +657,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     valueLabels: { start: 'Top', center: 'Center', end: 'Bottom' },
     default: 'start',
     group: 'card',
-    cmsEnabled: true,
+    cmsEnabled: false,
     visibleWhen: { property: 'wrapInCard', operator: 'equals', value: true }
   },
 
@@ -671,7 +671,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     valueLabels: { start: 'Left', center: 'Center', end: 'Right' },
     default: 'center',
     group: 'card',
-    cmsEnabled: true,
+    cmsEnabled: false,
     visibleWhen: { property: 'wrapInCard', operator: 'equals', value: true }
   }
 };
