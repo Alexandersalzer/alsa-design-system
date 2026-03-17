@@ -55,6 +55,8 @@ export interface SparklineProps {
   // ===== X-AXIS CONFIG (New) =====
   /** Show time labels below chart */
   showXAxis?: boolean;
+  /** 'auto' = fler etiketter, 'start-end' = bara start- och slutdatum (Framer-stil) */
+  xAxisStyle?: 'auto' | 'start-end';
   /** Custom X-axis label formatter */
   xAxisFormatter?: (date: Date, bucket: string) => string;
 
@@ -256,6 +258,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
   scaleFormatter,
   // X-axis config
   showXAxis = false,
+  xAxisStyle = 'auto',
   xAxisFormatter,
   // Interaction
   showTooltip = false,
@@ -368,13 +371,20 @@ export const Sparkline: React.FC<SparklineProps> = ({
     // Step 7: Generate X-axis labels (sanitize so we never show "NaN")
     const xAxisLabels: string[] = [];
     if (showXAxis) {
-      // Dagvy (timme): alltid var 6:e timme (00, 06, 12, 18). Övriga vyer: max ~7 etiketter.
-      const labelDensity =
-        effectiveBucket === 'hour'
-          ? 6
-          : Math.max(1, Math.floor(processedData.length / 7));
+      const startEndOnly = xAxisStyle === 'start-end';
       processedData.forEach((datum, i) => {
-        if (i % labelDensity === 0 || i === processedData.length - 1) {
+        const isFirst = i === 0;
+        const isLast = i === processedData.length - 1;
+        const showLabel = startEndOnly
+          ? (isFirst || isLast)
+          : (() => {
+              const labelDensity =
+                effectiveBucket === 'hour'
+                  ? 6
+                  : Math.max(1, Math.floor(processedData.length / 7));
+              return i % labelDensity === 0 || isLast;
+            })();
+        if (showLabel) {
           const date = new Date(datum.timestamp);
           const label = xAxisFormatter
             ? xAxisFormatter(date, effectiveBucket)
@@ -424,6 +434,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
     showScale,
     gridLines,
     showXAxis,
+    xAxisStyle,
     xAxisFormatter
   ]);
 
@@ -703,28 +714,38 @@ export const Sparkline: React.FC<SparklineProps> = ({
             )}
           </div>
 
-          {/* X-axis labels – positioned to align with data points (same x as chart) */}
-          {showXAxis && chartData.xAxisLabels.length > 0 && (
-            <div className="sparkline__x-axis">
-              {chartData.xAxisLabels.map((label, i) => {
-                const n = chartData.processedData.length;
-                const leftPercent = n > 1 ? (i / (n - 1)) * 100 : 0;
-                return (
-                  <span
-                    key={`x-label-${i}`}
-                    className="sparkline__x-axis-label"
-                    style={{
-                      position: 'absolute',
-                      left: `${leftPercent}%`,
-                      transform: 'translateX(-50%)',
-                    }}
-                  >
-                    {label}
-                  </span>
-                );
-              })}
-            </div>
-          )}
+          {/* X-axis labels – start-end: första vänster, sista höger (Framer-stil); annars centrerat */}
+          {showXAxis && chartData.xAxisLabels.length > 0 && (() => {
+            const labels = chartData.xAxisLabels;
+            const n = chartData.processedData.length;
+            const firstIdx = labels.findIndex(l => l !== '');
+            const lastIdx = labels.reduce((last, l, i) => (l ? i : last), 0);
+            const isStartEnd = xAxisStyle === 'start-end' && firstIdx !== -1 && lastIdx !== -1;
+            return (
+              <div className="sparkline__x-axis">
+                {labels.map((label, i) => {
+                  const leftPercent = n > 1 ? (i / (n - 1)) * 100 : 0;
+                  const isFirst = label && i === firstIdx;
+                  const isLast = label && i === lastIdx;
+                  const style: React.CSSProperties = isStartEnd && isFirst
+                    ? { left: 0, transform: 'none' }
+                    : isStartEnd && isLast
+                      ? { left: 'auto', right: 0, transform: 'none' }
+                      : { left: `${leftPercent}%`, transform: 'translateX(-50%)' };
+                  const mod = isStartEnd && isFirst ? ' sparkline__x-axis-label--start' : isStartEnd && isLast ? ' sparkline__x-axis-label--end' : '';
+                  return (
+                    <span
+                      key={`x-label-${i}`}
+                      className={`sparkline__x-axis-label${mod}`}
+                      style={{ position: 'absolute', ...style }}
+                    >
+                      {label}
+                    </span>
+                  );
+                })}
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>
