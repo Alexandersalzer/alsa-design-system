@@ -64,6 +64,8 @@ export interface SparklineProps {
   // ===== INTERACTION (New) =====
   /** Enable hover tooltip with date + value */
   showTooltip?: boolean;
+  /** Override tooltip date label (e.g. show only weekday: date => date.toLocaleDateString('sv-SE', { weekday: 'long' })) */
+  tooltipDateFormatter?: (date: Date) => string;
   /** Label for primary value in tooltip when using secondary series */
   primaryLabel?: string;
   /** Label for secondary value in tooltip when using secondary series */
@@ -263,6 +265,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
   xAxisFormatter,
   // Interaction
   showTooltip = false,
+  tooltipDateFormatter,
   primaryLabel,
   secondaryLabel,
   // Visual config
@@ -712,7 +715,9 @@ export const Sparkline: React.FC<SparklineProps> = ({
                     }}
                   >
                     <div className="sparkline__tooltip-date">
-                      {formatTooltipDate(new Date(hoveredDatum.timestamp), chartData.bucketType)}
+                      {tooltipDateFormatter
+                        ? tooltipDateFormatter(new Date(hoveredDatum.timestamp))
+                        : formatTooltipDate(new Date(hoveredDatum.timestamp), chartData.bucketType)}
                     </div>
                     <div className="sparkline__tooltip-value">
                       {primaryLabel && <span className="sparkline__tooltip-label">{primaryLabel}: </span>}
