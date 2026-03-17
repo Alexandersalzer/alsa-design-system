@@ -638,14 +638,26 @@ export const Sparkline: React.FC<SparklineProps> = ({
             )}
           </div>
 
-          {/* X-axis labels */}
+          {/* X-axis labels – positioned to align with data points (same x as chart) */}
           {showXAxis && chartData.xAxisLabels.length > 0 && (
             <div className="sparkline__x-axis">
-              {chartData.xAxisLabels.map((label, i) => (
-                <span key={`x-label-${i}`} className="sparkline__x-axis-label">
-                  {label}
-                </span>
-              ))}
+              {chartData.xAxisLabels.map((label, i) => {
+                const n = chartData.processedData.length;
+                const leftPercent = n > 1 ? (i / (n - 1)) * 100 : 0;
+                return (
+                  <span
+                    key={`x-label-${i}`}
+                    className="sparkline__x-axis-label"
+                    style={{
+                      position: 'absolute',
+                      left: `${leftPercent}%`,
+                      transform: 'translateX(-50%)',
+                    }}
+                  >
+                    {label}
+                  </span>
+                );
+              })}
             </div>
           )}
         </div>
