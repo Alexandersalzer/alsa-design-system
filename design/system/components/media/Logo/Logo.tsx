@@ -36,6 +36,7 @@ export interface LogoProps {
   hideTextOnMobile?: boolean;
   display?: 'both' | 'logo' | 'text';
   aspectRatio?: string;
+  objectPosition?: string;
   loading?: 'eager' | 'lazy';
   priority?: boolean;
   onClick?: () => void;
@@ -71,6 +72,7 @@ export const Logo: React.FC<LogoProps> = ({
   hideTextOnMobile = false,
   display,
   aspectRatio = '1/1',
+  objectPosition,
   loading = 'lazy',
   priority = false,
   onClick,
@@ -163,6 +165,7 @@ export const Logo: React.FC<LogoProps> = ({
             width={width}
             height={height}
             aspectRatio={aspectRatio}
+            objectPosition={objectPosition}
             radius={radius}
             variant={imageVariant}
             loading={loading}
@@ -212,6 +215,7 @@ export const Logo: React.FC<LogoProps> = ({
             width={width}
             height={height}
             aspectRatio={aspectRatio}
+            objectPosition={objectPosition}
             radius={radius}
             variant={imageVariant}
             loading={loading}

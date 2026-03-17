@@ -37,10 +37,16 @@ const logoTranslations = {
           full: '○',
         },
       },
-      aspectRatio: {
-        displayName: 'Ratio',
-        description: 'Bildproportioner',
-        valueLabels: { '1/1': '1:1', '2/3': '2:3', '3/2': '3:2' },
+      objectPosition: {
+        displayName: 'Position',
+        description: 'Var i bilden fokus ligger',
+        valueLabels: {
+          center: 'Center',
+          top: 'Top',
+          bottom: 'Bottom',
+          left: 'Left',
+          right: 'Right',
+        },
       },
       display: {
         displayName: 'Visa',
@@ -79,10 +85,16 @@ const logoTranslations = {
           full: '○',
         },
       },
-      aspectRatio: {
-        displayName: 'Ratio',
-        description: 'Image proportions',
-        valueLabels: { '1/1': '1:1', '2/3': '2:3', '3/2': '3:2' },
+      objectPosition: {
+        displayName: 'Position',
+        description: 'Where the image focus sits',
+        valueLabels: {
+          center: 'Center',
+          top: 'Top',
+          bottom: 'Bottom',
+          left: 'Left',
+          right: 'Right',
+        },
       },
       display: {
         displayName: 'Display',
@@ -160,18 +172,18 @@ export const createLogoSchema = (locale: SupportedLocale = 'sv'): ComponentSchem
         t.props?.color
       ),
 
-      aspectRatio: createLocalizedProp(
+      objectPosition: createLocalizedProp(
         {
-          name: 'aspectRatio',
+          name: 'objectPosition',
           type: 'enum',
           required: false,
-          default: '1/1',
+          default: 'center',
           editorType: 'segmented',
-          values: ['1/1', '2/3', '3/2'] as const,
+          values: ['center', 'top', 'bottom', 'left', 'right'] as const,
           cmsEnabled: true,
           group: 'appearance',
         },
-        t.props?.aspectRatio
+        t.props?.objectPosition
       ),
 
       radius: createLocalizedProp(
