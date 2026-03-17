@@ -5,6 +5,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { useFormStepperContext } from './FormStepperContext';
+import { FormCollectionStepScope } from '../../../core/forms';
 
 export interface FormStepProps {
   stepKey: string;
@@ -15,7 +16,7 @@ export interface FormStepProps {
   children?: React.ReactNode;
 }
 
-export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps) => {
+export const FormStep = ({ children, stepKey, index, autoAdvance = false }: FormStepProps) => {
   const { currentStep, goNext, isLastStep } = useFormStepperContext();
 
   const isActive = currentStep === index;
@@ -77,17 +78,19 @@ export const FormStep = ({ children, index, autoAdvance = false }: FormStepProps
 
   return (
     <div className="form-step" aria-hidden={!isActive} data-step-index={index}>
-      <div
-        ref={contentRef}
-        className="form-step__content"
-        style={{
-          maxHeight: isActive ? 'none' : '0',
-          opacity: isActive ? 1 : 0,
-          transform: isActive ? 'translateY(0)' : 'translateY(-8px)',
-        }}
-      >
-        {children}
-      </div>
+      <FormCollectionStepScope stepId={stepKey}>
+        <div
+          ref={contentRef}
+          className="form-step__content"
+          style={{
+            maxHeight: isActive ? 'none' : '0',
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'translateY(0)' : 'translateY(-8px)',
+          }}
+        >
+          {children}
+        </div>
+      </FormCollectionStepScope>
     </div>
   );
 };

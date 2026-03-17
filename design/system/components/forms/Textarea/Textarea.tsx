@@ -6,6 +6,7 @@
 import React, { forwardRef, useId, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useFormCollectionContext } from '../../../core/forms';
 
 // ===== KEYBOARD NAVIGATION TRACKER =====
 // Tracks if user is navigating via keyboard (Tab) or mouse
@@ -113,6 +114,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   wrapperClassName,
   textareaClassName,
   id: providedId,
+  name,
   value,
   defaultValue,
   onChange,
@@ -129,6 +131,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   ...props
 }, ref) => {
   const generatedId = useId();
+  const formCollection = useFormCollectionContext();
   const id = providedId || generatedId;
   const descriptionId = description ? `${id}-description` : undefined;
   const errorId = error ? `${id}-error` : undefined;
@@ -167,6 +170,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   // Handle input changes
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
+    if (name && formCollection) formCollection.setField(undefined, name, newValue);
 
     // Auto-resize if enabled
     if (autoResize) {
@@ -186,6 +190,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
 
   // Handle clear button
   const handleClear = () => {
+    if (name && formCollection) formCollection.setField(undefined, name, '');
     if (onClear) {
       onClear();
     }
@@ -313,6 +318,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
             maxHeight: autoResize && maxRows ? `${maxRows * 1.5}em` : undefined,
             ...props.style
           }}
+          name={name}
           {...props}
         />
 

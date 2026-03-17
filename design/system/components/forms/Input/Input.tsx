@@ -8,6 +8,7 @@ import { EyeIcon, EyeSlashIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { cn } from '../../../utils/cn';
 import { Component } from '../../frames/component/Component';
 import type { ButtonProps } from '../../actions/Button/Button';
+import { useFormCollectionContext } from '../../../core/forms';
 
 // ===== KEYBOARD NAVIGATION TRACKER =====
 // Tracks if user is navigating via keyboard (Tab) or mouse
@@ -72,8 +73,6 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   componentKey?: string; // För live editing identification
   /** Action button displayed inside the input on the right side (e.g., Search, Submit, Send) */
   actionButton?: ReactElement<ButtonProps>;
-  /** When true, blocks non-numeric key input (allows digits, +, -, space, backspace, arrows, etc.) */
-  numericOnly?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -102,16 +101,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     onValueChange,
     componentKey,
     actionButton,
-    numericOnly,
     id,
+    name,
     value,
     defaultValue,
     onChange,
-    onKeyDown: _onKeyDown,
     ...props
   }, ref) => {
     const generatedId = useId();
+    const formCollection = useFormCollectionContext();
     const inputId = id || `input-${generatedId}`;
+    // Field key for form collection: name if set, otherwise slug from label (so label alone is enough)
+    const fieldKey = name ?? (label != null && String(label).trim()
+      ? String(label).trim().toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_-]/g, '')
+      : undefined);
     const [showPassword, setShowPassword] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [inputValue, setInputValue] = useState((value || defaultValue || '') as string);
@@ -172,6 +175,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = event.target.value;
       setInputValue(newValue);
+      if (fieldKey && formCollection) formCollection.setField(undefined, fieldKey, newValue);
       if (onChange) onChange(event);
       if (onValueChange) onValueChange(newValue);
     };
@@ -179,20 +183,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     // Handle clear button
     const handleClear = () => {
       setInputValue('');
+      if (fieldKey && formCollection) formCollection.setField(undefined, fieldKey, '');
       if (onClear) onClear();
       if (onValueChange) onValueChange('');
     };
-
-    // Block non-numeric keys when numericOnly is true
-    const handleKeyDown = numericOnly
-      ? (e: React.KeyboardEvent<HTMLInputElement>) => {
-          const allowed = /^[0-9+\-\s]$/.test(e.key) ||
-            ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter', 'Home', 'End'].includes(e.key) ||
-            (e.ctrlKey || e.metaKey); // allow copy/paste/select-all
-          if (!allowed) e.preventDefault();
-          if (_onKeyDown) _onKeyDown(e);
-        }
-      : _onKeyDown;
 
     // Handle password toggle
     const isPassword = type === 'password';
@@ -280,7 +274,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             type={actualType}
             value={value !== undefined ? value : inputValue}
             onChange={handleChange}
-            onKeyDown={handleKeyDown}
             onFocus={(e) => {
               setIsFocused(true);
               if (props.onFocus) props.onFocus(e);
@@ -291,6 +284,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             }}
             className={inputClasses.join(' ')}
             style={inputStyle}
+            name={name ?? fieldKey ?? undefined}
             {...props}
           />
 
