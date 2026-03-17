@@ -108,6 +108,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--foundation-space-2);
+  overflow: visible;
 }
 
 /* ===== SCALE LABELS ===== */
@@ -250,6 +251,7 @@
   flex-direction: column;
   gap: var(--foundation-space-2);
   flex: 1;
+  overflow: visible;
 }
 
 /* ===== HOVER DOT (SVG ellipse/circle – används ej längre; prick ritas som div) ===== */

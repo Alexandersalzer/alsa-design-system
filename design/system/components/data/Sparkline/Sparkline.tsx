@@ -572,7 +572,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
         )}
 
         <div className="sparkline__svg-container">
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative', overflow: 'visible' }}>
             <svg
               width="100%"
               height={height}
@@ -685,15 +685,29 @@ export const Sparkline: React.FC<SparklineProps> = ({
               />
             )}
 
-            {/* Tooltip - position i % så den följer viewBox oavsett containerstorlek */}
-            {showTooltip && hoveredPoint && hoveredDatum && (
+            {/* Tooltip – position klämd så den inte klipps av kanterna */}
+            {showTooltip && hoveredPoint && hoveredDatum && (() => {
+              const leftPct = (hoveredPoint.x / width) * 100;
+              let tooltipLeft: string;
+              let tooltipTransform: string;
+              if (leftPct < 12) {
+                tooltipLeft = '0%';
+                tooltipTransform = 'translate(0, calc(-100% - 8px))';
+              } else if (leftPct > 88) {
+                tooltipLeft = '100%';
+                tooltipTransform = 'translate(-100%, calc(-100% - 8px))';
+              } else {
+                tooltipLeft = `${leftPct}%`;
+                tooltipTransform = 'translate(-50%, calc(-100% - 8px))';
+              }
+              return (
               <div
                 className="sparkline__tooltip"
                 style={{
                   position: 'absolute',
-                  left: `${(hoveredPoint.x / width) * 100}%`,
+                  left: tooltipLeft,
                   top: `${(hoveredPoint.y / height) * 100}%`,
-                  transform: 'translate(-50%, calc(-100% - 8px))',
+                  transform: tooltipTransform,
                   pointerEvents: 'none'
                 }}
               >
@@ -711,7 +725,8 @@ export const Sparkline: React.FC<SparklineProps> = ({
                   </div>
                 )}
               </div>
-            )}
+              );
+            })()}
           </div>
 
           {/* X-axis labels – start-end: första vänster, sista höger (Framer-stil); annars centrerat */}
