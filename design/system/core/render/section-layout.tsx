@@ -774,6 +774,14 @@ export function renderSectionLayout({
             </Container>
           </Box>
         )}
+        {/* Remaining patterns — inside card when wrapInCard, outside otherwise */}
+        {remainingPatterns.length > 0 && (
+          <Box className="desktop-only" style={{ width: '100%' }}>
+            <VStack spacing="none" align="stretch">
+              {renderPatterns(remainingPatterns)}
+            </VStack>
+          </Box>
+        )}
             </>
           );
           if (!wrapInCard) return layoutContent;
@@ -866,14 +874,6 @@ export function renderSectionLayout({
           );
         })()}
       </Box>
-      {/* Below Split: remaining patterns (e.g. media image) rendered outside the width-container Box so their own width (media/form) takes full effect */}
-      {remainingPatterns.length > 0 && (
-        <Box className="desktop-only" style={{ width: '100%' }}>
-          <VStack spacing="none" align="stretch">
-            {renderPatterns(remainingPatterns)}
-          </VStack>
-        </Box>
-      )}
     </>
   );
 }
