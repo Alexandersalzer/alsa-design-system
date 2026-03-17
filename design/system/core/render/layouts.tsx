@@ -1090,6 +1090,8 @@ const renderLayoutNodeGeneric = (
 
   // ✨ Pass alignment from layoutContext to top-level VStacks (direct children of Grid)
   // NOT for nested VStacks inside HStack/Card
+  // Once consumed here, strip alignSectionHeader from children so it doesn't cascade deeper
+  let consumedSectionAlign = false;
   if (
     layoutType === 'vstack' &&
     itemContext?.alignSectionHeader &&
@@ -1098,6 +1100,7 @@ const renderLayoutNodeGeneric = (
   ) {
     const inheritedVStackAlign = itemContext.alignSectionHeader === 'center' ? 'center' : 'start';
     layoutProps = { ...layoutProps, align: inheritedVStackAlign };
+    consumedSectionAlign = true;
   }
 
   // Add filterTags as data-filter-tags attribute for filtering functionality
@@ -1151,9 +1154,11 @@ const renderLayoutNodeGeneric = (
   }
 
   // Mark children as nested if parent is HStack or Card (prevents alignment cascade)
+  // Also strip alignSectionHeader once it has been consumed by a top-level VStack,
+  // so it doesn't cascade into nested components (text, icons, etc. inside cards)
   const shouldMarkAsNested = layoutType === 'hstack' || layoutType === 'card';
-  const childItemContext = shouldMarkAsNested 
-    ? { ...itemContext, _isNestedLayout: true }
+  const childItemContext = shouldMarkAsNested || consumedSectionAlign
+    ? { ...itemContext, _isNestedLayout: shouldMarkAsNested, alignSectionHeader: consumedSectionAlign ? undefined : itemContext?.alignSectionHeader }
     : itemContext;
 
   // Recursively render children for components that support them
