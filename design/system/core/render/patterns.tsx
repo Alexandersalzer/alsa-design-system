@@ -214,11 +214,10 @@ export const renderPattern = (
       : layoutContent;
 
     const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
-    const containerAlign = patternWidth === 'form' && layoutContext?.alignSectionHeader
-      ? layoutContext.alignSectionHeader
-      : undefined;
+    const sectionAlign = layoutContext?.alignSectionHeader;
+    const containerAlign = patternWidth && patternWidth !== 'content' && sectionAlign ? sectionAlign : undefined;
 
-    return (
+    const inner = (
       <Container
         key={patternKey}
         height="auto"
@@ -230,6 +229,18 @@ export const renderPattern = (
         {animatedContent}
       </Container>
     );
+
+    // When a narrow width + alignment is set, wrap in a centered width-container div
+    // so margin-inline: 0 auto aligns to the content area edge, not the viewport edge
+    if (containerAlign && patternWidth && patternWidth !== 'content') {
+      return (
+        <div key={patternKey} style={{ width: '100%', maxWidth: 'var(--width-container)', marginInline: 'auto' }}>
+          {inner}
+        </div>
+      );
+    }
+
+    return inner;
   }
 
   // LEGACY PATH: Use pattern registry for hardcoded patterns
@@ -240,16 +251,15 @@ export const renderPattern = (
   }
 
   const patternWidth = patternProps.width ?? (patternProps.useMediaWidth ? 'media' : patternProps.useFormWidth ? 'form' : undefined);
-  const containerAlign = patternWidth === 'form' && layoutContext?.alignSectionHeader
-    ? layoutContext.alignSectionHeader
-    : undefined;
+  const sectionAlign2 = layoutContext?.alignSectionHeader;
+  const containerAlign2 = patternWidth && patternWidth !== 'content' && sectionAlign2 ? sectionAlign2 : undefined;
 
-  return (
+  const legacyInner = (
     <Container
       key={patternKey}
       height="auto"
       width={patternWidth}
-      align={containerAlign}
+      align={containerAlign2}
       noPadding={patternProps.noPadding || false}
       patternKey={patternKey}
     >
@@ -265,4 +275,14 @@ export const renderPattern = (
       />
     </Container>
   );
+
+  if (containerAlign2 && patternWidth && patternWidth !== 'content') {
+    return (
+      <div key={patternKey} style={{ width: '100%', maxWidth: 'var(--width-container)', marginInline: 'auto' }}>
+        {legacyInner}
+      </div>
+    );
+  }
+
+  return legacyInner;
 };

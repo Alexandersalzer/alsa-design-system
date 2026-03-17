@@ -53,9 +53,9 @@
 .heightFit  { height: fit-content; }
 
 /* ===== ALIGNMENT VARIANTS ===== */
-.alignLeft   { text-align: left; }
-.alignCenter { text-align: center; }
-.alignRight  { text-align: right; }
+.alignLeft   { text-align: left; margin-inline: 0 auto; }
+.alignCenter { text-align: center; margin-inline: auto; }
+.alignRight  { text-align: right; margin-inline: auto 0; }
 
 /* ===== PADDING VARIANTS ===== */
 .noPadding {
