@@ -25,7 +25,7 @@ export const defaultSectionLayoutProps: Record<string, PropConfig> = {
     editorType: 'toggle',
     default: false,
     group: 'header',
-    cmsEnabled: true
+    cmsEnabled: false
   },
   
   alignSectionHeader: {
