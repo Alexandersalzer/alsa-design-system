@@ -5,6 +5,7 @@
 // ===============================================
 
 import React, { useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import './Sparkline.css';
 
 // ===== TIME-SERIES DATA MODEL =====
@@ -277,6 +278,7 @@ export const Sparkline: React.FC<SparklineProps> = ({
 }) => {
   // Hover state for tooltip
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [tooltipPos, setTooltipPos] = useState<{ left: number; top: number } | null>(null);
 
   const chartData = useMemo(() => {
     if (data.length === 0) return null;
@@ -504,10 +506,15 @@ export const Sparkline: React.FC<SparklineProps> = ({
     });
 
     setHoveredIndex(nearestIndex);
+    const point = chartData.points[nearestIndex];
+    const left = rect.left + (point.x / width) * rect.width;
+    const top = rect.top + (point.y / height) * rect.height;
+    setTooltipPos({ left, top });
   };
 
   const handleMouseLeave = () => {
     setHoveredIndex(null);
+    setTooltipPos(null);
   };
 
   const linePath = generatePath();
@@ -685,48 +692,43 @@ export const Sparkline: React.FC<SparklineProps> = ({
               />
             )}
 
-            {/* Tooltip – position klämd så den inte klipps av kanterna */}
-            {showTooltip && hoveredPoint && hoveredDatum && (() => {
-              const leftPct = (hoveredPoint.x / width) * 100;
-              let tooltipLeft: string;
-              let tooltipTransform: string;
-              if (leftPct < 12) {
-                tooltipLeft = '0%';
-                tooltipTransform = 'translate(0, calc(-100% - 8px))';
-              } else if (leftPct > 88) {
-                tooltipLeft = '100%';
-                tooltipTransform = 'translate(-100%, calc(-100% - 8px))';
-              } else {
-                tooltipLeft = `${leftPct}%`;
-                tooltipTransform = 'translate(-50%, calc(-100% - 8px))';
-              }
-              return (
-              <div
-                className="sparkline__tooltip"
-                style={{
-                  position: 'absolute',
-                  left: tooltipLeft,
-                  top: `${(hoveredPoint.y / height) * 100}%`,
-                  transform: tooltipTransform,
-                  pointerEvents: 'none'
-                }}
-              >
-                <div className="sparkline__tooltip-date">
-                  {formatTooltipDate(new Date(hoveredDatum.timestamp), chartData.bucketType)}
-                </div>
-                <div className="sparkline__tooltip-value">
-                  {primaryLabel && <span className="sparkline__tooltip-label">{primaryLabel}: </span>}
-                  {formatValue(hoveredDatum.value)}
-                </div>
-                {chartData.secondaryValues.length > 0 && hoveredIndex !== null && (
-                  <div className={`sparkline__tooltip-value sparkline__tooltip-value--secondary sparkline__line--${secondaryColor}`}>
-                    {secondaryLabel && <span className="sparkline__tooltip-label">{secondaryLabel}: </span>}
-                    {formatValue(chartData.secondaryValues[hoveredIndex] ?? 0)}
+            {/* Tooltip – renderas i portal så den aldrig klipps av föräldrar */}
+            {showTooltip && hoveredDatum && tooltipPos && typeof document !== 'undefined' && createPortal(
+              (() => {
+                const padding = 12;
+                const maxTooltipHalf = 90;
+                const left = Math.max(padding + maxTooltipHalf, Math.min(tooltipPos.left, (typeof window !== 'undefined' ? window.innerWidth : 800) - padding - maxTooltipHalf));
+                const top = tooltipPos.top - 8;
+                return (
+                  <div
+                    className="sparkline__tooltip"
+                    style={{
+                      position: 'fixed',
+                      left,
+                      top,
+                      transform: 'translate(-50%, -100%)',
+                      pointerEvents: 'none',
+                      zIndex: 9999
+                    }}
+                  >
+                    <div className="sparkline__tooltip-date">
+                      {formatTooltipDate(new Date(hoveredDatum.timestamp), chartData.bucketType)}
+                    </div>
+                    <div className="sparkline__tooltip-value">
+                      {primaryLabel && <span className="sparkline__tooltip-label">{primaryLabel}: </span>}
+                      {formatValue(hoveredDatum.value)}
+                    </div>
+                    {chartData.secondaryValues.length > 0 && hoveredIndex !== null && (
+                      <div className={`sparkline__tooltip-value sparkline__tooltip-value--secondary sparkline__line--${secondaryColor}`}>
+                        {secondaryLabel && <span className="sparkline__tooltip-label">{secondaryLabel}: </span>}
+                        {formatValue(chartData.secondaryValues[hoveredIndex] ?? 0)}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              );
-            })()}
+                );
+              })(),
+              document.body
+            )}
           </div>
 
           {/* X-axis labels – start-end: första vänster, sista höger (Framer-stil); annars centrerat */}
