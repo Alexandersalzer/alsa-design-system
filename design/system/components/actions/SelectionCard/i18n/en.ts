@@ -7,6 +7,10 @@ export const selectionCardTranslations_en = {
   description: 'An interactive card for selecting options, with support for checkbox, radio, or visual feedback',
   
   props: {
+    label: {
+      displayName: 'Label',
+      description: 'Card text content',
+    },
     selected: {
       displayName: 'Selected',
       description: 'Whether the card is selected',
