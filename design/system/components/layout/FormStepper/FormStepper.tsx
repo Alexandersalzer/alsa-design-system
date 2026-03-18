@@ -7,9 +7,10 @@ import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import { FormCollectionProvider, useFormCollectionContext } from '../../../core/forms';
 import Button from '../../actions/Button/Button';
-import { Label, Body } from '../../Typography/Typography';
+import { Label, Body, Heading } from '../../Typography/Typography';
 import { executeAction } from '../../../core/actions/api';
 import type { ActionType } from '../../../core/actions/types';
+import { CheckCircle } from 'lucide-react';
 import './FormStepper.css';
 
 export interface FormStepperAction {
@@ -155,7 +156,15 @@ function FormStepperForm({
     return (
       <div className={cn('form-stepper', `form-stepper--${variant}`, maxWidth !== 'full' && `form-stepper--max-${maxWidth}`, className)}>
         <div className="form-stepper__success">
-          <Body size="md" color="success">Tack! Vi återkommer snart.</Body>
+          <div className="form-stepper__success-card">
+            <div className="form-stepper__success-icon">
+              <CheckCircle size={40} strokeWidth={1.5} />
+            </div>
+            <Heading level={3} weight="semibold">Bokning mottagen!</Heading>
+            <Body size="md" color="secondary" align="center">
+              Tack för din bokning. Vi hör av oss inom kort för att bekräfta tid och adress.
+            </Body>
+          </div>
         </div>
       </div>
     );

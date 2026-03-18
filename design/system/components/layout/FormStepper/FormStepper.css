@@ -121,8 +121,24 @@
 
 /* ── Success state ── */
 .form-stepper__success {
-  padding: var(--foundation-space-6);
+  padding: var(--foundation-space-4) 0;
+}
+
+.form-stepper__success-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--foundation-space-3);
+  padding: var(--foundation-space-8) var(--foundation-space-6);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-success, var(--border-default));
+  border-radius: var(--radius-xl, var(--foundation-radius-xl));
   text-align: center;
+}
+
+.form-stepper__success-icon {
+  color: var(--icon-success, var(--text-success));
+  margin-bottom: var(--foundation-space-2);
 }
 
 /* ── Button row ── */
