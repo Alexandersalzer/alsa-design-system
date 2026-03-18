@@ -25,7 +25,6 @@ export const createDisplaySchema = (locale: SupportedLocale = 'sv'): ComponentSc
       size: 'lg',
       color: 'heading',
       weight: 'bold',
-      richContent: [],
     },
     
     props: {
@@ -79,19 +78,6 @@ export const createDisplaySchema = (locale: SupportedLocale = 'sv'): ComponentSc
           group: 'appearance',
         },
         t.props?.align
-      ),
-
-      richContent: createLocalizedProp(
-        {
-          name: 'richContent',
-          type: 'json',
-          required: false,
-          default: [],
-          editorType: 'custom',
-          cmsEnabled: false,
-          group: 'content',
-        },
-        undefined
       ),
     },
     

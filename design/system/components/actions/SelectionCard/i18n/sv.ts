@@ -7,6 +7,10 @@ export const selectionCardTranslations_sv = {
   description: 'Ett interaktivt kort för att välja alternativ, med stöd för checkbox, radio eller visuell feedback',
   
   props: {
+    label: {
+      displayName: 'Etikett',
+      description: 'Kortets textinnehåll',
+    },
     selected: {
       displayName: 'Vald',
       description: 'Om kortet är valt',

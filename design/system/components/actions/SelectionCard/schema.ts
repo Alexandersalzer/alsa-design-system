@@ -21,28 +21,45 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
     icon: 'RectangleStack',
     tags: ['card', 'selection', 'checkbox', 'radio', 'interactive'],
     version: '1.0.0',
-    cmsEnabled: false, // Internal UI component
-    
+    cmsEnabled: true,
+
     defaultProps: {
+      label: '',
       indicator: 'none',
       orientation: 'vertical',
       size: 'md',
       variant: 'neutral',
+      disabled: false,
     },
-    
+
     props: {
-      selected: createLocalizedProp(
+      label: createLocalizedProp(
         {
-          name: 'selected',
+          name: 'label',
+          type: 'string',
+          required: false,
+          default: '',
+          editorType: 'text',
+          maxLength: 80,
+          cmsEnabled: true,
+          group: 'content',
+        },
+        t.props?.label
+      ),
+
+      disabled: createLocalizedProp(
+        {
+          name: 'disabled',
           type: 'boolean',
           required: false,
           default: false,
           editorType: 'toggle',
-          group: 'state',
+          cmsEnabled: true,
+          group: 'content',
         },
-        t.props?.selected
+        t.props?.disabled
       ),
-      
+
       indicator: createLocalizedProp(
         {
           name: 'indicator',
@@ -51,11 +68,12 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
           default: 'none',
           editorType: 'segmented',
           values: ['none', 'checkbox', 'radio'] as const,
+          cmsEnabled: true,
           group: 'appearance',
         },
         t.props?.indicator
       ),
-      
+
       orientation: createLocalizedProp(
         {
           name: 'orientation',
@@ -64,11 +82,12 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
           default: 'vertical',
           editorType: 'segmented',
           values: ['horizontal', 'vertical'] as const,
-          group: 'layout',
+          cmsEnabled: true,
+          group: 'appearance',
         },
         t.props?.orientation
       ),
-      
+
       size: createLocalizedProp(
         {
           name: 'size',
@@ -77,11 +96,12 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
           default: 'md',
           editorType: 'segmented',
           values: ['sm', 'md', 'lg'] as const,
+          cmsEnabled: true,
           group: 'appearance',
         },
         t.props?.size
       ),
-      
+
       variant: createLocalizedProp(
         {
           name: 'variant',
@@ -90,21 +110,23 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
           default: 'neutral',
           editorType: 'segmented',
           values: ['neutral', 'accent'] as const,
+          cmsEnabled: true,
           group: 'appearance',
         },
         t.props?.variant
       ),
-      
-      disabled: createLocalizedProp(
+
+      selected: createLocalizedProp(
         {
-          name: 'disabled',
+          name: 'selected',
           type: 'boolean',
           required: false,
           default: false,
           editorType: 'toggle',
+          cmsEnabled: false,
           group: 'state',
         },
-        t.props?.disabled
+        t.props?.selected
       ),
     },
     

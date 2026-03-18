@@ -28,7 +28,6 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
       variant: 'h2',
       weight: 'bold',
       align: 'left',
-      richContent: [],
     },
     
     props: {
@@ -86,14 +85,31 @@ export const createHeadingSchema = (locale: SupportedLocale = 'sv'): ComponentSc
         t.props?.align
       ),
       
-      richContent: createLocalizedProp(
+      // Italic props (only available in hero sections)
+      italic: createLocalizedProp(
         {
-          name: 'richContent',
-          type: 'json',
+          name: 'italic',
+          type: 'string',
           required: false,
-          default: [],
-          editorType: 'custom',
-          cmsEnabled: false, // Managed via RichContentEditor
+          default: '',
+          editorType: 'text',
+          maxLength: 20,
+          placeholder: 'Optional italic text (e.g., "in Portel")',
+          cmsEnabled: false, // Managed manually with plus button in ComponentEditor
+          group: 'content',
+        },
+        undefined
+      ),
+      
+      suffixFont: createLocalizedProp(
+        {
+          name: 'suffixFont',
+          type: 'enum',
+          required: false,
+          default: 'Lora',
+          editorType: 'select',
+          values: ['Lora', 'Playfair Display', 'Crimson Text', 'Merriweather'] as const,
+          cmsEnabled: false, // Managed in structure, not shown in ComponentEditor
           group: 'content',
         },
         undefined

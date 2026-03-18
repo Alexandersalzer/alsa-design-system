@@ -197,7 +197,21 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
         if (!headingKey || !renderIf('heading')) return null;
         const mergedProps = getMergedProps(headingKey);
         if (!mergedProps.content && !mergedProps.animation) return null;
-
+        
+        // Build content with italic if {italic} placeholder exists
+        let headingContent = mergedProps.content;
+        if (headingContent && headingContent.includes('{italic}')) {
+          if (mergedProps.italic) {
+            // Replace with italic markup
+            const suffixFont = components[headingKey]?.props?.suffixFont || 'Lora';
+            const italicMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${mergedProps.italic}*{/font}{/color}`;
+            headingContent = headingContent.replace('{italic}', italicMarkup);
+          } else {
+            // Remove placeholder if italic field is empty
+            headingContent = headingContent.replace(/\s*\{italic\}/g, '').trim();
+          }
+        }
+        
         return withAnimation(
           <Typography
             as={isHero ? "h1" : "h2"}
@@ -206,9 +220,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = (patternNode) => {
             align={textAlign}
             animation={mergedProps.animation}
             componentKey={headingKey}
-            richContent={mergedProps.richContent}
           >
-            {mergedProps.content}
+            {headingContent}
           </Typography>,
           1,
           'heading'
