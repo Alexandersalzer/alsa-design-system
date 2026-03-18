@@ -3,6 +3,140 @@
    Styling för SetupGuide-komponenten
    =============================================== */
 
+/* Accordion: trigger (dropdown-knappen) går hela vägen vänster–höger */
+.setup-guide--accordion {
+  width: 100%;
+}
+
+.setup-guide--accordion .setup-guide__accordion {
+  width: 100%;
+}
+
+.setup-guide--accordion .accordion-item {
+  width: 100%;
+}
+
+.setup-guide--accordion .accordion-item__trigger {
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.setup-guide--accordion .accordion-item__title-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Knappen i varje expanderad panel (Öppna editorn, Redigera SEO, etc.) – full bredd */
+.setup-guide__step-action {
+  width: 100%;
+}
+
+/* Steg som kommer senare – trigger, titel, ikoner och chevron med temaanpassad färg (inverteras i dark mode) */
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger {
+  color: var(--text-default);
+}
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__title-wrapper,
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__title-wrapper * {
+  color: var(--text-default) !important;
+}
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__start-content,
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__start-content [class*="icon"],
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__start-content svg {
+  color: var(--text-default) !important;
+  fill: none;
+  stroke: currentColor;
+}
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__indicator,
+.setup-guide--accordion .accordion-item:not(.setup-guide__step--active):not(.setup-guide__step--completed) .accordion-item__trigger .accordion-item__indicator svg {
+  color: var(--text-default) !important;
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Första (aktiva) steget – tydlig accent, vit text som accent-knappar */
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger {
+  background: var(--surface-accent);
+  color: var(--text-button-accent);
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__title-wrapper,
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__title-wrapper * {
+  color: var(--text-button-accent) !important;
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__start-content,
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__start-content [class*="icon"],
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__start-content svg {
+  color: var(--text-button-accent);
+  fill: none;
+  stroke: currentColor;
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__indicator,
+.setup-guide--accordion .accordion-item.setup-guide__step--active .accordion-item__trigger .accordion-item__indicator svg {
+  color: var(--text-button-accent);
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Klara steg – grön check, överstruken titel med temaanpassad färg (synlig i light/dark) */
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__title-wrapper,
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__title-wrapper * {
+  color: var(--text-default) !important;
+  text-decoration: line-through;
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__start-content,
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__start-content [class*="icon"],
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__start-content svg {
+  color: var(--icon-success) !important;
+  fill: none;
+  stroke: currentColor;
+}
+
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__indicator,
+.setup-guide--accordion .accordion-item.setup-guide__step--completed .accordion-item__trigger .accordion-item__indicator svg {
+  color: var(--text-default) !important;
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Kompakt layout – mindre spacing, mindre typografi */
+.setup-guide--compact {
+  --setup-guide-spacing: var(--foundation-space-md);
+}
+
+.setup-guide--compact .setup-guide__divider {
+  margin-bottom: var(--foundation-space-3);
+}
+
+.setup-guide__progress-inline {
+  width: 72px;
+  min-width: 72px;
+}
+
+.setup-guide__progress-inline .progress-wrapper {
+  width: 100%;
+}
+
+/* Progressbar tydligare – mörkare accent, bättre kontrast */
+.setup-guide__progress-inline .progress__indicator {
+  background-color: var(--interactive-accent);
+}
+
+.setup-guide__progress-inline .progress {
+  background-color: var(--border-subtle);
+}
+
+.setup-guide--compact .setup-guide__cta-one {
+  width: 100%;
+}
+
+.setup-guide--compact .setup-guide__list {
+  margin-top: 0;
+}
+
 /* Completion celebration section */
 .setup-guide__celebration {
   padding: var(--foundation-space-8);

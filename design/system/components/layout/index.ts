@@ -17,3 +17,4 @@ export * from './Overlay';
 export * from './BentoGrid';
 export * from './FormStepper/FormStepper';
 export * from './FormStepper/FormStep';
+export * from './FormStepper';

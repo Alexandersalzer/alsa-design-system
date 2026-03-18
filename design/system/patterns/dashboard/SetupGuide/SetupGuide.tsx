@@ -13,16 +13,15 @@ import {
   Card,
   CardContent,
   H2,
-  H3,
   Body,
   Button,
   Icon,
   Box,
-  Divider,
-  Tag,
-  Progress
+  Progress,
+  Label
 } from '../../../components';
-import { Listbox, ListboxItem } from '../../../components/lists/Listbox';
+import { Accordion } from '../../../components/layout/Accordion/Accordion';
+import { AccordionItem } from '../../../components/layout/Accordion/AccordionItem';
 import {
   CheckCircleIcon,
   CircleStackIcon,
@@ -50,12 +49,12 @@ export interface SetupGuideProps {
   phase?: SetupPhase;
   className?: string;
   onNavigate?: (href: string) => void;
-  // Alternativt: tillåt externa steps och progress
   customSteps?: SetupStep[];
   customProgress?: number;
-  // Congratulations modal control
   showCongratulations?: boolean;
   onDismissCongratulations?: () => void;
+  /** Anpassat innehåll när ett steg är expanderat (t.ex. domänsök för connect-domain). När satt används detta istället för standard beskrivning + knapp. */
+  renderStepContent?: (step: SetupStep) => React.ReactNode;
 }
 
 // ===== MOCKAD DATA =====
@@ -139,7 +138,8 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
   customSteps,
   customProgress,
   showCongratulations = true,
-  onDismissCongratulations
+  onDismissCongratulations,
+  renderStepContent
 }) => {
   const steps = customSteps || getSteps(phase);
 
@@ -205,107 +205,83 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
     return null;
   }
 
-  // Visa setup-guide
+  // Accordion: första oklara steget öppet som standard, användaren kan öppna andra
+  const firstIncomplete = sortedSteps.find(s => !s.completed);
+  const defaultOpenKey = firstIncomplete?.key ?? sortedSteps[0]?.key ?? '';
+
   return (
-    <div className={className}>
-      {/* Visuell separator */}
-      <Divider/>
-
-      <VStack spacing="xl">
-        {/* Header */}
-        <HStack spacing="sm" justify='between'>
-          <H3>Kom igång med Blimpify</H3>
-
-          {/* Kom igång-knapp - visas endast när "Kom igång"-steget (overview) inte är avklarat */}
-          {sortedSteps.length > 0 && !sortedSteps[0].completed && (
-              <Box>
-                <Button
-                  variant="accent"
-                  onClick={() => handleNavigate(sortedSteps[0].href)}
-                >
-                  <HStack spacing="sm" align="center">
-                    <Icon size="lg">
-                      {(() => {
-                        const FirstStepIcon = sortedSteps[0].icon;
-                        return <FirstStepIcon />;
-                      })()}
-                    </Icon>
-                    <span>{sortedSteps[0].buttonLabel ?? 'Kom igång'}</span>
-                  </HStack>
-                </Button>
+    <div className={`setup-guide setup-guide--accordion ${className ?? ''}`}>
+      <VStack spacing="md">
+        <HStack spacing="sm" justify="between" align="center" wrap>
+          <Label size="sm" weight="semibold" color="secondary">
+            Kom igång
+          </Label>
+          {progress < 100 && (
+            <HStack spacing="sm" align="center">
+              <Label size="xs" color="tertiary">
+                {completedSteps}/{steps.length} steg
+              </Label>
+              <Box className="setup-guide__progress-inline">
+                <Progress value={progress} size="sm" color="accent" rounded animated />
               </Box>
-            )}
+            </HStack>
+          )}
         </HStack>
 
-        {/* Progress Section */}
-        {progress < 100 && (
-          <VStack spacing="sm">
-            <Progress
-              value={progress}
-              label={`${getPhaseText(phase)} • ${completedSteps}/${steps.length} steg klara`}
-              showValue={true}
-              size="md"
-              rounded
-              animated
-            />
-          </VStack>
-        )}
-
-        {/* Steps - Using Listbox for better accessibility */}
-        <Listbox
-          variant="separated"
-          size="md"
-          spacing="md"
-          role="list"
+        <Accordion
+          selectionMode="single"
+          defaultExpandedKeys={defaultOpenKey ? [defaultOpenKey] : []}
+          variant="bordered"
+          size="sm"
+          gap="xs"
+          showIndicator={true}
+          className="setup-guide__accordion"
         >
-          {sortedSteps.map((step, index) => {
+          {sortedSteps.map((step) => {
             const IconComponent = step.icon;
-            const isFirstIncomplete = index === 0 && !step.completed;
+            const isActiveStep = step.key === firstIncomplete?.key && !step.completed;
+            const customContent = renderStepContent?.(step);
+            const content = customContent ?? (
+              <VStack spacing="sm" align="stretch">
+                <Body size="sm" color="secondary">
+                  {step.description}
+                </Body>
+                {!step.completed && (
+                  <Button
+                    variant="accent"
+                    size="sm"
+                    onClick={() => handleNavigate(step.href)}
+                    className="setup-guide__step-action"
+                  >
+                    {step.buttonLabel ?? 'Gå till'}
+                  </Button>
+                )}
+              </VStack>
+            );
 
             return (
-              <ListboxItem
+              <AccordionItem
                 key={step.key}
-                size="lg"
-                onClick={!step.completed ? () => handleNavigate(step.href) : undefined}
-                disabled={step.completed}
-                aria-label={`${step.title}: ${step.description}`}
-                leading={
+                itemKey={step.key}
+                title={step.title}
+                className={[
+                  isActiveStep && 'setup-guide__step--active',
+                  step.completed && 'setup-guide__step--completed',
+                ].filter(Boolean).join(' ') || undefined}
+                startContent={
                   <Icon
-                    size="lg"
-                    color={step.completed ? 'success' : 'accent'}
+                    size="sm"
+                    color={step.completed ? 'success' : 'tertiary'}
                   >
                     {step.completed ? <CheckCircleIcon /> : <IconComponent />}
                   </Icon>
                 }
-                trailing={
-                  step.completed ? (
-                    <Tag variant="success" size="small">
-                      Klar
-                    </Tag>
-                  ) : (
-                    <Button
-                      variant="accent"
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleNavigate(step.href);
-                      }}
-                    >
-                      {step.buttonLabel ?? 'Gå till'}
-                    </Button>
-                  )
-                }
               >
-                <VStack spacing="xs" align="start">
-                  <H3>{step.title}</H3>
-                  <Body size="sm" color="secondary">
-                    {step.description}
-                  </Body>
-                </VStack>
-              </ListboxItem>
+                {content}
+              </AccordionItem>
             );
           })}
-        </Listbox>
+        </Accordion>
       </VStack>
     </div>
   );

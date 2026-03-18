@@ -96,6 +96,11 @@
       "require": "./dist/design/system/core/schemas/index.js",
       "types": "./dist/design/system/core/schemas/index.d.ts"
     },
+    "./layout": {
+      "import": "./dist/design/system/components/layout/index.js",
+      "require": "./dist/design/system/components/layout/index.js",
+      "types": "./dist/design/system/components/layout/index.d.ts"
+    },
     "./dist/index.css": "./dist/design/index.css"
   },
   "files": [
