@@ -108,6 +108,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--foundation-space-2);
+  overflow: visible;
 }
 
 /* ===== SCALE LABELS ===== */
@@ -250,6 +251,7 @@
   flex-direction: column;
   gap: var(--foundation-space-2);
   flex: 1;
+  overflow: visible;
 }
 
 /* ===== HOVER DOT (SVG ellipse/circle – används ej längre; prick ritas som div) ===== */
@@ -331,25 +333,45 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ===== X-AXIS LABELS ===== */
-.sparkline__x-axis {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  margin-top: var(--foundation-space-2);
-  font-size: var(--foundation-font-size-xs);
+.sparkline__tooltip-value--secondary.sparkline__line--success {
+  color: var(--text-success-strong);
+}
+
+.sparkline__tooltip-label {
   color: var(--text-muted);
+  margin-right: var(--foundation-space-1);
+}
+
+/* ===== X-AXIS LABELS (Framer-inspirerad: renare, bättre placerade) ===== */
+.sparkline__x-axis {
+  position: relative;
+  margin-top: var(--foundation-space-3);
+  padding-top: var(--foundation-space-2);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: 500;
+  color: var(--text-tertiary, var(--text-muted));
+  letter-spacing: 0.02em;
   width: 100%;
+  min-height: 1.25em;
 }
 
 .sparkline__x-axis-label {
-  text-align: center;
-  line-height: 1;
-  opacity: 0.7;
+  position: absolute;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.sparkline__x-axis-label--start {
+  text-align: left;
+}
+
+.sparkline__x-axis-label--end {
+  text-align: right;
 }
 
 .sparkline__x-axis-label:empty {
   opacity: 0;
+  pointer-events: none;
 }
 
 /* ===== ACCESSIBILITY ===== */
