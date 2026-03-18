@@ -79,6 +79,75 @@ export type TypographyColor =
 
 export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
 
+// ===== RICH CONTENT TYPES =====
+export interface TextSpan {
+  text: string;
+  preset?: 'cursive' | 'accent' | 'highlight' | 'gradient';
+  font?: string;
+  color?: string;
+  background?: string;
+  weight?: number;
+  size?: string;
+}
+
+const resolvePresetStyle = (span: TextSpan): React.CSSProperties => {
+  const base: React.CSSProperties = {};
+  if (span.preset === 'cursive') {
+    base.fontFamily = span.font || 'Lora';
+    base.fontStyle = 'italic';
+    base.color = span.color || 'var(--text-muted)';
+  } else if (span.preset === 'accent') {
+    base.color = span.color || 'var(--accent-color)';
+  } else if (span.preset === 'highlight') {
+    base.background = span.background || 'var(--accent-subtle)';
+    base.color = span.color || 'var(--accent-color)';
+    base.borderRadius = '4px';
+    base.padding = '0 4px';
+  } else if (span.preset === 'gradient') {
+    base.background = 'linear-gradient(135deg, var(--accent-color), var(--accent-secondary, #8b5cf6))';
+    (base as any).backgroundClip = 'text';
+    (base as any).WebkitTextFillColor = 'transparent';
+  }
+  if (span.font && span.preset !== 'cursive') base.fontFamily = span.font;
+  if (span.color && span.preset !== 'cursive' && span.preset !== 'accent') base.color = span.color;
+  if (span.weight) base.fontWeight = span.weight;
+  if (span.size) base.fontSize = span.size;
+  return base;
+};
+
+const renderRichContent = (content: string, spans: TextSpan[]): ReactNode => {
+  if (!spans || spans.length === 0) return content;
+
+  // Build segments by splitting content on span texts
+  const segments: Array<{ text: string; span?: TextSpan }> = [];
+  let remaining = content;
+
+  for (const span of spans) {
+    const idx = remaining.indexOf(span.text);
+    if (idx === -1) continue;
+    if (idx > 0) segments.push({ text: remaining.slice(0, idx) });
+    segments.push({ text: span.text, span });
+    remaining = remaining.slice(idx + span.text.length);
+  }
+  if (remaining) segments.push({ text: remaining });
+
+  if (segments.length === 0) return content;
+
+  return (
+    <>
+      {segments.map((seg, i) =>
+        seg.span ? (
+          <span key={i} style={resolvePresetStyle(seg.span)}>
+            {seg.text}
+          </span>
+        ) : (
+          seg.text
+        )
+      )}
+    </>
+  );
+};
+
 // ===== HELPER FUNCTION FOR INLINE MARKUP =====
 /**
  * Inline markup syntax:
@@ -190,6 +259,7 @@ const processInlineMarkup = (content: ReactNode): ReactNode => {
 export interface TypographyOwnProps {
   children?: ReactNode;
   content?: string; // For JSON-driven rendering
+  richContent?: TextSpan[]; // Rich styled spans — overrides inline markup rendering
   variant?: TypographyVariant;
   weight?: TypographyWeight;
   color?: TypographyColor;
@@ -330,16 +400,17 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
   className,
   children,
   content,
+  richContent,
   style = {},
   componentKey,
   preserveLineBreaks = true,
   ...rest
 }, ref) => {
   const Element = as || getDefaultElement(variant);
-  
+
   // Use content prop if provided, otherwise use children
   const rawContent = content || children;
-  
+
   // 🎯 CRITICAL FIX: Create stable content representation
   // Serialize content to string for stable memoization
   const contentKey = React.useMemo(() => {
@@ -354,12 +425,16 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(({
       return String(rawContent);
     }
   }, [rawContent]);
-  
+
   // Memoize the markup processing using stable content key
   const displayContent = React.useMemo(() => {
+    // richContent spans override inline markup rendering
+    if (richContent && richContent.length > 0 && typeof rawContent === 'string') {
+      return renderRichContent(rawContent, richContent);
+    }
     if (!preserveLineBreaks) return rawContent;
     return processInlineMarkup(rawContent);
-  }, [contentKey, preserveLineBreaks, rawContent]);
+  }, [contentKey, preserveLineBreaks, rawContent, richContent]);
   
   const classes = buildTypographyClasses({
     variant,

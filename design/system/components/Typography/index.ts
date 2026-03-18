@@ -42,7 +42,8 @@ export type {
   LabelProps,
   CodeProps,
   TypographyGroupProps,
-  WithTypographyProps
+  WithTypographyProps,
+  TextSpan
 } from './Typography';
 
 // ===== UTILITY FUNCTIONS =====

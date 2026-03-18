@@ -145,36 +145,17 @@ const SectionBody = ({ components = {}, sectionKey, patternKey, props }: Section
 
         {/* Heading - render if content OR animation exists (countUp generates content) */}
         {renderIf('typography-heading') && (get('typography-heading').props.content || get('typography-heading').props.animation) && withAnimation(
-          (() => {
-            // Build content with italic if {italic} placeholder exists
-            let headingContent = get('typography-heading').props.content;
-            const headingItalic = get('typography-heading').props.italic;
-            if (headingContent && headingContent.includes('{italic}')) {
-              if (headingItalic) {
-                // Replace with italic markup
-                const typographyHeadingComponent = Object.values(components).find(c => c.componentKey === get('typography-heading').key);
-                const suffixFont = typographyHeadingComponent?.props?.suffixFont || 'Lora';
-                const italicMarkup = `{color:var(--text-muted)}{font:${suffixFont}:500}*${headingItalic}*{/font}{/color}`;
-                headingContent = headingContent.replace('{italic}', italicMarkup);
-              } else {
-                // Remove placeholder if italic field is empty
-                headingContent = headingContent.replace(/\s*\{italic\}/g, '').trim();
-              }
-            }
-            
-            return (
-              <Typography
-                as={isHero ? "h1" : "h2"}
-                variant="display-lg"
-                color="heading"
-                align={textAlign}
-                animation={get('typography-heading').props.animation}
-                componentKey={get('typography-heading').key}
-              >
-                {headingContent}
-              </Typography>
-            );
-          })(),
+          <Typography
+            as={isHero ? "h1" : "h2"}
+            variant="display-lg"
+            color="heading"
+            align={textAlign}
+            animation={get('typography-heading').props.animation}
+            componentKey={get('typography-heading').key}
+            richContent={get('typography-heading').props.richContent}
+          >
+            {get('typography-heading').props.content}
+          </Typography>,
           1,
           'typography-heading'
         )}
