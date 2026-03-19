@@ -1328,12 +1328,12 @@ const renderComponentReference = (
     ? (itemContext.alignSectionHeader === 'center' ? 'center' : 'left')
     : undefined;
 
-  // Merge props: schema defaults < selectionCardStyle (global) < item.props (content) < inherited align < template extraProps (styling)
+  // Merge props: schema defaults < item.props (content) < selectionCardStyle (global wins) < inherited align < template extraProps (styling)
   const mergedProps = mergeWithDefaults(
     componentType,
     {
-      ...(componentType === 'selectionCard' && itemContext?.selectionCardStyle ? itemContext.selectionCardStyle : {}),
       ...(itemComponent?.props || {}),
+      ...(componentType === 'selectionCard' && itemContext?.selectionCardStyle ? itemContext.selectionCardStyle : {}),
       ...(inheritedAlign ? { align: inheritedAlign } : {}),
       ...extraProps
     },
