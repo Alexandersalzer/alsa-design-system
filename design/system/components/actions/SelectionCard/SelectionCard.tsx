@@ -22,6 +22,8 @@ export interface SelectionCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
   children?: React.ReactNode;
   /** Text label rendered as content when no children are provided */
   label?: string;
+  /** Alias for label — used by the content system (content files store text as 'content') */
+  content?: string;
 
   // Selection state
   selected?: boolean;
@@ -89,6 +91,7 @@ function getOrCreateGroup(name: string): GroupStore {
 export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
   children,
   label,
+  content,
   selected: selectedProp,
   onChange,
   disabled = false,
@@ -271,7 +274,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     >
       {/* Content area */}
       <div className="selection-card__content">
-        {children ?? (label ? <Label size="md" weight="medium">{label}</Label> : null)}
+        {children ?? ((label || content) ? <Label size="md" weight="medium">{label ?? content}</Label> : null)}
       </div>
 
       {/* Indicator (checkbox or radio) */}

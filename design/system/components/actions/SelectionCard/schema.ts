@@ -33,9 +33,9 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
     },
 
     props: {
-      label: createLocalizedProp(
+      content: createLocalizedProp(
         {
-          name: 'label',
+          name: 'content',
           type: 'string',
           required: false,
           default: '',
