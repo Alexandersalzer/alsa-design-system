@@ -567,8 +567,10 @@ const renderItems = (
       id: itemId,
       imageSrc: getItemImageSrc(item),
       ...itemProps,
-      // ✅ Pass alignSectionHeader to items so VStack can inherit it
-      alignSectionHeader: layoutContext?.alignSectionHeader
+      // ✅ Pass layout context fields to items
+      alignSectionHeader: layoutContext?.alignSectionHeader,
+      selectionCardStyle: layoutContext?.selectionCardStyle,
+      formPreviewStep: layoutContext?.formPreviewStep,
     };
 
     // Track used components within this item to support multiple components of same type
