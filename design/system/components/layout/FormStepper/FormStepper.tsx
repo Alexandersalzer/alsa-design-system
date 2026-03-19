@@ -2,7 +2,7 @@
 // FormStepper.tsx
 // ===============================================
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import { FormStepperContext } from './FormStepperContext';
 import { FormCollectionProvider, useFormCollectionContext } from '../../../core/forms';
@@ -21,6 +21,8 @@ export interface FormStepperAction {
 export interface FormStepperProps {
   stepLabels?: string[];
   defaultStep?: number;
+  /** Override active step from outside (editor preview navigation) */
+  previewStep?: number;
   nextLabel?: string;
   backLabel?: string;
   submitLabel?: string;
@@ -79,6 +81,7 @@ function StepIndicator({ currentStep, totalSteps, labels }: { currentStep: numbe
 function FormStepperForm({
   stepLabels = [],
   defaultStep = 1,
+  previewStep,
   nextLabel = 'Nästa',
   backLabel = 'Tillbaka',
   submitLabel = 'Skicka',
@@ -89,7 +92,11 @@ function FormStepperForm({
   className,
   children,
 }: FormStepperProps) {
-  const [currentStep, setCurrentStep] = useState(defaultStep);
+  const [currentStep, setCurrentStep] = useState(previewStep ?? defaultStep);
+
+  useEffect(() => {
+    if (previewStep !== undefined) setCurrentStep(previewStep);
+  }, [previewStep]);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);

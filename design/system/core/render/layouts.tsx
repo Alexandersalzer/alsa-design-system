@@ -259,6 +259,13 @@ export const renderLayoutWithTemplate = (
   // Apply maxItems limiting if specified
   const limitedItemOrder = applyMaxItemsLimit(resolvedItemOrder, maxItems);
 
+  // Enrich layoutContext with pattern-level props for items
+  const enrichedLayoutContext = {
+    ...layoutContext,
+    selectionCardStyle: patternProps?.selectionCardStyle,
+    formPreviewStep: patternProps?.__previewStep,
+  };
+
   // Render template for each item
   const renderedItems = renderItems(
     limitedItemOrder,
@@ -271,8 +278,8 @@ export const renderLayoutWithTemplate = (
     0,
     maxItems,
     locale,
-    layoutContext?.noItemKeys,
-    layoutContext  // ✅ Pass layoutContext for alignment
+    enrichedLayoutContext?.noItemKeys,
+    enrichedLayoutContext  // ✅ Pass enriched layoutContext for alignment + selectionCardStyle
   );
 
   return (
@@ -1088,6 +1095,11 @@ const renderLayoutNodeGeneric = (
     layoutProps = { ...layoutProps, direction: 'row-reverse' };
   }
 
+  // Inject previewStep from layoutContext into formStepper (editor step navigation)
+  if (layoutType === 'formStepper' && itemContext?.formPreviewStep !== undefined) {
+    layoutProps = { ...layoutProps, previewStep: itemContext.formPreviewStep };
+  }
+
   // ✨ Pass alignment from layoutContext to top-level VStacks (direct children of Grid)
   // NOT for nested VStacks inside HStack/Card
   // Once consumed here, strip alignSectionHeader from children so it doesn't cascade deeper
@@ -1314,10 +1326,11 @@ const renderComponentReference = (
     ? (itemContext.alignSectionHeader === 'center' ? 'center' : 'left')
     : undefined;
 
-  // Merge props: schema defaults < item.props (content) < inherited align < template extraProps (styling)
+  // Merge props: schema defaults < selectionCardStyle (global) < item.props (content) < inherited align < template extraProps (styling)
   const mergedProps = mergeWithDefaults(
     componentType,
     {
+      ...(componentType === 'selectionCard' && itemContext?.selectionCardStyle ? itemContext.selectionCardStyle : {}),
       ...(itemComponent?.props || {}),
       ...(inheritedAlign ? { align: inheritedAlign } : {}),
       ...extraProps
