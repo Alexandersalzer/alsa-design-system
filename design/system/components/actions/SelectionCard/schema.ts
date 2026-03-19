@@ -68,7 +68,7 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
           default: 'none',
           editorType: 'segmented',
           values: ['none', 'checkbox', 'radio'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'appearance',
         },
         t.props?.indicator
@@ -82,7 +82,7 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
           default: 'vertical',
           editorType: 'segmented',
           values: ['horizontal', 'vertical'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'appearance',
         },
         t.props?.orientation
@@ -96,7 +96,7 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
           default: 'md',
           editorType: 'segmented',
           values: ['sm', 'md', 'lg'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'appearance',
         },
         t.props?.size
@@ -110,7 +110,7 @@ export const createSelectionCardSchema = (locale: SupportedLocale = 'sv'): Compo
           default: 'neutral',
           editorType: 'segmented',
           values: ['neutral', 'accent'] as const,
-          cmsEnabled: true,
+          cmsEnabled: false,
           group: 'appearance',
         },
         t.props?.variant
