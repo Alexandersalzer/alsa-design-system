@@ -274,7 +274,7 @@ export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(({
     >
       {/* Content area */}
       <div className="selection-card__content">
-        {children ?? ((label || content) ? <Label size="md" weight="medium">{label ?? content}</Label> : null)}
+        {children ?? ((content || label) ? <Label size="md" weight="medium">{content ?? label}</Label> : null)}
       </div>
 
       {/* Indicator (checkbox or radio) */}
