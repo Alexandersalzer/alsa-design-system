@@ -12,7 +12,8 @@ export * from './lists'
 export * from './data'
 export * from './navigation'
 export * from './animations'
-export * from './backgrounds'
+export * from './backgrounds';
+export * from './ai';
 
 export * from './Typography';
 export * from './LogoIcon';
