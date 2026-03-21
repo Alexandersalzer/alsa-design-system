@@ -309,7 +309,7 @@ export const AITextarea: React.FC<AITextareaProps> = ({
                 <ArrowUpIcon style={{ width: 16, height: 16 }} />
               )
             }
-            variant={hasContent && !loading ? 'accent' : 'ghost'}
+            variant={hasContent && !loading ? 'accent' : 'raised'}
             size="sm"
             aria-label="Submit"
             disabled={!hasContent || disabled || loading}
@@ -333,7 +333,7 @@ export const AITextarea: React.FC<AITextareaProps> = ({
                   <PaperClipIcon />
                 </Icon>
               }
-              variant="ghost"
+              variant="raised"
               size="sm"
               aria-label="Attach image"
               disabled={disabled || attachedImages.length >= maxImages}

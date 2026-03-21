@@ -244,6 +244,34 @@
   opacity: 1;
 }
 
+/* ===== RAISED ===== */
+.btn-raised {
+  background-color: var(--surface-raised);
+  color: var(--text-default);
+  border-color: transparent;
+}
+
+.btn-raised:hover:not(:disabled) {
+  background-color: var(--surface-elevated);
+}
+
+.btn-raised:active:not(:disabled) {
+  background-color: var(--surface-sunken);
+}
+
+.btn-raised:focus-visible {
+  outline: 2px solid var(--interactive-primary);
+  outline-offset: 2px;
+}
+
+.btn-raised:disabled {
+  background-color: var(--surface-raised);
+  border-color: transparent;
+  color: var(--text-disabled);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
 /* ===== SECONDARY-GLASS ===== */
 .btn-secondary-glass {
   background-color: var(--surface-button-secondary-glass);

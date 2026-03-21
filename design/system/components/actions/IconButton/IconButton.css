@@ -209,6 +209,26 @@
   border-color: var(--border-button-ghost-glass-active);
 }
 
+/* RAISED */
+.icon-btn--raised {
+  background-color: var(--surface-raised);
+  border-color: transparent;
+  color: var(--text-button-secondary);
+}
+
+.icon-btn--raised:hover:not(:disabled) {
+  background-color: var(--surface-elevated);
+}
+
+.icon-btn--raised:active:not(:disabled) {
+  background-color: var(--surface-sunken);
+}
+
+.icon-btn--raised.icon-btn--selected {
+  background-color: var(--surface-sunken);
+  color: var(--text-primary);
+}
+
 /* ACCENT-GLASS */
 .icon-btn--accent-glass {
   background-color: var(--surface-button-accent-glass);

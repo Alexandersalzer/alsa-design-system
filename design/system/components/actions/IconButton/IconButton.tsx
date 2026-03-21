@@ -29,7 +29,7 @@ export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
   /** The icon element to render - should be Icon component with heroicon */
   icon: React.ReactNode;
   /** Button style variant - matches Button component exactly */
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive' | 'secondary-glass' | 'ghost-glass' | 'accent-glass';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'destructive' | 'secondary-glass' | 'ghost-glass' | 'accent-glass' | 'raised';
   /** Button size - matches Button component exactly */
   size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   /** Badge for notifications */

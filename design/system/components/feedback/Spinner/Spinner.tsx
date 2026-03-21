@@ -17,7 +17,7 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   trackColor?: string;
 
   /** Variant context — matches button variant */
-  variant?: "brand" | "primary" | "secondary" | "accent" | "ghost" | "outline" | "destructive" | "secondary-glass" | "ghost-glass" | "accent-glass";
+  variant?: "brand" | "primary" | "secondary" | "accent" | "ghost" | "outline" | "destructive" | "secondary-glass" | "ghost-glass" | "accent-glass" | "raised";
 
   /** Disabled state (used to pick softer contrasts) */
   disabled?: boolean;

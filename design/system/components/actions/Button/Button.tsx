@@ -24,7 +24,7 @@ export interface ButtonProps
   content?: string; // For JSON-driven rendering
   href?: string;
   target?: string;
-  variant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline' | 'destructive' | 'secondary-glass' | 'ghost-glass' | 'accent-glass';
+  variant?: 'brand' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline' | 'destructive' | 'secondary-glass' | 'ghost-glass' | 'accent-glass' | 'raised';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   radius?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   loading?: boolean;
