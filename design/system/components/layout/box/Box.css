@@ -104,3 +104,11 @@
 .box-height-full { height: 100%; }
 .box-height-fit { height: fit-content; }
 .box-height-screen { height: 100vh; }
+
+/* ===== GROW (flex child that fills remaining space) ===== */
+.box-grow {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}

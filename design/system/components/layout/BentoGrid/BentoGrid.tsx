@@ -8,44 +8,51 @@ export interface BentoGridProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   /**
-   * Number of columns (1-12 for flexible layouts)
-   * @default 3
+   * Number of columns (1-12)
+   * @default 12
    */
   columns?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   /**
    * Gap between items
-   * @default 'lg'
+   * @default 'md'
    */
   gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   /**
-   * Vertical alignment of items
+   * Vertical alignment of items within their row
    * @default 'stretch'
    */
   alignItems?: 'start' | 'center' | 'end' | 'stretch';
+  /**
+   * Auto row height. Each unit equals this value.
+   * E.g. '200px', '1fr', 'minmax(200px, auto)'
+   * @default 'auto'
+   */
+  rowHeight?: string;
 }
 
 export interface BentoItemProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   /**
-   * Column span (1-12)
+   * Column span out of the parent grid's column count (1-12)
    * @default 1
    */
   colSpan?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   /**
-   * Row span
+   * Row span (1-6)
    * @default 1
    */
-  rowSpan?: 1 | 2 | 3;
+  rowSpan?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
 // ===== BENTO GRID COMPONENT =====
 export const BentoGrid = React.forwardRef<HTMLDivElement, BentoGridProps>(({
   children,
   className,
-  columns = 3,
-  gap = 'lg',
+  columns = 12,
+  gap = 'md',
   alignItems = 'stretch',
+  rowHeight = 'auto',
   style,
   ...props
 }, ref) => {
@@ -57,8 +64,13 @@ export const BentoGrid = React.forwardRef<HTMLDivElement, BentoGridProps>(({
     className
   ].filter(Boolean).join(' ');
 
+  const inlineStyle: CSSProperties = {
+    '--bento-row-height': rowHeight,
+    ...style
+  } as CSSProperties;
+
   return (
-    <div ref={ref} className={classes} style={style} {...props}>
+    <div ref={ref} className={classes} style={inlineStyle} {...props}>
       {children}
     </div>
   );
@@ -75,11 +87,11 @@ export const BentoItem = React.forwardRef<HTMLDivElement, BentoItemProps>(({
   style,
   ...props
 }, ref) => {
-  const inlineStyles: CSSProperties = {
-    ...(colSpan > 1 && { gridColumn: `span ${colSpan}` }),
-    ...(rowSpan > 1 && { gridRow: `span ${rowSpan}` }),
+  const inlineStyle: CSSProperties = {
+    '--bento-col-span': colSpan,
+    '--bento-row-span': rowSpan,
     ...style
-  };
+  } as CSSProperties;
 
   const classes = [
     'bento-item',
@@ -87,7 +99,7 @@ export const BentoItem = React.forwardRef<HTMLDivElement, BentoItemProps>(({
   ].filter(Boolean).join(' ');
 
   return (
-    <div ref={ref} className={classes} style={inlineStyles} {...props}>
+    <div ref={ref} className={classes} style={inlineStyle} {...props}>
       {children}
     </div>
   );

@@ -53,6 +53,11 @@ export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
   
   /** Height */
   height?: 'auto' | 'full' | 'fit' | 'screen';
+  /**
+   * Makes the box a flex child that grows to fill remaining space.
+   * Use inside a flex column (VStack) to push siblings to fixed positions.
+   */
+  grow?: boolean;
 }
 
 export const Box = forwardRef<HTMLElement, BoxProps>(({
@@ -71,6 +76,7 @@ export const Box = forwardRef<HTMLElement, BoxProps>(({
   gap,
   width,
   height,
+  grow,
   ...props
 }, ref) => {
   const classes = cn(
@@ -99,6 +105,8 @@ export const Box = forwardRef<HTMLElement, BoxProps>(({
     width && `box-width-${width}`,
     // Height
     height && `box-height-${height}`,
+    // Grow
+    grow && 'box-grow',
     className
   );
 

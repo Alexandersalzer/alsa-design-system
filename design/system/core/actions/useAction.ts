@@ -45,12 +45,12 @@ export function useAction(config: ActionConfig) {
           targetWin.scrollTo({ top, behavior: 'smooth' });
           setLoading(false);
           setSuccess(true);
-          
+
           // Trigger pixel events from settings (if any)
           if (navConfig.settings.pixelEvents && consent.marketing) {
             triggerPixelEvents(navConfig.settings.pixelEvents);
           }
-          
+
           return { success: true };
         } else {
           console.warn(`[Action] Section with id "${sectionId}" not found`);
@@ -59,31 +59,41 @@ export function useAction(config: ActionConfig) {
           return { success: false, error: `Section "${sectionId}" not found` };
         }
       }
-      
+
       // Resolve href from pageId or use direct href
       const localeAwareHref = buildHref(href, pageId);
-      
+
       if (!localeAwareHref) {
         console.error('[Action] Navigation action missing href, pageId, or sectionId');
         setLoading(false);
         setError('Navigation target missing');
         return { success: false, error: 'Navigation target missing' };
       }
-      
+
+      // Anchor link (#id) — resolve in target document (works inside iframe portals too)
+      if (localeAwareHref.startsWith('#')) {
+        const element = targetDoc.querySelector(localeAwareHref);
+        if (element) {
+          const navbarVoid = parseFloat(getComputedStyle(targetDoc.documentElement).getPropertyValue('--navbar-void')) || 0;
+          const top = element.getBoundingClientRect().top + targetWin.scrollY - navbarVoid;
+          targetWin.scrollTo({ top, behavior: 'smooth' });
+        }
+        setLoading(false);
+        setSuccess(true);
+        if (navConfig.settings.pixelEvents && consent.marketing) {
+          triggerPixelEvents(navConfig.settings.pixelEvents);
+        }
+        return { success: true };
+      }
+
       // Scroll to top if specified (use target window when in iframe)
       if (navConfig.settings.scrollToTop !== false) {
         targetWin.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       // Internal navigation (Next.js)
-      if (localeAwareHref.startsWith('/') || localeAwareHref.startsWith('#')) {
-        if (localeAwareHref.startsWith('#')) {
-          // Anchor link — resolve in target document (iframe when in editor preview)
-          const element = targetDoc.querySelector(localeAwareHref);
-          element?.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          router.push(localeAwareHref);
-        }
+      if (localeAwareHref.startsWith('/')) {
+        router.push(localeAwareHref);
         
         // Trigger pixel events from settings (if any)
         if (navConfig.settings.pixelEvents && consent.marketing) {

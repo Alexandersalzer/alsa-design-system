@@ -83,6 +83,21 @@ export const TextLink = forwardRef<HTMLAnchorElement, TextLinkProps>(({
       return;
     }
 
+    // If href is an anchor (#id), resolve it in ownerDocument (works correctly inside iframe portals)
+    const resolvedHref = localeAwareHref ?? finalHref ?? '';
+    if (resolvedHref.startsWith('#')) {
+      e.preventDefault();
+      const targetDoc = (e.currentTarget as HTMLElement).ownerDocument;
+      const targetWin = targetDoc.defaultView ?? window;
+      const el = targetDoc.querySelector(resolvedHref);
+      if (el) {
+        const navbarVoid = parseFloat(getComputedStyle(targetDoc.documentElement).getPropertyValue('--navbar-void')) || 0;
+        const top = el.getBoundingClientRect().top + targetWin.scrollY - navbarVoid;
+        targetWin.scrollTo({ top, behavior: 'smooth' });
+      }
+      return;
+    }
+
     // Otherwise, let default navigation happen
   };
   
