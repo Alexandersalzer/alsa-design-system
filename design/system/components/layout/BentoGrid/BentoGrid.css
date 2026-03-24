@@ -40,6 +40,8 @@
 /* ── Item span (driven by CSS vars set via inline style) ── */
 .bento-item {
   min-width: 0;
+  min-height: 0;
+  height: 100%;
   grid-column: span var(--bento-col-span, 1);
   grid-row:    span var(--bento-row-span,  1);
 }
