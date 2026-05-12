@@ -2,6 +2,8 @@
 
 A comprehensive React component library and design system for Alsa client websites.
 
+> **Note on the package name.** Alsa is currently published under the legacy npm scope `@blimpify-im/ui` while the rename is in progress. The install commands below reflect that. Once the package is republished under an Alsa scope this README will be updated.
+
 ## Installation
 
 This is a private GitHub package. To install it, you need to configure npm to use the GitHub Package Registry.
@@ -18,8 +20,6 @@ This is a private GitHub package. To install it, you need to configure npm to us
 ```bash
 npm install @blimpify-im/ui
 ```
-
-> The published npm package name is `@blimpify-im/ui` (the library is being rebranded to Alsa; the package name will follow in a future release).
 
 ## Usage
 
