@@ -29,6 +29,10 @@ export {
   Heading  // Dynamic heading with level 1-6 prop
 } from './Typography';
 
+// ===== CODE BLOCK (server-rendered, syntax-highlighted) =====
+export { CodeBlock } from './CodeBlock';
+export type { CodeBlockProps, CodeBlockLanguage } from './CodeBlock';
+
 // ===== TYPES =====
 export type {
   TypographyProps,

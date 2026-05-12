@@ -1,0 +1,184 @@
+/* ===============================================
+   src/components/layouts/MainContent/MainContent.css
+   Full-width content with header-matching padding
+   =============================================== */
+
+/* ===============================================
+   BASE SCROLLABLE CONTAINER
+   =============================================== */
+/* Scroll sker i .main-area (dashboard). Ingen overflow på .main-content så att
+   position: sticky (t.ex. intervallväljaren) fungerar. */
+.main-content {
+  overflow-x: visible;
+  padding-bottom: var(--foundation-space-16);
+}
+
+/* Inuti dashboard: låt innehållet växa så att .main-area scrollar (krävs för sticky) */
+.main-area .main-content {
+  height: auto;
+  min-height: 100%;
+}
+
+/* ===============================================
+   WIDTH CONSTRAINTS
+   =============================================== */
+.main-content__constraint--narrow {
+  max-width: 720px;
+}
+
+/* Builder setup wizard: samma bredd för Stepper + MainContent (en steg större än 640 = narrow) */
+.builder-step-constraint {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* Submit/granskningssida: bredare för att korten ska få mer plats */
+.builder-step-constraint--submit {
+  max-width: 960px;
+}
+
+/* Media-steg: bredare för galleri och upload */
+.builder-step-constraint--media {
+  max-width: 960px;
+  overflow-x: hidden;
+}
+
+.main-content__constraint--default {
+  max-width: 1000px;
+}
+
+.main-content__constraint--wide {
+  max-width: 1280px;
+}
+
+.main-content__constraint--full {
+  max-width: 100%;
+}
+
+/* Centering for constrained widths */
+.main-content--centered .main-content__constraint {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===============================================
+   SCROLLBAR STYLING
+   =============================================== */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: var(--border-secondary);
+  border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--border-primary);
+}
+
+/* Firefox scrollbar */
+.main-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-secondary) transparent;
+}
+
+/* ===============================================
+   DARK MODE SCROLLBAR
+   =============================================== */
+[data-theme-mode="dark"] .main-content,
+.dark .main-content {
+  scrollbar-color: var(--border-primary) transparent;
+}
+
+[data-theme-mode="dark"] .main-content::-webkit-scrollbar-thumb,
+.dark .main-content::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+}
+
+[data-theme-mode="dark"] .main-content::-webkit-scrollbar-thumb:hover,
+.dark .main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--border-secondary);
+}
+
+/* ===============================================
+   RESPONSIVE WIDTH ADJUSTMENTS
+   =============================================== */
+@media (max-width: 1024px) {
+  .main-content__constraint--wide {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content__constraint--narrow,
+  .main-content__constraint--default,
+  .builder-step-constraint,
+  .builder-step-constraint--submit,
+  .builder-step-constraint--media {
+    max-width: 100%;
+  }
+}
+
+/* ===============================================
+   PRINT STYLES
+   =============================================== */
+@media print {
+  .main-content {
+    overflow: visible;
+    height: auto;
+  }
+  
+  .main-content__constraint {
+    max-width: none;
+  }
+}
+
+/* ===============================================
+   MAIN CONTENT HEADER – builder step subtext
+   =============================================== */
+.main-content-header-subtext {
+  font-size: 0.75em;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* ===============================================
+   MAIN CONTENT HEADER RESPONSIVE
+   =============================================== */
+.main-content-header {
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 768px) {
+  .main-content-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: var(--foundation-space-4, 16px);
+  }
+
+  /* Titeln tar bara nödvändig plats så att actions hamnar nedanför, inte under (bakom) texten */
+  .main-content-header > *:first-child {
+    position: relative;
+    z-index: 0;
+    flex: 0 0 auto;
+    min-height: 0;
+  }
+
+  .main-content-header > *:last-child {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .main-content-header > *:last-child button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,77 @@
+.codeblock {
+  position: relative;
+  width: 100%;
+  background: var(--surface-page);
+}
+
+.codeblock--bordered {
+  border: 1px solid var(--border-default);
+  border-radius: var(--foundation-radius-lg);
+}
+
+/* Shiki injects its own <pre><code>; we control the outer scroll/padding here */
+.codeblock__pre {
+  overflow-x: auto;
+}
+
+.codeblock__pre :where(pre) {
+  margin: 0;
+  padding: var(--foundation-space-4);
+  font-family: var(--font-mono-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: var(--text-sm, 0.875rem);
+  line-height: 1.625;
+  background: transparent !important;
+}
+
+.codeblock__pre :where(code) {
+  font-family: inherit;
+  font-size: inherit;
+  background: transparent !important;
+}
+
+/* Theme switching: default to light, swap to dark when [data-theme-mode='dark'] is set */
+.codeblock__pre--dark {
+  display: none;
+}
+
+[data-theme-mode='dark'] .codeblock__pre--light,
+.dark .codeblock__pre--light {
+  display: none;
+}
+
+[data-theme-mode='dark'] .codeblock__pre--dark,
+.dark .codeblock__pre--dark {
+  display: block;
+}
+
+/* Copy button — tiny island in the corner */
+.codeblock__copy {
+  position: absolute;
+  top: var(--foundation-space-2);
+  right: var(--foundation-space-2);
+  z-index: 1;
+}
+
+.codeblock__copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--foundation-space-2);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--foundation-radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.codeblock__copy-button:hover {
+  background: var(--surface-hover);
+  color: var(--text-default);
+  border-color: var(--border-default);
+}
+
+.codeblock__copy-button:focus-visible {
+  outline: 2px solid var(--border-focus, var(--border-default));
+  outline-offset: 2px;
+}

@@ -1,0 +1,20 @@
+{
+  "globalStyles": {
+    "radius": "xl",
+    "layoutContent": "xl",
+    "layoutMedia": "xl",
+    "formWidth": "sm",
+    "accentColor": "orange-light",
+    "accentIntensity": "normal",
+    "themeMode": "system",
+    "themeTone": "pure",
+    "fontPrimary": "Outfit",
+    "fontSecondary": "Outfit",
+    "fontWeightHeading": "bold",
+    "fontWeightBody": "semibold",
+    "typographyScale": "md",
+    "sectionSpacing": "lg",
+    "containerSpacing": "md",
+    "navbarSpacing": "md"
+  }
+}

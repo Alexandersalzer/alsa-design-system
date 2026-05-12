@@ -1,0 +1,27 @@
+.section-panel {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--border-default);
+  border-radius: var(--foundation-radius-lg);
+  padding: var(--foundation-space-6);
+}
+
+/* Both faces always rendered so we can measure them.
+   Inactive face is taken out of layout but kept measurable. */
+.section-panel__face {
+  position: absolute;
+  top: var(--foundation-space-6);
+  left: var(--foundation-space-6);
+  right: var(--foundation-space-6);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.section-panel__face--active {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  visibility: visible;
+  pointer-events: auto;
+}

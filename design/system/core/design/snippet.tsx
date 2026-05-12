@@ -2,15 +2,18 @@ import type { DesignTokens } from "../types/design";
 import { getDesignConfig } from "./loaders";
 import { normalizeWeights, getWeightValue, normalizeNumericWeights } from "./weights";
 import { getFontMetadata } from "./googleFontsUtils";
+import {
+  generateScale,
+  resolveAccentInput,
+  resolveToneInput,
+  hexToOklch,
+  STEPS,
+  type Scale,
+} from "./colorEngine";
 
-/** Hue in degrees for accent (used by image tint / hue-rotate). Matches foundation color names. */
-function getAccentHue(accentColor: string): number {
-  const hueMap: Record<string, number> = {
-    blue: 220, purple: 270, violet: 270, pink: 330, red: 0, rose: 350,
-    orange: 30, amber: 45, yellow: 50, lime: 120, green: 142, emerald: 160,
-    teal: 166, cyan: 190, sky: 200, indigo: 238, fuchsia: 292, slate: 215, gray: 220
-  };
-  return hueMap[accentColor?.toLowerCase()] ?? 270;
+/** Emit `--foundation-{prefix}-{step}: {hex};` lines from a generated Scale. */
+function emitScaleVars(prefix: string, scale: Scale): string {
+  return STEPS.map((s) => `      --foundation-${prefix}-${s}: ${scale[s]};`).join('\n');
 }
 
 /**
@@ -20,20 +23,43 @@ function getAccentHue(accentColor: string): number {
  */
 export async function buildCssVars(tokens: DesignTokens): Promise<string> {
   const radius           = tokens?.radius           || "md";
-  const accentColor      = tokens?.accentColor      || "purple";
 
   // Auto-migration: Support both old (isDark) and new (themeMode) formats
   let themeMode: 'light' | 'dark' | 'system' = 'light';
   if (tokens?.themeMode) {
-    // New format - use directly
     themeMode = tokens.themeMode;
   } else if (tokens?.isDark !== undefined) {
-    // Legacy format - auto-migrate
     themeMode = tokens.isDark ? 'dark' : 'light';
     console.warn('[Design] Deprecated: Using isDark (boolean). Please update design.json to use themeMode: "light" | "dark" | "system"');
   }
 
-  const themeTone        = tokens?.themeTone        || "pure";
+  // ===== Color resolution (NEW: free-form hex with legacy migration) =====
+  const accentHex = resolveAccentInput(tokens?.accent ?? tokens?.accentColor);
+  const toneHex = resolveToneInput(tokens?.themeTone);
+  const baseColorIntensity = typeof tokens?.baseColorIntensity === 'number'
+    ? Math.max(0, Math.min(1, tokens.baseColorIntensity))
+    : 0.08;
+
+  // Generate accent + neutral scales for both modes (always, so [data-theme]
+  // selectors can swap without re-rendering).
+  const accentLight = generateScale({ hex: accentHex, mode: 'light', kind: 'accent' });
+  const accentDark  = generateScale({ hex: accentHex, mode: 'dark',  kind: 'accent' });
+  const neutralLight = generateScale({ hex: toneHex, mode: 'light', kind: 'neutral', intensity: baseColorIntensity });
+  const neutralDark  = generateScale({ hex: toneHex, mode: 'dark',  kind: 'neutral', intensity: baseColorIntensity });
+
+  // Hue from accent (used by image-tint filters etc.)
+  const isInverseAccent = accentHex === 'inverse';
+  const accentHueDeg = isInverseAccent ? 0 : Math.round(hexToOklch(accentHex).h);
+
+  // Surface check: if any text-bearing step was clamped, log once.
+  if (Object.keys(accentLight.clamped).length || Object.keys(accentDark.clamped).length) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.info('[Design] Accent color was contrast-clamped on text steps:', {
+        light: accentLight.clamped,
+        dark: accentDark.clamped,
+      });
+    }
+  }
   const fontPrimary      = tokens?.fontPrimary      || "Outfit";
   const fontSecondary    = tokens?.fontSecondary    || fontPrimary;
   const layoutContent    = tokens?.layoutContent    || "md";
@@ -111,8 +137,6 @@ export async function buildCssVars(tokens: DesignTokens): Promise<string> {
 
   const fontUrl = `https://fonts.googleapis.com/css2?${fontsToImport.join('&')}&display=swap`;
 
-  const isInverseAccent = accentColor === "inverse";
-
   return `
     @import url('${fontUrl}');
     :root {
@@ -142,40 +166,10 @@ export async function buildCssVars(tokens: DesignTokens): Promise<string> {
       --selected-container-spacing: var(--foundation-container-spacing-${containerSpacing});
       --selected-navbar-spacing:    var(--foundation-navbar-spacing-${navbarSpacing});
 
-      /* ===== Accent Color Selection ===== */
-      /* Hue in degrees for CSS filter (hue-rotate) – used by image tint / duotone. Unit in variable so filter never gets invalid "270) deg". */
-      /* Inverse = vit/svart, ingen färgton: grayscale only (hue 0, saturation 0). */
-      --accent-hue: ${isInverseAccent ? 0 : getAccentHue(accentColor)};
-      --accent-hue-deg: ${isInverseAccent ? 0 : getAccentHue(accentColor)}deg;
+      /* ===== Accent hue (for image filters / duotone) ===== */
+      --accent-hue: ${accentHueDeg};
+      --accent-hue-deg: ${accentHueDeg}deg;
       --accent-tint-saturation: ${isInverseAccent ? 0 : 0.85};
-      /* Set foundation colors - these will be used by color-mix() in colors.css for auto-inversion */
-      ${isInverseAccent ? `
-        --foundation-accent-100: var(--foundation-gray-100);
-        --foundation-accent-200: var(--foundation-gray-200);
-        --foundation-accent-300: var(--foundation-gray-300);
-        --foundation-accent-400: var(--foundation-gray-400);
-        --foundation-accent-500: var(--foundation-gray-500);
-        --foundation-accent-600: var(--foundation-gray-1200);
-        --foundation-accent-700: var(--foundation-gray-1100);
-        --foundation-accent-800: var(--foundation-gray-1000);
-        --foundation-accent-900: var(--foundation-gray-900);
-        --foundation-accent-1000: var(--foundation-gray-1000);
-        --foundation-accent-1100: var(--foundation-gray-1100);
-        --foundation-accent-1200: var(--foundation-gray-1200);
-      ` : `
-        --foundation-accent-100: var(--foundation-${accentColor}-100);
-        --foundation-accent-200: var(--foundation-${accentColor}-200);
-        --foundation-accent-300: var(--foundation-${accentColor}-300);
-        --foundation-accent-400: var(--foundation-${accentColor}-400);
-        --foundation-accent-500: var(--foundation-${accentColor}-500);
-        --foundation-accent-600: var(--foundation-${accentColor}-600);
-        --foundation-accent-700: var(--foundation-${accentColor}-700);
-        --foundation-accent-800: var(--foundation-${accentColor}-800);
-        --foundation-accent-900: var(--foundation-${accentColor}-900);
-        --foundation-accent-1000: var(--foundation-${accentColor}-1000);
-        --foundation-accent-1100: var(--foundation-${accentColor}-1100);
-        --foundation-accent-1200: var(--foundation-${accentColor}-1200);
-      `}
 
       /* ===== Typography scale ===== */
       --selected-font-size-xs:   var(--foundation-typography-${typographyScale}-xs);
@@ -286,6 +280,24 @@ export async function buildCssVars(tokens: DesignTokens): Promise<string> {
       ${themeMode === 'dark' ? '--is-dark: 1;' : themeMode === 'light' ? '--is-dark: 0;' : '/* --is-dark set by JS */'}
     }
 
+    /* =============================================================================
+       Generated color scales (light + dark) — see colorEngine.ts
+       Each [data-theme] block emits both:
+         --foundation-accent-N  (15 steps from accent.hex)
+         --foundation-gray-N    (15 steps from themeTone.hex × baseColorIntensity)
+       Light scale is the default (:root) so SSR + system mode always paint correctly.
+       data-theme="dark" overrides at runtime.
+       ============================================================================= */
+    :root {
+${emitScaleVars('accent', accentLight.scale)}
+${emitScaleVars('gray', neutralLight.scale)}
+    }
+
+    [data-theme="dark"] {
+${emitScaleVars('accent', accentDark.scale)}
+${emitScaleVars('gray', neutralDark.scale)}
+    }
+
     ${isInverseAccent ? `
     /* ===== INVERSE ACCENT MODE (replaces data-accent-mode attribute) ===== */
     /* Override accent semantic tokens for high-contrast monochrome */
@@ -360,8 +372,12 @@ export async function designSnippet(isEditing?: boolean): Promise<{
   }
 
   const tokens = designConfig.globalStyles || {};
-  const themeTone = tokens.themeTone || "neutral";
-  const accentColor = tokens.accentColor || "purple";
+  // Tone/accent labels for layout's data-* attributes (only meaningful when input was a string).
+  // When the user supplies a hex via the customizer, we return 'custom' as a stable string.
+  const themeTone = typeof tokens.themeTone === 'string' ? tokens.themeTone : 'custom';
+  const accentColor = typeof tokens.accent === 'string'
+    ? tokens.accent
+    : (typeof tokens.accentColor === 'string' ? tokens.accentColor : 'custom');
 
   // Auto-migration logic
   let themeMode: 'light' | 'dark' | 'system';

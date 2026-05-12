@@ -1,0 +1,22 @@
+/* Only what Alsa primitives can't express: a CSS gradient overlay
+   and a smooth max-height transition for the collapse animation. */
+
+.pcc__code-window {
+  position: relative;
+  overflow: hidden;
+  transition: max-height 240ms ease;
+}
+
+.pcc__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 96px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--surface-page) 0%, transparent) 0%,
+    var(--surface-page) 85%
+  );
+}

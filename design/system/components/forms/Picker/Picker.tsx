@@ -9,6 +9,7 @@ import { Icon } from '../../media';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { Popover } from '../../overlays';
 import { Listbox, ListboxItem, ListboxItemText } from '../../lists';
+import { Body } from '../../Typography';
 import './Picker.css';
 
 // ===============================================
@@ -276,11 +277,13 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
               surface="raised"
             >
               {filteredOptions.length === 0 ? (
-                <ListboxItem 
+                <ListboxItem
                   interactive={false}
                   className="picker-option-empty"
                 >
-                  {searchTerm ? 'No matching options found' : 'No options available'}
+                  <Body size={size === 'sm' ? 'sm' : 'md'} color="secondary">
+                    {searchTerm ? 'No matching options found' : 'No options available'}
+                  </Body>
                 </ListboxItem>
               ) : (
                 filteredOptions.map((option, index) => (
@@ -316,7 +319,9 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(({
                         description={option.description}
                       />
                     ) : (
-                      option.label
+                      <Body size={size === 'sm' ? 'sm' : 'md'} color="primary">
+                        {option.label}
+                      </Body>
                     )}
                   </ListboxItem>
                 ))

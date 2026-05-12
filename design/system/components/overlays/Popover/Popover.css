@@ -36,7 +36,7 @@
   z-index: var(--z-popover);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-dropdown);
-  background-color: var(--surface-base);
+  background-color: var(--surface-raised);
   box-shadow: var(--foundation-shadow-lg);
   /* IMPORTANT: overflow must be visible to prevent clipping the hover bridge */
   overflow: visible;

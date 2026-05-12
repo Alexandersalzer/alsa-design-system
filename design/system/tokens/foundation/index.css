@@ -1,4 +1,7 @@
-/* Foundation tokens - these are your base design tokens */
+/* Foundation tokens - these are your base design tokens.
+   Color scales (--foundation-accent-* and --foundation-gray-*) are
+   generated at runtime by snippet.tsx; theme-tone CSS files were
+   replaced by the OKLCH color engine. */
 @import './colors.css';
 @import './typography.css';
 @import './spacing.css';
@@ -7,6 +10,3 @@
 @import './radius.css';
 @import './sizes.css';
 @import './widths.css';
-@import './theme-tone-vibrant.css';
-@import './theme-tone-subtle.css';
-@import './theme-tone-monochrome.css';

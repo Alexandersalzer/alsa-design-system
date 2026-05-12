@@ -70,6 +70,10 @@ coverage/
 
 # Next.js build output
 .next
+.next-docs/
+
+# Next-env (auto-generated)
+next-env.d.ts
 
 # Nuxt.js build / generate output
 .nuxt

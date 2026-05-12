@@ -1,0 +1,183 @@
+/* =============================================================================
+   ColorPicker — compact picker: small palette chips + hue strip + popover
+   ============================================================================= */
+
+.alsa-cpicker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-2);
+  width: 100%;
+}
+
+/* ----- Curated palette: small chips, single row, wraps if needed ----- */
+.alsa-cpicker__palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--foundation-space-1);
+}
+
+.alsa-cpicker__chip {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+.alsa-cpicker__chip:hover {
+  transform: scale(1.12);
+}
+
+.alsa-cpicker__chip--selected {
+  box-shadow: 0 0 0 2px var(--surface-page), 0 0 0 4px var(--border-accent);
+}
+
+/* ----- Hue strip row ----- */
+.alsa-cpicker__row {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+}
+
+.alsa-cpicker__trigger {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: box-shadow 120ms ease;
+}
+
+.alsa-cpicker__trigger:hover,
+.alsa-cpicker__trigger:focus-visible {
+  box-shadow: 0 0 0 3px var(--surface-accent-subtle);
+  outline: none;
+}
+
+.alsa-cpicker__hue-track {
+  position: relative;
+  flex: 1;
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+}
+
+.alsa-cpicker__hue-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+.alsa-cpicker__hue-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--thumb-color, #fff);
+  border: 2px solid var(--always-white);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.alsa-cpicker__hue-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--thumb-color, #fff);
+  border: 2px solid var(--always-white);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ----- Popover ----- */
+.alsa-cpicker__popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--surface-floating, var(--surface-base));
+  border: 1px solid var(--border-default);
+  border-radius: var(--selected-radius-scale-md);
+  box-shadow: var(--shadow-strong);
+  padding: var(--foundation-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-3);
+}
+
+/* ----- Hex input inside popover ----- */
+.alsa-cpicker__hex {
+  display: flex;
+  align-items: center;
+  gap: var(--foundation-space-2);
+  border: 1px solid var(--border-input);
+  border-radius: var(--selected-radius-scale-sm);
+  background: var(--surface-input);
+  padding: 0 var(--foundation-space-2);
+  height: 32px;
+}
+
+.alsa-cpicker__hex:focus-within {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px var(--surface-accent-subtle);
+}
+
+.alsa-cpicker__hex-prefix {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-family: var(--font-mono-family, ui-monospace, monospace);
+}
+
+.alsa-cpicker__hex-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-mono-family, ui-monospace, monospace);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--text-default);
+  padding: 0;
+  width: 100%;
+}
+
+/* ----- Mini sliders inside popover ----- */
+.alsa-cpicker__mini-slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+}
+
+.alsa-cpicker__mini-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.alsa-cpicker__mini-value {
+  font-family: var(--font-mono-family, ui-monospace, monospace);
+  color: var(--text-default);
+}
+
+.alsa-cpicker__mini-track {
+  position: relative;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+}

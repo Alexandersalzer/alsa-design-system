@@ -1,10 +1,10 @@
-# Blimpify UI Design System
+# Alsa UI Design System
 
-A comprehensive React component library and design system for Blimpify client websites.
+A comprehensive React component library and design system for Alsa client websites.
 
 ## Installation
 
-This is a private GitHub package. To install it, you need to configure npm to use GitHub Package Registry.
+This is a private GitHub package. To install it, you need to configure npm to use the GitHub Package Registry.
 
 ### 1. Create or update your `.npmrc` file:
 
@@ -19,102 +19,124 @@ This is a private GitHub package. To install it, you need to configure npm to us
 npm install @blimpify-im/ui
 ```
 
+> The published npm package name is `@blimpify-im/ui` (the library is being rebranded to Alsa; the package name will follow in a future release).
+
 ## Usage
 
-### Basic Components
+### Basic components
 
 ```tsx
-import { Button, Typography, Card } from '@blimpify-im/ui';
+import { Button, H1, Card } from '@blimpify-im/ui';
 
 function MyComponent() {
   return (
     <Card>
-      <Typography variant="h1">Welcome</Typography>
+      <H1>Welcome</H1>
       <Button variant="primary">Get Started</Button>
     </Card>
   );
 }
 ```
 
-### Layout Components
+### Layout components
 
 ```tsx
-import { Container, Section, Stack } from '@blimpify-im/ui';
+import { Container, VStack, Box } from '@blimpify-im/ui';
 
 function MyLayout() {
   return (
-    <Section>
-      <Container>
-        <Stack space="lg">
-          <h1>My Content</h1>
-          <p>Some text content</p>
-        </Stack>
-      </Container>
-    </Section>
+    <Container>
+      <VStack gap="lg">
+        <Box>Item one</Box>
+        <Box>Item two</Box>
+      </VStack>
+    </Container>
   );
 }
 ```
 
-### CMS Integration
+### Navigation
 
 ```tsx
-import { ContentProvider, useContent } from '@blimpify-im/ui';
+import { Nav } from '@blimpify-im/ui';
+
+function Sidebar({ pathname }: { pathname: string }) {
+  return (
+    <Nav.Root layout="sidebar" surface="page" currentPath={pathname} gap="lg">
+      <Nav.Section label="Getting started">
+        <Nav.List>
+          <Nav.Item href="/intro">Intro</Nav.Item>
+          <Nav.Item href="/setup">Setup</Nav.Item>
+        </Nav.List>
+      </Nav.Section>
+    </Nav.Root>
+  );
+}
+```
+
+### Toasts
+
+```tsx
+import { ToastProvider, useToast } from '@blimpify-im/ui';
 
 function App() {
   return (
-    <ContentProvider>
+    <ToastProvider>
       <MyComponent />
-    </ContentProvider>
+    </ToastProvider>
   );
 }
 
 function MyComponent() {
-  const { content, isLoading } = useContent();
-  
-  if (isLoading) return <div>Loading...</div>;
-  
-  return <div>{/* Your content here */}</div>;
+  const { addToast } = useToast();
+  return (
+    <button onClick={() => addToast({ type: 'success', message: 'Saved!' })}>
+      Save
+    </button>
+  );
 }
 ```
 
 ## Components
 
-### Primitives
-- Button
-- Input
-- Textarea
-- Checkbox
-- Radio
-- Switch
-- Dropdown
-- Modal
-- Toast
-- Card
-- Tag
-- Typography
-- Icon
-- IconButton
+### Typography
+H1–H6, Body, Label
+
+### Actions
+Button, IconButton, Clickable, TextLink, Nav, Tabs, SegmentedControl, SelectionCard, Kbd
+
+### Forms
+Input, Textarea, Picker, Checkbox, Radio, Switch, FileUploader, DatePicker, DateRangePicker, Slider
+
+### Data display
+Table, List, Listbox, ListboxItem
+
+### Charts
+Sparkline, LineChart, BarChart, AreaChart, DonutChart
 
 ### Layout
-- Container
-- Section
-- Block
-- Stack
-- Cluster
-- Grid
-- Rhythm
+Container, VStack, HStack, Grid, Box, Card, Divider
+
+### Overlays
+Modal, Drawer, Popover, Menu, CommandMenu, Tooltip
+
+### Feedback
+Toast, Tag, Alert, Banner, Spinner, Progress, LoadingSkeleton, Badge
+
+### Media
+Image, Avatar, Logo, Icon
+
+### Animations
+CarouselAnimation, CountUp
+
+### Navigation
+Breadcrumbs, Pagination, LanguageSelector, BackButton, HashScrollHandler
+
+### Shells
+Navbar, Footer, PageBackground
 
 ### Patterns
-- Navigation
-- Footer
-- RichText
-- Loading States
-
-### Templates
-- Hero Section
-- About Section
-- Navbar
-- Footer
+Dashboard, GridPatterns, CookieConsent, EndingCta, AnimatedSurfaces, Cards, Host, Toast
 
 ## Development
 
@@ -134,4 +156,4 @@ npm run build
 
 ## License
 
-MIT © Blimpify 
+MIT © Alsa

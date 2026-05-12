@@ -1,0 +1,67 @@
+.docs-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--surface-page);
+}
+
+.docs-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid var(--border-subtle);
+  background: var(--surface-page);
+  display: flex;
+  flex-direction: column;
+}
+
+.docs-sidebar__header {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 var(--foundation-space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.docs-sidebar__logo {
+  font-family: var(--font-primary-name), system-ui, sans-serif;
+  font-size: var(--selected-font-size-sm);
+  font-weight: var(--dynamic-font-weight-heading);
+  color: var(--text-strong);
+  letter-spacing: -0.02em;
+}
+
+.docs-sidebar__search {
+  padding: var(--foundation-space-3);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+/* Container around the Nav. Padding here gives breathing room top + bottom
+   so the last category isn't stuck against the sidebar's lower edge. */
+.docs-sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--foundation-space-3) var(--foundation-space-2)
+    var(--foundation-space-8);
+}
+
+.docs-sidebar__empty {
+  padding: var(--foundation-space-6) var(--foundation-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-1);
+}
+
+.docs-main {
+  margin: 0 auto;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.docs-content {
+  padding: var(--foundation-space-8) var(--foundation-space-6);
+}

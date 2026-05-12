@@ -108,6 +108,8 @@
     "design/system/core/scripts/generateConfig.js"
   ],
   "scripts": {
+    "docs:dev": "next dev",
+    "docs:build": "next build",
     "generate:config": "tsx node_modules/@blimpify-im/ui/dist/design/system/core/scripts/generateConfig.js",
     "validate:css": "node validate-css.js",
     "prebuild": "npm run validate:css",
@@ -169,6 +171,7 @@
     "react-globe.gl": "^2.37.0",
     "react-image-crop": "^11.0.10",
     "server-only": "^0.0.1",
+    "shiki": "^4.0.2",
     "three": "^0.182.0"
   },
   "devDependencies": {
