@@ -36,12 +36,13 @@
     ]
   },
   "include": [
+    ".next-docs/types/**/*.ts",
     "api/**/*.ts",
     "design/**/*.ts",
     "design/**/*.tsx",
     "design/types/css-modules.d.ts",
     "index.ts",
-    ".next-docs/types/**/*.ts"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

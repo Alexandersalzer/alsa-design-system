@@ -108,18 +108,19 @@
     "design/system/core/scripts/generateConfig.js"
   ],
   "scripts": {
-    "docs:dev": "next dev",
-    "docs:build": "next build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "generate:config": "tsx node_modules/@blimpify-im/ui/dist/design/system/core/scripts/generateConfig.js",
     "validate:css": "node validate-css.js",
-    "prebuild": "npm run validate:css",
-    "build": "npm run build:ts && npm run build:css",
+    "prebuild:lib": "npm run validate:css",
+    "build:lib": "npm run build:ts && npm run build:css",
     "build:ts": "tsc",
     "build:css": "find design -name '*.css' | while read file; do target=\"dist/$file\"; mkdir -p \"$(dirname \"$target\")\"; cp \"$file\" \"$target\"; done",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build:lib"
   },
   "repository": {
     "type": "git",

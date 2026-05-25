@@ -3,7 +3,6 @@ import path from "path";
 
 const nextConfig: NextConfig = {
   typescript: { ignoreBuildErrors: true },
-  distDir: ".next-docs",
   serverExternalPackages: ["shiki"],
   webpack(config) {
     // Resolve 'alsa-design-system' (used in compiled dist/ files) back to source
