@@ -12,6 +12,7 @@ import { HStack } from '../../layout';
 import { LogoImage } from '../Image/Image';
 import { BrandName } from './LogoText';
 import { Component } from '../../frames/component/Component';
+import { useHref } from '../../../hooks/useHref';
 import './Logo.css';
 
 // ===== TYPE DEFINITIONS =====
@@ -81,6 +82,24 @@ export const Logo: React.FC<LogoProps> = ({
   textComponentKey,
 }) => {
   const router = useRouter();
+  const { buildHref } = useHref();
+
+  // Resolve href to be locale-aware. A bare "/" or other relative path becomes
+  // "/{locale}/..." so it matches the static-export route tree and SPA-pushes
+  // instead of triggering a full reload via missing route fallback.
+  const resolvedHref = (() => {
+    if (!href) return undefined;
+    if (
+      href.startsWith('http://') ||
+      href.startsWith('https://') ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      href.startsWith('#')
+    ) {
+      return href;
+    }
+    return buildHref(href);
+  })();
 
   // ----- Color mapping -----
 
@@ -130,21 +149,21 @@ export const Logo: React.FC<LogoProps> = ({
   // ----- Navigation handling (KEY FIX) -----
 
   const handleClick = (e?: React.MouseEvent) => {
-    if (!href) return;
+    if (!resolvedHref) return;
 
-    if (isInternalHref(href)) {
+    if (isInternalHref(resolvedHref)) {
       e?.preventDefault();
-      router.push(href);
+      router.push(resolvedHref);
     }
 
     onClick?.();
   };
 
-  const Wrapper = href ? 'a' : 'div';
+  const Wrapper = resolvedHref ? 'a' : 'div';
 
-  const wrapperProps = href
+  const wrapperProps = resolvedHref
     ? {
-        href,
+        href: resolvedHref,
         onClick: handleClick,
         className: containerClasses,
       }

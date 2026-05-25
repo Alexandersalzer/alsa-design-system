@@ -2,11 +2,14 @@
   position: relative;
   width: 100%;
   background: var(--surface-page);
+  /* Regular-size container — scales with the user's radius setting.
+     See skill: radius-tokens. Never --foundation-radius-*. */
+  border-radius: var(--radius-code-component);
+  overflow: hidden;
 }
 
 .codeblock--bordered {
   border: 1px solid var(--border-default);
-  border-radius: var(--foundation-radius-lg);
 }
 
 /* Shiki injects its own <pre><code>; we control the outer scroll/padding here */
@@ -59,7 +62,9 @@
   padding: var(--foundation-space-2);
   background: var(--surface-raised);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--foundation-radius-md);
+  /* Tiny control — scales with the user's radius setting.
+     See skill: radius-tokens. Never --foundation-radius-*. */
+  border-radius: var(--radius-icon-button);
   color: var(--text-secondary);
   cursor: pointer;
   transition: background 120ms ease, color 120ms ease, border-color 120ms ease;

@@ -1,0 +1,164 @@
+/* Design customizer modal — settings layout (sidebar + scrollable content).
+   Tokens only; no magic numbers. */
+
+.dc-shell {
+  display: flex;
+  /* Cancel .modal__content padding so the sidebar divider meets the modal
+     edges. The modal body owns the outer scroll/height. */
+  margin: calc(var(--space-modal-content-padding, var(--foundation-space-6)) * -1);
+  min-height: 420px;
+  max-height: 70vh;
+}
+
+/* ===== SIDEBAR ===== */
+
+.dc-sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 200px;
+  padding: var(--foundation-space-3);
+  border-right: 1px solid var(--border-subtle);
+  overflow-y: auto;
+}
+
+.dc-sidebar__footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-2);
+}
+
+.dc-json {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--selected-radius-scale-sm);
+  padding: var(--foundation-space-3);
+  font-family: var(--font-mono-family, ui-monospace, monospace);
+  font-size: var(--foundation-font-size-xs, 0.75rem);
+  line-height: 1.5;
+  white-space: pre;
+  overflow: auto;
+  max-height: 220px;
+  color: var(--text-default);
+}
+
+/* ===== CONTENT ===== */
+
+.dc-content {
+  flex: 1 1 0%;
+  overflow-y: auto;
+  padding: var(--foundation-space-2) var(--foundation-space-5)
+    var(--foundation-space-6);
+}
+
+/* ===== ROW (label left, control right) ===== */
+
+.dc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--foundation-space-4);
+  padding: var(--foundation-space-4) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.dc-row:last-child {
+  border-bottom: none;
+}
+
+.dc-row__label {
+  flex: 0 0 auto;
+}
+
+/* Flexible but capped: grows to fill the row, never past the max,
+   never below the min. Sliders/pickers fill it; the color swatch
+   stays its natural size, right-aligned. */
+.dc-row__control {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 180px;
+  max-width: 320px;
+}
+
+.dc-row__control > * {
+  width: 100%;
+}
+
+/* The compact color picker is a fixed-size swatch, not a stretchy control.
+   Override the width:100% above and let it sit at its natural size. */
+.dc-row__control > .alsa-cpicker--compact {
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.dc-row__control .alsa-cpicker__swatch {
+  width: 64px;
+}
+
+/* ===== BLOCK (label on top, control full-width) ===== */
+
+.dc-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--foundation-space-3);
+  padding: var(--foundation-space-5) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.dc-block:last-child {
+  border-bottom: none;
+}
+
+.dc-block__label {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dc-block__control {
+  width: 100%;
+}
+
+/* ===== THEME MODE CARDS ===== */
+
+.dc-mode-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--foundation-space-3);
+}
+
+.dc-mode-cards > * {
+  cursor: pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 720px) {
+  .dc-shell {
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+  }
+
+  .dc-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .dc-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--foundation-space-2);
+  }
+
+  .dc-row__control {
+    justify-content: stretch;
+  }
+
+  .dc-row__control > * {
+    min-width: 0;
+    width: 100%;
+  }
+}

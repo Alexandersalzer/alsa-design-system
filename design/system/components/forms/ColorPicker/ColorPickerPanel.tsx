@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '../../../utils/cn';
 import {
   hexToOklch,
   oklchToHex,
-  paramToOklch,
-  oklchToParam,
   maxChromaInGamut,
 } from '../../../core/design/colorEngine';
 import './ColorPicker.css';
@@ -25,12 +24,12 @@ export interface ColorPickerPanelProps {
   value: string;
   /** Called with the new hex string on every change. */
   onChange: (hex: string) => void;
-  /** Optional curated quick-pick swatches. Rendered above the controls. */
+  /** Optional curated quick-pick swatches at the top of the popover. */
   palette?: PalettePreset[];
-  /** When true, hue is locked (used by base color where the user supplies a
-   *  hue once but only adjusts lightness/saturation). Currently unused but
-   *  reserved for future surface-tinted bases. */
+  /** Reserved (kept for API compat with earlier callers). */
   lockHue?: boolean;
+  /** Compact: render only a swatch; the full picker opens in a popover. */
+  compact?: boolean;
   className?: string;
 }
 
@@ -39,58 +38,169 @@ export interface ColorPickerPanelProps {
 // =============================================================================
 
 const HEX_REGEX = /^#[0-9A-Fa-f]{6}$/;
+const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
-function clamp(v: number, lo: number, hi: number) {
-  return Math.max(lo, Math.min(hi, v));
+// 2D square axes:
+//   Y (top→bottom) = lightness, L_TOP → L_BOTTOM
+//   X (left→right) = chroma, 0 → maxChromaInGamut(l, h)
+const L_TOP = 0.98;
+const L_BOTTOM = 0.10;
+
+interface OKLCHState { l: number; c: number; h: number; }
+
+/** Read a hex into OKLCH, preserving a fallback hue when the color is a
+ *  near-gray (chroma ~0) so the hue doesn't collapse to 0. */
+function readHex(hex: string, fallbackHue: number): OKLCHState {
+  try {
+    const o = hexToOklch(hex);
+    // Near-neutral: hue is numerically meaningless — keep the prior hue.
+    if (o.c < 0.004) return { l: o.l, c: o.c, h: fallbackHue };
+    return { l: o.l, c: o.c, h: o.h };
+  } catch {
+    return { l: 0.6, c: 0.15, h: fallbackHue };
+  }
+}
+
+/** OKLCH → cursor position (0..1, 0..1) in the square, for the CURRENT hue. */
+function toSquarePos(o: OKLCHState): { x: number; y: number } {
+  const y = clamp((L_TOP - o.l) / (L_TOP - L_BOTTOM), 0, 1);
+  const cMax = maxChromaInGamut(o.l, o.h) || 1e-6;
+  const x = clamp(o.c / cMax, 0, 1);
+  return { x, y };
 }
 
 // =============================================================================
-// COMPONENT — single shade slider + hue strip
+// COMPONENT
 // =============================================================================
 
 export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
   value,
   onChange,
   palette,
+  compact = false,
   className,
 }) => {
-  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const swatchRef = useRef<HTMLButtonElement>(null);
+  const squareRef = useRef<HTMLDivElement>(null);
+  const popRef = useRef<HTMLDivElement>(null);
 
-  // Close popover on outside click
+  // AUTHORITATIVE color state. The square/hue edit THIS; we emit hex out.
+  // We only re-sync from `value` when it differs from what we last emitted,
+  // i.e. a genuine external change — never from our own clamped round-trip.
+  const lastEmitted = useRef<string>('');
+  const [oklch, setOklch] = useState<OKLCHState>(() => readHex(value, 240));
+
   useEffect(() => {
-    if (!popoverOpen) return;
+    if (value && value.toUpperCase() !== lastEmitted.current.toUpperCase()) {
+      setOklch((prev) => readHex(value, prev.h));
+    }
+  }, [value]);
+
+  const emit = useCallback((next: OKLCHState) => {
+    setOklch(next);
+    const hex = oklchToHex(next).toUpperCase();
+    lastEmitted.current = hex;
+    onChange(hex);
+  }, [onChange]);
+
+  // ---- Popover positioning (portal — escapes modal overflow:hidden) ----
+  const [popStyle, setPopStyle] = useState<React.CSSProperties>({});
+  const placePopover = useCallback(() => {
+    const el = swatchRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const POP_W = 260;
+    const GAP = 8;
+    // bottom-end: align popover's right edge to the swatch's right edge,
+    // sitting just below it. Clamp into the viewport.
+    let left = r.right - POP_W;
+    left = Math.max(8, Math.min(left, window.innerWidth - POP_W - 8));
+    const top = r.bottom + GAP;
+    setPopStyle({ position: 'fixed', top, left, width: POP_W, zIndex: 1000 });
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    placePopover();
+    const onScroll = () => placePopover();
+    window.addEventListener('scroll', onScroll, true);
+    window.addEventListener('resize', onScroll);
     const onDoc = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
-        setPopoverOpen(false);
-      }
+      const t = e.target as Node;
+      if (
+        wrapRef.current?.contains(t) ||
+        popRef.current?.contains(t)
+      ) return;
+      setOpen(false);
     };
     document.addEventListener('mousedown', onDoc);
-    return () => document.removeEventListener('mousedown', onDoc);
-  }, [popoverOpen]);
+    return () => {
+      window.removeEventListener('scroll', onScroll, true);
+      window.removeEventListener('resize', onScroll);
+      document.removeEventListener('mousedown', onDoc);
+    };
+  }, [open, placePopover]);
 
-  const oklch = (() => {
-    try { return hexToOklch(value); } catch { return { l: 0.6, c: 0.15, h: 240 }; }
-  })();
+  const safeValue = HEX_REGEX.test(value) ? value : oklchToHex(oklch);
+  const pos = toSquarePos(oklch);
 
-  // The single "shade" slider parameter — derived from current OKLCH
-  const shadeT = oklchToParam(oklch);
+  // ---- Square interaction: edit l (Y) + c (X), hue stays fixed ----
+  const commitFromSquare = useCallback((clientX: number, clientY: number) => {
+    const el = squareRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const sx = clamp((clientX - r.left) / r.width, 0, 1);
+    const sy = clamp((clientY - r.top) / r.height, 0, 1);
+    setOklch((prev) => {
+      const l = L_TOP - sy * (L_TOP - L_BOTTOM);
+      const cMax = maxChromaInGamut(l, prev.h);
+      const c = sx * cMax;
+      const next = { l, c, h: prev.h };
+      const hex = oklchToHex(next).toUpperCase();
+      lastEmitted.current = hex;
+      onChange(hex);
+      return next;
+    });
+  }, [onChange]);
 
-  /** Commit a hue change — keep the same shade ramp position. */
-  const setHue = (newHue: number) => {
-    const next = paramToOklch(shadeT, ((newHue % 360) + 360) % 360);
-    onChange(oklchToHex(next));
+  const onSquarePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    commitFromSquare(e.clientX, e.clientY);
+    const move = (ev: PointerEvent) => commitFromSquare(ev.clientX, ev.clientY);
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
   };
 
-  /** Commit a shade change — keep the same hue. */
-  const setShade = (newT: number) => {
-    const next = paramToOklch(clamp(newT, 0, 1), oklch.h);
-    onChange(oklchToHex(next));
+  const setHue = (h: number) => {
+    const hue = ((h % 360) + 360) % 360;
+    setOklch((prev) => {
+      // Keep the same square position; clamp chroma into the new hue's gamut.
+      const p = toSquarePos(prev);
+      const cMax = maxChromaInGamut(prev.l, hue);
+      const next = { l: prev.l, c: p.x * cMax, h: hue };
+      const hex = oklchToHex(next).toUpperCase();
+      lastEmitted.current = hex;
+      onChange(hex);
+      return next;
+    });
   };
 
-  return (
-    <div ref={wrapRef} className={cn('alsa-cpicker', className)}>
-      {/* Curated palette */}
+  const setFromHex = (hex: string) => {
+    setOklch((prev) => readHex(hex, prev.h));
+    lastEmitted.current = hex.toUpperCase();
+    onChange(hex.toUpperCase());
+  };
+
+  const hueColor = oklchToHex({ l: 0.62, c: maxChromaInGamut(0.62, oklch.h), h: oklch.h });
+
+  const pickerBody = (
+    <>
       {palette && palette.length > 0 && (
         <div className="alsa-cpicker__palette">
           {palette.map((p) => (
@@ -104,71 +214,78 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
                 value.toUpperCase() === p.hex.toUpperCase() && 'alsa-cpicker__chip--selected'
               )}
               style={{ backgroundColor: p.hex }}
-              onClick={() => onChange(p.hex.toUpperCase())}
+              onClick={() => setFromHex(p.hex)}
             />
           ))}
         </div>
       )}
 
-      {/* Hue strip */}
-      <div className="alsa-cpicker__row">
-        <button
-          type="button"
-          className="alsa-cpicker__trigger"
-          style={{ backgroundColor: HEX_REGEX.test(value) ? value : '#ccc' }}
-          onClick={() => setPopoverOpen((s) => !s)}
-          aria-label="Open advanced color picker"
-          aria-expanded={popoverOpen}
+      <div
+        ref={squareRef}
+        className="alsa-cpicker__square"
+        onPointerDown={onSquarePointerDown}
+        style={{ ['--sq-hue' as string]: hueColor }}
+        role="slider"
+        aria-label="Saturation and lightness"
+        aria-valuetext={safeValue}
+        tabIndex={0}
+      >
+        <div className="alsa-cpicker__square-sat" />
+        <div className="alsa-cpicker__square-light" />
+        <span
+          className="alsa-cpicker__square-cursor"
+          style={{ left: `${pos.x * 100}%`, top: `${pos.y * 100}%`, backgroundColor: safeValue }}
         />
-        <div
-          className="alsa-cpicker__hue-track"
-          style={{ background: hueStripCss() }}
-        >
-          <input
-            type="range"
-            min={0}
-            max={360}
-            step={1}
-            value={Math.round(oklch.h)}
-            onChange={(e) => setHue(parseFloat(e.target.value))}
-            className="alsa-cpicker__hue-input"
-            aria-label="Hue"
-            style={{
-              ['--thumb-color' as string]: HEX_REGEX.test(value) ? value : '#fff',
-            }}
-          />
-        </div>
       </div>
 
-      {/* Shade strip — the single perceptual slider */}
-      <div
-        className="alsa-cpicker__hue-track"
-        style={{ background: shadeStripCss(oklch.h) }}
-      >
+      <div className="alsa-cpicker__hue-track" style={{ background: hueStripCss() }}>
         <input
           type="range"
           min={0}
-          max={1}
-          step={0.001}
-          value={shadeT}
-          onChange={(e) => setShade(parseFloat(e.target.value))}
+          max={360}
+          step={1}
+          value={Math.round(oklch.h)}
+          onChange={(e) => setHue(parseFloat(e.target.value))}
           className="alsa-cpicker__hue-input"
-          aria-label="Shade"
-          style={{
-            ['--thumb-color' as string]: HEX_REGEX.test(value) ? value : '#fff',
-          }}
+          aria-label="Hue"
+          style={{ ['--thumb-color' as string]: safeValue }}
         />
       </div>
 
-      {/* Advanced popover — just hex input now */}
-      {popoverOpen && (
-        <div className="alsa-cpicker__popover" role="dialog">
-          <HexInput value={value} onChange={onChange} />
-          <Body>
-            Advanced: paste any hex. The picker will snap to the nearest point on its smooth ramp.
-          </Body>
-        </div>
-      )}
+      <HexInput value={safeValue} onChange={setFromHex} />
+    </>
+  );
+
+  if (compact) {
+    return (
+      <div ref={wrapRef} className={cn('alsa-cpicker alsa-cpicker--compact', className)}>
+        <button
+          ref={swatchRef}
+          type="button"
+          className="alsa-cpicker__swatch"
+          style={{ backgroundColor: safeValue }}
+          onClick={() => setOpen((s) => !s)}
+          aria-label="Open color picker"
+          aria-expanded={open}
+        />
+        {open && typeof document !== 'undefined' && createPortal(
+          <div
+            ref={popRef}
+            className="alsa-cpicker__popover alsa-cpicker__popover--portal"
+            role="dialog"
+            style={popStyle}
+          >
+            {pickerBody}
+          </div>,
+          document.body
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div ref={wrapRef} className={cn('alsa-cpicker', className)}>
+      {pickerBody}
     </div>
   );
 };
@@ -204,12 +321,6 @@ const HexInput: React.FC<{ value: string; onChange: (hex: string) => void }> = (
   );
 };
 
-// Light wrapper around inline help text — we don't import Body to keep the
-// component standalone (would create circular deps).
-const Body: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <span style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.4 }}>{children}</span>
-);
-
 // =============================================================================
 // GRADIENT HELPERS
 // =============================================================================
@@ -221,17 +332,6 @@ function hueStripCss(): string {
     const h = (i * 30) % 360;
     const c = Math.min(0.18, maxChromaInGamut(0.65, h));
     stops.push(`${oklchToHex({ l: 0.65, c, h })} ${(i / 12) * 100}%`);
-  }
-  return `linear-gradient(to right, ${stops.join(', ')})`;
-}
-
-/** Per-hue shade strip — samples the perceptual ramp from t=0 to t=1. */
-function shadeStripCss(hue: number): string {
-  const stops: string[] = [];
-  const N = 10;
-  for (let i = 0; i <= N; i++) {
-    const t = i / N;
-    stops.push(`${oklchToHex(paramToOklch(t, hue))} ${(t * 100).toFixed(0)}%`);
   }
   return `linear-gradient(to right, ${stops.join(', ')})`;
 }
