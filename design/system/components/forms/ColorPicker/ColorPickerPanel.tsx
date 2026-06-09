@@ -113,17 +113,27 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
     const r = el.getBoundingClientRect();
     const POP_W = 260;
     const GAP = 8;
-    // bottom-end: align popover's right edge to the swatch's right edge,
-    // sitting just below it. Clamp into the viewport.
+    // Align popover's right edge to the swatch's right edge.
     let left = r.right - POP_W;
     left = Math.max(8, Math.min(left, window.innerWidth - POP_W - 8));
-    const top = r.bottom + GAP;
-    setPopStyle({ position: 'fixed', top, left, width: POP_W, zIndex: 1000 });
+
+    // Measure actual popover height (with fallback if not yet rendered)
+    // and flip above the swatch when there isn't room below.
+    const popH = popRef.current?.getBoundingClientRect().height ?? 340;
+    const spaceBelow = window.innerHeight - r.bottom - GAP;
+    const spaceAbove = r.top - GAP;
+    const placeAbove = spaceBelow < popH && spaceAbove > spaceBelow;
+    const top = placeAbove
+      ? Math.max(8, r.top - GAP - popH)
+      : r.bottom + GAP;
+    setPopStyle({ position: 'fixed', top, left, width: POP_W });
   }, []);
 
   useEffect(() => {
     if (!open) return;
     placePopover();
+    // Re-measure once the popover has actually rendered so its height is known.
+    const raf = requestAnimationFrame(() => placePopover());
     const onScroll = () => placePopover();
     window.addEventListener('scroll', onScroll, true);
     window.addEventListener('resize', onScroll);
@@ -137,6 +147,7 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
     };
     document.addEventListener('mousedown', onDoc);
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener('scroll', onScroll, true);
       window.removeEventListener('resize', onScroll);
       document.removeEventListener('mousedown', onDoc);

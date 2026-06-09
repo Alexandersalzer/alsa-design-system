@@ -13,7 +13,7 @@ import { GridPattern } from '../GridPattern/GridPattern';
 import { MasonryGrid } from '../MasonryGrid/MasonryGrid';
 import { AlternatingCards } from '../AlternatingCards/AlternatingCards';
 import './StickyTextContent.css';
-import { Body, H3 } from '@blimpify-im/ui';
+import { Body, H3 } from '../../../components/Typography';
 import { Icon } from '../../../components/media/Icon';
 import * as HeroIcons from '@heroicons/react/24/outline';
 

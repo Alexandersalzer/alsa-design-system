@@ -48,6 +48,8 @@ export interface CustomizerState {
   fontSecondary: string;
   fontWeightHeadingNumeric: number; // 100..900
   fontWeightBodyNumeric: number;    // 100..900
+  fontWeightDisplayNumeric: number; // 100..900
+  fontWeightLabelNumeric: number;   // 100..900
   typographyScale: TypographyScaleToken;
 
   // ----- Spacing -----
@@ -77,11 +79,6 @@ function numericToNamedWeight(n: number): string {
   return NUMERIC_TO_NAMED[nearest];
 }
 
-/** Label weight sits between body and heading (mirrors weights.ts logic). */
-function deriveLabelWeight(heading: number, body: number): number {
-  return Math.round((heading + body) / 2);
-}
-
 function emitScale(prefix: string, scale: Scale): string {
   return STEPS.map((s) => `--foundation-${prefix}-${s}: ${scale[s]};`).join('\n  ');
 }
@@ -96,8 +93,8 @@ function buildTokenVarCss(state: CustomizerState): string {
     fontPrimary, fontSecondary, typographyScale,
     sectionSpacing, containerSpacing, navbarSpacing,
     fontWeightHeadingNumeric: wH, fontWeightBodyNumeric: wB,
+    fontWeightDisplayNumeric: wD, fontWeightLabelNumeric: wL,
   } = state;
-  const wL = deriveLabelWeight(wH, wB);
 
   return `
   /* ===== FONTS ===== */
@@ -146,13 +143,23 @@ function buildTokenVarCss(state: CustomizerState): string {
   --selected-leading-relaxed: var(--foundation-typography-${typographyScale}-leading-relaxed);
   --selected-leading-loose:   var(--foundation-typography-${typographyScale}-leading-loose);
 
-  /* ===== Font weights (numeric 100-900) ===== */
-  --dynamic-font-weight-heading: ${wH};
-  --dynamic-font-weight-body:    ${wB};
-  --dynamic-font-weight-label:   ${wL};
-  --selected-font-weight-heading: ${wH};
-  --selected-font-weight-body:    ${wB};
-  --selected-font-weight-label:   ${wL};`.trimEnd();
+  /* ===== Font weights (numeric 100-900) =====
+   * Use !important and also set the semantic --font-*-weight vars directly
+   * because snippet.tsx hardcodes those at page load from design.json. Without
+   * overriding the semantic vars, the customizer would only change the
+   * --selected-* values, which would then be ignored downstream. */
+  --dynamic-font-weight-heading: ${wH} !important;
+  --dynamic-font-weight-body:    ${wB} !important;
+  --dynamic-font-weight-label:   ${wL} !important;
+  --dynamic-font-weight-display: ${wD} !important;
+  --selected-font-weight-heading: ${wH} !important;
+  --selected-font-weight-body:    ${wB} !important;
+  --selected-font-weight-label:   ${wL} !important;
+  --selected-font-weight-display: ${wD} !important;
+  --font-heading-weight: ${wH} !important;
+  --font-body-weight:    ${wB} !important;
+  --font-label-weight:   ${wL} !important;
+  --font-display-weight: ${wD} !important;`.trimEnd();
 }
 
 /** Build the full override stylesheet (light + dark color scopes + tokens). */
@@ -269,6 +276,8 @@ export function buildJsonSnippet(state: CustomizerState): string {
       fontSecondary: state.fontSecondary,
       fontWeightHeading: numericToNamedWeight(state.fontWeightHeadingNumeric),
       fontWeightBody: numericToNamedWeight(state.fontWeightBodyNumeric),
+      fontWeightDisplay: numericToNamedWeight(state.fontWeightDisplayNumeric),
+      fontWeightLabel: numericToNamedWeight(state.fontWeightLabelNumeric),
       typographyScale: state.typographyScale,
       sectionSpacing: state.sectionSpacing,
       containerSpacing: state.containerSpacing,

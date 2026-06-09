@@ -11,6 +11,11 @@
   --font-heading-weight: var(--selected-font-weight-heading);
   --text-heading-color: var(--text-strong);
 
+  /* Display falls back to heading weight when not independently set. */
+  --font-display-family: var(--foundation-font-primary) !important;
+  --font-display-weight: var(--selected-font-weight-display, var(--selected-font-weight-heading));
+  --text-display-color: var(--text-strong);
+
   /* =========================================================
      2. BODY TOKENS
      ========================================================= */

@@ -13,7 +13,7 @@ import {
   Button,
   Icon,
   Spinner
-} from '@blimpify-im/ui';
+} from '../../../../../components';
 import { ClockIcon, PhotoIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import type { Service } from '../../types';
 

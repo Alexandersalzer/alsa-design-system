@@ -5,8 +5,8 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Stepper, type Step } from '@blimpify-im/ui';
-import { VStack, Card, CardContent, ErrorAlert, WarningAlert, Body } from '@blimpify-im/ui';
+import { Stepper, type Step } from '../../../../patterns/dashboard';
+import { VStack, Card, CardContent, ErrorAlert, WarningAlert, Body } from '../../../../components';
 import Step1ServiceSelection from './steps/Step1ServiceSelection';
 import Step2ResourceSelection from './steps/Step2ResourceSelection';
 import Step3DateTimeSelection from './steps/Step3DateTimeSelection';

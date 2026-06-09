@@ -15,7 +15,7 @@ import {
   Spinner,
   WarningAlert,
   Tag
-} from '@blimpify-im/ui';
+} from '../../../../../components';
 import { UserIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import apiClient from '../../../../../../lib/api/client';
 import type { Resource, AvailabilityResponse } from '../../types';

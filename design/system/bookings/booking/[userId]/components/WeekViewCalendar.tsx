@@ -14,7 +14,7 @@ import {
   Button,
   Icon,
   Spinner
-} from '@blimpify-im/ui';
+} from '../../../../components';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { apiClient } from '../../../../../lib/api/client';
 

@@ -64,6 +64,8 @@ const DEFAULT_STATE: CustomizerState = {
   fontSecondary: 'Outfit',
   fontWeightHeadingNumeric: 700,
   fontWeightBodyNumeric: 600,
+  fontWeightDisplayNumeric: 700,
+  fontWeightLabelNumeric: 600,
   typographyScale: 'md',
   sectionSpacing: 'lg',
   containerSpacing: 'md',
@@ -335,6 +337,28 @@ export const DesignCustomizer: React.FC<DesignCustomizerProps> = ({
                   value={String(state.fontWeightBodyNumeric)}
                   onChange={(v) =>
                     update({ fontWeightBodyNumeric: parseInt(v ?? '400', 10) })
+                  }
+                  size="sm"
+                />
+              </SettingRow>
+
+              <SettingRow label="Display weight">
+                <Picker
+                  options={FONT_WEIGHT_OPTIONS}
+                  value={String(state.fontWeightDisplayNumeric)}
+                  onChange={(v) =>
+                    update({ fontWeightDisplayNumeric: parseInt(v ?? '700', 10) })
+                  }
+                  size="sm"
+                />
+              </SettingRow>
+
+              <SettingRow label="Label weight">
+                <Picker
+                  options={FONT_WEIGHT_OPTIONS}
+                  value={String(state.fontWeightLabelNumeric)}
+                  onChange={(v) =>
+                    update({ fontWeightLabelNumeric: parseInt(v ?? '600', 10) })
                   }
                   size="sm"
                 />

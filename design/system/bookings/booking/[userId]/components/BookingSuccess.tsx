@@ -16,7 +16,7 @@ import {
   Label,
   Button,
   Icon
-} from '@blimpify-im/ui';
+} from '../../../../components';
 import { CheckIcon, ClipboardDocumentIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline';
 import type { Service } from '../types';
 

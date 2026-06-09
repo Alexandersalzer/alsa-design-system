@@ -17,7 +17,7 @@ import {
   Icon,
   DateRangePicker,
   TimeInput
-} from '@blimpify-im/ui';
+} from '../../../../../components';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { parseDate, CalendarDate, Time, parseTime, getLocalTimeZone } from '@internationalized/date';
 import WeekViewCalendar from '../WeekViewCalendar';

@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Icon, Input, Label, Body, Nav } from "../design/index";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Icon, IconButton, Input, Label, Body, Nav } from "../design/index";
+import { MagnifyingGlassIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import "./DocumentationLayout.css";
 
 interface DocComponent {
@@ -161,6 +161,18 @@ export default function DocumentationLayout({ children }: { children: React.Reac
   const pathname = usePathname();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    setIsDrawerOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isDrawerOpen) return;
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = original; };
+  }, [isDrawerOpen]);
 
   const filteredCategories = useMemo(() => {
     return DOC_CATEGORIES.map((cat) => ({
@@ -174,7 +186,26 @@ export default function DocumentationLayout({ children }: { children: React.Reac
   const hasNoResults = searchQuery.length > 0 && filteredCategories.length === 0;
 
   return (
-    <div className="docs-layout">
+    <div className={`docs-layout${isDrawerOpen ? " docs-layout--drawer-open" : ""}`}>
+      <IconButton
+        className="docs-mobile-toggle"
+        variant="secondary"
+        size="md"
+        aria-label={isDrawerOpen ? "Close navigation" : "Open navigation"}
+        onClick={() => setIsDrawerOpen((v) => !v)}
+        icon={
+          <Icon size="md">
+            {isDrawerOpen ? <XMarkIcon /> : <Bars3Icon />}
+          </Icon>
+        }
+      />
+
+      <div
+        className="docs-backdrop"
+        onClick={() => setIsDrawerOpen(false)}
+        aria-hidden="true"
+      />
+
       <aside className="docs-sidebar">
         <div className="docs-sidebar__header">
           <span className="docs-sidebar__logo">Alsa DS</span>

@@ -4,15 +4,21 @@
     "layoutContent": "xl",
     "layoutMedia": "xl",
     "formWidth": "sm",
-    "accentColor": "orange-light",
-    "accentIntensity": "normal",
+    "accent": {
+      "hex": "#C2E900"
+    },
+    "themeTone": {
+      "hex": "#A3EC51"
+    },
+    "baseColorIntensity": 0.26,
     "themeMode": "system",
-    "themeTone": "pure",
-    "fontPrimary": "Outfit",
-    "fontSecondary": "Outfit",
-    "fontWeightHeading": "bold",
-    "fontWeightBody": "semibold",
-    "typographyScale": "md",
+    "fontPrimary": "Lora",
+    "fontSecondary": "DM Sans",
+    "fontWeightHeading": "semibold",
+    "fontWeightBody": "light",
+    "fontWeightDisplay": "semibold",
+    "fontWeightLabel": "regular",
+    "typographyScale": "sm",
     "sectionSpacing": "lg",
     "containerSpacing": "md",
     "navbarSpacing": "md"

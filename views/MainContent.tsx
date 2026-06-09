@@ -25,8 +25,16 @@ export interface MainContentProps {
   /** Padding size */
   padding?: MainContentPadding;
 
-  /** Whether to center content horizontally */
+  /** Whether to center the constraint horizontally in its parent (default: false).
+   *  This only centers the constrained box itself — it does NOT collapse children
+   *  to their natural width. Children always stretch to fill the constraint by
+   *  default; override with `alignChildren` if you need otherwise. */
   centered?: boolean;
+
+  /** Alignment of children inside the constraint (default: 'stretch').
+   *  Use 'center' for marketing-style pages where you want children sized to
+   *  their content (e.g. a centered hero). */
+  alignChildren?: 'stretch' | 'center';
 
   /** Vertical alignment of content (default: start) */
   verticalAlign?: 'start' | 'center' | 'end';
@@ -56,6 +64,7 @@ export const MainContent: React.FC<MainContentProps> = ({
   maxWidth = 'full',
   padding = 'md',
   centered = false,
+  alignChildren = 'stretch',
   verticalAlign = 'start',
   spacing = 'lg',
   animate = true,
@@ -80,7 +89,7 @@ export const MainContent: React.FC<MainContentProps> = ({
   } as const;
 
   const content = (
-    <VStack spacing={spacing} align={centered ? 'center' : 'stretch'}>
+    <VStack spacing={spacing} align={alignChildren}>
       {children}
     </VStack>
   );

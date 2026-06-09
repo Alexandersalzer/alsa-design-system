@@ -23,10 +23,10 @@ import {
   Tag,
   Spinner,
   WarningAlert,
-  SuccessAlert
-} from '@blimpify-im/ui';
+  SuccessAlert,
+  Icon
+} from '../../../components';
 import { CalendarIcon, ClockIcon, XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
-import { Icon } from '@blimpify-im/ui';
 import { apiClient } from '../../../../lib/api/client';
 
 interface Appointment {
